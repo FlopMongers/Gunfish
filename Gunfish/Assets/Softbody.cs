@@ -29,12 +29,6 @@ public class Softbody : MonoBehaviour {
     Material mat;
     bool start;
 
-    private void Update () {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            Tense ();
-        }
-    }
-
     private void Start () {
         if (null == GetComponent<Rigidbody2D> ()) {
             rootRB = gameObject.AddComponent<Rigidbody2D> ();
@@ -154,7 +148,7 @@ public class Softbody : MonoBehaviour {
                     }
                 }
 
-                if (!CheckColorInRadius (x, y, 64)) {
+                if (!CheckColorInRadius (x, y, 128)) {
                     col.enabled = false;
                     rb.gravityScale = 0;
                     rb.mass = 0.001f;
