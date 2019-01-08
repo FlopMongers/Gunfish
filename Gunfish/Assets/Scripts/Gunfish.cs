@@ -4,13 +4,12 @@ using UnityEngine;
 
 public delegate void FireEvent();
 
-public class Gunfish : MonoBehaviour
-{
+public class Gunfish : MonoBehaviour, IHittable {
     [SerializeField] private float jumpForce = 500f;
     [SerializeField] private float jumpTorque = 1000f;
 
-    [SerializeField] 
-    [Range(0f, 90f)] 
+    [SerializeField]
+    [Range(0f, 90f)]
     private float jumpAngleFromHorizontal = 45f;
 
     private float maxJumpCD = 1f;
@@ -26,25 +25,24 @@ public class Gunfish : MonoBehaviour
     private float maxSwimCD = 0.25f;
     [SerializeField] private float curSwimCD;
 
-    //Gun gun;
-    private float knockback = 0;
+    Gun gun;
     public event FireEvent FireEvent;
 
     private Vector2 angle;
 
     private Rigidbody2D rb;
 
-    private void Start () {
-        //gun = GetComponentInChildren<Gun>();
-        //gun.FireSubscribe(FireEvent);
-        //knockback = gun.gunInfo.knockback
+    private void Start() {
+        gun = GetComponentInChildren<Gun>();
+        if (gun)
+            gun.FireSubscribe(this);
 
-        rb = GetComponent<Rigidbody2D> ();
+        rb = GetComponent<Rigidbody2D>();
         curJumpCD = 0f;
         curFireCD = 0f;
     }
 
-    private void Update () {
+    private void Update() {
         CheckCoolDowns();
     }
 
@@ -84,7 +82,7 @@ public class Gunfish : MonoBehaviour
 
         if (isStunned < 1 && float.IsNaN(curFireCD) && null != FireEvent) {
             FireEvent();
-            Debug.Log("<color=red>BANG!</color>");
+            Knockback(gun.transform.right, gun.gunInfo.kickback);
             curFireCD = maxFireCD;
         }
     }
@@ -117,5 +115,22 @@ public class Gunfish : MonoBehaviour
 
             curJumpCD = maxJumpCD;
         }
+    }
+
+    public void Hit(Vector2 direction, GunInfo gunInfo) {
+        Knockback(direction, gunInfo.knockback);
+        Stun(gunInfo.stunTime);
+        //Check gamemode, if race, then call Stun(), else call Damage()
+    }
+
+    public void Knockback(Vector2 direction, float knockback) {
+        rb.AddForce(direction * knockback);
+    }
+
+    public void Stun(float stunTime) {
+        //Oh no you got stunned
+        if (float.IsNaN(curStunCD))
+            isStunned++;
+        curStunCD = stunTime;
     }
 }

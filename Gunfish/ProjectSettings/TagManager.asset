@@ -57,3 +57,9 @@ TagManager:
   - name: Walls and Floors
     uniqueID: 118637949
     locked: 0
+  - name: Gun
+    uniqueID: 2446769763
+    locked: 0
+  - name: Fish
+    uniqueID: 3362372529
+    locked: 0

@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameState.gameState == GameStateType.Playing) {
+        if (GameState.gameState == GameStateType.Playing && null != gunfish) {
             CaptureGameInput();
         }
     }
