@@ -12,18 +12,18 @@ public class Gunfish : MonoBehaviour, IHittable {
     [Range(0f, 90f)]
     private float jumpAngleFromHorizontal = 45f;
 
-    private float maxJumpCD = 1f;
-    [SerializeField] private float curJumpCD;
+	[SerializeField] private float maxJumpCD = 1f;
+    private float curJumpCD;
 
-    private float maxFireCD = 1f;
-    [SerializeField] private float curFireCD;
+	[SerializeField] private float maxFireCD = 1f;
+    private float curFireCD;
 
-    private float maxStunCD = 3f;
-    [SerializeField] private float curStunCD;
+	[SerializeField] private float maxStunCD = 3f;
+    private float curStunCD;
     private int isStunned = 0;
 
-    private float maxSwimCD = 0.25f;
-    [SerializeField] private float curSwimCD;
+	[SerializeField] private float maxSwimCD = 0.25f;
+	private float curSwimCD;
 
     Gun gun;
     public event FireEvent FireEvent;
@@ -42,11 +42,11 @@ public class Gunfish : MonoBehaviour, IHittable {
         curFireCD = 0f;
     }
 
-    private void Update() {
+    private void Update () {
         CheckCoolDowns();
     }
 
-    private void CDUpdate(ref float CD, float maxCD, bool stun = false) {
+    private void CDUpdate (ref float CD, float maxCD, bool stun = false) {
         if (float.IsNaN(CD)) {
             return;
         }
@@ -64,7 +64,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         }
     }
 
-    private void CheckCoolDowns() {
+    private void CheckCoolDowns () {
         CDUpdate(ref curJumpCD, maxJumpCD);
         CDUpdate(ref curFireCD, maxFireCD);
         CDUpdate(ref curSwimCD, maxSwimCD);
@@ -72,7 +72,7 @@ public class Gunfish : MonoBehaviour, IHittable {
     }
 
 
-    public void Fire() {
+    public void Fire () {
         if (null == rb) {
             if (null == (rb = GetComponent<Rigidbody2D>())) {
                 Debug.LogError("No Rigidbody component attached to Gunfish!");
@@ -87,7 +87,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         }
     }
 
-    public void Move(int dir) {
+    public void Move (int dir) {
         if (null == rb) {
             if (null == (rb = GetComponent<Rigidbody2D>())) {
                 Debug.LogError("No Rigidbody component attached to Gunfish!");
@@ -117,13 +117,13 @@ public class Gunfish : MonoBehaviour, IHittable {
         }
     }
 
-    public void Hit(Vector2 direction, GunInfo gunInfo) {
+    public void Hit (Vector2 direction, GunInfo gunInfo) {
         Knockback(direction, gunInfo.knockback);
         Stun(gunInfo.stunTime);
         //Check gamemode, if race, then call Stun(), else call Damage()
     }
 
-    public void Knockback(Vector2 direction, float knockback) {
+    public void Knockback (Vector2 direction, float knockback) {
         rb.AddForce(direction * knockback);
     }
 

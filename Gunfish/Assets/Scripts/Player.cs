@@ -13,28 +13,33 @@ public class Player : MonoBehaviour
     public string fireName;
 
     public Gunfish gunfish;
-    public Nameplate nameplate;
+	public Nameplate nameplate;
+
+	public GameObject selectedFishPrefab;
+    public GameObject nameplatePrefab;
+
     public int gunfishID;
 
+	public int score;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start () {
         playerNumber = 1;
         keyboard = true;
         SetControlNumber(1);
+        SpawnGunfish();
+        SpawnNameplate();
         SetPlayerName("Bob");
-        SetPlayerObject();
-    }
+	}
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update () {
         if (GameState.gameState == GameStateType.Playing && null != gunfish) {
             CaptureGameInput();
         }
     }
 
-    void CaptureGameInput() {
+    void CaptureGameInput () {
         if (keyboard) {
             if (Mathf.Abs(Input.GetAxis(axisName)) > 0.1f) {
                 gunfish.Move((int)Input.GetAxisRaw(axisName));
@@ -45,18 +50,76 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SetControlNumber(int controlNumber) {
+    public void SetControlNumber (int controlNumber) {
         this.controlNumber = controlNumber;
         axisName = ((keyboard) ? "" : "joy") + controlNumber + "move";
         fireName = ((keyboard) ? "" : "joy") + controlNumber + "fire";
     }
 
-    public void SetPlayerName(string playerName) {
+    public void SetPlayerName (string playerName) {
         this.playerName = playerName;
-        nameplate.SetName(playerName);
+
+		if (null != nameplate) {
+			nameplate.SetName(playerName);
+		}
     }
 
-    public void SetPlayerObject() {
-        nameplate.SetOwner(gunfish.gameObject);
+    public void AttachNameplateToGunfish () {
+		if (nameplate && gunfish) {
+			nameplate.SetOwner(gunfish.gameObject);
+		}
     }
+
+	public void SetPlayerNumber (int number, bool additive = false) {
+		if (false == additive) {
+			playerNumber = number;
+		} else {
+			playerNumber += number;
+		}
+	}
+
+	public void ChangeGunfish (GameObject newFish) {
+		selectedFishPrefab = newFish;
+		SpawnGunfish();
+	}
+
+	public void RespawnGunfish () {
+		SpawnGunfish();
+	}
+
+	public void SpawnGunfish () {
+		if (null == selectedFishPrefab) {
+			Debug.Log("Cannot spawn gunfish because no fish is selected.");
+			return;
+		}
+
+		if (null != gunfish) {
+			DespawnGunfish();
+		}
+
+		GameObject fish = Instantiate(selectedFishPrefab, GameManager.GetSpawnLocation(playerNumber), Quaternion.identity) as GameObject;
+		gunfish = fish.GetComponent<Gunfish>();
+		gunfish.transform.SetParent(transform);
+	}
+
+	public void DespawnGunfish () {
+		if (null == gunfish) return;
+		Destroy(gunfish.gameObject);
+		gunfish = null;
+	}
+
+	public void SpawnNameplate () {
+		if (null == nameplatePrefab) return;
+
+		GameObject plate = Instantiate(nameplatePrefab, gunfish.transform.position, Quaternion.identity) as GameObject;
+		nameplate = plate.GetComponent<Nameplate>();
+		nameplate.transform.SetParent(transform);
+		AttachNameplateToGunfish();
+	}
+
+	public void DespawnNameplate () {
+		if (null == nameplate) return;
+		Destroy(nameplate.gameObject);
+		nameplate = null;
+	}
 }

@@ -126,7 +126,7 @@ public class Anchor : MonoBehaviour {
 
             motor.motorSpeed = 0f;
             slider.motor = motor;
-            yield return new WaitForSeconds (secondsToWaitRaised);
+            yield return new WaitForSeconds (secondsToWaitFallen);
             motor.motorSpeed = -riseSpeed;
             slider.motor = motor;
 

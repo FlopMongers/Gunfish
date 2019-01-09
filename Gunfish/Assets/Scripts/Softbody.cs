@@ -27,7 +27,6 @@ public class Softbody : MonoBehaviour {
     List<Vector2> uvs;
     Transform[,] points;
     Material mat;
-    bool start;
 
     private void Start () {
         if (null == GetComponent<Rigidbody2D> ()) {
@@ -212,13 +211,11 @@ public class Softbody : MonoBehaviour {
     //Mesh functions
     /*************************************************************************/
     IEnumerator InitializeMesh () {
-        start = false;
         layers = GetComponent<Softbody> ().layers;
         if (GetComponent<SpriteRenderer> ()) {
             Destroy (GetComponent<SpriteRenderer> ());
         }
         yield return new WaitForEndOfFrame ();
-        start = true;
         mf = gameObject.AddComponent<MeshFilter> ();
         mr = gameObject.AddComponent<MeshRenderer> ();
         mesh = new Mesh ();

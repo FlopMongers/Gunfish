@@ -10,14 +10,14 @@ public class Nameplate : MonoBehaviour {
 
     public PositionConstraint pc;
 
-
-    private void Start() {
+    private void Awake () {
         text = GetComponent<TextMeshPro>();
         pc = GetComponent<PositionConstraint>();
     }
-
-
+    
     public void SetName(string playerName) {
+		if (null == text) return;
+
         text.text = playerName;
     }
 
@@ -25,8 +25,11 @@ public class Nameplate : MonoBehaviour {
         ConstraintSource cs = new ConstraintSource();
         cs.sourceTransform = owner.transform;
         cs.weight = 1;
-        pc.SetSource(0, cs);
-        pc.translationOffset = new Vector3(0, 1.5f, -1);
-        pc.locked = true;
+
+		if (null != pc) {
+			pc.SetSource(0, cs);
+			pc.translationOffset = new Vector3(0, 1.5f, -1);
+			pc.locked = true;
+		}
     }
 }
