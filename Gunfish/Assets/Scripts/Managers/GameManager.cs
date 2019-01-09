@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour {
 		levelIndex = 0;
 		players = new List<GameObject>();
 		playerCount = 0;
+
+		UpdateSpawnLocations();
     }
 
 	public static void NextLevel () {
@@ -63,6 +65,10 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public static Vector3 GetSpawnLocation () {
+		return GetSpawnLocation(instance.playerCount - 1);
+	}
+
 	public static Vector3 GetSpawnLocation (int index) {
 		if (instance.spawnLocations.Length == 0) return Vector3.zero;
 		return instance.spawnLocations[index % instance.spawnLocations.Length];
@@ -74,7 +80,6 @@ public class GameManager : MonoBehaviour {
 		newPlayer.GetComponent<Player>().playerNumber = instance.playerCount;
 		newPlayer.name = newPlayer.name.Replace("(Clone)", instance.playerCount.ToString());
 		instance.playerCount++;
-		print("Player Count: " + instance.playerCount);
 	}
 
 	public static void RemovePlayer (int index) {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     public string playerName;
     public int playerNumber;
     public int controlNumber;
@@ -27,9 +26,9 @@ public class Player : MonoBehaviour
         playerNumber = 1;
         keyboard = true;
         SetControlNumber(1);
-        SpawnGunfish();
-        SpawnNameplate();
-        SetPlayerName("Bob");
+	    SpawnGunfish();
+	    SpawnNameplate();
+	    SetPlayerName("Bob");
 	}
 
     // Update is called once per frame
@@ -97,7 +96,7 @@ public class Player : MonoBehaviour
 			DespawnGunfish();
 		}
 
-		GameObject fish = Instantiate(selectedFishPrefab, GameManager.GetSpawnLocation(playerNumber), Quaternion.identity) as GameObject;
+		GameObject fish = Instantiate(selectedFishPrefab, GameManager.GetSpawnLocation(), Quaternion.identity) as GameObject;
 		gunfish = fish.GetComponent<Gunfish>();
 		gunfish.transform.SetParent(transform);
 	}
