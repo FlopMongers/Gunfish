@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3259855651533303302}
   m_Layer: 0
   m_Name: Gunfish
-  m_TagString: Untagged
+  m_TagString: Gunfish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,10 +48,10 @@ MonoBehaviour:
   jumpForce: 500
   jumpTorque: 1000
   jumpAngleFromHorizontal: 45
-  curJumpCD: 0
-  curFireCD: 0
-  curStunCD: 0
-  curSwimCD: 0
+  maxJumpCD: 1
+  maxFireCD: 1
+  maxStunCD: 3
+  maxSwimCD: 0.25
 --- !u!212 &3259855651533303303
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -118,3 +118,4 @@ MonoBehaviour:
   width: 0
   height: 0
   dynamicShape: 1
+  pregenerated: 0

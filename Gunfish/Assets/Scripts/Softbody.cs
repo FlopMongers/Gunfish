@@ -10,6 +10,7 @@ public class Softbody : MonoBehaviour {
     [SerializeField] float mass = 1f;
     [SerializeField] float width, height;
     [SerializeField] bool dynamicShape = true;
+	[SerializeField] bool pregenerated = false;
     private List<GameObject> children;
     private List<CircleCollider2D> colliders;
     private List<SpringJoint2D> springJoints;
@@ -38,7 +39,7 @@ public class Softbody : MonoBehaviour {
             mass = rootRB.mass;
         }
         rootRB.mass = mass / (layers * layers);
-        //rootRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+		//rootRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         List<Transform> children = new List<Transform>();
         if (ignoreChildren) {
@@ -48,8 +49,19 @@ public class Softbody : MonoBehaviour {
             }
         }
 
-        GenerateSoftbody ();
-        StartCoroutine (InitializeMesh ());
+		if (null != (spriteRenderer = GetComponent<SpriteRenderer>())) {
+			sprite = spriteRenderer.sprite;
+		}
+
+		if (false == pregenerated) {
+			if (false == GenerateSoftbody()) {
+				return;
+			}
+		}
+
+		CreateMaterial();
+
+		StartCoroutine (InitializeMesh ());
 
         if (ignoreChildren) {
             foreach (Transform t in children) {
@@ -58,7 +70,7 @@ public class Softbody : MonoBehaviour {
         }
     }
 
-    public void GenerateSoftbody () {
+    public bool GenerateSoftbody () {
         children = new List<GameObject> ();
         colliders = new List<CircleCollider2D> ();
         springJoints = new List<SpringJoint2D> ();
@@ -68,22 +80,18 @@ public class Softbody : MonoBehaviour {
         if (null == GetComponent<SpriteRenderer> ()) {
             Debug.LogError ("Could not generate softbody on " + gameObject.name
             + ". Make sure it has a Sprite Renderer attached.");
-            return;
+            return false;
         }
-
-        spriteRenderer = GetComponent<SpriteRenderer> ();
-        sprite = spriteRenderer.sprite;
 
         if (null == sprite) {
             Debug.LogError ("Could not generate softbody on " + gameObject.name 
             + ". Make sure it has a non-null Sprite in the Sprite Renderer.");
-            return;
+            return false;
         }
 
         width = sprite.texture.width / sprite.pixelsPerUnit;
         height = sprite.texture.height / sprite.pixelsPerUnit;
-
-        CreateMaterial ();
+        
         spriteRenderer.enabled = false;
 
         for (int h = 0; h < layers; h++) {
@@ -198,7 +206,9 @@ public class Softbody : MonoBehaviour {
         d.connectedBody = children[(mid - 1) * layers + mid].GetComponent<Rigidbody2D> ();
         l.connectedBody = children[mid * layers + mid - 1].GetComponent<Rigidbody2D> ();
         r.connectedBody = children[mid * layers + mid + 1].GetComponent<Rigidbody2D> ();
-    }
+
+		return true;
+	}
 
     private bool CheckColorInRadius (int x, int y, int r) {
         int lowX = Mathf.Max (0, x - r);
@@ -220,9 +230,11 @@ public class Softbody : MonoBehaviour {
 
     public void CreateMaterial () {
         mat = new Material (Shader.Find("Sprites/Default"));
-        mat.mainTexture = sprite.texture;
-        mat.name = sprite.texture.name;
-    }
+		if (null != sprite) {
+			mat.mainTexture = sprite.texture;
+			mat.name = sprite.texture.name;
+		}
+	}
 
     //Mesh functions
     /*************************************************************************/
@@ -232,8 +244,15 @@ public class Softbody : MonoBehaviour {
             Destroy (GetComponent<SpriteRenderer> ());
         }
         yield return new WaitForEndOfFrame ();
-        mf = gameObject.AddComponent<MeshFilter> ();
-        mr = gameObject.AddComponent<MeshRenderer> ();
+
+		if (null == (mf = GetComponent<MeshFilter>())) {
+			mf = gameObject.AddComponent<MeshFilter>();
+		}
+
+		if (null == (mr = GetComponent<MeshRenderer>())) {
+			mr = gameObject.AddComponent<MeshRenderer>();
+		}
+
         mesh = new Mesh ();
         mesh.name = gameObject.name;
         mf.mesh = mesh;

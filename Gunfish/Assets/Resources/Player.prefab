@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355b8b12d4d9da440a46ff24e922ae1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: 
+  playerName: Kevjumba
   playerNumber: 0
   controlNumber: 0
   keyboard: 0

@@ -16,7 +16,12 @@ public class Nameplate : MonoBehaviour {
     }
     
     public void SetName(string playerName) {
-		if (null == text) return;
+		if (null == text) {
+			if (null == (text = GetComponent<TextMeshPro>())) {
+				Debug.LogError("Cannot set nameplate text. No text component on attached GameObject");
+				return;
+			}
+		}
 
         text.text = playerName;
     }
