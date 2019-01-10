@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour {
     public List<GameObject> players;
 	public int playerCount;
 
-    public Scene lobbyScene;
+    public string lobbyScene;
 
 	public int levelIndex;
-    public List<Scene> levelList;
+    public List<string> levelList;
 
 	public Vector3[] spawnLocations;
 
@@ -41,12 +41,12 @@ public class GameManager : MonoBehaviour {
 
 	public static void NextLevel () {
 		if (instance.levelIndex == 0) {
-			SceneManager.LoadScene(instance.lobbyScene.name);
-		} else if (instance.levelIndex == instance.levelList.Count) {
-			SceneManager.LoadScene(instance.lobbyScene.name);
-			instance.levelIndex = -1;
+			SceneManager.LoadScene(instance.lobbyScene);
+		} else if (instance.levelIndex == instance.levelList.Count + 1) {
+			instance.levelIndex = 0;
+			SceneManager.LoadScene(instance.lobbyScene);
 		} else {
-			SceneManager.LoadScene(instance.levelList[instance.levelIndex - 1].name);
+			SceneManager.LoadScene(instance.levelList[instance.levelIndex - 1]);
 		}
 		instance.levelIndex++;
 		instance.UpdateSpawnLocations();

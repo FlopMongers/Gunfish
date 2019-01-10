@@ -27,8 +27,8 @@ public class Player : MonoBehaviour
         keyboard = true;
         SetControlNumber(1);
 	    SpawnGunfish();
-	    SpawnNameplate();
-	    SetPlayerName("Bob");
+
+		DontDestroyOnLoad(gameObject);
 	}
 
     // Update is called once per frame
@@ -96,28 +96,46 @@ public class Player : MonoBehaviour
 			DespawnGunfish();
 		}
 
+		print("Spawning Gunfish");
+
 		GameObject fish = Instantiate(selectedFishPrefab, GameManager.GetSpawnLocation(), Quaternion.identity) as GameObject;
 		gunfish = fish.GetComponent<Gunfish>();
 		gunfish.transform.SetParent(transform);
+
+		if (null == nameplate) {
+			SpawnNameplate();
+		}
 	}
 
 	public void DespawnGunfish () {
 		if (null == gunfish) return;
+		print("Despawning Gunfish");
 		Destroy(gunfish.gameObject);
 		gunfish = null;
+
+		if (null != nameplate) {
+			DespawnNameplate();
+		}
 	}
 
 	public void SpawnNameplate () {
 		if (null == nameplatePrefab) return;
 
+		if (null != nameplate) {
+			DespawnNameplate();
+		}
+
+		print("Spawning Nameplate");
 		GameObject plate = Instantiate(nameplatePrefab, gunfish.transform.position, Quaternion.identity) as GameObject;
 		nameplate = plate.GetComponent<Nameplate>();
 		nameplate.transform.SetParent(transform);
 		AttachNameplateToGunfish();
+		nameplate.SetName(playerName);
 	}
 
 	public void DespawnNameplate () {
 		if (null == nameplate) return;
+		print("Despawning Nameplate");
 		Destroy(nameplate.gameObject);
 		nameplate = null;
 	}
