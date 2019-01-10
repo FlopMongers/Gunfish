@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 
     // Start is called before the first frame update
     void Start () {
+        //This is just a placeholder. Set this information via some lobby setter.
         playerNumber = 1;
         keyboard = true;
         SetControlNumber(1);
@@ -39,14 +40,12 @@ public class Player : MonoBehaviour
     }
 
     void CaptureGameInput () {
-        if (keyboard) {
-            if (Mathf.Abs(Input.GetAxis(axisName)) > 0.1f) {
-                gunfish.Move((int)Input.GetAxisRaw(axisName));
-            }
-            if (Input.GetAxis(fireName) > 0.1f) {
-                gunfish.Fire();
-            } 
+        if (Mathf.Abs(Input.GetAxis(axisName)) > 0.1f) {
+            gunfish.Move((int)Input.GetAxisRaw(axisName));
         }
+        if (Input.GetAxis(fireName) > 0.1f) {
+            gunfish.Fire();
+        } 
     }
 
     public void SetControlNumber (int controlNumber) {

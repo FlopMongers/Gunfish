@@ -17,6 +17,8 @@ public class Softbody : MonoBehaviour {
     private Sprite sprite;
     private Rigidbody2D rootRB;
 
+    public bool ignoreChildren = true;
+
 
     //Mesh info
     Mesh mesh;
@@ -38,8 +40,22 @@ public class Softbody : MonoBehaviour {
         rootRB.mass = mass / (layers * layers);
         //rootRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 
+        List<Transform> children = new List<Transform>();
+        if (ignoreChildren) {
+            foreach (Transform t in transform) {
+                children.Add(t);
+                t.parent = null;
+            }
+        }
+
         GenerateSoftbody ();
         StartCoroutine (InitializeMesh ());
+
+        if (ignoreChildren) {
+            foreach (Transform t in children) {
+                t.parent = transform;
+            }
+        }
     }
 
     public void GenerateSoftbody () {
@@ -235,6 +251,7 @@ public class Softbody : MonoBehaviour {
                 uvs.Add (new Vector2 ((float)j / (layers - 1), (float)i / (layers - 1)));
             }
         }
+
 
         StartCoroutine (FragmentShader ());
     }

@@ -32,11 +32,10 @@ public class BulletPoint : MonoBehaviour
             if (hit.collider.GetComponent<IHittable>() != null) {
                 hit.collider.GetComponent<IHittable>().Hit(-hit.normal, gun.gunInfo);
             }
-            /*
-            if (hit.collider.GetComponent<Destructable>()) {
-                hit.collider.GetComponent<Destructable>().TakeDamage(gun.gunInfo.damage);
+
+            if (hit.collider.GetComponent<Destructible>()) {
+                hit.collider.GetComponent<Destructible>().TakeDamage(gun.gunInfo.damage);
             }
-            */
         }
     }
 }

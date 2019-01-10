@@ -80,7 +80,7 @@ public class Gunfish : MonoBehaviour, IHittable {
             }
         }
 
-        if (isStunned < 1 && float.IsNaN(curFireCD) && null != FireEvent) {
+        if (isStunned < 1 && float.IsNaN(curFireCD) && null != FireEvent && gun) {
             FireEvent();
             Knockback(gun.transform.right, gun.gunInfo.kickback);
             curFireCD = maxFireCD;
@@ -120,7 +120,6 @@ public class Gunfish : MonoBehaviour, IHittable {
     public void Hit (Vector2 direction, GunInfo gunInfo) {
         Knockback(direction, gunInfo.knockback);
         Stun(gunInfo.stunTime);
-        //Check gamemode, if race, then call Stun(), else call Damage()
     }
 
     public void Knockback (Vector2 direction, float knockback) {
