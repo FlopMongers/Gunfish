@@ -2,29 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class GunfishProps
-{
-    [Header("Materials")]
-    public Material spriteMat;
-    public PhysicsMaterial2D physicsMaterial;
-    [Header("Physics")]
-    [Range(1f, 100f)] public float mass;
-    [Range(20f, 30f)] public float maxBend;
-    [Range(0f, 1f)] public float fixedJointDamping = 0f;
-    public float fixedJointFrequency = 32f;
-    [Range(0f, 1f)] public float springJointDamping = 0f;
-    public float springJointFrequency = 32f;
-    [Header("Dimensions")]
-    [Range(0.5f, 5f)] public float length;
-    public AnimationCurve width = AnimationCurve.Constant(0f, 1f, 1f);
-    [Range(3, 33)] public int segmentCount;
-}
-
 public class GunfishGenerator : MonoBehaviour
 {
     public Sprite debugNodeSprite;
-    public GunfishProps props;
+    public GunfishData props;
     private List<GameObject> segments;
     private LineRenderer line;
 
@@ -54,12 +35,12 @@ public class GunfishGenerator : MonoBehaviour
         }
     }
 
-    private void Generate(GunfishProps props) {
+    private void Generate(GunfishData props) {
         if (props.segmentCount < 3) {
             throw new UnityException($"Invalid number of segments for Gunfish: {props.segmentCount}. Must be greater than 3.");
         }
         segments = new List<GameObject>(props.segmentCount);
-        var segmentProps = new GunfishProps();
+        var segmentProps = new GunfishData();
 
         segmentProps.physicsMaterial = props.physicsMaterial;
         segmentProps.length = props.length / props.segmentCount;
@@ -92,7 +73,7 @@ public class GunfishGenerator : MonoBehaviour
         line.material = props.spriteMat;
     }
 
-    private GameObject InstantiateNode(Vector3 globalPosition, GunfishProps props, Transform parent = null) {
+    private GameObject InstantiateNode(Vector3 globalPosition, GunfishData props, Transform parent = null) {
         string name = parent == null ? "Gunfish" : "Node";
         var obj = new GameObject(name);
         obj.transform.position = globalPosition;
