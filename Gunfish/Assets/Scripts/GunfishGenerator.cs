@@ -103,19 +103,6 @@ public class GunfishGenerator : MonoBehaviour
         springJoint.dampingRatio = props.springJointDamping;
         springJoint.frequency = props.springJointFrequency;
 
-        // var joint = obj.AddComponent<HingeJoint2D>();
-        // joint.connectedBody = parent.GetComponent<Rigidbody2D>();
-        // var halfAngle = props.maxBend / 2f;
-        // // joint.useLimits = true;
-        // var limits = new JointAngleLimits2D();
-        // limits.min = -halfAngle;
-        // limits.max = halfAngle;
-        // joint.limits = limits;
-
-        // var joint2 = obj.AddComponent<HingeSpring2D>();
-        // joint2.minAngle = 0f;
-        // joint2.force = 128f;
-
         return obj;
     }
 }
