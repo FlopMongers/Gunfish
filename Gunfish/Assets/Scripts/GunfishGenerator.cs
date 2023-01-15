@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GunfishGenerator : MonoBehaviour
 {
-    public Sprite debugNodeSprite;
     public GunfishData props;
     private List<GameObject> segments;
     private LineRenderer line;
@@ -80,9 +79,6 @@ public class GunfishGenerator : MonoBehaviour
         obj.transform.SetParent(parent);
 
         obj.layer = LayerMask.NameToLayer("Player1");
-
-        // var renderer = obj.AddComponent<SpriteRenderer>();
-        // renderer.sprite = debugNodeSprite;
 
         var rb = obj.AddComponent<Rigidbody2D>();
         rb.mass = props.mass;
