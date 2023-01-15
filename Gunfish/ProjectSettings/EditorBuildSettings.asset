@@ -6,15 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: ad560e45760e4444489899b78638e36d
-  - enabled: 1
-    path: Assets/Scenes/Lobby.unity
-    guid: 8d0702f87362c406d8db166a2a379ecf
-  - enabled: 1
-    path: Assets/Scenes/Level1.unity
-    guid: 5fc332f51725d453ea3a753ea14cf3c1
-  - enabled: 1
-    path: Assets/Scenes/Level2.unity
-    guid: 5bc13907f41f4456b980ed7006f9cc06
+    path: Assets/Scenes/Prototype/Gunfish Test.unity
+    guid: 945097a568d52464e818c2d9e8d2a284
   m_configObjects: {}
