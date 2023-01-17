@@ -132,8 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 375353307}
-  - component: {fileID: 375353308}
   - component: {fileID: 375353309}
+  - component: {fileID: 375353310}
   m_Layer: 0
   m_Name: Gunfish Generator
   m_TagString: Untagged
@@ -156,19 +156,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &375353308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375353306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a80f5094cd5853b42b2f008c1d1bd04a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  props: {fileID: 11400000, guid: ecded77d3e85891409590b11a423b5a3, type: 2}
 --- !u!114 &375353309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +239,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &375353310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375353306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d542087dd684b354b839f6ecee044fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: ecded77d3e85891409590b11a423b5a3, type: 2}
 --- !u!1 &718065616
 GameObject:
   m_ObjectHideFlags: 0
