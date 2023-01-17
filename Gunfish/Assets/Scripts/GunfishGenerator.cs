@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GunfishGenerator : MonoBehaviour
 {
@@ -8,22 +8,18 @@ public class GunfishGenerator : MonoBehaviour
     private List<GameObject> segments;
     private LineRenderer line;
 
-    // Start is called before the first frame update
-    private void Start()
-    {
+    private void Start() {
         Generate(props);
     }
 
-    private void Update()
-    {
-        for (int i = 0; i < segments.Count; i++)
-        {
+    private void Update() {
+        for (int i = 0; i < segments.Count; i++) {
             var segment = segments[i];
             if (!segment.transform.hasChanged) continue; //No need to reassign if it hasn't moved
             line.SetPosition(i, segment.transform.position);
         }
 
-        if (Input.GetKeyDown(KeyCode.R)){
+        if (Input.GetKeyDown(KeyCode.R)) {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
 
@@ -34,28 +30,30 @@ public class GunfishGenerator : MonoBehaviour
         }
     }
 
+    private void OnMove() {
+
+    }
+
     private void Generate(GunfishData props) {
         if (props.segmentCount < 3) {
             throw new UnityException($"Invalid number of segments for Gunfish: {props.segmentCount}. Must be greater than 3.");
         }
+
         segments = new List<GameObject>(props.segmentCount);
-        var segmentProps = new GunfishData();
+        var segmentProps = ScriptableObject.CreateInstance<GunfishData>();
 
         segmentProps.physicsMaterial = props.physicsMaterial;
         segmentProps.length = props.length / props.segmentCount;
-        segmentProps.maxBend = props.maxBend / props.segmentCount;
         segmentProps.segmentCount = 1;
 
         var totalArea = 0f;
-        for (int i = 0; i < props.segmentCount; i++)
-        {
+        for (int i = 0; i < props.segmentCount; i++) {
             var radius = props.width.Evaluate((float)i / props.segmentCount) / 2f;
             var area = Mathf.PI * radius * radius;
             totalArea += area;
         }
 
-        for (int i = 0; i < props.segmentCount; i++)
-        {
+        for (int i = 0; i < props.segmentCount; i++) {
             var position = new Vector3(i * segmentProps.length, 0f, 0f);
             var parent = i == 0 ? null : segments[i-1].transform;
             var diameter = props.width.Evaluate((float)i / props.segmentCount);

@@ -8,4 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototype/Gunfish Test.unity
     guid: 945097a568d52464e818c2d9e8d2a284
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 96b01c817846d3a49b182ec9d3ff3dee,
+      type: 2}
