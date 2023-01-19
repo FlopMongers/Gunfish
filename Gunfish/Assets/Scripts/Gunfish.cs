@@ -9,6 +9,7 @@ public class Gunfish : MonoBehaviour
     private List<GameObject> segments;
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
+    private GunfishRigidbody body;
     private GunfishInput input;
 
     private void Start() {
@@ -21,6 +22,7 @@ public class Gunfish : MonoBehaviour
         segments = generator.Generate();
 
         renderer = new GunfishRenderer(data.spriteMat, segments);
+        body = new GunfishRigidbody(segments);
     }
 
     private void Update() {
