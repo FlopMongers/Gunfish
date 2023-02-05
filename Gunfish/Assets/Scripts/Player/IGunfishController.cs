@@ -1,6 +1,6 @@
-using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.InputSystem;
 
 public interface IGunfishController {
-    public void OnMove(CallbackContext context);
-    public void OnFire(CallbackContext context);
+    public void OnMove(InputValue value);
+    public void OnFire(InputValue value);
 }
