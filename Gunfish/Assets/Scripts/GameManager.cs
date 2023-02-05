@@ -9,8 +9,11 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private LevelManager levelManager;
 
-    void Start() {
+    [SerializeField]
+    private Player player;
 
+    void Start() {
+        player.SpawnGunfish(Random.insideUnitCircle * 5f);
     }
 
     void Update() {

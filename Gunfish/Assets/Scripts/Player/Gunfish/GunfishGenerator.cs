@@ -10,7 +10,7 @@ public class GunfishGenerator {
         this.gunfish = gunfish;
     }
 
-    public List<GameObject> Generate() {
+    public List<GameObject> Generate(LayerMask layer) {
         var data = gunfish.data;
         segments = new List<GameObject>(data.segmentCount);
         var segmentProps = ScriptableObject.CreateInstance<GunfishData>();
@@ -27,27 +27,27 @@ public class GunfishGenerator {
         }
 
         for (int i = 0; i < data.segmentCount; i++) {
-            var position = new Vector3(i * segmentProps.length, 0f, 0f);
+            var position = gunfish.transform.position + new Vector3(i * segmentProps.length, 0f, 0f);
             var parent = i == 0 ? null : segments[i-1].transform;
             var diameter = data.width.Evaluate((float)i / data.segmentCount);
             var radius = diameter / 2f;
             var area = Mathf.PI * radius * radius;
             segmentProps.mass = area / totalArea * data.mass;
             segmentProps.width = AnimationCurve.Constant(0f, 1f, diameter);
-            var node = InstantiateNode(position, segmentProps, parent);
+            var node = InstantiateNode(position, segmentProps, layer, parent);
             segments.Add(node);
         }
 
         return segments;
     }
 
-    private GameObject InstantiateNode(Vector3 globalPosition, GunfishData data, Transform parent = null) {
-        string name = parent == null ? data.name : "Node";
+    private GameObject InstantiateNode(Vector3 globalPosition, GunfishData data, LayerMask layer, Transform parent = null) {
+        string name = parent == null ? $"Player{layer.value - 5}GunfishBody" : "Node";
         var obj = new GameObject(name);
         obj.transform.position = globalPosition;
         obj.transform.SetParent(parent);
 
-        obj.layer = LayerMask.NameToLayer("Player1");
+        obj.layer = layer;
 
         var rb = obj.AddComponent<Rigidbody2D>();
         rb.mass = data.mass;

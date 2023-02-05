@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(menuName = "Gunfish/Gunfish Data", fileName = "New Gunfish Data")]
-public class GunfishData : ScriptableObject
-{
+public class GunfishData : ScriptableObject {
     [Header("Input")]
     public InputActionAsset inputActions;
 
@@ -22,4 +21,8 @@ public class GunfishData : ScriptableObject
     [Range(0.5f, 5f)] public float length = 2f;
     public AnimationCurve width = AnimationCurve.Constant(0f, 1f, 1f);
     [Range(3, 33)] public int segmentCount = 8;
+
+    [Header("Cooldowns")]
+    [Range(0f, 1f)] public float flopCooldown;
+    [Range(0f, 5f)] public float reloadTime;
 }
