@@ -74,4 +74,10 @@ public class Gunfish : MonoBehaviour
             body.ApplyForceToSegment(0, direction * 1000f);
         }
     }
+
+    public static Gunfish Instantiate(GunfishData data, Vector3 position) {
+        var instance = new GameObject("Gunfish");
+        // var gunfish = instance.AddComponent
+        return null;
+    }
 }
