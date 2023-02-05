@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    public LevelManager levelManager;
+    [SerializeField]
+    private MatchManager matchManager;
+
+    [SerializeField]
+    private LevelManager levelManager;
 
     void Start() {
 
