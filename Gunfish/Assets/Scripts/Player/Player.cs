@@ -10,6 +10,11 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
     private Gunfish gunfish;
     private PlayerInput input;
 
+    public PlayerGameEvent OnDeath;
+
+    public bool FreezeControls;
+    public bool Active;
+
     private void OnEnable() {
 
     }
