@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+    public static readonly bool debug = true;
+
     [SerializeField]
     private MatchManager matchManager;
 
@@ -10,10 +12,10 @@ public class GameManager : MonoBehaviour {
     private LevelManager levelManager;
 
     [SerializeField]
-    private Player player;
+    private PlayerManager playerManager;
 
     void Start() {
-        player.SpawnGunfish(Random.insideUnitCircle * 5f);
+
     }
 
     void Update() {
