@@ -11,7 +11,7 @@ public class GameParameters
     public GameParameters(List<Player> activePlayers, GameObject gameUIObject)
     {
         this.activePlayers = activePlayers;
-        this.gameUIObject = gameUIObject; 
+        this.gameUIObject = gameUIObject;
     }
 }
 
@@ -28,6 +28,7 @@ public class GameMode_Tuple
 
 public class GameManager : MonoBehaviour {
 
+    public static readonly bool debug = true;
     public List<GameMode_Tuple> GameMode_List;
     Dictionary<GameMode_Enum, GameMode_Tuple> gameMode_Map;
 
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour {
     List<Player> players;
 
     void Start() {
-        player.SpawnGunfish(Random.insideUnitCircle * 5f);
+
     }
 
     void Update() {
@@ -58,5 +59,5 @@ public class GameManager : MonoBehaviour {
         matchManager.Initialize(parameters);
     }
 
-    
+
 }

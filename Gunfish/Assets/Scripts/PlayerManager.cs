@@ -10,15 +10,15 @@ public class PlayerManager : MonoBehaviour {
     }
 
     public void OnPlayerLeft(PlayerInput input) {
-        if (Application.isPlaying) {
-            throw new UnityException($"Controller with id {input.devices[0].deviceId} was disconnected");
-        }
+        print($"Player exited with controller id {input.devices[0].deviceId}");
     }
 
     private void Start() {
+        JoinPlayers();
+    }
+
+    private void JoinPlayers() {
         var inputManager = GetComponent<PlayerInputManager>();
-        // var inputDeviceMatcher = new InputDeviceMatcher().With
-        // InputSystem.RegisterLayoutMatcher()
         int index = 0;
         foreach (var device in InputSystem.devices)
         {
@@ -28,9 +28,9 @@ public class PlayerManager : MonoBehaviour {
                 if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard")) {
                     inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
                 }
+            } else {
+                // TODO: Specific device IDs for each player
             }
         }
-        // var inputDevice = InputSystem.AddDevice()
-        // inputManager.JoinPlayer(pairWithDevice: )
     }
 }
