@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering;
 
 public class GameParameters
 {
@@ -15,22 +15,20 @@ public class GameParameters
     }
 }
 
-public enum GameMode_Enum { DeathMatch };
+public enum GameModeType { DeathMatch };
 
 [System.Serializable]
-public class GameMode_Tuple
+public class GameMode
 {
-    public GameMode_Enum gameMode;
     public GameObject matchManagerPrefab;
     public GameObject gameUIObject;
 }
 
 
 public class GameManager : MonoBehaviour {
-
     public static readonly bool debug = true;
-    public List<GameMode_Tuple> GameMode_List;
-    Dictionary<GameMode_Enum, GameMode_Tuple> gameMode_Map;
+    public List<GameMode> GameMode_List;
+    Dictionary<GameModeType, GameMode> gameMode_Map;
 
     [SerializeField]
     private MatchManager matchManager;
@@ -51,7 +49,7 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    public void InitializeGame(GameMode_Enum gameMode) {
+    public void InitializeGame(GameModeType gameMode) {
         // spawn match manager
         matchManager = Instantiate(gameMode_Map[gameMode].matchManagerPrefab).GetComponent<MatchManager>();
         // get all active players
