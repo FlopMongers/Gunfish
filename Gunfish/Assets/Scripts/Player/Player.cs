@@ -23,6 +23,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
     private void Start() {
         input = GetComponent<PlayerInput>();
         playerNumber = ++playerCount;
+        SpawnGunfish(Random.insideUnitCircle * 5f);
     }
 
     public void SpawnGunfish(Vector3 spawnPosition) {
@@ -52,7 +53,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
 
     public void OnMove(InputValue value) {
         if (gunfish == null) {
-            throw new UnityException($"Cannot move Gunfish for {name} as one has not been instantiated.");
+            return;
         }
         var movement = value.Get<Vector2>();
         gunfish.Move(movement);

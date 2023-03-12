@@ -61,7 +61,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: UI
+  m_DefaultActionMap: 1daaec74-2f05-482f-9548-92310423c96b
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &4411546140183832275
@@ -76,5 +76,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029b523ee35de3f4fa07bd59071af4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNumber: 0
   gunfishData: {fileID: 11400000, guid: ecded77d3e85891409590b11a423b5a3, type: 2}
-  gunfishInstance: {fileID: 0}
