@@ -5,12 +5,21 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
     public CountGameEvent NextLevel_Event;
-    GameParameters parameters;
+    protected GameParameters parameters;
 
+    protected List<Transform> spawnPoints;
+
+    protected virtual void Start()
+    {
+        foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("SpawnPoint"))
+        {
+            spawnPoints.Add(spawnPoint.transform);
+        }
+        GameUIManager.instance.FinishStartTimer_Event += OnTimerFinish;
+    }
 
     public virtual void SpawnPlayer(Player player)
     {
-
     }
 
     public virtual void Initialize(GameParameters parameters)
@@ -20,8 +29,6 @@ public class MapManager : MonoBehaviour
         {
             player.FreezeControls = true;
         }
-        // get game ui object, tell it to run the start timer
-        // hook into on timer complete
         this.parameters = parameters;
     }
 

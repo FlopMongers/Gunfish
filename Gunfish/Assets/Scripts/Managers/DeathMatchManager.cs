@@ -7,8 +7,9 @@ public class DeathMatchManager : MatchManager
     Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
     }
 
     public override void Initialize(GameParameters parameters)
@@ -18,11 +19,5 @@ public class DeathMatchManager : MatchManager
             playerScores[player] = 0;
         }
         base.Initialize(parameters);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
