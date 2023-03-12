@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GameParameters
 {
     public List<Player> activePlayers;
     public GameObject gameUIObject;
+    public List<Scene> scenes;
 
     public GameParameters(List<Player> activePlayers, GameObject gameUIObject)
     {

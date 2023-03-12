@@ -11,8 +11,23 @@ public class DeathMatchLevelManager : MapManager
 
     public override void SpawnPlayer(Player player)
     {
-        // get spawn point which is farthest from any player
-        // instantiate fish
+        Transform currentSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        float maxDistance = float.MinValue;
+        float distance;
+        foreach (var spawnPoint in spawnPoints)
+        {
+            distance = float.MaxValue;
+            foreach (var activePlayer in parameters.activePlayers)
+            {
+                distance = Mathf.Min(distance, Vector2.Distance(spawnPoint.position, activePlayer.Gunfish.transform.position));
+            }
+            if (distance > maxDistance)
+            {
+                maxDistance = distance;
+                currentSpawnPoint = spawnPoint;
+            }
+        }
+        player.SpawnGunfish(currentSpawnPoint.position);
     }
 
     public override void Initialize(GameParameters parameters)
@@ -32,10 +47,10 @@ public class DeathMatchLevelManager : MapManager
     public override void OnPlayerDeath(Player player)
     {
         playerStocks[player]--;
-            // update stock ui
+        // TODO update stock ui
         if (playerStocks[player] <= 0)
         {
-            // flashy ui thingy
+            // TODO flashy ui thingy when player is eliminated
             if (remainingPlayers <= 1)
             {
                 NextLevel_Event?.Invoke(remainingPlayers);

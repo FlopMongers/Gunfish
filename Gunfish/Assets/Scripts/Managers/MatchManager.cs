@@ -7,10 +7,13 @@ public class MatchManager : MonoBehaviour
     MapManager currentMapManager;
     GameObject mapManagerPrefab;
     GameParameters parameters;
+    protected int currentLevel;
+
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
+        LevelManager.instance.FinishLoadLevel_Event += FinishLoadLevel;
     }
 
     public virtual void NextLevel(int remainingPlayers)
@@ -19,8 +22,8 @@ public class MatchManager : MonoBehaviour
         {
             currentMapManager.NextLevel_Event -= NextLevel;
         }
-        // if it's the end, go to the stats screen
-        // else level manager load next map, on finish run finish load level
+
+        LevelManager.instance.LoadNextLevel();
     }
 
     public void FinishLoadLevel()
