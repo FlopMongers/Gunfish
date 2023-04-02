@@ -8,6 +8,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
 
     public GunfishData gunfishData;
     private Gunfish gunfish;
+    public Gunfish Gunfish { get { return gunfish; } }
     private PlayerInput input;
 
     public PlayerGameEvent OnDeath;
