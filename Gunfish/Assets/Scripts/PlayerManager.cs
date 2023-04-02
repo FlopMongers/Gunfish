@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour {
     }
 
     private void Start() {
-        JoinPlayers();
+        // JoinPlayers();
     }
 
     private void JoinPlayers() {
