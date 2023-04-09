@@ -22,8 +22,14 @@ public class Gunfish : MonoBehaviour {
 
     private Vector2 movement;
 
+    private void Start() {
+        if (debug) {
+            Spawn(data, LayerMask.NameToLayer("Player1"));
+        }
+    }
+
     private void Update() {
-        renderer.Render();
+        renderer?.Render();
         DecrementTimers(Time.deltaTime);
     }
 
@@ -58,14 +64,14 @@ public class Gunfish : MonoBehaviour {
         if (Input.GetMouseButton(0)) {
             var targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var targetSegment = segments[segments.Count / 2];
-            targetSegment.GetComponent<Rigidbody2D>().AddForce(1 * (targetPos - targetSegment.transform.position));
+            targetSegment.GetComponent<Rigidbody2D>().AddForce(data.mass * 5f * (targetPos - targetSegment.transform.position));
         }
     }
 
     private void GroundedMovement(Vector2 input) {
         var index = movement.x > 0f ? Mathf.RoundToInt(segments.Count * 0.25f) : Mathf.RoundToInt(segments.Count * 0.75f);
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
-        body.ApplyForceToSegment(index, direction * 100f);
+        body.ApplyForceToSegment(index, direction * 1000f);
     }
 
     private void AerialMovement(Vector2 input) {
