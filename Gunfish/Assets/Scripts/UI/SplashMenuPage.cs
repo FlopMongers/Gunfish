@@ -1,13 +1,15 @@
+using UnityEngine.UIElements;
+
 public class SplashMenuPage : IMenuPage {
-    public void OnEnable() {
+    public void OnEnable(UIDocument document) {
 
     }
 
-    public void OnDisable() {
+    public void OnDisable(UIDocument document) {
 
     }
 
-    public void OnUpdate() {
+    public void OnUpdate(UIDocument document) {
 
     }
 }

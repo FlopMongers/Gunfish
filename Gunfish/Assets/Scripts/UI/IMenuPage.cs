@@ -1,6 +1,8 @@
-public interface IMenuPage {
-    public void OnEnable();
+using UnityEngine.UIElements;
 
-    public void OnDisable();
-    public void OnUpdate();
+public interface IMenuPage {
+    public void OnEnable(UIDocument document);
+
+    public void OnDisable(UIDocument document);
+    public void OnUpdate(UIDocument document);
 }
