@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-public class SplashMenuPage : IMenuPage {
+public class FishSelectMenuPage : IMenuPage {
     public void OnEnable(UIDocument document) {
 
     }
