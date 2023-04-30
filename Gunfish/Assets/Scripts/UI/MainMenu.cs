@@ -70,10 +70,13 @@ public class MainMenu : MonoBehaviour {
         }
 
         if (state == MenuState.Splash) {
+            print("SPLASH");
             page = new SplashMenuPage();
         } else if (state == MenuState.GameModeSelect) {
+            print("GAME MODE");
             page = new GameModeSelectMenuPage();
         } else if (state == MenuState.GunfishSelect) {
+            print("FISH SELECT");
             page = new FishSelectMenuPage();
         }
 
