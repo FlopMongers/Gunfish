@@ -4,16 +4,15 @@ public class GameModeSelectMenuPage : IMenuPage {
     private VisualTreeAsset page;
     public GameModeDetails[] gameModeDetails;
 
-    public void OnEnable(UIDocument document) {
-        page = document.visualTreeAsset;
-        gameModeDetails = AssetsDAO.LoadScriptableObjects<GameModeDetails>();
-    }
-
-    public void OnDisable(UIDocument document) {
+    public void OnEnable(MenuPageContext context) {
 
     }
 
-    public void OnUpdate(UIDocument document) {
+    public void OnDisable(MenuPageContext context) {
+
+    }
+
+    public void OnUpdate(MenuPageContext context) {
 
     }
 }

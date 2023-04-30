@@ -1,10 +1,19 @@
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
+
+public struct MenuPageContext {
+    public MainMenu menu;
+    public UIDocument document;
+    public InputActionMap actionMap;
+}
 
 [RequireComponent(typeof(UIDocument))]
 public class MainMenu : MonoBehaviour {
-    private UIDocument document;
+
+    private MenuPageContext context;
+
     private MenuState state;
     private IMenuPage page;
 
@@ -13,73 +22,48 @@ public class MainMenu : MonoBehaviour {
     [SerializeField] private VisualTreeAsset gunfishSelect;
 
     private void Start() {
-        document = GetComponent<UIDocument>();
+        InitMenuPageContext();
         SetState(MenuState.Splash);
+    }
+
+    private void InitMenuPageContext() {
+        context = new MenuPageContext();
+
+        context.menu = this;
+        context.document = GetComponent<UIDocument>();
+        context.actionMap = GetComponent<PlayerInput>().actions.FindActionMap("UI");
     }
 
     private void Update() {
         if (page != null) {
-            page.OnUpdate(document);
+            page.OnUpdate(context);
         }
     }
 
-    public void OnNavigate(CallbackContext context) {
-        // Vertical and horizontal may occur at the same time
-        var direction = context.ReadValue<Vector2>();
-
-        // Vertical navigation
-        if (direction.y > 0) {
-            NavigateUp();
-        } else if (direction.y < 0) {
-            NavigateDown();
-        }
-
-        // Horizontal navigation
-        if (direction.x > 0) {
-            NavigateRight();
-        } else if (direction.x < 0) {
-            NavigateLeft();
-        }
-    }
-
-    private void NavigateUp() {
-        print("Up!");
-    }
-
-    private void NavigateDown() {
-        print("Down!");
-    }
-
-    private void NavigateLeft() {
-        print("Left");
-
-    }
-
-    private void NavigateRight() {
-        print("Right");
-    }
-
-
-    private void SetState(MenuState state) {
+    public void SetState(MenuState state) {
         if (this.state == state) {
             return;
         }
 
-        if (page != null) {
-            page.OnDisable(document);
+        if (page != null)
+        {
+            page.OnDisable(context);
         }
 
         if (state == MenuState.Splash) {
-            print("SPLASH");
+            context.document.visualTreeAsset = splash;
             page = new SplashMenuPage();
+
         } else if (state == MenuState.GameModeSelect) {
-            print("GAME MODE");
+            context.document.visualTreeAsset = gameModeSelect;
             page = new GameModeSelectMenuPage();
-        } else if (state == MenuState.GunfishSelect) {
-            print("FISH SELECT");
+        }
+        else if (state == MenuState.GunfishSelect) {
+            context.document.visualTreeAsset = gunfishSelect;
             page = new FishSelectMenuPage();
         }
 
-        page.OnEnable(document);
+        page.OnEnable(context);
+        this.state = state;
     }
 }
