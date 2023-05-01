@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1c56549f45ad474daa2c243c887e023, type: 3}
+  m_Script: {fileID: 11500000, guid: 346c0ef987cb7424ea16a2b2804aa212, type: 3}
   m_Name: Race
   m_EditorClassIdentifier: 
-  image: {fileID: 2800000, guid: 61c4f6f2b66bb4c4da85a4e66515593b, type: 3}
+  image: {fileID: 2800000, guid: 676a9e31c82e6c74ebb6ca39d7186278, type: 3}
+  matchManagerPrefab: {fileID: 0}
+  gameUIObject: {fileID: 0}

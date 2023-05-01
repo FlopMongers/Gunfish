@@ -16,20 +16,12 @@ public class GameParameters
     }
 }
 
-public enum GameModeType { DeathMatch };
 
-[System.Serializable]
-public class GameMode
-{
-    public GameObject matchManagerPrefab;
-    public GameObject gameUIObject;
-}
-
-
-public class GameManager : MonoBehaviour {
+public class GameManager : Singleton<GameManager> {
     public static readonly bool debug = true;
     public List<GameMode> GameMode_List;
     Dictionary<GameModeType, GameMode> gameMode_Map;
+    public GameMode selectedGameMode;
 
     [SerializeField]
     private MatchManager matchManager;

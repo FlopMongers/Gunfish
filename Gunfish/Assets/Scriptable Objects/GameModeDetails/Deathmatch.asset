@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1c56549f45ad474daa2c243c887e023, type: 3}
+  m_Script: {fileID: 11500000, guid: 346c0ef987cb7424ea16a2b2804aa212, type: 3}
   m_Name: Deathmatch
   m_EditorClassIdentifier: 
-  image: {fileID: 2800000, guid: 395f251f3183a43c58bdeeb829f964eb, type: 3}
+  image: {fileID: 2800000, guid: fd12dbe3b63ae464f824b4a74c0e1766, type: 3}
+  matchManagerPrefab: {fileID: 0}
+  gameUIObject: {fileID: 0}
