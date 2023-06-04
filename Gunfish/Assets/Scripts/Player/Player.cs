@@ -23,20 +23,24 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
     private void Start() {
         input = GetComponent<PlayerInput>();
         playerNumber = ++playerCount;
-        SpawnGunfish(Random.insideUnitCircle * 5f);
+
+        input.defaultActionMap = "UI";
     }
 
     public void SpawnGunfish(Vector3 spawnPosition) {
         var layer = LayerMask.NameToLayer($"Player{playerNumber}");
         gunfish = Gunfish.Instantiate(gunfishData, spawnPosition, layer);
+
+        input.defaultActionMap = "Player";
     }
 
-    public void Despawn() {
+    public void DespawnGunfish() {
         if (gunfish == null) {
             throw new UnityException($"Cannot delete Gunfish for {name} since one has not been spawned.");
         }
 
         gunfish.Despawn(false);
+        input.defaultActionMap = "UI";
     }
 
     public void OnDeviceLost(PlayerInput input) {
@@ -67,5 +71,13 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
         if (value.isPressed) {
             gunfish.Fire();
         }
+    }
+
+    public void OnNavigate(InputValue value) {
+
+    }
+
+    public void OnSubmit(InputValue value) {
+
     }
 }

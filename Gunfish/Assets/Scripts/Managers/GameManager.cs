@@ -20,6 +20,7 @@ public class GameParameters
 public class GameManager : Singleton<GameManager> {
     public static readonly bool debug = true;
     public List<GameMode> GameMode_List;
+    public List<GunfishData> Gunfish_List;
     Dictionary<GameModeType, GameMode> gameMode_Map;
     public GameMode selectedGameMode;
 

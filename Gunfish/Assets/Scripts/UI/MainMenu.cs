@@ -2,11 +2,14 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System.Linq;
 
 public struct MenuPageContext {
     public MainMenu menu;
     public UIDocument document;
-    public InputActionMap actionMap;
+    public List<InputDevice> devices;
+    public List<InputActionMap> actionMaps;
 }
 
 [RequireComponent(typeof(UIDocument))]
@@ -31,7 +34,7 @@ public class MainMenu : MonoBehaviour {
 
         context.menu = this;
         context.document = GetComponent<UIDocument>();
-        context.actionMap = GetComponent<PlayerInput>().actions.FindActionMap("UI");
+        context.devices = PlayerManager.instance.PlayerDevices;
     }
 
     private void Update() {

@@ -6,11 +6,14 @@ public class SplashMenuPage : IMenuPage {
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
-        context.actionMap.FindAction("Any").performed += OnAnyKey;
+        menuContext.devices.ForEach((device) => {
+
+        });
+        //context.actionMaps.FindAction("Any").performed += OnAnyKey;
     }
 
     public void OnDisable(MenuPageContext context) {
-        context.actionMap.FindAction("Any").performed -= OnAnyKey;
+        //context.actionMaps.FindAction("Any").performed -= OnAnyKey;
     }
 
     public void OnUpdate(MenuPageContext context) {

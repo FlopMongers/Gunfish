@@ -214,6 +214,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5673737386987831905, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_JoinBehavior
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5673737386987831905, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_Id
+      value: 8f542640-3c01-42b6-96b1-d3fa11e656ec
+      objectReference: {fileID: 0}
+    - target: {fileID: 5673737386987831905, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_Name
+      value: Join
+      objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_Name
@@ -360,5 +375,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5870836714870767917, guid: 4712693357a829a4d8992156f3338143, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4712693357a829a4d8992156f3338143, type: 3}

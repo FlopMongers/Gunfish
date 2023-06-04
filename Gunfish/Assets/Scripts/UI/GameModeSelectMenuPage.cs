@@ -16,8 +16,8 @@ public class GameModeSelectMenuPage : IMenuPage {
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
-        context.actionMap.FindAction("Navigate").performed += OnNavigate;
-        context.actionMap.FindAction("Submit").performed += OnSubmit;
+        //context.actionMaps.FindAction("Navigate").performed += OnNavigate;
+        //context.actionMaps.FindAction("Submit").performed += OnSubmit;
 
         gameModeImage = menuContext.document.rootVisualElement.Q<VisualElement>("gamemode-image");
         gameModeName = menuContext.document.rootVisualElement.Q<Label>("gamemode-name");
@@ -32,8 +32,8 @@ public class GameModeSelectMenuPage : IMenuPage {
     }
 
     public void OnDisable(MenuPageContext context) {
-        context.actionMap.FindAction("Navigate").performed -= OnNavigate;
-        context.actionMap.FindAction("Submit").performed -= OnSubmit;
+        //context.actionMaps.FindAction("Navigate").performed -= OnNavigate;
+        //context.actionMaps.FindAction("Submit").performed -= OnSubmit;
     }
 
     public void OnUpdate(MenuPageContext context) {
@@ -58,12 +58,12 @@ public class GameModeSelectMenuPage : IMenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {
-        Debug.Log("SUBMIT!!!");
         GameManager.instance.selectedGameMode = displayedGameMode;
         menuContext.menu.SetState(MenuState.GunfishSelect);
     }
 
     private void IncrementGameMode() {
+        // Increments before modulus
         displayedGameModeIndex = (++displayedGameModeIndex) % gameModes.Count;
         DisplayGameMode(gameModes[displayedGameModeIndex]);
     }
