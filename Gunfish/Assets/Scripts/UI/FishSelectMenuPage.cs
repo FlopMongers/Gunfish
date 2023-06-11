@@ -5,35 +5,34 @@ using UnityEngine.UIElements;
 
 public class FishSelectMenuPage : IMenuPage {
     private MenuPageContext menuContext;
-    public List<GunfishData> fish;
-    private GunfishData displayedFish;
-    private int displayedFishIndex;
+    public List<GunfishData> fishes;
+    
+    private List<GunfishData> displayedFishes;
+    private List<int> displayedFishIndices;
 
-    private VisualElement gameModeImage;
-    private Label gameModeName;
-    private Button backButton;
-    private Button nextButton;
+    private List<VisualElement> fishImages;
+    private List<Label> fishLabels;
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
-        //context.actionMaps.FindAction("Navigate").performed += OnNavigate;
-        //context.actionMaps.FindAction("Submit").performed += OnSubmit;
+        context.actionMap.FindAction("Navigate").performed += OnNavigate;
+        context.actionMap.FindAction("Submit").performed += OnSubmit;
 
-        gameModeImage = menuContext.document.rootVisualElement.Q<VisualElement>("gamemode-image");
-        gameModeName = menuContext.document.rootVisualElement.Q<Label>("gamemode-name");
-        backButton = menuContext.document.rootVisualElement.Q<Button>("back-button");
-        nextButton = menuContext.document.rootVisualElement.Q<Button>("next-button");
+        displayedFishes = new List<GunfishData>(4);
+        displayedFishIndices = new List<int>(4);
 
-        displayedFishIndex = 0;
-        fish = GameManager.instance.Gunfish_List;
-        if (fish.Count > 0) {
-            DisplayFish(fish[displayedFishIndex]);
+        fishes = GameManager.instance.Gunfish_List;
+
+        if (fishes.Count > 0) {
+            displayedFishIndices.ForEach(displayedFishIndex => {
+                DisplayFish(displayedFishIndex, fishes[displayedFishIndex]);
+            });
         }
     }
 
     public void OnDisable(MenuPageContext context) {
-        //context.actionMaps.FindAction("Navigate").performed -= OnNavigate;
-        //context.actionMaps.FindAction("Submit").performed -= OnSubmit;
+        context.actionMap.FindAction("Navigate").performed -= OnNavigate;
+        context.actionMap.FindAction("Submit").performed -= OnSubmit;
     }
 
     public void OnUpdate(MenuPageContext context) {
@@ -41,6 +40,9 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void OnNavigate(InputAction.CallbackContext context) {
+        var device = context.control.device;
+        var deviceIndex = PlayerManager.instance.PlayerDevices.IndexOf(device);
+
         var direction = context.ReadValue<Vector2>();
         // Joystick movement should only be registered if it's a full flick
         if (direction.magnitude < 0.9f) {
@@ -50,35 +52,32 @@ public class FishSelectMenuPage : IMenuPage {
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
             if (direction.x > 0) {
-                IncrementFish();
+                IncrementFish(deviceIndex);
             } else {
-                DecrementFish();
+                DecrementFish(deviceIndex);
             }
         }
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {
-        //GameManager.instance.selectedGameMode = displayedFish;
         menuContext.menu.SetState(MenuState.GunfishSelect);
     }
 
-    private void IncrementFish() {
+    private void IncrementFish(int deviceIndex) {
         // Increments before modulus
-        displayedFishIndex = (++displayedFishIndex) % fish.Count;
-        DisplayFish(fish[displayedFishIndex]);
+        displayedFishIndices[deviceIndex] = (++displayedFishIndices[deviceIndex]) % fishes.Count;
+        DisplayFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
     }
 
-    private void DecrementFish() {
+    private void DecrementFish(int deviceIndex) {
         // Decrements before comparison
-        if (--displayedFishIndex < 0) {
-            displayedFishIndex += fish.Count;
+        if (--displayedFishIndices[deviceIndex] < 0) {
+            displayedFishIndices[deviceIndex] += fishes.Count;
         }
-        DisplayFish(fish[displayedFishIndex]);
+        DisplayFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
     }
 
-    private void DisplayFish(GunfishData fish) {
-        displayedFish = fish;
-        gameModeImage.style.backgroundImage = fish.spriteMat.mainTexture as Texture2D;
-        gameModeName.text = fish.name;
+    private void DisplayFish(int deviceIndex, GunfishData fish) {
+        displayedFishes[deviceIndex] = fish;
     }
 }

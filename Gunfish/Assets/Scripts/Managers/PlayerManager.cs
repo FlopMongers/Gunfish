@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 
 public class PlayerManager : Singleton<PlayerManager> {
+
     public List<InputDevice> PlayerDevices { get; private set; }
 
     public void OnPlayerJoined(PlayerInput input) {
@@ -15,7 +16,8 @@ public class PlayerManager : Singleton<PlayerManager> {
         print($"Player exited with controller id {input.devices[0].deviceId}");
     }
 
-    private void Start() {
+    protected override void Awake() {
+        base.Awake();
         PlayerDevices = new List<InputDevice>();
         JoinPlayers();
     }

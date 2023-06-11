@@ -1,7 +1,7 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement style="width: 100%; flex-direction: row; height: 100%; justify-content: space-between; align-items: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;">
         <ui:Button display-tooltip-when-elided="true" name="back-button" style="width: 50px; height: 50px; justify-content: center; -unity-text-align: middle-center; white-space: nowrap; background-image: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-4528830608231651361&amp;guid=8848b7e18c98fff458e7a0a3285a677a&amp;type=3#arrow-left@2x&apos;);" />
-        <ui:VisualElement name="gamemode-image" style="flex-grow: 1; flex-shrink: 0; height: 50%; background-image: url(&apos;project://database/Assets/Samples/Timeline/1.6.4/Gameplay%20Sequence%20Demo/Info/Icons/TDTicon.png?fileID=2800000&amp;guid=df0f2bfc419694310b53e13d58b6c512&amp;type=3#TDTicon&apos;);" />
+        <ui:VisualElement name="fish2-image" style="flex-grow: 1; flex-shrink: 0; height: 50%; background-image: url(&apos;project://database/Assets/Samples/Timeline/1.6.4/Gameplay%20Sequence%20Demo/Info/Icons/TDTicon.png?fileID=2800000&amp;guid=df0f2bfc419694310b53e13d58b6c512&amp;type=3#TDTicon&apos;);" />
         <ui:Button display-tooltip-when-elided="true" name="next-button" style="width: 50px; height: 50px; background-image: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-1087164816274819069&amp;guid=8848b7e18c98fff458e7a0a3285a677a&amp;type=3#arrow-right@2x&apos;);" />
     </ui:VisualElement>
 </ui:UXML>
