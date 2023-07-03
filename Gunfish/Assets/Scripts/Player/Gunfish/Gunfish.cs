@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.InputSystem;
 
 public class Gunfish : MonoBehaviour {
     public static Gunfish Instantiate(GunfishData data, Vector3 position, LayerMask layer) {
@@ -20,17 +21,25 @@ public class Gunfish : MonoBehaviour {
     private new GunfishRenderer renderer;
     private GunfishRigidbody body;
 
+    private InputActionMap inputHandler;
+    
+
     private Vector2 movement;
 
     private void Start() {
         if (debug) {
             Spawn(data, LayerMask.NameToLayer("Player1"));
         }
+
+        inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
+        inputHandler.FindAction("Fire").performed += ctx => Fire();
     }
 
     private void Update() {
         renderer?.Render();
         DecrementTimers(Time.deltaTime);
+
+        Move(inputHandler.FindAction("Move").ReadValue<Vector2>());
     }
 
     private void FixedUpdate() {

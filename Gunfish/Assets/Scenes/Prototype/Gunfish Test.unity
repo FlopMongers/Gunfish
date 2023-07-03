@@ -354,6 +354,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 082cbc7f-b1e2-4c56-a8d8-09b82c7db723
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2b423b20-6bc2-40e9-ac1a-6bc5f183fc15
+    m_ActionName: UI/Any[/Keyboard/anyKey]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -636,7 +640,7 @@ GameObject:
   - component: {fileID: 1553098879}
   - component: {fileID: 1553098878}
   - component: {fileID: 1553098877}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
