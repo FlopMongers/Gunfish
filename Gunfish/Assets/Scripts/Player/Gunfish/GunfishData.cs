@@ -16,6 +16,9 @@ public class GunfishData : ScriptableObject {
     public float fixedJointFrequency = 32f;
     [Range(0f, 1f)] public float springJointDamping = 0f;
     public float springJointFrequency = 32f;
+    public float flopForce;
+    public float airTorque;
+    public float gunKickback;
 
     [Header("Dimensions")]
     [Range(0.5f, 5f)] public float length = 2f;

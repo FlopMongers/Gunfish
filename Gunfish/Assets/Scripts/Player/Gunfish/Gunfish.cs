@@ -78,15 +78,19 @@ public class Gunfish : MonoBehaviour {
     }
 
     private void GroundedMovement(Vector2 input) {
+        // reset flop timer
+        statusData.flopTimer = data.flopCooldown;
         var index = movement.x > 0f ? Mathf.RoundToInt(segments.Count * 0.25f) : Mathf.RoundToInt(segments.Count * 0.75f);
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
-        body.ApplyForceToSegment(index, direction * 1000f);
+        // flop force
+        body.ApplyForceToSegment(index, direction * data.flopForce);
     }
 
     private void AerialMovement(Vector2 input) {
         var index = segments.Count / 2;
         var direction = Mathf.Sign(movement.x);
-        body.ApplyTorqueToSegment(index, -direction * 3f);
+        // rotation speed
+        body.ApplyTorqueToSegment(index, -direction * data.airTorque);
     }
 
     public void Move(Vector2 movement) {
@@ -96,8 +100,11 @@ public class Gunfish : MonoBehaviour {
     public void Fire() {
         if (!statusData.CanFire) return;
 
+        // reset fire timer
+        statusData.reloadTimer = data.reloadTime;
         var direction = (segments[1].transform.position - segments[0].transform.position).normalized;
-        body.ApplyForceToSegment(0, direction * 1000f);
+        // gun kickback
+        body.ApplyForceToSegment(0, direction * data.gunKickback);
     }
 
     public void Spawn(GunfishData data, LayerMask layer) {
