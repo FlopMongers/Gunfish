@@ -43,10 +43,11 @@ public class Gun : MonoBehaviour
 
             foreach (var hit in hits) { 
 
-                if (hit.transform?.gameObject.GetComponent<GunfishSegment>())
+                if (hit.transform?.gameObject.GetComponent<GunfishSegment>()?.gunfish != gunfish)
                 {
                     GunfishSegment segment = hit.transform.gameObject.GetComponent<GunfishSegment>();
                     segment.gunfish.Hit(segment.index);
+                    break;
                 }
                 // if gunfish, hit
                 // if ground, spawn fx
