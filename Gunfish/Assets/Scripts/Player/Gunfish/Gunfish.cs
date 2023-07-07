@@ -135,7 +135,6 @@ public class Gunfish : MonoBehaviour {
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
 
-        // TODO: initialize gun position and rotation
         foreach (TransformTuple tuple in data.gunBarrels)
         {
             // spawn 

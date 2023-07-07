@@ -53,21 +53,5 @@ public class Gun : MonoBehaviour
                 // if ground, spawn fx
             }
         }
-
-        /*
-        RaycastHit2D hit;
-        if (Physics2D.Raycast())
-        {
-            // if gunfish, hit
-            // if ground, spawn fx
-        }
-        */
-
-        // TODO: implement this
-        // reload logic
-        // perform kickback on gunfish
-        // fx stuff
-        // raycast
-        // handle hit logic
     }
 }
