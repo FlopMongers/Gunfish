@@ -21,9 +21,14 @@ MonoBehaviour:
   fixedJointFrequency: 16
   springJointDamping: 0.224
   springJointFrequency: 16
-  flopForce: 100
-  airTorque: 3
+  flopForce: 300
+  groundTorque: 5
+  airTorque: 5
   gunKickback: 500
+  gunBarrels:
+  - position: {x: 0, y: 0}
+    rotation: 180
+  gunRange: 0
   length: 2
   width:
     serializedVersion: 2

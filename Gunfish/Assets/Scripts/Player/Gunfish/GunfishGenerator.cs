@@ -34,20 +34,25 @@ public class GunfishGenerator {
             var area = Mathf.PI * radius * radius;
             segmentProps.mass = area / totalArea * data.mass;
             segmentProps.width = AnimationCurve.Constant(0f, 1f, diameter);
-            var node = InstantiateNode(position, segmentProps, layer, parent);
+            var node = InstantiateNode(i, position, segmentProps, layer, parent);
             segments.Add(node);
         }
 
         return segments;
     }
 
-    private GameObject InstantiateNode(Vector3 globalPosition, GunfishData data, LayerMask layer, Transform parent = null) {
+    private GameObject InstantiateNode(int index, Vector3 globalPosition, GunfishData data, LayerMask layer, Transform parent = null) {
         string name = parent == null ? $"Player{layer.value - 5}GunfishBody" : "Node";
         var obj = new GameObject(name);
         obj.transform.position = globalPosition;
         obj.transform.SetParent(parent);
 
         obj.layer = layer;
+
+        GunfishSegment segment = obj.AddComponent<GunfishSegment>();
+        segment.gunfish = gunfish;
+        segment.index = index;
+
 
         var rb = obj.AddComponent<Rigidbody2D>();
         rb.mass = data.mass;

@@ -43,11 +43,11 @@ public class GunfishRigidbody {
         });
     }
 
-    public void ApplyForceToSegment(int index, Vector2 force) {
-        segments[index].body.AddForce(force);
+    public void ApplyForceToSegment(int index, Vector2 force, ForceMode2D forceMode) {
+        segments[index].body.AddForce(force, forceMode);
     }
 
-    public void ApplyTorqueToSegment(int index, float torque) {
-        segments[index].body.AddTorque(torque);
+    public void ApplyTorqueToSegment(int index, float torque, ForceMode2D forceMode) {
+        segments[index].body.AddTorque(torque, forceMode);
     }
 }

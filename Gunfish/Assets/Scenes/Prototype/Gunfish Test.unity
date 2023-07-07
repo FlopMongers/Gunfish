@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 375353307}
   - component: {fileID: 375353308}
   - component: {fileID: 375353309}
+  - component: {fileID: 375353310}
   m_Layer: 0
   m_Name: Gunfish Generator
   m_TagString: Untagged
@@ -377,6 +378,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: ecded77d3e85891409590b11a423b5a3, type: 2}
   debug: 1
+--- !u!114 &375353310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375353306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e35f64340ec5643b649fcb05179b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunfish: {fileID: 0}
+  barrels: []
 --- !u!1 &718065616
 GameObject:
   m_ObjectHideFlags: 0

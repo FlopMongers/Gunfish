@@ -20,6 +20,7 @@ public class Gunfish : MonoBehaviour {
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
     private GunfishRigidbody body;
+    private Gun gun;
 
     private InputActionMap inputHandler;
     
@@ -27,12 +28,15 @@ public class Gunfish : MonoBehaviour {
     private Vector2 movement;
 
     private void Start() {
+        gun = GetComponent<Gun>();
+        gun.gunfish = this;
+
         if (debug) {
             Spawn(data, LayerMask.NameToLayer("Player1"));
         }
 
         inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
-        inputHandler.FindAction("Fire").performed += ctx => Fire();
+        inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
     }
 
     private void Update() {
@@ -48,7 +52,6 @@ public class Gunfish : MonoBehaviour {
 
     private void DecrementTimers(float delta) {
         statusData.stunTimer = Mathf.Max(0f, statusData.stunTimer - delta);
-        statusData.reloadTimer = Mathf.Max(0f, statusData.reloadTimer - delta);
         statusData.flopTimer = Mathf.Max(0f, statusData.flopTimer - delta);
     }
 
@@ -80,31 +83,42 @@ public class Gunfish : MonoBehaviour {
     private void GroundedMovement(Vector2 input) {
         // reset flop timer
         statusData.flopTimer = data.flopCooldown;
-        var index = movement.x > 0f ? Mathf.RoundToInt(segments.Count * 0.25f) : Mathf.RoundToInt(segments.Count * 0.75f);
+        var index = segments.Count / 2; //movement.x > 0f ? Mathf.RoundToInt(segments.Count * 0.25f) : Mathf.RoundToInt(segments.Count * 0.75f);
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
         // flop force
-        body.ApplyForceToSegment(index, direction * data.flopForce);
+        body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
+        AerialMovement(input, data.groundTorque, ForceMode2D.Impulse);
     }
 
-    private void AerialMovement(Vector2 input) {
+    private void AerialMovement(Vector2 input, float? airTorque=null, ForceMode2D forceMode = ForceMode2D.Force) {
         var index = segments.Count / 2;
-        var direction = Mathf.Sign(movement.x);
+        var direction = Mathf.Sign(input.x);
         // rotation speed
-        body.ApplyTorqueToSegment(index, -direction * data.airTorque);
+        body.ApplyTorqueToSegment(index, -direction * airTorque.GetValueOrDefault(data.airTorque), forceMode);
     }
 
     public void Move(Vector2 movement) {
         this.movement = movement;
     }
 
-    public void Fire() {
-        if (!statusData.CanFire) return;
+    public void Fire()
+    {
+        gun.Fire();
+    }
 
-        // reset fire timer
-        statusData.reloadTimer = data.reloadTime;
+    public void Hit(int index)
+    {
+        // TODO: define this
+        // perform knockback
+        // damage health
+        // apply any effects
+        // spawn fx
+    }
+
+    public void Kickback(float kickback) { 
         var direction = (segments[1].transform.position - segments[0].transform.position).normalized;
         // gun kickback
-        body.ApplyForceToSegment(0, direction * data.gunKickback);
+        body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
     }
 
     public void Spawn(GunfishData data, LayerMask layer) {
@@ -120,6 +134,17 @@ public class Gunfish : MonoBehaviour {
 
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
+
+        // TODO: initialize gun position and rotation
+        foreach (TransformTuple tuple in data.gunBarrels)
+        {
+            // spawn 
+            var barrel = new GameObject("barrel").transform;
+            barrel.parent = segments[0].transform;
+            barrel.localPosition = tuple.position;
+            barrel.localEulerAngles = Vector3.forward * tuple.rotation;
+            gun.barrels.Add(barrel);
+        }
     }
 
     public void Despawn(bool animated) {
