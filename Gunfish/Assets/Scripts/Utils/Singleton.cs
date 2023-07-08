@@ -24,8 +24,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 	/// <summary>
 	/// Awake method to associate singleton with instance
 	/// </summary>
-	protected virtual void Awake()
-	{
+	protected virtual void Awake() {
 		if (instanceExists)
 		{
 			Destroy(gameObject);

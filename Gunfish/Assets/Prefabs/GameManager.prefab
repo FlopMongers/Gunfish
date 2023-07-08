@@ -82,10 +82,10 @@ MonoBehaviour:
   m_JoinAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: 8f542640-3c01-42b6-96b1-d3fa11e656ec
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -159,7 +159,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c488847fb97bd34aa4ebab60dfc6cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameMode_List: []
+  GameMode_List:
+  - {fileID: 11400000, guid: e92aa6cab27649d4ca920ea07c9f4c89, type: 2}
+  - {fileID: 11400000, guid: 74ca55c92a05245eb85abfbc8491cd84, type: 2}
+  Gunfish_List:
+  - {fileID: 11400000, guid: 097afb333d13663499f4f2a0cd056a26, type: 2}
+  - {fileID: 11400000, guid: 097afb333d13663499f4f2a0cd056a26, type: 2}
+  - {fileID: 11400000, guid: 097afb333d13663499f4f2a0cd056a26, type: 2}
+  - {fileID: 11400000, guid: 097afb333d13663499f4f2a0cd056a26, type: 2}
+  selectedGameMode: {fileID: 0}
   matchManager: {fileID: 0}
   levelManager: {fileID: 0}
   player: {fileID: 0}

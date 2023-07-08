@@ -1,15 +1,22 @@
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using UnityEngine;
 
 public class SplashMenuPage : IMenuPage {
     private MenuPageContext menuContext;
 
     public void OnEnable(MenuPageContext context) {
-        context.actionMap.FindAction("Any").performed += OnAnyKey;
+        menuContext = context;
+
+        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+            playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
+        }
     }
 
     public void OnDisable(MenuPageContext context) {
-        context.actionMap.FindAction("Any").performed -= OnAnyKey;
+        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+            playerInput.currentActionMap.FindAction("Any").performed -= OnAnyKey;
+        }
     }
 
     public void OnUpdate(MenuPageContext context) {

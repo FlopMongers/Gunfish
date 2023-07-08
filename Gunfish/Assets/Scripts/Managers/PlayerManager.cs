@@ -1,24 +1,18 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Layouts;
 
 public class PlayerManager : Singleton<PlayerManager> {
+    // TODO: Replace mock device IDs
+    public static readonly int playerOneDeviceId = 1337;
+    public static readonly int playerTwoDeviceId = 1338;
+    public static readonly int playerThreeDeviceId = 1339;
+    public static readonly int playerFourDeviceId = 1340;
 
-    public List<InputDevice> PlayerDevices { get; private set; }
-
-    public void OnPlayerJoined(PlayerInput input) {
-        print($"Player joined with controller id {input.devices[0].deviceId}");
-    }
-
-    public void OnPlayerLeft(PlayerInput input) {
-        print($"Player exited with controller id {input.devices[0].deviceId}");
-    }
+    public List<PlayerInput> PlayerInputs { get; private set; }
 
     protected override void Awake() {
         base.Awake();
-        PlayerDevices = new List<InputDevice>();
+        PlayerInputs = new List<PlayerInput>();
         JoinPlayers();
     }
 
@@ -29,44 +23,50 @@ public class PlayerManager : Singleton<PlayerManager> {
         // Real devices need to be placed at specific indices.
         // Since connection order is not guaranteed, have to have capacity ready.
         if (GameManager.debug == false) {
-            PlayerDevices.Add(null);
-            PlayerDevices.Add(null);
-            PlayerDevices.Add(null);
-            PlayerDevices.Add(null);
+            PlayerInputs.Add(null);
+            PlayerInputs.Add(null);
+            PlayerInputs.Add(null);
+            PlayerInputs.Add(null);
         }
 
-        foreach (var device in InputSystem.devices)
-        {
-            print($"{device.deviceId} - {device.displayName} - {device.description} - {device.name} - {device.path} - {device.shortDisplayName}");
-
-            if (GameManager.debug) {
-                if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard")) {
-                    PlayerDevices.Add(device);
-                    inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
-                }
-            } else {
-                // TODO: Replace mock device IDs
+        PlayerInput playerInput = null;
+        foreach (var device in InputSystem.devices) {
+            if (GameManager.debug == false) {
                 // Player 1
-                if (device.deviceId == 1337) {
-                    PlayerDevices.Insert(0, device);
-                    var player = inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device);
+                if (device.deviceId == PlayerManager.playerOneDeviceId) {
+                    playerInput = inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device);
                 }
                 // Player 2
-                else if (device.deviceId == 1338) {
-                    PlayerDevices.Insert(1, device);
-                    inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device);
+                else if (device.deviceId == PlayerManager.playerTwoDeviceId) {
+                    playerInput = inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device);
                 }
                 // Player 3
-                else if (device.deviceId == 1339) {
-                    PlayerDevices.Insert(2, device);
-                    inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device);
+                else if (device.deviceId == PlayerManager.playerThreeDeviceId) {
+                    playerInput = inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device);
                 }
                 // Player 4
-                else if (device.deviceId == 1340) {
-                    PlayerDevices.Insert(3, device);
-                    inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device);
+                else if (device.deviceId == PlayerManager.playerFourDeviceId) {
+                    playerInput = inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device);
+                }
+            } else {
+                if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard")) {
+                    playerInput = inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
                 }
             }
+
+            PlayerInputs.Add(playerInput);
         }
+    }
+
+    public void SetInputMode(InputMode inputMode) {
+        foreach (var playerInput in PlayerInputs) {
+            playerInput.SwitchCurrentActionMap(inputMode.ToString());
+        }
+    }
+
+    // Must be either Player or UI
+    public enum InputMode {
+        Player,
+        UI,
     }
 }

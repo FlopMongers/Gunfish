@@ -15,8 +15,12 @@ public class FishSelectMenuPage : IMenuPage {
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
-        context.actionMap.FindAction("Navigate").performed += OnNavigate;
-        context.actionMap.FindAction("Submit").performed += OnSubmit;
+
+        for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
+            var playerInput = PlayerManager.instance.PlayerInputs[i];
+            playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, i);
+            playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnNavigate(context, i);
+        }
 
         displayedFishes = new List<GunfishData>(4);
         displayedFishIndices = new List<int>(4);
@@ -31,18 +35,18 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     public void OnDisable(MenuPageContext context) {
-        context.actionMap.FindAction("Navigate").performed -= OnNavigate;
-        context.actionMap.FindAction("Submit").performed -= OnSubmit;
+        for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
+            var playerInput = PlayerManager.instance.PlayerInputs[i];
+            playerInput.currentActionMap.FindAction("Navigate").performed -= (InputAction.CallbackContext context) => OnNavigate(context, i);
+            playerInput.currentActionMap.FindAction("Submit").performed -= (InputAction.CallbackContext context) => OnNavigate(context, i);
+        }
     }
 
     public void OnUpdate(MenuPageContext context) {
 
     }
 
-    private void OnNavigate(InputAction.CallbackContext context) {
-        var device = context.control.device;
-        var deviceIndex = PlayerManager.instance.PlayerDevices.IndexOf(device);
-
+    private void OnNavigate(InputAction.CallbackContext context, int playerIndex) {
         var direction = context.ReadValue<Vector2>();
         // Joystick movement should only be registered if it's a full flick
         if (direction.magnitude < 0.9f) {
@@ -52,14 +56,14 @@ public class FishSelectMenuPage : IMenuPage {
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
             if (direction.x > 0) {
-                IncrementFish(deviceIndex);
+                IncrementFish(playerIndex);
             } else {
-                DecrementFish(deviceIndex);
+                DecrementFish(playerIndex);
             }
         }
     }
 
-    private void OnSubmit(InputAction.CallbackContext context) {
+    private void OnSubmit(InputAction.CallbackContext context, int playerIndex) {
         menuContext.menu.SetState(MenuState.GunfishSelect);
     }
 

@@ -22,6 +22,7 @@ public class MainMenu : MonoBehaviour {
 
     private void Start() {
         InitMenuPageContext();
+        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.UI);
         SetState(MenuState.Splash);
     }
 

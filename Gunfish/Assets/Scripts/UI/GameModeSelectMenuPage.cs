@@ -16,8 +16,11 @@ public class GameModeSelectMenuPage : IMenuPage {
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
-        context.actionMap.FindAction("Navigate").performed += OnNavigate;
-        context.actionMap.FindAction("Submit").performed += OnSubmit;
+        
+        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+            playerInput.currentActionMap.FindAction("Navigate").performed += OnNavigate;
+            playerInput.currentActionMap.FindAction("Submit").performed += OnSubmit;
+        }
 
         gameModeImage = menuContext.document.rootVisualElement.Q<VisualElement>("gamemode-image");
         gameModeName = menuContext.document.rootVisualElement.Q<Label>("gamemode-name");
@@ -32,8 +35,10 @@ public class GameModeSelectMenuPage : IMenuPage {
     }
 
     public void OnDisable(MenuPageContext context) {
-        context.actionMap.FindAction("Navigate").performed -= OnNavigate;
-        context.actionMap.FindAction("Submit").performed -= OnSubmit;
+        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+            playerInput.currentActionMap.FindAction("Navigate").performed -= OnNavigate;
+            playerInput.currentActionMap.FindAction("Submit").performed -= OnSubmit;
+        }
     }
 
     public void OnUpdate(MenuPageContext context) {
