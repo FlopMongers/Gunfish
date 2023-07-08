@@ -359,6 +359,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 2b423b20-6bc2-40e9-ac1a-6bc5f183fc15
     m_ActionName: UI/Any[/Keyboard/anyKey]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e1d680bd-74a0-49f9-a08e-384a72a55e0d
+    m_ActionName: Player/Any[/Keyboard/anyKey]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -376,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0efc72071dcefa648adfb61f7000d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: ecded77d3e85891409590b11a423b5a3, type: 2}
+  data: {fileID: 11400000, guid: 097afb333d13663499f4f2a0cd056a26, type: 2}
   debug: 1
 --- !u!114 &375353310
 MonoBehaviour:
