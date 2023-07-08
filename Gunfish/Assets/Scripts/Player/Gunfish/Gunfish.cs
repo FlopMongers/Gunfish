@@ -40,10 +40,19 @@ public class Gunfish : MonoBehaviour {
     }
 
     private void Update() {
+
+        // if no fish then don't do ANY of this garbage
+
         renderer?.Render();
         DecrementTimers(Time.deltaTime);
 
         Move(inputHandler.FindAction("Move").ReadValue<Vector2>());
+
+        if (statusData.alive == false)
+        {
+            // kill da fish
+            Despawn(true);
+        }
     }
 
     private void FixedUpdate() {
@@ -106,13 +115,20 @@ public class Gunfish : MonoBehaviour {
         gun.Fire();
     }
 
-    public void Hit(int index)
+    public void Hit(FishHitObject hit)
     {
+        body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
+        UpdateHealth(-hit.damage);
         // TODO: define this
         // perform knockback
         // damage health
         // apply any effects
         // spawn fx
+    }
+
+    public void UpdateHealth(float amount)
+    {
+        statusData.health += amount;
     }
 
     public void Kickback(float kickback) { 
@@ -127,6 +143,7 @@ public class Gunfish : MonoBehaviour {
         }
         this.data = data;
         this.statusData = new GunfishStatusData();
+        statusData.health = data.maxHealth;
 
         generator = new GunfishGenerator(this);
 

@@ -31,9 +31,14 @@ public class GunfishData : ScriptableObject {
     public float airTorque;
     public float gunKickback;
 
+    [Header("Health")]
+    public float maxHealth;
+
     [Header("Gun")]
     public List<TransformTuple> gunBarrels = new List<TransformTuple>();
     public float gunRange;
+    public float gunDamage;
+    public float gunKnockback;
 
     [Header("Dimensions")]
     [Range(0.5f, 5f)] public float length = 2f;

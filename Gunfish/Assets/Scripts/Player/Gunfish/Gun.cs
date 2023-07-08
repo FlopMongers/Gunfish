@@ -25,7 +25,6 @@ public class Gun : MonoBehaviour
 
     void DecrementTimers(float delta)
     {
-        // TODO: move to gun
         gunfish.statusData.reloadTimer = Mathf.Max(0f, gunfish.statusData.reloadTimer - delta);
     }
 
@@ -43,10 +42,10 @@ public class Gun : MonoBehaviour
 
             foreach (var hit in hits) { 
 
-                if (hit.transform?.gameObject.GetComponent<GunfishSegment>()?.gunfish != gunfish)
+                if ((hit.transform?.GetComponent<GunfishSegment>()?.gunfish ?? gunfish) != gunfish) // gameObject.GetComponent<GunfishSegment>()?.gunfish != gunfish)
                 {
                     GunfishSegment segment = hit.transform.gameObject.GetComponent<GunfishSegment>();
-                    segment.gunfish.Hit(segment.index);
+                    segment.gunfish.Hit(new FishHitObject(segment.index, hit.point, -hit.normal, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
                     break;
                 }
                 // if gunfish, hit

@@ -8,4 +8,7 @@ public class GunfishStatusData {
     public float flopTimer = 0f;
     public bool CanFlop { get => flopTimer < UnityEngine.Mathf.Epsilon; }
     public bool inputLocked = false;
+
+    public float health;
+    public bool alive { get => health > 0f; }
 }
