@@ -64,7 +64,7 @@ public class DeathMatchManager : MatchManager
             // TODO flashy ui thingy when player is eliminated
             if (remainingPlayers <= 1)
             {
-                NextLevel(remainingPlayers);
+                NextLevel();
                 //NextLevel_Event?.Invoke(remainingPlayers);
             }
         }
