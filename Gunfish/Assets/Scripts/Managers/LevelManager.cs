@@ -5,36 +5,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
-public class LevelManager: Singleton<LevelManager> {
-    private List<Scene> levels;
-    private int nextLevelIndex;
+public class LevelManager: PersistentSingleton<LevelManager> {
 
     public GameEvent FinishLoadLevel_Event;
-
-    public void SetLevelList(List<Scene> levels, bool randomize) {
-        this.levels = levels;
-        nextLevelIndex = 0;
-
-        if (randomize) {
-            this.levels = this.levels.OrderBy(level => Random.value).ToList();
-        }
-    }
+    public GameEvent StartPlay_Event;
 
     public void LoadMainMenu() {
-        SceneManager.LoadScene("MainMenu");
-    }
-
-    public void LoadNextLevel() {
-        if (nextLevelIndex < levels.Count) {
-            // TODO, add actual async loading with UI and stuff
-            SceneManager.LoadScene(levels[nextLevelIndex].name);
-            FinishLoadLevel_Event?.Invoke();
-        } else {
-            LoadStats();
-        }
+         LoadScene("MainMenu");
     }
 
     public void LoadStats() {
-        SceneManager.LoadScene("Stats");
+        LoadScene("Stats");
+    }
+
+    public void LoadLevel(string levelName)
+    {
+        LoadScene(levelName);
+        FinishLoadLevel_Event?.Invoke();
+        StartPlay_Event?.Invoke();
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 }

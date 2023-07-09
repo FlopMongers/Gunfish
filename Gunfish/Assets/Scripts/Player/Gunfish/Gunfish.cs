@@ -4,10 +4,11 @@ using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
 
 public class Gunfish : MonoBehaviour {
-    public static Gunfish Instantiate(GunfishData data, Vector3 position, LayerMask layer) {
+    public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
         var instance = new GameObject($"Player{layer.value - 5}GunfishHandler");
         instance.transform.SetPositionAndRotation(position, Quaternion.identity);
         var gunfish = instance.AddComponent<Gunfish>();
+        gunfish.player = player;
         gunfish.Spawn(data, layer);
         return gunfish;
     }
@@ -23,7 +24,10 @@ public class Gunfish : MonoBehaviour {
     private Gun gun;
 
     private InputActionMap inputHandler;
-    
+
+    private Player player;
+    public PlayerGameEvent OnDeath;
+    bool killed; 
 
     private Vector2 movement;
 
@@ -35,6 +39,7 @@ public class Gunfish : MonoBehaviour {
             Spawn(data, LayerMask.NameToLayer("Player1"));
         }
 
+        killed = false;
         inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
         inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
     }
@@ -42,17 +47,22 @@ public class Gunfish : MonoBehaviour {
     private void Update() {
 
         // if no fish then don't do ANY of this garbage
-
-        renderer?.Render();
-        DecrementTimers(Time.deltaTime);
-
-        Move(inputHandler.FindAction("Move").ReadValue<Vector2>());
+        if (killed == true)
+            return;
 
         if (statusData.alive == false)
         {
             // kill da fish
             Despawn(true);
+            killed = true;
+            OnDeath?.Invoke(player);
+            return;
         }
+
+        renderer?.Render();
+        DecrementTimers(Time.deltaTime);
+
+        Move(inputHandler.FindAction("Move").ReadValue<Vector2>());
     }
 
     private void FixedUpdate() {
@@ -65,8 +75,6 @@ public class Gunfish : MonoBehaviour {
     }
 
     private void Movement() {
-        DebugMovement();
-
         if (statusData.IsStunned || !statusData.CanFlop) return;
 
         if (movement.sqrMagnitude > Mathf.Epsilon) {
@@ -75,17 +83,6 @@ public class Gunfish : MonoBehaviour {
             } else {
                 AerialMovement(movement);
             }
-
-        }
-    }
-
-    private void DebugMovement() {
-        if (!debug) return;
-
-        if (Input.GetMouseButton(0)) {
-            var targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var targetSegment = segments[segments.Count / 2];
-            targetSegment.GetComponent<Rigidbody2D>().AddForce(data.mass * 5f * (targetPos - targetSegment.transform.position));
         }
     }
 
@@ -119,11 +116,6 @@ public class Gunfish : MonoBehaviour {
     {
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
-        // TODO: define this
-        // perform knockback
-        // damage health
-        // apply any effects
-        // spawn fx
     }
 
     public void UpdateHealth(float amount)

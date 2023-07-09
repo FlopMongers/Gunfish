@@ -29,7 +29,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
 
     public void SpawnGunfish(Vector3 spawnPosition) {
         var layer = LayerMask.NameToLayer($"Player{playerNumber}");
-        gunfish = Gunfish.Instantiate(gunfishData, spawnPosition, layer);
+        gunfish = Gunfish.Instantiate(gunfishData, spawnPosition, this, layer);
 
         input.defaultActionMap = "Player";
     }
