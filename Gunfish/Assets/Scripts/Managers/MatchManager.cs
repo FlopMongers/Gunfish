@@ -32,7 +32,7 @@ public class MatchManager : MonoBehaviour
 
     public virtual void StartLevel()
     {
-        foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("SpawnPoint"))
+        foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn"))
         {
             spawnPoints.Add(spawnPoint.transform);
         }

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Deathmatch
   m_EditorClassIdentifier: 
   image: {fileID: 2800000, guid: fd12dbe3b63ae464f824b4a74c0e1766, type: 3}
-  matchManagerPrefab: {fileID: 0}
+  matchManagerPrefab: {fileID: 2937828553953042796, guid: 6ff35f33febb54c4aac395666397093f,
+    type: 3}
   gameUIObject: {fileID: 0}
