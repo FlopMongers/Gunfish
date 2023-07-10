@@ -24,7 +24,11 @@ MonoBehaviour:
   flopForce: 5
   groundTorque: 5
   airTorque: 5
-  gunKickback: 8
+  maxAerialAngularVelocity: 15
+  maxUnderwaterVelocity: 20
+  underwaterForce: 200
+  underwaterTorque: 4
+  gunKickback: 12
   maxHealth: 10
   gunBarrels:
   - position: {x: 0, y: 0}

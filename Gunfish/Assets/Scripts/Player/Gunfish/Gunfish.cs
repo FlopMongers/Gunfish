@@ -77,11 +77,19 @@ public class Gunfish : MonoBehaviour {
     private void Movement() {
         if (statusData.IsStunned || !statusData.CanFlop) return;
 
+        // if underwater
+        
         if (movement.sqrMagnitude > Mathf.Epsilon) {
             if (body.Grounded) {
                 GroundedMovement(movement);
-            } else {
-                AerialMovement(movement);
+            } 
+            else if (body.underwater)
+            {
+                RotateMovement(movement, data.underwaterTorque);
+            } 
+            else
+            {
+                RotateMovement(movement);
             }
         }
     }
@@ -93,14 +101,15 @@ public class Gunfish : MonoBehaviour {
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
         // flop force
         body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
-        AerialMovement(input, data.groundTorque, ForceMode2D.Impulse);
+        RotateMovement(input, data.groundTorque, ForceMode2D.Impulse);
     }
 
-    private void AerialMovement(Vector2 input, float? airTorque=null, ForceMode2D forceMode = ForceMode2D.Force) {
+    private void RotateMovement(Vector2 input, float? airTorque=null, ForceMode2D forceMode = ForceMode2D.Force) {
         var index = segments.Count / 2;
         var direction = Mathf.Sign(input.x);
         // rotation speed
-        body.ApplyTorqueToSegment(index, -direction * airTorque.GetValueOrDefault(data.airTorque), forceMode);
+        if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[index].body.angularVelocity) || body.segments[index].body.angularVelocity < data.maxAerialAngularVelocity)
+            body.ApplyTorqueToSegment(index, -direction * airTorque.GetValueOrDefault(data.airTorque), forceMode);
     }
 
     public void Move(Vector2 movement) {
@@ -109,7 +118,16 @@ public class Gunfish : MonoBehaviour {
 
     public void Fire()
     {
-        gun.Fire();
+        // if underwater, then zoom
+        int index = segments.Count / 2;
+        if (body.underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity)
+        {
+            body.ApplyForceToSegment(index, segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
+        }
+        else
+        {
+            gun.Fire();
+        }
     }
 
     public void Hit(FishHitObject hit)

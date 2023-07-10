@@ -29,6 +29,10 @@ public class GunfishData : ScriptableObject {
     public float flopForce;
     public float groundTorque;
     public float airTorque;
+    public float maxAerialAngularVelocity;
+    public float maxUnderwaterVelocity;
+    public float underwaterForce;
+    public float underwaterTorque;
     public float gunKickback;
 
     [Header("Health")]
