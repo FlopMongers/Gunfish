@@ -16,8 +16,9 @@ public struct FishSegment {
 }
 
 public class GunfishRigidbody {
-    private List<FishSegment> segments;
+    public List<FishSegment> segments;
     private int groundMask;
+    public bool underwater;
 
     public bool Grounded {
         get {
@@ -27,6 +28,18 @@ public class GunfishRigidbody {
             }
             return false;
         }
+    }
+
+    // set underwater
+    public void SetUnderwater(bool underwater)
+    {
+        this.underwater = underwater;
+        // if underwater
+        // turn off gravity
+        // add rb drag
+        // else
+        // turn on gravity
+        // remove additive drag
     }
 
     public GunfishRigidbody(List<GameObject> segments) {
