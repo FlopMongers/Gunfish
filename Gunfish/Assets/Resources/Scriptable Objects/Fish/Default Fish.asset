@@ -36,6 +36,8 @@ MonoBehaviour:
   gunRange: 10
   gunDamage: 4
   gunKnockback: 5
+  gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
+    type: 3}
   length: 2
   width:
     serializedVersion: 2

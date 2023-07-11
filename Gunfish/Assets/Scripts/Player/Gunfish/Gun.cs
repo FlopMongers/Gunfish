@@ -9,7 +9,7 @@ public class Gun : MonoBehaviour
 
     public Gunfish gunfish;
 
-    public List<Transform> barrels = new List<Transform>();
+    public List<GunBarrel> barrels = new List<GunBarrel>();
 
     // Start is called before the first frame update
     void Start()
@@ -35,22 +35,36 @@ public class Gun : MonoBehaviour
         // reset fire timer
         gunfish.statusData.reloadTimer = gunfish.data.reloadTime;
         gunfish.Kickback(gunfish.data.gunKickback);
+        Vector3 endPoint;
 
-        foreach (Transform barrel in barrels)
+        foreach (GunBarrel barrel in barrels)
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.position, barrel.right, gunfish.data.gunRange, layerMask);
+            FX_Spawner.instance?.SpawnFX(FXType.Bang, barrel.transform.position, Quaternion.LookRotation(barrel.transform.forward, barrel.transform.up));
+            RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gunRange, layerMask);
+            endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gunRange;
 
-            foreach (var hit in hits) { 
+            foreach (var hit in hits) {
 
-                if ((hit.transform?.GetComponent<GunfishSegment>()?.gunfish ?? gunfish) != gunfish) // gameObject.GetComponent<GunfishSegment>()?.gunfish != gunfish)
+                GunfishSegment fishHit = hit.transform.GetComponent<GunfishSegment>();
+                if (fishHit != null) {
+                    if (fishHit.gunfish != gunfish) // gameObject.GetComponent<GunfishSegment>()?.gunfish != gunfish)
+                    {
+                        GunfishSegment segment = hit.transform.gameObject.GetComponent<GunfishSegment>();
+                        segment.gunfish.Hit(new FishHitObject(segment.index, hit.point, -hit.normal, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                        endPoint = hit.point;
+                        break;
+                    }
+                }
+                else
                 {
-                    GunfishSegment segment = hit.transform.gameObject.GetComponent<GunfishSegment>();
-                    segment.gunfish.Hit(new FishHitObject(segment.index, hit.point, -hit.normal, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                    FX_Spawner.instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
+                    endPoint = hit.point;
                     break;
                 }
                 // if gunfish, hit
                 // if ground, spawn fx
             }
+            barrel.Flash(endPoint);
         }
     }
 }

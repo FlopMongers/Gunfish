@@ -43,6 +43,7 @@ public class GunfishData : ScriptableObject {
     public float gunRange;
     public float gunDamage;
     public float gunKnockback;
+    public GameObject gunBarrelPrefab;
 
     [Header("Dimensions")]
     [Range(0.5f, 5f)] public float length = 2f;

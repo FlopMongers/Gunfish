@@ -53,6 +53,7 @@ public class Gunfish : MonoBehaviour {
         if (statusData.alive == false)
         {
             // kill da fish
+            FX_Spawner.instance?.SpawnFX(FXType.Fish_Death, segments[segments.Count / 2].transform.position, Quaternion.identity);
             Despawn(true);
             killed = true;
             OnDeath?.Invoke(player);
@@ -102,6 +103,8 @@ public class Gunfish : MonoBehaviour {
         // flop force
         body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
         RotateMovement(input, data.groundTorque, ForceMode2D.Impulse);
+        // play flop
+        FX_Spawner.instance?.SpawnFX(FXType.Flop, segments[index].transform.position, Quaternion.identity);
     }
 
     private void RotateMovement(Vector2 input, float? airTorque=null, ForceMode2D forceMode = ForceMode2D.Force) {
@@ -132,6 +135,7 @@ public class Gunfish : MonoBehaviour {
 
     public void Hit(FishHitObject hit)
     {
+        FX_Spawner.instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
     }
@@ -165,11 +169,11 @@ public class Gunfish : MonoBehaviour {
         foreach (TransformTuple tuple in data.gunBarrels)
         {
             // spawn 
-            var barrel = new GameObject("barrel").transform;
+            var barrel = Instantiate(data.gunBarrelPrefab).transform; // new GameObject("barrel").transform;
             barrel.parent = segments[0].transform;
             barrel.localPosition = tuple.position;
             barrel.localEulerAngles = Vector3.forward * tuple.rotation;
-            gun.barrels.Add(barrel);
+            gun.barrels.Add(barrel.gameObject.GetComponent<GunBarrel>());
         }
     }
 
