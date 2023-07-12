@@ -29,32 +29,29 @@ public class PlayerManager : Singleton<PlayerManager> {
             PlayerInputs.Add(null);
         }
 
-        PlayerInput playerInput = null;
         foreach (var device in InputSystem.devices) {
             if (GameManager.debug == false) {
                 // Player 1
                 if (device.deviceId == PlayerManager.playerOneDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device);
+                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device));
                 }
                 // Player 2
                 else if (device.deviceId == PlayerManager.playerTwoDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device);
+                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device));
                 }
                 // Player 3
                 else if (device.deviceId == PlayerManager.playerThreeDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device);
+                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device));
                 }
                 // Player 4
                 else if (device.deviceId == PlayerManager.playerFourDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device);
+                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device));
                 }
             } else {
                 if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard")) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
+                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device));
                 }
             }
-
-            PlayerInputs.Add(playerInput);
         }
     }
 
