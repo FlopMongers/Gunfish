@@ -18,9 +18,9 @@ public class FishSelectMenuPage : IMenuPage {
 
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.instance.PlayerInputs[i];
-            Debug.Log($"Adding OnNavigate(context, {i})");
-            playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, i);
-            playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, i);
+            int playerIndex = i;
+            playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
+            playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
         }
         
         displayedFishes = new List<GunfishData>();
@@ -45,8 +45,9 @@ public class FishSelectMenuPage : IMenuPage {
     public void OnDisable(MenuPageContext context) {
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.instance.PlayerInputs[i];
-            playerInput.currentActionMap.FindAction("Navigate").performed -= (InputAction.CallbackContext context) => OnNavigate(context, i);
-            playerInput.currentActionMap.FindAction("Submit").performed -= (InputAction.CallbackContext context) => OnSubmit(context, i);
+            int playerIndex = i;
+            playerInput.currentActionMap.FindAction("Navigate").performed -= (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
+            playerInput.currentActionMap.FindAction("Submit").performed -= (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
         }
     }
 
@@ -57,7 +58,7 @@ public class FishSelectMenuPage : IMenuPage {
     private void OnNavigate(InputAction.CallbackContext context, int deviceIndex) {
         var direction = context.ReadValue<Vector2>();
         // Joystick movement should only be registered if it's a full flick
-        if (direction.magnitude < 0.9f) {
+        if (direction.magnitude < 0.9f || context.canceled) {
             return;
         }
 
