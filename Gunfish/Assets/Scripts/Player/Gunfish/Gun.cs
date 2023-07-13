@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        layerMask = LayerMask.GetMask("Gunfish", "Ground", "Default");   
+        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default");   
     }
 
     // Update is called once per frame
@@ -45,12 +45,12 @@ public class Gun : MonoBehaviour
 
             foreach (var hit in hits) {
 
-                GunfishSegment fishHit = hit.transform.GetComponent<GunfishSegment>();
-                if (fishHit != null) {
-                    if (fishHit.gunfish != gunfish) // gameObject.GetComponent<GunfishSegment>()?.gunfish != gunfish)
+                GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
+                if (fishSegment != null) {
+                    bool fishHit = (MatchManager.instance != null) ? MatchManager.instance.ResolveHit(this, fishSegment) : fishSegment.gunfish != gunfish;
+                    if (fishHit) // gameObject.GetComponent<GunfishSegment>()?.gunfish != gunfish)
                     {
-                        GunfishSegment segment = hit.transform.gameObject.GetComponent<GunfishSegment>();
-                        segment.gunfish.Hit(new FishHitObject(segment.index, hit.point, -hit.normal, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                        fishSegment.gunfish.Hit(new FishHitObject(fishSegment.index, hit.point, -hit.normal, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
                         endPoint = hit.point;
                         break;
                     }

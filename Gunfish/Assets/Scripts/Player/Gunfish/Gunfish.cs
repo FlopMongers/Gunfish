@@ -31,12 +31,14 @@ public class Gunfish : MonoBehaviour {
 
     private Vector2 movement;
 
+    public int playerNum;
+
     private void Start() {
         gun = GetComponent<Gun>();
         gun.gunfish = this;
 
         if (debug) {
-            Spawn(data, LayerMask.NameToLayer("Player1"));
+            Spawn(data, LayerMask.NameToLayer($"Player{playerNum}"));
         }
 
         killed = false;
@@ -76,7 +78,7 @@ public class Gunfish : MonoBehaviour {
     }
 
     private void Movement() {
-        if (statusData.IsStunned || !statusData.CanFlop) return;
+        if (statusData.alive == false || statusData.IsStunned || !statusData.CanFlop) return;
 
         // if underwater
         
@@ -121,6 +123,8 @@ public class Gunfish : MonoBehaviour {
 
     public void Fire()
     {
+        if (statusData.alive == false)
+            return;
         // if underwater, then zoom
         int index = segments.Count / 2;
         if (body.underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity)
@@ -178,6 +182,7 @@ public class Gunfish : MonoBehaviour {
     }
 
     public void Despawn(bool animated) {
+        gun.barrels = new List<GunBarrel>();
         DespawnSegments(animated);
     }
 

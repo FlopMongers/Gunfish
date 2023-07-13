@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class MatchManager : MonoBehaviour
+public class MatchManager : Singleton<MatchManager>
 {
     protected GameParameters parameters;
     protected int currentLevel;
@@ -69,5 +69,10 @@ public class MatchManager : MonoBehaviour
         {
             LevelManager.instance.LoadStats();
         }
+    }
+
+    public virtual bool ResolveHit(Gun gun, GunfishSegment segment)
+    {
+        return gun.gunfish != segment.gunfish;
     }
 }
