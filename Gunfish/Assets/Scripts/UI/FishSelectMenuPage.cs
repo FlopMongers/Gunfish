@@ -62,8 +62,6 @@ public class FishSelectMenuPage : IMenuPage {
             return;
         }
 
-        Debug.Log($"OnNavigate for {deviceIndex}");
-
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
             if (direction.x > 0) {
@@ -80,14 +78,12 @@ public class FishSelectMenuPage : IMenuPage {
 
     private void IncrementFish(int deviceIndex) {
         // Increments before modulus
-        Debug.Log($"IncrementFish for {deviceIndex}");
         displayedFishIndices[deviceIndex] = (++displayedFishIndices[deviceIndex]) % fishes.Count;
         DisplayFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
     }
 
     private void DecrementFish(int deviceIndex) {
         // Decrements before comparison
-        Debug.Log($"DecrementFish for {deviceIndex}");
         if (--displayedFishIndices[deviceIndex] < 0) {
             displayedFishIndices[deviceIndex] += fishes.Count;
         }
@@ -96,5 +92,6 @@ public class FishSelectMenuPage : IMenuPage {
 
     private void DisplayFish(int deviceIndex, GunfishData fish) {
         displayedFishes[deviceIndex] = fish;
+        Debug.Log("Fish: " + fish.name);
     }
 }
