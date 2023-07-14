@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d43ac47a9ef8aa64d9aa82ab44404374, type: 3}
-  m_Name: Redfish
+  m_Name: Flyfish
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: fc9d8479589497b4285c27626e52b828,
     type: 3}
-  spriteMat: {fileID: 2100000, guid: 6fb763ebe6d5f2447ae99e47dfedc015, type: 2}
+  spriteMat: {fileID: 2100000, guid: d42ec17606b9ab7429e81a46dbb5ed19, type: 2}
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
   mass: 1
   fixedJointDamping: 0.219

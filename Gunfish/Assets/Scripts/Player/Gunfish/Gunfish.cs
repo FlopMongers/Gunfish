@@ -27,33 +27,32 @@ public class Gunfish : MonoBehaviour {
 
     private Player player;
     public PlayerGameEvent OnDeath;
-    bool killed; 
+    private bool killed; 
+    private bool spawned;
 
     private Vector2 movement;
 
     public int playerNum;
 
     private void Start() {
+        statusData = new GunfishStatusData();
+
         gun = GetComponent<Gun>();
         gun.gunfish = this;
 
-        if (debug) {
-            Spawn(data, LayerMask.NameToLayer($"Player{playerNum}"));
-        }
-
         killed = false;
+        spawned = false;
         inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
         inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
     }
 
     private void Update() {
-
-        // if no fish then don't do ANY of this garbage
-        if (killed == true)
+        
+        if (killed || !spawned) {
             return;
+        }
 
-        if (statusData.alive == false)
-        {
+        if (!statusData.alive) {
             // kill da fish
             FX_Spawner.instance?.SpawnFX(FXType.Fish_Death, segments[segments.Count / 2].transform.position, Quaternion.identity);
             Despawn(true);

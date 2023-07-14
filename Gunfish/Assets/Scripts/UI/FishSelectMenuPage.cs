@@ -16,11 +16,19 @@ public class FishSelectMenuPage : IMenuPage {
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
 
+        fishImages = new List<VisualElement>();
+
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.instance.PlayerInputs[i];
             int playerIndex = i;
             playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
             playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
+        
+            var image = menuContext.document.rootVisualElement
+                .Q<VisualElement>($"FishSelector{playerIndex + 1}")
+                .Q<VisualElement>("fish-image");
+            
+            fishImages.Add(image);
         }
         
         displayedFishes = new List<GunfishData>();
@@ -73,7 +81,7 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context, int deviceIndex) {
-        menuContext.menu.SetState(MenuState.GunfishSelect);
+        LevelManager.instance.LoadLevel("Player Loading");
     }
 
     private void IncrementFish(int deviceIndex) {
@@ -91,7 +99,9 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void DisplayFish(int deviceIndex, GunfishData fish) {
-        displayedFishes[deviceIndex] = fish;
-        Debug.Log("Fish: " + fish.name);
+        var material = fish.spriteMat;
+        var texture = material.mainTexture as Texture2D;
+        
+        fishImages[deviceIndex].style.backgroundImage = texture;
     }
 }

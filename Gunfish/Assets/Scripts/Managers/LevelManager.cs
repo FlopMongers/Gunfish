@@ -6,27 +6,25 @@ using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class LevelManager: PersistentSingleton<LevelManager> {
-
     public GameEvent FinishLoadLevel_Event;
     public GameEvent StartPlay_Event;
 
     public void LoadMainMenu() {
-         LoadScene("MainMenu");
+        LoadScene("MainMenu");
     }
 
     public void LoadStats() {
         LoadScene("Stats");
     }
 
-    public void LoadLevel(string levelName)
-    {
+    public void LoadLevel(string levelName) {
         LoadScene(levelName);
         FinishLoadLevel_Event?.Invoke();
         StartPlay_Event?.Invoke();
+        PlayerManager.instance.LoadPlayers();
     }
 
-    public void LoadScene(string sceneName)
-    {
+    private void LoadScene(string sceneName) {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 }

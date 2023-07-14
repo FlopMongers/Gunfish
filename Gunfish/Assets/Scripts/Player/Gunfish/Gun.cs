@@ -19,12 +19,13 @@ public class Gun : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {        
         DecrementTimers(Time.deltaTime);
     }
 
     void DecrementTimers(float delta)
     {
+        if (gunfish == null || gunfish.statusData == null) return;
         gunfish.statusData.reloadTimer = Mathf.Max(0f, gunfish.statusData.reloadTimer - delta);
     }
 

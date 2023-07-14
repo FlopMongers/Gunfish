@@ -44,8 +44,7 @@ public class MainMenu : MonoBehaviour {
             return;
         }
 
-        if (page != null)
-        {
+        if (page != null) {
             page.OnDisable(context);
         }
 

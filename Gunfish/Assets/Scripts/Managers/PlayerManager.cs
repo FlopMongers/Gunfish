@@ -9,10 +9,12 @@ public class PlayerManager : Singleton<PlayerManager> {
     public static readonly int playerFourDeviceId = 1340;
 
     public List<PlayerInput> PlayerInputs { get; private set; }
+    public List<GunfishData> PlayerFish { get; private set; }
 
     protected override void Awake() {
         base.Awake();
         PlayerInputs = new List<PlayerInput>();
+        PlayerFish = new List<GunfishData>();
         JoinPlayers();
     }
 
@@ -30,6 +32,7 @@ public class PlayerManager : Singleton<PlayerManager> {
         }
 
         foreach (var device in InputSystem.devices) {
+            PlayerFish.Add(null);
             if (GameManager.debug == false) {
                 // Player 1
                 if (device.deviceId == PlayerManager.playerOneDeviceId) {
@@ -53,6 +56,23 @@ public class PlayerManager : Singleton<PlayerManager> {
                 }
             }
         }
+    }
+
+    public void LoadPlayers() {
+        foreach (var playerInput in PlayerInputs) {
+            var index = PlayerInputs.IndexOf(playerInput);
+            var gunfish = playerInput.GetComponent<Gunfish>();
+            gunfish.playerNum = index + 1;
+            gunfish.data = PlayerFish[index];
+            gunfish.Spawn(gunfish.data, gunfish.playerNum);
+        }
+    }
+
+    public void SetPlayerFish(int playerIndex, GunfishData data) {
+        if (playerIndex < 0 || playerIndex >= PlayerFish.Count) {
+            return;
+        }
+        PlayerFish[playerIndex] = data;
     }
 
     public void SetInputMode(InputMode inputMode) {
