@@ -88,11 +88,8 @@ public class Gunfish : MonoBehaviour {
             else if (body.underwater)
             {
                 RotateMovement(movement, data.underwaterTorque);
-            } 
-            else
-            {
-                RotateMovement(movement);
             }
+            RotateMovement(movement);
         }
     }
 
@@ -112,7 +109,7 @@ public class Gunfish : MonoBehaviour {
         var index = segments.Count / 2;
         var direction = Mathf.Sign(input.x);
         // rotation speed
-        if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[index].body.angularVelocity) || body.segments[index].body.angularVelocity < data.maxAerialAngularVelocity)
+        if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[index].body.angularVelocity) || Mathf.Abs(body.segments[index].body.angularVelocity) < data.maxAerialAngularVelocity)
             body.ApplyTorqueToSegment(index, -direction * airTorque.GetValueOrDefault(data.airTorque), forceMode);
     }
 

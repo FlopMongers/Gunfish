@@ -23,8 +23,8 @@ MonoBehaviour:
   springJointFrequency: 16
   flopForce: 5
   groundTorque: 5
-  airTorque: 5
-  maxAerialAngularVelocity: 15
+  airTorque: 20
+  maxAerialAngularVelocity: 50
   maxUnderwaterVelocity: 20
   underwaterForce: 200
   underwaterTorque: 4
