@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
 
 public class Gunfish : MonoBehaviour {

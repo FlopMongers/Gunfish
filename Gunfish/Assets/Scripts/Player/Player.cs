@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
 public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUIController {
     public static int playerCount = 0;

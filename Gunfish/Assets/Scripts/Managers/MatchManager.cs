@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Linq;
 
-public class MatchManager : Singleton<MatchManager>
-{
+public class MatchManager {
     protected GameParameters parameters;
     protected int currentLevel;
 
@@ -13,12 +9,7 @@ public class MatchManager : Singleton<MatchManager>
 
     private int nextLevelIndex;
 
-    protected virtual void Start()
-    {
-    }
-
-    public virtual void Initialize(GameParameters parameters)
-    {
+    public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
         LevelManager.instance.FinishLoadLevel_Event += StartLevel;
         LevelManager.instance.StartPlay_Event += StartPlay;
@@ -26,35 +17,31 @@ public class MatchManager : Singleton<MatchManager>
         NextLevel();
     }
 
-    public virtual void SpawnPlayer(Player player)
-    {
+    public virtual void SpawnPlayer(Player player) {
+
     }
 
-    public virtual void StartLevel()
-    {
-        foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn"))
-        {
+    public virtual void StartLevel() {
+        foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn")) {
             spawnPoints.Add(spawnPoint.transform);
         }
-        // freeze the players
-        foreach (var player in parameters.activePlayers)
-        {
+        
+        // Freeze the players
+        foreach (var player in parameters.activePlayers) {
             player.FreezeControls = true;
         }
     }
 
     
-    public virtual void StartPlay()
-    {
+    public virtual void StartPlay() {
         // unfreeze players
-        foreach (var player in parameters.activePlayers)
-        {
+        foreach (var player in parameters.activePlayers) {
             player.FreezeControls = false;
         }
     }
 
-    public virtual void OnPlayerDeath(Player player)
-    {
+    public virtual void OnPlayerDeath(Player player) {
+
     }
 
     public virtual void NextLevel()

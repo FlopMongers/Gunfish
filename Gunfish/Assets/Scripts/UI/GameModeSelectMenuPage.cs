@@ -28,7 +28,7 @@ public class GameModeSelectMenuPage : IMenuPage {
         nextButton = menuContext.document.rootVisualElement.Q<Button>("next-button");
         
         displayedGameModeIndex = 0;
-        gameModes = GameManager.instance.GameMode_List;
+        gameModes = GameManager.instance.GameModeList;
         if (gameModes.Count > 0) {
             DisplayGameMode(gameModes[displayedGameModeIndex]);
         }
