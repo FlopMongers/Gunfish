@@ -8,13 +8,15 @@ public class PlayerManager : Singleton<PlayerManager> {
     public static readonly int playerThreeDeviceId = 21;
     public static readonly int playerFourDeviceId = 22;
 
-    public List<PlayerInput> PlayerInputs { get; private set; }
+    public List<Player> Players { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
+    public List<PlayerInput> PlayerInputs { get; private set; }
 
     protected override void Awake() {
         base.Awake();
-        PlayerInputs = new List<PlayerInput>();
+        Players = new List<Player>();
         PlayerFish = new List<GunfishData>();
+        PlayerInputs = new List<PlayerInput>();
         JoinPlayers();
     }
 
@@ -29,30 +31,45 @@ public class PlayerManager : Singleton<PlayerManager> {
             PlayerInputs.Add(null);
             PlayerInputs.Add(null);
             PlayerInputs.Add(null);
+            Players.Add(null);
+            Players.Add(null);
+            Players.Add(null);
+            Players.Add(null);
         }
 
+        PlayerInput playerInput;
         foreach (var device in InputSystem.devices) {
             PlayerFish.Add(null);
             if (GameManager.debug == false) {
                 // Player 1
                 if (device.deviceId == PlayerManager.playerOneDeviceId) {
-                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device));
+                    playerInput = inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device);
+                    PlayerInputs.Add(playerInput);
+                    Players.Add(playerInput.GetComponent<Player>());
                 }
                 // Player 2
                 else if (device.deviceId == PlayerManager.playerTwoDeviceId) {
-                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device));
+                    playerInput = inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device);
+                    PlayerInputs.Add(playerInput);
+                    Players.Add(playerInput.GetComponent<Player>());
                 }
                 // Player 3
                 else if (device.deviceId == PlayerManager.playerThreeDeviceId) {
-                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device));
+                    playerInput = inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device);
+                    PlayerInputs.Add(playerInput);
+                    Players.Add(playerInput.GetComponent<Player>());
                 }
                 // Player 4
                 else if (device.deviceId == PlayerManager.playerFourDeviceId) {
-                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device));
+                    playerInput = inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device);
+                    PlayerInputs.Add(playerInput);
+                    Players.Add(playerInput.GetComponent<Player>());
                 }
             } else {
                 if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard") || device.deviceId == 19 || device.deviceId == 20) {
-                    PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device));
+                    playerInput = inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
+                    PlayerInputs.Add(playerInput);
+                    Players.Add(playerInput.GetComponent<Player>());
                 }
             }
         }

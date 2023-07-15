@@ -21,7 +21,7 @@ public class GameManager : PersistentSingleton<GameManager> {
     public GameMode selectedGameMode;
     
     private Dictionary<GameModeType, GameMode> gameModeMap = new Dictionary<GameModeType, GameMode>();
-    private MatchManager matchManager;
+    public MatchManager MatchManager { get; private set; }
 
 
     protected override void Awake() {
@@ -32,11 +32,16 @@ public class GameManager : PersistentSingleton<GameManager> {
     }
 
     public void InitializeGame(GameModeType gameMode, List<Scene> scenes) {
-        // spawn match manager
-        matchManager = Instantiate(gameModeMap[gameMode].matchManagerPrefab).GetComponent<MatchManager>();
-        // get all active players
-        GameParameters parameters = new GameParameters(players, gameModeMap[gameMode].gameUIObject, scenes);
-        matchManager.Initialize(parameters);
+        // Spawn match manager
+        if (gameMode == GameModeType.DeathMatch) {
+            MatchManager = new DeathMatchManager();
+        } else if (gameMode == GameModeType.Race) {
+            MatchManager = null;
+        }
+        
+        // Get all active players
+        GameParameters parameters = new GameParameters(PlayerManager.instance.Players, gameModeMap[gameMode].gameUIObject, scenes);
+        MatchManager.Initialize(parameters);
     }
 
 
