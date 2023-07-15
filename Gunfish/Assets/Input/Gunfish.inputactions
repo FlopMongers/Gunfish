@@ -770,6 +770,17 @@
                 },
                 {
                     "name": "",
+                    "id": "34eaafa0-74ad-47e2-9806-0a24c2033924",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "82627dcc-3b13-4ba9-841d-e4b746d6553e",
                     "path": "*/{Cancel}",
                     "interactions": "",
@@ -918,6 +929,28 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Touch;Gamepad;Joystick;XR",
+                    "action": "Any",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6a70e52-d343-434f-8e59-4153f2fc5027",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Any",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5cabdda3-7332-4dd8-af49-7830a7a628da",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Any",
                     "isComposite": false,
                     "isPartOfComposite": false

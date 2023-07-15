@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : Singleton<PlayerManager> {
     // TODO: Replace mock device IDs
-    public static readonly int playerOneDeviceId = 1337;
-    public static readonly int playerTwoDeviceId = 1338;
-    public static readonly int playerThreeDeviceId = 1339;
-    public static readonly int playerFourDeviceId = 1340;
+    public static readonly int playerOneDeviceId = 19;
+    public static readonly int playerTwoDeviceId = 20;
+    public static readonly int playerThreeDeviceId = 21;
+    public static readonly int playerFourDeviceId = 22;
 
     public List<PlayerInput> PlayerInputs { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
@@ -51,7 +51,7 @@ public class PlayerManager : Singleton<PlayerManager> {
                     PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device));
                 }
             } else {
-                if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard")) {
+                if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard") || device.deviceId == 19 || device.deviceId == 20) {
                     PlayerInputs.Add(inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device));
                 }
             }
