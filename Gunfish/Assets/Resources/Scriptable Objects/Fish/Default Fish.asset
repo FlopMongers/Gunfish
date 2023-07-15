@@ -24,7 +24,7 @@ MonoBehaviour:
   flopForce: 5
   groundTorque: 5
   airTorque: 20
-  maxAerialAngularVelocity: 50
+  maxAerialAngularVelocity: 500
   maxUnderwaterVelocity: 20
   underwaterForce: 200
   underwaterTorque: 4
