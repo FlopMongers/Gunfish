@@ -33,8 +33,9 @@ public class Gun : MonoBehaviour {
         gunfish.Kickback(gunfish.data.gunKickback);
         Vector3 endPoint;
 
+        FX_Spawner.instance?.SpawnFX(FXType.Bang, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
+
         foreach (GunBarrel barrel in barrels) {
-            FX_Spawner.instance?.SpawnFX(FXType.Bang, barrel.transform.position, Quaternion.LookRotation(barrel.transform.forward, barrel.transform.up));
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gunRange, layerMask);
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gunRange;
 
