@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatchManager {
+public class MatchManager : MonoBehaviour {
     protected GameParameters parameters;
     protected int currentLevel;
 

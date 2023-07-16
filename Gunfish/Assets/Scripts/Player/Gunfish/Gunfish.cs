@@ -26,6 +26,7 @@ public class Gunfish : MonoBehaviour {
 
     private Player player;
     public PlayerGameEvent OnDeath;
+    public FloatGameEvent OnHealthUpdated;
     private bool killed; 
     private bool spawned;
 
@@ -142,6 +143,7 @@ public class Gunfish : MonoBehaviour {
     public void UpdateHealth(float amount)
     {
         statusData.health += amount;
+        OnHealthUpdated?.Invoke(statusData.health);
     }
 
     public void Kickback(float kickback) { 
@@ -164,6 +166,9 @@ public class Gunfish : MonoBehaviour {
 
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
+
+        int index = segments.Count / 2;
+        Instantiate(data.healthUI, segments[index].transform).GetComponent<HealthUI>().Init(this);
 
         foreach (TransformTuple tuple in data.gunBarrels)
         {

@@ -30,6 +30,7 @@ MonoBehaviour:
   underwaterTorque: 4
   gunKickback: 12
   maxHealth: 10
+  healthUI: {fileID: 37056455272102180, guid: 376611996ce3cb34389c6dca870c5607, type: 3}
   gunBarrels:
   - position: {x: 0, y: 0}
     rotation: 180
