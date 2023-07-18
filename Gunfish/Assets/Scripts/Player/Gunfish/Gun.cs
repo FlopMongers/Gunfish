@@ -42,14 +42,20 @@ public class Gun : MonoBehaviour {
             foreach (var hit in hits) {
 
                 GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
+                Shootable shootable = hit.transform.GetComponent<Shootable>();
                 if (fishSegment != null) {
                     bool fishHit = GameManager.instance.MatchManager.ResolveHit(this, fishSegment);
                     if (fishHit) {
-                        fishSegment.gunfish.Hit(new FishHitObject(fishSegment.index, hit.point, -hit.normal, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                        fishSegment.gunfish.Hit(new FishHitObject(fishSegment.index, hit.point, barrel.transform.right, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
                         endPoint = hit.point;
                         break;
                     }
-                } else {
+                }
+                else if (shootable != null) {
+                    shootable.Hit(new HitObject(hit.point, barrel.transform.right, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                    break;
+                }
+                else {
                     FX_Spawner.instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
                     endPoint = hit.point;
                     break;

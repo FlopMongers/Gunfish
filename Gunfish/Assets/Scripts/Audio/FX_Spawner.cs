@@ -11,6 +11,10 @@ public enum FXType
     Fish_Hit,
     Flop,
     Ground_Hit,
+    Sand_Flop,
+    Sand_Shoot,
+    Beachball_Shoot,
+    Beachball_Pop,
 }
 
 public class FX_Spawner : MonoBehaviour
