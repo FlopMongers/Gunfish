@@ -12,6 +12,8 @@ public class Gunfish : MonoBehaviour {
         return gunfish;
     }
 
+    public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
+
     public GunfishStatusData statusData;
     public GunfishData data;
     public bool debug = false;
@@ -36,6 +38,7 @@ public class Gunfish : MonoBehaviour {
 
     private void Start() {
         statusData = new GunfishStatusData();
+        statusData.flopForce = data.flopForce;
 
         gun = GetComponent<Gun>();
         gun.gunfish = this;
@@ -61,6 +64,11 @@ public class Gunfish : MonoBehaviour {
             return;
         }
 
+        foreach (var effect in effectMap.Values)
+        {
+            effect.Update();
+        }
+
         renderer?.Render();
         DecrementTimers(Time.deltaTime);
 
@@ -69,6 +77,23 @@ public class Gunfish : MonoBehaviour {
 
     private void FixedUpdate() {
         Movement();
+    }
+
+    public void AddEffect(Effect effect)
+    {
+        if (effectMap.ContainsKey(effect.effectType))
+        {
+            effectMap[effect.effectType].Merge(effect);
+        }
+        else
+        {
+            effectMap[effect.effectType] = effect;
+        }
+    }
+
+    public void RemoveEffect(EffectType effectType)
+    {
+        effectMap.Remove(effectType);
     }
 
     private void DecrementTimers(float delta) {

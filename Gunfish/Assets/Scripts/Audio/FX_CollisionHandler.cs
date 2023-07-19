@@ -16,6 +16,8 @@ public class EnumTuple<T, K>
 
 public class FX_CollisionHandler : Singleton<FX_CollisionHandler>
 {
+    public List<EnumTuple<MaterialType, FXType>> shootMapList = new List<EnumTuple<MaterialType, FXType>>();
+    Dictionary<MaterialType, FXType> shootMap = new Dictionary<MaterialType, FXType>();
 
     public List<EnumTuple<MaterialType, FXType>> defaultCollisionMapList = new List<EnumTuple<MaterialType, FXType>>();
     public List<EnumTuple<EnumTuple<MaterialType, MaterialType>, FXType>> collisionMapList = new List<EnumTuple<EnumTuple<MaterialType, MaterialType>, FXType>>();
@@ -35,6 +37,11 @@ public class FX_CollisionHandler : Singleton<FX_CollisionHandler>
         foreach (var elem in defaultCollisionMapList)
         {
             defaultCollisionMap[elem.key] = elem.value;
+        }
+
+        foreach (var elem in shootMapList)
+        {
+            shootMap[elem.key] = elem.value;
         }
 
         foreach (var elem in collisionMapList)

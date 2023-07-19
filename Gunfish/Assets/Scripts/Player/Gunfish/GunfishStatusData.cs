@@ -6,6 +6,7 @@ public class GunfishStatusData {
     public bool CanFire { get => reloadTimer < UnityEngine.Mathf.Epsilon && alive; }
 
     public float flopTimer = 0f;
+    public float flopForce;
     public bool CanFlop { get => flopTimer < UnityEngine.Mathf.Epsilon && alive; }
     public bool inputLocked = false;
 

@@ -19,6 +19,7 @@ public class GunfishRigidbody {
     public List<FishSegment> segments;
     private int groundMask;
     public bool underwater;
+    public GroundMaterial currentGroundMaterial;
 
     public bool Grounded {
         get {
@@ -33,13 +34,14 @@ public class GunfishRigidbody {
     // set underwater
     public void SetUnderwater(bool underwater)
     {
-        this.underwater = underwater;
-        // if underwater
-        // turn off gravity
-        // add rb drag
-        // else
-        // turn on gravity
-        // remove additive drag
+        if (underwater != this.underwater) {
+            foreach (var segment in segments)
+            {
+                segment.body.gravityScale = (underwater) ? 0f : 1f;
+                segment.body.drag += (underwater) ? 1f: -1f;
+            }
+            this.underwater = underwater;
+        }
     }
 
     public GunfishRigidbody(List<GameObject> segments) {
