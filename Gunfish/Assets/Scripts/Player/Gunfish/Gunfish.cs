@@ -1,15 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.InputSystem;
 
 public class Gunfish : MonoBehaviour {
-    public static Gunfish Instantiate(GunfishData data, Vector3 position, LayerMask layer) {
+    public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
         var instance = new GameObject($"Player{layer.value - 5}GunfishHandler");
         instance.transform.SetPositionAndRotation(position, Quaternion.identity);
         var gunfish = instance.AddComponent<Gunfish>();
+        gunfish.player = player;
         gunfish.Spawn(data, layer);
         return gunfish;
     }
+
+    public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
 
     public GunfishStatusData statusData;
     public GunfishData data;
@@ -19,70 +22,159 @@ public class Gunfish : MonoBehaviour {
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
     private GunfishRigidbody body;
+    private Gun gun;
+
+    private InputActionMap inputHandler;
+
+    private Player player;
+    public PlayerGameEvent OnDeath;
+    public FloatGameEvent OnHealthUpdated;
+    private bool killed; 
+    private bool spawned;
 
     private Vector2 movement;
 
+    public int playerNum;
+
+    private void Start() {
+        statusData = new GunfishStatusData();
+        statusData.flopForce = data.flopForce;
+
+        gun = GetComponent<Gun>();
+        gun.gunfish = this;
+
+        killed = false;
+        spawned = false;
+        inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
+        inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
+    }
+
     private void Update() {
-        renderer.Render();
+        
+        if (killed || !spawned) {
+            return;
+        }
+
+        if (!statusData.alive) {
+            // kill da fish
+            FX_Spawner.instance?.SpawnFX(FXType.Fish_Death, segments[segments.Count / 2].transform.position, Quaternion.identity);
+            Despawn(true);
+            killed = true;
+            OnDeath?.Invoke(player);
+            return;
+        }
+
+        foreach (var effect in effectMap.Values)
+        {
+            effect.Update();
+        }
+
+        renderer?.Render();
         DecrementTimers(Time.deltaTime);
+
+        Move(inputHandler.FindAction("Move").ReadValue<Vector2>());
     }
 
     private void FixedUpdate() {
         Movement();
     }
 
+    public void AddEffect(Effect effect)
+    {
+        if (effectMap.ContainsKey(effect.effectType))
+        {
+            effectMap[effect.effectType].Merge(effect);
+        }
+        else
+        {
+            effectMap[effect.effectType] = effect;
+        }
+    }
+
+    public void RemoveEffect(EffectType effectType)
+    {
+        effectMap.Remove(effectType);
+    }
+
     private void DecrementTimers(float delta) {
         statusData.stunTimer = Mathf.Max(0f, statusData.stunTimer - delta);
-        statusData.reloadTimer = Mathf.Max(0f, statusData.reloadTimer - delta);
         statusData.flopTimer = Mathf.Max(0f, statusData.flopTimer - delta);
     }
 
     private void Movement() {
-        DebugMovement();
+        if (statusData.alive == false || statusData.IsStunned || !statusData.CanFlop) return;
 
-        if (statusData.IsStunned || !statusData.CanFlop) return;
-
+        // if underwater
+        
         if (movement.sqrMagnitude > Mathf.Epsilon) {
             if (body.Grounded) {
                 GroundedMovement(movement);
-            } else {
-                AerialMovement(movement);
+            } 
+            else if (body.underwater)
+            {
+                RotateMovement(movement, data.underwaterTorque);
             }
-
-        }
-    }
-
-    private void DebugMovement() {
-        if (!debug) return;
-
-        if (Input.GetMouseButton(0)) {
-            var targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var targetSegment = segments[segments.Count / 2];
-            targetSegment.GetComponent<Rigidbody2D>().AddForce(1 * (targetPos - targetSegment.transform.position));
+            RotateMovement(movement);
         }
     }
 
     private void GroundedMovement(Vector2 input) {
-        var index = movement.x > 0f ? Mathf.RoundToInt(segments.Count * 0.25f) : Mathf.RoundToInt(segments.Count * 0.75f);
+        // reset flop timer
+        statusData.flopTimer = data.flopCooldown;
+        var index = segments.Count / 2; //movement.x > 0f ? Mathf.RoundToInt(segments.Count * 0.25f) : Mathf.RoundToInt(segments.Count * 0.75f);
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
-        body.ApplyForceToSegment(index, direction * 100f);
+        // flop force
+        body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
+        RotateMovement(input, data.groundTorque, ForceMode2D.Impulse);
+        // play flop
+        FX_Spawner.instance?.SpawnFX(FXType.Flop, segments[index].transform.position, Quaternion.identity);
     }
 
-    private void AerialMovement(Vector2 input) {
+    private void RotateMovement(Vector2 input, float? airTorque=null, ForceMode2D forceMode = ForceMode2D.Force) {
         var index = segments.Count / 2;
-        var direction = Mathf.Sign(movement.x);
-        body.ApplyTorqueToSegment(index, -direction * 3f);
+        var direction = Mathf.Sign(input.x);
+        // rotation speed
+        if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[index].body.angularVelocity) || Mathf.Abs(body.segments[index].body.angularVelocity) < data.maxAerialAngularVelocity)
+            body.ApplyTorqueToSegment(index, -direction * airTorque.GetValueOrDefault(data.airTorque), forceMode);
     }
 
     public void Move(Vector2 movement) {
         this.movement = movement;
     }
 
-    public void Fire() {
-        if (!statusData.CanFire) return;
+    public void Fire()
+    {
+        if (statusData.alive == false)
+            return;
+        // if underwater, then zoom
+        int index = segments.Count / 2;
+        if (body.underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity)
+        {
+            body.ApplyForceToSegment(index, segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
+        }
+        else
+        {
+            gun.Fire();
+        }
+    }
 
+    public void Hit(FishHitObject hit)
+    {
+        FX_Spawner.instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
+        body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
+        UpdateHealth(-hit.damage);
+    }
+
+    public void UpdateHealth(float amount)
+    {
+        statusData.health += amount;
+        OnHealthUpdated?.Invoke(statusData.health);
+    }
+
+    public void Kickback(float kickback) { 
         var direction = (segments[1].transform.position - segments[0].transform.position).normalized;
-        body.ApplyForceToSegment(0, direction * 1000f);
+        // gun kickback
+        body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
     }
 
     public void Spawn(GunfishData data, LayerMask layer) {
@@ -91,6 +183,7 @@ public class Gunfish : MonoBehaviour {
         }
         this.data = data;
         this.statusData = new GunfishStatusData();
+        statusData.health = data.maxHealth;
 
         generator = new GunfishGenerator(this);
 
@@ -98,9 +191,23 @@ public class Gunfish : MonoBehaviour {
 
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
+
+        int index = segments.Count / 2;
+        Instantiate(data.healthUI, segments[index].transform).GetComponent<HealthUI>().Init(this);
+
+        foreach (TransformTuple tuple in data.gunBarrels)
+        {
+            // spawn 
+            var barrel = Instantiate(data.gunBarrelPrefab).transform; // new GameObject("barrel").transform;
+            barrel.parent = segments[0].transform;
+            barrel.localPosition = tuple.position;
+            barrel.localEulerAngles = Vector3.forward * tuple.rotation;
+            gun.barrels.Add(barrel.gameObject.GetComponent<GunBarrel>());
+        }
     }
 
     public void Despawn(bool animated) {
+        gun.barrels = new List<GunBarrel>();
         DespawnSegments(animated);
     }
 

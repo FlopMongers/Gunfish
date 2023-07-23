@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
 public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUIController {
     public static int playerCount = 0;
@@ -8,6 +7,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
 
     public GunfishData gunfishData;
     private Gunfish gunfish;
+    public Gunfish Gunfish { get { return gunfish; } }
     private PlayerInput input;
 
     public PlayerGameEvent OnDeath;
@@ -22,20 +22,24 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
     private void Start() {
         input = GetComponent<PlayerInput>();
         playerNumber = ++playerCount;
-        SpawnGunfish(Random.insideUnitCircle * 5f);
+
+        input.defaultActionMap = "UI";
     }
 
     public void SpawnGunfish(Vector3 spawnPosition) {
         var layer = LayerMask.NameToLayer($"Player{playerNumber}");
-        gunfish = Gunfish.Instantiate(gunfishData, spawnPosition, layer);
+        gunfish = Gunfish.Instantiate(gunfishData, spawnPosition, this, layer);
+
+        input.defaultActionMap = "Player";
     }
 
-    public void Despawn() {
+    public void DespawnGunfish() {
         if (gunfish == null) {
             throw new UnityException($"Cannot delete Gunfish for {name} since one has not been spawned.");
         }
 
         gunfish.Despawn(false);
+        input.defaultActionMap = "UI";
     }
 
     public void OnDeviceLost(PlayerInput input) {
@@ -66,5 +70,13 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
         if (value.isPressed) {
             gunfish.Fire();
         }
+    }
+
+    public void OnNavigate(InputValue value) {
+
+    }
+
+    public void OnSubmit(InputValue value) {
+
     }
 }

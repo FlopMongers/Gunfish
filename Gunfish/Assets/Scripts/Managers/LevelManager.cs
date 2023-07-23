@@ -1,35 +1,30 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
-public class LevelManager {
-    private List<Scene> levels;
-    private int nextLevelIndex;
-
-    public void SetLevelList(List<Scene> levels, bool randomize) {
-        this.levels = levels;
-        nextLevelIndex = 0;
-
-        if (randomize) {
-            this.levels = this.levels.OrderBy(level => Random.value).ToList();
-        }
-    }
+public class LevelManager: PersistentSingleton<LevelManager> {
+    public GameEvent FinishLoadLevel_Event;
+    public GameEvent StartPlay_Event;
 
     public void LoadMainMenu() {
-        SceneManager.LoadScene("MainMenu");
-    }
-
-    public void LoadNextLevel() {
-        if (nextLevelIndex < levels.Count) {
-            SceneManager.LoadScene(levels[nextLevelIndex].name);
-        } else {
-            LoadStats();
-        }
+        LoadScene("MainMenu");
     }
 
     public void LoadStats() {
-        SceneManager.LoadScene("Stats");
+        LoadScene("Stats");
+    }
+
+    public void LoadLevel(string levelName) {
+        LoadScene(levelName);
+        FinishLoadLevel_Event?.Invoke();
+        StartPlay_Event?.Invoke();
+        PlayerManager.instance.LoadPlayers();
+    }
+
+    private void LoadScene(string sceneName) {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 }

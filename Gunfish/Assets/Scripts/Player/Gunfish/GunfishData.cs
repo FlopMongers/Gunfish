@@ -1,5 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System;
+
+[Serializable]
+public class TransformTuple
+{
+    public Vector2 position;
+    public float rotation; // z rotation
+}
+
 
 [CreateAssetMenu(menuName = "Gunfish/Gunfish Data", fileName = "New Gunfish Data")]
 public class GunfishData : ScriptableObject {
@@ -16,6 +26,25 @@ public class GunfishData : ScriptableObject {
     public float fixedJointFrequency = 32f;
     [Range(0f, 1f)] public float springJointDamping = 0f;
     public float springJointFrequency = 32f;
+    public float flopForce;
+    public float groundTorque;
+    public float airTorque;
+    public float maxAerialAngularVelocity;
+    public float maxUnderwaterVelocity;
+    public float underwaterForce;
+    public float underwaterTorque;
+    public float gunKickback;
+
+    [Header("Health")]
+    public float maxHealth;
+    public GameObject healthUI;
+
+    [Header("Gun")]
+    public List<TransformTuple> gunBarrels = new List<TransformTuple>();
+    public float gunRange;
+    public float gunDamage;
+    public float gunKnockback;
+    public GameObject gunBarrelPrefab;
 
     [Header("Dimensions")]
     [Range(0.5f, 5f)] public float length = 2f;

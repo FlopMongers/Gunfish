@@ -16,8 +16,10 @@ public struct FishSegment {
 }
 
 public class GunfishRigidbody {
-    private List<FishSegment> segments;
+    public List<FishSegment> segments;
     private int groundMask;
+    public bool underwater;
+    public GroundMaterial currentGroundMaterial;
 
     public bool Grounded {
         get {
@@ -26,6 +28,19 @@ public class GunfishRigidbody {
                 if (collider) return true;
             }
             return false;
+        }
+    }
+
+    // set underwater
+    public void SetUnderwater(bool underwater)
+    {
+        if (underwater != this.underwater) {
+            foreach (var segment in segments)
+            {
+                segment.body.gravityScale = (underwater) ? 0f : 1f;
+                segment.body.drag += (underwater) ? 1f: -1f;
+            }
+            this.underwater = underwater;
         }
     }
 
@@ -43,11 +58,11 @@ public class GunfishRigidbody {
         });
     }
 
-    public void ApplyForceToSegment(int index, Vector2 force) {
-        segments[index].body.AddForce(force);
+    public void ApplyForceToSegment(int index, Vector2 force, ForceMode2D forceMode=ForceMode2D.Force) {
+        segments[index].body.AddForce(force, forceMode);
     }
 
-    public void ApplyTorqueToSegment(int index, float torque) {
-        segments[index].body.AddTorque(torque);
+    public void ApplyTorqueToSegment(int index, float torque, ForceMode2D forceMode=ForceMode2D.Force) {
+        segments[index].body.AddTorque(torque, forceMode);
     }
 }
