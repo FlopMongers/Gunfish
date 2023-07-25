@@ -126,6 +126,6 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private void OnGUI() {
         if (!GameManager.debug) return;
 
-        GUILayout.TextField("Press Space to change music track.");
+        GUI.TextField(new Rect(0f, 0f, 200f, 20f), "Press Space to change music track.");
     }
 }
