@@ -117,10 +117,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 014ec48ea61b23743a570560f162c2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1widget: {fileID: 5596988613361609433}
-  p2widget: {fileID: 4795275291034361744}
-  p3widget: {fileID: 5451562435075322681}
-  p4widget: {fileID: 245552029105374938}
+  playerWidgets:
+  - {fileID: 5596988613361609433}
+  - {fileID: 4795275291034361744}
+  - {fileID: 5451562435075322681}
+  - {fileID: 245552029105374938}
 --- !u!1001 &1176258241958200853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +243,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5756999092219062565, guid: 42baa2fbbafa2114fae8137aa6c90c2b,
+        type: 3}
+      propertyPath: m_text
+      value: P2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42baa2fbbafa2114fae8137aa6c90c2b, type: 3}
@@ -384,6 +390,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5756999092219062565, guid: 42baa2fbbafa2114fae8137aa6c90c2b,
+        type: 3}
+      propertyPath: m_text
+      value: P3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42baa2fbbafa2114fae8137aa6c90c2b, type: 3}
@@ -668,6 +679,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5756999092219062565, guid: 42baa2fbbafa2114fae8137aa6c90c2b,
+        type: 3}
+      propertyPath: m_text
+      value: P4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42baa2fbbafa2114fae8137aa6c90c2b, type: 3}

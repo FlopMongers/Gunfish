@@ -1,42 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class DeathMatchUIPlayerWidget : MonoBehaviour
-{
+/// <summary>
+/// Death Match UI Player Widget encapsulates the UI for one active player during deathmatch.
+/// It displays their score and stock count, and shows which fish they are.
+/// </summary>
+public class DeathMatchUIPlayerWidget : MonoBehaviour {
+    public Player player;
+    public TMP_Text stockText;
+    public TMP_Text scoreText;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         
     }
 
-    public void Initialize(bool isEnabled, int stockValue, Player player)
-    {
-        // TODO
+    /// <summary>
+    /// At the start of the game, initialize the player widget with the provided player and stock value.
+    /// If the player slot is empty, don't call this method and instead disable this GameObject.
+    /// </summary>
+    public void Initialize(int stockValue, Player player) {
+        this.player = player;
+        stockText.text = stockValue.ToString();
     }
 
-    public void OnStockChange(int newStockValue)
-    {
-        // TODO update stock value, trigger anim
-    }
-
-    public void OnScoreChange(int newScoreValue)
-    {
-        // TODO update score value, trigger anim
-        if (newScoreValue == 0)
-        {
+    public void OnStockChange(int newStockValue) {
+        if (newStockValue == -1) {
             OnPlayerEliminated();
         }
+        scoreText.text = newStockValue.ToString();
+        // TODO trigger anim
     }
 
-    private void OnPlayerEliminated()
-    {
-        // TODO gray out player display
+    public void OnScoreChange(int newScoreValue) {
+        scoreText.text = newScoreValue.ToString();
+        // TODO update score value, trigger anim
+    }
+
+    private void OnPlayerEliminated() {
+        // TODO gray out widget color
     }
 }

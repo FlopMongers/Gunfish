@@ -6,16 +6,19 @@ public class DeathMatchManager : MatchManager {
     private Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
     private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
     private int remainingPlayers;
+    private DeathMatchUI ui;
 
     public override void Initialize(GameParameters parameters) {
         foreach (var player in parameters.activePlayers) {
             playerScores[player] = 0;
         }
+        ui = parameters.gameUIObject?.GetComponent<DeathMatchUI>();
         base.Initialize(parameters);
     }
 
     public override void StartLevel() {
         base.StartLevel();
+        ui?.Initialize(parameters.activePlayers, defaultStocks);
         remainingPlayers = parameters.activePlayers.Count;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
@@ -45,16 +48,15 @@ public class DeathMatchManager : MatchManager {
 
     public override void OnPlayerDeath(Player player) {
         playerStocks[player]--;
-        // TODO update stock ui
-        if (playerStocks[player] <= 0) {
-            // TODO flashy ui thingy when player is eliminated
-            if (remainingPlayers <= 1) {
-                NextLevel();
-                //NextLevel_Event?.Invoke(remainingPlayers);
-            }
-        }
-        else {
+        ui?.OnStockChange(player, playerStocks[player]);
+        if (playerStocks[player] > 0) {
             SpawnPlayer(player);
+        }
+        else if (remainingPlayers <= 1) {
+            // TODO increment score and trigger ui score and winner display, delay level loading
+
+            NextLevel();
+            //NextLevel_Event?.Invoke(remainingPlayers);
         }
     }
 }
