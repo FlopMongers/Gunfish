@@ -1,12 +1,12 @@
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerManager : Singleton<PlayerManager> {
     // TODO: Replace mock device IDs
-    public static readonly int playerOneDeviceId = 19;
-    public static readonly int playerTwoDeviceId = 20;
-    public static readonly int playerThreeDeviceId = 21;
-    public static readonly int playerFourDeviceId = 22;
+    public static readonly int playerOneDeviceId = 14;
+    public static readonly int playerTwoDeviceId = 15;
+    public static readonly int playerThreeDeviceId = 16;
+    public static readonly int playerFourDeviceId = 17;
 
     public List<Player> Players { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
@@ -39,31 +39,32 @@ public class PlayerManager : Singleton<PlayerManager> {
 
         PlayerInput playerInput;
         foreach (var device in InputSystem.devices) {
+            Debug.Log($"Device {device.deviceId}: {device.displayName}");
             PlayerFish.Add(null);
             if (GameManager.debug == false) {
                 // Player 1
-                if (device.deviceId == PlayerManager.playerOneDeviceId) {
+                if (device.deviceId == playerOneDeviceId) {
                     playerInput = inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
+                    PlayerInputs[0] = playerInput;
+                    Players[0] = playerInput.GetComponent<Player>();
                 }
                 // Player 2
-                else if (device.deviceId == PlayerManager.playerTwoDeviceId) {
+                else if (device.deviceId == playerTwoDeviceId) {
                     playerInput = inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
+                    PlayerInputs[1] = playerInput;
+                    Players[1] = playerInput.GetComponent<Player>();
                 }
                 // Player 3
-                else if (device.deviceId == PlayerManager.playerThreeDeviceId) {
+                else if (device.deviceId == playerThreeDeviceId) {
                     playerInput = inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
+                    PlayerInputs[2] = playerInput;
+                    Players[2] = playerInput.GetComponent<Player>();
                 }
                 // Player 4
-                else if (device.deviceId == PlayerManager.playerFourDeviceId) {
+                else if (device.deviceId == playerFourDeviceId) {
                     playerInput = inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
+                    PlayerInputs[3] = playerInput;
+                    Players[3] = playerInput.GetComponent<Player>();
                 }
             } else {
                 if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard") || device.deviceId == 19 || device.deviceId == 20) {
@@ -75,13 +76,22 @@ public class PlayerManager : Singleton<PlayerManager> {
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            LoadPlayers();
+        }
+    }
+
     public void LoadPlayers() {
         foreach (var playerInput in PlayerInputs) {
+            if (!playerInput) continue;
             var index = PlayerInputs.IndexOf(playerInput);
+            var layer = LayerMask.NameToLayer($"Player{index + 1}");
             var gunfish = playerInput.GetComponent<Gunfish>();
             gunfish.playerNum = index + 1;
             gunfish.data = PlayerFish[index];
-            gunfish.Spawn(gunfish.data, gunfish.playerNum);
+            gunfish.Spawn(gunfish.data, layer);
         }
     }
 
@@ -94,7 +104,7 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     public void SetInputMode(InputMode inputMode) {
         foreach (var playerInput in PlayerInputs) {
-            playerInput.SwitchCurrentActionMap(inputMode.ToString());
+            playerInput?.SwitchCurrentActionMap(inputMode.ToString());
         }
     }
 

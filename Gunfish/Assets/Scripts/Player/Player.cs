@@ -20,8 +20,12 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
     }
 
     private void Start() {
+        DontDestroyOnLoad(gameObject);
+
         input = GetComponent<PlayerInput>();
         playerNumber = ++playerCount;
+
+        gameObject.name = $"Player{playerNumber}";
 
         input.defaultActionMap = "UI";
     }

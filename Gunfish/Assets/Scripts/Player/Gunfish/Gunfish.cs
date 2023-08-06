@@ -37,9 +37,6 @@ public class Gunfish : MonoBehaviour {
     public int playerNum;
 
     private void Start() {
-        statusData = new GunfishStatusData();
-        statusData.flopForce = data.flopForce;
-
         gun = GetComponent<Gun>();
         gun.gunfish = this;
 
@@ -102,7 +99,7 @@ public class Gunfish : MonoBehaviour {
     }
 
     private void Movement() {
-        if (statusData.alive == false || statusData.IsStunned || !statusData.CanFlop) return;
+        if (statusData == null || statusData.alive == false || statusData.IsStunned || !statusData.CanFlop) return;
 
         // if underwater
         
@@ -182,8 +179,10 @@ public class Gunfish : MonoBehaviour {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
         this.data = data;
+        
         this.statusData = new GunfishStatusData();
         statusData.health = data.maxHealth;
+        statusData.flopForce = data.flopForce;
 
         generator = new GunfishGenerator(this);
 
@@ -192,8 +191,9 @@ public class Gunfish : MonoBehaviour {
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
 
-        int index = segments.Count / 2;
-        Instantiate(data.healthUI, segments[index].transform).GetComponent<HealthUI>().Init(this);
+        //int index = segments.Count / 2;
+        //GameObject healthUI = Instantiate(data.healthUI, transform);
+        //healthUI.GetComponent<HealthUI>().Init(this);
 
         foreach (TransformTuple tuple in data.gunBarrels)
         {

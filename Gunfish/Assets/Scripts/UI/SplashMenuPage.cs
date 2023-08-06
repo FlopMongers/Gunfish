@@ -9,13 +9,17 @@ public class SplashMenuPage : IMenuPage {
         menuContext = context;
 
         foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
-            playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
+            if (playerInput) {
+                playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
+            }
         }
     }
 
     public void OnDisable(MenuPageContext context) {
         foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
-            playerInput.currentActionMap.FindAction("Any").performed -= OnAnyKey;
+            if (playerInput) {
+                playerInput.currentActionMap.FindAction("Any").performed -= OnAnyKey;
+            }
         }
     }
 
