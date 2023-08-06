@@ -19,12 +19,14 @@ public class LevelManager: PersistentSingleton<LevelManager> {
 
     public void LoadLevel(string levelName) {
         LoadScene(levelName);
+           
+
         FinishLoadLevel_Event?.Invoke();
+        // TODO: Marquee goes here
         StartPlay_Event?.Invoke();
-        PlayerManager.instance.LoadPlayers();
     }
 
     private void LoadScene(string sceneName) {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName);
     }
 }

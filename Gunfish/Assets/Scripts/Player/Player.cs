@@ -7,6 +7,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
 
     public GunfishData gunfishData;
     private Gunfish gunfish;
+    private Gun gun;
     public Gunfish Gunfish { get { return gunfish; } }
     private PlayerInput input;
 
@@ -23,6 +24,9 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
         DontDestroyOnLoad(gameObject);
 
         input = GetComponent<PlayerInput>();
+        gunfish = GetComponent<Gunfish>();
+        gun = GetComponent<Gun>();
+
         playerNumber = ++playerCount;
 
         gameObject.name = $"Player{playerNumber}";
@@ -32,8 +36,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
 
     public void SpawnGunfish(Vector3 spawnPosition) {
         var layer = LayerMask.NameToLayer($"Player{playerNumber}");
-        gunfish = Gunfish.Instantiate(gunfishData, spawnPosition, this, layer);
-
+        gunfish.Spawn(gunfishData, layer);
         input.defaultActionMap = "Player";
     }
 

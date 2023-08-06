@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Gunfish : MonoBehaviour {
     public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
-        var instance = new GameObject($"Player{layer.value - 5}GunfishHandler");
+        var instance = new GameObject($"{player.name}GunfishHandler");
         instance.transform.SetPositionAndRotation(position, Quaternion.identity);
         var gunfish = instance.AddComponent<Gunfish>();
         gunfish.player = player;

@@ -65,7 +65,7 @@ public class GameModeSelectMenuPage : IMenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {
-        GameManager.instance.selectedGameMode = displayedGameMode;
+        GameManager.instance.SetSelectedGameMode(displayedGameMode.gameModeType);
         menuContext.menu.SetState(MenuState.GunfishSelect);
     }
 

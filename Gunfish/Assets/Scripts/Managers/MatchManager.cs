@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatchManager : MonoBehaviour {
+public class MatchManager : PersistentSingleton<MatchManager> {
     protected GameParameters parameters;
     protected int currentLevel;
 
@@ -13,8 +13,6 @@ public class MatchManager : MonoBehaviour {
         this.parameters = parameters;
         LevelManager.instance.FinishLoadLevel_Event += StartLevel;
         LevelManager.instance.StartPlay_Event += StartPlay;
-
-        NextLevel();
     }
 
     public virtual void SpawnPlayer(Player player) {

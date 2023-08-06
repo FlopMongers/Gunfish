@@ -100,6 +100,7 @@ public class PlayerManager : Singleton<PlayerManager> {
             return;
         }
         PlayerFish[playerIndex] = data;
+        Players[playerIndex].gunfishData = data;
     }
 
     public void SetInputMode(InputMode inputMode) {

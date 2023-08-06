@@ -7,5 +7,4 @@ public class GameMode : ScriptableObject {
     public GameModeType gameModeType;
     public Texture2D image;
     public GameObject matchManagerPrefab;
-    public GameObject gameUIObject;
 }

@@ -50,7 +50,7 @@ public class FishSelectMenuPage : IMenuPage {
         }
 
         displayedFishIndices.ForEach(displayedFishIndex => {
-            DisplayFish(displayedFishIndex, fishes[displayedFishIndex]);
+            SetFish(displayedFishIndex, fishes[displayedFishIndex]);
         });
     }
 
@@ -86,13 +86,13 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context, int deviceIndex) {
-        LevelManager.instance.LoadLevel("Player Loading");
+        GameManager.instance.InitializeGame();
     }
 
     private void IncrementFish(int deviceIndex) {
         // Increments before modulus
         displayedFishIndices[deviceIndex] = (++displayedFishIndices[deviceIndex]) % fishes.Count;
-        DisplayFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
+        SetFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
     }
 
     private void DecrementFish(int deviceIndex) {
@@ -100,10 +100,10 @@ public class FishSelectMenuPage : IMenuPage {
         if (--displayedFishIndices[deviceIndex] < 0) {
             displayedFishIndices[deviceIndex] += fishes.Count;
         }
-        DisplayFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
+        SetFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
     }
 
-    private void DisplayFish(int deviceIndex, GunfishData fish) {
+    private void SetFish(int deviceIndex, GunfishData fish) {
         var material = fish.spriteMat;
         var texture = material.mainTexture as Texture2D;
         
