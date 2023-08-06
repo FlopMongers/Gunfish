@@ -18,15 +18,22 @@ public class LevelManager: PersistentSingleton<LevelManager> {
     }
 
     public void LoadLevel(string levelName) {
-        LoadScene(levelName);
-           
+        StartCoroutine(CoLoadLevel(levelName));
+    }
 
+    IEnumerator CoLoadLevel(string levelName)
+    {
+        var op = LoadScene(levelName);
+        while (op.isDone == false)
+        {
+            yield return null;
+        }
         FinishLoadLevel_Event?.Invoke();
         // TODO: Marquee goes here
         StartPlay_Event?.Invoke();
     }
 
-    private void LoadScene(string sceneName) {
-        SceneManager.LoadScene(sceneName);
+    private AsyncOperation LoadScene(string sceneName) {
+        return SceneManager.LoadSceneAsync(sceneName);
     }
 }

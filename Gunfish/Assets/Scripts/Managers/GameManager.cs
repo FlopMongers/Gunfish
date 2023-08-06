@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class GameParameters {
     public List<Player> activePlayers;
-    public List<Scene> scenes;
+    public List<string> scenes;
 
-    public GameParameters(List<Player> activePlayers, List<Scene> scenes) {
+    public GameParameters(List<Player> activePlayers, List<string> scenes) {
         this.activePlayers = activePlayers;
         this.scenes = scenes;
     }
@@ -41,7 +41,7 @@ public class GameManager : PersistentSingleton<GameManager> {
             MatchManager = null;
         }
 
-        var scenes = new List<Scene>() { SceneManager.GetSceneByName("Player Loading") };
+        var scenes = new List<string>() { "Player Loading" };
 
         // Get all active players
         GameParameters parameters = new GameParameters(PlayerManager.instance.Players, scenes);

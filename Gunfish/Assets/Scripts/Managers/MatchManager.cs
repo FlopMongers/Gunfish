@@ -5,7 +5,7 @@ public class MatchManager : PersistentSingleton<MatchManager> {
     protected GameParameters parameters;
     protected int currentLevel;
 
-    protected List<Transform> spawnPoints;
+    protected List<Transform> spawnPoints = new List<Transform>();
 
     private int nextLevelIndex;
 
@@ -13,6 +13,8 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         this.parameters = parameters;
         LevelManager.instance.FinishLoadLevel_Event += StartLevel;
         LevelManager.instance.StartPlay_Event += StartPlay;
+        print(parameters.scenes[0]);
+        NextLevel();
     }
 
     public virtual void SpawnPlayer(Player player) {
@@ -20,6 +22,7 @@ public class MatchManager : PersistentSingleton<MatchManager> {
     }
 
     public virtual void StartLevel() {
+        spawnPoints = new List<Transform>();
         foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn")) {
             spawnPoints.Add(spawnPoint.transform);
         }
@@ -47,7 +50,7 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         if (nextLevelIndex < parameters.scenes.Count)
         {
             // TODO, add actual async loading with UI and stuff
-            LevelManager.instance.LoadLevel(parameters.scenes[nextLevelIndex].name);
+            LevelManager.instance.LoadLevel(parameters.scenes[nextLevelIndex]);
             nextLevelIndex++;
         }
         else

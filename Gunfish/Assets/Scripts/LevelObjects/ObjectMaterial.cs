@@ -8,7 +8,7 @@ public class ObjectMaterial : MonoBehaviour
     public MaterialType materialType;
 
     // on collision, if not external collision and not ground
-    private void OnCollisionEnter2D(Collision2D collision)
+    public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (skipCollision)
             return;

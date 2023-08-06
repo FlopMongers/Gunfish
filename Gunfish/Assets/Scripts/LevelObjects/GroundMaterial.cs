@@ -16,8 +16,9 @@ public class GroundMaterial : ObjectMaterial
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public override void OnCollisionEnter2D(Collision2D collision)
     {
+        base.OnCollisionEnter2D(collision);
         GunfishSegment segment = collision.collider.GetComponent<GunfishSegment>();
         if (segment != null)
         {
