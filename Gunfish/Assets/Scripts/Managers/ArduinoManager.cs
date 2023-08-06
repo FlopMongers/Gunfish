@@ -1,13 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
 
-    [SerializeField]
-    [Range(0.1f, 10f)]
-    private float frequency = 1f;
     private SerialPort serialPort = new SerialPort("COM4", 9600);
 
     private AudioClip clip;
@@ -15,7 +10,11 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     private float[] data;
 
     private void OnEnable() {
-        serialPort.Open();
+        try {
+            serialPort?.Open();
+        } catch {
+            Debug.LogWarning("Could not open serial port. Is the Arduino connected?");
+        }
     }
 
     private void Start() {
@@ -34,15 +33,24 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         // Calculate loudness for the first second of the audio
         // Replace these numbers to adjust for desired interval
         int samplesPerSecond = clip.frequency * clip.channels;
-        float loudness = 0;
+        float amplitude = 0;
+        float sumDerivatives = 0;
 
-        int sampleCount = samplesPerSecond / 60;
+        int sampleCount = samplesPerSecond / 8;
 
-        for (int i = 0; i < sampleCount; i++) {
-            loudness += Mathf.Abs(data[i]);
+        for (int i = 1; i < sampleCount; i++) {
+            amplitude += Mathf.Abs(data[i]);
+            sumDerivatives += Mathf.Abs(data[i]-data[i-1]);
         }
 
-        loudness = loudness / sampleCount * 255f;
+        amplitude /= sampleCount;
+        sumDerivatives /= sampleCount - 1;
+
+        // f(t) = a * s(t) + b * (s(t) - s(t-1))
+
+        float loudness = amplitude * 255;
+        // loudness = Mathf.M               xsin(sumDerivatives * 255*2f,255);
+
         return loudness;
     }
 
@@ -56,6 +64,6 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     }
 
     private void OnDisable() {
-        serialPort.Close();
+        serialPort?.Close();
     }
 }

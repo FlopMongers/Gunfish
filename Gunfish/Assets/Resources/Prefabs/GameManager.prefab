@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55cdce1581021c54eb0eac25fd0a8b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequency: 0.2
 --- !u!82 &1295931031
 AudioSource:
   m_ObjectHideFlags: 0
@@ -57,7 +56,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b10465719803475478e4c048cdbd9f73, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -372,7 +371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3094928727531765471
 Transform:
   m_ObjectHideFlags: 0
