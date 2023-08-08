@@ -23,10 +23,19 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
     }
 
     /// <summary>
-    /// At the start of the game, initialize the player widget with the provided player and stock value.
+    /// At the start of the match, initialize the player widget with the provided player and set score to 0.
     /// If the player slot is empty, don't call this method and instead disable this GameObject.
     /// </summary>
-    public void Initialize(int stockValue, Player player) {
+    public void InitializeMatch(Player player) {
+        this.player = player;
+        scoreText.text = "0";
+    }
+
+    /// <summary>
+    /// At the start of the level, initialize the player widget with the provided player and stock value.
+    /// If the player slot is empty, don't call this method and instead disable this GameObject.
+    /// </summary>
+    public void InitializeLevel(int stockValue, Player player) {
         this.player = player;
         stockText.text = stockValue.ToString();
     }

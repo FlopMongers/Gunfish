@@ -8,7 +8,10 @@ public class DeathMatchUI : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        
+        foreach (var playerWidget in playerWidgets)
+        {
+            playerWidget.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -16,15 +19,30 @@ public class DeathMatchUI : MonoBehaviour {
         
     }
 
-    public void Initialize(List<Player> players, int initialStockCount) {
+    public void InitializeMatch(List<Player> players) {
         for (int i = 0; i < playerWidgets.Count; i++) {
             if (players.Count > i && players[i] != null) {
-                playerWidgets[i].Initialize(initialStockCount, players[i]);
+                playerWidgets[i].gameObject.SetActive(true);
+                playerWidgets[i].InitializeMatch(players[i]);
+                playerWidgets[i].OnScoreChange(0);
+            }
+        }
+    }
+
+    public void InitializeLevel(List<Player> players, int initialStockCount) {
+        for (int i = 0; i < playerWidgets.Count; i++) {
+            if (players.Count > i && players[i] != null) {
+                playerWidgets[i].gameObject.SetActive(true);
+                playerWidgets[i].InitializeLevel(initialStockCount, players[i]);
             }
         }
     }
 
     public void OnStockChange(Player player, int newStockValue) {
         playerWidgets.Find((pwidget) => pwidget.player == player)?.OnStockChange(newStockValue);
+    }
+
+    public void OnScoreChange(Player player, int newScoreValue) {
+        playerWidgets.Find((pwidget) => pwidget.player == player)?.OnScoreChange(newScoreValue);
     }
 }

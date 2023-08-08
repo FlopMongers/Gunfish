@@ -13,12 +13,13 @@ public class DeathMatchManager : MatchManager {
             playerScores[player] = 0;
         }
         ui = gameObject.GetComponentInChildren<DeathMatchUI>();
+        ui?.InitializeMatch(parameters.activePlayers);
         base.Initialize(parameters);
     }
 
     public override void StartLevel() {
         base.StartLevel();
-        //ui?.Initialize(parameters.activePlayers, defaultStocks);
+        ui?.InitializeLevel(parameters.activePlayers, defaultStocks);
         remainingPlayers = parameters.activePlayers.Count;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
