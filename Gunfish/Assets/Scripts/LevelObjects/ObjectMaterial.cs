@@ -7,14 +7,8 @@ public class ObjectMaterial : MonoBehaviour
     public bool skipCollision;
     public MaterialType materialType;
 
-    // on collision, if not external collision and not ground
-    public virtual void OnCollisionEnter2D(Collision2D collision)
+    protected void HandleMaterialCollision(ObjectMaterial mat, Collision2D collision)
     {
-        if (skipCollision)
-            return;
-
-        // if other has no thingy, play send to handler with default
-        ObjectMaterial mat = collision.collider.GetComponent<ObjectMaterial>();
         if (mat == null)
         {
             FX_CollisionHandler.instance?.HandleDefaultCollision(this, collision);
@@ -25,5 +19,16 @@ public class ObjectMaterial : MonoBehaviour
         {
             FX_CollisionHandler.instance?.HandleCollision(this, mat, collision);
         }
+    }
+
+    // on collision, if not external collision and not ground
+    public virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (skipCollision)
+            return;
+
+        // if other has no thingy, play send to handler with default
+        HandleMaterialCollision(collision.collider.GetComponent<ObjectMaterial>(), collision);
+
     }
 }

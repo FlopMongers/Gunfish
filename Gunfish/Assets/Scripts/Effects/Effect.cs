@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor.UI;
 
 public enum EffectType { FlopModify };
 
@@ -53,6 +54,15 @@ public class FlopModify_Effect : Effect
     {
         base.OnAdd();
         gunfish.statusData.flopForce *= flopMultiplier;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+        if (Mathf.Approximately(this.flopMultiplier, 0))
+        {
+            gunfish.RemoveEffect(effectType);
+        }
     }
 
     public override void OnRemove()

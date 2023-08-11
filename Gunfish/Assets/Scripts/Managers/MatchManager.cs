@@ -13,7 +13,6 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         this.parameters = parameters;
         LevelManager.instance.FinishLoadLevel_Event += StartLevel;
         LevelManager.instance.StartPlay_Event += StartPlay;
-        print(parameters.scenes[0]);
         NextLevel();
     }
 
