@@ -191,6 +191,8 @@ public class Gunfish : MonoBehaviour {
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
 
+        spawned = true;
+
         //int index = segments.Count / 2;
         //GameObject healthUI = Instantiate(data.healthUI, transform);
         //healthUI.GetComponent<HealthUI>().Init(this);
