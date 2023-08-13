@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,13 +14,15 @@ public class DeathMatchManager : MatchManager {
             playerScores[player] = 0;
         }
         ui = gameObject.GetComponentInChildren<DeathMatchUI>();
-        ui?.InitializeMatch(parameters.activePlayers);
+        ui.OnLoadingStart();
+        ui.InitializeMatch(parameters.activePlayers);
         base.Initialize(parameters);
     }
 
     public override void StartLevel() {
         base.StartLevel();
-        ui?.InitializeLevel(parameters.activePlayers, defaultStocks);
+        ui.InitializeLevel(parameters.activePlayers, defaultStocks);
+        ui.OnLoadingEnd();
         remainingPlayers = parameters.activePlayers.Count;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
@@ -28,6 +31,16 @@ public class DeathMatchManager : MatchManager {
             SpawnPlayer(player);
             player.Gunfish.OnDeath += OnPlayerDeath;
         }
+    }
+
+    public override void StartPlay() {
+        StartCoroutine(StartPlayCoroutine());
+    }
+
+    private IEnumerator StartPlayCoroutine() {
+        ui.StartMatchCountdown(3f);
+        yield return new WaitForSeconds(3f);
+        base.StartPlay();
     }
 
     public override void SpawnPlayer(Player player) {
@@ -49,15 +62,27 @@ public class DeathMatchManager : MatchManager {
 
     public override void OnPlayerDeath(Player player) {
         playerStocks[player]--;
-        ui?.OnStockChange(player, playerStocks[player]);
+        ui.OnStockChange(player, playerStocks[player]);
         if (playerStocks[player] > 0) {
             SpawnPlayer(player);
         }
         else if (remainingPlayers <= 1) {
-            // TODO increment score and trigger ui score and winner display, delay level loading
-
-            NextLevel();
-            //NextLevel_Event?.Invoke(remainingPlayers);
+            OnPlayerWin(GetLastPlayerStanding());
         }
+    }
+
+    private void OnPlayerWin(Player player) {
+        playerScores[player] += 1;
+        ui.OnScoreChange(player, playerScores[player]);
+        // TODO show victory animations and delay level loading
+        ui.OnLoadingStart();
+        NextLevel();
+    }
+
+    private Player GetLastPlayerStanding() {
+        foreach(var kvp in playerStocks) {
+            if (kvp.Value > 0) return kvp.Key;
+        }
+        return null;
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class DeathMatchUI : MonoBehaviour {
     [SerializeField]
     private List<DeathMatchUIPlayerWidget> playerWidgets = new List<DeathMatchUIPlayerWidget>();
+    [SerializeField]
+    private GameObject loadingScreen;
 
     // Start is called before the first frame update
     void Start() {
@@ -44,5 +46,17 @@ public class DeathMatchUI : MonoBehaviour {
 
     public void OnScoreChange(Player player, int newScoreValue) {
         playerWidgets.Find((pwidget) => pwidget.player == player)?.OnScoreChange(newScoreValue);
+    }
+
+    public void OnLoadingStart() {
+        loadingScreen.SetActive(true);
+    }
+
+    public void OnLoadingEnd() {
+        loadingScreen.SetActive(false);
+    }
+
+    public void StartMatchCountdown(float duration) {
+
     }
 }

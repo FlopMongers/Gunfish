@@ -29,7 +29,7 @@ public class Gunfish : MonoBehaviour {
     private Player player;
     public PlayerGameEvent OnDeath;
     public FloatGameEvent OnHealthUpdated;
-    private bool killed; 
+    private bool killed;
     private bool spawned;
 
     private Vector2 movement;
@@ -43,11 +43,13 @@ public class Gunfish : MonoBehaviour {
         killed = false;
         spawned = false;
         inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
-        inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
+        inputHandler.FindAction("Fire").performed += ctx => {
+            gun?.Fire();
+        };
     }
 
     private void Update() {
-        
+
         if (killed || !spawned) {
             return;
         }
@@ -61,8 +63,7 @@ public class Gunfish : MonoBehaviour {
             return;
         }
 
-        foreach (var effect in effectMap.Values)
-        {
+        foreach (var effect in effectMap.Values) {
             effect.Update();
         }
 
@@ -76,20 +77,15 @@ public class Gunfish : MonoBehaviour {
         Movement();
     }
 
-    public void AddEffect(Effect effect)
-    {
-        if (effectMap.ContainsKey(effect.effectType))
-        {
+    public void AddEffect(Effect effect) {
+        if (effectMap.ContainsKey(effect.effectType)) {
             effectMap[effect.effectType].Merge(effect);
-        }
-        else
-        {
+        } else {
             effectMap[effect.effectType] = effect;
         }
     }
 
-    public void RemoveEffect(EffectType effectType)
-    {
+    public void RemoveEffect(EffectType effectType) {
         effectMap.Remove(effectType);
     }
 
@@ -102,13 +98,11 @@ public class Gunfish : MonoBehaviour {
         if (statusData == null || statusData.alive == false || statusData.IsStunned || !statusData.CanFlop) return;
 
         // if underwater
-        
+
         if (movement.sqrMagnitude > Mathf.Epsilon) {
             if (body.Grounded) {
                 GroundedMovement(movement);
-            } 
-            else if (body.underwater)
-            {
+            } else if (body.underwater) {
                 RotateMovement(movement, data.underwaterTorque);
             }
             RotateMovement(movement);
@@ -139,36 +133,30 @@ public class Gunfish : MonoBehaviour {
         this.movement = movement;
     }
 
-    public void Fire()
-    {
+    public void Fire() {
         if (statusData.alive == false)
             return;
         // if underwater, then zoom
         int index = segments.Count / 2;
-        if (body.underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity)
-        {
+        if (body.underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity) {
             body.ApplyForceToSegment(index, segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
-        }
-        else
-        {
+        } else {
             gun.Fire();
         }
     }
 
-    public void Hit(FishHitObject hit)
-    {
+    public void Hit(FishHitObject hit) {
         FX_Spawner.instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
     }
 
-    public void UpdateHealth(float amount)
-    {
+    public void UpdateHealth(float amount) {
         statusData.health += amount;
         OnHealthUpdated?.Invoke(statusData.health);
     }
 
-    public void Kickback(float kickback) { 
+    public void Kickback(float kickback) {
         var direction = (segments[1].transform.position - segments[0].transform.position).normalized;
         // gun kickback
         body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
@@ -179,7 +167,7 @@ public class Gunfish : MonoBehaviour {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
         this.data = data;
-        
+
         this.statusData = new GunfishStatusData();
         statusData.health = data.maxHealth;
         statusData.flopForce = data.flopForce;
@@ -191,13 +179,14 @@ public class Gunfish : MonoBehaviour {
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
 
+        spawned = true;
+
         //int index = segments.Count / 2;
         //GameObject healthUI = Instantiate(data.healthUI, transform);
         //healthUI.GetComponent<HealthUI>().Init(this);
 
-        foreach (TransformTuple tuple in data.gunBarrels)
-        {
-            // spawn 
+        foreach (TransformTuple tuple in data.gunBarrels) {
+            // spawn
             var barrel = Instantiate(data.gunBarrelPrefab).transform; // new GameObject("barrel").transform;
             barrel.parent = segments[0].transform;
             barrel.localPosition = tuple.position;
