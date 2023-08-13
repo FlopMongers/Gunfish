@@ -6,6 +6,7 @@ public class Shootable : MonoBehaviour
 {
     public float health;
     public FloatGameEvent OnHealthUpdated;
+    public GameEvent OnDead;
 
     public FXType destroyFX, hitFX;
 
@@ -20,8 +21,9 @@ public class Shootable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health < 0)
+        if (health <= 0)
         {
+            OnDead?.Invoke();
             FX_Spawner.instance?.SpawnFX(destroyFX, transform.position, transform.up);
             Destroy(gameObject);
         }
