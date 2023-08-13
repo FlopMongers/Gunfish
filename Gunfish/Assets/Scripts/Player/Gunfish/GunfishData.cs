@@ -19,6 +19,7 @@ public class GunfishData : ScriptableObject {
     [Header("Materials")]
     public Material spriteMat;
     public PhysicsMaterial2D physicsMaterial;
+    public Sprite sprite;
 
     [Header("Physics")]
     [Range(1f, 100f)] public float mass = 1f;

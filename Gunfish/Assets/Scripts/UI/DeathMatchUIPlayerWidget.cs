@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 /// <summary>
 /// Death Match UI Player Widget encapsulates the UI for one active player during deathmatch.
@@ -9,8 +10,12 @@ using TMPro;
 /// </summary>
 public class DeathMatchUIPlayerWidget : MonoBehaviour {
     public Player player;
-    public TMP_Text stockText;
-    public TMP_Text scoreText;
+    [SerializeField]
+    private TMP_Text stockText;
+    [SerializeField]
+    private TMP_Text scoreText;
+    [SerializeField]
+    private Image playerPortrait;
 
     // Start is called before the first frame update
     void Start() {
@@ -27,7 +32,7 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
     /// If the player slot is empty, don't call this method and instead disable this GameObject.
     /// </summary>
     public void InitializeMatch(Player player) {
-        this.player = player;
+        SetPlayer(player);
         scoreText.text = "0";
     }
 
@@ -36,8 +41,13 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
     /// If the player slot is empty, don't call this method and instead disable this GameObject.
     /// </summary>
     public void InitializeLevel(int stockValue, Player player) {
-        this.player = player;
+        SetPlayer(player);
         stockText.text = stockValue.ToString();
+    }
+
+    public void SetPlayer(Player player) {
+        this.player = player;
+        playerPortrait.overrideSprite = player.gunfishData.sprite;
     }
 
     public void OnStockChange(int newStockValue) {
