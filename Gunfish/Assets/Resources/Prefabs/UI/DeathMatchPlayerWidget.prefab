@@ -162,7 +162,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &37056455272102186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +195,7 @@ MonoBehaviour:
   player: {fileID: 0}
   stockText: {fileID: 8972227807088046911}
   scoreText: {fileID: 6086319594531899147}
+  playerPortrait: {fileID: 762118107356509742}
 --- !u!1 &50987177500596333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,17 +1219,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8732264273309994210}
-  m_LocalRotation: {x: -0, y: -0, z: 0.39109945, w: 0.92034847}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9283391, w: -0.3717345}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+  m_LocalScale: {x: 1, y: -1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5746618040104870919}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 46.046}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 223.645}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.7999916, y: -12.100002}
+  m_AnchoredPosition: {x: -12, y: -11}
   m_SizeDelta: {x: 187.3311, y: 187.3311}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4451400375693773640
