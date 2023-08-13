@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4472519224901759254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4472519224901759272}
+  - component: {fileID: 4472519224901759273}
+  m_Layer: 0
+  m_Name: FX_Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4472519224901759272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472519224901759254}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4472519224901759273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472519224901759254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71473bc39620ff41b4c80aea9046c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
+  Serialized_FX_Dict:
+  - key: 1
+    trackKey: 1
+    fx: {fileID: 3961739177628282687, guid: 55870e7cbc33ef84e95375ad735e0b50, type: 3}
+  - key: 2
+    trackKey: 2
+    fx: {fileID: 5248544424780650818, guid: 5ee337f616aeb1244b4aeb901c205c0e, type: 3}
+  - key: 3
+    trackKey: 3
+    fx: {fileID: 2281317182964594012, guid: 70ee4ac1435f0374f95edcdd51c92568, type: 3}
+  - key: 4
+    trackKey: 4
+    fx: {fileID: 5188890719006348417, guid: c6fa88e89024e9e439c17abffdb90a22, type: 3}
+  - key: 5
+    trackKey: 5
+    fx: {fileID: 8921210225027068957, guid: f9a2532950406634d931fd3c5dc3417d, type: 3}
+  Seriaized_FX_Track_Dict: []
+  fx_default:
+    key: 0
+    trackKey: 0
+    fx: {fileID: 534546817594487525, guid: 89afa508187e177409eac32811e5d5eb, type: 3}
