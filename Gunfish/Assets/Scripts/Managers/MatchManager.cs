@@ -25,14 +25,16 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn")) {
             spawnPoints.Add(spawnPoint.transform);
         }
-        
+
+        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.Player);
+
         // Freeze the players
         foreach (var player in parameters.activePlayers) {
             player.FreezeControls = true;
         }
     }
 
-    
+
     public virtual void StartPlay() {
         // unfreeze players
         foreach (var player in parameters.activePlayers) {
@@ -44,22 +46,17 @@ public class MatchManager : PersistentSingleton<MatchManager> {
 
     }
 
-    public virtual void NextLevel()
-    {
-        if (nextLevelIndex < parameters.scenes.Count)
-        {
+    public virtual void NextLevel() {
+        if (nextLevelIndex < parameters.scenes.Count) {
             // TODO, add actual async loading with UI and stuff
             LevelManager.instance.LoadLevel(parameters.scenes[nextLevelIndex]);
             nextLevelIndex++;
-        }
-        else
-        {
+        } else {
             LevelManager.instance.LoadStats();
         }
     }
 
-    public virtual bool ResolveHit(Gun gun, GunfishSegment segment)
-    {
+    public virtual bool ResolveHit(Gun gun, GunfishSegment segment) {
         return gun.gunfish != segment.gunfish;
     }
 }

@@ -76,11 +76,10 @@ public class PlayerManager : Singleton<PlayerManager> {
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            LoadPlayers();
-        }
+    private void Update() {
+        // if (Input.GetKeyDown(KeyCode.Space)) {
+        //     LoadPlayers();
+        // }
     }
 
     public void LoadPlayers() {
