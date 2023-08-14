@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FishDetector : MonoBehaviour
 {
-    Dictionary<Gunfish, int> fishes = new Dictionary<Gunfish, int>();
+    public Dictionary<Gunfish, int> fishes = new Dictionary<Gunfish, int>();
 
     public FishCollisionEvent OnFishCollideEnter, OnFishCollideExit;
     public FishTriggerEvent OnFishTriggerEnter, OnFishTriggerExit;
