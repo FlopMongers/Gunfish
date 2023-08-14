@@ -67,8 +67,11 @@ public class DeathMatchManager : MatchManager {
         if (playerStocks[player] > 0) {
             SpawnPlayer(player);
         }
-        else if (remainingPlayers <= 1) {
-            OnPlayerWin(GetLastPlayerStanding());
+        else {
+            remainingPlayers--;
+            if (remainingPlayers <= 1) {
+                OnPlayerWin(GetLastPlayerStanding());
+            }
         }
     }
 
