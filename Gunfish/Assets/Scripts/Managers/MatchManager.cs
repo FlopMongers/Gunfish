@@ -26,19 +26,21 @@ public class MatchManager : PersistentSingleton<MatchManager> {
             spawnPoints.Add(spawnPoint.transform);
         }
 
+        FreezeFish(true);
         PlayerManager.instance.SetInputMode(PlayerManager.InputMode.Player);
-
-        // Freeze the players
-        foreach (var player in parameters.activePlayers) {
-            player.FreezeControls = true;
-        }
     }
 
 
     public virtual void StartPlay() {
         // unfreeze players
-        foreach (var player in parameters.activePlayers) {
-            player.FreezeControls = false;
+        FreezeFish(false);
+    }
+
+    public void FreezeFish(bool freeze)
+    {
+        foreach (var player in parameters.activePlayers)
+        {
+            player.FreezeControls = freeze;
         }
     }
 
