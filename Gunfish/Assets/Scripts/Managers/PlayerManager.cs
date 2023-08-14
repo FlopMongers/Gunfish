@@ -112,5 +112,6 @@ public class PlayerManager : Singleton<PlayerManager> {
     public enum InputMode {
         Player,
         UI,
+        EndLevel,
     }
 }

@@ -99,10 +99,11 @@ public class DeathMatchManager : MatchManager {
             ui.OnScoreChange(player, playerScores[player]);
         }
 
-        // instead of next level, invoke EndLevel
         // ui.ShowLevelScores(player, playerScores); // if player is null, no one wins
-        // PlayerManager.instance.SetInputMode(PlayerManager.InputMode.UI);
-        NextLevel();
+        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.EndLevel);
+        // inputHandler.FindAction("Submit").performed += ctx => { NextLevel(); };
+        
+        //NextLevel();
     }
 
     public override void ShowStats()

@@ -46,10 +46,10 @@ public class Gunfish : MonoBehaviour {
 
         killed = false;
         spawned = false;
-        inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
-        inputHandler.FindAction("Fire").performed += ctx => {
-            gun?.Fire();
-        };
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        inputHandler = playerInput.actions.FindActionMap("Player");
+        inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
+        playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { MatchManager.instance?.NextLevel(); };
     }
 
     private void Update() {
