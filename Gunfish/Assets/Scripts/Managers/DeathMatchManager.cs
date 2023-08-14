@@ -49,7 +49,9 @@ public class DeathMatchManager : MatchManager {
         foreach (var spawnPoint in spawnPoints) {
             distance = float.MaxValue;
             foreach (var activePlayer in parameters.activePlayers) {
-                distance = Mathf.Min(distance, Vector2.Distance(spawnPoint.position, activePlayer.Gunfish.transform.position));
+                var playerDist = activePlayer.Gunfish.GetPosition();
+                if (playerDist.HasValue)
+                    distance = Mathf.Min(distance, Vector2.Distance(spawnPoint.position, playerDist.Value));
             }
             if (distance > maxDistance) {
                 maxDistance = distance;

@@ -10,7 +10,7 @@ public class GunfishGenerator {
         this.gunfish = gunfish;
     }
 
-    public List<GameObject> Generate(LayerMask layer) {
+    public List<GameObject> Generate(LayerMask layer, Vector3 position) {
         var data = gunfish.data;
         segments = new List<GameObject>(data.segmentCount);
         var segmentProps = ScriptableObject.CreateInstance<GunfishData>();
@@ -27,14 +27,14 @@ public class GunfishGenerator {
         }
 
         for (int i = 0; i < data.segmentCount; i++) {
-            var position = gunfish.transform.position + new Vector3(i * segmentProps.length, 0f, 0f);
+            var segmentPos = position + new Vector3(i * segmentProps.length, 0f, 0f);
             var parent = i == 0 ? null : segments[i-1].transform;
             var diameter = data.width.Evaluate((float)i / data.segmentCount);
             var radius = diameter / 2f;
             var area = Mathf.PI * radius * radius;
             segmentProps.mass = area / totalArea * data.mass;
             segmentProps.width = AnimationCurve.Constant(0f, 1f, diameter);
-            var node = InstantiateNode(i, position, segmentProps, layer, parent);
+            var node = InstantiateNode(i, segmentPos, segmentProps, layer, parent);
             segments.Add(node);
         }
 

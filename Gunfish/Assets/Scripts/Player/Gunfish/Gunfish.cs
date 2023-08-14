@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
 public class Gunfish : MonoBehaviour {
-    public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
-        var instance = new GameObject($"{player.name}GunfishHandler");
-        instance.transform.SetPositionAndRotation(position, Quaternion.identity);
-        var gunfish = instance.AddComponent<Gunfish>();
-        gunfish.player = player;
-        gunfish.Spawn(data, layer);
-        return gunfish;
-    }
+    // public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
+    //     var instance = new GameObject($"{player.name}GunfishHandler");
+    //     instance.transform.SetPositionAndRotation(position, Quaternion.identity);
+    //     var gunfish = instance.AddComponent<Gunfish>();
+    //     gunfish.player = player;
+    //     gunfish.Spawn(data, layer);
+    //     return gunfish;
+    // }
 
     public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
 
@@ -164,7 +164,12 @@ public class Gunfish : MonoBehaviour {
         body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
     }
 
-    public void Spawn(GunfishData data, LayerMask layer) {
+    public Vector3? GetPosition() {
+        if (!killed && spawned) return segments[0].transform.position;
+        else return null;
+    }
+
+    public void Spawn(GunfishData data, LayerMask layer, Vector3 position) {
         if (data.segmentCount < 3) {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
@@ -176,7 +181,7 @@ public class Gunfish : MonoBehaviour {
 
         generator = new GunfishGenerator(this);
 
-        segments = generator.Generate(layer);
+        segments = generator.Generate(layer, position);
 
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);

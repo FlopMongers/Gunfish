@@ -82,17 +82,17 @@ public class PlayerManager : Singleton<PlayerManager> {
         // }
     }
 
-    public void LoadPlayers() {
-        foreach (var playerInput in PlayerInputs) {
-            if (!playerInput) continue;
-            var index = PlayerInputs.IndexOf(playerInput);
-            var layer = LayerMask.NameToLayer($"Player{index + 1}");
-            var gunfish = playerInput.GetComponent<Gunfish>();
-            gunfish.playerNum = index + 1;
-            gunfish.data = PlayerFish[index];
-            gunfish.Spawn(gunfish.data, layer);
-        }
-    }
+    // public void LoadPlayers() {
+    //     foreach (var playerInput in PlayerInputs) {
+    //         if (!playerInput) continue;
+    //         var index = PlayerInputs.IndexOf(playerInput);
+    //         var layer = LayerMask.NameToLayer($"Player{index + 1}");
+    //         var gunfish = playerInput.GetComponent<Gunfish>();
+    //         gunfish.playerNum = index + 1;
+    //         gunfish.data = PlayerFish[index];
+    //         gunfish.Spawn(gunfish.data, layer);
+    //     }
+    // }
 
     public void SetPlayerFish(int playerIndex, GunfishData data) {
         if (playerIndex < 0 || playerIndex >= PlayerFish.Count) {
