@@ -48,6 +48,11 @@ public class MatchManager : PersistentSingleton<MatchManager> {
 
     }
 
+    public virtual void ShowStats()
+    {
+
+    }
+
     public virtual void NextLevel() {
         if (nextLevelIndex < parameters.scenes.Count) {
             // TODO, add actual async loading with UI and stuff
