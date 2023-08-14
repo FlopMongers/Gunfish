@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
 using UnityEngine;
 
 public class Shootable : MonoBehaviour
 {
     public float maxHealth;
+    [Range(0f, 1f)]
+    public float damagedThreshold;
+    public Sprite damagedSprite;
+    bool damaged;
+
     [HideInInspector]
     public float health;
     public FloatGameEvent OnHealthUpdated;
     public GameEvent OnDead;
 
-    public FXType destroyFX, hitFX;
+    public FXType destroyFX, hitFX, damageFX;
 
     Rigidbody2D rb;
 
@@ -52,6 +58,16 @@ public class Shootable : MonoBehaviour
     public void UpdateHealth(float amount)
     {
         health += amount;
+        if (!damaged && health > 0 && health < maxHealth * damagedThreshold)
+        {
+            if (damagedSprite != null)
+            {
+                var r = GetComponent<SpriteRenderer>();
+                if (r != null) r.sprite = damagedSprite;
+                FX_Spawner.instance?.SpawnFX(damageFX, transform.position, Quaternion.identity);
+                damaged = true;
+            }
+        }
         OnHealthUpdated?.Invoke(health);
     }
 }
