@@ -13,6 +13,8 @@ public class Gunfish : MonoBehaviour {
     // }
 
     public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
+    [HideInInspector]
+    public List<EffectType> EffectRemoveList = new List<EffectType>();
 
     public GunfishStatusData statusData;
     public GunfishData data;
@@ -65,8 +67,13 @@ public class Gunfish : MonoBehaviour {
             return;
         }
 
-        foreach (var effect in effectMap.Values) {
+        foreach (var effect in effectMap.Values) 
+        {
             effect.Update();
+        }
+        foreach (var effect in EffectRemoveList)
+        {
+            effectMap.Remove(effect);
         }
 
         renderer?.Render();
@@ -88,7 +95,7 @@ public class Gunfish : MonoBehaviour {
     }
 
     public void RemoveEffect(EffectType effectType) {
-        effectMap.Remove(effectType);
+        EffectRemoveList.Add(effectType);
     }
 
     private void DecrementTimers(float delta) {
