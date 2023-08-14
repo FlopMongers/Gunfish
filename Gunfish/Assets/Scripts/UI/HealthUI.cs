@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +18,7 @@ public class HealthUI : MonoBehaviour
     private RawImage _greenBar;
 
     Gunfish _gunfish;
+    Shootable _shootable;
 
     public void Start()
     {
@@ -24,18 +27,31 @@ public class HealthUI : MonoBehaviour
         _greenBar = transform.FindDeepChild("Green").GetComponent<RawImage>();
     }
 
+    float GetTargetMaxHealth()
+    {
+        return (_gunfish != null) ? _gunfish.data.maxHealth : _shootable.maxHealth;
+    }
+
+    public void Init(Shootable shootable)
+    {
+        _shootable = shootable;
+
+        _shootable.OnHealthUpdated += UpdateHealth;
+        SetHealth(_shootable.health);
+    }
+
     public void Init(Gunfish gunfish)
     {
         _gunfish = gunfish;
 
-        _gunfish.gameObject.GetComponent<Gunfish>().OnHealthUpdated += UpdateHealth;
-        SetHealth(_gunfish.data.maxHealth);
+        _gunfish.OnHealthUpdated += UpdateHealth;
+        SetHealth(_gunfish.statusData.health);
     }
 
     public void SetHealth(float health)
     {
-        _greenBar.rectTransform.localScale = new Vector3(health / _gunfish.data.maxHealth, 1f, 1f);
-        _orangeBar.rectTransform.localScale = new Vector3(health / _gunfish.data.maxHealth, 1f, 1f);
+        _greenBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
+        _orangeBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
         _canvas.enabled = false;
     }
 

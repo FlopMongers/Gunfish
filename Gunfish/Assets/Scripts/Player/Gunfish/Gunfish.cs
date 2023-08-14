@@ -190,6 +190,9 @@ public class Gunfish : MonoBehaviour {
 
         segments = generator.Generate(layer, position);
 
+        if (FX_Spawner.instance != null)
+            Instantiate(FX_Spawner.instance.healthUIPrefab, segments[segments.Count / 2].transform).GetComponent<HealthUI>().Init(this);
+
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
 

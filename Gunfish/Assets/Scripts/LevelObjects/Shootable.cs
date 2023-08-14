@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Shootable : MonoBehaviour
 {
+    public float maxHealth;
+    [HideInInspector]
     public float health;
     public FloatGameEvent OnHealthUpdated;
     public GameEvent OnDead;
@@ -16,6 +18,13 @@ public class Shootable : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        var healthBar = GetComponentInChildren<HealthUI>();
+        if (healthBar == null && FX_Spawner.instance != null) 
+        {
+            healthBar = Instantiate(FX_Spawner.instance.healthUIPrefab, transform).GetComponent<HealthUI>();
+        }
+        healthBar?.Init(this);
     }
 
     // Update is called once per frame

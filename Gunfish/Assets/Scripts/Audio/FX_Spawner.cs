@@ -54,6 +54,8 @@ public class FX_Spawner : MonoBehaviour
 
     public FX_Tuple fx_default;
 
+    public GameObject healthUIPrefab;
+
     // Singleton code
     public static FX_Spawner instance;
     private void Awake()
