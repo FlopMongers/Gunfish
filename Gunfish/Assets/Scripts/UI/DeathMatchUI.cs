@@ -6,7 +6,7 @@ public class DeathMatchUI : MonoBehaviour {
     [SerializeField]
     private List<DeathMatchUIPlayerWidget> playerWidgets = new List<DeathMatchUIPlayerWidget>();
     [SerializeField]
-    private GameObject loadingScreen;
+    private LoadingCountdownUI loadingScreen;
 
     // Start is called before the first frame update
     void Start() {
@@ -49,14 +49,10 @@ public class DeathMatchUI : MonoBehaviour {
     }
 
     public void OnLoadingStart() {
-        loadingScreen.SetActive(true);
-    }
-
-    public void OnLoadingEnd() {
-        loadingScreen.SetActive(false);
+        loadingScreen.ShowLoadingScreen();
     }
 
     public void StartMatchCountdown(float duration) {
-
+        loadingScreen.StartCountdown();
     }
 }

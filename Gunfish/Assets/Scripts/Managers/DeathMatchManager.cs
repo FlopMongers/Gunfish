@@ -22,7 +22,6 @@ public class DeathMatchManager : MatchManager {
     public override void StartLevel() {
         base.StartLevel();
         ui.InitializeLevel(parameters.activePlayers, defaultStocks);
-        ui.OnLoadingEnd();
         remainingPlayers = parameters.activePlayers.Count;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
