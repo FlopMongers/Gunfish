@@ -54,7 +54,7 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
         if (newStockValue == -1) {
             OnPlayerEliminated();
         }
-        scoreText.text = newStockValue.ToString();
+        stockText.text = newStockValue.ToString();
         // TODO trigger anim
     }
 
