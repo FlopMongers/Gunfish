@@ -40,6 +40,8 @@ public class Gunfish : MonoBehaviour {
         gun = GetComponent<Gun>();
         gun.gunfish = this;
 
+        player = GetComponent<Player>();
+
         killed = false;
         spawned = false;
         inputHandler = GetComponent<PlayerInput>().actions.FindActionMap("Player");
