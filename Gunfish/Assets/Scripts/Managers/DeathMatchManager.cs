@@ -70,25 +70,9 @@ public class DeathMatchManager : MatchManager {
         else {
             remainingPlayers--;
             if (remainingPlayers <= 1) {
-                OnPlayerWin(GetLastPlayerStanding());
+                EndLevel();
             }
         }
-    }
-
-    private void OnPlayerWin(Player player) {
-        if (player != null)
-        {
-            playerScores[player] += 1;
-            ui.OnScoreChange(player, playerScores[player]);
-        }
-        else
-        {
-            // TODO no one wins!
-        }
-        // TODO show victory animations and delay level loading
-        // instead of next level, invoke EndLevel
-        EndLevel();
-        //NextLevel();
     }
 
     private Player GetLastPlayerStanding() {
@@ -107,8 +91,23 @@ public class DeathMatchManager : MatchManager {
     private void EndLevel()
     {
         FreezeFish(true);
-        // ui.ShowLevelScores(playerScores);
+
+        var player = GetLastPlayerStanding();
+        if (player != null)
+        {
+            playerScores[player] += 1;
+            ui.OnScoreChange(player, playerScores[player]);
+        }
+
+        // instead of next level, invoke EndLevel
+        // ui.ShowLevelScores(player, playerScores); // if player is null, no one wins
         // PlayerManager.instance.SetInputMode(PlayerManager.InputMode.UI);
         NextLevel();
+    }
+
+    public override void ShowStats()
+    {
+        base.ShowStats();
+        // ui.ShowFinalScores(playerScores);
     }
 }
