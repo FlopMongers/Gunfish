@@ -15,6 +15,7 @@ public enum FXType
     Sand_Shoot,
     Beachball_Shoot,
     Beachball_Pop,
+    Spawn,
 }
 
 public class FX_Spawner : MonoBehaviour

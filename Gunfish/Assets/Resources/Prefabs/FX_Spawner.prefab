@@ -61,6 +61,9 @@ MonoBehaviour:
   - key: 5
     trackKey: 5
     fx: {fileID: 8921210225027068957, guid: f9a2532950406634d931fd3c5dc3417d, type: 3}
+  - key: 10
+    trackKey: 10
+    fx: {fileID: 3438001935322132359, guid: 07751a8f36e9749469f67f3ac8a6097c, type: 3}
   Seriaized_FX_Track_Dict: []
   fx_default:
     key: 0
