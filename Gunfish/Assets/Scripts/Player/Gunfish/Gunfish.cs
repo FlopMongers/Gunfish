@@ -46,10 +46,18 @@ public class Gunfish : MonoBehaviour {
 
         killed = false;
         spawned = false;
+
+        // Marquee manager does not currently care about player. Encapsulating in anonymous delegate for now.
+        OnDeath += (Player player) => { MarqueeManager.instance.EnqueueRandomQuip(); };
+
         PlayerInput playerInput = GetComponent<PlayerInput>();
         inputHandler = playerInput.actions.FindActionMap("Player");
         inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
         playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { MatchManager.instance?.NextLevel(); };
+    }
+
+    private void OnDestroy() {
+        OnDeath -= (Player player) => { MarqueeManager.instance.EnqueueRandomQuip(); };
     }
 
     private void Update() {

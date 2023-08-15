@@ -1,13 +1,11 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
-using UnityEngine.Events;
-using System.Collections;
-using System;
+using TMPro;
 
-[RequireComponent(typeof(UIDocument))]
-public class MarqueeUI : MonoBehaviour {
-
+public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     private struct MarqueeContents {
         public string text;
         public float duration;
@@ -27,15 +25,17 @@ public class MarqueeUI : MonoBehaviour {
     [SerializeField]
     private AnimationCurve defaultTween = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-    private UIDocument document;
-    private Label label;
+    [SerializeField]
+    private string[] quips;
+
+    private TMP_Text textAsset;
     private Queue<MarqueeContents> queue = new();
 
     private bool transitioning = false;
 
     private void Start() {
-        document = GetComponent<UIDocument>();
-        label = document.rootVisualElement.Q<Label>("Text");
+        textAsset = GetComponentInChildren<TMP_Text>();
+        textAsset.SetText("");
     }
 
     private void Update() {
@@ -51,6 +51,17 @@ public class MarqueeUI : MonoBehaviour {
             Enqueue("1");
             Enqueue("GO", () => { Debug.Log("Countdown over!"); });
         }
+    }
+
+    public void EnqueueRandomQuip() {
+        if (quips == null || quips.Length == 0) {
+            Debug.LogWarning("Could not enqueue quip. Make sure you have at least one in the MarqueeManager");
+            return;
+        }
+
+        var index = UnityEngine.Random.Range(0, quips.Length);
+        var quip = quips[index];
+        Enqueue(quip);
     }
 
     public void Enqueue(string text, Action callback = null) {
@@ -81,15 +92,15 @@ public class MarqueeUI : MonoBehaviour {
             if (!queue.TryDequeue(out contents)) {
                 continue;
             }
-
-            label.text = contents.text;
+            
+            textAsset.SetText(contents.text);
             
             float t = 0f;
             while (t < 1f) {
                 var tween = contents.tween.Evaluate(t);
-                var value = Mathf.Lerp(110f, -110f, tween);
+                var value = Mathf.Lerp(Screen.width, -Screen.width, tween);
 
-                label.style.left = new Length(value, LengthUnit.Percent);
+                textAsset.rectTransform.anchoredPosition = new Vector2(value, 0f);
 
                 t += Time.deltaTime / contents.duration;
                 yield return new WaitForEndOfFrame();
@@ -97,6 +108,7 @@ public class MarqueeUI : MonoBehaviour {
 
             contents.callback?.Invoke();
         }
+        textAsset.SetText("");
         transitioning = false;
     }
 }
