@@ -84,6 +84,7 @@ public class DeathMatchManager : MatchManager {
 
     public override void NextLevel()
     {
+        ui.CloseLevelStats();
         ui.OnLoadingStart();
         base.NextLevel();
     }
@@ -99,11 +100,8 @@ public class DeathMatchManager : MatchManager {
             ui.OnScoreChange(player, playerScores[player]);
         }
 
-        // ui.ShowLevelScores(player, playerScores); // if player is null, no one wins
+        ui.ShowLevelStats(player, playerScores); // if player is null, no one wins
         PlayerManager.instance.SetInputMode(PlayerManager.InputMode.EndLevel);
-        // inputHandler.FindAction("Submit").performed += ctx => { NextLevel(); };
-        
-        //NextLevel();
     }
 
     public override void ShowStats()

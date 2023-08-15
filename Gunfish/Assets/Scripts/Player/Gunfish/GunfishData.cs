@@ -38,7 +38,6 @@ public class GunfishData : ScriptableObject {
 
     [Header("Health")]
     public float maxHealth;
-    public GameObject healthUI;
 
     [Header("Gun")]
     public List<TransformTuple> gunBarrels = new List<TransformTuple>();

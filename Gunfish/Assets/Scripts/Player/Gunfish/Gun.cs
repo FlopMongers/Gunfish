@@ -44,7 +44,9 @@ public class Gun : MonoBehaviour {
                 GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponent<Shootable>();
                 if (fishSegment != null) {
-                    bool fishHit = GameManager.instance.MatchManager.ResolveHit(this, fishSegment);
+                    bool fishHit = (GameManager.instance != null) 
+                        ? GameManager.instance.MatchManager.ResolveHit(this, fishSegment)
+                        : ResolveHit(this, fishSegment);
                     if (fishHit) {
                         fishSegment.gunfish.Hit(new FishHitObject(fishSegment.index, hit.point, barrel.transform.right, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
                         endPoint = hit.point;
@@ -65,5 +67,9 @@ public class Gun : MonoBehaviour {
             }
             barrel.Flash(endPoint);
         }
+    }
+
+    public virtual bool ResolveHit(Gun gun, GunfishSegment segment) {
+        return gun.gunfish != segment.gunfish;
     }
 }

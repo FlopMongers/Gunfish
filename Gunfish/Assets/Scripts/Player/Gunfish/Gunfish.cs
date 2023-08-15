@@ -162,6 +162,7 @@ public class Gunfish : MonoBehaviour {
     }
 
     public void Hit(FishHitObject hit) {
+        // tell match manager about this for possible scoring
         FX_Spawner.instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
@@ -201,7 +202,7 @@ public class Gunfish : MonoBehaviour {
         {
             var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab, segments[segments.Count / 2].transform).GetComponent<HealthUI>();
             healthUI.Init(this);
-            healthUI.transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Fish {playerNum+1}";
+            healthUI.transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {playerNum+1}";
             FX_Spawner.instance.SpawnFX(FXType.Spawn, segments[segments.Count / 2].transform.position, Quaternion.identity);
         }
 
