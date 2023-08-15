@@ -156,4 +156,8 @@ public class DeathMatchUI : MonoBehaviour {
         }
         playerPanelsGroup.alpha = targetAlpha;
     }
+
+    private void OnDestroy() {
+        Debug.Log("I am here");
+    }
 }

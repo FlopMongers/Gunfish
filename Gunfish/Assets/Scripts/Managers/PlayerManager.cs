@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerManager : Singleton<PlayerManager> {
     // TODO: Replace mock device IDs
-    public static readonly int playerOneDeviceId = 14;
-    public static readonly int playerTwoDeviceId = 15;
-    public static readonly int playerThreeDeviceId = 16;
+    public static readonly int playerOneDeviceId = 19;
+    public static readonly int playerTwoDeviceId = 20;
+    public static readonly int playerThreeDeviceId = 11;
     public static readonly int playerFourDeviceId = 17;
 
     public List<Player> Players { get; private set; }
@@ -29,12 +29,12 @@ public class PlayerManager : Singleton<PlayerManager> {
         if (GameManager.debug == false) {
             PlayerInputs.Add(null);
             PlayerInputs.Add(null);
-            PlayerInputs.Add(null);
-            PlayerInputs.Add(null);
+            //PlayerInputs.Add(null);
+            //PlayerInputs.Add(null);
             Players.Add(null);
             Players.Add(null);
-            Players.Add(null);
-            Players.Add(null);
+            //Players.Add(null);
+            //Players.Add(null);
         }
 
         PlayerInput playerInput;

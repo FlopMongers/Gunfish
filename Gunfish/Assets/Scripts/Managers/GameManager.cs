@@ -13,7 +13,7 @@ public class GameParameters {
 }
 
 public class GameManager : PersistentSingleton<GameManager> {
-    public static readonly bool debug = true;
+    public static readonly bool debug = false;
     
     public List<GameMode> GameModeList = new List<GameMode>();
     public List<GunfishData> GunfishList = new List<GunfishData>();

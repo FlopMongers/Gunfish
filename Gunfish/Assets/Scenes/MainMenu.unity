@@ -123,74 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &460706089
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 460706092}
-  - component: {fileID: 460706091}
-  - component: {fileID: 460706090}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &460706090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460706089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &460706091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460706089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &460706092
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460706089}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1772869125
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,197 +214,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1295931031, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
-      propertyPath: Mute
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.size
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[0]
-      value: Sleeping with the fishes
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[1]
-      value: Shoot to krill
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[2]
-      value: Squid riddance
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[3]
-      value: Reeled in
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[4]
-      value: Sushi to go
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[5]
-      value: Gone belly up
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[6]
-      value: Holy mackerel
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[7]
-      value: Fish out of water
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[8]
-      value: Cod-tastrophic
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[9]
-      value: Shoaled out
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[10]
-      value: Koi story bro
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[11]
-      value: Hook, line, and sinker
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[12]
-      value: Brack attack
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[13]
-      value: Plenty of fish in the sea
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[14]
-      value: Thar she blows!
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[15]
-      value: Better luck next tide
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[16]
-      value: All washed up
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[17]
-      value: Battered
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[18]
-      value: Deep fried
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[19]
-      value: Bub-bye!
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[20]
-      value: That's a wrap
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[21]
-      value: Off the hook
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[22]
-      value: Fin-ito
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[23]
-      value: Seas the day
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[24]
-      value: No trout about it
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[25]
-      value: Gill-ty as charged
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[26]
-      value: Eel be back...
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[27]
-      value: Sent to a farm upstream
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[28]
-      value: Shell-shocked
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: quips.Array.data[29]
-      value: Cock and ball torture (CBT) is a BDSM or sexual activity involving the
-        application of pain or constriction to the penis or testicles. This may involve
-        directly painful activities, such as genital piercing, wax play, genital
-        spanking, squeezing, ball-busting, genital flogging, urethral play, tickle
-        torture, erotic electrostimulation, kneeing or kicking. The recipient of
-        such activities may receive direct physical pleasure via masochism, or emotional
-        pleasure through erotic humiliation, or knowledge that the play is pleasing
-        to a sadistic dominant. Many of these practices carry significant health
-        risks.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4406275890509297128, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4479670534428438843, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419726, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419726, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
@@ -524,24 +274,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9189882869126579373, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: mixer
-      value: 
-      objectReference: {fileID: 24300002, guid: f0616bc19253f34408de7cebcb671a24,
-        type: 2}
-    - target: {fileID: 9189882869126579373, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: healthUIPrefab
-      value: 
-      objectReference: {fileID: 8923636505052693735, guid: 7beff6df4ec50224f88d256e40608484,
-        type: 3}
-    - target: {fileID: 9189882869126579373, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: fishHealthUIPrefab
-      value: 
-      objectReference: {fileID: 1573270573997296394, guid: e4060d0c291598348b477c899101e33c,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
 --- !u!1001 &5870836715334963464
@@ -556,15 +288,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuUI
       objectReference: {fileID: 0}
-    - target: {fileID: 5870836714870767913, guid: 4712693357a829a4d8992156f3338143,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5870836714870767915, guid: 4712693357a829a4d8992156f3338143,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5870836714870767915, guid: 4712693357a829a4d8992156f3338143,
         type: 3}

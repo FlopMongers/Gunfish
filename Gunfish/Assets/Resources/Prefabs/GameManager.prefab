@@ -363,7 +363,7 @@ MonoBehaviour:
   - track: 1
     clip: {fileID: 8300000, guid: 99d1785c502cad74db441175ac301f3a, type: 3}
   defaultTrack: 0
-  playOnStart: 1
+  playOnStart: 0
   fadeInCurve:
     serializedVersion: 2
     m_Curve:
