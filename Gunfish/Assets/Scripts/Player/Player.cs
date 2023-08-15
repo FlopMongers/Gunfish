@@ -65,6 +65,11 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
         if (gunfish == null) {
             return;
         }
+
+        if (FreezeControls) {
+            return;
+        }
+
         var movement = value.Get<Vector2>();
         gunfish.Move(movement);
     }

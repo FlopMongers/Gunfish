@@ -78,8 +78,6 @@ public class Gunfish : MonoBehaviour {
 
         renderer?.Render();
         DecrementTimers(Time.deltaTime);
-
-        Move(inputHandler.FindAction("Move").ReadValue<Vector2>());
     }
 
     private void FixedUpdate() {
