@@ -71,3 +71,5 @@ MonoBehaviour:
     fx: {fileID: 534546817594487525, guid: 89afa508187e177409eac32811e5d5eb, type: 3}
   healthUIPrefab: {fileID: 37056455272102180, guid: 376611996ce3cb34389c6dca870c5607,
     type: 3}
+  fishHealthUIPrefab: {fileID: 37056455272102180, guid: ce41ec67167bd8145a3032408f5cfc4d,
+    type: 3}

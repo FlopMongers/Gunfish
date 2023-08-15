@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Gunfish : MonoBehaviour {
     // public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
@@ -198,7 +199,9 @@ public class Gunfish : MonoBehaviour {
 
         if (FX_Spawner.instance != null)
         {
-            Instantiate(FX_Spawner.instance.healthUIPrefab, segments[segments.Count / 2].transform).GetComponent<HealthUI>().Init(this);
+            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab, segments[segments.Count / 2].transform).GetComponent<HealthUI>();
+            healthUI.Init(this);
+            healthUI.transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Fish {playerNum+1}";
             FX_Spawner.instance.SpawnFX(FXType.Spawn, segments[segments.Count / 2].transform.position, Quaternion.identity);
         }
 
@@ -207,10 +210,6 @@ public class Gunfish : MonoBehaviour {
 
         spawned = true;
         killed = false;
-
-        //int index = segments.Count / 2;
-        //GameObject healthUI = Instantiate(data.healthUI, transform);
-        //healthUI.GetComponent<HealthUI>().Init(this);
 
         foreach (TransformTuple tuple in data.gunBarrels) {
             // spawn

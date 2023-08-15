@@ -27,6 +27,12 @@ public class HealthUI : MonoBehaviour
         _greenBar = transform.FindDeepChild("Green").GetComponent<RawImage>();
     }
 
+    private void EnableBars(bool enable) {
+        _redBar.enabled = enable;
+        _orangeBar.enabled = enable;
+        _greenBar.enabled = enable;
+    }
+
     float GetTargetMaxHealth()
     {
         return (_gunfish != null) ? _gunfish.data.maxHealth : _shootable.maxHealth;
@@ -52,7 +58,8 @@ public class HealthUI : MonoBehaviour
     {
         _greenBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
         _orangeBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
-        _canvas.enabled = false;
+        // _canvas.enabled = false;
+        EnableBars(!Mathf.Approximately(health, GetTargetMaxHealth()));
     }
 
     private bool _hitInProgress = false;
@@ -63,9 +70,10 @@ public class HealthUI : MonoBehaviour
     public void UpdateHealth(float health)
     {
         if (!_canvas) return;
-        _canvas.enabled = true;
+        // _canvas.enabled = true;
+        EnableBars(!Mathf.Approximately(health, GetTargetMaxHealth()));
         _timeSpentWaiting = 0f;
-        _targetPercentage = health / _gunfish.data.maxHealth;
+        _targetPercentage = health / GetTargetMaxHealth();
         _greenBar.rectTransform.localScale = new Vector3(_targetPercentage, 1f, 1f);
 
         if (!_hitInProgress)

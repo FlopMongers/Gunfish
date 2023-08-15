@@ -55,7 +55,7 @@ public class FX_Spawner : MonoBehaviour
 
     public FX_Tuple fx_default;
 
-    public GameObject healthUIPrefab;
+    public GameObject healthUIPrefab, fishHealthUIPrefab;
 
     // Singleton code
     public static FX_Spawner instance;
