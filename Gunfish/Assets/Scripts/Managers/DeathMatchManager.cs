@@ -107,6 +107,6 @@ public class DeathMatchManager : MatchManager {
     public override void ShowStats()
     {
         base.ShowStats();
-        // ui.ShowFinalScores(playerScores);
+        ui.ShowFinalScores(playerScores);
     }
 }

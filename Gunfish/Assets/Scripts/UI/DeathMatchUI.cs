@@ -11,12 +11,14 @@ public class PlayerPanel {
     public TextMeshProUGUI playerName;
     public Image playerImg;
     public TextMeshProUGUI playerScore;
+    public Image highlight;
 
-    public PlayerPanel(GameObject panel, TextMeshProUGUI playerName, Image playerImg, TextMeshProUGUI playerScore) {
+    public PlayerPanel(GameObject panel, TextMeshProUGUI playerName, Image playerImg, TextMeshProUGUI playerScore, Image highlight) {
         this.panel = panel;
         this.playerName = playerName;
         this.playerImg = playerImg;
         this.playerScore = playerScore;
+        this.highlight = highlight;
     }
 }
 
@@ -31,7 +33,7 @@ public class DeathMatchUI : MonoBehaviour {
     CanvasGroup playerPanelsGroup;
 
     // Start is called before the first frame update
-    void Start() {
+    void Awake() {
         foreach (var playerWidget in playerWidgets)
         {
             playerWidget.gameObject.SetActive(false);
@@ -46,7 +48,8 @@ public class DeathMatchUI : MonoBehaviour {
                     panel.gameObject, 
                     panel.FindDeepChild("PlayerName").GetComponent<TextMeshProUGUI>(),
                     panel.FindDeepChild("PlayerImg").GetComponent<Image>(),
-                    panel.FindDeepChild("PlayerWins").GetComponent<TextMeshProUGUI>()
+                    panel.FindDeepChild("PlayerWins").GetComponent<TextMeshProUGUI>(),
+                    panel.FindDeepChild("Highlight").GetComponent<Image>()
                     ));
         }
     }
@@ -91,15 +94,20 @@ public class DeathMatchUI : MonoBehaviour {
         loadingScreen.StartCountdown();
     }
 
+    void ClearPlayerPanels() {
+        foreach (var panel in playerPanels) {
+            panel.highlight.enabled = false;
+            panel.panel.SetActive(false);
+        }
+    }
+
     public void ShowLevelStats(Player player, Dictionary<Player, int> playerScores) {
         winnerText.text = (player == null) ? "No one wins!" : $"Player {player.playerNumber} wins!";
 
-        foreach (var panel in playerPanels) {
-            panel.panel.SetActive(false);
-        }
+        ClearPlayerPanels();
 
         int playerIdx = 0;
-        foreach (var playerScore in playerScores.OrderBy(x => x.Key)) {
+        foreach (var playerScore in playerScores.OrderByDescending(x => x.Key)) {
             playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
             playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
             playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
@@ -113,6 +121,39 @@ public class DeathMatchUI : MonoBehaviour {
     public void CloseLevelStats() {
         StopAllCoroutines();
         StartCoroutine(CoShowLevelStats(false));
+    }
+
+    public void ShowFinalScores(Dictionary<Player, int> playerScores) {
+        ClearPlayerPanels();
+
+        int playerIdx = 0;
+        int topScore = 0;
+        List<Player> winners = new List<Player>();
+        foreach (var playerScore in playerScores.OrderByDescending(x => x.Key)) {
+            playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
+            playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
+            playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
+            if (playerScore.Value >= topScore) {
+                playerPanels[playerIdx].highlight.enabled = true;
+                winners.Add(playerScore.Key);
+                topScore = playerScore.Value;
+            }
+            playerPanels[playerIdx].panel.SetActive(true);
+            playerIdx++;
+        }
+
+        if (winners.Count == 0) {
+            winnerText.text = "No one wins?";
+        }
+        else if (winners.Count == 1) {
+            winnerText.text = $"Player {winners[0].playerNumber} wins!!!";
+        }
+        else {
+            winnerText.text = "It's a tie!";
+        }
+
+        StopAllCoroutines();
+        StartCoroutine(CoShowLevelStats(true));
     }
 
     IEnumerator CoShowLevelStats(bool show) {
