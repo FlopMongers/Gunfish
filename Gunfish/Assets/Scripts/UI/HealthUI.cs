@@ -62,6 +62,7 @@ public class HealthUI : MonoBehaviour
 
     public void UpdateHealth(float health)
     {
+        if (!_canvas) return;
         _canvas.enabled = true;
         _timeSpentWaiting = 0f;
         _targetPercentage = health / _gunfish.data.maxHealth;
