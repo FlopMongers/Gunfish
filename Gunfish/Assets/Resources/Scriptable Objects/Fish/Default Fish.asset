@@ -29,13 +29,12 @@ MonoBehaviour:
   maxUnderwaterVelocity: 20
   underwaterForce: 200
   underwaterTorque: 4
-  gunKickback: 12
   maxHealth: 10
-  healthUI: {fileID: 37056455272102180, guid: 376611996ce3cb34389c6dca870c5607, type: 3}
   gunBarrels:
   - position: {x: 0, y: 0}
     rotation: 180
-  gunRange: 10
+  gunKickback: 12
+  gunRange: 20
   gunDamage: 4
   gunKnockback: 5
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,

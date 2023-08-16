@@ -34,13 +34,13 @@ public class GunfishData : ScriptableObject {
     public float maxUnderwaterVelocity;
     public float underwaterForce;
     public float underwaterTorque;
-    public float gunKickback;
 
     [Header("Health")]
     public float maxHealth;
 
     [Header("Gun")]
     public List<TransformTuple> gunBarrels = new List<TransformTuple>();
+    public float gunKickback;
     public float gunRange;
     public float gunDamage;
     public float gunKnockback;
