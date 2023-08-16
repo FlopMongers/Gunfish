@@ -17,7 +17,8 @@ public class MatchManager : PersistentSingleton<MatchManager> {
     }
 
     public virtual void SpawnPlayer(Player player) {
-
+        // add player's fish to camera group
+        GameCamera.instance?.targetGroup.AddMember(player.Gunfish.MiddleSegment.transform, 1, 1);
     }
 
     public virtual void StartLevel() {
@@ -44,8 +45,11 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         }
     }
 
-    public virtual void OnPlayerDeath(Player player) {
-
+    public virtual void OnPlayerDeath(Player player) 
+    {
+        // remove the fishy from the camera group
+        // will this work? I don't know...
+        GameCamera.instance?.targetGroup.RemoveMember(null);
     }
 
     public virtual void ShowStats()

@@ -59,9 +59,11 @@ public class DeathMatchManager : MatchManager {
             }
         }
         player.SpawnGunfish(currentSpawnPoint.position);
+        base.SpawnPlayer(player);
     }
 
     public override void OnPlayerDeath(Player player) {
+        base.OnPlayerDeath(player);
         playerStocks[player]--;
         ui.OnStockChange(player, playerStocks[player]);
         if (playerStocks[player] > 0) {

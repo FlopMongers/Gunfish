@@ -22,6 +22,7 @@ public class Gunfish : MonoBehaviour {
     public bool debug = false;
 
     private List<GameObject> segments;
+    public GameObject MiddleSegment { get { return segments[segments.Count / 2]; } }
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
     private GunfishRigidbody body;
@@ -69,7 +70,7 @@ public class Gunfish : MonoBehaviour {
 
         if (!statusData.alive) {
             // kill da fish
-            FX_Spawner.instance?.SpawnFX(FXType.Fish_Death, segments[segments.Count / 2].transform.position, Quaternion.identity);
+            FX_Spawner.instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);
             Despawn(true);
             killed = true;
             OnDeath?.Invoke(player);
@@ -200,10 +201,10 @@ public class Gunfish : MonoBehaviour {
 
         if (FX_Spawner.instance != null)
         {
-            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab, segments[segments.Count / 2].transform).GetComponent<HealthUI>();
+            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab, MiddleSegment.transform).GetComponent<HealthUI>();
             healthUI.Init(this);
             healthUI.transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {playerNum+1}";
-            FX_Spawner.instance.SpawnFX(FXType.Spawn, segments[segments.Count / 2].transform.position, Quaternion.identity);
+            FX_Spawner.instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }
 
         renderer = new GunfishRenderer(data.spriteMat, segments);

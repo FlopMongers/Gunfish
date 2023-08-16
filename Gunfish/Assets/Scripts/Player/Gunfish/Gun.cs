@@ -49,6 +49,9 @@ public class Gun : MonoBehaviour {
                         : ResolveHit(this, fishSegment);
                     if (fishHit) {
                         fishSegment.gunfish.Hit(new FishHitObject(fishSegment.index, hit.point, barrel.transform.right, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                        // this is temporary, but if it works let's just leave it
+                        if (fishSegment.gunfish.statusData.health <= 0)
+                            FX_Spawner.instance?.BAM();
                         endPoint = hit.point;
                         break;
                     }

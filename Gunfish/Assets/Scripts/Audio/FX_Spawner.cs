@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,11 @@ public class FX_Spawner : MonoBehaviour
     public FX_Tuple fx_default;
 
     public GameObject healthUIPrefab, fishHealthUIPrefab;
+    [HideInInspector]
+    public float freezeTime;
+    bool paused;
+
+    CinemachineImpulseSource impulseSource;
 
     // Singleton code
     public static FX_Spawner instance;
@@ -83,6 +89,28 @@ public class FX_Spawner : MonoBehaviour
         }
         holder = new UnityEngine.GameObject("FX Objects");
         holder.transform.parent = transform;
+
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        CinemachineImpulseManager.Instance.IgnoreTimeScale = true;
+    }
+
+    public void BAM(float time=0.4f) {
+        impulseSource.GenerateImpulseWithVelocity(Random.insideUnitSphere);
+        freezeTime = time;
+    }
+
+    public void Update() {
+        if (freezeTime > 0) {
+            if (paused == false) {
+                paused = true;
+                PauseManager.instance?.PauseTime(0, 0);
+            }
+            freezeTime -= Time.unscaledDeltaTime;
+        }
+        else if (paused == true) {
+            paused = false;
+            PauseManager.instance?.PauseTime(1, 0);
+        }
     }
 
     public UnityEngine.GameObject SpawnFX(GameObject fx, Vector3 position, Vector3 rotation, float vol = -1, Transform parent = null, FXType effectName = FXType.Default)
