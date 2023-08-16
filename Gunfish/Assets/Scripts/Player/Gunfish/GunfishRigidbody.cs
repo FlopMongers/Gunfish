@@ -44,8 +44,8 @@ public class GunfishRigidbody {
         }
     }
 
-    public GunfishRigidbody(List<GameObject> segments) {
-        groundMask = LayerMask.GetMask("Ground");
+    public GunfishRigidbody(List<GameObject> segments, LayerMask layerMask) {
+        groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layerMask);
         this.segments = new List<FishSegment>(segments.Count);
         segments.ForEach(segment => {
             this.segments.Add(

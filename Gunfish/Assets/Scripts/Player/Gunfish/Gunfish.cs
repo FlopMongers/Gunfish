@@ -207,7 +207,7 @@ public class Gunfish : MonoBehaviour {
         }
 
         renderer = new GunfishRenderer(data.spriteMat, segments);
-        body = new GunfishRigidbody(segments);
+        body = new GunfishRigidbody(segments, layer);
 
         spawned = true;
         killed = false;
