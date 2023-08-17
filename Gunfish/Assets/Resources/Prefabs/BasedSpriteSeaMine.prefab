@@ -68,9 +68,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef301691f3e33f54184ca54c149ae3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 5
+  damagedThreshold: 0
+  damagedSprite: {fileID: 0}
   health: 5
   destroyFX: 1
   hitFX: 3
+  damageFX: 0
 --- !u!114 &1377622250653943857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ed2debbdbd97943ba0b4c59d9bd0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explodeForceThreshold: 0.1
   explodeDamage: 15
   explodeForce: 15
   explodeRadius: 5

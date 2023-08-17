@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Shootable))]
 public class SeaMine : MonoBehaviour
 {
+    // the amount of force it takes to make the mine explode
+    [SerializeField]
+    float explodeForceThreshold;
 
     [SerializeField]
     float explodeDamage;
@@ -19,10 +22,12 @@ public class SeaMine : MonoBehaviour
     [SerializeField]
     float explodeFalloff;
 
+    Shootable shootable;
+
     // Start is called before the first frame update
     void Awake()
     {
-        Shootable shootable = GetComponent<Shootable>();
+        shootable = GetComponent<Shootable>();
         shootable.OnDead += Explode;
     }
 
@@ -53,6 +58,15 @@ public class SeaMine : MonoBehaviour
                 shootable.UpdateHealth(-1 * damageAmount);
             }
 
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        float collisionForce = collision.relativeVelocity.magnitude;
+
+        if (collisionForce > explodeForceThreshold)
+        {
+            shootable.UpdateHealth(-10_000_000f);
         }
     }
 
