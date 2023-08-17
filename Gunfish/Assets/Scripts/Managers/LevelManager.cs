@@ -4,45 +4,83 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using static UnityEngine.Application;
 
 [System.Serializable]
 public class LevelManager: PersistentSingleton<LevelManager> {
     public GameEvent FinishLoadLevel_Event;
     public GameEvent StartPlay_Event;
 
-    public void LoadMainMenu() {
+
+    // load level, set up callback
+    // play veil anim
+    // animation invokes load scene, which is async
+    // async method call then tells anim to unveil anim
+    // unveil invokes callback, if any
+
+    // if level, callback invokes FinishLoadLevel_Event and starts countdown anim, which invokes StartPlay_Event
+
+    Action nextCallback;
+    string nextSceneName;
+    Animator anim;
+
+    private void Start() 
+    {
+        anim = GetComponent<Animator>();
+    }
+
+    public void LoadMainMenu() 
+    {
         LoadScene("MainMenu");
     }
 
-    public void LoadStats() {
-        StartCoroutine(CoLoadLevel("Stats", MatchManager.instance.ShowStats));
-    }
-
-    public void LoadLevel(string levelName) {
-        StartCoroutine(CoLoadLevel(levelName, OnFinishLoadLevel));
-    }
-
-    IEnumerator CoLoadLevel(string levelName, Action callback = null)
+    public void LoadStats() 
     {
-        var op = LoadScene(levelName);
-        while (op.isDone == false)
-        {
-            yield return null;
-        }
-        if (callback != null)
-        {
-            callback();
-        }
+        LoadScene("Stats", MatchManager.instance.ShowStats);
     }
 
-    void OnFinishLoadLevel()
+    public void LoadLevel(string levelName) 
+    {
+        LoadScene(levelName, FinishLoadLevel);
+
+    }
+
+    void FinishLoadLevel() 
     {
         FinishLoadLevel_Event?.Invoke();
-        // TODO: Marquee goes here
+        anim.SetTrigger("countdown");
+    }
+
+    // countdown anim invokes this
+    public void StartPlay() 
+    {
         StartPlay_Event?.Invoke();
     }
 
-    private AsyncOperation LoadScene(string sceneName) {
-        return SceneManager.LoadSceneAsync(sceneName);
+    void LoadScene(string sceneName, Action callback = null) 
+    {
+        nextSceneName = sceneName;
+        nextCallback = callback;
+        anim.SetBool("veil", true);
+    }
+
+    // veil anim invokes this
+    public void LoadNextScene() 
+    {
+        StartCoroutine(CoLoadScene(nextSceneName));
+    }
+
+    IEnumerator CoLoadScene(string sceneName) {
+        var op = SceneManager.LoadSceneAsync(sceneName);
+        while (op.isDone == false) {
+            yield return null;
+        }
+        anim.SetBool("veil", false);
+    }
+
+    // unveil anim invokes this
+    public void InvokeCallback() 
+    {
+        nextCallback?.Invoke();
     }
 }

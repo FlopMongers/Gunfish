@@ -14,7 +14,7 @@ public class DeathMatchManager : MatchManager {
             playerScores[player] = 0;
         }
         ui = gameObject.GetComponentInChildren<DeathMatchUI>();
-        ui.OnLoadingStart();
+        // ui.OnLoadingStart();
         ui.InitializeMatch(parameters.activePlayers);
         base.Initialize(parameters);
     }
@@ -30,16 +30,6 @@ public class DeathMatchManager : MatchManager {
             SpawnPlayer(player);
             player.Gunfish.OnDeath += OnPlayerDeath;
         }
-    }
-
-    public override void StartPlay() {
-        StartCoroutine(StartPlayCoroutine());
-    }
-
-    private IEnumerator StartPlayCoroutine() {
-        ui.StartMatchCountdown(3f);
-        yield return new WaitForSeconds(3f);
-        base.StartPlay();
     }
 
     public override void SpawnPlayer(Player player) {
@@ -87,7 +77,7 @@ public class DeathMatchManager : MatchManager {
     public override void NextLevel()
     {
         ui.CloseLevelStats();
-        ui.OnLoadingStart();
+        // ui.OnLoadingStart();
         base.NextLevel();
     }
 

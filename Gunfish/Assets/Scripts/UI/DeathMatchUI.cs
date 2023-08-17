@@ -25,8 +25,8 @@ public class PlayerPanel {
 public class DeathMatchUI : MonoBehaviour {
     [SerializeField]
     private List<DeathMatchUIPlayerWidget> playerWidgets = new List<DeathMatchUIPlayerWidget>();
-    [SerializeField]
-    private LoadingCountdownUI loadingScreen;
+    //[SerializeField]
+    //private LoadingCountdownUI loadingScreen;
 
     TextMeshProUGUI winnerText;
     List<PlayerPanel> playerPanels = new List<PlayerPanel>();
@@ -84,14 +84,6 @@ public class DeathMatchUI : MonoBehaviour {
 
     public void OnScoreChange(Player player, int newScoreValue) {
         playerWidgets.Find((pwidget) => pwidget.player == player)?.OnScoreChange(newScoreValue);
-    }
-
-    public void OnLoadingStart() {
-        loadingScreen.ShowLoadingScreen();
-    }
-
-    public void StartMatchCountdown(float duration) {
-        loadingScreen.StartCountdown();
     }
 
     void ClearPlayerPanels() {

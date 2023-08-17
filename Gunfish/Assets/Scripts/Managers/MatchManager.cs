@@ -28,6 +28,7 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         }
 
         FreezeFish(true);
+        // move this to the level manager, maybe
         PlayerManager.instance.SetInputMode(PlayerManager.InputMode.Player);
     }
 
