@@ -113,5 +113,6 @@ public class PlayerManager : Singleton<PlayerManager> {
         Player,
         UI,
         EndLevel,
+        Null,
     }
 }

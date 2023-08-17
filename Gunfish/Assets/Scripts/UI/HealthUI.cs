@@ -38,19 +38,21 @@ public class HealthUI : MonoBehaviour
         return (_gunfish != null) ? _gunfish.data.maxHealth : _shootable.maxHealth;
     }
 
-    public void Init(Shootable shootable)
+    public void Init(Shootable shootable, Vector3? offset=null)
     {
         _shootable = shootable;
 
         _shootable.OnHealthUpdated += UpdateHealth;
+        _shootable.OnDead += OnShootableDeath;
         SetHealth(_shootable.health);
     }
 
-    public void Init(Gunfish gunfish)
+    public void Init(Gunfish gunfish, Vector3? offset=null)
     {
         _gunfish = gunfish;
 
         _gunfish.OnHealthUpdated += UpdateHealth;
+        _gunfish.OnDeath += OnGunfishDeath;
         SetHealth(_gunfish.statusData.health);
     }
 
@@ -108,5 +110,15 @@ public class HealthUI : MonoBehaviour
         {
             _canvas.enabled = false;
         }
+    }
+
+    void OnGunfishDeath(Player player) 
+    {
+        Destroy(gameObject);
+    }
+
+    void OnShootableDeath() 
+    {
+        Destroy(gameObject);
     }
 }

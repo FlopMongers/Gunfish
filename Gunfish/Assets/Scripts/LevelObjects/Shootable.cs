@@ -25,6 +25,7 @@ public class Shootable : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
+        // TODO init properly
         var healthBar = GetComponentInChildren<HealthUI>();
         if (healthBar == null && FX_Spawner.instance != null) 
         {

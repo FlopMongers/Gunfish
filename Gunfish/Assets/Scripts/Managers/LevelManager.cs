@@ -22,6 +22,7 @@ public class LevelManager: PersistentSingleton<LevelManager> {
 
     Action nextCallback;
     string nextSceneName;
+    PlayerManager.InputMode nextInputMode;
     Animator anim;
 
     private void Start() 
@@ -31,22 +32,23 @@ public class LevelManager: PersistentSingleton<LevelManager> {
 
     public void LoadMainMenu() 
     {
-        LoadScene("MainMenu");
+        LoadScene("MainMenu", PlayerManager.InputMode.UI);
     }
 
     public void LoadStats() 
     {
-        LoadScene("Stats", MatchManager.instance.ShowStats);
+        LoadScene("Stats", PlayerManager.InputMode.EndLevel, MatchManager.instance.ShowStats);
     }
 
     public void LoadLevel(string levelName) 
     {
-        LoadScene(levelName, FinishLoadLevel);
+        LoadScene(levelName, PlayerManager.InputMode.Player, FinishLoadLevel);
 
     }
 
     void FinishLoadLevel() 
     {
+        // set new input mode here?
         FinishLoadLevel_Event?.Invoke();
         anim.SetTrigger("countdown");
     }
@@ -57,10 +59,13 @@ public class LevelManager: PersistentSingleton<LevelManager> {
         StartPlay_Event?.Invoke();
     }
 
-    void LoadScene(string sceneName, Action callback = null) 
+    void LoadScene(string sceneName, PlayerManager.InputMode inputMode, Action callback = null) 
     {
         nextSceneName = sceneName;
         nextCallback = callback;
+        nextInputMode = inputMode;
+        // disable controller
+        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.Null);
         anim.SetBool("veil", true);
     }
 
@@ -81,6 +86,7 @@ public class LevelManager: PersistentSingleton<LevelManager> {
     // unveil anim invokes this
     public void InvokeCallback() 
     {
+        PlayerManager.instance.SetInputMode(nextInputMode);
         nextCallback?.Invoke();
     }
 }
