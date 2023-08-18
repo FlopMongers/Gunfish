@@ -121,7 +121,7 @@ public class DeathMatchUI : MonoBehaviour {
         int playerIdx = 0;
         int topScore = 0;
         List<Player> winners = new List<Player>();
-        foreach (var playerScore in playerScores.OrderByDescending(x => x.Key)) {
+        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
             playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
             playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
             playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
