@@ -84,6 +84,10 @@ public class DeathMatchManager : MatchManager {
     private void EndLevel()
     {
         FreezeFish(true);
+        foreach (var activePlayer in parameters.activePlayers) {
+            activePlayer.OnDeath -= OnPlayerDeath;
+            activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
+        }
 
         var player = GetLastPlayerStanding();
         if (player != null)
