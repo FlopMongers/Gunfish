@@ -77,6 +77,11 @@ public class Gunfish : MonoBehaviour {
             return;
         }
 
+        if (segments.Count > 0 && segments[0] == null) {
+            spawned = false;
+            return;
+        }
+
         foreach (var effect in effectMap.Values) 
         {
             effect.Update();
