@@ -207,9 +207,8 @@ public class Gunfish : MonoBehaviour {
         if (FX_Spawner.instance != null)
         {
             // TODO, init properly
-            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab, MiddleSegment.transform).GetComponent<HealthUI>();
+            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab).GetComponentInChildren<HealthUI>();
             healthUI.Init(this);
-            healthUI.transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {playerNum+1}";
             FX_Spawner.instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }
 

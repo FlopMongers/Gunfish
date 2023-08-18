@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Security.Policy;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
@@ -19,6 +21,9 @@ public class HealthUI : MonoBehaviour
 
     Gunfish _gunfish;
     Shootable _shootable;
+
+    [SerializeField]
+    ParentConstraint pc;
 
     public void Start()
     {
@@ -38,6 +43,16 @@ public class HealthUI : MonoBehaviour
         return (_gunfish != null) ? _gunfish.data.maxHealth : _shootable.maxHealth;
     }
 
+    void SetUpConstraint(Transform target, Vector3? offset) 
+    {
+        var src = new ConstraintSource();
+        src.sourceTransform = target;
+        src.weight = 1f;
+        pc.AddSource(src);
+        pc.SetTranslationOffset(0, (offset != null) ? offset.Value : Vector3.zero);
+        pc.constraintActive = true;
+    }
+
     public void Init(Shootable shootable, Vector3? offset=null)
     {
         _shootable = shootable;
@@ -45,6 +60,8 @@ public class HealthUI : MonoBehaviour
         _shootable.OnHealthUpdated += UpdateHealth;
         _shootable.OnDead += OnShootableDeath;
         SetHealth(_shootable.health);
+
+        SetUpConstraint(shootable.transform, offset);
     }
 
     public void Init(Gunfish gunfish, Vector3? offset=null)
@@ -54,6 +71,9 @@ public class HealthUI : MonoBehaviour
         _gunfish.OnHealthUpdated += UpdateHealth;
         _gunfish.OnDeath += OnGunfishDeath;
         SetHealth(_gunfish.statusData.health);
+
+        SetUpConstraint(_gunfish.MiddleSegment.transform, offset);
+        transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {_gunfish.playerNum + 1}";
     }
 
     public void SetHealth(float health)
@@ -103,12 +123,6 @@ public class HealthUI : MonoBehaviour
             if (_hitInProgress) break;
             _timeSpentWaiting += Time.deltaTime;
             yield return new WaitForEndOfFrame();
-        }
-
-
-        if (!_hitInProgress)
-        {
-            _canvas.enabled = false;
         }
     }
 

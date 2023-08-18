@@ -524,6 +524,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9189882869126579373, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: mixer
+      value: 
+      objectReference: {fileID: 24300002, guid: f0616bc19253f34408de7cebcb671a24,
+        type: 2}
+    - target: {fileID: 9189882869126579373, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: healthUIPrefab
+      value: 
+      objectReference: {fileID: 8923636505052693735, guid: 7beff6df4ec50224f88d256e40608484,
+        type: 3}
+    - target: {fileID: 9189882869126579373, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: fishHealthUIPrefab
+      value: 
+      objectReference: {fileID: 1573270573997296394, guid: e4060d0c291598348b477c899101e33c,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
 --- !u!1001 &5870836715334963464

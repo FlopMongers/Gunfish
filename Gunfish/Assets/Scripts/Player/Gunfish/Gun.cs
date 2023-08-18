@@ -58,6 +58,7 @@ public class Gun : MonoBehaviour {
                 }
                 else if (shootable != null) {
                     shootable.Hit(new HitObject(hit.point, barrel.transform.right, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                    endPoint = hit.point;
                     break;
                 }
                 else {

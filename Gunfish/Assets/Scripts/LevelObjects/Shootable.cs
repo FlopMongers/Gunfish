@@ -11,7 +11,7 @@ public class Shootable : MonoBehaviour
     public Sprite damagedSprite;
     bool damaged;
 
-    [HideInInspector]
+
     public float health;
     public FloatGameEvent OnHealthUpdated;
     public GameEvent OnDead;
@@ -24,13 +24,15 @@ public class Shootable : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        health = maxHealth;
 
         // TODO init properly
         var healthBar = GetComponentInChildren<HealthUI>();
         if (healthBar == null && FX_Spawner.instance != null) 
         {
-            healthBar = Instantiate(FX_Spawner.instance.healthUIPrefab, transform).GetComponent<HealthUI>();
+            healthBar = Instantiate(FX_Spawner.instance.healthUIPrefab, transform).GetComponentInChildren<HealthUI>();
         }
+        healthBar.transform.parent.transform.parent = null;
         healthBar?.Init(this);
     }
 
@@ -53,7 +55,7 @@ public class Shootable : MonoBehaviour
             rb.AddForceAtPosition(hit.direction*hit.knockback, hit.position);
         }
         FX_Spawner.instance?.SpawnFX(hitFX, hit.position, -hit.direction);
-        UpdateHealth(hit.damage);
+        UpdateHealth(-hit.damage);
     }
 
     public void UpdateHealth(float amount)

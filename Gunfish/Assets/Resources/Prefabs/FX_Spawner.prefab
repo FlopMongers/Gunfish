@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71473bc39620ff41b4c80aea9046c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mixer: {fileID: 0}
+  mixer: {fileID: 24300002, guid: f0616bc19253f34408de7cebcb671a24, type: 2}
   Serialized_FX_Dict:
   - key: 1
     trackKey: 1
@@ -70,9 +70,9 @@ MonoBehaviour:
     key: 0
     trackKey: 0
     fx: {fileID: 534546817594487525, guid: 89afa508187e177409eac32811e5d5eb, type: 3}
-  healthUIPrefab: {fileID: 37056455272102180, guid: 376611996ce3cb34389c6dca870c5607,
+  healthUIPrefab: {fileID: 8923636505052693735, guid: 7beff6df4ec50224f88d256e40608484,
     type: 3}
-  fishHealthUIPrefab: {fileID: 37056455272102180, guid: ce41ec67167bd8145a3032408f5cfc4d,
+  fishHealthUIPrefab: {fileID: 1573270573997296394, guid: e4060d0c291598348b477c899101e33c,
     type: 3}
   freezeTime: 0
 --- !u!114 &5063042218386083386

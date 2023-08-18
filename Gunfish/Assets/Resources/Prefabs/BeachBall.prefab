@@ -169,6 +169,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef301691f3e33f54184ca54c149ae3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 10
+  damagedThreshold: 0
+  damagedSprite: {fileID: 0}
   health: 8
   destroyFX: 0
   hitFX: 0
+  damageFX: 0
