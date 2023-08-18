@@ -54,15 +54,10 @@ public class DeathMatchUI : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
 
     public void InitializeMatch(List<Player> players) {
         for (int i = 0; i < playerWidgets.Count; i++) {
             if (players.Count > i && players[i] != null) {
-                playerWidgets[i].gameObject.SetActive(true);
                 playerWidgets[i].InitializeMatch(players[i]);
                 playerWidgets[i].OnScoreChange(0);
             }
