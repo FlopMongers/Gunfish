@@ -121,4 +121,18 @@ public class HealthUI : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    void OnDestroy()
+    {
+        if (_gunfish)
+        {
+            _gunfish.OnHealthUpdated -= UpdateHealth;
+            _gunfish.OnDeath -= OnGunfishDeath;
+        }
+        if (_shootable)
+        {
+            _shootable.OnHealthUpdated -= UpdateHealth;
+            _shootable.OnDead -= OnShootableDeath;
+        }
+    }
 }
