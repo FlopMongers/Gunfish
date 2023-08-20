@@ -9,7 +9,7 @@ public struct MenuPageContext {
 }
 
 [RequireComponent(typeof(UIDocument))]
-public class MainMenu : MonoBehaviour {
+public class MainMenu : Singleton<MainMenu> {
 
     private MenuPageContext context;
 
@@ -20,17 +20,12 @@ public class MainMenu : MonoBehaviour {
     [SerializeField] private VisualTreeAsset gameModeSelect;
     [SerializeField] private VisualTreeAsset gunfishSelect;
 
-    private void Start() {
-        InitMenuPageContext();
-        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.UI);
-        SetState(MenuState.Splash);
-    }
-
-    private void InitMenuPageContext() {
+    public void InitializeMenu() {
         context = new MenuPageContext();
 
         context.menu = this;
         context.document = GetComponent<UIDocument>();
+        SetState(MenuState.Splash);
     }
 
     private void Update() {

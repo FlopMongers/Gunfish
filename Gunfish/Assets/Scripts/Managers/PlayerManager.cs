@@ -1,82 +1,38 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerManager : Singleton<PlayerManager> {
-    // TODO: Replace mock device IDs
-    public static readonly int playerOneDeviceId = 19;
-    public static readonly int playerTwoDeviceId = 20;
-    public static readonly int playerThreeDeviceId = 11;
-    public static readonly int playerFourDeviceId = 17;
-
     public List<Player> Players { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
     public List<PlayerInput> PlayerInputs { get; private set; }
 
-    protected override void Awake() {
-        base.Awake();
-        Players = new List<Player>();
-        PlayerFish = new List<GunfishData>();
-        PlayerInputs = new List<PlayerInput>();
+    private void Start() {
         JoinPlayers();
+        SetInputMode(InputMode.UI);
+        MainMenu.instance.InitializeMenu();
     }
 
     private void JoinPlayers() {
+        PlayerInputs = new List<PlayerInput>();
+        Players = new List<Player>();
+        PlayerFish = new List<GunfishData>();
+
         var inputManager = GetComponent<PlayerInputManager>();
-        int index = 0;
 
-        // Real devices need to be placed at specific indices.
-        // Since connection order is not guaranteed, have to have capacity ready.
-        if (GameManager.debug == false) {
-            PlayerInputs.Add(null);
-            PlayerInputs.Add(null);
-            //PlayerInputs.Add(null);
-            //PlayerInputs.Add(null);
-            Players.Add(null);
-            Players.Add(null);
-            //Players.Add(null);
-            //Players.Add(null);
-        }
-
-        PlayerInput playerInput;
-        foreach (var device in InputSystem.devices) {
-            Debug.Log($"Device {device.deviceId}: {device.displayName}");
-            PlayerFish.Add(null);
-            if (GameManager.debug == false) {
-                // Player 1
-                if (device.deviceId == playerOneDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device);
-                    PlayerInputs[0] = playerInput;
-                    Players[0] = playerInput.GetComponent<Player>();
-                }
-                // Player 2
-                else if (device.deviceId == playerTwoDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device);
-                    PlayerInputs[1] = playerInput;
-                    Players[1] = playerInput.GetComponent<Player>();
-                }
-                // Player 3
-                else if (device.deviceId == playerThreeDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device);
-                    PlayerInputs[2] = playerInput;
-                    Players[2] = playerInput.GetComponent<Player>();
-                }
-                // Player 4
-                else if (device.deviceId == playerFourDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device);
-                    PlayerInputs[3] = playerInput;
-                    Players[3] = playerInput.GetComponent<Player>();
-                }
-            } else {
-                var pattern = "(Keyboard|Controller|Joystick)";
-                var regex = new Regex(pattern);
-                if (regex.IsMatch(device.displayName) || device.deviceId == 19 || device.deviceId == 20) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
-                }
-            }
-        }
+        var pattern = GameManager.debug == true ? "(Keyboard|Controller|Joystick)" : "Joystick";
+        var regex = new Regex(pattern);
+        var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
+        
+        int playerIndex = 0;
+        inputDevices.ForEach(device => {
+            var playerInput = inputManager.JoinPlayer(playerIndex: playerIndex++, pairWithDevice: device);
+            var player = playerInput.GetComponent<Player>();
+            PlayerInputs.Add(playerInput);
+            Players.Add(player);
+            PlayerFish.Add(GameManager.instance.GunfishList[0]);
+        });
     }
 
     private void Update() {

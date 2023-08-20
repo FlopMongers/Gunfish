@@ -47,11 +47,8 @@ public class FishSelectMenuPage : IMenuPage {
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             displayedFishes.Add(fishes[0]);
             displayedFishIndices.Add(0);
+            SetFish(i, fishes[0]);
         }
-
-        displayedFishIndices.ForEach(displayedFishIndex => {
-            SetFish(displayedFishIndex, fishes[displayedFishIndex]);
-        });
     }
 
     public void OnDisable(MenuPageContext context) {
