@@ -581,6 +581,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[2].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[2].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: defaultTween.m_Curve.Array.data[2].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f1d34d704d350541bc538145950eab9, type: 3}
 --- !u!4 &2915784695254075340 stripped
