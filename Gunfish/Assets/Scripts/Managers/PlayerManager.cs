@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerManager : Singleton<PlayerManager> {
@@ -67,7 +68,9 @@ public class PlayerManager : Singleton<PlayerManager> {
                     Players[3] = playerInput.GetComponent<Player>();
                 }
             } else {
-                if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard") || device.deviceId == 19 || device.deviceId == 20) {
+                var pattern = "(Keyboard|Controller|Joystick)";
+                var regex = new Regex(pattern);
+                if (regex.IsMatch(device.displayName) || device.deviceId == 19 || device.deviceId == 20) {
                     playerInput = inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
                     PlayerInputs.Add(playerInput);
                     Players.Add(playerInput.GetComponent<Player>());
