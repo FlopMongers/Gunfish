@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Gun : MonoBehaviour {
     public Gunfish gunfish;
@@ -24,9 +25,35 @@ public class Gun : MonoBehaviour {
         gunfish.statusData.reloadTimer = Mathf.Max(0f, gunfish.statusData.reloadTimer - delta);
     }
 
+
+
+    float ammo, fireCooldown_timer;
+    public bool CheckFire() 
+    {
+        if (!gunfish.statusData.CanFire)
+            return false;
+
+        if (fireCooldown_timer > 0)
+            return false;
+
+        if (ammo <= 0)
+            return false;
+
+        // decrement ammo
+        // set fire cooldown
+        // reset ammo reload timer
+        return true;
+    }
+
+
     public void Fire()
     {
         if (!gunfish.statusData.CanFire) return;
+
+        // check fire ability
+        // check if fish can fire
+        // check gun fire cooldown
+        // check gun ammo
 
         // Reset fire timer
         gunfish.statusData.reloadTimer = gunfish.data.reloadTime;
