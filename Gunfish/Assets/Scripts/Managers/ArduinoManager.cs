@@ -49,7 +49,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         // f(t) = a * s(t) + b * (s(t) - s(t-1))
 
         float loudness = amplitude * 255;
-        // loudness = Mathf.M               xsin(sumDerivatives * 255*2f,255);
+        // loudness = Mathf.sin(sumDerivatives * 255*2f,255);
 
         return loudness;
     }
@@ -60,6 +60,14 @@ public class ArduinoManager : Singleton<ArduinoManager> {
             byte volume = (byte)Mathf.RoundToInt(SampleLoudness());
             byte[] buffer = new byte[] {volume};
             serialPort.Write(buffer, 0, 1);
+        }
+
+        if (!GameManager.debug) {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            source?.Play();
         }
     }
 
