@@ -24,7 +24,54 @@
  License: MIT License (https://opensource.org/licenses/MIT)
 */
 
-#include <MX1508.h>
+#if (ARDUINO >=100)
+#include "Arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
+class MX1508 {
+  public:
+    // Constructor
+    MX1508(int pin1, int pin2);
+
+    // Methods
+    void forward();
+    void backward();
+    void setSpeed(int motorSpeed);
+    void halt();
+
+  private:
+    int _pin1;
+    int _pin2;
+    int _motorSpeed;
+};
+
+MX1508::MX1508(int pin1, int pin2) {
+  pinMode(pin1, OUTPUT);
+  _pin1 = pin1;
+  pinMode(pin2, OUTPUT);
+  _pin2 = pin2;
+}
+
+void MX1508::forward() {
+  analogWrite(_pin1, _motorSpeed);
+  digitalWrite(_pin2, LOW);
+}
+
+void MX1508::backward() {
+  digitalWrite(_pin1, LOW);
+  analogWrite(_pin2, _motorSpeed);
+}
+
+void MX1508::setSpeed(int motorSpeed) {
+  _motorSpeed = motorSpeed;
+}
+
+void MX1508::halt() {
+  digitalWrite(_pin1, LOW);
+  digitalWrite(_pin2, LOW);
+}
 
 MX1508 bodyMotor(6, 9); // Sets up an MX1508 controlled motor on PWM pins 6 and 9
 MX1508 mouthMotor(5, 3); // Sets up an MX1508 controlled motor on PWM pins 5 and 3
