@@ -2,8 +2,8 @@ public class GunfishStatusData {
     public float stunTimer = 0f;
     public bool IsStunned { get => stunTimer > 0f; }
 
-    public float reloadTimer = 0f;
-    public bool CanFire { get => reloadTimer < UnityEngine.Mathf.Epsilon && alive; }
+    public bool canFire = true;
+    public bool CanFire { get => alive && canFire; }
 
     public float flopTimer = 0f;
     public float flopForce;

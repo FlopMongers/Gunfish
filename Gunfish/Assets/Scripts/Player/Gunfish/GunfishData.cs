@@ -38,4 +38,6 @@ public class GunfishData : ScriptableObject {
 
     [Header("Cooldowns")]
     [Range(0f, 1f)] public float flopCooldown;
+
+    public GunData gun;
 }

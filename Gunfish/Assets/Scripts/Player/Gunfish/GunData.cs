@@ -14,10 +14,14 @@ public class TransformTuple {
 public class GunData : ScriptableObject {
     [Header("Gun")]
     public List<TransformTuple> gunBarrels = new List<TransformTuple>();
-    public float gunKickback;
-    public float gunRange;
-    public float gunDamage;
-    public float gunKnockback;
+    public float kickback;
+    public float range;
+    public float damage;
+    public float knockback;
+    public int maxAmmo;
+
     public GameObject gunBarrelPrefab;
-    [Range(0f, 5f)] public float reloadTime;
+    public float fireCooldown;
+    public float reload;
+    public float reloadWait;
 }

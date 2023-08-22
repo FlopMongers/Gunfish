@@ -30,15 +30,6 @@ MonoBehaviour:
   underwaterForce: 200
   underwaterTorque: 4
   maxHealth: 10
-  gunBarrels:
-  - position: {x: 0, y: 0}
-    rotation: 180
-  gunKickback: 12
-  gunRange: 20
-  gunDamage: 4
-  gunKnockback: 5
-  gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
-    type: 3}
   length: 2
   width:
     serializedVersion: 2
@@ -66,4 +57,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   segmentCount: 8
   flopCooldown: 0.5
-  reloadTime: 0.5
+  gun: {fileID: 11400000, guid: f034610454e9e9a4dbb6eff4216b8b07, type: 2}

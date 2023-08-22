@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
+    public GameObject pip;
 
     [SerializeField]
     private Canvas _canvas;
@@ -18,6 +19,12 @@ public class HealthUI : MonoBehaviour
     private RawImage _orangeBar;
     [SerializeField]
     private RawImage _greenBar;
+
+    [SerializeField]
+    private RawImage _whiteBar;
+
+    [SerializeField]
+    private RectTransform _pipBar;
 
     Gunfish _gunfish;
     Shootable _shootable;
@@ -72,6 +79,15 @@ public class HealthUI : MonoBehaviour
         _gunfish.OnDeath += OnGunfishDeath;
         SetHealth(_gunfish.statusData.health);
 
+        // get ammo and hook into ammo change
+        for (int i = 0; i < gunfish.data.gun.maxAmmo; i++) 
+        {
+            // add pip
+            Instantiate(pip, _pipBar);
+        }
+        _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
+        gunfish.gun.OnAmmoChanged += value => { _whiteBar.rectTransform.localScale = new Vector3(value, 1f, 1f); };
+
         SetUpConstraint(_gunfish.MiddleSegment.transform, offset);
         transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {_gunfish.playerNum + 1}";
     }
@@ -117,13 +133,6 @@ public class HealthUI : MonoBehaviour
         }
         _orangeBar.rectTransform.localScale = new Vector3(_targetPercentage, 1f, 1f);
         _hitInProgress = false;
-
-        while (_timeSpentWaiting < 2f)
-        {
-            if (_hitInProgress) break;
-            _timeSpentWaiting += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
     }
 
     void OnGunfishDeath(Player player) 

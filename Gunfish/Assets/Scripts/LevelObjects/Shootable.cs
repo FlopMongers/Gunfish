@@ -27,12 +27,12 @@ public class Shootable : MonoBehaviour
         health = maxHealth;
 
         // TODO init properly
-        var healthBar = GetComponentInChildren<HealthUI>();
+        var healthBar = GetComponent<HealthUI>();
         if (healthBar == null && FX_Spawner.instance != null) 
         {
-            healthBar = Instantiate(FX_Spawner.instance.healthUIPrefab, transform).GetComponentInChildren<HealthUI>();
+            healthBar = Instantiate(FX_Spawner.instance.healthUIPrefab, transform).GetComponent<HealthUI>();
         }
-        healthBar.transform.parent.transform.parent = null;
+        healthBar.transform.parent = null;
         healthBar?.Init(this);
     }
 
