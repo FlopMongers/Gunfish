@@ -71,6 +71,11 @@ public class HealthUI : MonoBehaviour
         SetUpConstraint(shootable.transform, offset);
     }
 
+    void UpdateWhiteBar(float value) 
+    {
+        _whiteBar.rectTransform.localScale = new Vector3(value, 1f, 1f);
+    }
+
     public void Init(Gunfish gunfish, Vector3? offset=null)
     {
         _gunfish = gunfish;
@@ -86,7 +91,7 @@ public class HealthUI : MonoBehaviour
             Instantiate(pip, _pipBar);
         }
         _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
-        gunfish.gun.OnAmmoChanged += value => { _whiteBar.rectTransform.localScale = new Vector3(value, 1f, 1f); };
+        gunfish.gun.OnAmmoChanged += UpdateWhiteBar;
 
         SetUpConstraint(_gunfish.MiddleSegment.transform, offset);
         transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {_gunfish.playerNum + 1}";
@@ -151,6 +156,7 @@ public class HealthUI : MonoBehaviour
         {
             _gunfish.OnHealthUpdated -= UpdateHealth;
             _gunfish.OnDeath -= OnGunfishDeath;
+            _gunfish.gun.OnAmmoChanged -= UpdateWhiteBar;
         }
         if (_shootable)
         {
