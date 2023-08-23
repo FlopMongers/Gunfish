@@ -26,7 +26,8 @@ public class Gunfish : MonoBehaviour {
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
     private GunfishRigidbody body;
-    private Gun gun;
+    [HideInInspector]
+    public Gun gun;
 
     private InputActionMap inputHandler;
 
@@ -54,7 +55,7 @@ public class Gunfish : MonoBehaviour {
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
         inputHandler = playerInput.actions.FindActionMap("Player");
-        inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
+        //inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
         playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { MatchManager.instance?.NextLevel(); };
     }
 
@@ -196,6 +197,7 @@ public class Gunfish : MonoBehaviour {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
         this.data = data;
+        gun.ammo = data.gun.maxAmmo;
 
         this.statusData = new GunfishStatusData();
         statusData.health = data.maxHealth;
@@ -208,7 +210,7 @@ public class Gunfish : MonoBehaviour {
         if (FX_Spawner.instance != null)
         {
             // TODO, init properly
-            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab).GetComponentInChildren<HealthUI>();
+            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab).GetComponent<HealthUI>();
             healthUI.Init(this);
             FX_Spawner.instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }
@@ -219,9 +221,9 @@ public class Gunfish : MonoBehaviour {
         spawned = true;
         killed = false;
 
-        foreach (TransformTuple tuple in data.gunBarrels) {
+        foreach (TransformTuple tuple in data.gun.gunBarrels) {
             // spawn
-            var barrel = Instantiate(data.gunBarrelPrefab).transform; // new GameObject("barrel").transform;
+            var barrel = Instantiate(data.gun.gunBarrelPrefab).transform; // new GameObject("barrel").transform;
             barrel.parent = segments[0].transform;
             barrel.localPosition = tuple.position;
             barrel.localEulerAngles = Vector3.forward * tuple.rotation;

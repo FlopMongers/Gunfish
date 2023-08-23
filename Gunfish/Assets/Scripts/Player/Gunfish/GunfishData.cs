@@ -3,13 +3,6 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
 
-[Serializable]
-public class TransformTuple
-{
-    public Vector2 position;
-    public float rotation; // z rotation
-}
-
 
 [CreateAssetMenu(menuName = "Gunfish/Gunfish Data", fileName = "New Gunfish Data")]
 public class GunfishData : ScriptableObject {
@@ -38,14 +31,6 @@ public class GunfishData : ScriptableObject {
     [Header("Health")]
     public float maxHealth;
 
-    [Header("Gun")]
-    public List<TransformTuple> gunBarrels = new List<TransformTuple>();
-    public float gunKickback;
-    public float gunRange;
-    public float gunDamage;
-    public float gunKnockback;
-    public GameObject gunBarrelPrefab;
-
     [Header("Dimensions")]
     [Range(0.5f, 5f)] public float length = 2f;
     public AnimationCurve width = AnimationCurve.Constant(0f, 1f, 1f);
@@ -53,5 +38,6 @@ public class GunfishData : ScriptableObject {
 
     [Header("Cooldowns")]
     [Range(0f, 1f)] public float flopCooldown;
-    [Range(0f, 5f)] public float reloadTime;
+
+    public GunData gun;
 }

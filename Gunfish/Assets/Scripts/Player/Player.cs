@@ -79,6 +79,10 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
             throw new UnityException($"Cannot fire gun for {name} as a Gunfish has not been instantiated.");
         }
 
+        if (FreezeControls) {
+            return;
+        }
+
         if (value.isPressed) {
             gunfish.Fire();
         }
