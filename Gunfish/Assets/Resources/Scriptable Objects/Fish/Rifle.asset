@@ -22,6 +22,6 @@ MonoBehaviour:
   maxAmmo: 6
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
-  fireCooldown: 0.25
+  fireCooldown: 0.5
   reload: 0.75
   reloadWait: 1

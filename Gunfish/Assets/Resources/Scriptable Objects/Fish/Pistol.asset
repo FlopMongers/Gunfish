@@ -15,13 +15,13 @@ MonoBehaviour:
   gunBarrels:
   - position: {x: 0, y: 0}
     rotation: 180
-  kickback: 5
+  kickback: 6
   range: 20
-  damage: 1.5
+  damage: 2
   knockback: 5
   maxAmmo: 12
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
-  fireCooldown: 0.25
+  fireCooldown: 0.1
   reload: 0.5
   reloadWait: 1
