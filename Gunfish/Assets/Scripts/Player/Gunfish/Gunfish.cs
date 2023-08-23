@@ -136,7 +136,8 @@ public class Gunfish : MonoBehaviour {
 
         if (movement.sqrMagnitude > Mathf.Epsilon) {
             if (body.Grounded) {
-                GroundedMovement(movement);
+                if (statusData.CanFlop)
+                    GroundedMovement(movement);
             } else if (body.underwater) {
                 RotateMovement(movement, data.underwaterTorque);
             }
