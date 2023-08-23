@@ -14,12 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunBarrels:
   - position: {x: 0, y: 0}
-    rotation: 180
-  kickback: 10
-  range: 20
-  damage: 4
-  knockback: 8
-  maxAmmo: 6
+    rotation: 165
+  - position: {x: 0, y: 0}
+    rotation: 175
+  - position: {x: 0, y: 0}
+    rotation: 185
+  - position: {x: 0, y: 0}
+    rotation: 195
+  kickback: 15
+  range: 10
+  damage: 6
+  knockback: 15
+  maxAmmo: 2
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
   fireCooldown: 0.25

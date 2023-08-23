@@ -1,13 +1,16 @@
-public class GunfishStatusData {
-    public float stunTimer = 0f;
-    public bool IsStunned { get => stunTimer > 0f; }
+using UnityEngine.UIElements.Experimental;
 
-    public bool canFire = true;
-    public bool CanFire { get => alive && canFire; }
+public class GunfishStatusData {
+
+    private bool canMove = true;
+    public bool CanMove { get => alive && canMove; set => canMove = value; }
+
+    private bool canFire=true;
+    public bool CanFire { get => CanMove && canFire == true; set => canFire = value; }
 
     public float flopTimer = 0f;
     public float flopForce;
-    public bool CanFlop { get => flopTimer < UnityEngine.Mathf.Epsilon && alive; }
+    public bool CanFlop { get => flopTimer < UnityEngine.Mathf.Epsilon && CanMove; }
     public bool inputLocked = false;
 
     public float health;

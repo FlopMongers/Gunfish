@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEditor.UI;
 
-public enum EffectType { FlopModify };
+public enum EffectType { FlopModify, NoMove };
 
 
 [Serializable]
@@ -61,11 +61,15 @@ public class FlopModify_Effect : Effect
         gunfish.statusData.flopForce *= flopMultiplier;
     }
 
-    public override void Update()
+    public override void Merge(Effect effect)
     {
+        FlopModify_Effect t_effect = (FlopModify_Effect) effect;
+        flopMultiplier += t_effect.flopMultiplier;
+    }
+
+    public override void Update() {
         base.Update();
-        if (Mathf.Approximately(this.flopMultiplier, 0))
-        {
+        if (Mathf.Approximately(flopMultiplier, 0)) {
             gunfish.RemoveEffect(effectType);
         }
     }
@@ -74,5 +78,38 @@ public class FlopModify_Effect : Effect
     {
         base.OnRemove();
         gunfish.statusData.flopForce = gunfish.data.flopForce;
+    }
+}
+
+[Serializable]
+public class NoMove_Effect : Effect {
+    public int counter;
+
+    public NoMove_Effect(Gunfish gunfish, int counter=1) : base(gunfish) {
+        this.counter = counter;
+        effectType = EffectType.NoMove;
+    }
+
+    public override void OnAdd() {
+        base.OnAdd();
+        gunfish.statusData.CanMove = false;
+    }
+
+    public override void Merge(Effect effect) 
+    {
+        // eat that friggin effect
+        NoMove_Effect t_effect = (NoMove_Effect) effect;
+        counter += t_effect.counter;
+    }
+
+    public override void Update() {
+        base.Update();
+        if (counter <= 0)
+            gunfish.RemoveEffect(effectType);
+    }
+
+    public override void OnRemove() {
+        base.OnRemove();
+        gunfish.statusData.CanMove = true;
     }
 }

@@ -71,7 +71,7 @@ public class Gun : MonoBehaviour {
     {
         if (!CheckFire()) return;
 
-        gunfish.Kickback(gunfish.data.gun.kickback);
+        Kickback(gunfish.data.gun.kickback);
         Vector3 endPoint;
 
         FX_Spawner.instance?.SpawnFX(
@@ -115,6 +115,12 @@ public class Gun : MonoBehaviour {
             }
             barrel.Flash(endPoint);
         }
+    }
+
+    public void Kickback(float kickback) {
+        var direction = (gunfish.segments[1].transform.position - gunfish.segments[0].transform.position).normalized;
+        // gun kickback
+        gunfish.body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
     }
 
     public virtual bool ResolveHit(Gun gun, GunfishSegment segment) {

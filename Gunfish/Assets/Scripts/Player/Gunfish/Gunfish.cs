@@ -21,11 +21,14 @@ public class Gunfish : MonoBehaviour {
     public GunfishData data;
     public bool debug = false;
 
-    private List<GameObject> segments;
-    public GameObject MiddleSegment { get { return segments[segments.Count / 2]; } }
+    [HideInInspector]
+    public List<GameObject> segments;
+    public int MiddleSegmentIndex { get { return segments.Count / 2; } }
+    public GameObject MiddleSegment { get { return segments[MiddleSegmentIndex]; } }
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
-    private GunfishRigidbody body;
+    [HideInInspector]
+    public GunfishRigidbody body;
     [HideInInspector]
     public Gun gun;
 
@@ -90,7 +93,10 @@ public class Gunfish : MonoBehaviour {
         }
         foreach (var effect in EffectRemoveList)
         {
-            effectMap.Remove(effect);
+            if (effectMap.ContainsKey(effect)) {
+                effectMap[effect].OnRemove();
+                effectMap.Remove(effect);
+            }
         }
 
         renderer?.Render();
@@ -111,6 +117,7 @@ public class Gunfish : MonoBehaviour {
             effectMap[effect.effectType].Merge(effect);
         } else {
             effectMap[effect.effectType] = effect;
+            effect.OnAdd();
         }
     }
 
@@ -119,12 +126,11 @@ public class Gunfish : MonoBehaviour {
     }
 
     private void DecrementTimers(float delta) {
-        statusData.stunTimer = Mathf.Max(0f, statusData.stunTimer - delta);
         statusData.flopTimer = Mathf.Max(0f, statusData.flopTimer - delta);
     }
 
     private void Movement() {
-        if (statusData == null || statusData.alive == false || statusData.IsStunned || !statusData.CanFlop) return;
+        if (statusData == null || !statusData.CanMove) return;
 
         // if underwater
 
@@ -184,12 +190,6 @@ public class Gunfish : MonoBehaviour {
     public void UpdateHealth(float amount) {
         statusData.health += amount;
         OnHealthUpdated?.Invoke(statusData.health);
-    }
-
-    public void Kickback(float kickback) {
-        var direction = (segments[1].transform.position - segments[0].transform.position).normalized;
-        // gun kickback
-        body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
     }
 
     public Vector3? GetPosition() {
