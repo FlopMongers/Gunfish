@@ -36,7 +36,7 @@ MonoBehaviour:
           type: 0
           sorting: 0
           sortingIgnore: 0
-          shadowEffect: 3
+          shadowEffect: 2
           shadowEffectLayer: 0
           maskLit: 0
           maskLitDistance: 1
