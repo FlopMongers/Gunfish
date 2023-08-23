@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Race
   m_EditorClassIdentifier: 
   gameModeType: 1
-  image: {fileID: 2800000, guid: 61c4f6f2b66bb4c4da85a4e66515593b, type: 3}
+  image: {fileID: 2800000, guid: 9493e819adb28df4eb8dbc48774dbf67, type: 3}
   matchManagerPrefab: {fileID: 0}
