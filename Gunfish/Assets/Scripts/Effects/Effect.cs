@@ -18,6 +18,11 @@ public class Effect
         this.gunfish = gunfish;
     }
 
+    public virtual void Check(Effect effect) 
+    {
+        // possibly respond to the addition of another effect
+    }
+
     public virtual void OnAdd()
     {
         // do something to that gunfish

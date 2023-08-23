@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96fcdc3eed3044b44a2e2354af873469, type: 3}
+  m_Name: Shotty
+  m_EditorClassIdentifier: 
+  gunBarrels:
+  - position: {x: 0, y: 0}
+    rotation: 180
+  kickback: 10
+  range: 20
+  damage: 4
+  knockback: 8
+  maxAmmo: 6
+  gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
+    type: 3}
+  fireCooldown: 0.25
+  reload: 0.75
+  reloadWait: 1

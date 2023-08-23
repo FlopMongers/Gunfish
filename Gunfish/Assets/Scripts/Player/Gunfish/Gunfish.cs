@@ -102,6 +102,11 @@ public class Gunfish : MonoBehaviour {
     }
 
     public void AddEffect(Effect effect) {
+        foreach (var srcEffect in effectMap.Values) 
+        {
+            srcEffect.Check(effect);
+        }
+
         if (effectMap.ContainsKey(effect.effectType)) {
             effectMap[effect.effectType].Merge(effect);
         } else {

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96fcdc3eed3044b44a2e2354af873469, type: 3}
-  m_Name: Default Gun
+  m_Name: Pistol
   m_EditorClassIdentifier: 
   gunBarrels:
   - position: {x: 0, y: 0}
     rotation: 180
-  kickback: 10
+  kickback: 5
   range: 20
-  damage: 4
-  knockback: 8
-  maxAmmo: 6
+  damage: 1.5
+  knockback: 5
+  maxAmmo: 12
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
   fireCooldown: 0.25
-  reload: 0.75
+  reload: 0.5
   reloadWait: 1
