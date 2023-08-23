@@ -78,6 +78,7 @@ public class Gunfish : MonoBehaviour {
         }
 
         if (segments.Count > 0 && segments[0] == null) {
+            Despawn(false);
             spawned = false;
             return;
         }

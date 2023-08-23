@@ -18,8 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Prototype/Stats.unity
     guid: d86462ceaa5a5c54da7e162fb328f872
   - enabled: 1
-    path: Assets/Scenes/Prototype/Stage0.unity
+    path: Assets/Scenes/Levels/crags.unity
     guid: c6b20b12ee72972469b888b58c3512ed
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel.unity
+    guid: d97c2aca0b082b343a7577eb252c9e5f
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 74c65e590e412408290a756175924e53,
       type: 2}
