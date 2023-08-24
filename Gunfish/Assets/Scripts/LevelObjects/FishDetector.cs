@@ -11,6 +11,18 @@ public class FishDetector : MonoBehaviour
 
     public bool DetectCollision=true, DetectTrigger=true;
 
+    [HideInInspector]
+    public List<Collider2D> colliders = new List<Collider2D>();
+
+    private void Start() {
+        colliders = new List<Collider2D>(gameObject.GetComponentsInChildren<Collider2D>());
+    }
+
+    public void SetCollidersEnabled(bool enable) {
+        foreach (var collider in colliders)
+            collider.enabled = enable;
+    }
+
     bool DetectFishEnter(GunfishSegment segment)
     {
         if (segment == null)

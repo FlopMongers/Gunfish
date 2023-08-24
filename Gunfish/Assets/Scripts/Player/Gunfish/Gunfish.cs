@@ -74,6 +74,11 @@ public class Gunfish : MonoBehaviour {
 
         if (!statusData.alive) {
             // kill da fish
+            foreach (var effect in effectMap)
+                EffectRemoveList.Add(effect.Key);
+            foreach (var effect in EffectRemoveList)
+                effectMap.Remove(effect);
+            EffectRemoveList.Clear();
             FX_Spawner.instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);
             Despawn(true);
             killed = true;
@@ -98,6 +103,7 @@ public class Gunfish : MonoBehaviour {
                 effectMap.Remove(effect);
             }
         }
+        EffectRemoveList.Clear();
 
         renderer?.Render();
         DecrementTimers(Time.deltaTime);
@@ -236,6 +242,8 @@ public class Gunfish : MonoBehaviour {
             gun.barrels.Add(barrel.gameObject.GetComponent<GunBarrel>());
         }
     }
+
+    public void Kill() { statusData.health = 0f; }
 
     public void Despawn(bool animated) {
         gun.barrels = new List<GunBarrel>();

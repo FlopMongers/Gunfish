@@ -108,14 +108,14 @@ public class HealthUI : MonoBehaviour
     private bool _hitInProgress = false;
     private float _targetPercentage = 0f;
     private const float _hitDuration = 2f;
-    private float _timeSpentWaiting = 0f;
+    // private float _timeSpentWaiting = 0f;
 
     public void UpdateHealth(float health)
     {
         if (!_canvas) return;
         // _canvas.enabled = true;
         EnableBars(!Mathf.Approximately(health, GetTargetMaxHealth()));
-        _timeSpentWaiting = 0f;
+        // _timeSpentWaiting = 0f;
         _targetPercentage = health / GetTargetMaxHealth();
         _greenBar.rectTransform.localScale = new Vector3(_targetPercentage, 1f, 1f);
 

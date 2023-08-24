@@ -87,7 +87,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &8960422005761730392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,11 +117,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7bcac4e4cc6f8549b0e27f108cbcb7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pip: {fileID: 0}
   _canvas: {fileID: 1000622601213464415}
   _redBar: {fileID: 7880465067780887758}
   _orangeBar: {fileID: 6533637074740648690}
   _greenBar: {fileID: 8383699130936833282}
-  pc: {fileID: 0}
+  _whiteBar: {fileID: 0}
+  _pipBar: {fileID: 0}
+  pc: {fileID: 1522749286430246239}
 --- !u!1773428102 &1522749286430246239
 ParentConstraint:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class Shootable : MonoBehaviour
     public FloatGameEvent OnHealthUpdated;
     public GameEvent OnDead;
 
-    public FXType destroyFX, hitFX, damageFX;
+    public FXType destroyFX, hitFX, damagedFX;
 
     Rigidbody2D rb;
 
@@ -67,7 +67,7 @@ public class Shootable : MonoBehaviour
             {
                 var r = GetComponent<SpriteRenderer>();
                 if (r != null) r.sprite = damagedSprite;
-                FX_Spawner.instance?.SpawnFX(damageFX, transform.position, Quaternion.identity);
+                FX_Spawner.instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
                 damaged = true;
             }
         }
