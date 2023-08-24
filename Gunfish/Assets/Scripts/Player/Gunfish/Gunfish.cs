@@ -189,6 +189,7 @@ public class Gunfish : MonoBehaviour {
 
     public void Hit(FishHitObject hit) {
         // tell match manager about this for possible scoring
+        // TODO: replace with generalized FX_CollisionHandler?
         FX_Spawner.instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);

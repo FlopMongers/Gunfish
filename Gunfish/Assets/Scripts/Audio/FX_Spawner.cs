@@ -94,7 +94,7 @@ public class FX_Spawner : MonoBehaviour
         CinemachineImpulseManager.Instance.IgnoreTimeScale = true;
     }
 
-    public void BAM(float time=0.6f) {
+    public void BAM(float time=0.4f) {
         impulseSource.GenerateImpulseWithVelocity(Random.insideUnitSphere);
         freezeTime = time;
     }

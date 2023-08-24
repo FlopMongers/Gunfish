@@ -106,6 +106,7 @@ public class Gun : MonoBehaviour {
                     break;
                 }
                 else {
+                    // TODO: replace with generalized FX_CollisionHandler code
                     FX_Spawner.instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
                     endPoint = hit.point;
                     break;
