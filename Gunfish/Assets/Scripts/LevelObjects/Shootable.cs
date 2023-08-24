@@ -32,8 +32,10 @@ public class Shootable : MonoBehaviour
         {
             healthBar = Instantiate(FX_Spawner.instance.healthUIPrefab, transform).GetComponent<HealthUI>();
         }
-        healthBar.transform.parent = null;
-        healthBar?.Init(this);
+        if (healthBar != null) {
+            healthBar.transform.parent = null;
+            healthBar.Init(this);
+        }
     }
 
     // Update is called once per frame
