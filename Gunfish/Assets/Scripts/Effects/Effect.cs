@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor.UI;
+using System.Drawing.Printing;
 
-public enum EffectType { FlopModify, NoMove };
+public enum EffectType { FlopModify, NoMove, Underwater };
 
 
 [Serializable]
@@ -81,24 +82,17 @@ public class FlopModify_Effect : Effect
     }
 }
 
-[Serializable]
-public class NoMove_Effect : Effect {
+// NOTE: consider using composition over inheritance here.
+public class Counter_Effect : Effect {
     public int counter;
 
-    public NoMove_Effect(Gunfish gunfish, int counter=1) : base(gunfish) {
+    public Counter_Effect(Gunfish gunfish, int counter) : base(gunfish) {
         this.counter = counter;
-        effectType = EffectType.NoMove;
     }
 
-    public override void OnAdd() {
-        base.OnAdd();
-        gunfish.statusData.CanMove = false;
-    }
-
-    public override void Merge(Effect effect) 
-    {
+    public override void Merge(Effect effect) {
         // eat that friggin effect
-        NoMove_Effect t_effect = (NoMove_Effect) effect;
+        Counter_Effect t_effect = (Counter_Effect)effect;
         counter += t_effect.counter;
     }
 
@@ -107,9 +101,40 @@ public class NoMove_Effect : Effect {
         if (counter <= 0)
             gunfish.RemoveEffect(effectType);
     }
+}
+
+[Serializable]
+public class NoMove_Effect : Counter_Effect {
+
+    public NoMove_Effect(Gunfish gunfish, int counter=1) : base(gunfish, counter) {
+        effectType = EffectType.NoMove;
+    }
+
+    public override void OnAdd() {
+        base.OnAdd();
+        gunfish.statusData.CanMove = false;
+    }
 
     public override void OnRemove() {
         base.OnRemove();
         gunfish.statusData.CanMove = true;
+    }
+}
+
+[Serializable]
+public class Underwater_Effect : Counter_Effect {
+
+    public Underwater_Effect(Gunfish gunfish, int counter = 1) : base(gunfish, counter) {
+        effectType = EffectType.Underwater;
+    }
+
+    public override void OnAdd() {
+        base.OnAdd();
+        gunfish.body.SetUnderwater(true);
+    }
+
+    public override void OnRemove() {
+        base.OnRemove();
+        gunfish.body.SetUnderwater(false);
     }
 }
