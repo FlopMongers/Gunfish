@@ -18,7 +18,7 @@ public struct FishSegment {
 public class GunfishRigidbody {
     public List<FishSegment> segments;
     private int groundMask;
-    public bool underwater;
+    // public bool underwater;
     public GroundMaterial currentGroundMaterial;
 
     public bool Grounded {
@@ -30,7 +30,7 @@ public class GunfishRigidbody {
             return false;
         }
     }
-
+    /*
     // set underwater
     public void SetUnderwater(bool underwater)
     {
@@ -43,6 +43,7 @@ public class GunfishRigidbody {
             this.underwater = underwater;
         }
     }
+    */
 
     public GunfishRigidbody(List<GameObject> segments, LayerMask layerMask) {
         groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layerMask);

@@ -52,6 +52,7 @@ public class GunfishGenerator {
         GunfishSegment segment = obj.AddComponent<GunfishSegment>();
         segment.gunfish = gunfish;
         segment.index = index;
+        segment.isGun = index == data.gunSegmentIndex;
 
 
         var rb = obj.AddComponent<Rigidbody2D>();

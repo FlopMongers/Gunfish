@@ -40,4 +40,5 @@ public class GunfishData : ScriptableObject {
     [Range(0f, 1f)] public float flopCooldown;
 
     public GunData gun;
+    public int gunSegmentIndex = 0;
 }

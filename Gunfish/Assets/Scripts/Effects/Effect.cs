@@ -120,21 +120,3 @@ public class NoMove_Effect : Counter_Effect {
         gunfish.statusData.CanMove = true;
     }
 }
-
-[Serializable]
-public class Underwater_Effect : Counter_Effect {
-
-    public Underwater_Effect(Gunfish gunfish, int counter = 1) : base(gunfish, counter) {
-        effectType = EffectType.Underwater;
-    }
-
-    public override void OnAdd() {
-        base.OnAdd();
-        gunfish.body.SetUnderwater(true);
-    }
-
-    public override void OnRemove() {
-        base.OnRemove();
-        gunfish.body.SetUnderwater(false);
-    }
-}

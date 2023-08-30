@@ -13,15 +13,34 @@ public class WaterZone : MonoBehaviour
         if (detector == null)
             detector = GetComponent<FishDetector>();
 
-        detector.OnFishTriggerEnter += OnFishEnter;
-        detector.OnFishTriggerExit += OnFishExit;
+        detector.OnFirstSegmentExit += FishSploosh;
+        detector.OnFishTriggerEnter += FishSploosh;
     }
 
-    void OnFishEnter(GunfishSegment segment, Collider2D collider) {
-        segment.gunfish.AddEffect(new Underwater_Effect(segment.gunfish));
+    void FishSploosh(GunfishSegment segment, Collider2D collider) {
+        // sploosh the darn fish
     }
 
-    void OnFishExit(GunfishSegment segment, Collider2D collider) {
-        segment.gunfish.AddEffect(new Underwater_Effect(segment.gunfish, -1));
+    private void OnTriggerEnter2D(Collider2D collision) {
+        // if fish segment, tell the segment to be underwater
+        var fishSegment = collision.gameObject.GetComponent<GunfishSegment>();
+        if (fishSegment != null) {
+            print(fishSegment);
+            fishSegment.SetUnderwater(true);
+        }
+        else {
+            // sploosh
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        // if fish, set not underwater
+        var fishSegment = collision.gameObject.GetComponent<GunfishSegment>();
+        if (fishSegment != null) {
+            fishSegment.SetUnderwater(false);
+        }
+        else {
+            // sploosh
+        }
     }
 }

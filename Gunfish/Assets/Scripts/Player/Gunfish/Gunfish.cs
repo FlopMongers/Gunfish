@@ -44,6 +44,9 @@ public class Gunfish : MonoBehaviour {
 
     public int playerNum;
 
+    [HideInInspector]
+    public bool underwater;
+
     private void Start() {
         gun = GetComponent<Gun>();
         gun.gunfish = this;
@@ -144,7 +147,7 @@ public class Gunfish : MonoBehaviour {
             if (body.Grounded) {
                 if (statusData.CanFlop)
                     GroundedMovement(movement);
-            } else if (body.underwater) {
+            } else if (underwater) {
                 RotateMovement(movement, data.underwaterTorque);
             }
             RotateMovement(movement);
@@ -180,7 +183,7 @@ public class Gunfish : MonoBehaviour {
             return;
         // if underwater, then zoom
         int index = segments.Count / 2;
-        if (body.underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity) {
+        if (underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity) {
             body.ApplyForceToSegment(index, -segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
         } else {
             gun.Fire();
