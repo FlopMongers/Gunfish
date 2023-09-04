@@ -10,13 +10,24 @@ using System.Runtime.CompilerServices;
 using Debug = UnityEngine.Debug;
 using UnityEditor;
 
-public class WaterSurfaceGenerator : MonoBehaviour
-{
+public class WaterSurfaceGenerator : MonoBehaviour {
     public Transform startPoint, endPoint;
 
     public int numMiddleNodes;
 
     public GameObject waterNodePrefab;
+
+    public void ClearCurrentNodes() {
+        List<GameObject> toDestroy = new List<GameObject>();
+        foreach(Transform child in transform) {
+            if(child.gameObject.GetComponent<WaterSurfaceNode>()) {
+                toDestroy.Add(child.gameObject);
+            }
+        }
+        foreach(GameObject obj in toDestroy) {
+            DestroyImmediate(obj);
+        }
+    }
 
     WaterSurfaceNode SpawnNode(Vector3 position, WaterSurfaceNode prevNode) {
         // instantiate node
@@ -24,8 +35,7 @@ public class WaterSurfaceGenerator : MonoBehaviour
         // hook up to prevNode
         if (prevNode != null) {
             node.prevSpring.connectedBody = prevNode.rb;
-        }
-        else {
+        } else {
             node.prevSpring.enabled = false;
         }
         node.selfSpring.connectedAnchor = node.transform.position;
@@ -52,9 +62,12 @@ public class WaterSurfaceGeneratorEditor : Editor {
         DrawDefaultInspector();
 
         var scripts = targets.OfType<WaterSurfaceGenerator>();
-        if (GUILayout.Button("GARBULATE"))
-            foreach (var script in scripts)
+        if (GUILayout.Button("GARBULATE")) {
+            foreach (var script in scripts) {
+                script.ClearCurrentNodes();
                 script.Garbulate();
+            }
+        }
     }
 }
 #endif
