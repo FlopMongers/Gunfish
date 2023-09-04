@@ -78,30 +78,39 @@ MX1508 mouthMotor(5, 3); // Sets up an MX1508 controlled motor on PWM pins 5 and
 
 int soundPin = A0; // Sound input
 
-int silence = 12; // Threshold for "silence". Anything below this level is ignored.
+int silence = 2; // Threshold for "silence". Anything below this level is ignored.
 int soundVolume = 0; // variable to hold the analog audio value
 
 //these variables are for storing the current time, scheduling times for actions to end, and when the action took place
-long currentTime;
-long timeOfLastSound;
-long mouthActionTime;
+unsigned long currentTime;
+unsigned long timeOfLastSound;
+unsigned long timeOfLastByte;
+unsigned long mouthActionTime;
 
 enum FishState {
   WAIT,
   TALK
 };
+enum MouthState {
+  MOUTH_OPENING,
+  MOUTH_CLOSING
+};
 
 FishState fishState = WAIT;
+MouthState mouthState = MOUTH_CLOSING;
 
 void setup() {
-//make sure both motor speeds are set to zero
+//Max speeds of the motors
   bodyMotor.setSpeed(255); 
-  mouthMotor.setSpeed(255);
+  mouthMotor.setSpeed(120);
 
   timeOfLastSound = millis();
+  timeOfLastByte = millis();
+  mouthActionTime = millis();
 
 //input mode for sound pin
   pinMode(soundPin, INPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.begin(9600);
 }
@@ -110,6 +119,8 @@ void loop() {
   currentTime = millis();
   updateSoundInput();
   handleState();
+  handleMouthState();
+  delay(10);
 }
 
 void handleState() {
@@ -124,22 +135,13 @@ void talk() {
   // Transition
   if (millis() - timeOfLastSound > 1000) {
     fishState = WAIT;
+    bodyMotor.halt();
+    // digitalWrite(LED_BUILTIN, LOW);
     return;
   }
 
   if (soundVolume > silence) {
     timeOfLastSound = millis();
-  }
-
-  // Action
-  bodyMotor.forward();
-
-  int timeDiff = currentTime - mouthActionTime;
-  int mouthInterval = 100;
-  if (timeDiff % (mouthInterval * 2) < mouthInterval) {
-    mouthMotor.forward();
-  } else {
-    mouthMotor.backward();
   }
 }
 
@@ -147,21 +149,50 @@ void wait() {
   // Transition
   if (soundVolume > silence) {
     timeOfLastSound = 0;
-    mouthActionTime = currentTime;
     fishState = TALK;
+    bodyMotor.forward();
+    // digitalWrite(LED_BUILTIN, HIGH);
+    
     return;
   }
-  
-  // Action
-  bodyMotor.halt();
-  mouthMotor.halt();
 }
 
-int updateSoundInput() {
-  if (Serial.available()) {
-    unsigned char value = Serial.read();
-    soundVolume = (int)value;
+void handleMouthState() {
+  if (mouthState == MOUTH_OPENING) {
+    mouthOpening();
   } else {
+    mouthClosing();
+  }
+}
+
+void mouthOpening() {
+  if (currentTime > mouthActionTime) {
+    mouthState = MOUTH_CLOSING;
+    mouthMotor.halt();
+    digitalWrite(LED_BUILTIN, LOW);
+    mouthActionTime = currentTime + 400;
+    return;
+  }
+}
+void mouthClosing() {
+  if ((currentTime > mouthActionTime) && (fishState == TALK)) {
+    mouthState = MOUTH_OPENING;
+    mouthMotor.forward();
+    digitalWrite(LED_BUILTIN, HIGH);
+    mouthActionTime = currentTime + 100;
+    return;
+  }
+}
+
+void updateSoundInput() {
+  if (Serial.available() > 0) {
+    int value = Serial.read();
+    if (value >= 0)
+    {
+      soundVolume = value;
+      timeOfLastByte = currentTime;
+    }
+  } else if (currentTime > timeOfLastByte + 1000) {
     soundVolume = 0;
   }
 }
