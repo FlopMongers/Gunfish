@@ -3,8 +3,7 @@ Shader "Unlit/Water"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _NodesX ("NodesX", Float) = (-6, -2, 4, 6)
-        _NodesY ("NodesY", Float) = (0, 0, 0, 0)
+        _Color ("Color", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -17,8 +16,6 @@ Shader "Unlit/Water"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -35,13 +32,18 @@ Shader "Unlit/Water"
                 float2 worldPos: TEXCOORD1;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-            float4 _NodesX[4];
-            float4 _NodesY[4];
+            fixed4 _Color;
+            float _NodesX[1000];
+            float _NodesY[1000];
+            int _NodeCount;
                 
             float evaluate(float x) {
-                return sin(x);
+                for (int i = 0; i < _NodeCount; i++) {
+                    if (x < _NodesX[i]) {
+                        return _NodesY[i];
+                    }
+                }
+                return _NodesY[_NodeCount - 1];
             }
 
             float distanceBelowSurface(float x, float y){
@@ -53,30 +55,25 @@ Shader "Unlit/Water"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                // fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 color = _Color;
                 float deep = 0.2;
                 float shallow = 1;
                 float dist = distanceBelowSurface(i.worldPos.x, i.worldPos.y);
-                float alpha = 1;
+                float alpha = color.a;
                 if (dist <= 0) {
                     alpha = 0;
                 }
-                float brightness = lerp(shallow,deep, min(1, dist / 4));
+                float brightness = lerp(shallow, deep, min(1, dist / 4));
+                color *= brightness;
 
-                fixed4 col = fixed4(0,0,brightness, alpha);
-                // fixed4 col = (0, 0, 0, 0);
+                color.a = alpha;
                 
-
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+                return color;
             }
             ENDCG
         }
