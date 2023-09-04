@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishDetector : MonoBehaviour
-{
+public class FishDetector : MonoBehaviour {
     public Dictionary<Gunfish, int> fishes = new Dictionary<Gunfish, int>();
 
     public FishCollisionEvent OnFishCollideEnter, OnFishCollideExit;
@@ -23,8 +22,7 @@ public class FishDetector : MonoBehaviour
             collider.enabled = enable;
     }
 
-    bool DetectFishEnter(GunfishSegment segment)
-    {
+    bool DetectFishEnter(GunfishSegment segment) {
         if (segment == null)
             return false;
         if (fishes.ContainsKey(segment.gunfish) == false)

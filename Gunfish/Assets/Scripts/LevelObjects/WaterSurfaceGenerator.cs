@@ -11,9 +11,14 @@ using Debug = UnityEngine.Debug;
 using UnityEditor;
 
 public class WaterSurfaceGenerator : MonoBehaviour {
-    public Transform startPoint, endPoint;
+    [SerializeField]
+    private Transform startPoint;
+    [SerializeField]
+    private Transform endPoint;
 
-    public int numMiddleNodes;
+    [SerializeField]
+    [Range(1f, 32f)]
+    private float nodesPerUnit;
 
     public GameObject waterNodePrefab;
 
@@ -40,17 +45,22 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         }
         node.selfSpring.connectedAnchor = node.transform.position;
         node.transform.parent = transform;
-        // set prevNode
+        // set previousNode
         return node;
     }
 
     public void Garbulate() {
-        Vector3 nodeSpace = Vector3.right * (endPoint.position.x - startPoint.position.x) / (numMiddleNodes + 1);
-        // place start
-        WaterSurfaceNode prevNode = SpawnNode(startPoint.position, null);
-        for (int i = 0; i < numMiddleNodes+1; i++) {
-            // instantiate node
-            prevNode = SpawnNode(startPoint.position + (nodeSpace * (i+1)), prevNode);
+        ClearCurrentNodes();
+        
+        float length = Vector3.Magnitude(endPoint.position - startPoint.position);
+        int nodeCount = Mathf.RoundToInt(nodesPerUnit * length);
+
+        float delta = 1f / nodeCount;
+
+        WaterSurfaceNode previousNode = null;
+        for (int i = 0; i <= nodeCount; i++) {
+            Vector3 targetPosition = Vector3.Lerp(startPoint.position, endPoint.position, i * delta);
+            previousNode = SpawnNode(targetPosition, previousNode);
         }
     }
 }
