@@ -35,15 +35,15 @@ Shader "Unlit/Water"
             fixed4 _Color;
             float _NodesX[1000];
             float _NodesY[1000];
+            float _Polynomials[1000];
             int _NodeCount;
                 
             float evaluate(float x) {
+                float sum = 0;
                 for (int i = 0; i < _NodeCount; i++) {
-                    if (x < _NodesX[i]) {
-                        return _NodesY[i];
-                    }
+                    sum += _Polynomials[i] * exp(i * log(x));
                 }
-                return _NodesY[_NodeCount - 1];
+                return sum;
             }
 
             float distanceBelowSurface(float x, float y){

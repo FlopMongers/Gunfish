@@ -40,5 +40,33 @@ public class WaterMaterialInterface : MonoBehaviour {
 
         GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesX", positionBufferX);
         GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesY", positionBufferY);
+
+        var coefficients = CalculatePolynomialCoefficients(positionBufferX, positionBufferY, waterSurfaceNodes.Count);
+
+        GetComponent<SpriteRenderer>().material.SetFloatArray("_Coefficients", coefficients);
     }
+
+    float[] CalculatePolynomialCoefficients(float[] xValues, float[] yValues, int degree) {
+        int n = xValues.Length;
+        int numCoefficients = degree + 1;
+
+        float[] coefficients = new float[numCoefficients];
+
+        for (int i = 0; i < numCoefficients; i++)
+        {
+            float sumXToThePower = 0.0f;
+            float sumYTimesXToThePower = 0.0f;
+
+            for (int j = 0; j < n; j++)
+            {
+                sumXToThePower += Mathf.Pow(xValues[j], i);
+                sumYTimesXToThePower += yValues[j] * Mathf.Pow(xValues[j], i);
+            }
+
+            coefficients[i] = sumYTimesXToThePower / sumXToThePower;
+        }
+
+        return coefficients;
+    }
+
 }
