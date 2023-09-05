@@ -1,15 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MathNet.Numerics;
+using System.Linq;
 
 public class WaterMaterialInterface : MonoBehaviour {
     [SerializeField]
     private List<Transform> waterSurfaceNodes;
-    private float[] positionBufferX;
-    private float[] positionBufferY;
+    private double[] positionsX;
+    private double[] positionsY;
+
+    private double[] coefficients;
+    private int degree = 10;
 
     private void Start() {
         Init();
+    }
+
+    private void OnDrawGizmos() {
+        if (coefficients == null) return;
+        Gizmos.color = Color.cyan;
+        for (int i = 0; i <= 100; i++) {
+            float x = Mathf.Lerp(-10, 10, (float)i / 100);
+            float y = Evaluate(x);
+            Gizmos.DrawSphere(new Vector3(x, y), 0.1f);
+        }
+        Gizmos.color = Color.white;
+    }
+
+    private float Evaluate(float x) {
+        if (coefficients == null)
+            return 0f;
+        float sum = 0;
+        for (int i = 0; i < degree + 1; i++) {
+            if (i >= coefficients.Length)
+                continue;
+            float xpow = 1;
+            for (int j = 0; j < i; j++) {
+                xpow *= x;
+            }
+            sum += (float)coefficients[i] * xpow;
+        }
+        return sum;
+    }
+
+    public void PrintEquation(double[] coefficients, int degree) {
+        int exponent = 0;
+        string equation = "";
+        foreach (var item in coefficients) {
+            if (item == 0) {
+                continue;
+            }
+
+            equation += item.ToString("0.00");
+
+            if (exponent != 0) {
+                equation += $"x^({exponent})";
+            }
+
+            if (exponent != degree) {
+                equation += " + ";
+            }
+            exponent++;
+        }
+        print(equation);
     }
 
     public void Init() {
@@ -22,28 +76,25 @@ public class WaterMaterialInterface : MonoBehaviour {
 
         waterSurfaceNodes.Sort((a, b) => a.position.x < b.position.x ? -1 : 1);
 
-        positionBufferX = new float[1000];
-        positionBufferY = new float[1000];
-        for (int i = 0; i < 1000; i++) {
-            positionBufferX[i] = 0f;
-            positionBufferY[i] = 0f;
-        }
+        positionsX = new double[waterSurfaceNodes.Count];
+        positionsY = new double[waterSurfaceNodes.Count];
 
         GetComponent<SpriteRenderer>().material.SetInt("_NodeCount", waterSurfaceNodes.Count);
+        GetComponent<SpriteRenderer>().material.SetInt("_Degree", degree);
     }
 
     private void Update() {
         for (int i = 0; i < waterSurfaceNodes.Count; i++) {
-            positionBufferX[i] = waterSurfaceNodes[i].position.x;
-            positionBufferY[i] = waterSurfaceNodes[i].position.y;
+            positionsX[i] = waterSurfaceNodes[i].position.x;
+            positionsY[i] = waterSurfaceNodes[i].position.y;
         }
 
-        GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesX", positionBufferX);
-        GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesY", positionBufferY);
+        GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesX", positionsX.Select(x => (float)x).ToArray());
+        GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesY", positionsY.Select(y => (float)y).ToArray());
 
-        var coefficients = CalculatePolynomialCoefficients(positionBufferX, positionBufferY, waterSurfaceNodes.Count);
-
-        GetComponent<SpriteRenderer>().material.SetFloatArray("_Coefficients", coefficients);
+        coefficients = Fit.Polynomial(positionsX, positionsY, degree);
+        PrintEquation(coefficients, degree);
+        GetComponent<SpriteRenderer>().material.SetFloatArray("_Coefficients", coefficients.Select(c => (float)c).ToArray());
     }
 
     float[] CalculatePolynomialCoefficients(float[] xValues, float[] yValues, int degree) {

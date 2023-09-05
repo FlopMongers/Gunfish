@@ -35,13 +35,20 @@ Shader "Unlit/Water"
             fixed4 _Color;
             float _NodesX[1000];
             float _NodesY[1000];
-            float _Polynomials[1000];
+            float _Coefficients[1000];
             int _NodeCount;
+            int _Degree;
                 
             float evaluate(float x) {
                 float sum = 0;
-                for (int i = 0; i < _NodeCount; i++) {
-                    sum += _Polynomials[i] * exp(i * log(x));
+                for (int i = 0; i < _Degree + 1; i++) {
+                    if (i >= _NodeCount)
+                        continue;
+                    float xpow = 1;
+                    for (int j = 0; j < i; j++) {
+                        xpow *= x;
+                    }
+                    sum += _Coefficients[i] * xpow;
                 }
                 return sum;
             }
