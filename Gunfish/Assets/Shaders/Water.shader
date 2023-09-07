@@ -7,7 +7,8 @@ Shader "Unlit/Water"
     }
     SubShader
     {
-        Tags {"Queue"="Transparent" "RenderType"="Transparent"}
+        Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+        ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
 

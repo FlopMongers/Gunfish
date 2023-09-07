@@ -64,9 +64,9 @@ public class WaterMaterialInterface : MonoBehaviour {
             if (i == waterSurfaceNodes.Count - 1) {
                 continue;
             }
-
             
             var collider = waterSurfaceNodes[i].GetComponent<BoxCollider2D>();
+            var effector = waterSurfaceNodes[i].GetComponent<BuoyancyEffector2D>();
             var waterDimensions = GetComponentInParent<WaterSurfaceGenerator>().dimensions;
 
             Vector2 offset = (waterSurfaceNodes[i + 1].position - waterSurfaceNodes[i].position);
@@ -74,6 +74,8 @@ public class WaterMaterialInterface : MonoBehaviour {
             
             var width = offset.x;
             var height = surfaceMidpoint.y - transform.parent.position.y + waterDimensions.y / 2;
+
+            effector.surfaceLevel = height / 2 - 5f;
 
             collider.offset = new Vector2(offset.x / 2, -height / 2);
             collider.size = new Vector2(width, height);

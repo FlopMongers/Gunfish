@@ -3,11 +3,16 @@ using System.IO.Ports;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
 
-    private SerialPort serialPort = new SerialPort("COM4", 9600);
+    private SerialPort serialPort = new SerialPort("COM69", 9600);
 
     private AudioClip clip;
     private AudioSource source;
     private float[] data;
+
+    public void PlayClip(AudioClip clip) {
+        this.clip = clip;
+        source?.Play();
+    }
 
     private void OnEnable() {
         try {
