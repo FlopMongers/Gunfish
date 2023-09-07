@@ -11,6 +11,8 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
     public void PlayClip(AudioClip clip) {
         this.clip = clip;
+        source.clip = clip;
+        data = new float[clip.samples * clip.channels];
         source?.Play();
     }
 
@@ -27,8 +29,6 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         
         source = GetComponent<AudioSource>();
         clip = source.clip;
-
-        data = new float[clip.samples * clip.channels];
     }
 
     private float SampleLoudness() {

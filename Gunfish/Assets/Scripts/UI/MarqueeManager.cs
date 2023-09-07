@@ -8,12 +8,14 @@ using TMPro;
 public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     private struct MarqueeContents {
         public string text;
+        public AudioClip clip;
         public float duration;
         public AnimationCurve tween;
         public Action callback;
 
-        public MarqueeContents(string text, float duration, AnimationCurve tween, Action callback) {
+        public MarqueeContents(string text, AudioClip clip, float duration, AnimationCurve tween, Action callback) {
             this.text = text;
+            this.clip = clip;
             this.duration = duration;
             this.tween = tween;
             this.callback = callback;
@@ -27,6 +29,9 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
 
     [SerializeField]
     private string[] quips;
+
+    [SerializeField]
+    private AudioClip[] quipClips;
 
     private TMP_Text textAsset;
     private Queue<MarqueeContents> queue = new();
@@ -44,13 +49,6 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
 
     private void UpdateDebug() {
         if (!GameManager.debug) return;
-
-        if (Input.GetKeyDown(KeyCode.P)) {
-            Enqueue("3");
-            Enqueue("2");
-            Enqueue("1");
-            Enqueue("GO", () => { Debug.Log("Countdown over!"); });
-        }
     }
 
     public void EnqueueRandomQuip() {
@@ -59,21 +57,23 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
             return;
         }
 
-        var index = UnityEngine.Random.Range(0, quips.Length);
+        var index = UnityEngine.Random.Range(0, 10);
+        //var index = UnityEngine.Random.Range(0, quips.Length);
         var quip = quips[index];
-        Enqueue(quip);
+        var quipClip = quipClips[index];
+        Enqueue(quip, quipClip);
     }
 
-    public void Enqueue(string text, Action callback = null) {
-        Enqueue(text, defaultDuration, defaultTween, callback);
+    public void Enqueue(string text, AudioClip clip = null, Action callback = null) {
+        Enqueue(text, defaultDuration, defaultTween, clip, callback);
     }
 
-    public void Enqueue(string text, float duration, Action callback = null) {
-        Enqueue(text, duration, defaultTween, callback);
+    public void Enqueue(string text, float duration, AudioClip clip = null, Action callback = null) {
+        Enqueue(text, duration, defaultTween, clip, callback);
     }
 
-    public void Enqueue(string text, float duration, AnimationCurve tween, Action callback = null) {
-        var contents = new MarqueeContents(text, duration, tween, callback);
+    public void Enqueue(string text, float duration, AnimationCurve tween, AudioClip clip = null, Action callback = null) {
+        var contents = new MarqueeContents(text, clip, duration, tween, callback);
         queue.Enqueue(contents);
         if (!transitioning) {
             transitioning = true;
@@ -94,7 +94,12 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
             }
             
             textAsset.SetText(contents.text);
-            
+
+            print($"Contents clip: {contents.clip}");
+            if (contents.clip != null) {
+                ArduinoManager.instance.PlayClip(contents.clip);
+            }
+
             float t = 0f;
             while (t < 1f) {
                 var tween = contents.tween.Evaluate(t);
