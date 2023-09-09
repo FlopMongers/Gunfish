@@ -59,7 +59,7 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
 
         var index = UnityEngine.Random.Range(0, 10);
         //var index = UnityEngine.Random.Range(0, quips.Length);
-        var quip = quips[index];
+        var quip = quips[29];
         var quipClip = quipClips[index];
         Enqueue(quip, quipClip);
     }
