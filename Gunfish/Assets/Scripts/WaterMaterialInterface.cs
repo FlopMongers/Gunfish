@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using MathNet.Numerics;
 using System.Linq;
+using static FunkyCode.Rendering.Universal.Sprite;
 
 public class WaterMaterialInterface : MonoBehaviour {
-    private List<Transform> waterSurfaceNodes;
+    [HideInInspector]
+    public List<Transform> waterSurfaceNodes;
     
     private double[] positionsX;
     private double[] positionsY;
@@ -65,7 +67,7 @@ public class WaterMaterialInterface : MonoBehaviour {
                 continue;
             }
             
-            var collider = waterSurfaceNodes[i].GetComponent<BoxCollider2D>();
+            var colliders = waterSurfaceNodes[i].GetComponents<BoxCollider2D>();
             var effector = waterSurfaceNodes[i].GetComponent<BuoyancyEffector2D>();
             var waterDimensions = GetComponentInParent<WaterSurfaceGenerator>().dimensions;
 
@@ -75,10 +77,12 @@ public class WaterMaterialInterface : MonoBehaviour {
             var width = offset.x;
             var height = surfaceMidpoint.y - transform.parent.position.y + waterDimensions.y / 2;
 
-            effector.surfaceLevel = height / 2 - 5f;
+            //effector.surfaceLevel = height / 2 - 5f;
 
-            collider.offset = new Vector2(offset.x / 2, -height / 2);
-            collider.size = new Vector2(width, height);
+            foreach (var collider in colliders) {
+                collider.offset = new Vector2(offset.x / 2, -height / 2);
+                collider.size = new Vector2(width, height);
+            }
         }
         coefficients = Fit.Polynomial(positionsX, positionsY, degree);
 

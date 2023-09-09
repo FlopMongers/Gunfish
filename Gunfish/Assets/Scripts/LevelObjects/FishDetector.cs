@@ -68,16 +68,17 @@ public class FishDetector : MonoBehaviour {
             OnFishCollideExit?.Invoke(segment, collision);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (!DetectTrigger)
             return;
         var segment = collision.GetComponent<GunfishSegment>();
-        if (DetectFishEnter(segment))
+        if (DetectFishEnter(segment)) {
             OnFishTriggerEnter?.Invoke(segment, collision);
+        }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
         if (!DetectTrigger)
             return;

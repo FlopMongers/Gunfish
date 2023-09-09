@@ -7,40 +7,70 @@ public class WaterZone : MonoBehaviour
 {
     public FishDetector detector;
 
+    public WaterMaterialInterface waterMaterial;
+
     // Start is called before the first frame update
     void Start()
     {
         if (detector == null)
             detector = GetComponent<FishDetector>();
 
-        detector.OnFirstSegmentExit += FishSploosh;
-        detector.OnFishTriggerEnter += FishSploosh;
+        detector.OnFishTriggerEnter += FishEnterSploosh;
+        detector.OnFirstSegmentExit += FishExitSploosh;
     }
 
-    void FishSploosh(GunfishSegment segment, Collider2D collider) {
-        // sploosh the darn fish
+    Vector2 forceRange = new Vector2(5f, 10f);
+    float forceScale = 1f;
+
+    void PerturbNode(int nodeIdx, Vector2 force) {
+        if (nodeIdx == waterMaterial.waterSurfaceNodes.Count - 1)
+            return;
+        waterMaterial.waterSurfaceNodes[nodeIdx].GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
+    void Sploosh(Vector3 position, float force, bool up) {
+        if (force < forceRange.x)
+            return;
+        force = Mathf.Clamp(force, forceRange.x, forceRange.y) * forceScale;
+        Vector2 dir = (up) ? Vector2.up: Vector2.down;
+        int nodeIdx = PiecewiseLinear.ClosestIndexBefore(
+            waterMaterial.waterSurfaceNodes, position.x, PiecewiseLinear.transformPosition, true);
+        PerturbNode(nodeIdx, dir * force);
+        PerturbNode(nodeIdx + 1, dir * force);
+        // TODO: splash FX
+    }
+
+    void FishEnterSploosh(GunfishSegment segment, Collider2D collider) {
+        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, false);
+    }
+
+    void FishExitSploosh(GunfishSegment segment, Collider2D collider) {
+        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, true);
+    }
+
+    public void OnTriggerEnter2D(Collider2D other) {
         // if fish segment, tell the segment to be underwater
-        var fishSegment = collision.gameObject.GetComponent<GunfishSegment>();
+        var fishSegment = other.gameObject.GetComponent<GunfishSegment>();
         if (fishSegment != null) {
-            print(fishSegment);
-            fishSegment.SetUnderwater(true);
+            fishSegment.SetUnderwater(1);
         }
-        else {
-            // sploosh
+        else if (other.GetComponentInParent<Rigidbody2D>() != null) {
+            print("SPLOOSH DOWN!!");
+            print(other.name);
+            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, false);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
+    public void OnTriggerExit2D(Collider2D other) {
         // if fish, set not underwater
-        var fishSegment = collision.gameObject.GetComponent<GunfishSegment>();
+        var fishSegment = other.gameObject.GetComponent<GunfishSegment>();
         if (fishSegment != null) {
-            fishSegment.SetUnderwater(false);
+            fishSegment.SetUnderwater(-1);
         }
-        else {
-            // sploosh
+        else if (other.GetComponentInParent<Rigidbody2D>() != null) {
+            print("SPLOOSH UP!!!");
+            print(other.name);
+            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, true);
         }
     }
 }
