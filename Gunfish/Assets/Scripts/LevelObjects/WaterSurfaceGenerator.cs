@@ -48,7 +48,8 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         }
         node.selfSpring.connectedAnchor = node.transform.position;
         node.transform.parent = transform;
-
+        node.zone = GetComponent<WaterZone>();
+        node.detector = GetComponent<FishDetector>();
         return node;
     }
 
