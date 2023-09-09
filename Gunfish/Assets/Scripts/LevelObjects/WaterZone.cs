@@ -19,19 +19,20 @@ public class WaterZone : MonoBehaviour
         detector.OnFirstSegmentExit += FishExitSploosh;
     }
 
-    Vector2 forceRange = new Vector2(5f, 10f);
+    Vector2 forceRange = new Vector2(0f, 10f);
     float forceScale = 1f;
 
     void PerturbNode(int nodeIdx, Vector2 force) {
         if (nodeIdx == waterMaterial.waterSurfaceNodes.Count - 1)
             return;
-        waterMaterial.waterSurfaceNodes[nodeIdx].GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+        waterMaterial.waterSurfaceNodes[nodeIdx].GetComponent<WaterSurfaceNode>().Sploosh(force);
     }
 
     void Sploosh(Vector3 position, float force, bool up) {
         if (force < forceRange.x)
             return;
-        force = Mathf.Clamp(force, forceRange.x, forceRange.y) * forceScale;
+        force *= forceScale;
+        force = Mathf.Clamp(force, forceRange.x, forceRange.y);
         Vector2 dir = (up) ? Vector2.up: Vector2.down;
         int nodeIdx = PiecewiseLinear.ClosestIndexBefore(
             waterMaterial.waterSurfaceNodes, position.x, PiecewiseLinear.transformPosition, true);
