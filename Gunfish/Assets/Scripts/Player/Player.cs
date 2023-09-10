@@ -83,9 +83,8 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
             return;
         }
 
-        if (value.isPressed) {
-            gunfish.Fire();
-        }
+
+        gunfish.SetFiring(value.isPressed); //.Fire();
     }
 
     public void OnNavigate(InputValue value) {

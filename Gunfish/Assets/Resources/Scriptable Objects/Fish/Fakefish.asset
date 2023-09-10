@@ -26,8 +26,8 @@ MonoBehaviour:
   groundTorque: 5
   airTorque: 20
   maxAerialAngularVelocity: 500
-  maxUnderwaterVelocity: 20
-  underwaterForce: 200
+  maxUnderwaterVelocity: 10
+  underwaterForce: 30
   underwaterTorque: 4
   maxHealth: 10
   length: 2
@@ -58,3 +58,4 @@ MonoBehaviour:
   segmentCount: 8
   flopCooldown: 0.5
   gun: {fileID: 11400000, guid: ab2a4727f2198c84c8cf22f434ec5803, type: 2}
+  gunSegmentIndex: 0

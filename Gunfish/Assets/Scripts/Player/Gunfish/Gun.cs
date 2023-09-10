@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -67,8 +68,12 @@ public class Gun : MonoBehaviour {
         return true;
     }
 
-    public void Fire()
+    public void Fire(ButtonStatus firingStatus)
     {
+        // if pressed, then fire
+        if (firingStatus != ButtonStatus.Pressed)
+            return;
+
         if (!CheckFire()) return;
 
         Kickback(gunfish.data.gun.kickback);

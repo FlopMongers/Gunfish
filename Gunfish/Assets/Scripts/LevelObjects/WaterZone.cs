@@ -56,8 +56,6 @@ public class WaterZone : MonoBehaviour
             fishSegment.SetUnderwater(1);
         }
         else if (other.GetComponentInParent<Rigidbody2D>() != null) {
-            print("SPLOOSH DOWN!!");
-            print(other.name);
             Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, false);
         }
     }
@@ -69,8 +67,6 @@ public class WaterZone : MonoBehaviour
             fishSegment.SetUnderwater(-1);
         }
         else if (other.GetComponentInParent<Rigidbody2D>() != null) {
-            print("SPLOOSH UP!!!");
-            print(other.name);
             Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, true);
         }
     }

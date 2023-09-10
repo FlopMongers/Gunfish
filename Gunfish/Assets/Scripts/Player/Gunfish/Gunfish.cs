@@ -2,7 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using TMPro;
+using System;
+using System.Reflection;
 
+public enum ButtonStatus { Pressed, Holding, Released, Up };
 public class Gunfish : MonoBehaviour {
     // public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
     //     var instance = new GameObject($"{player.name}GunfishHandler");
@@ -47,6 +50,8 @@ public class Gunfish : MonoBehaviour {
     [HideInInspector]
     public bool underwater;
 
+    ButtonStatus firingStatus = ButtonStatus.Up;
+
     private void Start() {
         gun = GetComponent<Gun>();
         gun.gunfish = this;
@@ -75,6 +80,19 @@ public class Gunfish : MonoBehaviour {
             return;
         }
 
+        HandleEffects();
+
+        renderer?.Render();
+        DecrementTimers(Time.deltaTime);
+    }
+
+    private void FixedUpdate() {
+        CheckFiring();
+        Fire();
+        Movement();
+    }
+
+    void HandleEffects() {
         if (!statusData.alive) {
             // kill da fish
             foreach (var effect in effectMap)
@@ -95,25 +113,16 @@ public class Gunfish : MonoBehaviour {
             return;
         }
 
-        foreach (var effect in effectMap.Values) 
-        {
+        foreach (var effect in effectMap.Values) {
             effect.Update();
         }
-        foreach (var effect in EffectRemoveList)
-        {
+        foreach (var effect in EffectRemoveList) {
             if (effectMap.ContainsKey(effect)) {
                 effectMap[effect].OnRemove();
                 effectMap.Remove(effect);
             }
         }
         EffectRemoveList.Clear();
-
-        renderer?.Render();
-        DecrementTimers(Time.deltaTime);
-    }
-
-    private void FixedUpdate() {
-        Movement();
     }
 
     public void AddEffect(Effect effect) {
@@ -178,15 +187,64 @@ public class Gunfish : MonoBehaviour {
         this.movement = movement;
     }
 
+
+    bool fireInteracted, firePressed;
+
+    public void SetFiring(bool firing) {
+        fireInteracted = true;
+        firePressed = firing;
+    }
+
+    void CheckFiring() {
+        // pressed to holding
+        if (firingStatus == ButtonStatus.Pressed && firePressed) {
+            firingStatus = ButtonStatus.Holding;
+            return;
+        }
+        if (firingStatus == ButtonStatus.Released && !firePressed) {
+            firingStatus = ButtonStatus.Up;
+            return;
+        }
+        if (!fireInteracted)
+            return;
+        fireInteracted = false;
+        if (firingStatus == ButtonStatus.Up || firingStatus == ButtonStatus.Released) {
+            if (firePressed) {
+                firingStatus = ButtonStatus.Pressed;
+                return;
+            }
+        }
+        if (firingStatus == ButtonStatus.Pressed) {
+            if (!firePressed) {
+                firingStatus = ButtonStatus.Released;
+                return;
+            }
+        }
+        if (firingStatus == ButtonStatus.Holding) {
+            if (!firePressed) {
+                firingStatus = ButtonStatus.Released;
+            }
+        }
+    }
+    void Swim() {
+        // TODO handle surge swimming logic
+        // for now, if pressed or holding, then swim
+        if (!statusData.CanMove || (firingStatus != ButtonStatus.Pressed && firingStatus != ButtonStatus.Holding))
+            return;
+        int index = segments.Count / 2;
+        if (Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity) {
+            body.ApplyForceToSegment(index, -segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
+        }
+    }
+
     public void Fire() {
-        if (statusData.alive == false)
+        if (statusData == null || statusData.alive == false)
             return;
         // if underwater, then zoom
-        int index = segments.Count / 2;
-        if (underwater == true && Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity) {
-            body.ApplyForceToSegment(index, -segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
+        if (underwater == true) {
+            Swim();
         } else {
-            gun.Fire();
+            gun.Fire(firingStatus);
         }
     }
 
