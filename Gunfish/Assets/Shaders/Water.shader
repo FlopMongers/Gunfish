@@ -39,7 +39,13 @@ Shader "Unlit/Water"
             float _Coefficients[1000];
             int _NodeCount;
             int _Degree;
-                
+            
+            float ripple(float x){
+                return  0.021*sin(5*(x-(_Time*30)))+
+                        0.021*sin(11.5*(x+(_Time*25)))*sin(x+_Time*25)+
+                        0.021*sin(4.6*(x-(_Time*18)))+
+                        0.021*sin(2*(x+(_Time+16)));
+            }
             float evaluate(float x) {
                 float sum = 0;
                 for (int i = 0; i < _Degree + 1; i++) {
@@ -51,7 +57,7 @@ Shader "Unlit/Water"
                     }
                     sum += _Coefficients[i] * xpow;
                 }
-                return sum;
+                return sum + ripple(x);
             }
 
             float distanceBelowSurface(float x, float y){
