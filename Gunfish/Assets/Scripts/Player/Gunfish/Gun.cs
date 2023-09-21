@@ -1,61 +1,117 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Gun : MonoBehaviour {
     public Gunfish gunfish;
     public List<GunBarrel> barrels = new List<GunBarrel>();
+
+    public FloatGameEvent OnAmmoChanged;
     
     private int layerMask;
 
+    public float ammo;
+    float fireCooldown_timer, reload_timer, reloadWait_timer;
+
     // Start is called before the first frame update
     void Start() {
-        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default");   
+        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default");
     }
 
     // Update is called once per frame
     void Update() {
-        DecrementTimers(Time.deltaTime);
+        if (gunfish == null || gunfish.statusData == null)
+            return;
+
+        // fire cooldown
+        fireCooldown_timer = Mathf.Max(0, fireCooldown_timer - Time.deltaTime);
+
+        // reload timer
+        if (reload_timer > 0) 
+        {
+            reload_timer = Mathf.Max(0, reload_timer - Time.deltaTime);
+            OnAmmoChanged?.Invoke(1 - (reload_timer / gunfish.data.gun.reload));
+            if (reload_timer <= 0) 
+            {
+                ammo = gunfish.data.gun.maxAmmo;
+                OnAmmoChanged?.Invoke(ammo/gunfish.data.gun.maxAmmo);
+            }
+        }
+        // if ammo is not full
+        else if (ammo != gunfish.data.gun.maxAmmo && reloadWait_timer > 0) 
+        {
+            reloadWait_timer = Mathf.Max(0, reloadWait_timer - Time.deltaTime);
+            if (reloadWait_timer <= 0)
+                reload_timer = gunfish.data.gun.reload;
+        }
     }
 
-    void DecrementTimers(float delta)
+    public bool CheckFire() 
     {
-        if (gunfish == null || gunfish.statusData == null) return;
-        gunfish.statusData.reloadTimer = Mathf.Max(0f, gunfish.statusData.reloadTimer - delta);
+        if (!gunfish.statusData.CanFire)
+            return false;
+
+        if (fireCooldown_timer > 0)
+            return false;
+
+        if (ammo <= 0) 
+            return false;
+
+        ammo -= 1;
+        OnAmmoChanged?.Invoke(ammo/gunfish.data.gun.maxAmmo);
+
+        fireCooldown_timer = gunfish.data.gun.fireCooldown;
+        reloadWait_timer = gunfish.data.gun.reloadWait;
+        reload_timer = 0;
+        return true;
     }
 
-    public void Fire()
+    public void Fire(ButtonStatus firingStatus)
     {
-        if (!gunfish.statusData.CanFire) return;
+        // if pressed, then fire
+        if (firingStatus != ButtonStatus.Pressed)
+            return;
 
-        // Reset fire timer
-        gunfish.statusData.reloadTimer = gunfish.data.reloadTime;
-        gunfish.Kickback(gunfish.data.gunKickback);
+        if (!CheckFire()) return;
+
+        Kickback(gunfish.data.gun.kickback);
         Vector3 endPoint;
 
-        FX_Spawner.instance?.SpawnFX(FXType.Bang, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
+        FX_Spawner.instance?.SpawnFX(
+            FXType.Bang, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
 
         foreach (GunBarrel barrel in barrels) {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gunRange, layerMask);
-            endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gunRange;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
+            endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
 
             foreach (var hit in hits) {
 
                 GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponent<Shootable>();
                 if (fishSegment != null) {
-                    bool fishHit = GameManager.instance.MatchManager.ResolveHit(this, fishSegment);
+                    bool fishHit = (GameManager.instance != null) 
+                        ? GameManager.instance.MatchManager.ResolveHit(this, fishSegment)
+                        : ResolveHit(this, fishSegment);
                     if (fishHit) {
-                        fishSegment.gunfish.Hit(new FishHitObject(fishSegment.index, hit.point, barrel.transform.right, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                        fishSegment.gunfish.Hit(
+                            new FishHitObject(
+                                fishSegment.index, hit.point, barrel.transform.right, gameObject, gunfish.data.gun.damage, gunfish.data.gun.knockback));
+                        // this is temporary, but if it works let's just leave it
+                        if (fishSegment.gunfish.statusData.health <= 0)
+                            FX_Spawner.instance?.BAM();
                         endPoint = hit.point;
                         break;
                     }
                 }
                 else if (shootable != null) {
-                    shootable.Hit(new HitObject(hit.point, barrel.transform.right, gameObject, gunfish.data.gunDamage, gunfish.data.gunKnockback));
+                    shootable.Hit(new HitObject(hit.point, barrel.transform.right, gameObject, gunfish.data.gun.damage, gunfish.data.gun.knockback));
+                    endPoint = hit.point;
                     break;
                 }
                 else {
+                    // TODO: replace with generalized FX_CollisionHandler code
                     FX_Spawner.instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
                     endPoint = hit.point;
                     break;
@@ -65,5 +121,15 @@ public class Gun : MonoBehaviour {
             }
             barrel.Flash(endPoint);
         }
+    }
+
+    public void Kickback(float kickback) {
+        var direction = (gunfish.segments[1].transform.position - gunfish.segments[0].transform.position).normalized;
+        // gun kickback
+        gunfish.body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
+    }
+
+    public virtual bool ResolveHit(Gun gun, GunfishSegment segment) {
+        return gun.gunfish != segment.gunfish;
     }
 }

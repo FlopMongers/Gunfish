@@ -46,7 +46,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
 
     private void Update() {
         if (GameManager.debug) {
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.M)) {
                 var index = activeSourceIndex + (transitioning ? 1 : 0) + musicQueue.Count;
                 if (index % 2 == 0) {
                     StartTrack(MusicTrack.AllStar);
@@ -126,6 +126,6 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private void OnGUI() {
         if (!GameManager.debug) return;
 
-        GUILayout.TextField("Press Space to change music track.");
+        GUI.TextField(new Rect(0f, 0f, 200f, 20f), "Press M to change music track.");
     }
 }

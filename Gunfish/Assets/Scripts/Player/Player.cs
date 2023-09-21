@@ -7,6 +7,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
 
     public GunfishData gunfishData;
     private Gunfish gunfish;
+    private Gun gun;
     public Gunfish Gunfish { get { return gunfish; } }
     private PlayerInput input;
 
@@ -20,16 +21,22 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
     }
 
     private void Start() {
+        DontDestroyOnLoad(gameObject);
+
         input = GetComponent<PlayerInput>();
+        gunfish = GetComponent<Gunfish>();
+        gun = GetComponent<Gun>();
+
         playerNumber = ++playerCount;
+
+        gameObject.name = $"Player{playerNumber}";
 
         input.defaultActionMap = "UI";
     }
 
     public void SpawnGunfish(Vector3 spawnPosition) {
         var layer = LayerMask.NameToLayer($"Player{playerNumber}");
-        gunfish = Gunfish.Instantiate(gunfishData, spawnPosition, this, layer);
-
+        gunfish.Spawn(gunfishData, layer, spawnPosition);
         input.defaultActionMap = "Player";
     }
 
@@ -58,6 +65,11 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
         if (gunfish == null) {
             return;
         }
+
+        if (FreezeControls) {
+            return;
+        }
+
         var movement = value.Get<Vector2>();
         gunfish.Move(movement);
     }
@@ -67,9 +79,12 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
             throw new UnityException($"Cannot fire gun for {name} as a Gunfish has not been instantiated.");
         }
 
-        if (value.isPressed) {
-            gunfish.Fire();
+        if (FreezeControls) {
+            return;
         }
+
+
+        gunfish.SetFiring(value.isPressed); //.Fire();
     }
 
     public void OnNavigate(InputValue value) {

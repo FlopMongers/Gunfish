@@ -16,6 +16,7 @@ MonoBehaviour:
     type: 3}
   spriteMat: {fileID: 2100000, guid: e92757aca63a29347aa396180400ba5d, type: 2}
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
+  sprite: {fileID: 21300000, guid: 092b5f07a8340c84e9fc07643296fb3d, type: 3}
   mass: 1
   fixedJointDamping: 0.219
   fixedJointFrequency: 16
@@ -23,22 +24,12 @@ MonoBehaviour:
   springJointFrequency: 16
   flopForce: 5
   groundTorque: 5
-  airTorque: 5
-  maxAerialAngularVelocity: 15
-  maxUnderwaterVelocity: 20
-  underwaterForce: 200
+  airTorque: 20
+  maxAerialAngularVelocity: 500
+  maxUnderwaterVelocity: 10
+  underwaterForce: 30
   underwaterTorque: 4
-  gunKickback: 12
   maxHealth: 10
-  healthUI: {fileID: 37056455272102180, guid: 376611996ce3cb34389c6dca870c5607, type: 3}
-  gunBarrels:
-  - position: {x: 0, y: 0}
-    rotation: 180
-  gunRange: 10
-  gunDamage: 4
-  gunKnockback: 5
-  gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
-    type: 3}
   length: 2
   width:
     serializedVersion: 2
@@ -66,4 +57,5 @@ MonoBehaviour:
     m_RotationOrder: 4
   segmentCount: 8
   flopCooldown: 0.5
-  reloadTime: 0.5
+  gun: {fileID: 11400000, guid: ab2a4727f2198c84c8cf22f434ec5803, type: 2}
+  gunSegmentIndex: 0

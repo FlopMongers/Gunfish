@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Security.Policy;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
+    public GameObject pip;
 
     [SerializeField]
     private Canvas _canvas;
@@ -15,7 +20,17 @@ public class HealthUI : MonoBehaviour
     [SerializeField]
     private RawImage _greenBar;
 
+    [SerializeField]
+    private RawImage _whiteBar;
+
+    [SerializeField]
+    private RectTransform _pipBar;
+
     Gunfish _gunfish;
+    Shootable _shootable;
+
+    [SerializeField]
+    ParentConstraint pc;
 
     public void Start()
     {
@@ -24,31 +39,84 @@ public class HealthUI : MonoBehaviour
         _greenBar = transform.FindDeepChild("Green").GetComponent<RawImage>();
     }
 
-    public void Init(Gunfish gunfish)
+    private void EnableBars(bool enable) {
+        _redBar.enabled = enable;
+        _orangeBar.enabled = enable;
+        _greenBar.enabled = enable;
+    }
+
+    float GetTargetMaxHealth()
+    {
+        return (_gunfish != null) ? _gunfish.data.maxHealth : _shootable.maxHealth;
+    }
+
+    void SetUpConstraint(Transform target, Vector3? offset) 
+    {
+        var src = new ConstraintSource();
+        src.sourceTransform = target;
+        src.weight = 1f;
+        pc.AddSource(src);
+        pc.SetTranslationOffset(0, (offset != null) ? offset.Value : Vector3.zero);
+        pc.constraintActive = true;
+    }
+
+    public void Init(Shootable shootable, Vector3? offset=null)
+    {
+        _shootable = shootable;
+
+        _shootable.OnHealthUpdated += UpdateHealth;
+        _shootable.OnDead += OnShootableDeath;
+        SetHealth(_shootable.health);
+
+        SetUpConstraint(shootable.transform, offset);
+    }
+
+    void UpdateWhiteBar(float value) 
+    {
+        _whiteBar.rectTransform.localScale = new Vector3(value, 1f, 1f);
+    }
+
+    public void Init(Gunfish gunfish, Vector3? offset=null)
     {
         _gunfish = gunfish;
 
-        _gunfish.gameObject.GetComponent<Gunfish>().OnHealthUpdated += UpdateHealth;
-        SetHealth(_gunfish.data.maxHealth);
+        _gunfish.OnHealthUpdated += UpdateHealth;
+        _gunfish.OnDeath += OnGunfishDeath;
+        SetHealth(_gunfish.statusData.health);
+
+        // get ammo and hook into ammo change
+        for (int i = 0; i < gunfish.data.gun.maxAmmo; i++) 
+        {
+            // add pip
+            Instantiate(pip, _pipBar);
+        }
+        _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
+        gunfish.gun.OnAmmoChanged += UpdateWhiteBar;
+
+        SetUpConstraint(_gunfish.MiddleSegment.transform, offset);
+        transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {_gunfish.playerNum + 1}";
     }
 
     public void SetHealth(float health)
     {
-        _greenBar.rectTransform.localScale = new Vector3(health / _gunfish.data.maxHealth, 1f, 1f);
-        _orangeBar.rectTransform.localScale = new Vector3(health / _gunfish.data.maxHealth, 1f, 1f);
-        _canvas.enabled = false;
+        _greenBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
+        _orangeBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
+        // _canvas.enabled = false;
+        EnableBars(!Mathf.Approximately(health, GetTargetMaxHealth()));
     }
 
     private bool _hitInProgress = false;
     private float _targetPercentage = 0f;
     private const float _hitDuration = 2f;
-    private float _timeSpentWaiting = 0f;
+    // private float _timeSpentWaiting = 0f;
 
     public void UpdateHealth(float health)
     {
-        _canvas.enabled = true;
-        _timeSpentWaiting = 0f;
-        _targetPercentage = health / _gunfish.data.maxHealth;
+        if (!_canvas) return;
+        // _canvas.enabled = true;
+        EnableBars(!Mathf.Approximately(health, GetTargetMaxHealth()));
+        // _timeSpentWaiting = 0f;
+        _targetPercentage = health / GetTargetMaxHealth();
         _greenBar.rectTransform.localScale = new Vector3(_targetPercentage, 1f, 1f);
 
         if (!_hitInProgress)
@@ -70,18 +138,30 @@ public class HealthUI : MonoBehaviour
         }
         _orangeBar.rectTransform.localScale = new Vector3(_targetPercentage, 1f, 1f);
         _hitInProgress = false;
+    }
 
-        while (_timeSpentWaiting < 2f)
+    void OnGunfishDeath(Player player) 
+    {
+        Destroy(gameObject);
+    }
+
+    void OnShootableDeath() 
+    {
+        Destroy(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        if (_gunfish)
         {
-            if (_hitInProgress) break;
-            _timeSpentWaiting += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            _gunfish.OnHealthUpdated -= UpdateHealth;
+            _gunfish.OnDeath -= OnGunfishDeath;
+            _gunfish.gun.OnAmmoChanged -= UpdateWhiteBar;
         }
-
-
-        if (!_hitInProgress)
+        if (_shootable)
         {
-            _canvas.enabled = false;
+            _shootable.OnHealthUpdated -= UpdateHealth;
+            _shootable.OnDead -= OnShootableDeath;
         }
     }
 }

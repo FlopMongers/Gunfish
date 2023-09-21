@@ -2,49 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(FishDetector))]
 public class GroundMaterial : ObjectMaterial
 {
-    Dictionary<Gunfish, int> fishes = new Dictionary<Gunfish, int>();
 
-    public virtual void AddFish(Gunfish gunfish)
+    // add start method to initialize fish detector
+    public void Start()
+    {
+        var detector = GetComponent<FishDetector>();
+        detector.OnFishCollideEnter += HandleFishCollisionEnter;
+        detector.OnFishCollideExit += HandleFishCollisionExit;
+    }
+
+    protected virtual void HandleFishCollisionEnter(GunfishSegment segment, Collision2D collision)
     {
 
     }
 
-    public virtual void RemoveFish(Gunfish gunfish)
+    protected virtual void HandleFishCollisionExit(GunfishSegment segment, Collision2D collision)
     {
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        GunfishSegment segment = collision.collider.GetComponent<GunfishSegment>();
-        if (segment != null)
-        {
-            if (fishes.ContainsKey(segment.gunfish) == false)
-            {
-                fishes[segment.gunfish] = 0;
-            }
-            fishes[segment.gunfish] += 1;
-            AddFish(segment.gunfish);
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        GunfishSegment segment = collision.collider.GetComponent<GunfishSegment>();
-        if (segment != null)
-        {
-            if (fishes.ContainsKey(segment.gunfish) == false)
-            {
-                return;
-            }
-            fishes[segment.gunfish] -= 1;
-            if (fishes[segment.gunfish] <= 0)
-            {
-                fishes.Remove(segment.gunfish);
-                RemoveFish(segment.gunfish);
-            }
-        }
-    }
 }

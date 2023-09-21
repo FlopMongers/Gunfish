@@ -3,13 +3,6 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
 
-[Serializable]
-public class TransformTuple
-{
-    public Vector2 position;
-    public float rotation; // z rotation
-}
-
 
 [CreateAssetMenu(menuName = "Gunfish/Gunfish Data", fileName = "New Gunfish Data")]
 public class GunfishData : ScriptableObject {
@@ -19,6 +12,7 @@ public class GunfishData : ScriptableObject {
     [Header("Materials")]
     public Material spriteMat;
     public PhysicsMaterial2D physicsMaterial;
+    public Sprite sprite;
 
     [Header("Physics")]
     [Range(1f, 100f)] public float mass = 1f;
@@ -33,18 +27,9 @@ public class GunfishData : ScriptableObject {
     public float maxUnderwaterVelocity;
     public float underwaterForce;
     public float underwaterTorque;
-    public float gunKickback;
 
     [Header("Health")]
     public float maxHealth;
-    public GameObject healthUI;
-
-    [Header("Gun")]
-    public List<TransformTuple> gunBarrels = new List<TransformTuple>();
-    public float gunRange;
-    public float gunDamage;
-    public float gunKnockback;
-    public GameObject gunBarrelPrefab;
 
     [Header("Dimensions")]
     [Range(0.5f, 5f)] public float length = 2f;
@@ -53,5 +38,7 @@ public class GunfishData : ScriptableObject {
 
     [Header("Cooldowns")]
     [Range(0f, 1f)] public float flopCooldown;
-    [Range(0f, 5f)] public float reloadTime;
+
+    public GunData gun;
+    public int gunSegmentIndex = 0;
 }

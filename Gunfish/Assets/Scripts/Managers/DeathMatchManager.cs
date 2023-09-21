@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,16 +7,21 @@ public class DeathMatchManager : MatchManager {
     private Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
     private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
     private int remainingPlayers;
+    private DeathMatchUI ui;
 
     public override void Initialize(GameParameters parameters) {
         foreach (var player in parameters.activePlayers) {
             playerScores[player] = 0;
         }
+        ui = gameObject.GetComponentInChildren<DeathMatchUI>();
+        // ui.OnLoadingStart();
+        ui.InitializeMatch(parameters.activePlayers);
         base.Initialize(parameters);
     }
 
     public override void StartLevel() {
         base.StartLevel();
+        ui.InitializeLevel(parameters.activePlayers, defaultStocks);
         remainingPlayers = parameters.activePlayers.Count;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
@@ -33,7 +39,9 @@ public class DeathMatchManager : MatchManager {
         foreach (var spawnPoint in spawnPoints) {
             distance = float.MaxValue;
             foreach (var activePlayer in parameters.activePlayers) {
-                distance = Mathf.Min(distance, Vector2.Distance(spawnPoint.position, activePlayer.Gunfish.transform.position));
+                var playerDist = activePlayer.Gunfish.GetPosition();
+                if (playerDist.HasValue)
+                    distance = Mathf.Min(distance, Vector2.Distance(spawnPoint.position, playerDist.Value));
             }
             if (distance > maxDistance) {
                 maxDistance = distance;
@@ -41,20 +49,60 @@ public class DeathMatchManager : MatchManager {
             }
         }
         player.SpawnGunfish(currentSpawnPoint.position);
+        base.SpawnPlayer(player);
     }
 
     public override void OnPlayerDeath(Player player) {
+        base.OnPlayerDeath(player);
         playerStocks[player]--;
-        // TODO update stock ui
-        if (playerStocks[player] <= 0) {
-            // TODO flashy ui thingy when player is eliminated
-            if (remainingPlayers <= 1) {
-                NextLevel();
-                //NextLevel_Event?.Invoke(remainingPlayers);
-            }
-        }
-        else {
+        ui.OnStockChange(player, playerStocks[player]);
+        if (playerStocks[player] > 0) {
             SpawnPlayer(player);
         }
+        else {
+            remainingPlayers--;
+            if (remainingPlayers <= 1) {
+                EndLevel();
+            }
+        }
+    }
+
+    private Player GetLastPlayerStanding() {
+        foreach(var kvp in playerStocks) {
+            if (kvp.Value > 0) return kvp.Key;
+        }
+        return null;
+    }
+
+    public override void NextLevel()
+    {
+        ui.CloseLevelStats();
+        // ui.OnLoadingStart();
+        base.NextLevel();
+    }
+
+    private void EndLevel()
+    {
+        FreezeFish(true);
+        foreach (var activePlayer in parameters.activePlayers) {
+            activePlayer.OnDeath -= OnPlayerDeath;
+            activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
+        }
+
+        var player = GetLastPlayerStanding();
+        if (player != null)
+        {
+            playerScores[player] += 1;
+            ui.OnScoreChange(player, playerScores[player]);
+        }
+
+        ui.ShowLevelStats(player, playerScores); // if player is null, no one wins
+        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.EndLevel);
+    }
+
+    public override void ShowStats()
+    {
+        base.ShowStats();
+        ui.ShowFinalScores(playerScores);
     }
 }

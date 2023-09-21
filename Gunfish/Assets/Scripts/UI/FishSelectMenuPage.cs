@@ -20,10 +20,14 @@ public class FishSelectMenuPage : IMenuPage {
 
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.instance.PlayerInputs[i];
+            if (!playerInput) continue;
             int playerIndex = i;
             playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
             playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
-        
+
+            menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}");
+            menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}").Q<VisualElement>("fish-image");
+
             var image = menuContext.document.rootVisualElement
                 .Q<VisualElement>($"FishSelector{playerIndex + 1}")
                 .Q<VisualElement>("fish-image");
@@ -43,16 +47,14 @@ public class FishSelectMenuPage : IMenuPage {
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             displayedFishes.Add(fishes[0]);
             displayedFishIndices.Add(0);
+            SetFish(i, fishes[0]);
         }
-
-        displayedFishIndices.ForEach(displayedFishIndex => {
-            DisplayFish(displayedFishIndex, fishes[displayedFishIndex]);
-        });
     }
 
     public void OnDisable(MenuPageContext context) {
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.instance.PlayerInputs[i];
+            if (!playerInput) continue;
             int playerIndex = i;
             playerInput.currentActionMap.FindAction("Navigate").performed -= (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
             playerInput.currentActionMap.FindAction("Submit").performed -= (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
@@ -81,13 +83,13 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context, int deviceIndex) {
-        LevelManager.instance.LoadLevel("Player Loading");
+        GameManager.instance.InitializeGame();
     }
 
     private void IncrementFish(int deviceIndex) {
         // Increments before modulus
         displayedFishIndices[deviceIndex] = (++displayedFishIndices[deviceIndex]) % fishes.Count;
-        DisplayFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
+        SetFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
     }
 
     private void DecrementFish(int deviceIndex) {
@@ -95,13 +97,15 @@ public class FishSelectMenuPage : IMenuPage {
         if (--displayedFishIndices[deviceIndex] < 0) {
             displayedFishIndices[deviceIndex] += fishes.Count;
         }
-        DisplayFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
+        SetFish(deviceIndex, fishes[displayedFishIndices[deviceIndex]]);
     }
 
-    private void DisplayFish(int deviceIndex, GunfishData fish) {
+    private void SetFish(int deviceIndex, GunfishData fish) {
         var material = fish.spriteMat;
         var texture = material.mainTexture as Texture2D;
         
         fishImages[deviceIndex].style.backgroundImage = texture;
+
+        PlayerManager.instance.SetPlayerFish(deviceIndex, fish);
     }
 }

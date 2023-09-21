@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Sand : GroundMaterial
 {
-    public Effect_SO effect;
+    public float flopModifier;
 
-    public override void AddFish(Gunfish gunfish)
+    protected override void HandleFishCollisionEnter(GunfishSegment segment, Collision2D collision)
     {
-        base.AddFish(gunfish);
-        gunfish.AddEffect(effect.Create(gunfish));
+        segment.gunfish.AddEffect(new FlopModify_Effect(segment.gunfish, flopModifier));
+    }
+
+    protected override void HandleFishCollisionExit(GunfishSegment segment, Collision2D collision)
+    {
+        segment.gunfish.AddEffect(new FlopModify_Effect(segment.gunfish, -flopModifier));
     }
 }

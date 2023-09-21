@@ -1,100 +1,69 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerManager : Singleton<PlayerManager> {
-    // TODO: Replace mock device IDs
-    public static readonly int playerOneDeviceId = 19;
-    public static readonly int playerTwoDeviceId = 20;
-    public static readonly int playerThreeDeviceId = 21;
-    public static readonly int playerFourDeviceId = 22;
-
     public List<Player> Players { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
     public List<PlayerInput> PlayerInputs { get; private set; }
 
-    protected override void Awake() {
-        base.Awake();
-        Players = new List<Player>();
-        PlayerFish = new List<GunfishData>();
-        PlayerInputs = new List<PlayerInput>();
+    private void Start() {
         JoinPlayers();
+        SetInputMode(InputMode.UI);
+        MainMenu.instance.InitializeMenu();
     }
 
     private void JoinPlayers() {
+        PlayerInputs = new List<PlayerInput>();
+        Players = new List<Player>();
+        PlayerFish = new List<GunfishData>();
+
         var inputManager = GetComponent<PlayerInputManager>();
-        int index = 0;
 
-        // Real devices need to be placed at specific indices.
-        // Since connection order is not guaranteed, have to have capacity ready.
-        if (GameManager.debug == false) {
-            PlayerInputs.Add(null);
-            PlayerInputs.Add(null);
-            PlayerInputs.Add(null);
-            PlayerInputs.Add(null);
-            Players.Add(null);
-            Players.Add(null);
-            Players.Add(null);
-            Players.Add(null);
-        }
-
-        PlayerInput playerInput;
-        foreach (var device in InputSystem.devices) {
-            PlayerFish.Add(null);
-            if (GameManager.debug == false) {
-                // Player 1
-                if (device.deviceId == PlayerManager.playerOneDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 0, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
-                }
-                // Player 2
-                else if (device.deviceId == PlayerManager.playerTwoDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 1, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
-                }
-                // Player 3
-                else if (device.deviceId == PlayerManager.playerThreeDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 2, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
-                }
-                // Player 4
-                else if (device.deviceId == PlayerManager.playerFourDeviceId) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: 3, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
-                }
-            } else {
-                if (device.displayName.Contains("Controller") || device.displayName.Contains("Keyboard") || device.deviceId == 19 || device.deviceId == 20) {
-                    playerInput = inputManager.JoinPlayer(playerIndex: index++, pairWithDevice: device);
-                    PlayerInputs.Add(playerInput);
-                    Players.Add(playerInput.GetComponent<Player>());
-                }
-            }
-        }
+        var pattern = GameManager.debug == true ? "(Keyboard|Controller|Joystick)" : "Joystick";
+        var regex = new Regex(pattern);
+        var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
+        
+        int playerIndex = 0;
+        inputDevices.ForEach(device => {
+            var playerInput = inputManager.JoinPlayer(playerIndex: playerIndex++, pairWithDevice: device);
+            var player = playerInput.GetComponent<Player>();
+            PlayerInputs.Add(playerInput);
+            Players.Add(player);
+            PlayerFish.Add(GameManager.instance.GunfishList[0]);
+        });
     }
 
-    public void LoadPlayers() {
-        foreach (var playerInput in PlayerInputs) {
-            var index = PlayerInputs.IndexOf(playerInput);
-            var gunfish = playerInput.GetComponent<Gunfish>();
-            gunfish.playerNum = index + 1;
-            gunfish.data = PlayerFish[index];
-            gunfish.Spawn(gunfish.data, gunfish.playerNum);
-        }
+    private void Update() {
+        // if (Input.GetKeyDown(KeyCode.Space)) {
+        //     LoadPlayers();
+        // }
     }
+
+    // public void LoadPlayers() {
+    //     foreach (var playerInput in PlayerInputs) {
+    //         if (!playerInput) continue;
+    //         var index = PlayerInputs.IndexOf(playerInput);
+    //         var layer = LayerMask.NameToLayer($"Player{index + 1}");
+    //         var gunfish = playerInput.GetComponent<Gunfish>();
+    //         gunfish.playerNum = index + 1;
+    //         gunfish.data = PlayerFish[index];
+    //         gunfish.Spawn(gunfish.data, layer);
+    //     }
+    // }
 
     public void SetPlayerFish(int playerIndex, GunfishData data) {
         if (playerIndex < 0 || playerIndex >= PlayerFish.Count) {
             return;
         }
         PlayerFish[playerIndex] = data;
+        Players[playerIndex].gunfishData = data;
     }
 
     public void SetInputMode(InputMode inputMode) {
         foreach (var playerInput in PlayerInputs) {
-            playerInput.SwitchCurrentActionMap(inputMode.ToString());
+            playerInput?.SwitchCurrentActionMap(inputMode.ToString());
         }
     }
 
@@ -102,5 +71,7 @@ public class PlayerManager : Singleton<PlayerManager> {
     public enum InputMode {
         Player,
         UI,
+        EndLevel,
+        Null,
     }
 }
