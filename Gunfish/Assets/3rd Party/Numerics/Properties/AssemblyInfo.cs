@@ -30,7 +30,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
 
 [assembly: ComVisible(false)]
 [assembly: Guid("7b66646f-f0ee-425d-9065-910d1937a2df")]
