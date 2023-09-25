@@ -41,7 +41,7 @@ public class GameManager : PersistentSingleton<GameManager> {
             MatchManager = null;
         }
 
-        var scenes = new List<string>() { "Player Loading", "crags", "barrel" };
+        var scenes = new List<string>() { "Sea Urchin Testing" };
 
         // Get all active players
         GameParameters parameters = new GameParameters(PlayerManager.instance.Players, scenes);
