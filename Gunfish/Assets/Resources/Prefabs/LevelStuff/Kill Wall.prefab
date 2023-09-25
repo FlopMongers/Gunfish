@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7870449600195938271}
   - component: {fileID: 7870449600195938240}
   m_Layer: 3
-  m_Name: KillBox
+  m_Name: Kill Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
