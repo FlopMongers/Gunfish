@@ -59,7 +59,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -588,6 +588,66 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
         type: 3}
+      propertyPath: quips.Array.size
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6dc55be617fcdbb438a4c9901f77317a, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: bb013a95ef3fd054d9be1a3049dedf02, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: c0a6d04834a9c124d86f9913d87a8a33, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: a437f5e432492f2428bad63a540582cf, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: f7bfda82014df1f43948a80aaf882093, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3a6cb5c4fbcf4f34090be6ea5b232086, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 13631713bf5add0409f6005d0df45761, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: f4b88a3c05f308845994823c33d7df3a, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: a86a37c007953db43b7e81866c0f8667, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: quipClips.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6326988156a64ed46b1722cce34d79a5, type: 3}
+    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
       propertyPath: defaultTween.m_Curve.Array.data[0].inSlope
       value: 1
       objectReference: {fileID: 0}
@@ -728,6 +788,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5673737387414419726}
     m_Modifications:
+    - target: {fileID: 6100708586927589427, guid: d61d2430c7d471c44abafadc9d6d1f8e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6100708586927589438, guid: d61d2430c7d471c44abafadc9d6d1f8e,
         type: 3}
       propertyPath: m_Pivot.x
