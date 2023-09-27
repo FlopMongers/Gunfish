@@ -31,3 +31,10 @@ public class FishHitObject : HitObject
         this.segmentIndex = segmentIndex;
     }
 }
+
+public class CollisionHitObject : HitObject {
+    public Collision2D collision;
+    public CollisionHitObject(Collision2D collision, ContactPoint2D[] contacts, GameObject source, float oomph) : base(contacts[0].point, -contacts[0].normal, source, oomph, oomph) {
+        this.collision = collision;
+    }
+}

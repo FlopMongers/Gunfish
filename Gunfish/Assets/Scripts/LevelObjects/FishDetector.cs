@@ -6,7 +6,7 @@ public class FishDetector : MonoBehaviour {
     public Dictionary<Gunfish, int> fishes = new Dictionary<Gunfish, int>();
 
     public FishCollisionEvent OnFishCollideEnter, OnFishCollideExit;
-    public FishTriggerEvent OnFishTriggerEnter, OnFishTriggerExit, OnFirstSegmentExit;
+    public FishTriggerEvent OnFishTriggerEnter, OnFishTriggerExit, OnFirstSegmentTriggerExit;
 
     public bool DetectCollision=true, DetectTrigger=true;
 
@@ -88,7 +88,7 @@ public class FishDetector : MonoBehaviour {
         }
         else if (segment != null) {
             if (fishes[segment.gunfish] == segment.gunfish.segments.Count - 1) {
-                OnFirstSegmentExit?.Invoke(segment, collision);
+                OnFirstSegmentTriggerExit?.Invoke(segment, collision);
             }
         }
     }

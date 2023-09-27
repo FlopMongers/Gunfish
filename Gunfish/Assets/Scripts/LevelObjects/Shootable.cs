@@ -20,6 +20,8 @@ public class Shootable : MonoBehaviour
 
     Rigidbody2D rb;
 
+    public bool handleCollisionDamage = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +37,15 @@ public class Shootable : MonoBehaviour
         if (healthBar != null) {
             healthBar.transform.parent = null;
             healthBar.Init(this);
+        }
+
+        // check for collision damage handler and receiver and collision detectors
+        if (handleCollisionDamage) {
+            gameObject.CheckAddComponent<CollisionDamageHandler>();
+            gameObject.CheckAddComponent<CollisionDamageReceiver>();
+            if (gameObject.GetComponent<CompositeCollisionDetector>() == null) {
+                gameObject.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
+            }
         }
     }
 

@@ -61,6 +61,12 @@ public static class ExtensionMethods
         return go.AddComponent<T>().GetCopyOf(toAdd) as T;
     }
 
+    public static T CheckAddComponent<T>(this UnityEngine.GameObject go) where T : Component {
+        if (go.GetComponent<T>() == null)
+            go.AddComponent<T>();
+        return go.GetComponent<T>();
+    }
+
     public static T FindComponent<T>(this UnityEngine.GameObject g, bool in_parent = true, bool in_children = true, int sibling_depth = 0, bool ignore_self = false) where T : Component
     {
         if (ignore_self)

@@ -16,7 +16,7 @@ public class WaterZone : MonoBehaviour
             detector = GetComponent<FishDetector>();
 
         detector.OnFishTriggerEnter += FishEnterSploosh;
-        detector.OnFirstSegmentExit += FishExitSploosh;
+        detector.OnFirstSegmentTriggerExit += FishExitSploosh;
     }
 
     Vector2 forceRange = new Vector2(0f, 10f);

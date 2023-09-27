@@ -291,6 +291,10 @@ public class Gunfish : MonoBehaviour {
 
         renderer = new GunfishRenderer(data.spriteMat, segments);
         body = new GunfishRigidbody(segments, layer);
+        // add composite detection handler and Init
+        // add damage receiver
+        segments[0].CheckAddComponent<CollisionDamageReceiver>().gunfish = this;
+        segments[0].CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
 
         spawned = true;
         killed = false;
