@@ -29,6 +29,9 @@ MonoBehaviour:
   maxUnderwaterVelocity: 10
   underwaterForce: 30
   underwaterTorque: 4
+  waterZoomSpeedThreshold: 10
+  waterZoomAngleThreshold: 30
+  waterZoomForce: 4
   maxHealth: 10
   length: 2
   width:

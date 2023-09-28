@@ -14,6 +14,7 @@ public class GameParameters {
 
 public class GameManager : PersistentSingleton<GameManager> {
     public static readonly bool debug = true;
+    public List<string> testLevelList = new List<string>();
     
     public List<GameMode> GameModeList = new List<GameMode>();
     public List<GunfishData> GunfishList = new List<GunfishData>();
@@ -41,7 +42,7 @@ public class GameManager : PersistentSingleton<GameManager> {
             MatchManager = null;
         }
 
-        var scenes = new List<string>() { "Sea Urchin Testing" };
+        var scenes = testLevelList; //new List<string>() { "Sea Urchin Testing" };
 
         // Get all active players
         GameParameters parameters = new GameParameters(PlayerManager.instance.Players, scenes);
