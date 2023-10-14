@@ -1,3 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Label text="Placeholder text" display-tooltip-when-elided="true" name="splash-text" style="font-size: 72px; -unity-text-align: middle-center; white-space: normal; width: 100%; height: 100%;" />
-</ui:UXML>
