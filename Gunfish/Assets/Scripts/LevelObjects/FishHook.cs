@@ -34,7 +34,6 @@ public class FishHook : MonoBehaviour
         jiggle_timer = jiggleDuration;
         lineStartPosition = line.transform.position;
         lineTargetPosition = roofPosition.position;
-        line.SetPosition(1, line.transform.InverseTransformPoint(lineStartPosition));
         line.SetPosition(0, line.transform.InverseTransformPoint(roofPosition.position));
     }
 
