@@ -285,17 +285,22 @@ PrefabInstance:
     - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: testLevelList.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: testLevelList.Array.data[0]
-      value: Sea Urchin Testing
+      value: Player Loading
       objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: testLevelList.Array.data[1]
-      value: Player Loading
+      value: crags
+      objectReference: {fileID: 0}
+    - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: testLevelList.Array.data[2]
+      value: barrel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
