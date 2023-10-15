@@ -10,6 +10,7 @@ using static UnityEngine.Application;
 public class LevelManager: PersistentSingleton<LevelManager> {
     public GameEvent FinishLoadLevel_Event;
     public GameEvent StartPlay_Event;
+    public string skyboxScene;
 
 
     // load level, set up callback
@@ -78,6 +79,10 @@ public class LevelManager: PersistentSingleton<LevelManager> {
     IEnumerator CoLoadScene(string sceneName) {
         var op = SceneManager.LoadSceneAsync(sceneName);
         while (op.isDone == false) {
+            yield return null;
+        }
+        var op2 = SceneManager.LoadSceneAsync(skyboxScene, LoadSceneMode.Additive);
+        while (op2.isDone == false) {
             yield return null;
         }
         anim.SetBool("veil", false);
