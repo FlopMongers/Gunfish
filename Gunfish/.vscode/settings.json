@@ -56,5 +56,9 @@
         "Dont",
         "Mathf",
         "Raycast"
-    ]
+    ],
+    "cSpell.ignoreWords": [
+        "Scriptable"
+    ],
+    "dotnet.preferCSharpExtension": true
 }
