@@ -1,95 +1,84 @@
-﻿using System.Collections.Generic;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
+using System.Collections.Generic;
 
-namespace FunkyCode.EventHandling
-{
-    public class Object
-	{
+namespace FunkyCode.EventHandling {
+    public class Object {
         public List<LightCollider2D> listenersCache = new List<LightCollider2D>();
-		
-		public List<LightCollision2D> listenersInLight = new List<LightCollision2D>();
-		public List<LightCollider2D> listenersInLightColliders = new List<LightCollider2D>();
 
-		public event CollisionEvent2D collisionEvents;
+        public List<LightCollision2D> listenersInLight = new List<LightCollision2D>();
+        public List<LightCollider2D> listenersInLightColliders = new List<LightCollider2D>();
 
-		public void Update(Light2D light, EventPreset eventPreset)
-		{
-			listenersInLight.Clear();
+        public event CollisionEvent2D collisionEvents;
 
-			// Get Event Receivers
-			LightCollider.GetCollisions(listenersInLight, light);
+        public void Update(Light2D light, EventPreset eventPreset) {
+            listenersInLight.Clear();
 
-			// Remove Event Receiver Vertices with Shadows
-			LightCollider.RemoveHiddenPoints(listenersInLight, light, eventPreset);
-			LightTilemap.RemoveHiddenPoints(listenersInLight, light, eventPreset);
+            // Get Event Receivers
+            LightCollider.GetCollisions(listenersInLight, light);
 
-			if (listenersInLight.Count < 1)
-			{
-				for(int i = 0; i < listenersCache.Count; i++)
-				{
-					var collider = listenersCache[i];
-					
-					var collision = new LightCollision2D();
-					collision.light = light;
-					collision.collider = collider;
-					collision.points = null;
-					collision.state = LightCollision2D.State.OnCollisionExit;
+            // Remove Event Receiver Vertices with Shadows
+            LightCollider.RemoveHiddenPoints(listenersInLight, light, eventPreset);
+            LightTilemap.RemoveHiddenPoints(listenersInLight, light, eventPreset);
 
-					collisionEvents?.Invoke(collision);
+            if (listenersInLight.Count < 1) {
+                for (int i = 0; i < listenersCache.Count; i++) {
+                    var collider = listenersCache[i];
 
-					collider.CollisionEvent(collision);
-				}
+                    var collision = new LightCollision2D();
+                    collision.light = light;
+                    collision.collider = collider;
+                    collision.points = null;
+                    collision.state = LightCollision2D.State.OnCollisionExit;
 
-				listenersCache.Clear();
+                    collisionEvents?.Invoke(collision);
 
-				return;
-			}
-				
-			listenersInLightColliders.Clear();
+                    collider.CollisionEvent(collision);
+                }
 
-			foreach(var collision in listenersInLight)
-			{
-				listenersInLightColliders.Add(collision.collider);
-			}
+                listenersCache.Clear();
 
-			for(int i = 0; i < listenersCache.Count; i++)
-			{
-				var collider = listenersCache[i];
+                return;
+            }
 
-				if (!listenersInLightColliders.Contains(collider))
-				{
-					var collision = new LightCollision2D();
-					collision.light = light;
-					collision.collider = collider;
-					collision.points = null;
-					collision.state = LightCollision2D.State.OnCollisionExit;
+            listenersInLightColliders.Clear();
 
-					collider.CollisionEvent(collision);
+            foreach (var collision in listenersInLight) {
+                listenersInLightColliders.Add(collision.collider);
+            }
 
-					collisionEvents?.Invoke(collision);
-					
-					listenersCache.Remove(collider);
-				}
-			}
+            for (int i = 0; i < listenersCache.Count; i++) {
+                var collider = listenersCache[i];
 
-			for(int i = 0; i < listenersInLight.Count; i++)
-			{
-				var collision = listenersInLight[i];
-				
-				if (listenersCache.Contains(collision.collider))
-				{
-					collision.state = LightCollision2D.State.OnCollision;
-				}
-				else
-				{
-					collision.state = LightCollision2D.State.OnCollisionEnter;
-					listenersCache.Add(collision.collider);
-				}
-			
-				collision.collider.CollisionEvent(collision);
+                if (!listenersInLightColliders.Contains(collider)) {
+                    var collision = new LightCollision2D();
+                    collision.light = light;
+                    collision.collider = collider;
+                    collision.points = null;
+                    collision.state = LightCollision2D.State.OnCollisionExit;
 
-				collisionEvents?.Invoke(collision);
-			}
-		}
-	}
+                    collider.CollisionEvent(collision);
+
+                    collisionEvents?.Invoke(collision);
+
+                    listenersCache.Remove(collider);
+                }
+            }
+
+            for (int i = 0; i < listenersInLight.Count; i++) {
+                var collision = listenersInLight[i];
+
+                if (listenersCache.Contains(collision.collider)) {
+                    collision.state = LightCollision2D.State.OnCollision;
+                }
+                else {
+                    collision.state = LightCollision2D.State.OnCollisionEnter;
+                    listenersCache.Add(collision.collider);
+                }
+
+                collision.collider.CollisionEvent(collision);
+
+                collisionEvents?.Invoke(collision);
+            }
+        }
+    }
 }

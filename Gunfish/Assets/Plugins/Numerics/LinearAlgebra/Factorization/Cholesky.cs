@@ -29,8 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
     /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
@@ -42,10 +41,8 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Cholesky<T> : ISolver<T>
-        where T : struct, IEquatable<T>, IFormattable
-    {
-        protected Cholesky(Matrix<T> factor)
-        {
+        where T : struct, IEquatable<T>, IFormattable {
+        protected Cholesky(Matrix<T> factor) {
             Factor = factor;
         }
 
@@ -75,8 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
-        public virtual Matrix<T> Solve(Matrix<T> input)
-        {
+        public virtual Matrix<T> Solve(Matrix<T> input) {
             var x = Matrix<T>.Build.SameAs(input, input.RowCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
@@ -94,8 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
-        public virtual Vector<T> Solve(Vector<T> input)
-        {
+        public virtual Vector<T> Solve(Vector<T> input) {
             var x = Vector<T>.Build.SameAs(input, input.Count);
             Solve(input, x);
             return x;

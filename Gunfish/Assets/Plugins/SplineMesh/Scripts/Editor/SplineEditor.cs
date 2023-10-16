@@ -50,7 +50,7 @@ namespace SplineMesh {
             upButtonStyle = new GUIStyle();
             upButtonStyle.normal.background = t;
             selection = null;
-			
+
             Undo.undoRedoPerformed -= spline.RefreshCurves;
             Undo.undoRedoPerformed += spline.RefreshCurves;
         }
@@ -60,7 +60,8 @@ namespace SplineMesh {
             SplineNode res = new SplineNode(node.Position, node.Direction);
             if (index == spline.nodes.Count - 1) {
                 spline.AddNode(res);
-            } else {
+            }
+            else {
                 spline.InsertNode(index + 1, res);
             }
             return res;
@@ -72,7 +73,8 @@ namespace SplineMesh {
             if (Selection.activeGameObject == spline.gameObject) {
                 if (!spline.enabled) {
                     Tools.current = Tool.Move;
-                } else {
+                }
+                else {
                     Tools.current = Tool.None;
                     if (selection == null && spline.nodes.Count > 0)
                         selection = spline.nodes[0];
@@ -107,7 +109,8 @@ namespace SplineMesh {
                             selection = AddClonedNode(selection);
                             selection.Direction += newPosition - selection.Position;
                             selection.Position = newPosition;
-                        } else {
+                        }
+                        else {
                             selection.Direction += newPosition - selection.Position;
                             selection.Position = newPosition;
                         }
@@ -177,7 +180,8 @@ namespace SplineMesh {
                             }
                         }
                     }
-                } else {
+                }
+                else {
                     if (Button(guiPos, nodeButtonStyle)) {
                         selection = n;
                         selectionType = SelectionType.Node;
@@ -197,7 +201,7 @@ namespace SplineMesh {
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
-            if(spline.nodes.IndexOf(selection) < 0) {
+            if (spline.nodes.IndexOf(selection) < 0) {
                 selection = null;
             }
 
@@ -209,9 +213,10 @@ namespace SplineMesh {
                 Undo.RecordObject(spline, "add spline node");
                 SplineNode newNode = new SplineNode(selection.Direction, selection.Direction + selection.Direction - selection.Position);
                 var index = spline.nodes.IndexOf(selection);
-                if(index == spline.nodes.Count - 1) {
+                if (index == spline.nodes.Count - 1) {
                     spline.AddNode(newNode);
-                } else {
+                }
+                else {
                     spline.InsertNode(index + 1, newNode);
                 }
                 selection = newNode;
@@ -248,7 +253,8 @@ namespace SplineMesh {
                 EditorGUI.indentLevel++;
                 DrawNodeData(nodeProp, selection);
                 EditorGUI.indentLevel--;
-            } else {
+            }
+            else {
                 EditorGUILayout.LabelField("No selected node");
             }
         }

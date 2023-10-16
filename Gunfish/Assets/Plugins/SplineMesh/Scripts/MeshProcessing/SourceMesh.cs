@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using UnityEditor;
+using UnityEngine;
 
 namespace SplineMesh {
     /// <summary>
@@ -22,7 +22,8 @@ namespace SplineMesh {
         private List<MeshVertex> vertices;
         internal List<MeshVertex> Vertices {
             get {
-                if (vertices == null) BuildData();
+                if (vertices == null)
+                    BuildData();
                 return vertices;
             }
         }
@@ -30,7 +31,8 @@ namespace SplineMesh {
         private int[] triangles;
         internal int[] Triangles {
             get {
-                if (vertices == null) BuildData();
+                if (vertices == null)
+                    BuildData();
                 return triangles;
             }
         }
@@ -38,7 +40,8 @@ namespace SplineMesh {
         private float minX;
         internal float MinX {
             get {
-                if (vertices == null) BuildData();
+                if (vertices == null)
+                    BuildData();
                 return minX;
             }
         }
@@ -46,7 +49,8 @@ namespace SplineMesh {
         private float length;
         internal float Length {
             get {
-                if (vertices == null) BuildData();
+                if (vertices == null)
+                    BuildData();
                 return length;
             }
         }
@@ -119,8 +123,10 @@ namespace SplineMesh {
             // if the mesh is reversed by scale, we must change the culling of the faces by inversing all triangles.
             // the mesh is reverse only if the number of resersing axes is impair.
             bool reversed = scale.x < 0;
-            if (scale.y < 0) reversed = !reversed;
-            if (scale.z < 0) reversed = !reversed;
+            if (scale.y < 0)
+                reversed = !reversed;
+            if (scale.z < 0)
+                reversed = !reversed;
             triangles = reversed ? MeshUtility.GetReversedTriangles(Mesh) : Mesh.triangles;
 
             // we transform the source mesh vertices according to rotation/translation/scale

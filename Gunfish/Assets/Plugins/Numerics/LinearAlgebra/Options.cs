@@ -28,10 +28,8 @@
 // </copyright>
 
 
-namespace MathNet.Numerics.LinearAlgebra
-{
-    public enum ExistingData
-    {
+namespace MathNet.Numerics.LinearAlgebra {
+    public enum ExistingData {
         /// <summary>
         /// Existing data may not be all zeros, so clearing may be necessary
         /// if not all of it will be overwritten anyway.
@@ -45,8 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra
         AssumeZeros = 1
     }
 
-    public enum Zeros
-    {
+    public enum Zeros {
         /// <summary>
         /// Allow skipping zero entries (without enforcing skipping them).
         /// When enumerating sparse matrices this can significantly speed up operations.
@@ -59,8 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra
         Include = 1
     }
 
-    public enum Symmetricity
-    {
+    public enum Symmetricity {
         /// <summary>
         /// It is not known yet whether a matrix is symmetric or not.
         /// </summary>

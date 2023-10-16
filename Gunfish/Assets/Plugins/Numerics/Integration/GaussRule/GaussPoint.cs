@@ -27,13 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Integration.GaussRule
-{
+namespace MathNet.Numerics.Integration.GaussRule {
     /// <summary>
     /// Contains the abscissas/weights, order, and intervalBegin/intervalEnd.
     /// </summary>
-    internal class GaussPoint
-    {
+    internal class GaussPoint {
         internal double[] Abscissas { get; }
 
         internal double[] Weights { get; }
@@ -44,8 +42,7 @@ namespace MathNet.Numerics.Integration.GaussRule
 
         internal int Order { get; }
 
-        internal GaussPoint(double intervalBegin, double intervalEnd, int order, double[] abscissas, double[] weights)
-        {
+        internal GaussPoint(double intervalBegin, double intervalEnd, int order, double[] abscissas, double[] weights) {
             Abscissas = abscissas;
             Weights = weights;
             IntervalBegin = intervalBegin;
@@ -53,8 +50,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             Order = order;
         }
 
-        internal GaussPoint(int order, double[] abscissas, double[] weights) : this(-1, 1, order, abscissas, weights)
-        {
+        internal GaussPoint(int order, double[] abscissas, double[] weights) : this(-1, 1, order, abscissas, weights) {
         }
     }
 }

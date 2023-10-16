@@ -1,46 +1,38 @@
-﻿using UnityEngine;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Depth
-{
-	public static class Main
-	{
-		static Pass pass = new Pass();
+namespace FunkyCode.Rendering.Depth {
+    public static class Main {
+        static Pass pass = new Pass();
 
-		public static void Draw(Camera camera, LightmapPreset lightmapPreset)
-		{
-			LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
-	
-			if (layerSettings == null)
-			{
-				return;
-			}
+        public static void Draw(Camera camera, LightmapPreset lightmapPreset) {
+            LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
 
-			if (layerSettings.Length < 1)
-			{
-				return;
-			}
+            if (layerSettings == null) {
+                return;
+            }
 
-			for(int i = 0; i < layerSettings.Length; i++)
-			{
-				LightmapLayer dayLayer = layerSettings[i];
+            if (layerSettings.Length < 1) {
+                return;
+            }
 
-				if (!pass.Setup(dayLayer, camera))
-				{
-					continue;
-				}
+            for (int i = 0; i < layerSettings.Length; i++) {
+                LightmapLayer dayLayer = layerSettings[i];
 
-				Rendering.Draw(pass);
-			}
-		}
+                if (!pass.Setup(dayLayer, camera)) {
+                    continue;
+                }
 
-		public static Color ClearColor(LightmapPreset lightmapPreset)
-		{
-		   	float depthFloat = ((float)lightmapPreset.depth + 100) / 255;
+                Rendering.Draw(pass);
+            }
+        }
 
-		   	Color color = new Color(depthFloat, 0, 0, 0);
+        public static Color ClearColor(LightmapPreset lightmapPreset) {
+            float depthFloat = ((float)lightmapPreset.depth + 100) / 255;
 
-			return(color);
-		}
-	}
+            Color color = new Color(depthFloat, 0, 0, 0);
+
+            return (color);
+        }
+    }
 }

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.Integration.GaussRule
-{
+namespace MathNet.Numerics.Integration.GaussRule {
     /// <summary>
     /// Contains a method to compute the Gauss-Kronrod abscissas/weights and precomputed abscissas/weights for orders 15, 21, 31, 41, 51, 61.
     /// </summary>
-    internal static partial class GaussKronrodPoint
-    {
+    internal static partial class GaussKronrodPoint {
         /// <summary>
         /// Precomputed abscissas/weights for orders 15, 21, 31, 41, 51, 61.
         /// </summary>
@@ -367,16 +365,14 @@ namespace MathNet.Numerics.Integration.GaussRule
     /// <summary>
     /// Contains a method to compute the Gauss-Kronrod abscissas/weights.
     /// </summary>
-    internal static partial class GaussKronrodPoint
-    {
+    internal static partial class GaussKronrodPoint {
         /// <summary>
         /// Computes the Gauss-Kronrod abscissas/weights and Gauss weights.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Kronrod rule. The order also defines the number of abscissas and weights for the rule.</param>
         /// <param name="eps">Required precision to compute the abscissas/weights.</param>
         /// <returns>Object containing the non-negative abscissas/weights, order.</returns>
-        internal static GaussPointPair Generate(int order, double eps)
-        {
+        internal static GaussPointPair Generate(int order, double eps) {
             int gaussOrder = (order - 1) / 2;
             int gaussStart = gaussOrder.IsOdd() ? 0 : 1;
             int kronrodStart = gaussOrder.IsOdd() ? 1 : 0;
@@ -395,15 +391,13 @@ namespace MathNet.Numerics.Integration.GaussRule
             int r = gaussOrder.IsOdd() ? (gaussOrder - 1) / 2 + 1 : gaussOrder / 2 + 1;
             var kronrodAbscissas = new double[r];
 
-            for (int k = 1; k <= gaussOrder + 1; k = k + 2)
-            {
+            for (int k = 1; k <= gaussOrder + 1; k = k + 2) {
                 var x0 = (1.0 - (1.0 - 1.0 / gaussOrder) / (8 * gaussOrder * gaussOrder)) * Math.Cos((k - 0.5) * Math.PI / (2.0 * gaussOrder + 1.0));
                 double dx;
                 var j = 1; // iterations
 
                 // Newton iterations
-                do
-                {
+                do {
                     var E = LegendreSeries(c, x0);
                     dx = E.Item1 / E.Item2;
                     x0 = x0 - dx;
@@ -411,7 +405,8 @@ namespace MathNet.Numerics.Integration.GaussRule
                 }
                 while (Math.Abs(dx) > eps && j < 100);
 
-                if (Math.Abs(x0) < Precision.MachineEpsilon) x0 = 0.0;
+                if (Math.Abs(x0) < Precision.MachineEpsilon)
+                    x0 = 0.0;
 
                 kronrodAbscissas[(k - 1) / 2] = x0;
             }
@@ -426,8 +421,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             // Calculate weights for abscissas
 
             var weights = new double[gaussAbscissas.Length + kronrodAbscissas.Length];
-            for (int i = gaussStart; i < abscissas.Length; i += 2)
-            {
+            for (int i = gaussStart; i < abscissas.Length; i += 2) {
                 var x = abscissas[i];
 
                 var E = LegendreSeries(c, x);
@@ -437,8 +431,7 @@ namespace MathNet.Numerics.Integration.GaussRule
                 var w2 = 2.0 / ((1.0 - x * x) * p * p); // Gauss weight
                 weights[i] = w2 + 2.0 / ((gaussOrder + 1.0) * p * E.Item1);
             }
-            for (int i = kronrodStart; i < abscissas.Length; i += 2)
-            {
+            for (int i = kronrodStart; i < abscissas.Length; i += 2) {
                 var x = abscissas[i];
 
                 var E = LegendreSeries(c, x);
@@ -453,8 +446,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Returns coefficients of a Stieltjes polynomial in terms of Legendre polynomials.
         /// </summary>
-        static double[] StieltjesP(int order)
-        {
+        static double[] StieltjesP(int order) {
             // Reference:
             // 1. Patterson, Thomas NL. "The optimum addition of points to quadrature formulae." Mathematics of Computation 22.104 (1968): 847-856.
             // 2. Piessens, Robert, and Maria Branders. "A note on the optimal addition of abscissas to quadrature formulas of Gauss and Lobatto type." Mathematics of Computation (1974): 135-139.
@@ -503,12 +495,10 @@ namespace MathNet.Numerics.Integration.GaussRule
             //                         / ((n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k)));
 
             a[r] = 1.0;
-            for (int k = 1; k < r; k++)
-            {
+            for (int k = 1; k < r; k++) {
                 double ratio = 1.0;
                 a[r - k] = 0.0;
-                for (int i = r + 1 - k; i <= r; i++)
-                {
+                for (int i = r + 1 - k; i <= r; i++) {
                     double numerator = (n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n);
                     double denominator = (n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k));
                     ratio = ratio * numerator / denominator;
@@ -519,8 +509,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             // K = sum c[k] P[k, x]
 
             double[] c = new double[2 * r - q];
-            for (int i = 1; i < a.Length; i++)
-            {
+            for (int i = 1; i < a.Length; i++) {
                 c[2 * i - 1 - q] = a[i];
             }
 
@@ -530,8 +519,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Return value and derivative of a Legendre series at given points.
         /// </summary>
-        static (double, double) LegendreSeries(double[] a, double x)
-        {
+        static (double, double) LegendreSeries(double[] a, double x) {
             // S = a[0]*P[0, x] + ... + a[k]*P[k, x] + ... + a[n]*P[n, x]
             // where P[k, x] is the Legendre polynomial of order k
             //
@@ -555,8 +543,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             double b0, b1 = 0.0, b2 = 0.0;
             double p0, p1 = 0.0, p2 = 0.0;
 
-            for (int k = a.Length - 1; k >= 1; k--)
-            {
+            for (int k = a.Length - 1; k >= 1; k--) {
                 b0 = a[k] + (2.0 * k + 1.0) / (k + 1.0) * x * b1 - (k + 1.0) / (k + 2.0) * b2;
                 p0 = (2.0 * k + 1.0) / (k + 1.0) * (b1 + x * p1) - (k + 1.0) / (k + 2.0) * p2;
 
@@ -574,8 +561,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Return value and derivative of a Legendre polynomial of order at given points.
         /// </summary>
-        static (double, double) LegendreP(int order, double x)
-        {
+        static (double, double) LegendreP(int order, double x) {
             // The Legendre polynomial, P[n, x], is defined by the recurrence relation:
             //
             // P[0, x] = 1
@@ -596,8 +582,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             double b0 = 0.0, b1 = 1.0, b2 = 0.0;
             double p0 = 0.0, p1 = 0.0, p2 = 0.0;
 
-            for (int k = 1; k <= order; k++)
-            {
+            for (int k = 1; k <= order; k++) {
                 b0 = (2.0 * k - 1.0) / k * x * b1 - (k - 1.0) / k * b2; // L(k, x)
                 p0 = (2.0 * k - 1.0) / k * (b1 + x * p1) - (k - 1.0) / k * p2; // L'(k, x)
 

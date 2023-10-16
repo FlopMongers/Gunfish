@@ -29,15 +29,13 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// A unit preconditioner. This preconditioner does not actually do anything
     /// it is only used when running an <see cref="IIterativeSolver{T}"/> without
     /// a preconditioner.
     /// </summary>
-    public sealed class UnitPreconditioner<T> : IPreconditioner<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public sealed class UnitPreconditioner<T> : IPreconditioner<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// The coefficient matrix on which this preconditioner operates.
         /// Is used to check dimensions on the different vectors that are processed.
@@ -51,10 +49,8 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// The matrix upon which the preconditioner is based.
         /// </param>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<T> matrix)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public void Initialize(Matrix<T> matrix) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
@@ -77,10 +73,8 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         ///     If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         ///   </para>
         /// </exception>
-        public void Approximate(Vector<T> rhs, Vector<T> lhs)
-        {
-            if ((lhs.Count != rhs.Count) || (lhs.Count != _size))
-            {
+        public void Approximate(Vector<T> rhs, Vector<T> lhs) {
+            if ((lhs.Count != rhs.Count) || (lhs.Count != _size)) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 

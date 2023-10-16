@@ -27,15 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Univariate Probability Distribution.
     /// </summary>
     /// <seealso cref="IContinuousDistribution"/>
     /// <seealso cref="IDiscreteDistribution"/>
-    public interface IUnivariateDistribution : IDistribution
-    {
+    public interface IUnivariateDistribution : IDistribution {
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>

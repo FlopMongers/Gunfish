@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum MusicTrack {
     AllStar,
@@ -14,7 +14,7 @@ public struct MusicTrackToClip {
 }
 
 public class MusicManager : PersistentSingleton<MusicManager> {
-    
+
     [SerializeField]
     private List<MusicTrackToClip> musicTrackMap;
     [SerializeField]
@@ -25,7 +25,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private bool playOnStart;
     [SerializeField]
     private AnimationCurve fadeInCurve;
-    
+
     [SerializeField]
     [Range(0f, 5f)]
     public float fadeTime;
@@ -50,7 +50,8 @@ public class MusicManager : PersistentSingleton<MusicManager> {
                 var index = activeSourceIndex + (transitioning ? 1 : 0) + musicQueue.Count;
                 if (index % 2 == 0) {
                     StartTrack(MusicTrack.AllStar);
-                } else {
+                }
+                else {
                     StartTrack(MusicTrack.CoryInTheHouse);
                 }
             }
@@ -62,7 +63,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
             gameObject.AddComponent<AudioSource>(),
             gameObject.AddComponent<AudioSource>()
         };
-        
+
         foreach (var audioSource in audioSources) {
             audioSource.loop = true;
         }
@@ -88,7 +89,8 @@ public class MusicManager : PersistentSingleton<MusicManager> {
                 transitioning = true;
                 StartCoroutine(Fade());
             }
-        } else {
+        }
+        else {
             string message = $"{track.ToString()} did not contain a value. Please set one in the MusicManager component.";
             throw new UnassignedReferenceException(message);
         }
@@ -124,7 +126,8 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     }
 
     private void OnGUI() {
-        if (!GameManager.debug) return;
+        if (!GameManager.debug)
+            return;
 
         GUI.TextField(new Rect(0f, 0f, 200f, 20f), "Press M to change music track.");
     }

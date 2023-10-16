@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode
-{
+namespace FunkyCode {
     [ExecuteInEditMode]
-    public class LightParticleSystem2D : MonoBehaviour
-    {
-        public enum Type {Particle};
+    public class LightParticleSystem2D : MonoBehaviour {
+        public enum Type { Particle };
 
         public int lightLayer = 0;
 
@@ -24,36 +22,30 @@ namespace FunkyCode
 
         public static List<LightParticleSystem2D> List = new List<LightParticleSystem2D>();
 
-        public void OnEnable()
-        {
+        public void OnEnable() {
             List.Add(this);
 
             LightingManager2D.Get();
         }
 
-        public void OnDisable()
-        {
+        public void OnDisable() {
             List.Remove(this);
         }
 
-        public ParticleSystem GetParticleSystem()
-        {
-            if (particleSystem2D == null)
-            {
+        public ParticleSystem GetParticleSystem() {
+            if (particleSystem2D == null) {
                 particleSystem2D = GetComponent<ParticleSystem>();
             }
 
-            return(particleSystem2D);
+            return (particleSystem2D);
         }
 
-        public ParticleSystemRenderer GetParticleSystemRenderer()
-        {
-            if (particleSystemRenderer2D == null)
-            {
+        public ParticleSystemRenderer GetParticleSystemRenderer() {
+            if (particleSystemRenderer2D == null) {
                 particleSystemRenderer2D = GetComponent<ParticleSystemRenderer>();
             }
 
-            return(particleSystemRenderer2D);
+            return (particleSystemRenderer2D);
         }
     }
 }

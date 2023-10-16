@@ -29,8 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD).</para>
     /// <para>Suppose M is an m-by-n matrix whose entries are real numbers.
@@ -47,15 +46,13 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Svd<T> : ISolver<T>
-        where T : struct, IEquatable<T>, IFormattable
-    {
+        where T : struct, IEquatable<T>, IFormattable {
         readonly Lazy<Matrix<T>> _lazyW;
 
         /// <summary>Indicating whether U and VT matrices have been computed during SVD factorization.</summary>
         protected readonly bool VectorsComputed;
 
-        protected Svd(Vector<T> s, Matrix<T> u, Matrix<T> vt, bool vectorsComputed)
-        {
+        protected Svd(Vector<T> s, Matrix<T> u, Matrix<T> vt, bool vectorsComputed) {
             S = s;
             U = u;
             VT = vt;
@@ -65,17 +62,13 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
             _lazyW = new Lazy<Matrix<T>>(ComputeW);
         }
 
-        Matrix<T> ComputeW()
-        {
+        Matrix<T> ComputeW() {
             var rows = U.RowCount;
             var columns = VT.ColumnCount;
             var result = Matrix<T>.Build.SameAs(U, rows, columns);
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    if (i == j)
-                    {
+            for (var i = 0; i < rows; i++) {
+                for (var j = 0; j < columns; j++) {
+                    if (i == j) {
                         result.At(i, i, S[i]);
                     }
                 }
@@ -133,10 +126,8 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
-        public virtual Matrix<T> Solve(Matrix<T> input)
-        {
-            if (!VectorsComputed)
-            {
+        public virtual Matrix<T> Solve(Matrix<T> input) {
+            if (!VectorsComputed) {
                 throw new InvalidOperationException("The singular vectors were not computed.");
             }
 
@@ -157,10 +148,8 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
-        public virtual Vector<T> Solve(Vector<T> input)
-        {
-            if (!VectorsComputed)
-            {
+        public virtual Vector<T> Solve(Vector<T> input) {
+            if (!VectorsComputed) {
                 throw new InvalidOperationException("The singular vectors were not computed.");
             }
 

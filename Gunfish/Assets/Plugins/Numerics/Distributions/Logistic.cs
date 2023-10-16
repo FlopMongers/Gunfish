@@ -27,19 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Random;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Continuous Univariate Logistic distribution.
     /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Logistic_distribution">Wikipedia - Logistic distribution</a>.
     /// </summary>
-    public class Logistic : IContinuousDistribution
-    {
+    public class Logistic : IContinuousDistribution {
         System.Random _random;
 
         readonly double _mean;
@@ -51,8 +49,7 @@ namespace MathNet.Numerics.Distributions
         /// random number generator.
         /// </summary>
         public Logistic()
-            : this(0.0, 1.0)
-        {
+            : this(0.0, 1.0) {
         }
 
         /// <summary>
@@ -62,8 +59,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Logistic(System.Random randomSource)
-            : this(0.0, 1.0, randomSource)
-        {
+            : this(0.0, 1.0, randomSource) {
         }
 
         /// <summary>
@@ -72,10 +68,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
-        public Logistic(double mean, double scale)
-        {
-            if (!IsValidParameterSet(mean, scale))
-            {
+        public Logistic(double mean, double scale) {
+            if (!IsValidParameterSet(mean, scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -91,10 +85,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Logistic(double mean, double scale, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(mean, scale))
-            {
+        public Logistic(double mean, double scale, System.Random randomSource) {
+            if (!IsValidParameterSet(mean, scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -110,8 +102,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>a logistic distribution.</returns>
-        public static Logistic WithMeanScale(double mean, double scale, System.Random randomSource = null)
-        {
+        public static Logistic WithMeanScale(double mean, double scale, System.Random randomSource = null) {
             return new Logistic(mean, scale, randomSource);
         }
 
@@ -122,8 +113,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="stddev">The standard deviation (σ) of the logistic distribution. Range: σ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>a logistic distribution.</returns>
-        public static Logistic WithMeanStdDev(double mean, double stddev, System.Random randomSource = null)
-        {
+        public static Logistic WithMeanStdDev(double mean, double stddev, System.Random randomSource = null) {
             var scale = Math.Sqrt(3) * stddev / Math.PI;
             return new Logistic(mean, scale, randomSource);
         }
@@ -135,8 +125,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="var">The variance (σ^2) of the logistic distribution. Range: (σ^2) > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>A logistic distribution.</returns>
-        public static Logistic WithMeanVariance(double mean, double var, System.Random randomSource = null)
-        {
+        public static Logistic WithMeanVariance(double mean, double var, System.Random randomSource = null) {
             return WithMeanStdDev(mean, Math.Sqrt(var), randomSource);
         }
 
@@ -147,8 +136,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="precision">The precision of the logistic distribution.  Range: precision > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>A logistic distribution.</returns>
-        public static Logistic WithMeanPrecision(double mean, double precision, System.Random randomSource = null)
-        {
+        public static Logistic WithMeanPrecision(double mean, double precision, System.Random randomSource = null) {
             return WithMeanVariance(mean, 1 / precision, randomSource);
         }
 
@@ -156,8 +144,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Logistic(μ = {_mean}, s = {_scale})";
         }
 
@@ -166,8 +153,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
-        public static bool IsValidParameterSet(double mean, double scale)
-        {
+        public static bool IsValidParameterSet(double mean, double scale) {
             return scale > 0.0 && !double.IsNaN(mean);
         }
 
@@ -189,18 +175,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the variance of the logistic distribution.
         /// </summary>
-        public double Variance => (Math.Pow(_scale, 2) * Math.Pow(Math.PI,2))/3;
+        public double Variance => (Math.Pow(_scale, 2) * Math.Pow(Math.PI, 2)) / 3;
 
         /// <summary>
         /// Gets the precision of the logistic distribution.
         /// </summary>
-        public double Precision => 1.0/Variance;
+        public double Precision => 1.0 / Variance;
 
         /// <summary>
         /// Gets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -241,8 +226,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
+        public double Density(double x) {
             return PDF(_mean, _scale, x);
         }
 
@@ -252,8 +236,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
+        public double DensityLn(double x) {
             return PDFLn(_mean, _scale, x);
         }
 
@@ -263,8 +246,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return CDF(_mean, _scale, x);
         }
 
@@ -275,8 +257,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InvCDF"/>
-        public double InverseCumulativeDistribution(double p)
-        {
+        public double InverseCumulativeDistribution(double p) {
             return InvCDF(_mean, _scale, p);
         }
 
@@ -284,16 +265,14 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the logistic distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, _mean, _scale);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, _mean, _scale);
         }
 
@@ -301,33 +280,26 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the logistic distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, _mean, _scale);
         }
 
-        static double SampleUnchecked(System.Random rnd, double mean, double scale)
-        {
+        static double SampleUnchecked(System.Random rnd, double mean, double scale) {
             return InvCDF(mean, scale, rnd.NextDouble());
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mean, double scale)
-        {
-            while (true)
-            {
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mean, double scale) {
+            while (true) {
                 yield return InvCDF(mean, scale, rnd.NextDouble());
             }
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double mean, double scale)
-        {
-            if (values.Length == 0)
-            {
+        static void SamplesUnchecked(System.Random rnd, double[] values, double mean, double scale) {
+            if (values.Length == 0) {
                 return;
             }
 
-            for (int i = 0; i < values.Length; i++)
-            {
+            for (int i = 0; i < values.Length; i++) {
                 values[i] = SampleUnchecked(rnd, mean, scale);
             }
         }
@@ -340,14 +312,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double mean, double scale, double x)
-        {
-            if (scale <= 0.0)
-            {
+        public static double PDF(double mean, double scale, double x) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            var z = (x - mean)/scale;
+            var z = (x - mean) / scale;
             return Math.Exp(-z) / (scale * Math.Pow(1.0 + Math.Exp(-z), 2));
         }
 
@@ -359,15 +329,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double mean, double scale, double x)
-        {
-            if (scale <= 0.0)
-            {
+        public static double PDFLn(double mean, double scale, double x) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            var z = (x - mean)/scale;
-            return -z - Math.Log(scale) - (2 * Math.Log(1+Math.Exp(-z)));
+            var z = (x - mean) / scale;
+            return -z - Math.Log(scale) - (2 * Math.Log(1 + Math.Exp(-z)));
         }
 
         /// <summary>
@@ -379,13 +347,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
         /// <remarks>MATLAB: normcdf</remarks>
-        public static double CDF(double mean, double scale, double x)
-        {
-            if (scale <= 0.0)
-            {
+        public static double CDF(double mean, double scale, double x) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
-            var z = (x - mean)/scale;
+            var z = (x - mean) / scale;
             return 1 / (1 + Math.Exp(-z));
         }
 
@@ -399,14 +365,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InverseCumulativeDistribution"/>
         /// <remarks>MATLAB: norminv</remarks>
-        public static double InvCDF(double mean, double scale, double p)
-        {
-            if (scale <= 0.0)
-            {
+        public static double InvCDF(double mean, double scale, double p) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return mean + (scale*Math.Log(p / (1-p)));
+            return mean + (scale * Math.Log(p / (1 - p)));
         }
 
         /// <summary>
@@ -416,10 +380,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double mean, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static double Sample(System.Random rnd, double mean, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -433,10 +395,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double mean, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double mean, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -451,10 +411,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(System.Random rnd, double[] values, double mean, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static void Samples(System.Random rnd, double[] values, double mean, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -467,10 +425,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(double mean, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static double Sample(double mean, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -483,10 +439,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double mean, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static IEnumerable<double> Samples(double mean, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -500,10 +454,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
         /// <param name="scale">The scale (s) of the logistic distribution. Range: s > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(double[] values, double mean, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static void Samples(double[] values, double mean, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

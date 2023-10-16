@@ -51,13 +51,12 @@
         }
     }
 
-#else 
+#else
 
-    namespace FunkyCode.SuperTilemapEditorSupport.Lightmap
-    {
-        public class Room {
-            public static void DrawTiles(Camera camera, LightTilemapRoom2D id, Material materia) {}
-        }
+namespace FunkyCode.SuperTilemapEditorSupport.Lightmap {
+    public class Room {
+        public static void DrawTiles(Camera camera, LightTilemapRoom2D id, Material materia) { }
     }
+}
 
 #endif

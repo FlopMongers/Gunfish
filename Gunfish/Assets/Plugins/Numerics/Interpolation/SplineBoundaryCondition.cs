@@ -27,13 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation
-{
+namespace MathNet.Numerics.Interpolation {
     /// <summary>
     /// Left and right boundary conditions.
     /// </summary>
-    public enum SplineBoundaryCondition
-    {
+    public enum SplineBoundaryCondition {
         /// <summary>
         /// Natural Boundary (Zero second derivative).
         /// </summary>

@@ -29,13 +29,11 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Factorization {
     /// <summary>
     /// The type of QR factorization go perform.
     /// </summary>
-    public enum QRMethod
-    {
+    public enum QRMethod {
         /// <summary>
         /// Compute the full QR factorization of a matrix.
         /// </summary>
@@ -61,15 +59,13 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class QR<T> : ISolver<T>
-        where T : struct, IEquatable<T>, IFormattable
-    {
+        where T : struct, IEquatable<T>, IFormattable {
         readonly Lazy<Matrix<T>> _lazyR;
 
         protected readonly Matrix<T> FullR;
         protected readonly QRMethod Method;
 
-        protected QR(Matrix<T> q, Matrix<T> rFull, QRMethod method)
-        {
+        protected QR(Matrix<T> q, Matrix<T> rFull, QRMethod method) {
             Q = q;
             FullR = rFull;
             Method = method;
@@ -103,8 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
-        public virtual Matrix<T> Solve(Matrix<T> input)
-        {
+        public virtual Matrix<T> Solve(Matrix<T> input) {
             var x = Matrix<T>.Build.SameAs(input, FullR.ColumnCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
@@ -122,8 +117,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
-        public virtual Vector<T> Solve(Vector<T> input)
-        {
+        public virtual Vector<T> Solve(Vector<T> input) {
             var x = Vector<T>.Build.SameAs(input, FullR.ColumnCount);
             Solve(input, x);
             return x;

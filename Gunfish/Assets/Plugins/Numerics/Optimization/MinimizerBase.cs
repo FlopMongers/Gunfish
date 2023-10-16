@@ -29,10 +29,8 @@
 
 using System;
 
-namespace MathNet.Numerics.Optimization
-{
-    public abstract class MinimizerBase
-    {
+namespace MathNet.Numerics.Optimization {
+    public abstract class MinimizerBase {
         public double GradientTolerance { get; set; }
         public double ParameterTolerance { get; set; }
         public double FunctionProgressTolerance { get; set; }
@@ -47,44 +45,37 @@ namespace MathNet.Numerics.Optimization
         /// <param name="parameterTolerance">The parameter tolerance</param>
         /// <param name="functionProgressTolerance">The function progress tolerance</param>
         /// <param name="maximumIterations">The maximum number of iterations</param>
-        protected MinimizerBase(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations)
-        {
+        protected MinimizerBase(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations) {
             GradientTolerance = gradientTolerance;
             ParameterTolerance = parameterTolerance;
             FunctionProgressTolerance = functionProgressTolerance;
             MaximumIterations = maximumIterations;
         }
 
-        protected ExitCondition ExitCriteriaSatisfied(IObjectiveFunctionEvaluation candidatePoint, IObjectiveFunctionEvaluation lastPoint, int iterations)
-        {
+        protected ExitCondition ExitCriteriaSatisfied(IObjectiveFunctionEvaluation candidatePoint, IObjectiveFunctionEvaluation lastPoint, int iterations) {
             var candidatePointPoint = candidatePoint.Point;
             double relativeGradient = 0.0;
             double normalizer = Math.Max(Math.Abs(candidatePoint.Value), 1.0);
-            for (int ii = 0; ii < candidatePointPoint.Count; ++ii)
-            {
+            for (int ii = 0; ii < candidatePointPoint.Count; ++ii) {
                 double projectedGradient = GetProjectedGradient(candidatePoint, ii);
 
                 double tmp = projectedGradient *
                     Math.Max(Math.Abs(candidatePointPoint[ii]), 1.0) / normalizer;
                 relativeGradient = Math.Max(relativeGradient, Math.Abs(tmp));
             }
-            if (relativeGradient < GradientTolerance)
-            {
+            if (relativeGradient < GradientTolerance) {
                 return ExitCondition.RelativeGradient;
             }
 
-            if (lastPoint != null)
-            {
+            if (lastPoint != null) {
                 var lastPointPoint = lastPoint.Point;
                 double mostProgress = 0.0;
-                for (int ii = 0; ii < candidatePointPoint.Count; ++ii)
-                {
+                for (int ii = 0; ii < candidatePointPoint.Count; ++ii) {
                     var tmp = Math.Abs(candidatePointPoint[ii] - lastPointPoint[ii]) /
                               Math.Max(Math.Abs(lastPointPoint[ii]), 1.0);
                     mostProgress = Math.Max(mostProgress, tmp);
                 }
-                if (mostProgress < ParameterTolerance)
-                {
+                if (mostProgress < ParameterTolerance) {
                     return ExitCondition.LackOfProgress;
                 }
 
@@ -96,15 +87,12 @@ namespace MathNet.Numerics.Optimization
             return ExitCondition.None;
         }
 
-        protected virtual double GetProjectedGradient(IObjectiveFunctionEvaluation candidatePoint, int ii)
-        {
+        protected virtual double GetProjectedGradient(IObjectiveFunctionEvaluation candidatePoint, int ii) {
             return candidatePoint.Gradient[ii];
         }
 
-        protected void ValidateGradientAndObjective(IObjectiveFunctionEvaluation eval)
-        {
-            foreach (var x in eval.Gradient)
-            {
+        protected void ValidateGradientAndObjective(IObjectiveFunctionEvaluation eval) {
+            foreach (var x in eval.Gradient) {
                 if (double.IsNaN(x) || double.IsInfinity(x))
                     throw new EvaluationException("Non-finite gradient returned.", eval);
             }

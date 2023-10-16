@@ -30,14 +30,12 @@
 using System;
 using System.Diagnostics;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterion{T}"/> that monitors the numbers of iteration
     /// steps as stop criterion.
     /// </summary>
-    public sealed class IterationCountStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public sealed class IterationCountStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// The default value for the maximum number of iterations the process is allowed
         /// to perform.
@@ -58,8 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Initializes a new instance of the <see cref="IterationCountStopCriterion{T}"/> class with the default maximum
         /// number of iterations.
         /// </summary>
-        public IterationCountStopCriterion() : this(DefaultMaximumNumberOfIterations)
-        {
+        public IterationCountStopCriterion() : this(DefaultMaximumNumberOfIterations) {
         }
 
         /// <summary>
@@ -67,10 +64,8 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// number of iterations.
         /// </summary>
         /// <param name="maximumNumberOfIterations">The maximum number of iterations the calculation is allowed to perform.</param>
-        public IterationCountStopCriterion(int maximumNumberOfIterations)
-        {
-            if (maximumNumberOfIterations < 1)
-            {
+        public IterationCountStopCriterion(int maximumNumberOfIterations) {
+            if (maximumNumberOfIterations < 1) {
                 throw new ArgumentOutOfRangeException(nameof(maximumNumberOfIterations));
             }
 
@@ -81,16 +76,13 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Gets or sets the maximum number of iterations the calculation is allowed to perform.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the <c>Maximum</c> is set to a negative value.</exception>
-        public int MaximumNumberOfIterations
-        {
+        public int MaximumNumberOfIterations {
             [DebuggerStepThrough]
             get => _maximumNumberOfIterations;
 
             [DebuggerStepThrough]
-            set
-            {
-                if (value < 1)
-                {
+            set {
+                if (value < 1) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -101,8 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Returns the maximum number of iterations to the default.
         /// </summary>
-        public void ResetMaximumNumberOfIterationsToDefault()
-        {
+        public void ResetMaximumNumberOfIterationsToDefault() {
             _maximumNumberOfIterations = DefaultMaximumNumberOfIterations;
         }
 
@@ -119,10 +110,8 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
-        {
-            if (iterationNumber < 0)
-            {
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector) {
+            if (iterationNumber < 0) {
                 throw new ArgumentOutOfRangeException(nameof(iterationNumber));
             }
 
@@ -134,8 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public IterationStatus Status
-        {
+        public IterationStatus Status {
             [DebuggerStepThrough]
             get => _status;
         }
@@ -143,8 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Resets the <see cref="IterationCountStopCriterion{T}"/> to the pre-calculation state.
         /// </summary>
-        public void Reset()
-        {
+        public void Reset() {
             _status = IterationStatus.Continue;
         }
 
@@ -152,8 +139,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Clones the current <see cref="IterationCountStopCriterion{T}"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="IterationCountStopCriterion{T}"/> class.</returns>
-        public IIterationStopCriterion<T> Clone()
-        {
+        public IIterationStopCriterion<T> Clone() {
             return new IterationCountStopCriterion<T>(_maximumNumberOfIterations);
         }
     }

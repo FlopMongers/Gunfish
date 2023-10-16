@@ -31,14 +31,12 @@ using System;
 using System.Linq;
 using System.Numerics;
 
-namespace MathNet.Numerics.Integration
-{
+namespace MathNet.Numerics.Integration {
     /// <summary>
     /// Analytic integration algorithm for smooth functions with no discontinuities
     /// or derivative discontinuities and no poles inside the interval.
     /// </summary>
-    public static class DoubleExponentialTransformation
-    {
+    public static class DoubleExponentialTransformation {
         /// <summary>
         /// Maximum number of iterations, until the asked
         /// maximum error is (likely to be) satisfied.
@@ -53,8 +51,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double Integrate(Func<double, double> f, double intervalBegin, double intervalEnd, double targetRelativeError)
-        {
+        public static double Integrate(Func<double, double> f, double intervalBegin, double intervalEnd, double targetRelativeError) {
             return NewtonCotesTrapeziumRule.IntegrateAdaptiveTransformedOdd(
                 f,
                 intervalBegin, intervalEnd,
@@ -72,8 +69,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static Complex ContourIntegrate(Func<double, Complex> f, double intervalBegin, double intervalEnd, double targetRelativeError)
-        {
+        public static Complex ContourIntegrate(Func<double, Complex> f, double intervalBegin, double intervalEnd, double targetRelativeError) {
             return NewtonCotesTrapeziumRule.ContourIntegrateAdaptiveTransformedOdd(
                 f,
                 intervalBegin, intervalEnd,
@@ -88,25 +84,22 @@ namespace MathNet.Numerics.Integration
         /// </summary>
         /// <param name="level">The level to evaluate the abscissa vector for.</param>
         /// <returns>Abscissa Vector.</returns>
-        static double[] EvaluateAbcissas(int level)
-        {
-            if (level < PrecomputedAbscissas.Length)
-            {
+        static double[] EvaluateAbcissas(int level) {
+            if (level < PrecomputedAbscissas.Length) {
                 return PrecomputedAbscissas[level];
             }
 
-            double step = level <= 1 ? 1.0 : (1.0/(2 << (level - 2)));
-            double offset = level == 0 ? 0.0 : (1.0/(2 << (level - 1)));
+            double step = level <= 1 ? 1.0 : (1.0 / (2 << (level - 2)));
+            double offset = level == 0 ? 0.0 : (1.0 / (2 << (level - 1)));
             int length = level == 0 ? 4 : (3 << (level - 1));
 
             double t = 0;
             var abcissas = new double[length];
-            for (int i = 0; i < abcissas.Length; i++)
-            {
+            for (int i = 0; i < abcissas.Length; i++) {
                 double arg = offset + t;
                 t += step;
 
-                abcissas[i] = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
+                abcissas[i] = Math.Tanh(Constants.PiOver2 * Math.Sinh(arg));
             }
 
             return abcissas;
@@ -117,27 +110,24 @@ namespace MathNet.Numerics.Integration
         /// </summary>
         /// <param name="level">The level to evaluate the weight vector for.</param>
         /// <returns>Weight Vector.</returns>
-        static double[] EvaluateWeights(int level)
-        {
-            if (level < PrecomputedWeights.Length)
-            {
+        static double[] EvaluateWeights(int level) {
+            if (level < PrecomputedWeights.Length) {
                 return PrecomputedWeights[level];
             }
 
-            double step = level <= 1 ? 1.0 : (1.0/(2 << (level - 2)));
-            double offset = level == 0 ? 0.0 : (1.0/(2 << (level - 1)));
+            double step = level <= 1 ? 1.0 : (1.0 / (2 << (level - 2)));
+            double offset = level == 0 ? 0.0 : (1.0 / (2 << (level - 1)));
             int length = level == 0 ? 4 : (3 << (level - 1));
 
             double t = 0;
             var weights = new double[length];
-            for (int i = 0; i < weights.Length; i++)
-            {
+            for (int i = 0; i < weights.Length; i++) {
                 double arg = offset + t;
                 t += step;
 
                 // TODO: reuse abscissas as computed in EvaluateAbcissas
-                double abcissa = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
-                weights[i] = Constants.PiOver2*(1 - (abcissa*abcissa))*Math.Cosh(arg);
+                double abcissa = Math.Tanh(Constants.PiOver2 * Math.Sinh(arg));
+                weights[i] = Constants.PiOver2 * (1 - (abcissa * abcissa)) * Math.Cosh(arg);
             }
 
             return weights;

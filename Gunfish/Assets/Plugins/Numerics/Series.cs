@@ -30,25 +30,21 @@
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics
-{
-    public static class Series
-    {
+namespace MathNet.Numerics {
+    public static class Series {
         /// <summary>
         /// Numerically stable series summation (stops automatically).
         /// </summary>
         /// <param name="nextSummand">provides the summands sequentially</param>
         /// <returns>Sum</returns>
-        public static double Evaluate(Func<double> nextSummand)
-        {
+        public static double Evaluate(Func<double> nextSummand) {
             double compensation = 0.0;
             double current;
             const double factor = 1 << 16;
 
             double sum = nextSummand();
 
-            do
-            {
+            do {
                 // Kahan Summation
                 // NOTE (ruegg): do NOT optimize. Now, how to tell that the compiler?
                 current = nextSummand();
@@ -58,7 +54,7 @@ namespace MathNet.Numerics
                 compensation -= y;
                 sum = t;
             }
-            while (Math.Abs(sum) < Math.Abs(factor*current));
+            while (Math.Abs(sum) < Math.Abs(factor * current));
 
             return sum;
         }
@@ -68,27 +64,22 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="infiniteSummands">provides the summands sequentially</param>
         /// <returns>Sum</returns>
-        public static double Evaluate(IEnumerable<double> infiniteSummands)
-        {
+        public static double Evaluate(IEnumerable<double> infiniteSummands) {
             double compensation = 0.0;
             double current, sum;
             const double factor = 1 << 16;
 
-            using (var enumerator = infiniteSummands.GetEnumerator())
-            {
-                if (!enumerator.MoveNext())
-                {
+            using (var enumerator = infiniteSummands.GetEnumerator()) {
+                if (!enumerator.MoveNext()) {
                     return 0.0;
                 }
 
                 sum = enumerator.Current;
-                if (!enumerator.MoveNext())
-                {
+                if (!enumerator.MoveNext()) {
                     return sum;
                 }
 
-                do
-                {
+                do {
                     // Kahan Summation
                     // NOTE (ruegg): do NOT optimize. Now, how to tell that the compiler?
                     current = enumerator.Current;

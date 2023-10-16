@@ -1,120 +1,110 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.Rendering.Lightmap
-{        
-    public class ParticleRenderer
-	{
-		static public void Draw(LightParticleSystem2D id, Camera camera)
-		{
-			ParticleSystem.Particle particle;
-			Vector2 size, pos;
+namespace FunkyCode.Rendering.Lightmap {
+    public class ParticleRenderer {
+        static public void Draw(LightParticleSystem2D id, Camera camera) {
+            ParticleSystem.Particle particle;
+            Vector2 size, pos;
 
-			var particleSystem = id.GetParticleSystem();
-			if (particleSystem == null)
-				return;
+            var particleSystem = id.GetParticleSystem();
+            if (particleSystem == null)
+                return;
 
-			var particleSystemRenderer = id.GetParticleSystemRenderer();
-			if (particleSystemRenderer == null)
-				return;
+            var particleSystemRenderer = id.GetParticleSystemRenderer();
+            if (particleSystemRenderer == null)
+                return;
 
-			var simulationSpace = particleSystem.main.simulationSpace;
-			if (id.particleArray == null || id.particleArray.Length < particleSystem.main.maxParticles)
-				id.particleArray = new ParticleSystem.Particle[particleSystem.main.maxParticles];
+            var simulationSpace = particleSystem.main.simulationSpace;
+            if (id.particleArray == null || id.particleArray.Length < particleSystem.main.maxParticles)
+                id.particleArray = new ParticleSystem.Particle[particleSystem.main.maxParticles];
 
-			Texture texture;
-			if (id.customParticle)
-			{
-				texture = id.customParticle;
-			}
-			else
-			{
-				texture = particleSystemRenderer.sharedMaterial.mainTexture;
-			}
+            Texture texture;
+            if (id.customParticle) {
+                texture = id.customParticle;
+            }
+            else {
+                texture = particleSystemRenderer.sharedMaterial.mainTexture;
+            }
 
-			Vector2 pOffset = -camera.transform.position;
-			float rotation = id.transform.eulerAngles.z * Mathf.Deg2Rad;
-			Color color = id.color;
-			Vector3 localScale = id.transform.localScale;
+            Vector2 pOffset = -camera.transform.position;
+            float rotation = id.transform.eulerAngles.z * Mathf.Deg2Rad;
+            Color color = id.color;
+            Vector3 localScale = id.transform.localScale;
 
-			switch(simulationSpace)
-			{
-				case ParticleSystemSimulationSpace.Local:
-					pOffset.x += id.transform.position.x;
-					pOffset.y += id.transform.position.y;
-					break;
-			}
+            switch (simulationSpace) {
+                case ParticleSystemSimulationSpace.Local:
+                    pOffset.x += id.transform.position.x;
+                    pOffset.y += id.transform.position.y;
+                    break;
+            }
 
-			var material = Lighting2D.Materials.GetAdditive();
-			material.mainTexture = texture;
-			
-			material.SetPass (0); 
+            var material = Lighting2D.Materials.GetAdditive();
+            material.mainTexture = texture;
 
-			GL.Begin (GL.QUADS);
+            material.SetPass(0);
 
-			GL.Color(color);
+            GL.Begin(GL.QUADS);
 
-			int particlesAlive = particleSystem.GetParticles (id.particleArray);
+            GL.Color(color);
 
-			for (int p = 0; p < particlesAlive; p++)
-			{
-				particle = id.particleArray [p];
+            int particlesAlive = particleSystem.GetParticles(id.particleArray);
 
-				if (particle.remainingLifetime < 0.1f )
-				{
-					continue;
-				}
+            for (int p = 0; p < particlesAlive; p++) {
+                particle = id.particleArray[p];
 
-				size.x = (particle.GetCurrentSize(particleSystem) * id.scale) / 2;
-				size.y = size.x;
+                if (particle.remainingLifetime < 0.1f) {
+                    continue;
+                }
 
-				switch(simulationSpace)
-				{
-					case ParticleSystemSimulationSpace.Local:
-					
-						pos = particle.position;
+                size.x = (particle.GetCurrentSize(particleSystem) * id.scale) / 2;
+                size.y = size.x;
 
-						float angle = Mathf.Atan2(pos.y, pos.x) + rotation;
-						float distance = pos.magnitude;
+                switch (simulationSpace) {
+                    case ParticleSystemSimulationSpace.Local:
 
-						pos.x = Mathf.Cos(angle) * distance;
-						pos.y = Mathf.Sin(angle) * distance;
+                        pos = particle.position;
 
-						pos.x *= localScale.x;
-						pos.y *= localScale.y;
+                        float angle = Mathf.Atan2(pos.y, pos.x) + rotation;
+                        float distance = pos.magnitude;
 
-						break;
+                        pos.x = Mathf.Cos(angle) * distance;
+                        pos.y = Mathf.Sin(angle) * distance;
 
-					case ParticleSystemSimulationSpace.World:
+                        pos.x *= localScale.x;
+                        pos.y *= localScale.y;
 
-						pos = particle.position;
+                        break;
 
-						break;
+                    case ParticleSystemSimulationSpace.World:
 
-					default:
+                        pos = particle.position;
 
-						pos = Vector2.zero;
+                        break;
 
-						break;
-				}
+                    default:
 
-				pos.x += pOffset.x;
-				pos.y += pOffset.y;
+                        pos = Vector2.zero;
 
-				//if (InCamera(camera, pos, size.x) == false) {
-				//continue;
-				//}
+                        break;
+                }
 
-				if (id.useParticleColor)
-				{
-					Color pColor = particle.GetCurrentColor(particleSystem) * color;
+                pos.x += pOffset.x;
+                pos.y += pOffset.y;
 
-					GL.Color(pColor);
-				}
+                //if (InCamera(camera, pos, size.x) == false) {
+                //continue;
+                //}
 
-				Particle.DrawPass(pos, size, particle.rotation);
-			}
+                if (id.useParticleColor) {
+                    Color pColor = particle.GetCurrentColor(particleSystem) * color;
 
-			GL.End (); 
-		}
+                    GL.Color(pColor);
+                }
+
+                Particle.DrawPass(pos, size, particle.rotation);
+            }
+
+            GL.End();
+        }
     }
 }

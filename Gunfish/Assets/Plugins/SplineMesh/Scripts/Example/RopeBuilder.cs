@@ -67,7 +67,8 @@ namespace SplineMesh {
 
         private void UpdateSpline() {
             foreach (var penisNode in wayPoints.ToList()) {
-                if (penisNode == null) wayPoints.Remove(penisNode);
+                if (penisNode == null)
+                    wayPoints.Remove(penisNode);
             }
             int nodeCount = wayPoints.Count;
             // adjust the number of nodes in the spline.

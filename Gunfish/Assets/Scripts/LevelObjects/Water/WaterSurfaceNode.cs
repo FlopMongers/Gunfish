@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterSurfaceNode : MonoBehaviour
-{
+public class WaterSurfaceNode : MonoBehaviour {
     public Rigidbody2D rb;
     public SpringJoint2D selfSpring;
     public SpringJoint2D prevSpring;
@@ -11,7 +10,7 @@ public class WaterSurfaceNode : MonoBehaviour
     public WaterZone zone;
     public FishDetector detector;
 
-    float splooshTimestamp=-1f, splooshDuration = 0.5f;
+    float splooshTimestamp = -1f, splooshDuration = 0.5f;
     Vector2 currentSplooshAmount;
     float extraSplooshThreshold = 0.75f;
     float splooshHeightThreshold = 2f; // measure distance from 
@@ -31,7 +30,7 @@ public class WaterSurfaceNode : MonoBehaviour
         float magnitude = force.magnitude;
         // check what percentage greater than the current sploosh
         // if larger than extraSplooshThreshold, apply sploosh
-        if (currentSplooshAmount.magnitude > 0 && 
+        if (currentSplooshAmount.magnitude > 0 &&
             Mathf.Abs(magnitude / currentSplooshAmount.magnitude) < extraSplooshThreshold) {
             return;
         }

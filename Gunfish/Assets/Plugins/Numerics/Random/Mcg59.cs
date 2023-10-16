@@ -27,23 +27,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Runtime;
+using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13.
     /// </summary>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
-    public class Mcg59 : RandomSource
-    {
+    public class Mcg59 : RandomSource {
         const ulong Modulus = 576460752303423488;
         const ulong Multiplier = 302875106592253;
-        const double Reciprocal = 1.0/Modulus;
+        const double Reciprocal = 1.0 / Modulus;
 
         [DataMember(Order = 1)]
         ulong _xn;
@@ -52,8 +50,7 @@ namespace MathNet.Numerics.Random
         /// Initializes a new instance of the <see cref="Mcg59"/> class using
         /// a seed based on time and unique GUIDs.
         /// </summary>
-        public Mcg59() : this(RandomSeed.Robust())
-        {
+        public Mcg59() : this(RandomSeed.Robust()) {
         }
 
         /// <summary>
@@ -61,8 +58,7 @@ namespace MathNet.Numerics.Random
         /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Mcg59(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
-        {
+        public Mcg59(bool threadSafe) : this(RandomSeed.Robust(), threadSafe) {
         }
 
         /// <summary>
@@ -72,14 +68,12 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Mcg59(int seed)
-        {
-            if (seed == 0)
-            {
+        public Mcg59(int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
-            _xn = (uint)seed%Modulus;
+            _xn = (uint)seed % Modulus;
         }
 
         /// <summary>
@@ -88,23 +82,20 @@ namespace MathNet.Numerics.Random
         /// <param name="seed">The seed value.</param>
         /// <remarks>The seed is set to 1, if the zero is used as the seed.</remarks>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Mcg59(int seed, bool threadSafe) : base(threadSafe)
-        {
-            if (seed == 0)
-            {
+        public Mcg59(int seed, bool threadSafe) : base(threadSafe) {
+            if (seed == 0) {
                 seed = 1;
             }
 
-            _xn = (uint)seed%Modulus;
+            _xn = (uint)seed % Modulus;
         }
 
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
-        {
-            double ret = _xn*Reciprocal;
-            _xn = (_xn*Multiplier)%Modulus;
+        protected sealed override double DoSample() {
+            double ret = _xn * Reciprocal;
+            _xn = (_xn * Multiplier) % Modulus;
             return ret;
         }
 
@@ -112,19 +103,16 @@ namespace MathNet.Numerics.Random
         /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static void Doubles(double[] values, int seed)
-        {
-            if (seed == 0)
-            {
+        public static void Doubles(double[] values, int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
-            ulong xn = (uint)seed%Modulus;
+            ulong xn = (uint)seed % Modulus;
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = xn*Reciprocal;
-                xn = (xn*Multiplier)%Modulus;
+            for (int i = 0; i < values.Length; i++) {
+                values[i] = xn * Reciprocal;
+                xn = (xn * Multiplier) % Modulus;
             }
         }
 
@@ -133,8 +121,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length, int seed)
-        {
+        public static double[] Doubles(int length, int seed) {
             var data = new double[length];
             Doubles(data, seed);
             return data;
@@ -144,19 +131,16 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> DoubleSequence(int seed)
-        {
-            if (seed == 0)
-            {
+        public static IEnumerable<double> DoubleSequence(int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
-            ulong xn = (uint)seed%Modulus;
+            ulong xn = (uint)seed % Modulus;
 
-            while (true)
-            {
-                yield return xn*Reciprocal;
-                xn = (xn*Multiplier)%Modulus;
+            while (true) {
+                yield return xn * Reciprocal;
+                xn = (xn * Multiplier) % Modulus;
             }
         }
     }

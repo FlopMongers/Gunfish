@@ -27,14 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Random;
-using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Continuous Univariate Pareto distribution.
     /// The Pareto distribution is a power law probability distribution that coincides with social,
@@ -42,8 +41,7 @@ namespace MathNet.Numerics.Distributions
     /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Pareto_distribution">Wikipedia - Pareto distribution</a>.
     /// </summary>
-    public class Pareto : IContinuousDistribution
-    {
+    public class Pareto : IContinuousDistribution {
         System.Random _random;
 
         readonly double _scale;
@@ -55,10 +53,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
-        public Pareto(double scale, double shape)
-        {
-            if (!IsValidParameterSet(scale, shape))
-            {
+        public Pareto(double scale, double shape) {
+            if (!IsValidParameterSet(scale, shape)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -74,10 +70,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
-        public Pareto(double scale, double shape, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(scale, shape))
-            {
+        public Pareto(double scale, double shape, System.Random randomSource) {
+            if (!IsValidParameterSet(scale, shape)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -90,8 +84,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Pareto(xm = {_scale}, α = {_shape})";
         }
 
@@ -100,8 +93,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
-        public static bool IsValidParameterSet(double scale, double shape)
-        {
+        public static bool IsValidParameterSet(double scale, double shape) {
             return scale > 0.0 && shape > 0.0;
         }
 
@@ -118,8 +110,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -127,49 +118,43 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get
-            {
-                if (_shape <= 1)
-                {
+        public double Mean {
+            get {
+                if (_shape <= 1) {
                     throw new NotSupportedException();
                 }
 
-                return _shape*_scale/(_shape - 1.0);
+                return _shape * _scale / (_shape - 1.0);
             }
         }
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                if (_shape <= 2.0)
-                {
+        public double Variance {
+            get {
+                if (_shape <= 2.0) {
                     return double.PositiveInfinity;
                 }
 
-                return _scale*_scale*_shape/((_shape - 1.0)*(_shape - 1.0)*(_shape - 2.0));
+                return _scale * _scale * _shape / ((_shape - 1.0) * (_shape - 1.0) * (_shape - 2.0));
             }
         }
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev => (_scale*Math.Sqrt(_shape))/(Math.Abs(_shape - 1.0)*Math.Sqrt(_shape - 2.0));
+        public double StdDev => (_scale * Math.Sqrt(_shape)) / (Math.Abs(_shape - 1.0) * Math.Sqrt(_shape - 2.0));
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy => Math.Log(_shape/_scale) - (1.0/_shape) - 1.0;
+        public double Entropy => Math.Log(_shape / _scale) - (1.0 / _shape) - 1.0;
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness => (2.0*(_shape + 1.0)/(_shape - 3.0))*Math.Sqrt((_shape - 2.0)/_shape);
+        public double Skewness => (2.0 * (_shape + 1.0) / (_shape - 3.0)) * Math.Sqrt((_shape - 2.0) / _shape);
 
         /// <summary>
         /// Gets the mode of the distribution.
@@ -179,7 +164,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median => _scale*Math.Pow(2.0, 1.0/_shape);
+        public double Median => _scale * Math.Pow(2.0, 1.0 / _shape);
 
         /// <summary>
         /// Gets the minimum of the distribution.
@@ -197,9 +182,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
-            return _shape*Math.Pow(_scale, _shape)/Math.Pow(x, _shape + 1.0);
+        public double Density(double x) {
+            return _shape * Math.Pow(_scale, _shape) / Math.Pow(x, _shape + 1.0);
         }
 
         /// <summary>
@@ -208,9 +192,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
-            return Math.Log(_shape) + _shape*Math.Log(_scale) - (_shape + 1.0)*Math.Log(x);
+        public double DensityLn(double x) {
+            return Math.Log(_shape) + _shape * Math.Log(_scale) - (_shape + 1.0) * Math.Log(x);
         }
 
         /// <summary>
@@ -219,9 +202,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
-            return 1.0 - Math.Pow(_scale/x, _shape);
+        public double CumulativeDistribution(double x) {
+            return 1.0 - Math.Pow(_scale / x, _shape);
         }
 
         /// <summary>
@@ -231,25 +213,22 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InvCDF"/>
-        public double InverseCumulativeDistribution(double p)
-        {
-            return _scale*Math.Pow(1.0 - p, -1.0/_shape);
+        public double InverseCumulativeDistribution(double p) {
+            return _scale * Math.Pow(1.0 - p, -1.0 / _shape);
         }
 
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>A random number from this distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, _scale, _shape);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, _scale, _shape);
         }
 
@@ -257,31 +236,25 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the Pareto distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, _scale, _shape);
         }
 
-        static double SampleUnchecked(System.Random rnd, double scale, double shape)
-        {
-            return scale*Math.Pow(rnd.NextDouble(), -1.0/shape);
+        static double SampleUnchecked(System.Random rnd, double scale, double shape) {
+            return scale * Math.Pow(rnd.NextDouble(), -1.0 / shape);
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale, double shape)
-        {
-            var power = -1.0/shape;
-            return rnd.NextDoubleSequence().Select(x => scale*Math.Pow(x, power));
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale, double shape) {
+            var power = -1.0 / shape;
+            return rnd.NextDoubleSequence().Select(x => scale * Math.Pow(x, power));
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double scale, double shape)
-        {
-            var power = -1.0/shape;
+        static void SamplesUnchecked(System.Random rnd, double[] values, double scale, double shape) {
+            var power = -1.0 / shape;
             rnd.NextDoubles(values);
-            CommonParallel.For(0, values.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
-                    values[i] = scale*Math.Pow(values[i], power);
+            CommonParallel.For(0, values.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
+                    values[i] = scale * Math.Pow(values[i], power);
                 }
             });
         }
@@ -294,14 +267,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double scale, double shape, double x)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static double PDF(double scale, double shape, double x) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return shape*Math.Pow(scale, shape)/Math.Pow(x, shape + 1.0);
+            return shape * Math.Pow(scale, shape) / Math.Pow(x, shape + 1.0);
         }
 
         /// <summary>
@@ -312,14 +283,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double scale, double shape, double x)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static double PDFLn(double scale, double shape, double x) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return Math.Log(shape) + shape*Math.Log(scale) - (shape + 1.0)*Math.Log(x);
+            return Math.Log(shape) + shape * Math.Log(scale) - (shape + 1.0) * Math.Log(x);
         }
 
         /// <summary>
@@ -330,14 +299,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double scale, double shape, double x)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static double CDF(double scale, double shape, double x) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return 1.0 - Math.Pow(scale/x, shape);
+            return 1.0 - Math.Pow(scale / x, shape);
         }
 
         /// <summary>
@@ -349,14 +316,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InverseCumulativeDistribution"/>
-        public static double InvCDF(double scale, double shape, double p)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static double InvCDF(double scale, double shape, double p) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return scale*Math.Pow(1.0 - p, -1.0/shape);
+            return scale * Math.Pow(1.0 - p, -1.0 / shape);
         }
 
         /// <summary>
@@ -366,14 +331,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double scale, double shape)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static double Sample(System.Random rnd, double scale, double shape) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return scale*Math.Pow(rnd.NextDouble(), -1.0/shape);
+            return scale * Math.Pow(rnd.NextDouble(), -1.0 / shape);
         }
 
         /// <summary>
@@ -383,10 +346,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double scale, double shape)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double scale, double shape) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -401,10 +362,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(System.Random rnd, double[] values, double scale, double shape)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static void Samples(System.Random rnd, double[] values, double scale, double shape) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -417,10 +376,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(double scale, double shape)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static double Sample(double scale, double shape) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -433,10 +390,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double scale, double shape)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static IEnumerable<double> Samples(double scale, double shape) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -450,10 +405,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(double[] values, double scale, double shape)
-        {
-            if (scale <= 0.0 || shape <= 0.0)
-            {
+        public static void Samples(double[] values, double scale, double shape) {
+            if (scale <= 0.0 || shape <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

@@ -27,14 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Random;
-using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Continuous Univariate Rayleigh distribution.
     /// The Rayleigh distribution (pronounced /ˈreɪli/) is a continuous probability distribution. As an
@@ -43,8 +42,7 @@ namespace MathNet.Numerics.Distributions
     /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Rayleigh_distribution">Wikipedia - Rayleigh distribution</a>.
     /// </summary>
-    public class Rayleigh : IContinuousDistribution
-    {
+    public class Rayleigh : IContinuousDistribution {
         System.Random _random;
 
         readonly double _scale;
@@ -54,10 +52,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
-        public Rayleigh(double scale)
-        {
-            if (!IsValidParameterSet(scale))
-            {
+        public Rayleigh(double scale) {
+            if (!IsValidParameterSet(scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -71,10 +67,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
-        public Rayleigh(double scale, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(scale))
-            {
+        public Rayleigh(double scale, System.Random randomSource) {
+            if (!IsValidParameterSet(scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -86,8 +80,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Rayleigh(σ = {_scale})";
         }
 
@@ -95,8 +88,7 @@ namespace MathNet.Numerics.Distributions
         /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
-        public static bool IsValidParameterSet(double scale)
-        {
+        public static bool IsValidParameterSet(double scale) {
             return scale > 0.0;
         }
 
@@ -108,8 +100,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -117,27 +108,27 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean => _scale*Math.Sqrt(Constants.PiOver2);
+        public double Mean => _scale * Math.Sqrt(Constants.PiOver2);
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance => (2.0 - Constants.PiOver2)*_scale*_scale;
+        public double Variance => (2.0 - Constants.PiOver2) * _scale * _scale;
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev => Math.Sqrt(2.0 - Constants.PiOver2)*_scale;
+        public double StdDev => Math.Sqrt(2.0 - Constants.PiOver2) * _scale;
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy => 1.0 + Math.Log(_scale/Constants.Sqrt2) + (Constants.EulerMascheroni/2.0);
+        public double Entropy => 1.0 + Math.Log(_scale / Constants.Sqrt2) + (Constants.EulerMascheroni / 2.0);
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness => (2.0*Math.Sqrt(Constants.Pi)*(Constants.Pi - 3.0))/Math.Pow(4.0 - Constants.Pi, 1.5);
+        public double Skewness => (2.0 * Math.Sqrt(Constants.Pi) * (Constants.Pi - 3.0)) / Math.Pow(4.0 - Constants.Pi, 1.5);
 
         /// <summary>
         /// Gets the mode of the distribution.
@@ -147,7 +138,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median => _scale*Math.Sqrt(Math.Log(4.0));
+        public double Median => _scale * Math.Sqrt(Math.Log(4.0));
 
         /// <summary>
         /// Gets the minimum of the distribution.
@@ -165,9 +156,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
-            return (x/(_scale*_scale))*Math.Exp(-x*x/(2.0*_scale*_scale));
+        public double Density(double x) {
+            return (x / (_scale * _scale)) * Math.Exp(-x * x / (2.0 * _scale * _scale));
         }
 
         /// <summary>
@@ -176,9 +166,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
-            return Math.Log(x/(_scale*_scale)) - (x*x/(2.0*_scale*_scale));
+        public double DensityLn(double x) {
+            return Math.Log(x / (_scale * _scale)) - (x * x / (2.0 * _scale * _scale));
         }
 
         /// <summary>
@@ -187,9 +176,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
-            return 1.0 - Math.Exp(-x*x/(2.0*_scale*_scale));
+        public double CumulativeDistribution(double x) {
+            return 1.0 - Math.Exp(-x * x / (2.0 * _scale * _scale));
         }
 
         /// <summary>
@@ -199,25 +187,22 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InvCDF"/>
-        public double InverseCumulativeDistribution(double p)
-        {
-            return _scale*Math.Sqrt(-2*Math.Log(1 - p));
+        public double InverseCumulativeDistribution(double p) {
+            return _scale * Math.Sqrt(-2 * Math.Log(1 - p));
         }
 
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>A random number from this distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, _scale);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, _scale);
         }
 
@@ -225,29 +210,23 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the Rayleigh distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, _scale);
         }
 
-        static double SampleUnchecked(System.Random rnd, double scale)
-        {
-            return scale*Math.Sqrt(-2.0*Math.Log(rnd.NextDouble()));
+        static double SampleUnchecked(System.Random rnd, double scale) {
+            return scale * Math.Sqrt(-2.0 * Math.Log(rnd.NextDouble()));
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale)
-        {
-            return rnd.NextDoubleSequence().Select(x => scale*Math.Sqrt(-2.0*Math.Log(x)));
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale) {
+            return rnd.NextDoubleSequence().Select(x => scale * Math.Sqrt(-2.0 * Math.Log(x)));
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double scale)
-        {
+        static void SamplesUnchecked(System.Random rnd, double[] values, double scale) {
             rnd.NextDoubles(values);
-            CommonParallel.For(0, values.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
-                    values[i] = scale*Math.Sqrt(-2.0*Math.Log(values[i]));
+            CommonParallel.For(0, values.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
+                    values[i] = scale * Math.Sqrt(-2.0 * Math.Log(values[i]));
                 }
             });
         }
@@ -259,14 +238,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double scale, double x)
-        {
-            if (scale <= 0.0)
-            {
+        public static double PDF(double scale, double x) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return (x/(scale*scale))*Math.Exp(-x*x/(2.0*scale*scale));
+            return (x / (scale * scale)) * Math.Exp(-x * x / (2.0 * scale * scale));
         }
 
         /// <summary>
@@ -276,14 +253,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double scale, double x)
-        {
-            if (scale <= 0.0)
-            {
+        public static double PDFLn(double scale, double x) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return Math.Log(x/(scale*scale)) - (x*x/(2.0*scale*scale));
+            return Math.Log(x / (scale * scale)) - (x * x / (2.0 * scale * scale));
         }
 
         /// <summary>
@@ -293,14 +268,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double scale, double x)
-        {
-            if (scale <= 0.0)
-            {
+        public static double CDF(double scale, double x) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return 1.0 - Math.Exp(-x*x/(2.0*scale*scale));
+            return 1.0 - Math.Exp(-x * x / (2.0 * scale * scale));
         }
 
         /// <summary>
@@ -311,14 +284,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InverseCumulativeDistribution"/>
-        public static double InvCDF(double scale, double p)
-        {
-            if (scale <= 0.0)
-            {
+        public static double InvCDF(double scale, double p) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return scale*Math.Sqrt(-2*Math.Log(1 - p));
+            return scale * Math.Sqrt(-2 * Math.Log(1 - p));
         }
 
         /// <summary>
@@ -327,10 +298,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static double Sample(System.Random rnd, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -343,10 +312,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -360,10 +327,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(System.Random rnd, double[] values, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static void Samples(System.Random rnd, double[] values, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -375,10 +340,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static double Sample(double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -390,10 +353,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static IEnumerable<double> Samples(double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -406,10 +367,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(double[] values, double scale)
-        {
-            if (scale <= 0.0)
-            {
+        public static void Samples(double[] values, double scale) {
+            if (scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

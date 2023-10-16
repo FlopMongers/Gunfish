@@ -18,7 +18,8 @@ public class GunfishRenderer {
     public void Render() {
         for (int i = 0; i < segments.Count; i++) {
             var segment = segments[i];
-            if (!segment.transform.hasChanged) continue; //No need to reassign if it hasn't moved
+            if (!segment.transform.hasChanged)
+                continue; //No need to reassign if it hasn't moved
             line.SetPosition(i, segment.transform.position);
         }
     }

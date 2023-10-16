@@ -29,8 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Factorization {
     using Numerics;
     using Complex = System.Numerics.Complex;
 
@@ -51,10 +50,8 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Evd<T> : ISolver<T>
-    where T : struct, IEquatable<T>, IFormattable
-    {
-        protected Evd(Matrix<T> eigenVectors, Vector<Complex> eigenValues, Matrix<T> blockDiagonal, bool isSymmetric)
-        {
+    where T : struct, IEquatable<T>, IFormattable {
+        protected Evd(Matrix<T> eigenVectors, Vector<Complex> eigenValues, Matrix<T> blockDiagonal, bool isSymmetric) {
             EigenVectors = eigenVectors;
             EigenValues = eigenValues;
             D = blockDiagonal;
@@ -103,8 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
-        public virtual Matrix<T> Solve(Matrix<T> input)
-        {
+        public virtual Matrix<T> Solve(Matrix<T> input) {
             var x = Matrix<T>.Build.SameAs(EigenVectors, EigenVectors.ColumnCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
@@ -122,8 +118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
-        public virtual Vector<T> Solve(Vector<T> input)
-        {
+        public virtual Vector<T> Solve(Vector<T> input) {
             var x = Vector<T>.Build.SameAs(EigenVectors, EigenVectors.ColumnCount);
             Solve(input, x);
             return x;

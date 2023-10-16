@@ -27,10 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Statistics.Mcmc
-{
-    using System;
+namespace MathNet.Numerics.Statistics.Mcmc {
     using Distributions;
+    using System;
 
     /// <summary>
     /// The Hybrid (also called Hamiltonian) Monte Carlo produces samples from distribution P using a set
@@ -40,8 +39,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// (<seealso cref="MetropolisSampler{T}"/>).
     /// </summary>
     /// <typeparam name="T">The type of samples this sampler produces.</typeparam>
-    public abstract class HybridMCGeneric<T> : McmcSampler<T>
-    {
+    public abstract class HybridMCGeneric<T> : McmcSampler<T> {
         /// <summary>
         /// The delegate type that defines a derivative evaluated at a certain point.
         /// </summary>
@@ -83,8 +81,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Gets or sets the number of iterations in between returning samples.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When burn interval is negative.</exception>
-        public int BurnInterval
-        {
+        public int BurnInterval {
             get => _burnInterval;
             set => _burnInterval = SetNonNegative(value);
         }
@@ -93,8 +90,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Gets or sets the number of iterations in the Hamiltonian equation.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When frog leap steps is negative or zero.</exception>
-        public int FrogLeapSteps
-        {
+        public int FrogLeapSteps {
             get => _frogLeapSteps;
             set => _frogLeapSteps = SetPositive(value);
         }
@@ -103,8 +99,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Gets or sets the size of each step in the Hamiltonian equation.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When step size is negative or zero.</exception>
-        public double StepSize
-        {
+        public double StepSize {
             get => _stepSize;
             set => _stepSize = SetPositive(value);
         }
@@ -121,8 +116,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="diff">The method used for differentiation.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentNullException">When either x0, pdfLnP or diff is null.</exception>
-        protected HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, Random randomSource, DiffMethod diff)
-        {
+        protected HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, Random randomSource, DiffMethod diff) {
             _energy = x => -pdfLnP(x);
             FrogLeapSteps = frogLeapSteps;
             StepSize = stepSize;
@@ -135,8 +129,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Returns a sample from the distribution P.
         /// </summary>
-        public override T Sample()
-        {
+        public override T Sample() {
             Burn(_burnInterval + 1);
 
             return Current;
@@ -145,13 +138,11 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// This method runs the sampler for a number of iterations without returning a sample
         /// </summary>
-        protected void Burn(int n)
-        {
+        protected void Burn(int n) {
             T p = Create();
             double e = _energy(Current);
             T gradient = _diff(_energy, Current);
-            for (int i = 0; i < n; i++)
-            {
+            for (int i = 0; i < n; i++) {
                 RandomizeMomentum(ref p);
                 double h = Hamiltonian(p, e);
 
@@ -159,8 +150,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 T mNew = Copy(Current);
                 T gNew = Copy(gradient);
 
-                for (int j = 0; j < _frogLeapSteps; j++)
-                {
+                for (int j = 0; j < _frogLeapSteps; j++) {
                     HamiltonianEquations(ref gNew, ref mNew, ref p);
                 }
 
@@ -184,15 +174,18 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="enew">The new energy.</param>
         /// <param name="dh">The difference between the old Hamiltonian and new Hamiltonian. Use to determine
         /// if an update should take place. </param>
-        protected void Update(ref double e, ref T gradient, T mNew, T gNew, double enew, double dh)
-        {
-            if (dh <= 0)
-            {
-                Current = mNew; gradient = gNew; e = enew; Accepts++;
+        protected void Update(ref double e, ref T gradient, T mNew, T gNew, double enew, double dh) {
+            if (dh <= 0) {
+                Current = mNew;
+                gradient = gNew;
+                e = enew;
+                Accepts++;
             }
-            else if (Bernoulli.Sample(RandomSource, Math.Exp(-dh)) == 1)
-            {
-                Current = mNew; gradient = gNew; e = enew; Accepts++;
+            else if (Bernoulli.Sample(RandomSource, Math.Exp(-dh)) == 1) {
+                Current = mNew;
+                gradient = gNew;
+                e = enew;
+                Accepts++;
             }
         }
 
@@ -243,8 +236,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// The Hamiltonian equations that is used to produce the new sample.
         /// </summary>
-        protected void HamiltonianEquations(ref T gNew, ref T mNew, ref T p)
-        {
+        protected void HamiltonianEquations(ref T gNew, ref T mNew, ref T p) {
             DoSubtract(ref p, _stepSize / 2, gNew);
             DoAdd(ref mNew, _stepSize, p);
             gNew = _diff(_energy, mNew);
@@ -257,8 +249,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="momentum">The momentum.</param>
         /// <param name="e">The energy.</param>
         /// <returns>Hamiltonian=E+p.p/2</returns>
-        protected double Hamiltonian(T momentum, double e)
-        {
+        protected double Hamiltonian(T momentum, double e) {
             return e + DoProduct(momentum, momentum) / 2;
         }
 
@@ -268,10 +259,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="value">Proposed value to be checked.</param>
         /// <returns>Returns value if it is greater than or equal to zero.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Throws when value is negative.</exception>
-        protected int SetNonNegative(int value)
-        {
-            if (value < 0)
-            {
+        protected int SetNonNegative(int value) {
+            if (value < 0) {
                 throw new ArgumentOutOfRangeException(nameof(value), "Value must not be negative (zero is ok).");
             }
             return value;
@@ -283,10 +272,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="value">Proposed value to be checked.</param>
         /// <returns>Returns value if it is greater than to zero.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Throws when value is negative or zero.</exception>
-        protected int SetPositive(int value)
-        {
-            if (value <= 0)
-            {
+        protected int SetPositive(int value) {
+            if (value <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(value), "Value must not be negative (zero is ok).");
             }
             return value;
@@ -298,10 +285,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="value">Proposed value to be checked.</param>
         /// <returns>Returns value if it is greater than zero.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Throws when value is negative or zero.</exception>
-        protected double SetPositive(double value)
-        {
-            if (value <= 0)
-            {
+        protected double SetPositive(double value) {
+            if (value <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(value), "Value must not be negative (zero is ok).");
             }
             return value;

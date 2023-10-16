@@ -27,33 +27,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Threading;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex32 {
     using Complex32 = Numerics.Complex32;
 
     /// <summary>
     /// <c>Complex32</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>
     [Serializable]
-    public abstract class Vector : Vector<Complex32>
-    {
+    public abstract class Vector : Vector<Complex32> {
         /// <summary>
         /// Initializes a new instance of the Vector class.
         /// </summary>
         protected Vector(VectorStorage<Complex32> storage)
-            : base(storage)
-        {
+            : base(storage) {
         }
 
         /// <summary>
         /// Set all values whose absolute value is smaller than the threshold to zero.
         /// </summary>
-        public override void CoerceZero(double threshold)
-        {
+        public override void CoerceZero(double threshold) {
             MapInplace(x => x.Magnitude < threshold ? Complex32.Zero : x, Zeros.AllowSkip);
         }
 
@@ -61,8 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        protected override void DoConjugate(Vector<Complex32> result)
-        {
+        protected override void DoConjugate(Vector<Complex32> result) {
             Map(Complex32.Conjugate, result, Zeros.AllowSkip);
         }
 
@@ -70,8 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        protected override void DoNegate(Vector<Complex32> result)
-        {
+        protected override void DoNegate(Vector<Complex32> result) {
             Map(Complex32.Negate, result, Zeros.AllowSkip);
         }
 
@@ -84,8 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">
         /// The vector to store the result of the addition.
         /// </param>
-        protected override void DoAdd(Complex32 scalar, Vector<Complex32> result)
-        {
+        protected override void DoAdd(Complex32 scalar, Vector<Complex32> result) {
             Map(x => x + scalar, result, Zeros.Include);
         }
 
@@ -98,8 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">
         /// The vector to store the result of the addition.
         /// </param>
-        protected override void DoAdd(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoAdd(Vector<Complex32> other, Vector<Complex32> result) {
             Map2(Complex32.Add, other, result, Zeros.AllowSkip);
         }
 
@@ -112,8 +104,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">
         /// The vector to store the result of the subtraction.
         /// </param>
-        protected override void DoSubtract(Complex32 scalar, Vector<Complex32> result)
-        {
+        protected override void DoSubtract(Complex32 scalar, Vector<Complex32> result) {
             Map(x => x - scalar, result, Zeros.Include);
         }
 
@@ -126,8 +117,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">
         /// The vector to store the result of the subtraction.
         /// </param>
-        protected override void DoSubtract(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoSubtract(Vector<Complex32> other, Vector<Complex32> result) {
             Map2(Complex32.Subtract, other, result, Zeros.AllowSkip);
         }
 
@@ -140,9 +130,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">
         /// The vector to store the result of the multiplication.
         /// </param>
-        protected override void DoMultiply(Complex32 scalar, Vector<Complex32> result)
-        {
-            Map(x => x*scalar, result, Zeros.AllowSkip);
+        protected override void DoMultiply(Complex32 scalar, Vector<Complex32> result) {
+            Map(x => x * scalar, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -154,9 +143,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">
         /// The vector to store the result of the division.
         /// </param>
-        protected override void DoDivide(Complex32 divisor, Vector<Complex32> result)
-        {
-            Map(x => x/divisor, result, divisor.IsZero() ? Zeros.Include : Zeros.AllowSkip);
+        protected override void DoDivide(Complex32 divisor, Vector<Complex32> result) {
+            Map(x => x / divisor, result, divisor.IsZero() ? Zeros.Include : Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -164,9 +152,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="dividend">The scalar to divide.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        protected override void DoDivideByThis(Complex32 dividend, Vector<Complex32> result)
-        {
-            Map(x => dividend/x, result, Zeros.Include);
+        protected override void DoDivideByThis(Complex32 dividend, Vector<Complex32> result) {
+            Map(x => dividend / x, result, Zeros.Include);
         }
 
         /// <summary>
@@ -174,8 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        protected override void DoPointwiseMultiply(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseMultiply(Vector<Complex32> other, Vector<Complex32> result) {
             Map2(Complex32.Multiply, other, result, Zeros.AllowSkip);
         }
 
@@ -184,8 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Vector<Complex32> divisor, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseDivide(Vector<Complex32> divisor, Vector<Complex32> result) {
             Map2(Complex32.Divide, divisor, result, Zeros.Include);
         }
 
@@ -194,8 +179,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="exponent">The exponent to raise this vector values to.</param>
         /// <param name="result">The vector to store the result of the pointwise power.</param>
-        protected override void DoPointwisePower(Complex32 exponent, Vector<Complex32> result)
-        {
+        protected override void DoPointwisePower(Complex32 exponent, Vector<Complex32> result) {
             Map(x => x.Power(exponent), result, Zeros.Include);
         }
 
@@ -204,8 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="exponent">The exponent vector to raise this vector values to.</param>
         /// <param name="result">The vector to store the result of the pointwise power.</param>
-        protected override void DoPointwisePower(Vector<Complex32> exponent, Vector<Complex32> result)
-        {
+        protected override void DoPointwisePower(Vector<Complex32> exponent, Vector<Complex32> result) {
             Map2(Complex32.Pow, exponent, result, Zeros.Include);
         }
 
@@ -215,8 +198,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected sealed override void DoPointwiseModulus(Vector<Complex32> divisor, Vector<Complex32> result)
-        {
+        protected sealed override void DoPointwiseModulus(Vector<Complex32> divisor, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
@@ -226,8 +208,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected sealed override void DoPointwiseRemainder(Vector<Complex32> divisor, Vector<Complex32> result)
-        {
+        protected sealed override void DoPointwiseRemainder(Vector<Complex32> divisor, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
@@ -235,8 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Pointwise applies the exponential function to each value and stores the result into the result vector.
         /// </summary>
         /// <param name="result">The vector to store the result.</param>
-        protected override void DoPointwiseExp(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseExp(Vector<Complex32> result) {
             Map(Complex32.Exp, result, Zeros.Include);
         }
 
@@ -244,81 +224,62 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Pointwise applies the natural logarithm function to each value and stores the result into the result vector.
         /// </summary>
         /// <param name="result">The vector to store the result.</param>
-        protected override void DoPointwiseLog(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseLog(Vector<Complex32> result) {
             Map(Complex32.Log, result, Zeros.Include);
         }
 
-        protected override void DoPointwiseAbs(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAbs(Vector<Complex32> result) {
             Map(x => (Complex32)Complex32.Abs(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseAcos(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAcos(Vector<Complex32> result) {
             Map(Complex32.Acos, result, Zeros.Include);
         }
-        protected override void DoPointwiseAsin(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAsin(Vector<Complex32> result) {
             Map(Complex32.Asin, result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseAtan(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAtan(Vector<Complex32> result) {
             Map(Complex32.Atan, result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseAtan2(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAtan2(Vector<Complex32> other, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
-        protected override void DoPointwiseAtan2(Complex32 scalar, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAtan2(Complex32 scalar, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
-        protected override void DoPointwiseCeiling(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseCeiling(Vector<Complex32> result) {
             throw new NotSupportedException();
         }
-        protected override void DoPointwiseCos(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseCos(Vector<Complex32> result) {
             Map(Complex32.Cos, result, Zeros.Include);
         }
-        protected override void DoPointwiseCosh(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseCosh(Vector<Complex32> result) {
             Map(Complex32.Cosh, result, Zeros.Include);
         }
-        protected override void DoPointwiseFloor(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseFloor(Vector<Complex32> result) {
             throw new NotSupportedException();
         }
-        protected override void DoPointwiseLog10(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseLog10(Vector<Complex32> result) {
             Map(Complex32.Log10, result, Zeros.Include);
         }
-        protected override void DoPointwiseRound(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseRound(Vector<Complex32> result) {
             throw new NotSupportedException();
         }
-        protected override void DoPointwiseSign(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseSign(Vector<Complex32> result) {
             throw new NotSupportedException();
         }
-        protected override void DoPointwiseSin(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseSin(Vector<Complex32> result) {
             Map(Complex32.Sin, result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseSinh(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseSinh(Vector<Complex32> result) {
             Map(Complex32.Sinh, result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseSqrt(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseSqrt(Vector<Complex32> result) {
             Map(Complex32.Sqrt, result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseTan(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseTan(Vector<Complex32> result) {
             Map(Complex32.Tan, result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseTanh(Vector<Complex32> result)
-        {
+        protected override void DoPointwiseTanh(Vector<Complex32> result) {
             Map(Complex32.Tanh, result, Zeros.AllowSkip);
         }
 
@@ -327,11 +288,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The other vector.</param>
         /// <returns>The sum of a[i]*b[i] for all i.</returns>
-        protected override Complex32 DoDotProduct(Vector<Complex32> other)
-        {
+        protected override Complex32 DoDotProduct(Vector<Complex32> other) {
             var dot = Complex32.Zero;
-            for (var i = 0; i < Count; i++)
-            {
+            for (var i = 0; i < Count; i++) {
                 dot += At(i) * other.At(i);
             }
             return dot;
@@ -342,11 +301,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The other vector.</param>
         /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
-        protected override Complex32 DoConjugateDotProduct(Vector<Complex32> other)
-        {
+        protected override Complex32 DoConjugateDotProduct(Vector<Complex32> other) {
             var dot = Complex32.Zero;
-            for (var i = 0; i < Count; i++)
-            {
+            for (var i = 0; i < Count; i++) {
                 dot += At(i).Conjugate() * other.At(i);
             }
             return dot;
@@ -358,8 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected sealed override void DoModulus(Complex32 divisor, Vector<Complex32> result)
-        {
+        protected sealed override void DoModulus(Complex32 divisor, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
@@ -369,8 +325,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected sealed override void DoModulusByThis(Complex32 dividend, Vector<Complex32> result)
-        {
+        protected sealed override void DoModulusByThis(Complex32 dividend, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
@@ -380,8 +335,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected sealed override void DoRemainder(Complex32 divisor, Vector<Complex32> result)
-        {
+        protected sealed override void DoRemainder(Complex32 divisor, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
@@ -391,50 +345,41 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected sealed override void DoRemainderByThis(Complex32 dividend, Vector<Complex32> result)
-        {
+        protected sealed override void DoRemainderByThis(Complex32 dividend, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
-        protected override void DoPointwiseMinimum(Complex32 scalar, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseMinimum(Complex32 scalar, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
-        protected override void DoPointwiseMaximum(Complex32 scalar, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseMaximum(Complex32 scalar, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
-        protected override void DoPointwiseAbsoluteMinimum(Complex32 scalar, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAbsoluteMinimum(Complex32 scalar, Vector<Complex32> result) {
             float absolute = scalar.Magnitude;
             Map(x => Math.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
         }
 
-        protected override void DoPointwiseAbsoluteMaximum(Complex32 scalar, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAbsoluteMaximum(Complex32 scalar, Vector<Complex32> result) {
             float absolute = scalar.Magnitude;
             Map(x => Math.Max(absolute, x.Magnitude), result, Zeros.Include);
         }
 
-        protected override void DoPointwiseMinimum(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseMinimum(Vector<Complex32> other, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
-        protected override void DoPointwiseMaximum(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseMaximum(Vector<Complex32> other, Vector<Complex32> result) {
             throw new NotSupportedException();
         }
 
-        protected override void DoPointwiseAbsoluteMinimum(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAbsoluteMinimum(Vector<Complex32> other, Vector<Complex32> result) {
             Map2((x, y) => Math.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
-        protected override void DoPointwiseAbsoluteMaximum(Vector<Complex32> other, Vector<Complex32> result)
-        {
+        protected override void DoPointwiseAbsoluteMaximum(Vector<Complex32> other, Vector<Complex32> result) {
             Map2((x, y) => Math.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
@@ -442,8 +387,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public sealed override Complex32 AbsoluteMinimum()
-        {
+        public sealed override Complex32 AbsoluteMinimum() {
             return At(AbsoluteMinimumIndex()).Magnitude;
         }
 
@@ -451,15 +395,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the index of the absolute minimum element.
         /// </summary>
         /// <returns>The index of absolute minimum element.</returns>
-        public override int AbsoluteMinimumIndex()
-        {
+        public override int AbsoluteMinimumIndex() {
             var index = 0;
             var min = At(index).Magnitude;
-            for (var i = 1; i < Count; i++)
-            {
+            for (var i = 1; i < Count; i++) {
                 var test = At(i).Magnitude;
-                if (test < min)
-                {
+                if (test < min) {
                     index = i;
                     min = test;
                 }
@@ -472,8 +413,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the value of the absolute maximum element.
         /// </summary>
         /// <returns>The value of the absolute maximum element.</returns>
-        public override Complex32 AbsoluteMaximum()
-        {
+        public override Complex32 AbsoluteMaximum() {
             return At(AbsoluteMaximumIndex()).Magnitude;
         }
 
@@ -481,15 +421,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>
-        public override int AbsoluteMaximumIndex()
-        {
+        public override int AbsoluteMaximumIndex() {
             var index = 0;
             var max = At(index).Magnitude;
-            for (var i = 1; i < Count; i++)
-            {
+            for (var i = 1; i < Count; i++) {
                 var test = At(i).Magnitude;
-                if (test > max)
-                {
+                if (test > max) {
                     index = i;
                     max = test;
                 }
@@ -502,11 +439,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Computes the sum of the vector's elements.
         /// </summary>
         /// <returns>The sum of the vector's elements.</returns>
-        public override Complex32 Sum()
-        {
+        public override Complex32 Sum() {
             var sum = Complex32.Zero;
-            for (var i = 0; i < Count; i++)
-            {
+            for (var i = 0; i < Count; i++) {
                 sum += At(i);
             }
             return sum;
@@ -516,11 +451,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public override double L1Norm()
-        {
+        public override double L1Norm() {
             double sum = 0d;
-            for (var i = 0; i < Count; i++)
-            {
+            for (var i = 0; i < Count; i++) {
                 sum += At(i).Magnitude;
             }
             return sum;
@@ -530,8 +463,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Calculates the L2 norm of the vector, also known as Euclidean norm.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override double L2Norm()
-        {
+        public override double L2Norm() {
             return DoConjugateDotProduct(this).SquareRoot().Real;
         }
 
@@ -539,8 +471,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The maximum absolute value.</returns>
-        public override double InfinityNorm()
-        {
+        public override double InfinityNorm() {
             return CommonParallel.Aggregate(0, Count, i => At(i).Magnitude, Math.Max, 0f);
         }
 
@@ -553,28 +484,29 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>
         /// <c>Scalar ret = ( ∑|At(i)|^p )^(1/p)</c>
         /// </returns>
-        public override double Norm(double p)
-        {
-            if (p < 0d) throw new ArgumentOutOfRangeException(nameof(p));
+        public override double Norm(double p) {
+            if (p < 0d)
+                throw new ArgumentOutOfRangeException(nameof(p));
 
-            if (p == 1d) return L1Norm();
-            if (p == 2d) return L2Norm();
-            if (double.IsPositiveInfinity(p)) return InfinityNorm();
+            if (p == 1d)
+                return L1Norm();
+            if (p == 2d)
+                return L2Norm();
+            if (double.IsPositiveInfinity(p))
+                return InfinityNorm();
 
             double sum = 0d;
-            for (var index = 0; index < Count; index++)
-            {
+            for (var index = 0; index < Count; index++) {
                 sum += Math.Pow(At(index).Magnitude, p);
             }
-            return Math.Pow(sum, 1.0/p);
+            return Math.Pow(sum, 1.0 / p);
         }
 
         /// <summary>
         /// Returns the index of the maximum element.
         /// </summary>
         /// <returns>The index of maximum element.</returns>
-        public override int MaximumIndex()
-        {
+        public override int MaximumIndex() {
             throw new NotSupportedException();
         }
 
@@ -582,8 +514,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the index of the minimum element.
         /// </summary>
         /// <returns>The index of minimum element.</returns>
-        public override int MinimumIndex()
-        {
+        public override int MinimumIndex() {
             throw new NotSupportedException();
         }
 
@@ -596,17 +527,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>
         /// This vector normalized to a unit vector with respect to the p-norm.
         /// </returns>
-        public override Vector<Complex32> Normalize(double p)
-        {
-            if (p < 0d)
-            {
+        public override Vector<Complex32> Normalize(double p) {
+            if (p < 0d) {
                 throw new ArgumentOutOfRangeException(nameof(p));
             }
 
             double norm = Norm(p);
             var clone = Clone();
-            if (norm == 0d)
-            {
+            if (norm == 0d) {
                 return clone;
             }
 

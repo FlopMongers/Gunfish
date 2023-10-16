@@ -1,268 +1,241 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode
-{
-	public class LightBuffer2D
-	{
-		public string name = "Unknown";
-
-		private Light2D light;
-
-		public Light2D Light
-		{
-			get => light;
-
-			set
-			{
-				light = value;
-
-				Rendering.LightBuffer.UpdateName(this);
-			}
-		}
-
-		public bool Free => !light;
-
-		public LightTexture renderTexture;
-
-		public LightTexture translucencyTexture;
-		public LightTexture translucencyTextureBlur;
-
-		public LightTexture freeFormTexture;
-
-		public bool updateNeeded = false;
-
-		public static List<LightBuffer2D> List = new List<LightBuffer2D>();
-
-		public LightBuffer2D()
-		{
-			List.Add(this);
-		}
-
-		public static void Clear()
-		{
-			foreach(var buffer in new List<LightBuffer2D>(List))
-			{
-				if (buffer.light)
-				{
-					buffer.light.Buffer = null;
-				}
+namespace FunkyCode {
+    public class LightBuffer2D {
+        public string name = "Unknown";
 
-				buffer.DestroySelf();
-			}
+        private Light2D light;
 
-			List.Clear();
-		}
+        public Light2D Light {
+            get => light;
 
-		public void DestroySelf()
-		{
-			List.Remove(this);
+            set {
+                light = value;
 
-			if (renderTexture == null)
-			{
-				return;
-			}
+                Rendering.LightBuffer.UpdateName(this);
+            }
+        }
 
-			if (renderTexture.renderTexture == null)
-			{
-				return;
-			}
-				
-			if (Application.isPlaying)
-			{
-				UnityEngine.Object.Destroy(renderTexture.renderTexture);
-			}
-				else
-			{
-				UnityEngine.Object.DestroyImmediate(renderTexture.renderTexture);
-			}
-		}
+        public bool Free => !light;
 
-		public void Initiate(Vector2Int textureSize)
-		{
-			Rendering.LightBuffer.InitializeRenderTexture(this, textureSize);
-		}
+        public LightTexture renderTexture;
 
-		public void Render()
-		{
-			if (renderTexture.renderTexture == null)
-			{
-				return;
-			}
+        public LightTexture translucencyTexture;
+        public LightTexture translucencyTextureBlur;
 
-			if (!updateNeeded)
-			{
-				return;
-			}
-			
-			updateNeeded = false;
+        public LightTexture freeFormTexture;
 
-			if (light == null)
-			{
-				return;
-			}
+        public bool updateNeeded = false;
 
-			if (light.translucentLayer > 0)
-			{
-				if (translucencyTexture == null)
-				{
-					Vector2Int effectTextureSize = LightingRender2D.GetTextureSize(Lighting2D.Profile.qualitySettings.lightEffectTextureSize);
-					
-					Rendering.LightBuffer.InitializeTranslucencyTexture(this, effectTextureSize);
-				}
-				
-				if (translucencyTexture != null)
-				{
-					RenderTexture previous2 = RenderTexture.active;
+        public static List<LightBuffer2D> List = new List<LightBuffer2D>();
 
-					RenderTexture.active = translucencyTexture.renderTexture;
+        public LightBuffer2D() {
+            List.Add(this);
+        }
 
-					GL.Clear(false, true, Color.black);
-			
-					Rendering.LightBuffer.RenderTranslucency(light);
+        public static void Clear() {
+            foreach (var buffer in new List<LightBuffer2D>(List)) {
+                if (buffer.light) {
+                    buffer.light.Buffer = null;
+                }
 
-					RenderTexture.active = previous2;
+                buffer.DestroySelf();
+            }
 
-					// blur texture blit
+            List.Clear();
+        }
 
-					float time = Time.realtimeSinceStartup;
+        public void DestroySelf() {
+            List.Remove(this);
 
-					Material material;
+            if (renderTexture == null) {
+                return;
+            }
 
-					float textureSize = (float)translucencyTextureBlur.renderTexture.width / 128;
+            if (renderTexture.renderTexture == null) {
+                return;
+            }
 
-					float strength = light.maskTranslucencyStrength * textureSize * 10;
+            if (Application.isPlaying) {
+                UnityEngine.Object.Destroy(renderTexture.renderTexture);
+            }
+            else {
+                UnityEngine.Object.DestroyImmediate(renderTexture.renderTexture);
+            }
+        }
 
-					switch(light.maskTranslucencyQuality)
-					{
-						case Light2D.MaskTranslucencyQuality.HighQuality:
+        public void Initiate(Vector2Int textureSize) {
+            Rendering.LightBuffer.InitializeRenderTexture(this, textureSize);
+        }
 
-							// vertical pass
+        public void Render() {
+            if (renderTexture.renderTexture == null) {
+                return;
+            }
 
-							material = Lighting2D.Materials.GetMaskBlurVertical();
+            if (!updateNeeded) {
+                return;
+            }
 
-							material.SetFloat("_Strength", strength);
+            updateNeeded = false;
 
-							Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
+            if (light == null) {
+                return;
+            }
 
-							material.SetFloat("_Strength", strength * 0.5f);
+            if (light.translucentLayer > 0) {
+                if (translucencyTexture == null) {
+                    Vector2Int effectTextureSize = LightingRender2D.GetTextureSize(Lighting2D.Profile.qualitySettings.lightEffectTextureSize);
 
-							Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
+                    Rendering.LightBuffer.InitializeTranslucencyTexture(this, effectTextureSize);
+                }
 
-							material.SetFloat("_Strength", strength * 0.25f);
+                if (translucencyTexture != null) {
+                    RenderTexture previous2 = RenderTexture.active;
 
-							Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
-					
-							// horizontal pass
+                    RenderTexture.active = translucencyTexture.renderTexture;
 
-							material = Lighting2D.Materials.GetMaskBlurHorizontal();
+                    GL.Clear(false, true, Color.black);
 
-							material.SetFloat("_Strength", strength);
+                    Rendering.LightBuffer.RenderTranslucency(light);
 
-							Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
+                    RenderTexture.active = previous2;
 
-							material.SetFloat("_Strength", strength * 0.5f);
+                    // blur texture blit
 
-							Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
+                    float time = Time.realtimeSinceStartup;
 
-							material.SetFloat("_Strength", strength * 0.25f);
+                    Material material;
 
-							Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);		
+                    float textureSize = (float)translucencyTextureBlur.renderTexture.width / 128;
 
-						break;
+                    float strength = light.maskTranslucencyStrength * textureSize * 10;
 
-						case Light2D.MaskTranslucencyQuality.MediumQuality:
+                    switch (light.maskTranslucencyQuality) {
+                        case Light2D.MaskTranslucencyQuality.HighQuality:
 
-							// vertical pass
+                            // vertical pass
 
-							material = Lighting2D.Materials.GetMaskBlurVertical();
+                            material = Lighting2D.Materials.GetMaskBlurVertical();
 
-							material.SetFloat("_Strength", strength);
+                            material.SetFloat("_Strength", strength);
 
-							Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
+                            Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
 
-							material.SetFloat("_Strength", strength * 0.5f);
+                            material.SetFloat("_Strength", strength * 0.5f);
 
-							Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
-					
-							// horizontal pass
+                            Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
 
-							material = Lighting2D.Materials.GetMaskBlurHorizontal();
+                            material.SetFloat("_Strength", strength * 0.25f);
 
-							material.SetFloat("_Strength", strength);
+                            Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
 
-							Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
+                            // horizontal pass
 
-							material.SetFloat("_Strength", strength * 0.5f);
+                            material = Lighting2D.Materials.GetMaskBlurHorizontal();
 
-							Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
+                            material.SetFloat("_Strength", strength);
 
-						break;
+                            Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
 
+                            material.SetFloat("_Strength", strength * 0.5f);
 
-						case Light2D.MaskTranslucencyQuality.LowQuality:
+                            Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
 
-							// vertical
-		
-							material = Lighting2D.Materials.GetMaskBlurVertical();
+                            material.SetFloat("_Strength", strength * 0.25f);
 
-							material.SetFloat("_Strength", strength);
+                            Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
 
-							Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
+                            break;
 
-							// horizontal
+                        case Light2D.MaskTranslucencyQuality.MediumQuality:
 
-							material = Lighting2D.Materials.GetMaskBlurHorizontal();
+                            // vertical pass
 
-							material.SetFloat("_Strength", strength);
+                            material = Lighting2D.Materials.GetMaskBlurVertical();
 
-							Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
+                            material.SetFloat("_Strength", strength);
 
-						break;
-					}
-				}
-			}
+                            Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
 
-			if (light.lightType == Light2D.LightType.FreeForm)
-			{
-				if (freeFormTexture == null)
-				{
-					Rendering.LightBuffer.InitializeFreeFormTexture(this, new Vector2Int(renderTexture.width, renderTexture.height));
-				}
+                            material.SetFloat("_Strength", strength * 0.5f);
 
-				// render only if there are free form changes
+                            Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
 
-				if (freeFormTexture != null)
-				{
-					if (light.freeForm.UpdateNeeded)
-					{
-						light.freeForm.UpdateNeeded = false;
+                            // horizontal pass
 
-						var previous3 = RenderTexture.active;
+                            material = Lighting2D.Materials.GetMaskBlurHorizontal();
 
-						RenderTexture.active = freeFormTexture.renderTexture;
+                            material.SetFloat("_Strength", strength);
 
-						GL.Clear(false, true, Color.black);
-				
-						Rendering.LightBuffer.RenderFreeForm(light);
+                            Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
 
-						RenderTexture.active = previous3;
-					}
-				}
-			}
+                            material.SetFloat("_Strength", strength * 0.5f);
 
-			if (light.lightLayer >= 0)
-			{
-				var previous = RenderTexture.active;
+                            Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
 
-				RenderTexture.active = renderTexture.renderTexture;
+                            break;
 
-				GL.Clear(false, true, Color.black);
 
-				Rendering.LightBuffer.Render(light);
+                        case Light2D.MaskTranslucencyQuality.LowQuality:
 
-				RenderTexture.active = previous;
-			}
-		}
-	}
+                            // vertical
+
+                            material = Lighting2D.Materials.GetMaskBlurVertical();
+
+                            material.SetFloat("_Strength", strength);
+
+                            Graphics.Blit(translucencyTexture.renderTexture, translucencyTextureBlur.renderTexture, material);
+
+                            // horizontal
+
+                            material = Lighting2D.Materials.GetMaskBlurHorizontal();
+
+                            material.SetFloat("_Strength", strength);
+
+                            Graphics.Blit(translucencyTextureBlur.renderTexture, translucencyTexture.renderTexture, material);
+
+                            break;
+                    }
+                }
+            }
+
+            if (light.lightType == Light2D.LightType.FreeForm) {
+                if (freeFormTexture == null) {
+                    Rendering.LightBuffer.InitializeFreeFormTexture(this, new Vector2Int(renderTexture.width, renderTexture.height));
+                }
+
+                // render only if there are free form changes
+
+                if (freeFormTexture != null) {
+                    if (light.freeForm.UpdateNeeded) {
+                        light.freeForm.UpdateNeeded = false;
+
+                        var previous3 = RenderTexture.active;
+
+                        RenderTexture.active = freeFormTexture.renderTexture;
+
+                        GL.Clear(false, true, Color.black);
+
+                        Rendering.LightBuffer.RenderFreeForm(light);
+
+                        RenderTexture.active = previous3;
+                    }
+                }
+            }
+
+            if (light.lightLayer >= 0) {
+                var previous = RenderTexture.active;
+
+                RenderTexture.active = renderTexture.renderTexture;
+
+                GL.Clear(false, true, Color.black);
+
+                Rendering.LightBuffer.Render(light);
+
+                RenderTexture.active = previous;
+            }
+        }
+    }
 }

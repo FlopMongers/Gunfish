@@ -27,17 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
+using System;
 
-namespace MathNet.Numerics.Statistics.Mcmc
-{
+namespace MathNet.Numerics.Statistics.Mcmc {
     /// <summary>
     /// A hybrid Monte Carlo sampler for univariate distributions.
     /// </summary>
-    public class UnivariateHybridMC : HybridMCGeneric<double>
-    {
+    public class UnivariateHybridMC : HybridMCGeneric<double> {
         /// <summary>
         /// Distribution to sample momentum from.
         /// </summary>
@@ -54,13 +52,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// momentum.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When standard deviation is negative.</exception>
-        public double MomentumStdDev
-        {
+        public double MomentumStdDev {
             get => _sdv;
-            set
-            {
-                if (_sdv != value)
-                {
+            set {
+                if (_sdv != value) {
                     _sdv = SetPositive(value);
                 }
             }
@@ -82,8 +77,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0, double pSdv = 1)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, SystemRandomSource.Default)
-        {
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, SystemRandomSource.Default) {
         }
 
         /// <summary>
@@ -103,8 +97,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="randomSource">Random number generator used to sample the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double pSdv, System.Random randomSource)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, Grad)
-        {
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, Grad) {
         }
 
         /// <summary>
@@ -125,8 +118,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double pSdv, System.Random randomSource, DiffMethod diff)
-            : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff)
-        {
+            : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff) {
             MomentumStdDev = pSdv;
             _distribution = new Normal(0.0, MomentumStdDev, RandomSource);
             Burn(BurnInterval);
@@ -137,8 +129,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="source">The source of copying.</param>
         /// <returns>A copy of the source object.</returns>
-        protected override double Copy(double source)
-        {
+        protected override double Copy(double source) {
             return source;
         }
 
@@ -146,26 +137,22 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Use for creating temporary objects in the Burn method.
         /// </summary>
         /// <returns>An object of type T.</returns>
-        protected override double Create()
-        {
+        protected override double Create() {
             return 0;
         }
 
         /// <inheritdoc/>
-        protected override void DoAdd(ref double first, double factor, double second)
-        {
+        protected override void DoAdd(ref double first, double factor, double second) {
             first += factor * second;
         }
 
         /// <inheritdoc/>
-        protected override double DoProduct(double first, double second)
-        {
+        protected override double DoProduct(double first, double second) {
             return first * second;
         }
 
         /// <inheritdoc/>
-        protected override void DoSubtract(ref double first, double factor, double second)
-        {
+        protected override void DoSubtract(ref double first, double factor, double second) {
             first -= factor * second;
         }
 
@@ -173,8 +160,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Samples the momentum from a normal distribution.
         /// </summary>
         /// <param name="p">The momentum to be randomized.</param>
-        protected override void RandomizeMomentum(ref double p)
-        {
+        protected override void RandomizeMomentum(ref double p) {
             p = _distribution.Sample();
         }
 
@@ -184,8 +170,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="function">Function for which the derivative is to be evaluated.</param>
         /// <param name="x">The location where the derivative is to be evaluated.</param>
         /// <returns>The derivative of the function at the point x.</returns>
-        static double Grad(DensityLn<double> function, double x)
-        {
+        static double Grad(DensityLn<double> function, double x) {
             double h = Math.Max(10e-4, (10e-7) * x);
             double increment = x + h;
             double decrement = x - h;

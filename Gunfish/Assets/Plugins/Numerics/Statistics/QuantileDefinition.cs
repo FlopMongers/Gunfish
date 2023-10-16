@@ -27,10 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Statistics
-{
-    public enum QuantileDefinition
-    {
+namespace MathNet.Numerics.Statistics {
+    public enum QuantileDefinition {
         R1 = 1, SAS3 = 1, EmpiricalInvCDF = 1,
         R2 = 2, SAS5 = 2, EmpiricalInvCDFAverage = 2,
         R3 = 3, SAS2 = 3, Nearest = 3,

@@ -8,8 +8,7 @@ namespace SplineMesh {
     /// <summary>
     /// Imutable class containing all data about a point on a cubic bezier curve.
     /// </summary>
-    public struct CurveSample
-    {
+    public struct CurveSample {
         public readonly Vector3 location;
         public readonly Vector3 tangent;
         public readonly Vector3 up;

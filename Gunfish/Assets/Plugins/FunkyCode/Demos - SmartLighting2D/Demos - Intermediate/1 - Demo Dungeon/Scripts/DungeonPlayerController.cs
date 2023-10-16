@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DungeonPlayerController : MonoBehaviour
-{
- 
-    void Start()
-    {
-        
+public class DungeonPlayerController : MonoBehaviour {
+
+    void Start() {
+
     }
 
- 
-    void Update()
-    {
+
+    void Update() {
         Vector3 position = transform.position;
         float speed = Time.deltaTime * 4;
 
@@ -21,14 +18,14 @@ public class DungeonPlayerController : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.S)) {
-           position.y -= speed; 
+            position.y -= speed;
         }
 
         if (Input.GetKey(KeyCode.A)) {
             position.x -= speed;
         }
 
-         if (Input.GetKey(KeyCode.D)) {
+        if (Input.GetKey(KeyCode.D)) {
             position.x += speed;
         }
 

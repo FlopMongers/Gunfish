@@ -31,13 +31,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.LinearAlgebra.Storage
-{
+namespace MathNet.Numerics.LinearAlgebra.Storage {
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/LinearAlgebra")]
     public abstract partial class VectorStorage<T> : IEquatable<VectorStorage<T>>
-        where T : struct, IEquatable<T>, IFormattable
-    {
+        where T : struct, IEquatable<T>, IFormattable {
         // [ruegg] public fields are OK here
 
         protected static readonly T Zero = BuilderInstance<T>.Vector.Zero;
@@ -45,10 +43,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         [DataMember(Order = 1)]
         public readonly int Length;
 
-        protected VectorStorage(int length)
-        {
-            if (length < 0)
-            {
+        protected VectorStorage(int length) {
+            if (length < 0) {
                 throw new ArgumentOutOfRangeException(nameof(length), "Value must not be negative (zero is ok).");
             }
 
@@ -69,16 +65,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <value>The value to get or set.</value>
         /// <remarks>This method is ranged checked. <see cref="At(int)"/> and <see cref="At(int,T)"/>
         /// to get and set values without range checking.</remarks>
-        public T this[int index]
-        {
-            get
-            {
+        public T this[int index] {
+            get {
                 ValidateRange(index);
                 return At(index);
             }
 
-            set
-            {
+            set {
                 ValidateRange(index);
                 At(index, value);
             }
@@ -109,29 +102,23 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public virtual bool Equals(VectorStorage<T> other)
-        {
+        public virtual bool Equals(VectorStorage<T> other) {
             // Reject equality when the argument is null or has a different shape.
-            if (other == null)
-            {
+            if (other == null) {
                 return false;
             }
-            if (Length != other.Length)
-            {
+            if (Length != other.Length) {
                 return false;
             }
 
             // Accept if the argument is the same object as this.
-            if (ReferenceEquals(this, other))
-            {
+            if (ReferenceEquals(this, other)) {
                 return true;
             }
 
             // If all else fails, perform element wise comparison.
-            for (var index = 0; index < Length; index++)
-            {
-                if (!At(index).Equals(other.At(index)))
-                {
+            for (var index = 0; index < Length; index++) {
+                if (!At(index).Equals(other.At(index))) {
                     return false;
                 }
             }
@@ -146,8 +133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
         /// </returns>
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param>
-        public sealed override bool Equals(object obj)
-        {
+        public sealed override bool Equals(object obj) {
             return Equals(obj as VectorStorage<T>);
         }
 
@@ -157,15 +143,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <returns>
         /// A hash code for the current <see cref="T:System.Object"/>.
         /// </returns>
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             var hashNum = Math.Min(Length, 25);
             int hash = 17;
-            unchecked
-            {
-                for (var i = 0; i < hashNum; i++)
-                {
-                    hash = hash*31 + At(i).GetHashCode();
+            unchecked {
+                for (var i = 0; i < hashNum; i++) {
+                    hash = hash * 31 + At(i).GetHashCode();
                 }
             }
             return hash;
@@ -173,63 +156,50 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // CLEARING
 
-        public virtual void Clear()
-        {
-            for (var i = 0; i < Length; i++)
-            {
+        public virtual void Clear() {
+            for (var i = 0; i < Length; i++) {
                 At(i, Zero);
             }
         }
 
-        public virtual void Clear(int index, int count)
-        {
-            for (var i = index; i < index + count; i++)
-            {
+        public virtual void Clear(int index, int count) {
+            for (var i = index; i < index + count; i++) {
                 At(i, Zero);
             }
         }
 
         // VECTOR COPY
 
-        public void CopyTo(VectorStorage<T> target, ExistingData existingData = ExistingData.Clear)
-        {
-            if (target == null)
-            {
+        public void CopyTo(VectorStorage<T> target, ExistingData existingData = ExistingData.Clear) {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (ReferenceEquals(this, target))
-            {
+            if (ReferenceEquals(this, target)) {
                 return;
             }
 
-            if (Length != target.Length)
-            {
+            if (Length != target.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             CopyToUnchecked(target, existingData);
         }
 
-        internal virtual void CopyToUnchecked(VectorStorage<T> target, ExistingData existingData)
-        {
-            for (int i = 0; i < Length; i++)
-            {
+        internal virtual void CopyToUnchecked(VectorStorage<T> target, ExistingData existingData) {
+            for (int i = 0; i < Length; i++) {
                 target.At(i, At(i));
             }
         }
 
         // ROW COPY
 
-        public void CopyToRow(MatrixStorage<T> target, int rowIndex, ExistingData existingData = ExistingData.Clear)
-        {
-            if (target == null)
-            {
+        public void CopyToRow(MatrixStorage<T> target, int rowIndex, ExistingData existingData = ExistingData.Clear) {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (Length != target.ColumnCount)
-            {
+            if (Length != target.ColumnCount) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
@@ -237,25 +207,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             CopyToRowUnchecked(target, rowIndex, existingData);
         }
 
-        internal virtual void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, ExistingData existingData)
-        {
-            for (int j = 0; j < Length; j++)
-            {
+        internal virtual void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, ExistingData existingData) {
+            for (int j = 0; j < Length; j++) {
                 target.At(rowIndex, j, At(j));
             }
         }
 
         // COLUMN COPY
 
-        public void CopyToColumn(MatrixStorage<T> target, int columnIndex, ExistingData existingData = ExistingData.Clear)
-        {
-            if (target == null)
-            {
+        public void CopyToColumn(MatrixStorage<T> target, int columnIndex, ExistingData existingData = ExistingData.Clear) {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (Length != target.RowCount)
-            {
+            if (Length != target.RowCount) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
@@ -263,10 +228,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             CopyToColumnUnchecked(target, columnIndex, existingData);
         }
 
-        internal virtual void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, ExistingData existingData)
-        {
-            for (int i = 0; i < Length; i++)
-            {
+        internal virtual void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, ExistingData existingData) {
+            for (int i = 0; i < Length; i++) {
                 target.At(i, columnIndex, At(i));
             }
         }
@@ -275,15 +238,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public void CopySubVectorTo(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
-            ExistingData existingData = ExistingData.Clear)
-        {
-            if (target == null)
-            {
+            ExistingData existingData = ExistingData.Clear) {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (count == 0)
-            {
+            if (count == 0) {
                 return;
             }
 
@@ -292,25 +252,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void CopySubVectorToUnchecked(VectorStorage<T> target,
-            int sourceIndex, int targetIndex, int count, ExistingData existingData)
-        {
-            if (ReferenceEquals(this, target))
-            {
+            int sourceIndex, int targetIndex, int count, ExistingData existingData) {
+            if (ReferenceEquals(this, target)) {
                 var tmp = new T[count];
-                for (int i = 0; i < tmp.Length; i++)
-                {
+                for (int i = 0; i < tmp.Length; i++) {
                     tmp[i] = At(i + sourceIndex);
                 }
-                for (int i = 0; i < tmp.Length; i++)
-                {
+                for (int i = 0; i < tmp.Length; i++) {
                     At(i + targetIndex, tmp[i]);
                 }
 
                 return;
             }
 
-            for (int i = sourceIndex, ii = targetIndex; i < sourceIndex + count; i++, ii++)
-            {
+            for (int i = sourceIndex, ii = targetIndex; i < sourceIndex + count; i++, ii++) {
                 target.At(ii, At(i));
             }
         }
@@ -319,15 +274,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public void CopyToSubRow(MatrixStorage<T> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            ExistingData existingData = ExistingData.Clear)
-        {
-            if (target == null)
-            {
+            ExistingData existingData = ExistingData.Clear) {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (columnCount == 0)
-            {
+            if (columnCount == 0) {
                 return;
             }
 
@@ -336,10 +288,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void CopyToSubRowUnchecked(MatrixStorage<T> target, int rowIndex,
-            int sourceColumnIndex, int targetColumnIndex, int columnCount, ExistingData existingData)
-        {
-            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
-            {
+            int sourceColumnIndex, int targetColumnIndex, int columnCount, ExistingData existingData) {
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++) {
                 target.At(rowIndex, jj, At(j));
             }
         }
@@ -348,15 +298,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public void CopyToSubColumn(MatrixStorage<T> target, int columnIndex,
             int sourceRowIndex, int targetRowIndex, int rowCount,
-            ExistingData existingData = ExistingData.Clear)
-        {
-            if (target == null)
-            {
+            ExistingData existingData = ExistingData.Clear) {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (rowCount == 0)
-            {
+            if (rowCount == 0) {
                 return;
             }
 
@@ -365,68 +312,53 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void CopyToSubColumnUnchecked(MatrixStorage<T> target, int columnIndex,
-            int sourceRowIndex, int targetRowIndex, int rowCount, ExistingData existingData)
-        {
-            for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
-            {
+            int sourceRowIndex, int targetRowIndex, int rowCount, ExistingData existingData) {
+            for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++) {
                 target.At(ii, columnIndex, At(i));
             }
         }
 
         // EXTRACT
 
-        public virtual T[] ToArray()
-        {
+        public virtual T[] ToArray() {
             var ret = new T[Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
+            for (int i = 0; i < ret.Length; i++) {
                 ret[i] = At(i);
             }
             return ret;
         }
 
-        public virtual T[] AsArray()
-        {
+        public virtual T[] AsArray() {
             return null;
         }
 
         // ENUMERATION
 
-        public virtual IEnumerable<T> Enumerate()
-        {
-            for (var i = 0; i < Length; i++)
-            {
+        public virtual IEnumerable<T> Enumerate() {
+            for (var i = 0; i < Length; i++) {
                 yield return At(i);
             }
         }
 
-        public virtual IEnumerable<(int, T)> EnumerateIndexed()
-        {
-            for (var i = 0; i < Length; i++)
-            {
+        public virtual IEnumerable<(int, T)> EnumerateIndexed() {
+            for (var i = 0; i < Length; i++) {
                 yield return (i, At(i));
             }
         }
 
-        public virtual IEnumerable<T> EnumerateNonZero()
-        {
-            for (var i = 0; i < Length; i++)
-            {
+        public virtual IEnumerable<T> EnumerateNonZero() {
+            for (var i = 0; i < Length; i++) {
                 var x = At(i);
-                if (!Zero.Equals(x))
-                {
+                if (!Zero.Equals(x)) {
                     yield return x;
                 }
             }
         }
 
-        public virtual IEnumerable<(int, T)> EnumerateNonZeroIndexed()
-        {
-            for (var i = 0; i < Length; i++)
-            {
+        public virtual IEnumerable<(int, T)> EnumerateNonZeroIndexed() {
+            for (var i = 0; i < Length; i++) {
                 var x = At(i);
-                if (!Zero.Equals(x))
-                {
+                if (!Zero.Equals(x)) {
                     yield return (i, x);
                 }
             }
@@ -434,13 +366,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FIND
 
-        public virtual Tuple<int, T> Find(Func<T, bool> predicate, Zeros zeros)
-        {
-            for (int i = 0; i < Length; i++)
-            {
+        public virtual Tuple<int, T> Find(Func<T, bool> predicate, Zeros zeros) {
+            for (int i = 0; i < Length; i++) {
                 var item = At(i);
-                if (predicate(item))
-                {
+                if (predicate(item)) {
                     return new Tuple<int, T>(i, item);
                 }
             }
@@ -448,15 +377,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         public Tuple<int, T, TOther> Find2<TOther>(VectorStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
-            where TOther : struct, IEquatable<TOther>, IFormattable
-        {
-            if (other == null)
-            {
+            where TOther : struct, IEquatable<TOther>, IFormattable {
+            if (other == null) {
                 throw new ArgumentNullException(nameof(other));
             }
 
-            if (Length != other.Length)
-            {
+            if (Length != other.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
@@ -464,14 +390,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual Tuple<int, T, TOther> Find2Unchecked<TOther>(VectorStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
-            where TOther : struct, IEquatable<TOther>, IFormattable
-        {
-            for (int i = 0; i < Length; i++)
-            {
+            where TOther : struct, IEquatable<TOther>, IFormattable {
+            for (int i = 0; i < Length; i++) {
                 var item = At(i);
                 var otherItem = other.At(i);
-                if (predicate(item, otherItem))
-                {
+                if (predicate(item, otherItem)) {
                     return new Tuple<int, T, TOther>(i, item, otherItem);
                 }
             }
@@ -480,32 +403,25 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: MAP
 
-        public virtual void MapInplace(Func<T, T> f, Zeros zeros)
-        {
-            for (int i = 0; i < Length; i++)
-            {
+        public virtual void MapInplace(Func<T, T> f, Zeros zeros) {
+            for (int i = 0; i < Length; i++) {
                 At(i, f(At(i)));
             }
         }
 
-        public virtual void MapIndexedInplace(Func<int, T, T> f, Zeros zeros)
-        {
-            for (int i = 0; i < Length; i++)
-            {
+        public virtual void MapIndexedInplace(Func<int, T, T> f, Zeros zeros) {
+            for (int i = 0; i < Length; i++) {
                 At(i, f(i, At(i)));
             }
         }
 
         public void MapTo<TU>(VectorStorage<TU> target, Func<T, TU> f, Zeros zeros, ExistingData existingData)
-            where TU : struct, IEquatable<TU>, IFormattable
-        {
-            if (target == null)
-            {
+            where TU : struct, IEquatable<TU>, IFormattable {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (Length != target.Length)
-            {
+            if (Length != target.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
@@ -513,24 +429,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, Zeros zeros, ExistingData existingData)
-            where TU : struct, IEquatable<TU>, IFormattable
-        {
-            for (int i = 0; i < Length; i++)
-            {
+            where TU : struct, IEquatable<TU>, IFormattable {
+            for (int i = 0; i < Length; i++) {
                 target.At(i, f(At(i)));
             }
         }
 
         public void MapIndexedTo<TU>(VectorStorage<TU> target, Func<int, T, TU> f, Zeros zeros, ExistingData existingData)
-            where TU : struct, IEquatable<TU>, IFormattable
-        {
-            if (target == null)
-            {
+            where TU : struct, IEquatable<TU>, IFormattable {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (Length != target.Length)
-            {
+            if (Length != target.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
@@ -538,43 +449,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f, Zeros zeros, ExistingData existingData)
-            where TU : struct, IEquatable<TU>, IFormattable
-        {
-            for (int i = 0; i < Length; i++)
-            {
+            where TU : struct, IEquatable<TU>, IFormattable {
+            for (int i = 0; i < Length; i++) {
                 target.At(i, f(i, At(i)));
             }
         }
 
-        public void Map2To(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData)
-        {
-            if (target == null)
-            {
+        public void Map2To(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData) {
+            if (target == null) {
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (other == null)
-            {
+            if (other == null) {
                 throw new ArgumentNullException(nameof(other));
             }
 
-            if (Length != target.Length)
-            {
+            if (Length != target.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
-            if (Length != other.Length)
-            {
+            if (Length != other.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
             Map2ToUnchecked(target, other, f, zeros, existingData);
         }
 
-        internal virtual void Map2ToUnchecked(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData)
-        {
-            for (int i = 0; i < Length; i++)
-            {
+        internal virtual void Map2ToUnchecked(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData) {
+            for (int i = 0; i < Length; i++) {
                 target.At(i, f(At(i), other.At(i)));
             }
         }
@@ -582,15 +484,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         // FUNCTIONAL COMBINATORS: FOLD
 
         public TState Fold2<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
-            where TOther : struct, IEquatable<TOther>, IFormattable
-        {
-            if (other == null)
-            {
+            where TOther : struct, IEquatable<TOther>, IFormattable {
+            if (other == null) {
                 throw new ArgumentNullException(nameof(other));
             }
 
-            if (Length != other.Length)
-            {
+            if (Length != other.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
@@ -598,10 +497,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
-            where TOther : struct, IEquatable<TOther>, IFormattable
-        {
-            for (int i = 0; i < Length; i++)
-            {
+            where TOther : struct, IEquatable<TOther>, IFormattable {
+            for (int i = 0; i < Length; i++) {
                 state = f(state, At(i), other.At(i));
             }
 

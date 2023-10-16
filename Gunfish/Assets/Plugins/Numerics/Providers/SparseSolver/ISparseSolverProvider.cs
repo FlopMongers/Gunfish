@@ -1,12 +1,10 @@
 ﻿using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.Providers.SparseSolver
-{
+namespace MathNet.Numerics.Providers.SparseSolver {
     /// <summary>
     /// Structure option.
     /// </summary>
-    public enum DssMatrixStructure : int
-    {
+    public enum DssMatrixStructure : int {
         Symmetric = 536870976,
         SymmetricStructure = 536871040,
         Nonsymmetric = 536871104,
@@ -18,8 +16,7 @@ namespace MathNet.Numerics.Providers.SparseSolver
     /// <summary>
     /// Factorization option.
     /// </summary>
-    public enum DssMatrixType : int
-    {
+    public enum DssMatrixType : int {
         PositiveDefinite = 134217792,
         Indefinite = 134217856,
         HermitianPositiveDefinite = 134217920,
@@ -29,8 +26,7 @@ namespace MathNet.Numerics.Providers.SparseSolver
     /// <summary>
     /// Solver step's substitution.
     /// </summary>
-    public enum DssSystemType : int
-    {
+    public enum DssSystemType : int {
         /// <summary>
         /// Solve a system, Ax = b.
         /// </summary>
@@ -48,12 +44,11 @@ namespace MathNet.Numerics.Providers.SparseSolver
     /// <summary>
     /// Status values
     /// </summary>
-    public enum DssStatus : int
-    {
+    public enum DssStatus : int {
         /// <summary>
         /// The operation was successful.
         /// </summary>
-        MKL_DSS_SUCCESS = 0, 
+        MKL_DSS_SUCCESS = 0,
         MKL_DSS_ZERO_PIVOT = -1,
         MKL_DSS_OUT_OF_MEMORY = -2,
         MKL_DSS_FAILURE = -3,
@@ -86,8 +81,7 @@ namespace MathNet.Numerics.Providers.SparseSolver
         ISparseSolverProvider<double>,
         ISparseSolverProvider<float>,
         ISparseSolverProvider<Complex>,
-        ISparseSolverProvider<Complex32>
-    {
+        ISparseSolverProvider<Complex32> {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
@@ -107,9 +101,7 @@ namespace MathNet.Numerics.Providers.SparseSolver
     }
 
     public interface ISparseSolverProvider<T>
-        where T : struct
-    {
+        where T : struct {
         DssStatus Solve(DssMatrixStructure matrixStructure, DssMatrixType matrixType, DssSystemType systemType, int rows, int cols, int nnz, int[] rowIdx, int[] colPtr, T[] values, int nRhs, T[] rhs, T[] solution);
     }
 }
-

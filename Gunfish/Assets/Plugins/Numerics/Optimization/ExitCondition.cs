@@ -27,10 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Optimization
-{
-    public enum ExitCondition
-    {
+namespace MathNet.Numerics.Optimization {
+    public enum ExitCondition {
         None,
         InvalidValues,
         ExceedIterations,

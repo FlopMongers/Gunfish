@@ -1,338 +1,298 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using FunkyCode.LightingSettings;
-using UnityEditorInternal;
-using System.Reflection;
-using System;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightSettings;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor;
+using UnityEditorInternal;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	public class GUIFoldout
-	{
-		static Dictionary<object, bool> dictionary = new Dictionary<object, bool>();
+namespace FunkyCode {
+    public class GUIFoldout {
+        static Dictionary<object, bool> dictionary = new Dictionary<object, bool>();
 
-		static public bool GetValue(object Object)
-		{
-			bool value = false;
+        static public bool GetValue(object Object) {
+            bool value = false;
 
-			if (!dictionary.TryGetValue(Object, out value))
-			{
-				dictionary.Add(Object, value);
-			}
+            if (!dictionary.TryGetValue(Object, out value)) {
+                dictionary.Add(Object, value);
+            }
 
-			return(value);
-		}
+            return (value);
+        }
 
-		static public void SetValue(object Object, bool value)
-		{
-			bool resultVal;
+        static public void SetValue(object Object, bool value) {
+            bool resultVal;
 
-			if (dictionary.TryGetValue(Object, out resultVal))
-			{
-				dictionary.Remove(Object);
-				dictionary.Add(Object, value);
-			}
-		}
+            if (dictionary.TryGetValue(Object, out resultVal)) {
+                dictionary.Remove(Object);
+                dictionary.Add(Object, value);
+            }
+        }
 
-		static public bool Draw(string name, object Object)
-		{
-			bool value = EditorGUILayout.Foldout(GetValue(Object), name, true);
+        static public bool Draw(string name, object Object) {
+            bool value = EditorGUILayout.Foldout(GetValue(Object), name, true);
 
-			SetValue(Object, value);
+            SetValue(Object, value);
 
-			return(value);
-		}
-	}
+            return (value);
+        }
+    }
 
-	public class GUIFoldoutHeader
-	{
-		static Dictionary<object, bool> dictionary = new Dictionary<object, bool>();
+    public class GUIFoldoutHeader {
+        static Dictionary<object, bool> dictionary = new Dictionary<object, bool>();
 
-		static public bool GetValue(object Object)
-		{
-			bool value = false;
+        static public bool GetValue(object Object) {
+            bool value = false;
 
-			if (!dictionary.TryGetValue(Object, out value))
-			{
-				dictionary.Add(Object, value);
-			}
+            if (!dictionary.TryGetValue(Object, out value)) {
+                dictionary.Add(Object, value);
+            }
 
-			return(value);
-		}
+            return (value);
+        }
 
-		static public void SetValue(object Object, bool value)
-		{
-			bool resultVal;
+        static public void SetValue(object Object, bool value) {
+            bool resultVal;
 
-			if (dictionary.TryGetValue(Object, out resultVal)) {
-				dictionary.Remove(Object);
-				dictionary.Add(Object, value);
-			}
-		}
+            if (dictionary.TryGetValue(Object, out resultVal)) {
+                dictionary.Remove(Object);
+                dictionary.Add(Object, value);
+            }
+        }
 
-		static public bool Begin(string name, object Object)
-		{
-			#if UNITY_2019_1_OR_NEWER
-				bool value = EditorGUILayout.BeginFoldoutHeaderGroup(GetValue(Object), name);
-			#else
+        static public bool Begin(string name, object Object) {
+#if UNITY_2019_1_OR_NEWER
+            bool value = EditorGUILayout.BeginFoldoutHeaderGroup(GetValue(Object), name);
+#else
 				bool value = EditorGUILayout.Foldout(GetValue(Object), name, true);
-			#endif
+#endif
 
-			SetValue(Object, value);
+            SetValue(Object, value);
 
-			return(value);
-		}
+            return (value);
+        }
 
-		static public void End()
-		{
-			#if UNITY_2019_1_OR_NEWER
-				EditorGUILayout.EndFoldoutHeaderGroup();
-			#endif
-		}
-	}
+        static public void End() {
+#if UNITY_2019_1_OR_NEWER
+            EditorGUILayout.EndFoldoutHeaderGroup();
+#endif
+        }
+    }
 
-	public class GUISortingLayer
-	{
-		static public string[] GetSortingLayerNames()
-		{
-			System.Type internalEditorUtilityType = typeof(InternalEditorUtility);
-			PropertyInfo sortingLayersProperty = internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
-			
-			return (string[])sortingLayersProperty.GetValue(null, new object[0]);
-		}
-	
-		static public int[] GetSortingLayerUniqueIDs()
-		{
-			System.Type internalEditorUtilityType = typeof(InternalEditorUtility);
-			PropertyInfo sortingLayerUniqueIDsProperty = internalEditorUtilityType.GetProperty("sortingLayerUniqueIDs", BindingFlags.Static | BindingFlags.NonPublic);
-			
-			return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
-		}
+    public class GUISortingLayer {
+        static public string[] GetSortingLayerNames() {
+            System.Type internalEditorUtilityType = typeof(InternalEditorUtility);
+            PropertyInfo sortingLayersProperty = internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
 
-		static public void Draw(SerializedObject serializedObject, LightingSettings.SortingLayer sortingLayer, string serializationDepth = "")
-		{
-	
-			SerializedProperty order = serializedObject.FindProperty(serializationDepth + "sortingLayer.Order");
-			SerializedProperty name = serializedObject.FindProperty(serializationDepth + "sortingLayer.name");
+            return (string[])sortingLayersProperty.GetValue(null, new object[0]);
+        }
 
-		
-				string[] sortingLayerNames = GetSortingLayerNames();
-				int id = Array.IndexOf(sortingLayerNames, sortingLayer.Name);
-				int newId = EditorGUILayout.Popup("Sorting Layer", id, sortingLayerNames);
+        static public int[] GetSortingLayerUniqueIDs() {
+            System.Type internalEditorUtilityType = typeof(InternalEditorUtility);
+            PropertyInfo sortingLayerUniqueIDsProperty = internalEditorUtilityType.GetProperty("sortingLayerUniqueIDs", BindingFlags.Static | BindingFlags.NonPublic);
 
-				if (newId > -1 && newId < sortingLayerNames.Length)
-				{
-					string newName = sortingLayerNames[newId];
+            return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
+        }
 
-					if (newName != sortingLayer.Name)
-					{
-						name.stringValue = newName;
-					}
-				}
-				
-				EditorGUILayout.PropertyField(order, new GUIContent ("Order in Layer"));
+        static public void Draw(SerializedObject serializedObject, LightingSettings.SortingLayer sortingLayer, string serializationDepth = "") {
 
-		}
+            SerializedProperty order = serializedObject.FindProperty(serializationDepth + "sortingLayer.Order");
+            SerializedProperty name = serializedObject.FindProperty(serializationDepth + "sortingLayer.name");
 
-		static public void Draw(LightingSettings.SortingLayer sortingLayer, bool drawFoldout)
-		{
-			if (drawFoldout)
-			{
-				bool value = GUIFoldout.Draw("Sorting Layer", sortingLayer);
-			
-				if (!value)
-				{
-					return;
-				}
 
-				EditorGUI.indentLevel++;
-			}
-			
-			string[] sortingLayerNames = GetSortingLayerNames();
-			int id = Array.IndexOf(sortingLayerNames, sortingLayer.Name);
-			int newId = EditorGUILayout.Popup("Sorting Layer", id, sortingLayerNames);
+            string[] sortingLayerNames = GetSortingLayerNames();
+            int id = Array.IndexOf(sortingLayerNames, sortingLayer.Name);
+            int newId = EditorGUILayout.Popup("Sorting Layer", id, sortingLayerNames);
 
-			if (newId > -1 && newId < sortingLayerNames.Length)
-			{
-				string newName = sortingLayerNames[newId];
+            if (newId > -1 && newId < sortingLayerNames.Length) {
+                string newName = sortingLayerNames[newId];
 
-				if (newName != sortingLayer.Name)
-				{
-					sortingLayer.Name = newName;
-				}
-			}
-			
-			sortingLayer.Order = EditorGUILayout.IntField("Order in Layer", sortingLayer.Order);
+                if (newName != sortingLayer.Name) {
+                    name.stringValue = newName;
+                }
+            }
 
-			if (drawFoldout)
-			{
-				EditorGUI.indentLevel--;
-			}
-		}
-	}
+            EditorGUILayout.PropertyField(order, new GUIContent("Order in Layer"));
 
-	public class GUIMeshMode
-	{
-		public static void Draw(SerializedObject serializedObject, MeshMode meshMode)
-		{
-			bool value = GUIFoldout.Draw("Overlay", meshMode);
-			
-			if (!value)
-			{
-				return;
-			}
+        }
 
-			EditorGUI.indentLevel++;
+        static public void Draw(LightingSettings.SortingLayer sortingLayer, bool drawFoldout) {
+            if (drawFoldout) {
+                bool value = GUIFoldout.Draw("Sorting Layer", sortingLayer);
 
-			SerializedProperty meshModeEnable = serializedObject.FindProperty("meshMode.enable");
-			SerializedProperty meshModeAlpha = serializedObject.FindProperty("meshMode.alpha");
-			SerializedProperty meshModeShader =serializedObject.FindProperty("meshMode.shader");
-			
-			EditorGUILayout.PropertyField(meshModeEnable, new GUIContent ("Enable"));
+                if (!value) {
+                    return;
+                }
 
-			meshModeAlpha.floatValue = EditorGUILayout.Slider("Alpha", meshModeAlpha.floatValue, 0, 1);
+                EditorGUI.indentLevel++;
+            }
 
-			EditorGUILayout.PropertyField(meshModeShader, new GUIContent ("Material"));
+            string[] sortingLayerNames = GetSortingLayerNames();
+            int id = Array.IndexOf(sortingLayerNames, sortingLayer.Name);
+            int newId = EditorGUILayout.Popup("Sorting Layer", id, sortingLayerNames);
 
-			if (meshModeShader.intValue == (int)MeshModeShader.Custom)
-			{
-				bool value2 = GUIFoldout.Draw("Materials", meshMode.materials);
+            if (newId > -1 && newId < sortingLayerNames.Length) {
+                string newName = sortingLayerNames[newId];
 
-				if (value2)
-				{
-					EditorGUI.indentLevel++;
+                if (newName != sortingLayer.Name) {
+                    sortingLayer.Name = newName;
+                }
+            }
 
-					int count = meshMode.materials.Length;
-					count = EditorGUILayout.IntSlider("Material Count", count, 0, 10);
+            sortingLayer.Order = EditorGUILayout.IntField("Order in Layer", sortingLayer.Order);
 
-					if (count != meshMode.materials.Length)
-					{
-						System.Array.Resize(ref meshMode.materials, count);
-					}
+            if (drawFoldout) {
+                EditorGUI.indentLevel--;
+            }
+        }
+    }
 
-					for(int id = 0; id < meshMode.materials.Length; id++)
-					{
-						Material material = meshMode.materials[id];
+    public class GUIMeshMode {
+        public static void Draw(SerializedObject serializedObject, MeshMode meshMode) {
+            bool value = GUIFoldout.Draw("Overlay", meshMode);
 
-						material = (Material)EditorGUILayout.ObjectField("Material", material, typeof(Material), true);
+            if (!value) {
+                return;
+            }
 
-						meshMode.materials[id] = material;
-					}
+            EditorGUI.indentLevel++;
 
-					EditorGUI.indentLevel--;
-				}
-			}
+            SerializedProperty meshModeEnable = serializedObject.FindProperty("meshMode.enable");
+            SerializedProperty meshModeAlpha = serializedObject.FindProperty("meshMode.alpha");
+            SerializedProperty meshModeShader = serializedObject.FindProperty("meshMode.shader");
 
-			GUISortingLayer.Draw(serializedObject, meshMode.sortingLayer, "meshMode.");
+            EditorGUILayout.PropertyField(meshModeEnable, new GUIContent("Enable"));
 
-			EditorGUI.indentLevel--;
-		}
-	}
+            meshModeAlpha.floatValue = EditorGUILayout.Slider("Alpha", meshModeAlpha.floatValue, 0, 1);
 
-	public class GUIBumpMapMode
-	{
-		static public void Draw (SerializedObject serializedObject, object obj)
-		{ 
-			// Serialized property
-			bool value = GUIFoldout.Draw("Mask Bump Map", obj);
-			
-			if (!value) {
-				return;
-			}
+            EditorGUILayout.PropertyField(meshModeShader, new GUIContent("Material"));
 
-			EditorGUI.indentLevel++;
+            if (meshModeShader.intValue == (int)MeshModeShader.Custom) {
+                bool value2 = GUIFoldout.Draw("Materials", meshMode.materials);
 
-			SerializedProperty bumpType = serializedObject.FindProperty("bumpMapMode.type");
-			SerializedProperty bumpTextureType = serializedObject.FindProperty("bumpMapMode.textureType");
-			SerializedProperty bumpTexture = serializedObject.FindProperty("bumpMapMode.texture");
-			SerializedProperty bumpSprite = serializedObject.FindProperty("bumpMapMode.sprite");
+                if (value2) {
+                    EditorGUI.indentLevel++;
 
-			SerializedProperty invertX = serializedObject.FindProperty("bumpMapMode.invertX");
-			SerializedProperty invertY = serializedObject.FindProperty("bumpMapMode.invertY");
+                    int count = meshMode.materials.Length;
+                    count = EditorGUILayout.IntSlider("Material Count", count, 0, 10);
 
-			SerializedProperty depth = serializedObject.FindProperty("bumpMapMode.depth");
+                    if (count != meshMode.materials.Length) {
+                        System.Array.Resize(ref meshMode.materials, count);
+                    }
 
-			SerializedProperty spriteRenderer = serializedObject.FindProperty("bumpMapMode.spriteRenderer");
-			SpriteRenderer sr = (SpriteRenderer)spriteRenderer.objectReferenceValue;
+                    for (int id = 0; id < meshMode.materials.Length; id++) {
+                        Material material = meshMode.materials[id];
 
-			EditorGUILayout.PropertyField(bumpType, new GUIContent ("Type"));
-			EditorGUILayout.PropertyField(bumpTextureType, new GUIContent ("Texture Type"));
+                        material = (Material)EditorGUILayout.ObjectField("Material", material, typeof(Material), true);
 
-			EditorGUILayout.PropertyField(invertX, new GUIContent ("Invert X"));
+                        meshMode.materials[id] = material;
+                    }
 
-			EditorGUILayout.PropertyField(invertY, new GUIContent ("Invert Y"));
+                    EditorGUI.indentLevel--;
+                }
+            }
 
-			EditorGUILayout.PropertyField(depth, new GUIContent ("Depth"));
+            GUISortingLayer.Draw(serializedObject, meshMode.sortingLayer, "meshMode.");
 
-			switch(bumpTextureType.intValue)
-			{
-				case (int)NormalMapTextureType.Texture:
+            EditorGUI.indentLevel--;
+        }
+    }
 
-					bumpTexture.objectReferenceValue = (Texture)EditorGUILayout.ObjectField("Texture", bumpTexture.objectReferenceValue, typeof(Texture), true);
+    public class GUIBumpMapMode {
+        static public void Draw(SerializedObject serializedObject, object obj) {
+            // Serialized property
+            bool value = GUIFoldout.Draw("Mask Bump Map", obj);
 
-				break;
+            if (!value) {
+                return;
+            }
 
-				case (int)NormalMapTextureType.Sprite:
+            EditorGUI.indentLevel++;
 
-					bumpSprite.objectReferenceValue = (Sprite)EditorGUILayout.ObjectField("Sprite", bumpSprite.objectReferenceValue, typeof(Sprite), true);
+            SerializedProperty bumpType = serializedObject.FindProperty("bumpMapMode.type");
+            SerializedProperty bumpTextureType = serializedObject.FindProperty("bumpMapMode.textureType");
+            SerializedProperty bumpTexture = serializedObject.FindProperty("bumpMapMode.texture");
+            SerializedProperty bumpSprite = serializedObject.FindProperty("bumpMapMode.sprite");
 
-				break;
-			}
+            SerializedProperty invertX = serializedObject.FindProperty("bumpMapMode.invertX");
+            SerializedProperty invertY = serializedObject.FindProperty("bumpMapMode.invertY");
 
-			EditorGUI.indentLevel--;
-		}
+            SerializedProperty depth = serializedObject.FindProperty("bumpMapMode.depth");
 
-		static public void DrawDay (DayNormalMapMode bumpMapMode)
-		{
-			bool value = GUIFoldout.Draw("Mask Normal Map", bumpMapMode);
-			
-			if (!value)
-			{
-				return;
-			}
+            SerializedProperty spriteRenderer = serializedObject.FindProperty("bumpMapMode.spriteRenderer");
+            SpriteRenderer sr = (SpriteRenderer)spriteRenderer.objectReferenceValue;
 
-			EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(bumpType, new GUIContent("Type"));
+            EditorGUILayout.PropertyField(bumpTextureType, new GUIContent("Texture Type"));
 
-			bumpMapMode.textureType = (NormalMapTextureType)EditorGUILayout.EnumPopup("Texture Type", bumpMapMode.textureType);
+            EditorGUILayout.PropertyField(invertX, new GUIContent("Invert X"));
 
-			switch(bumpMapMode.textureType)
-			{
-				case NormalMapTextureType.Texture:
+            EditorGUILayout.PropertyField(invertY, new GUIContent("Invert Y"));
 
-					bumpMapMode.texture = (Texture)EditorGUILayout.ObjectField("Texture", bumpMapMode.texture, typeof(Texture), true);
+            EditorGUILayout.PropertyField(depth, new GUIContent("Depth"));
 
-				break;
+            switch (bumpTextureType.intValue) {
+                case (int)NormalMapTextureType.Texture:
 
-				case NormalMapTextureType.Sprite:
+                    bumpTexture.objectReferenceValue = (Texture)EditorGUILayout.ObjectField("Texture", bumpTexture.objectReferenceValue, typeof(Texture), true);
 
-					bumpMapMode.sprite = (Sprite)EditorGUILayout.ObjectField("Sprite", bumpMapMode.sprite, typeof(Sprite), true);
+                    break;
 
-				break;
-			}
+                case (int)NormalMapTextureType.Sprite:
 
-			EditorGUI.indentLevel--;
-		}
-	}
+                    bumpSprite.objectReferenceValue = (Sprite)EditorGUILayout.ObjectField("Sprite", bumpSprite.objectReferenceValue, typeof(Sprite), true);
 
-	public class GUIGlowMode
-	{
-		static public void Draw(GlowMode glowMode)
-		{
-			bool value = GUIFoldout.Draw("Glow Mode", glowMode);
-			
-			if (!value) {
-				return;
-			}
+                    break;
+            }
 
-			EditorGUI.indentLevel++;
+            EditorGUI.indentLevel--;
+        }
 
-			glowMode.enable = EditorGUILayout.Toggle("Enable", glowMode.enable);
+        static public void DrawDay(DayNormalMapMode bumpMapMode) {
+            bool value = GUIFoldout.Draw("Mask Normal Map", bumpMapMode);
 
-			glowMode.glowRadius = EditorGUILayout.Slider("Glow Size", glowMode.glowRadius, 0.1f, 10);
+            if (!value) {
+                return;
+            }
 
-			EditorGUI.indentLevel--;
-		}
-	}
+            EditorGUI.indentLevel++;
+
+            bumpMapMode.textureType = (NormalMapTextureType)EditorGUILayout.EnumPopup("Texture Type", bumpMapMode.textureType);
+
+            switch (bumpMapMode.textureType) {
+                case NormalMapTextureType.Texture:
+
+                    bumpMapMode.texture = (Texture)EditorGUILayout.ObjectField("Texture", bumpMapMode.texture, typeof(Texture), true);
+
+                    break;
+
+                case NormalMapTextureType.Sprite:
+
+                    bumpMapMode.sprite = (Sprite)EditorGUILayout.ObjectField("Sprite", bumpMapMode.sprite, typeof(Sprite), true);
+
+                    break;
+            }
+
+            EditorGUI.indentLevel--;
+        }
+    }
+
+    public class GUIGlowMode {
+        static public void Draw(GlowMode glowMode) {
+            bool value = GUIFoldout.Draw("Glow Mode", glowMode);
+
+            if (!value) {
+                return;
+            }
+
+            EditorGUI.indentLevel++;
+
+            glowMode.enable = EditorGUILayout.Toggle("Enable", glowMode.enable);
+
+            glowMode.glowRadius = EditorGUILayout.Slider("Glow Size", glowMode.glowRadius, 0.1f, 10);
+
+            EditorGUI.indentLevel--;
+        }
+    }
 }

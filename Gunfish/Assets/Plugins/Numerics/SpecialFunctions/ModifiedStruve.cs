@@ -46,19 +46,16 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the modified Bessel function.
     /// </summary>
-    public static partial class SpecialFunctions
-    {
+    public static partial class SpecialFunctions {
         /// <summary>
         /// Returns the modified Struve function of order 0.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        public static double StruveL0(double x)
-        {
+        public static double StruveL0(double x) {
             //*********************************************************************72
             //
             //c STRVL0 calculates the modified Struve function of order 0.
@@ -151,8 +148,7 @@ namespace MathNet.Numerics
             //
             //
 
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 return -StruveL0(-x);
             }
 
@@ -240,56 +236,48 @@ namespace MathNet.Numerics
             const double xhigh2 = 2.5220158e17;
 
             // Code for |xvalue| <= 16
-            if (x <= 16.0)
-            {
-                if (x < xlow)
-                {
-                    return Constants.TwoInvPi*x;
+            if (x <= 16.0) {
+                if (x < xlow) {
+                    return Constants.TwoInvPi * x;
                 }
 
-                double T = (4.0*x - 24.0)/(x + 24.0);
-                return Constants.TwoInvPi*x*Evaluate.ChebyshevSum(nterm1, ARL0, T)*Math.Exp(x);
+                double T = (4.0 * x - 24.0) / (x + 24.0);
+                return Constants.TwoInvPi * x * Evaluate.ChebyshevSum(nterm1, ARL0, T) * Math.Exp(x);
             }
 
             // Code for |xvalue| > 16
             double ch1;
-            if (x > xhigh2)
-            {
+            if (x > xhigh2) {
                 ch1 = 1.0;
             }
-            else
-            {
-                double T = (x - 28.0)/(4.0 - x);
+            else {
+                double T = (x - 28.0) / (4.0 - x);
                 ch1 = Evaluate.ChebyshevSum(nterm2, ARL0AS, T);
             }
 
             double ch2;
-            if (x > xhigh1)
-            {
+            if (x > xhigh1) {
                 ch2 = 1.0;
             }
-            else
-            {
-                double xsq = x*x;
-                double T = (800.0 - xsq)/(288.0 + xsq);
+            else {
+                double xsq = x * x;
+                double T = (800.0 - xsq) / (288.0 + xsq);
                 ch2 = Evaluate.ChebyshevSum(nterm3, AI0ML0, T);
             }
 
-            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x)/2.0 + x;
-            if (test > Math.Log(xmax))
-            {
+            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x) / 2.0 + x;
+            if (test > Math.Log(xmax)) {
                 throw new ArithmeticException("ERROR IN MISCFUN FUNCTION STRVL0: ARGUMENT CAUSES OVERFLOW");
             }
 
-            return Math.Exp(test) - Constants.TwoInvPi*ch2/x;
+            return Math.Exp(test) - Constants.TwoInvPi * ch2 / x;
         }
 
         /// <summary>
         /// Returns the modified Struve function of order 1.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        public static double StruveL1(double x)
-        {
+        public static double StruveL1(double x) {
             //*********************************************************************72
             //
             //c STRVL1 calculates the modified Struve function of order 1.
@@ -387,8 +375,7 @@ namespace MathNet.Numerics
             //
             //
 
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 return StruveL1(-x);
             }
 
@@ -479,62 +466,53 @@ namespace MathNet.Numerics
             const double xhigh2 = 2.7021597e17;
 
             // CODE FOR |x| <= 16
-            if (x <= 16.0)
-            {
-                if (x <= xlow2)
-                {
+            if (x <= 16.0) {
+                if (x <= xlow2) {
                     return 0.0;
                 }
 
-                double xsq = x*x;
-                if (x < xlow1)
-                {
-                    return xsq/Constants.Pi3Over2;
+                double xsq = x * x;
+                if (x < xlow1) {
+                    return xsq / Constants.Pi3Over2;
                 }
 
-                double t = (4.0*x - 24.0)/(x + 24.0);
-                return xsq*Evaluate.ChebyshevSum(nterm1, ARL1, t)*Math.Exp(x)/Constants.Pi3Over2;
+                double t = (4.0 * x - 24.0) / (x + 24.0);
+                return xsq * Evaluate.ChebyshevSum(nterm1, ARL1, t) * Math.Exp(x) / Constants.Pi3Over2;
             }
 
             // CODE FOR |x| > 16
             double ch1;
-            if (x > xhigh2)
-            {
+            if (x > xhigh2) {
                 ch1 = 1.0;
             }
-            else
-            {
-                double t = (x - 30.0)/(2.0 - x);
+            else {
+                double t = (x - 30.0) / (2.0 - x);
                 ch1 = Evaluate.ChebyshevSum(nterm2, ARL1AS, t);
             }
 
             double ch2;
-            if (x > xhigh1)
-            {
+            if (x > xhigh1) {
                 ch2 = 1.0;
             }
-            else
-            {
-                double xsq = x*x;
-                double t = (800.0 - xsq)/(288.0 + xsq);
+            else {
+                double xsq = x * x;
+                double t = (800.0 - xsq) / (288.0 + xsq);
                 ch2 = Evaluate.ChebyshevSum(nterm3, AI1ML1, t);
             }
 
-            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x)/2.0 + x;
-            if (test > Math.Log(xmax))
-            {
+            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x) / 2.0 + x;
+            if (test > Math.Log(xmax)) {
                 throw new ArithmeticException("ERROR IN MISCFUN FUNCTION STRVL1: ARGUMENT CAUSES OVERFLOW");
             }
 
-            return Math.Exp(test) - Constants.TwoInvPi*ch2;
+            return Math.Exp(test) - Constants.TwoInvPi * ch2;
         }
 
         /// <summary>
         /// Returns the difference between the Bessel I0 and Struve L0 functions.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        public static double BesselI0MStruveL0(double x)
-        {
+        public static double BesselI0MStruveL0(double x) {
             // TODO: way off for large x (e.g. 100) - needs direct approximation
             return BesselI0(x) - StruveL0(x);
         }
@@ -543,8 +521,7 @@ namespace MathNet.Numerics
         /// Returns the difference between the Bessel I1 and Struve L1 functions.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        public static double BesselI1MStruveL1(double x)
-        {
+        public static double BesselI1MStruveL1(double x) {
             // TODO: way off for large x (e.g. 100) - needs direct approximation
             return BesselI1(x) - StruveL1(x);
         }

@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Random;
+using System;
 
-namespace MathNet.Numerics.Statistics.Mcmc
-{
+namespace MathNet.Numerics.Statistics.Mcmc {
     /// <summary>
     /// A method which samples datapoints from a proposal distribution. The implementation of this sampler
     /// is stateless: no variables are saved between two calls to Sample. This proposal is different from
@@ -80,8 +79,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// The interface which every sampler must implement.
     /// </summary>
     /// <typeparam name="T">The type of samples this sampler produces.</typeparam>
-    public abstract class McmcSampler<T>
-    {
+    public abstract class McmcSampler<T> {
         /// <summary>
         /// The random number generator for this class.
         /// </summary>
@@ -102,8 +100,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <remarks>Thread safe instances are two and half times slower than non-thread
         /// safe classes.</remarks>
-        protected McmcSampler()
-        {
+        protected McmcSampler() {
             Accepts = 0;
             Samples = 0;
             RandomSource = SystemRandomSource.Default;
@@ -113,8 +110,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Gets or sets the random number generator.
         /// </summary>
         /// <exception cref="ArgumentNullException">When the random number generator is null.</exception>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _randomNumberGenerator;
             set => _randomNumberGenerator = value ?? SystemRandomSource.Default;
         }
@@ -129,11 +125,9 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="n">The number of samples we want.</param>
         /// <returns>An array of samples.</returns>
-        public virtual T[] Sample(int n)
-        {
+        public virtual T[] Sample(int n) {
             var ret = new T[n];
-            for (int i = 0; i < n; i++)
-            {
+            for (int i = 0; i < n; i++) {
                 ret[i] = Sample();
             }
             return ret;

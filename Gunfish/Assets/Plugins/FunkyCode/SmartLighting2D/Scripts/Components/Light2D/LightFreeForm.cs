@@ -1,102 +1,88 @@
-﻿using UnityEngine;
-using FunkyCode.Utilities;
+﻿using FunkyCode.Utilities;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	[System.Serializable]
-	public class FreeFormPoints
-	{
-		[SerializeField]
-		public List<Vector2> points = new List<Vector2>();
+namespace FunkyCode {
+    [System.Serializable]
+    public class FreeFormPoints {
+        [SerializeField]
+        public List<Vector2> points = new List<Vector2>();
 
-		public FreeFormPoints()
-		{
-			float size = 1;
-			float i = 0;
-			float pointsCount = 3;
+        public FreeFormPoints() {
+            float size = 1;
+            float i = 0;
+            float pointsCount = 3;
 
-			while (i < 360)
-			{
-				points.Add (new Vector2(Mathf.Cos (i * Mathf.Deg2Rad) * size, Mathf.Sin (i * Mathf.Deg2Rad) * size));
-				
-				i += 360f / (float)pointsCount;
-			}
-		}
-	}
+            while (i < 360) {
+                points.Add(new Vector2(Mathf.Cos(i * Mathf.Deg2Rad) * size, Mathf.Sin(i * Mathf.Deg2Rad) * size));
 
-	public class LightFreeForm
-	{		
-		public Polygon2 polygon = new Polygon2(1);
+                i += 360f / (float)pointsCount;
+            }
+        }
+    }
 
-		public Rect worldRect = new Rect();
+    public class LightFreeForm {
+        public Polygon2 polygon = new Polygon2(1);
 
-		private bool update = true;
-		
-		public bool UpdateNeeded = false;
+        public Rect worldRect = new Rect();
 
-		public void ForceUpdate()
-		{
-			update = true;
-		}
+        private bool update = true;
 
-		// only if something changed (UI / API)
+        public bool UpdateNeeded = false;
 
-		public void Update(Light2D source)
-		{
-			if (!update)
-			{
-				return;
-			}
+        public void ForceUpdate() {
+            update = true;
+        }
 
-			update = false;
+        // only if something changed (UI / API)
 
-			bool changeUpdate = false;
+        public void Update(Light2D source) {
+            if (!update) {
+                return;
+            }
 
-			if (source.freeFormPoints.points.Count != polygon.points.Length)
-			{
-				System.Array.Resize(ref polygon.points, source.freeFormPoints.points.Count);
-			
-				changeUpdate = true;
-			}
+            update = false;
 
-			float minSize = 0;
+            bool changeUpdate = false;
 
-			for(int i = 0; i < polygon.points.Length; i++)
-			{
-				Vector2 point = polygon.points[i];
+            if (source.freeFormPoints.points.Count != polygon.points.Length) {
+                System.Array.Resize(ref polygon.points, source.freeFormPoints.points.Count);
 
-				Vector2 cPoint = source.freeFormPoints.points[i];
+                changeUpdate = true;
+            }
 
-				minSize = Mathf.Max(minSize, cPoint.magnitude + source.freeFormFalloff);
+            float minSize = 0;
 
-				if (point != cPoint)
-				{
-					changeUpdate = true;
+            for (int i = 0; i < polygon.points.Length; i++) {
+                Vector2 point = polygon.points[i];
 
-					/// ????????
-					/// Debug.Log("do2 + " + point + ">"+ cPoint); 
+                Vector2 cPoint = source.freeFormPoints.points[i];
 
-					polygon.points[i] = cPoint;
-				}
-			}
+                minSize = Mathf.Max(minSize, cPoint.magnitude + source.freeFormFalloff);
 
-			if (minSize < source.size)
-			{
-				source.size = minSize;
-			}
+                if (point != cPoint) {
+                    changeUpdate = true;
 
-			if (minSize > source.size)
-			{
-				source.size = minSize;
-			}
-		
-			if (changeUpdate)
-			{
-				UpdateNeeded = true;
+                    /// ????????
+                    /// Debug.Log("do2 + " + point + ">"+ cPoint); 
 
-				worldRect = polygon.GetRect();
-			}
-		}
-	}
+                    polygon.points[i] = cPoint;
+                }
+            }
+
+            if (minSize < source.size) {
+                source.size = minSize;
+            }
+
+            if (minSize > source.size) {
+                source.size = minSize;
+            }
+
+            if (changeUpdate) {
+                UpdateNeeded = true;
+
+                worldRect = polygon.GetRect();
+            }
+        }
+    }
 }

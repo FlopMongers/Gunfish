@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SubCollisionDetector : MonoBehaviour
-{
+public class SubCollisionDetector : MonoBehaviour {
     public CollisionEvent OnComponentCollideEnter, OnComponentCollideExit;
     public TriggerEvent OnComponentTriggerEnter, OnComponentTriggerExit;
 

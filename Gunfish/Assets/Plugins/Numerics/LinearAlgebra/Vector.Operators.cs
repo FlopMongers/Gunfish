@@ -30,10 +30,8 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace MathNet.Numerics.LinearAlgebra
-{
-    public abstract partial class Vector<T>
-    {
+namespace MathNet.Numerics.LinearAlgebra {
+    public abstract partial class Vector<T> {
         /// <summary>
         /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
@@ -41,8 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the same values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator +(Vector<T> rightSide)
-        {
+        public static Vector<T> operator +(Vector<T> rightSide) {
             return rightSide.Clone();
         }
 
@@ -52,8 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator -(Vector<T> rightSide)
-        {
+        public static Vector<T> operator -(Vector<T> rightSide) {
             return rightSide.Negate();
         }
 
@@ -65,8 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator +(Vector<T> leftSide, Vector<T> rightSide)
-        {
+        public static Vector<T> operator +(Vector<T> leftSide, Vector<T> rightSide) {
             return leftSide.Add(rightSide);
         }
 
@@ -77,8 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The scalar value to add.</param>
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator +(Vector<T> leftSide, T rightSide)
-        {
+        public static Vector<T> operator +(Vector<T> leftSide, T rightSide) {
             return leftSide.Add(rightSide);
         }
 
@@ -89,8 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The vector to add to.</param>
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator +(T leftSide, Vector<T> rightSide)
-        {
+        public static Vector<T> operator +(T leftSide, Vector<T> rightSide) {
             return rightSide.Add(leftSide);
         }
 
@@ -102,8 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator -(Vector<T> leftSide, Vector<T> rightSide)
-        {
+        public static Vector<T> operator -(Vector<T> leftSide, Vector<T> rightSide) {
             return leftSide.Subtract(rightSide);
         }
 
@@ -114,8 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The scalar value to subtract.</param>
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator -(Vector<T> leftSide, T rightSide)
-        {
+        public static Vector<T> operator -(Vector<T> leftSide, T rightSide) {
             return leftSide.Subtract(rightSide);
         }
 
@@ -126,8 +117,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The vector to subtract.</param>
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator -(T leftSide, Vector<T> rightSide)
-        {
+        public static Vector<T> operator -(T leftSide, Vector<T> rightSide) {
             return rightSide.SubtractFrom(leftSide);
         }
 
@@ -138,8 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The scalar value.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator *(Vector<T> leftSide, T rightSide)
-        {
+        public static Vector<T> operator *(Vector<T> leftSide, T rightSide) {
             return leftSide.Multiply(rightSide);
         }
 
@@ -150,8 +139,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The vector to scale.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator *(T leftSide, Vector<T> rightSide)
-        {
+        public static Vector<T> operator *(T leftSide, Vector<T> rightSide) {
             return rightSide.Multiply(leftSide);
         }
 
@@ -163,8 +151,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The dot product between the two vectors.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static T operator *(Vector<T> leftSide, Vector<T> rightSide)
-        {
+        public static T operator *(Vector<T> leftSide, Vector<T> rightSide) {
             return leftSide.DotProduct(rightSide);
         }
 
@@ -175,8 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The vector.</param>
         /// <returns>The result of the division.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator /(T dividend, Vector<T> divisor)
-        {
+        public static Vector<T> operator /(T dividend, Vector<T> divisor) {
             return divisor.DivideByThis(dividend);
         }
 
@@ -187,8 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The scalar value.</param>
         /// <returns>The result of the division.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator /(Vector<T> dividend, T divisor)
-        {
+        public static Vector<T> operator /(Vector<T> dividend, T divisor) {
             return dividend.Divide(divisor);
         }
 
@@ -200,8 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the division.</returns>
         /// <exception cref="ArgumentException">If <paramref name="dividend"/> and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator /(Vector<T> dividend, Vector<T> divisor)
-        {
+        public static Vector<T> operator /(Vector<T> dividend, Vector<T> divisor) {
             return dividend.PointwiseDivide(divisor);
         }
 
@@ -212,8 +196,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="dividend">The vector whose elements we want to compute the remainder of.</param>
         /// <param name="divisor">The divisor to use.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator %(Vector<T> dividend, T divisor)
-        {
+        public static Vector<T> operator %(Vector<T> dividend, T divisor) {
             return dividend.Remainder(divisor);
         }
 
@@ -224,8 +207,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="dividend">The dividend we want to compute the remainder of.</param>
         /// <param name="divisor">The vector whose elements we want to use as divisor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator %(T dividend, Vector<T> divisor)
-        {
+        public static Vector<T> operator %(T dividend, Vector<T> divisor) {
             return divisor.RemainderByThis(dividend);
         }
 
@@ -237,38 +219,32 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The divisor to use.</param>
         /// <exception cref="ArgumentException">If <paramref name="dividend"/> and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator %(Vector<T> dividend, Vector<T> divisor)
-        {
+        public static Vector<T> operator %(Vector<T> dividend, Vector<T> divisor) {
             return dividend.PointwiseRemainder(divisor);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotMultiply(Vector<T> x, Vector<T> y)
-        {
+        public static Vector<T> op_DotMultiply(Vector<T> x, Vector<T> y) {
             return x.PointwiseMultiply(y);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotDivide(Vector<T> dividend, Vector<T> divisor)
-        {
+        public static Vector<T> op_DotDivide(Vector<T> dividend, Vector<T> divisor) {
             return dividend.PointwiseDivide(divisor);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotPercent(Vector<T> dividend, Vector<T> divisor)
-        {
+        public static Vector<T> op_DotPercent(Vector<T> dividend, Vector<T> divisor) {
             return dividend.PointwiseRemainder(divisor);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotHat(Vector<T> vector, Vector<T> exponent)
-        {
+        public static Vector<T> op_DotHat(Vector<T> vector, Vector<T> exponent) {
             return vector.PointwisePower(exponent);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotHat(Vector<T> vector, T exponent)
-        {
+        public static Vector<T> op_DotHat(Vector<T> vector, T exponent) {
             return vector.PointwisePower(exponent);
         }
 
@@ -277,8 +253,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Sqrt(Vector<T> x)
-        {
+        public static Vector<T> Sqrt(Vector<T> x) {
             return x.PointwiseSqrt();
         }
 
@@ -287,8 +262,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Exp(Vector<T> x)
-        {
+        public static Vector<T> Exp(Vector<T> x) {
             return x.PointwiseUnary(x.DoPointwiseExp);
         }
 
@@ -297,8 +271,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Log(Vector<T> x)
-        {
+        public static Vector<T> Log(Vector<T> x) {
             return x.PointwiseUnary(x.PointwiseLog);
         }
         /// <summary>
@@ -306,8 +279,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Log10(Vector<T> x)
-        {
+        public static Vector<T> Log10(Vector<T> x) {
             return x.PointwiseLog10();
         }
 
@@ -316,8 +288,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Sin(Vector<T> x)
-        {
+        public static Vector<T> Sin(Vector<T> x) {
             return x.PointwiseSin();
         }
 
@@ -326,8 +297,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Cos(Vector<T> x)
-        {
+        public static Vector<T> Cos(Vector<T> x) {
             return x.PointwiseCos();
         }
 
@@ -336,8 +306,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Tan(Vector<T> x)
-        {
+        public static Vector<T> Tan(Vector<T> x) {
             return x.PointwiseTan();
         }
 
@@ -346,8 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Asin(Vector<T> x)
-        {
+        public static Vector<T> Asin(Vector<T> x) {
             return x.PointwiseAsin();
         }
 
@@ -356,8 +324,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Acos(Vector<T> x)
-        {
+        public static Vector<T> Acos(Vector<T> x) {
             return x.PointwiseAcos();
         }
 
@@ -366,8 +333,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Atan(Vector<T> x)
-        {
+        public static Vector<T> Atan(Vector<T> x) {
             return x.PointwiseAtan();
         }
 
@@ -376,8 +342,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Sinh(Vector<T> x)
-        {
+        public static Vector<T> Sinh(Vector<T> x) {
             return x.PointwiseSinh();
         }
 
@@ -386,8 +351,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Cosh(Vector<T> x)
-        {
+        public static Vector<T> Cosh(Vector<T> x) {
             return x.PointwiseCosh();
         }
 
@@ -396,8 +360,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Tanh(Vector<T> x)
-        {
+        public static Vector<T> Tanh(Vector<T> x) {
             return x.PointwiseTanh();
         }
 
@@ -406,8 +369,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Abs(Vector<T> x)
-        {
+        public static Vector<T> Abs(Vector<T> x) {
             return x.PointwiseAbs();
         }
 
@@ -416,8 +378,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Floor(Vector<T> x)
-        {
+        public static Vector<T> Floor(Vector<T> x) {
             return x.PointwiseFloor();
         }
 
@@ -426,8 +387,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Ceiling(Vector<T> x)
-        {
+        public static Vector<T> Ceiling(Vector<T> x) {
             return x.PointwiseCeiling();
         }
 
@@ -436,8 +396,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input vector</param>
         /// <returns></returns>
-        public static Vector<T> Round(Vector<T> x)
-        {
+        public static Vector<T> Round(Vector<T> x) {
             return x.PointwiseRound();
         }
     }

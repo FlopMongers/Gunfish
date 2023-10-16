@@ -1,211 +1,179 @@
-﻿using System.Collections.Generic;
+﻿using FunkyCode.LightingSettings;
+using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.LightingSettings;
 
-namespace FunkyCode
-{
-	[ExecuteInEditMode]
-	public class LightSprite2D : MonoBehaviour
-	{
-		public enum Type {Light, Mask};
-		public enum SpriteMode {Custom, SpriteRenderer};
+namespace FunkyCode {
+    [ExecuteInEditMode]
+    public class LightSprite2D : MonoBehaviour {
+        public enum Type { Light, Mask };
+        public enum SpriteMode { Custom, SpriteRenderer };
 
-		public int lightLayer = 0;
+        public int lightLayer = 0;
 
-		public Type type = Type.Light;
-		public SpriteMode spriteMode = SpriteMode.Custom;
-		public Sprite sprite = null;
+        public Type type = Type.Light;
+        public SpriteMode spriteMode = SpriteMode.Custom;
+        public Sprite sprite = null;
 
-		public Color color = new Color(0.5f, 0.5f, 0.5f, 1f);
-		
-		public bool flipX = false;
-		public bool flipY = false;
+        public Color color = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-		public LightSpriteTransform lightSpriteTransform = new LightSpriteTransform();
+        public bool flipX = false;
+        public bool flipY = false;
 
-		public LightSpriteShape lightSpriteShape = new LightSpriteShape();
+        public LightSpriteTransform lightSpriteTransform = new LightSpriteTransform();
 
-		public MeshMode meshMode = new MeshMode();
+        public LightSpriteShape lightSpriteShape = new LightSpriteShape();
 
-		public GlowMode glowMode = new GlowMode();
+        public MeshMode meshMode = new MeshMode();
 
-		public Utilities.VirtualSpriteRenderer spriteRenderer = new Utilities.VirtualSpriteRenderer();
+        public GlowMode glowMode = new GlowMode();
 
-		public SpriteMeshObject spriteMeshObject = new SpriteMeshObject();
+        public Utilities.VirtualSpriteRenderer spriteRenderer = new Utilities.VirtualSpriteRenderer();
 
-		public static List<LightSprite2D> List = new List<LightSprite2D>();
+        public SpriteMeshObject spriteMeshObject = new SpriteMeshObject();
 
-		private SpriteRenderer spriteRendererComponent;
+        public static List<LightSprite2D> List = new List<LightSprite2D>();
 
-		public void OnEnable()
-		{
-			List.Add(this);
+        private SpriteRenderer spriteRendererComponent;
 
-			LightingManager2D.Get();
-		}
+        public void OnEnable() {
+            List.Add(this);
 
-		public void OnDisable()
-		{
-			List.Remove(this);
-		}
+            LightingManager2D.Get();
+        }
 
-		public bool InCamera(Camera camera)
-		{
-			Rect cameraRect = CameraTransform.GetWorldRect(camera);
+        public void OnDisable() {
+            List.Remove(this);
+        }
 
-			return(cameraRect.Overlaps(lightSpriteShape.GetWorldRect()));
-		}
+        public bool InCamera(Camera camera) {
+            Rect cameraRect = CameraTransform.GetWorldRect(camera);
 
-		private static Sprite defaultSprite = null;
+            return (cameraRect.Overlaps(lightSpriteShape.GetWorldRect()));
+        }
 
-		static public Sprite GetDefaultSprite()
-		{
-			if (defaultSprite == null || defaultSprite.texture == null)
-			{
-				defaultSprite = Resources.Load <Sprite> ("Sprites/gfx_light");
-			}
-			
-			return(defaultSprite);
-		}
+        private static Sprite defaultSprite = null;
 
-		public Sprite GetSprite()
-		{
-			if (GetSpriteOrigin() == null)
-			{
-				return(null);
-			}
+        static public Sprite GetDefaultSprite() {
+            if (defaultSprite == null || defaultSprite.texture == null) {
+                defaultSprite = Resources.Load<Sprite>("Sprites/gfx_light");
+            }
 
-			return(GetSpriteOrigin());		
-		}
+            return (defaultSprite);
+        }
 
-		public Sprite GetSpriteOrigin()
-		{
-			if (spriteMode == SpriteMode.Custom)
-			{
-				if (sprite == null)
-				{
-					sprite = GetDefaultSprite();
-				}
-				
-				return(sprite);
-			}
-				else
-			{
-				if (GetSpriteRenderer() == null)
-				{
-					return(null);
-				}
+        public Sprite GetSprite() {
+            if (GetSpriteOrigin() == null) {
+                return (null);
+            }
 
-				sprite = spriteRendererComponent.sprite;
+            return (GetSpriteOrigin());
+        }
 
-				return(sprite);
-			}
-		}
+        public Sprite GetSpriteOrigin() {
+            if (spriteMode == SpriteMode.Custom) {
+                if (sprite == null) {
+                    sprite = GetDefaultSprite();
+                }
 
-		public SpriteRenderer GetSpriteRenderer()
-		{
-			if (spriteRendererComponent == null)
-			{
-				spriteRendererComponent = GetComponent<SpriteRenderer>();
-			}
+                return (sprite);
+            }
+            else {
+                if (GetSpriteRenderer() == null) {
+                    return (null);
+                }
 
-			return(spriteRendererComponent);
-		}
+                sprite = spriteRendererComponent.sprite;
 
-		public void UpdateLoop()
-		{
-			if (spriteMode == SpriteMode.SpriteRenderer)
-			{
-				SpriteRenderer sr = GetSpriteRenderer();
+                return (sprite);
+            }
+        }
 
-				if (sr != null)
-				{
-					spriteRenderer.flipX = sr.flipX;
-					spriteRenderer.flipY = sr.flipY;		
-				}
-			}
-				else
-			{
-				spriteRenderer.flipX = flipX;
-				spriteRenderer.flipY = flipY;	
-			}
+        public SpriteRenderer GetSpriteRenderer() {
+            if (spriteRendererComponent == null) {
+                spriteRendererComponent = GetComponent<SpriteRenderer>();
+            }
 
-			spriteRenderer.sprite = GetSprite();
-			spriteRenderer.color = color;
+            return (spriteRendererComponent);
+        }
 
-			if (meshMode.enable)
-			{
-				DrawMesh();
-			}
+        public void UpdateLoop() {
+            if (spriteMode == SpriteMode.SpriteRenderer) {
+                SpriteRenderer sr = GetSpriteRenderer();
 
-			lightSpriteShape.Set(spriteRenderer, transform, lightSpriteTransform);
+                if (sr != null) {
+                    spriteRenderer.flipX = sr.flipX;
+                    spriteRenderer.flipY = sr.flipY;
+                }
+            }
+            else {
+                spriteRenderer.flipX = flipX;
+                spriteRenderer.flipY = flipY;
+            }
 
-			lightSpriteShape.Update();
-		}
+            spriteRenderer.sprite = GetSprite();
+            spriteRenderer.color = color;
 
-		public void DrawMesh()
-		{
-			if (!meshMode.enable)
-			{
-				return;
-			}
+            if (meshMode.enable) {
+                DrawMesh();
+            }
 
-			LightingMeshRenderer lightingMesh = MeshRendererManager.Pull(this);
+            lightSpriteShape.Set(spriteRenderer, transform, lightSpriteTransform);
 
-			if (lightingMesh != null)
-			{
-				lightingMesh.UpdateLightSprite(this, meshMode);
-			}
-		}
+            lightSpriteShape.Update();
+        }
 
-		void OnDrawGizmosSelected()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected)
-			{
-				return;
-			}
-			
-			Draw();
-		}
+        public void DrawMesh() {
+            if (!meshMode.enable) {
+                return;
+            }
 
-		private void OnDrawGizmos()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos == EditorDrawGizmos.Disabled)
-			{
-				return;
-			}
-			
-			// Gizmos.DrawIcon(transform.position, "light", true);
+            LightingMeshRenderer lightingMesh = MeshRendererManager.Pull(this);
 
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always)
-			{
-				return;
-			}
+            if (lightingMesh != null) {
+                lightingMesh.UpdateLightSprite(this, meshMode);
+            }
+        }
 
-			Draw();
-		}
+        void OnDrawGizmosSelected() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected) {
+                return;
+            }
 
-		void Draw()
-		{
-			if (!isActiveAndEnabled)
-			{
-				return;
-			}
-			
-			UnityEngine.Gizmos.color = new Color(1f, 0.5f, 0.25f);
+            Draw();
+        }
 
-			GizmosHelper.DrawPolygon(lightSpriteShape.GetSpriteWorldPolygon(), transform.position);
+        private void OnDrawGizmos() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos == EditorDrawGizmos.Disabled) {
+                return;
+            }
 
-			UnityEngine.Gizmos.color = new Color(0, 1f, 1f);
+            // Gizmos.DrawIcon(transform.position, "light", true);
 
-			switch(Lighting2D.ProjectSettings.gizmos.drawGizmosBounds)
-			{
-				case EditorGizmosBounds.Enabled:
-				
-					GizmosHelper.DrawRect(transform.position, lightSpriteShape.GetWorldRect()); 
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always) {
+                return;
+            }
 
-				break;
-			}
-		}
-	}
+            Draw();
+        }
+
+        void Draw() {
+            if (!isActiveAndEnabled) {
+                return;
+            }
+
+            UnityEngine.Gizmos.color = new Color(1f, 0.5f, 0.25f);
+
+            GizmosHelper.DrawPolygon(lightSpriteShape.GetSpriteWorldPolygon(), transform.position);
+
+            UnityEngine.Gizmos.color = new Color(0, 1f, 1f);
+
+            switch (Lighting2D.ProjectSettings.gizmos.drawGizmosBounds) {
+                case EditorGizmosBounds.Enabled:
+
+                    GizmosHelper.DrawRect(transform.position, lightSpriteShape.GetWorldRect());
+
+                    break;
+            }
+        }
+    }
 }

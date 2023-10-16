@@ -1,9 +1,7 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization
-{
-    public class NonlinearMinimizationResult
-    {
+namespace MathNet.Numerics.Optimization {
+    public class NonlinearMinimizationResult {
         public IObjectiveModel ModelInfoAtMinimum { get; }
 
         /// <summary>
@@ -35,8 +33,7 @@ namespace MathNet.Numerics.Optimization
 
         public ExitCondition ReasonForExit { get; }
 
-        public NonlinearMinimizationResult(IObjectiveModel modelInfo, int iterations, ExitCondition reasonForExit)
-        {
+        public NonlinearMinimizationResult(IObjectiveModel modelInfo, int iterations, ExitCondition reasonForExit) {
             ModelInfoAtMinimum = modelInfo;
             Iterations = iterations;
             ReasonForExit = reasonForExit;
@@ -44,13 +41,11 @@ namespace MathNet.Numerics.Optimization
             EvaluateCovariance(modelInfo);
         }
 
-        void EvaluateCovariance(IObjectiveModel objective)
-        {
+        void EvaluateCovariance(IObjectiveModel objective) {
             objective.EvaluateAt(objective.Point); // Hessian may be not yet updated.
 
             var Hessian = objective.Hessian;
-            if (Hessian == null || objective.DegreeOfFreedom < 1)
-            {
+            if (Hessian == null || objective.DegreeOfFreedom < 1) {
                 Covariance = null;
                 Correlation = null;
                 StandardErrors = null;
@@ -59,8 +54,7 @@ namespace MathNet.Numerics.Optimization
 
             Covariance = Hessian.PseudoInverse() * objective.Value / objective.DegreeOfFreedom;
 
-            if (Covariance != null)
-            {
+            if (Covariance != null) {
                 StandardErrors = Covariance.Diagonal().PointwiseSqrt();
 
                 var correlation = Covariance.Clone();
@@ -68,8 +62,7 @@ namespace MathNet.Numerics.Optimization
                 var dd = d.OuterProduct(d);
                 Correlation = correlation.PointwiseDivide(dd);
             }
-            else
-            {
+            else {
                 StandardErrors = null;
                 Correlation = null;
             }

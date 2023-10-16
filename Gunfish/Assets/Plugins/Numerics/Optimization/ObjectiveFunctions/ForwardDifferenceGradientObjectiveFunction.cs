@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.Optimization.ObjectiveFunctions
-{
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions {
     /// <summary>
     /// Adapts an objective function with only value implemented
     /// to provide a gradient as well. Gradient calculation is
@@ -42,8 +41,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
     /// additional number of function evaluations equal to the
     /// functions's number of input parameters.
     /// </summary>
-    public class ForwardDifferenceGradientObjectiveFunction : IObjectiveFunction
-    {
+    public class ForwardDifferenceGradientObjectiveFunction : IObjectiveFunction {
         public IObjectiveFunction InnerObjectiveFunction { get; protected set; }
         protected Vector<double> LowerBound { get; set; }
         protected Vector<double> UpperBound { get; set; }
@@ -55,8 +53,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public double MinimumIncrement { get; set; }
         public double RelativeIncrement { get; set; }
 
-        public ForwardDifferenceGradientObjectiveFunction(IObjectiveFunction valueOnlyObj, Vector<double> lowerBound, Vector<double> upperBound, double relativeIncrement=1e-5, double minimumIncrement=1e-8)
-        {
+        public ForwardDifferenceGradientObjectiveFunction(IObjectiveFunction valueOnlyObj, Vector<double> lowerBound, Vector<double> upperBound, double relativeIncrement = 1e-5, double minimumIncrement = 1e-8) {
             InnerObjectiveFunction = valueOnlyObj;
             LowerBound = lowerBound;
             UpperBound = upperBound;
@@ -65,20 +62,17 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             MinimumIncrement = minimumIncrement;
         }
 
-        protected void EvaluateValue()
-        {
+        protected void EvaluateValue() {
             ValueEvaluated = true;
         }
 
-        protected void EvaluateGradient()
-        {
+        protected void EvaluateGradient() {
             if (!ValueEvaluated)
                 EvaluateValue();
 
             var tmpPoint = Point.Clone();
             var tmpObj = InnerObjectiveFunction.CreateNew();
-            for (int ii = 0; ii < _gradient.Count; ++ii)
-            {
+            for (int ii = 0; ii < _gradient.Count; ++ii) {
                 var origPoint = tmpPoint[ii];
                 var relIncr = origPoint * RelativeIncrement;
                 var h = Math.Max(relIncr, MinimumIncrement);
@@ -86,7 +80,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 if (origPoint + h > UpperBound[ii])
                     mult = -1;
 
-                tmpPoint[ii] = origPoint + mult*h;
+                tmpPoint[ii] = origPoint + mult * h;
                 tmpObj.EvaluateAt(tmpPoint);
                 double bumpedValue = tmpObj.Value;
                 _gradient[ii] = (mult * bumpedValue - mult * InnerObjectiveFunction.Value) / h;
@@ -96,10 +90,8 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             GradientEvaluated = true;
         }
 
-        public Vector<double> Gradient
-        {
-            get
-            {
+        public Vector<double> Gradient {
+            get {
                 if (!GradientEvaluated)
                     EvaluateGradient();
                 return _gradient;
@@ -115,34 +107,28 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public Vector<double> Point { get; protected set; }
 
-        public double Value
-        {
-            get
-            {
+        public double Value {
+            get {
                 if (!ValueEvaluated)
                     EvaluateValue();
                 return this.InnerObjectiveFunction.Value;
             }
         }
 
-        public IObjectiveFunction CreateNew()
-        {
+        public IObjectiveFunction CreateNew() {
             var tmp = new ForwardDifferenceGradientObjectiveFunction(InnerObjectiveFunction.CreateNew(), LowerBound, UpperBound, this.RelativeIncrement, this.MinimumIncrement);
             return tmp;
         }
 
-        public void EvaluateAt(Vector<double> point)
-        {
+        public void EvaluateAt(Vector<double> point) {
             Point = point;
             ValueEvaluated = false;
             GradientEvaluated = false;
             InnerObjectiveFunction.EvaluateAt(point);
         }
 
-        public IObjectiveFunction Fork()
-        {
-            return new ForwardDifferenceGradientObjectiveFunction(InnerObjectiveFunction.Fork(), LowerBound, UpperBound, this.RelativeIncrement, this.MinimumIncrement)
-            {
+        public IObjectiveFunction Fork() {
+            return new ForwardDifferenceGradientObjectiveFunction(InnerObjectiveFunction.Fork(), LowerBound, UpperBound, this.RelativeIncrement, this.MinimumIncrement) {
                 Point = Point?.Clone(),
                 GradientEvaluated = GradientEvaluated,
                 ValueEvaluated = ValueEvaluated,

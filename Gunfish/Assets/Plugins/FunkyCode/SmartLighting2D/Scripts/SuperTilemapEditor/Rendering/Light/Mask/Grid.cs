@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
- #if (SUPER_TILEMAP_EDITOR)
+#if (SUPER_TILEMAP_EDITOR)
 
     namespace FunkyCode.SuperTilemapEditorSupport.Light.Mask
     { 
@@ -37,14 +37,12 @@
         }
     }
 
-#else  
+#else
 
-    namespace FunkyCode.SuperTilemapEditorSupport.Light.Mask
-    { 
-        public class Grid
-        {
-            static public void Draw(Light2D light, LightTilemapCollider2D id) {}
-        }
+namespace FunkyCode.SuperTilemapEditorSupport.Light.Mask {
+    public class Grid {
+        static public void Draw(Light2D light, LightTilemapCollider2D id) { }
     }
+}
 
 #endif

@@ -29,10 +29,8 @@
 
 using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization.ObjectiveFunctions
-{
-    public abstract class LazyObjectiveFunctionBase : IObjectiveFunction
-    {
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions {
+    public abstract class LazyObjectiveFunctionBase : IObjectiveFunction {
         Vector<double> _point;
 
         protected bool HasFunctionValue { get; set; }
@@ -44,16 +42,14 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         protected bool HasHessianValue { get; set; }
         protected Matrix<double> HessianValue { get; set; }
 
-        protected LazyObjectiveFunctionBase(bool gradientSupported, bool hessianSupported)
-        {
+        protected LazyObjectiveFunctionBase(bool gradientSupported, bool hessianSupported) {
             IsGradientSupported = gradientSupported;
             IsHessianSupported = hessianSupported;
         }
 
         public abstract IObjectiveFunction CreateNew();
 
-        public virtual IObjectiveFunction Fork()
-        {
+        public virtual IObjectiveFunction Fork() {
             // we need to deep-clone values since they may be updated inplace on evaluation
             LazyObjectiveFunctionBase fork = (LazyObjectiveFunctionBase)CreateNew();
             fork._point = _point?.Clone();
@@ -69,8 +65,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public bool IsGradientSupported { get; }
         public bool IsHessianSupported { get; }
 
-        public void EvaluateAt(Vector<double> point)
-        {
+        public void EvaluateAt(Vector<double> point) {
             _point = point;
             HasFunctionValue = false;
             HasGradientValue = false;
@@ -79,64 +74,50 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         protected abstract void EvaluateValue();
 
-        protected virtual void EvaluateGradient()
-        {
+        protected virtual void EvaluateGradient() {
             Gradient = null;
         }
 
-        protected virtual void EvaluateHessian()
-        {
+        protected virtual void EvaluateHessian() {
             Hessian = null;
         }
 
         public Vector<double> Point => _point;
 
-        public double Value
-        {
-            get
-            {
-                if (!HasFunctionValue)
-                {
+        public double Value {
+            get {
+                if (!HasFunctionValue) {
                     EvaluateValue();
                 }
                 return FunctionValue;
             }
-            protected set
-            {
+            protected set {
                 FunctionValue = value;
                 HasFunctionValue = true;
             }
         }
 
-        public Vector<double> Gradient
-        {
-            get
-            {
-                if (!HasGradientValue)
-                {
+        public Vector<double> Gradient {
+            get {
+                if (!HasGradientValue) {
                     EvaluateGradient();
                 }
                 return GradientValue;
             }
-            protected set
-            {
+            protected set {
                 GradientValue = value;
                 HasGradientValue = true;
             }
         }
 
-        public Matrix<double> Hessian
-        {
-            get
-            {
-                if (!HasHessianValue)
-                {
+        public Matrix<double> Hessian {
+            get {
+                if (!HasHessianValue) {
                     EvaluateHessian();
                 }
                 return HessianValue;
             }
-            protected set
-            {
+            protected set {
                 HessianValue = value;
                 HasHessianValue = true;
             }

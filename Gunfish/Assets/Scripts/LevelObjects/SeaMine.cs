@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Shootable))]
-public class SeaMine : MonoBehaviour
-{
+public class SeaMine : MonoBehaviour {
     // the amount of force it takes to make the mine explode
     [SerializeField]
     float explodeForceThreshold;
@@ -25,34 +24,28 @@ public class SeaMine : MonoBehaviour
     Shootable shootable;
 
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake() {
         shootable = GetComponent<Shootable>();
         shootable.OnDead += Explode;
     }
 
-    private void Update()
-    {
-        if (GameManager.debug && Input.GetKeyDown(KeyCode.End))
-        {
+    private void Update() {
+        if (GameManager.debug && Input.GetKeyDown(KeyCode.End)) {
             Shootable shootable = GetComponent<Shootable>();
             shootable.UpdateHealth(-1 * shootable.health);
         }
     }
 
-    void Explode()
-    {
+    void Explode() {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, explodeRadius, Vector2.zero);
 
-        foreach (RaycastHit2D hit in hits)
-        {
+        foreach (RaycastHit2D hit in hits) {
             if (hit.rigidbody != null)
                 hit.rigidbody.AddExplosionForce(explodeForce, transform.position, explodeRadius);
 
             Shootable shootable = hit.transform.gameObject.GetComponent<Shootable>();
 
-            if (shootable != null)
-            {
+            if (shootable != null) {
                 float damageReduction = (hit.distance / explodeRadius) * explodeFalloff;
                 float damageAmount = explodeDamage * (1f - damageReduction);
                 shootable.UpdateHealth(-1 * damageAmount);
@@ -64,8 +57,7 @@ public class SeaMine : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision) {
         float collisionForce = collision.relativeVelocity.magnitude;
 
-        if (collisionForce > explodeForceThreshold)
-        {
+        if (collisionForce > explodeForceThreshold) {
             shootable.UpdateHealth(-10_000_000f);
         }
     }

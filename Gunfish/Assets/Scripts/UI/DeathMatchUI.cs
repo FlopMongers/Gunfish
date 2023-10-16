@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using System.Linq;
-using System;
 using UnityEngine.UI;
 
 public class PlayerPanel {
@@ -34,8 +34,7 @@ public class DeathMatchUI : MonoBehaviour {
 
     // Start is called before the first frame update
     void Awake() {
-        foreach (var playerWidget in playerWidgets)
-        {
+        foreach (var playerWidget in playerWidgets) {
             playerWidget.gameObject.SetActive(false);
         }
 
@@ -45,7 +44,7 @@ public class DeathMatchUI : MonoBehaviour {
             var panel = transform.FindDeepChild($"PlayerPanel{i}");
             playerPanels.Add(
                 new PlayerPanel(
-                    panel.gameObject, 
+                    panel.gameObject,
                     panel.FindDeepChild("PlayerName").GetComponent<TextMeshProUGUI>(),
                     panel.FindDeepChild("PlayerImg").GetComponent<Image>(),
                     panel.FindDeepChild("PlayerWins").GetComponent<TextMeshProUGUI>(),

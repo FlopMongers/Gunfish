@@ -27,28 +27,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
 
-namespace MathNet.Numerics.Statistics
-{
+namespace MathNet.Numerics.Statistics {
     /// <summary>
     /// Kernel density estimation (KDE).
     /// </summary>
-    public static class KernelDensity
-    {
+    public static class KernelDensity {
         /// <summary>
         /// Estimate the probability density function of a random variable.
         /// </summary>
         /// <remarks>
         /// The routine assumes that the provided kernel is well defined, i.e. a real non-negative function that integrates to 1.
         /// </remarks>
-        public static double Estimate(double x, double bandwidth, IList<double> samples, Func<double, double> kernel)
-        {
-            if (bandwidth <= 0)
-            {
+        public static double Estimate(double x, double bandwidth, IList<double> samples, Func<double, double> kernel) {
+            if (bandwidth <= 0) {
                 throw new ArgumentException("The bandwidth must be a positive number!");
             }
 
@@ -64,8 +60,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimate the probability density function of a random variable with a Gaussian kernel.
         /// </summary>
-        public static double EstimateGaussian(double x, double bandwidth, IList<double> samples)
-        {
+        public static double EstimateGaussian(double x, double bandwidth, IList<double> samples) {
             return Estimate(x, bandwidth, samples, GaussianKernel);
         }
 
@@ -73,24 +68,21 @@ namespace MathNet.Numerics.Statistics
         /// Estimate the probability density function of a random variable with an Epanechnikov kernel.
         /// The Epanechnikov kernel is optimal in a mean square error sense.
         /// </summary>
-        public static double EstimateEpanechnikov(double x, double bandwidth, IList<double> samples)
-        {
+        public static double EstimateEpanechnikov(double x, double bandwidth, IList<double> samples) {
             return Estimate(x, bandwidth, samples, EpanechnikovKernel);
         }
 
         /// <summary>
         /// Estimate the probability density function of a random variable with a uniform kernel.
         /// </summary>
-        public static double EstimateUniform(double x, double bandwidth, IList<double> samples)
-        {
+        public static double EstimateUniform(double x, double bandwidth, IList<double> samples) {
             return Estimate(x, bandwidth, samples, UniformKernel);
         }
 
         /// <summary>
         /// Estimate the probability density function of a random variable with a triangular kernel.
         /// </summary>
-        public static double EstimateTriangular(double x, double bandwidth, IList<double> samples)
-        {
+        public static double EstimateTriangular(double x, double bandwidth, IList<double> samples) {
             return Estimate(x, bandwidth, samples, TriangularKernel);
         }
 
@@ -98,8 +90,7 @@ namespace MathNet.Numerics.Statistics
         /// A Gaussian kernel (PDF of Normal distribution with mean 0 and variance 1).
         /// This kernel is the default.
         /// </summary>
-        public static double GaussianKernel(double x)
-        {
+        public static double GaussianKernel(double x) {
             return Normal.PDF(0.0, 1.0, x);
         }
 
@@ -107,8 +98,7 @@ namespace MathNet.Numerics.Statistics
         /// Epanechnikov Kernel:
         /// x =&gt; Math.Abs(x) &lt;= 1.0 ? 3.0/4.0(1.0-x^2) : 0.0
         /// </summary>
-        public static double EpanechnikovKernel(double x)
-        {
+        public static double EpanechnikovKernel(double x) {
             return Math.Abs(x) <= 1.0 ? 0.75 * (1 - x * x) : 0.0;
         }
 
@@ -116,8 +106,7 @@ namespace MathNet.Numerics.Statistics
         /// Uniform Kernel:
         /// x =&gt; Math.Abs(x) &lt;= 1.0 ? 1.0/2.0 : 0.0
         /// </summary>
-        public static double UniformKernel(double x)
-        {
+        public static double UniformKernel(double x) {
             return ContinuousUniform.PDF(-1.0, 1.0, x);
         }
 
@@ -125,8 +114,7 @@ namespace MathNet.Numerics.Statistics
         /// Triangular Kernel:
         /// x =&gt; Math.Abs(x) &lt;= 1.0 ? (1.0-Math.Abs(x)) : 0.0
         /// </summary>
-        public static double TriangularKernel(double x)
-        {
+        public static double TriangularKernel(double x) {
             return Triangular.PDF(-1.0, 1.0, 0.0, x);
         }
     }

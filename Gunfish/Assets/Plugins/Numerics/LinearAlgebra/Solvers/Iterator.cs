@@ -31,13 +31,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// An iterator that is used to check if an iterative calculation should continue or stop.
     /// </summary>
-    public sealed class Iterator<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public sealed class Iterator<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// The collection that holds all the stop criteria and the flag indicating if they should be added
         /// to the child iterators.
@@ -52,8 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Initializes a new instance of the <see cref="Iterator{T}"/> class with the default stop criteria.
         /// </summary>
-        public Iterator()
-        {
+        public Iterator() {
             _stopCriteria = new List<IIterationStopCriterion<T>>(Matrix<T>.Build.IterativeSolverStopCriteria());
         }
 
@@ -64,8 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// The specified stop criteria. Only one stop criterion of each type can be passed in. None
         /// of the stop criteria will be passed on to child iterators.
         /// </param>
-        public Iterator(params IIterationStopCriterion<T>[] stopCriteria)
-        {
+        public Iterator(params IIterationStopCriterion<T>[] stopCriteria) {
             _stopCriteria = new List<IIterationStopCriterion<T>>(stopCriteria);
         }
 
@@ -76,8 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// The specified stop criteria. Only one stop criterion of each type can be passed in. None
         /// of the stop criteria will be passed on to child iterators.
         /// </param>
-        public Iterator(IEnumerable<IIterationStopCriterion<T>> stopCriteria)
-        {
+        public Iterator(IEnumerable<IIterationStopCriterion<T>> stopCriteria) {
             _stopCriteria = new List<IIterationStopCriterion<T>>(stopCriteria);
         }
 
@@ -99,29 +94,23 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
-        {
-            if (_stopCriteria.Count == 0)
-            {
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector) {
+            if (_stopCriteria.Count == 0) {
                 throw new ArgumentException("There is no stop criterion in the collection.");
             }
 
-            if (iterationNumber < 0)
-            {
+            if (iterationNumber < 0) {
                 throw new ArgumentOutOfRangeException(nameof(iterationNumber));
             }
 
             // While we're cancelled we don't call on the stop-criteria.
-            if (_status == IterationStatus.Cancelled)
-            {
+            if (_status == IterationStatus.Cancelled) {
                 return _status;
             }
 
-            foreach (var stopCriterion in _stopCriteria)
-            {
+            foreach (var stopCriterion in _stopCriteria) {
                 var status = stopCriterion.DetermineStatus(iterationNumber, solutionVector, sourceVector, residualVector);
-                if (status == IterationStatus.Continue)
-                {
+                if (status == IterationStatus.Continue) {
                     continue;
                 }
 
@@ -142,20 +131,17 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <remarks>
         /// Does not reset the stop-criteria.
         /// </remarks>
-        public void Cancel()
-        {
+        public void Cancel() {
             _status = IterationStatus.Cancelled;
         }
 
         /// <summary>
         /// Resets the <see cref="Iterator{T}"/> to the pre-calculation state.
         /// </summary>
-        public void Reset()
-        {
+        public void Reset() {
             _status = IterationStatus.Continue;
 
-            foreach (var stopCriterion in _stopCriteria)
-            {
+            foreach (var stopCriterion in _stopCriteria) {
                 stopCriterion.Reset();
             }
         }
@@ -164,8 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Creates a deep clone of the current iterator.
         /// </summary>
         /// <returns>The deep clone of the current iterator.</returns>
-        public Iterator<T> Clone()
-        {
+        public Iterator<T> Clone() {
             return new Iterator<T>(_stopCriteria.Select(sc => sc.Clone()));
         }
     }

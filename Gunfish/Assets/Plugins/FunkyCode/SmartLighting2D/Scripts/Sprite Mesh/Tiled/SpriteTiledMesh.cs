@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode
-    {
+namespace FunkyCode {
     public class SpriteTiledMesh {
         private MeshBrush brush;
         private SpriteMesh spriteMesh;
@@ -17,7 +16,7 @@ namespace FunkyCode
             brush = new MeshBrush();
             spriteMesh = new SpriteMesh();
         }
-        
+
         public MeshObject GetMesh(SpriteRenderer spriteRenderer) {
             if (cacheSize.Equals(spriteRenderer.size) == false || cacheSprite.Equals(spriteRenderer.sprite) == false) {
                 cacheMesh = Generate(spriteRenderer);
@@ -27,7 +26,7 @@ namespace FunkyCode
                 cacheSprite = spriteRenderer.sprite;
             }
 
-            return(cacheMeshObject);
+            return (cacheMeshObject);
         }
 
         Mesh Generate(SpriteRenderer spriteRenderer) {
@@ -61,7 +60,7 @@ namespace FunkyCode
             float sizeLeftY;
             float offset_y;
 
-            while(sizeLeftX > 0) {
+            while (sizeLeftX > 0) {
                 scaleX = sizeLeftX > fullX ? scaleX = fullX : scaleX = sizeLeftX;
 
                 if (sizeLeftX > fullX) {
@@ -75,7 +74,7 @@ namespace FunkyCode
                     borderY0 = 0;
                     fullY = 1f - borderY1;
 
-                    while(sizeLeftY > 0) {
+                    while (sizeLeftY > 0) {
                         scaleY = sizeLeftY > fullY ? scaleY = fullY : scaleY = sizeLeftY;
 
                         if (sizeLeftY > fullY) {
@@ -83,21 +82,23 @@ namespace FunkyCode
 
                             float sizeOffsetY = offset_y - (sizeLeftY / 2 * stretchY * spriteRatioY);
 
-                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY),  new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(sizeOffsetX, sizeOffsetY,0));
+                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY), new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(sizeOffsetX, sizeOffsetY, 0));
 
-                        } else {
-                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY),  new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(sizeOffsetX, offset_y, 0));
+                        }
+                        else {
+                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY), new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(sizeOffsetX, offset_y, 0));
 
                             sizeLeftY -= fullY;
                         }
 
                         offset_y += (fullY / 2) * stretchY * spriteRatioY;
-                        
+
                         borderY0 = spriteRenderer.sprite.border.y / spriteRect.height;
                         fullY = 1f - borderY1 - borderY0;
                     }
 
-                } else {
+                }
+                else {
 
                     sizeLeftY = sizeY / stretchY;
                     offset_y = 0;
@@ -105,7 +106,7 @@ namespace FunkyCode
                     borderY0 = 0;
                     fullY = 1f - borderY1;
 
-                    while(sizeLeftY > 0) {
+                    while (sizeLeftY > 0) {
                         scaleY = sizeLeftY > fullY ? scaleY = fullY : scaleY = sizeLeftY;
 
                         if (sizeLeftY > fullY) {
@@ -113,17 +114,18 @@ namespace FunkyCode
 
                             float sizeOffsetY = offset_y - (sizeLeftY / 2 * stretchY * spriteRatioY);
 
-                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY),  new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(offset_x, sizeOffsetY, 0));
+                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY), new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(offset_x, sizeOffsetY, 0));
 
-                        } else {
-                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY),  new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(offset_x, offset_y, 0));
+                        }
+                        else {
+                            brush.AddMesh(spriteMesh.Get(spriteRenderer, new Vector2(scaleX, scaleY), new Vector2(borderX0, borderY0), new Vector2(scaleX, scaleY)), new Vector3(offset_x, offset_y, 0));
 
                             sizeLeftY -= fullY;
                         }
 
                         offset_y += (fullY / 2) * stretchY * spriteRatioY;
 
-                        
+
                         borderY0 = spriteRenderer.sprite.border.y / spriteRect.height;
                         fullY = 1f - borderY1 - borderY0;
                     }
@@ -137,7 +139,7 @@ namespace FunkyCode
                 fullX = 1f - borderX1 - borderX0;
             }
 
-            return(brush.Export());
+            return (brush.Export());
         }
     }
 }

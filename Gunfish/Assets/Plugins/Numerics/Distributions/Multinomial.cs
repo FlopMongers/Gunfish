@@ -27,16 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Multivariate Multinomial distribution. For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Multinomial_distribution">Wikipedia - Multinomial distribution</a>.
@@ -46,8 +45,7 @@ namespace MathNet.Numerics.Distributions
     /// does not have to be normalized and sum to 1. The reason is that some vectors can't be exactly normalized
     /// to sum to 1 in floating point representation.
     /// </remarks>
-    public class Multinomial : IDistribution
-    {
+    public class Multinomial : IDistribution {
         System.Random _random;
 
         /// <summary>
@@ -68,10 +66,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of trials.</param>
         /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
-        public Multinomial(double[] p, int n)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
-            {
+        public Multinomial(double[] p, int n) {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -89,10 +85,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
-        public Multinomial(double[] p, int n, System.Random randomSource)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
-            {
+        public Multinomial(double[] p, int n, System.Random randomSource) {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -109,10 +103,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of trials.</param>
         /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
-        public Multinomial(Histogram h, int n)
-        {
-            if (h == null)
-            {
+        public Multinomial(Histogram h, int n) {
+            if (h == null) {
                 throw new ArgumentNullException(nameof(h));
             }
 
@@ -120,13 +112,11 @@ namespace MathNet.Numerics.Distributions
             var p = new double[h.BucketCount];
 
             // Fill in the distribution vector.
-            for (var i = 0; i < h.BucketCount; i++)
-            {
+            for (var i = 0; i < h.BucketCount; i++) {
                 p[i] = h[i].Count;
             }
 
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
-            {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -139,8 +129,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Multinomial(Dimension = {_p.Length}, Number of Trails = {_trials})";
         }
 
@@ -152,21 +141,17 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of trials.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>,
         /// if the sum of parameters is 0.0, or if the number of trials is negative; otherwise <c>true</c>.</returns>
-        public static bool IsValidParameterSet(IEnumerable<double> p, int n)
-        {
+        public static bool IsValidParameterSet(IEnumerable<double> p, int n) {
             var sum = 0.0;
-            foreach (var t in p)
-            {
-                if (t < 0.0 || double.IsNaN(t))
-                {
+            foreach (var t in p) {
+                if (t < 0.0 || double.IsNaN(t)) {
                     return false;
                 }
 
                 sum += t;
             }
 
-            if (sum == 0.0)
-            {
+            if (sum == 0.0) {
                 return false;
             }
 
@@ -186,8 +171,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -195,20 +179,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public Vector<double> Mean => _trials*(DenseVector)P;
+        public Vector<double> Mean => _trials * (DenseVector)P;
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public Vector<double> Variance
-        {
-            get
-            {
+        public Vector<double> Variance {
+            get {
                 // Do not use _p, because operations below will modify _p array. Use P or _p.Clone().
                 var res = (DenseVector)P;
-                for (var i = 0; i < res.Count; i++)
-                {
-                    res[i] *= _trials*(1 - res[i]);
+                for (var i = 0; i < res.Count; i++) {
+                    res[i] *= _trials * (1 - res[i]);
                 }
 
                 return res;
@@ -218,15 +199,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public Vector<double> Skewness
-        {
-            get
-            {
+        public Vector<double> Skewness {
+            get {
                 // Do not use _p, because operations below will modify _p array. Use P or _p.Clone().
                 var res = (DenseVector)P;
-                for (var i = 0; i < res.Count; i++)
-                {
-                    res[i] = (1.0 - (2.0*res[i]))/Math.Sqrt(_trials*(1.0 - res[i])*res[i]);
+                for (var i = 0; i < res.Count; i++) {
+                    res[i] = (1.0 - (2.0 * res[i])) / Math.Sqrt(_trials * (1.0 - res[i]) * res[i]);
                 }
 
                 return res;
@@ -240,28 +218,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The probability mass at location <paramref name="x"/>.</returns>
         /// <exception cref="ArgumentNullException">When <paramref name="x"/> is null.</exception>
         /// <exception cref="ArgumentException">When length of <paramref name="x"/> is not equal to event probabilities count.</exception>
-        public double Probability(int[] x)
-        {
-            if (null == x)
-            {
+        public double Probability(int[] x) {
+            if (null == x) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (x.Length != _p.Length)
-            {
+            if (x.Length != _p.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(x));
             }
 
-            if (x.Sum() == _trials)
-            {
+            if (x.Sum() == _trials) {
                 var coef = SpecialFunctions.Multinomial(_trials, x);
                 var num = 1.0;
-                for (var i = 0; i < x.Length; i++)
-                {
+                for (var i = 0; i < x.Length; i++) {
                     num *= Math.Pow(_p[i], x[i]);
                 }
 
-                return coef*num;
+                return coef * num;
             }
 
             return 0.0;
@@ -274,22 +247,18 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The log probability mass at location <paramref name="x"/>.</returns>
         /// <exception cref="ArgumentNullException">When <paramref name="x"/> is null.</exception>
         /// <exception cref="ArgumentException">When length of <paramref name="x"/> is not equal to event probabilities count.</exception>
-        public double ProbabilityLn(int[] x)
-        {
-            if (null == x)
-            {
+        public double ProbabilityLn(int[] x) {
+            if (null == x) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (x.Length != _p.Length)
-            {
+            if (x.Length != _p.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(x));
             }
 
-            if (x.Sum() == _trials)
-            {
+            if (x.Sum() == _trials) {
                 var coef = Math.Log(SpecialFunctions.Multinomial(_trials, x));
-                var num = x.Select((t, i) => t*Math.Log(_p[i])).Sum();
+                var num = x.Select((t, i) => t * Math.Log(_p[i])).Sum();
                 return coef + num;
             }
 
@@ -300,8 +269,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples one multinomial distributed random variable.
         /// </summary>
         /// <returns>the counts for each of the different possible values.</returns>
-        public int[] Sample()
-        {
+        public int[] Sample() {
             return Sample(_random, _p, _trials);
         }
 
@@ -309,10 +277,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence multinomially distributed random variables.
         /// </summary>
         /// <returns>a sequence of counts for each of the different possible values.</returns>
-        public IEnumerable<int[]> Samples()
-        {
-            while (true)
-            {
+        public IEnumerable<int[]> Samples() {
+            while (true) {
                 yield return Sample(_random, _p, _trials);
             }
         }
@@ -325,10 +291,8 @@ namespace MathNet.Numerics.Distributions
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <returns>the counts for each of the different possible values.</returns>
-        public static int[] Sample(System.Random rnd, double[] p, int n)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
-            {
+        public static int[] Sample(System.Random rnd, double[] p, int n) {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -338,8 +302,7 @@ namespace MathNet.Numerics.Distributions
             // The variable that stores the counts.
             var ret = new int[p.Length];
 
-            for (var i = 0; i < n; i++)
-            {
+            for (var i = 0; i < n; i++) {
                 ret[Categorical.SampleUnchecked(rnd, cp)]++;
             }
 
@@ -354,23 +317,19 @@ namespace MathNet.Numerics.Distributions
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of variables needed.</param>
         /// <returns>a sequence of counts for each of the different possible values.</returns>
-        public static IEnumerable<int[]> Samples(System.Random rnd, double[] p, int n)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
-            {
+        public static IEnumerable<int[]> Samples(System.Random rnd, double[] p, int n) {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // The cumulative density of p.
             var cp = Categorical.ProbabilityMassToCumulativeDistribution(p);
 
-            while (true)
-            {
+            while (true) {
                 // The variable that stores the counts.
                 var ret = new int[p.Length];
 
-                for (var i = 0; i < n; i++)
-                {
+                for (var i = 0; i < n; i++) {
                     ret[Categorical.SampleUnchecked(rnd, cp)]++;
                 }
 

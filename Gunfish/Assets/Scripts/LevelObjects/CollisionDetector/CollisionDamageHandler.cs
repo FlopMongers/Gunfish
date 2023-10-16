@@ -11,8 +11,7 @@ public class CollisionEventTracker {
     public ContactPoint2D[] contacts;
 }
 
-public class CollisionDamageHandler : MonoBehaviour
-{
+public class CollisionDamageHandler : MonoBehaviour {
 
     public Dictionary<GameObject, CollisionEventTracker> collisionTracker = new Dictionary<GameObject, CollisionEventTracker>();
     int checkCollisions;

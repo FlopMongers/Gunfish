@@ -31,13 +31,11 @@ using System;
 using System.Numerics;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the modified Bessel function.
     /// </summary>
-    public static partial class SpecialFunctions
-    {
+    public static partial class SpecialFunctions {
         /// <summary>
         /// Returns the Kelvin function of the first kind.
         /// <para>KelvinBe(nu, x) is given by BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1).</para>
@@ -46,8 +44,7 @@ namespace MathNet.Numerics
         /// <param name="nu">the order of the the Kelvin function.</param>
         /// <param name="x">The value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function of the first kind.</returns>
-        public static Complex KelvinBe(double nu, double x)
-        {
+        public static Complex KelvinBe(double nu, double x) {
             Complex ISqrtI = new Complex(-Constants.Sqrt1Over2, Constants.Sqrt1Over2); // j * sqrt(j) = (-1)^(3/4) = (-1 + j)/sqrt(2)
             return BesselJ(nu, ISqrtI * x);
         }
@@ -59,8 +56,7 @@ namespace MathNet.Numerics
         /// <param name="nu">the order of the the Kelvin function.</param>
         /// <param name="x">The value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function ber.</returns>
-        public static double KelvinBer(double nu, double x)
-        {
+        public static double KelvinBer(double nu, double x) {
             return KelvinBe(nu, x).Real;
         }
 
@@ -71,8 +67,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function ber.</returns>
-        public static double KelvinBer(double x)
-        {
+        public static double KelvinBer(double x) {
             return KelvinBe(0, x).Real;
         }
 
@@ -83,8 +78,7 @@ namespace MathNet.Numerics
         /// <param name="nu">the order of the the Kelvin function.</param>
         /// <param name="x">The value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function bei.</returns>
-        public static double KelvinBei(double nu, double x)
-        {
+        public static double KelvinBei(double nu, double x) {
             return KelvinBe(nu, x).Imaginary;
         }
 
@@ -95,8 +89,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function bei.</returns>
-        public static double KelvinBei(double x)
-        {
+        public static double KelvinBei(double x) {
             return KelvinBe(0, x).Imaginary;
         }
 
@@ -106,8 +99,7 @@ namespace MathNet.Numerics
         /// <param name="nu">The order of the Kelvin function.</param>
         /// <param name="x">The value to compute the derivative of the Kelvin function of.</param>
         /// <returns>the derivative of the Kelvin function ber</returns>
-        public static double KelvinBerPrime(double nu, double x)
-        {
+        public static double KelvinBerPrime(double nu, double x) {
             const double inv2Sqrt2 = 0.35355339059327376220042218105242451964241796884424; // 1/(2 * sqrt(2))
             return inv2Sqrt2 * (-KelvinBer(nu - 1, x) + KelvinBer(nu + 1, x) - KelvinBei(nu - 1, x) + KelvinBei(nu + 1, x));
         }
@@ -117,8 +109,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the derivative of the Kelvin function of.</param>
         /// <returns>The derivative of the Kelvin function ber.</returns>
-        public static double KelvinBerPrime(double x)
-        {
+        public static double KelvinBerPrime(double x) {
             return KelvinBerPrime(0, x);
         }
 
@@ -128,8 +119,7 @@ namespace MathNet.Numerics
         /// <param name="nu">The order of the Kelvin function.</param>
         /// <param name="x">The value to compute the derivative of the Kelvin function of.</param>
         /// <returns>the derivative of the Kelvin function bei.</returns>
-        public static double KelvinBeiPrime(double nu, double x)
-        {
+        public static double KelvinBeiPrime(double nu, double x) {
             const double inv2Sqrt2 = 0.35355339059327376220042218105242451964241796884424; // 1/(2 * sqrt(2))
             return inv2Sqrt2 * (KelvinBer(nu - 1, x) - KelvinBer(nu + 1, x) - KelvinBei(nu - 1, x) + KelvinBei(nu + 1, x));
         }
@@ -139,8 +129,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the derivative of the Kelvin function of.</param>
         /// <returns>The derivative of the Kelvin function bei.</returns>
-        public static double KelvinBeiPrime(double x)
-        {
+        public static double KelvinBeiPrime(double x) {
             return KelvinBeiPrime(0, x);
         }
 
@@ -152,8 +141,7 @@ namespace MathNet.Numerics
         /// <param name="nu">The order of the Kelvin function.</param>
         /// <param name="x">The value to calculate the kelvin function of,</param>
         /// <returns></returns>
-        public static Complex KelvinKe(double nu, double x)
-        {
+        public static Complex KelvinKe(double nu, double x) {
             Complex PiIOver2 = new Complex(0.0, Constants.PiOver2); // pi * I / 2
             Complex SqrtI = new Complex(Constants.Sqrt1Over2, Constants.Sqrt1Over2); // sqrt(j) = (-1)^(1/4) = (1 + j)/sqrt(2)
             return Complex.Exp(-nu * PiIOver2) * BesselK(nu, SqrtI * x);
@@ -166,10 +154,8 @@ namespace MathNet.Numerics
         /// <param name="nu">the order of the the Kelvin function.</param>
         /// <param name="x">The non-negative real value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function ker.</returns>
-        public static double KelvinKer(double nu, double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKer(double nu, double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
@@ -183,10 +169,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The non-negative real value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function ker.</returns>
-        public static double KelvinKer(double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKer(double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
@@ -200,10 +184,8 @@ namespace MathNet.Numerics
         /// <param name="nu">the order of the the Kelvin function.</param>
         /// <param name="x">The non-negative real value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function kei.</returns>
-        public static double KelvinKei(double nu, double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKei(double nu, double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
@@ -217,10 +199,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The non-negative real value to compute the Kelvin function of.</param>
         /// <returns>The Kelvin function kei.</returns>
-        public static double KelvinKei(double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKei(double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
@@ -233,10 +213,8 @@ namespace MathNet.Numerics
         /// <param name="nu">The order of the Kelvin function.</param>
         /// <param name="x">The non-negative real value to compute the derivative of the Kelvin function of.</param>
         /// <returns>The derivative of the Kelvin function ker.</returns>
-        public static double KelvinKerPrime(double nu, double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKerPrime(double nu, double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
@@ -249,10 +227,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the derivative of the Kelvin function of.</param>
         /// <returns>The derivative of the Kelvin function ker.</returns>
-        public static double KelvinKerPrime(double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKerPrime(double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
@@ -265,10 +241,8 @@ namespace MathNet.Numerics
         /// <param name="nu">The order of the Kelvin function.</param>
         /// <param name="x">The value to compute the derivative of the Kelvin function of.</param>
         /// <returns>The derivative of the Kelvin function kei.</returns>
-        public static double KelvinKeiPrime(double nu, double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKeiPrime(double nu, double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
@@ -281,10 +255,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the derivative of the Kelvin function of.</param>
         /// <returns>The derivative of the Kelvin function kei.</returns>
-        public static double KelvinKeiPrime(double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double KelvinKeiPrime(double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 

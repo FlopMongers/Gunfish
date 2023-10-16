@@ -27,10 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Providers
-{
-    public interface IProviderCreator<T> where T : class
-    {
+namespace MathNet.Numerics.Providers {
+    public interface IProviderCreator<T> where T : class {
         T CreateProvider();
     }
 }

@@ -29,12 +29,9 @@
 
 using System;
 
-namespace MathNet.Numerics.Optimization.ObjectiveFunctions
-{
-    internal class ScalarValueObjectiveFunctionEvaluation : IScalarObjectiveFunctionEvaluation
-    {
-        public ScalarValueObjectiveFunctionEvaluation(double point, double value)
-        {
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions {
+    internal class ScalarValueObjectiveFunctionEvaluation : IScalarObjectiveFunctionEvaluation {
+        public ScalarValueObjectiveFunctionEvaluation(double point, double value) {
             Point = point;
             Value = value;
         }
@@ -47,12 +44,10 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public double SecondDerivative => throw new NotSupportedException();
     }
 
-    internal class ScalarValueObjectiveFunction : IScalarObjectiveFunction
-    {
+    internal class ScalarValueObjectiveFunction : IScalarObjectiveFunction {
         public Func<double, double> Objective { get; }
 
-        public ScalarValueObjectiveFunction(Func<double, double> objective)
-        {
+        public ScalarValueObjectiveFunction(Func<double, double> objective) {
             Objective = objective;
         }
 
@@ -60,8 +55,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public bool IsSecondDerivativeSupported => false;
 
-        public IScalarObjectiveFunctionEvaluation Evaluate(double point)
-        {
+        public IScalarObjectiveFunctionEvaluation Evaluate(double point) {
             return new ScalarValueObjectiveFunctionEvaluation(point, Objective(point));
         }
     }

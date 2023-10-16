@@ -32,12 +32,11 @@
 // </contribution>
 
 
+using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Random;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Discrete Univariate Beta-Binomial distribution.
     /// The beta-binomial distribution is a family of discrete probability distributions on a finite support of non-negative integers arising
@@ -46,8 +45,7 @@ namespace MathNet.Numerics.Distributions
     /// It is frequently used in Bayesian statistics, empirical Bayes methods and classical statistics to capture overdispersion in binomial type distributed data.
     /// <a href="https://en.wikipedia.org/wiki/Beta-binomial_distribution">Wikipedia - Beta-Binomial distribution</a>.
     /// </summary>
-    public class BetaBinomial : IDiscreteDistribution
-    {
+    public class BetaBinomial : IDiscreteDistribution {
         System.Random _random;
 
         readonly int _n;
@@ -60,10 +58,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of Bernoulli trials n - n is a positive integer </param>
         /// <param name="a">Shape parameter alpha of the Beta distribution. Range: a > 0.</param>
         /// <param name="b">Shape parameter beta of the Beta distribution. Range: b > 0.</param>
-        public BetaBinomial(int n, double a, double b)
-        {
-            if (!IsValidParameterSet(n, a, b))
-            {
+        public BetaBinomial(int n, double a, double b) {
+            if (!IsValidParameterSet(n, a, b)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -80,10 +76,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">Shape parameter alpha of the Beta distribution. Range: a > 0.</param>
         /// <param name="b">Shape parameter beta of the Beta distribution. Range: b > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public BetaBinomial(int n, double a, double b, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(n,a,b))
-            {
+        public BetaBinomial(int n, double a, double b, System.Random randomSource) {
+            if (!IsValidParameterSet(n, a, b)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -99,8 +93,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"BetaBinomial(n = {_n}, a = {_a}, b = {_b})";
         }
 
@@ -110,8 +103,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of Bernoulli trials n - n is a positive integer </param>
         /// <param name="a">Shape parameter alpha of the Beta distribution. Range: a > 0.</param>
         /// <param name="b">Shape parameter beta of the Beta distribution. Range: b > 0.</param>
-        public static bool IsValidParameterSet(int n, double a, double b)
-        {
+        public static bool IsValidParameterSet(int n, double a, double b) {
             return n >= 1.0 && a > 0.0 && b > 0.0;
         }
 
@@ -122,9 +114,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">Shape parameter alpha of the Beta distribution. Range: a > 0.</param>
         /// <param name="b">Shape parameter beta of the Beta distribution. Range: b > 0.</param>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
-        public static bool IsValidParameterSet(int n, double a, double b, int k)
-        {
-            return n >= 1.0 && a > 0.0 && b > 0.0 && k >=0 && k <=n;
+        public static bool IsValidParameterSet(int n, double a, double b, int k) {
+            return n >= 1.0 && a > 0.0 && b > 0.0 && k >= 0 && k <= n;
         }
 
 
@@ -132,8 +123,7 @@ namespace MathNet.Numerics.Distributions
         public double A => _a;
         public double B => _b;
 
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -145,7 +135,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance => (_n*_a*_b*(_a+_b+_n))/(Math.Pow((_a+_b),2) * (_a+_b+1));
+        public double Variance => (_n * _a * _b * (_a + _b + _n)) / (Math.Pow((_a + _b), 2) * (_a + _b + 1));
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
@@ -188,8 +178,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public double Probability(int k)
-        {
+        public double Probability(int k) {
             return PMF(_n, _a, _b, k);
         }
 
@@ -198,8 +187,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public double ProbabilityLn(int k)
-        {
+        public double ProbabilityLn(int k) {
             return PMFLn(_n, _a, _b, k);
         }
 
@@ -208,8 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/></returns>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return CDF(_n, _a, _b, (int)Math.Floor(x));
         }
 
@@ -221,19 +208,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="b">Shape parameter beta of the Beta distribution. Range: b > 0.</param>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public static double PMF(int n, double a, double b, int k)
-        {
-            if (!IsValidParameterSet(n, a, b, k))
-            {
+        public static double PMF(int n, double a, double b, int k) {
+            if (!IsValidParameterSet(n, a, b, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (k > n)
-            {
+            if (k > n) {
                 return 0.0;
             }
-            else
-            {
+            else {
                 return Math.Exp(PMFLn(n, a, b, k));
             }
         }
@@ -246,10 +229,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="b">Shape parameter beta of the Beta distribution. Range: b > 0.</param>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public static double PMFLn(int n, double a, double b, int k)
-        {
-            if (!IsValidParameterSet(n, a, b, k))
-            {
+        public static double PMFLn(int n, double a, double b, int k) {
+            if (!IsValidParameterSet(n, a, b, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -267,17 +248,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(int n, double a, double b, int x)
-        {
-            if (!IsValidParameterSet(n,a,b,x))
-            {
+        public static double CDF(int n, double a, double b, int x) {
+            if (!IsValidParameterSet(n, a, b, x)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             double accumulator = 0;
 
-            for (int i = 0; i<=x; i++)
-            {
+            for (int i = 0; i <= x; i++) {
                 accumulator += PMF(n, a, b, i);
             }
 
@@ -292,25 +270,20 @@ namespace MathNet.Numerics.Distributions
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>a random number from the BetaBinomial distribution.</returns>
-        static int SampleUnchecked(System.Random rnd, int n, double a, double b)
-        {
+        static int SampleUnchecked(System.Random rnd, int n, double a, double b) {
             var p = Beta.SampleUnchecked(rnd, a, b);
             var x = Binomial.SampleUnchecked(rnd, p, n);
             return x;
         }
 
-        static void SamplesUnchecked(System.Random rnd, int[] values, int n, double a, double b)
-        {
-            for (int i = 0; i < values.Length; i++)
-            {
+        static void SamplesUnchecked(System.Random rnd, int[] values, int n, double a, double b) {
+            for (int i = 0; i < values.Length; i++) {
                 values[i] = SampleUnchecked(rnd, n, a, b);
             }
         }
 
-        static IEnumerable<int> SamplesUnchecked(System.Random rnd, int n, double a, double b)
-        {
-            while (true)
-            {
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, int n, double a, double b) {
+            while (true) {
                 yield return SampleUnchecked(rnd, n, a, b);
             }
         }
@@ -321,16 +294,14 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
 
-        public int Sample()
-        {
+        public int Sample() {
             return SampleUnchecked(_random, _n, _a, _b);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(int[] values)
-        {
+        public void Samples(int[] values) {
             SamplesUnchecked(_random, values, _n, _a, _b);
         }
 
@@ -338,8 +309,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples an array of <c>BetaBinomial</c> distributed random variables.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<int> Samples()
-        {
+        public IEnumerable<int> Samples() {
             return SamplesUnchecked(_random, _n, _a, _b);
         }
 
@@ -352,10 +322,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
 
-        public int Sample(System.Random rnd, int n, double a, double b)
-        {
-            if (!IsValidParameterSet(n,a,b))
-            {
+        public int Sample(System.Random rnd, int n, double a, double b) {
+            if (!IsValidParameterSet(n, a, b)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, n, a, b);
@@ -369,10 +337,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
-        public void Samples(System.Random rnd, int[] values, int n, double a, double b)
-        {
-            if (!IsValidParameterSet(n, a, b))
-            {
+        public void Samples(System.Random rnd, int[] values, int n, double a, double b) {
+            if (!IsValidParameterSet(n, a, b)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -386,10 +352,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<int> Samples(int n, double a, double b)
-        {
-            if (!IsValidParameterSet(n, a, b))
-            {
+        public IEnumerable<int> Samples(int n, double a, double b) {
+            if (!IsValidParameterSet(n, a, b)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(_random, n, a, b);
@@ -402,10 +366,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
-        public void Samples(int[] values, int n, double a, double b)
-        {
-            if (!IsValidParameterSet(n, a, b))
-            {
+        public void Samples(int[] values, int n, double a, double b) {
+            if (!IsValidParameterSet(n, a, b)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using FunkyCode.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode
-{
-    public class LightFlicker : MonoBehaviour
-    {
+namespace FunkyCode {
+    public class LightFlicker : MonoBehaviour {
         public float flickersPerSecond = 15f;
         public float flickerRangeMin = -0.1f;
         public float flickerRangeMax = 0.1f;
@@ -18,7 +16,7 @@ namespace FunkyCode
         void Start() {
             lightSource = GetComponent<Light2D>();
             lightAlpha = lightSource.color.a;
-            
+
             timer = TimerHelper.Create();
         }
 

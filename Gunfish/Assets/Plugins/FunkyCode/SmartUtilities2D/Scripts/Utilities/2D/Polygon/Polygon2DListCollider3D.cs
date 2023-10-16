@@ -2,50 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode.Utilities
-{
-	public class Polygon2DListCollider3D : Polygon2DCollider3D
-	{
-		public static List<Polygon2D> CreateFromGameObject(GameObject gameObject) {
-			List<Polygon2D> result = new List<Polygon2D>();
-			
-			foreach(Collider collider in gameObject.GetComponents<Collider> ()) {
-				System.Type type = collider.GetType();
+namespace FunkyCode.Utilities {
+    public class Polygon2DListCollider3D : Polygon2DCollider3D {
+        public static List<Polygon2D> CreateFromGameObject(GameObject gameObject) {
+            List<Polygon2D> result = new List<Polygon2D>();
 
-				if (type == typeof(BoxCollider)) {
-					BoxCollider boxCollider = (BoxCollider)collider;
+            foreach (Collider collider in gameObject.GetComponents<Collider>()) {
+                System.Type type = collider.GetType();
 
-					result.Add(CreateFromBoxCollider(boxCollider));
-				}
+                if (type == typeof(BoxCollider)) {
+                    BoxCollider boxCollider = (BoxCollider)collider;
 
-				if (type == typeof(SphereCollider)) {
-					SphereCollider sphereCollider = (SphereCollider)collider;
+                    result.Add(CreateFromBoxCollider(boxCollider));
+                }
 
-					result.Add(CreateFromSphereCollider(sphereCollider));
-				}
+                if (type == typeof(SphereCollider)) {
+                    SphereCollider sphereCollider = (SphereCollider)collider;
 
-				if (type == typeof(CapsuleCollider)) {
-					CapsuleCollider capsuleCollider = (CapsuleCollider)collider;
+                    result.Add(CreateFromSphereCollider(sphereCollider));
+                }
 
-					result.Add(CreateFromCapsuleCollider(capsuleCollider));
-				}
+                if (type == typeof(CapsuleCollider)) {
+                    CapsuleCollider capsuleCollider = (CapsuleCollider)collider;
 
-				if (type == typeof(MeshCollider)) {
-					MeshCollider meshCollider = (MeshCollider)collider;
+                    result.Add(CreateFromCapsuleCollider(capsuleCollider));
+                }
 
-					List<Polygon2D> polygons = CreateFromMeshCollider(meshCollider);
+                if (type == typeof(MeshCollider)) {
+                    MeshCollider meshCollider = (MeshCollider)collider;
 
-					foreach(Polygon2D polygon in polygons) {
-						result.Add(polygon);
-					}
-				}
-			}
+                    List<Polygon2D> polygons = CreateFromMeshCollider(meshCollider);
 
-			foreach(Polygon2D poly in result) {
-				poly.Normalize();
-			}
+                    foreach (Polygon2D polygon in polygons) {
+                        result.Add(polygon);
+                    }
+                }
+            }
 
-			return(result);
-		}
-	}
+            foreach (Polygon2D poly in result) {
+                poly.Normalize();
+            }
+
+            return (result);
+        }
+    }
 }

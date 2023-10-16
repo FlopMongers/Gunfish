@@ -27,15 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.LinearAlgebra;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics
-{
-    public static partial class Precision
-    {
+namespace MathNet.Numerics {
+    public static partial class Precision {
         /// <summary>
         /// Compares two doubles and determines if they are equal
         /// within the specified maximum absolute error.
@@ -45,20 +43,17 @@ namespace MathNet.Numerics
         /// <param name="diff">The norm of the difference of the two values (can be negative).</param>
         /// <param name="maximumAbsoluteError">The absolute accuracy required for being almost equal.</param>
         /// <returns>True if both doubles are almost equal up to the specified maximum absolute error, false otherwise.</returns>
-        public static bool AlmostEqualNorm(this double a, double b, double diff, double maximumAbsoluteError)
-        {
+        public static bool AlmostEqualNorm(this double a, double b, double diff, double maximumAbsoluteError) {
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a == b;
             }
 
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -74,8 +69,7 @@ namespace MathNet.Numerics
         /// <param name="maximumAbsoluteError">The absolute accuracy required for being almost equal.</param>
         /// <returns>True if both doubles are almost equal up to the specified maximum absolute error, false otherwise.</returns>
         public static bool AlmostEqualNorm<T>(this T a, T b, double maximumAbsoluteError)
-            where T : IPrecisionSupport<T>
-        {
+            where T : IPrecisionSupport<T> {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), maximumAbsoluteError);
         }
 
@@ -88,31 +82,26 @@ namespace MathNet.Numerics
         /// <param name="diff">The norm of the difference of the two values (can be negative).</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         /// <returns>True if both doubles are almost equal up to the specified maximum error, false otherwise.</returns>
-        public static bool AlmostEqualNormRelative(this double a, double b, double diff, double maximumError)
-        {
+        public static bool AlmostEqualNormRelative(this double a, double b, double diff, double maximumError) {
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a == b;
             }
 
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
             // If one is almost zero, fall back to absolute equality
-            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision)
-            {
+            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision) {
                 return Math.Abs(diff) < maximumError;
             }
 
-            if ((a == 0 && Math.Abs(b) < maximumError) || (b == 0 && Math.Abs(a) < maximumError))
-            {
+            if ((a == 0 && Math.Abs(b) < maximumError) || (b == 0 && Math.Abs(a) < maximumError)) {
                 return true;
             }
 
@@ -128,8 +117,7 @@ namespace MathNet.Numerics
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         /// <returns>True if both doubles are almost equal up to the specified maximum error, false otherwise.</returns>
         public static bool AlmostEqualNormRelative<T>(this T a, T b, double maximumError)
-            where T : IPrecisionSupport<T>
-        {
+            where T : IPrecisionSupport<T> {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), maximumError);
         }
 
@@ -140,8 +128,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqual(this double a, double b, double maximumAbsoluteError)
-        {
+        public static bool AlmostEqual(this double a, double b, double maximumAbsoluteError) {
             return AlmostEqualNorm(a, b, a - b, maximumAbsoluteError);
         }
 
@@ -152,8 +139,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqual(this float a, float b, double maximumAbsoluteError)
-        {
+        public static bool AlmostEqual(this float a, float b, double maximumAbsoluteError) {
             return AlmostEqualNorm(a, b, a - b, maximumAbsoluteError);
         }
 
@@ -164,8 +150,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqual(this Complex a, Complex b, double maximumAbsoluteError)
-        {
+        public static bool AlmostEqual(this Complex a, Complex b, double maximumAbsoluteError) {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), maximumAbsoluteError);
         }
 
@@ -176,8 +161,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqual(this Complex32 a, Complex32 b, double maximumAbsoluteError)
-        {
+        public static bool AlmostEqual(this Complex32 a, Complex32 b, double maximumAbsoluteError) {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), maximumAbsoluteError);
         }
 
@@ -188,8 +172,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqualRelative(this double a, double b, double maximumError)
-        {
+        public static bool AlmostEqualRelative(this double a, double b, double maximumError) {
             return AlmostEqualNormRelative(a, b, a - b, maximumError);
         }
 
@@ -200,8 +183,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqualRelative(this float a, float b, double maximumError)
-        {
+        public static bool AlmostEqualRelative(this float a, float b, double maximumError) {
             return AlmostEqualNormRelative(a, b, a - b, maximumError);
         }
 
@@ -212,8 +194,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqualRelative(this Complex a, Complex b, double maximumError)
-        {
+        public static bool AlmostEqualRelative(this Complex a, Complex b, double maximumError) {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), maximumError);
         }
 
@@ -224,8 +205,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool AlmostEqualRelative(this Complex32 a, Complex32 b, double maximumError)
-        {
+        public static bool AlmostEqualRelative(this Complex32 a, Complex32 b, double maximumError) {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), maximumError);
         }
 
@@ -235,8 +215,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this double a, double b)
-        {
+        public static bool AlmostEqual(this double a, double b) {
             return AlmostEqualNorm(a, b, a - b, DefaultDoubleAccuracy);
         }
 
@@ -246,8 +225,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this float a, float b)
-        {
+        public static bool AlmostEqual(this float a, float b) {
             return AlmostEqualNorm(a, b, a - b, DefaultSingleAccuracy);
         }
 
@@ -257,8 +235,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this Complex a, Complex b)
-        {
+        public static bool AlmostEqual(this Complex a, Complex b) {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), DefaultDoubleAccuracy);
         }
 
@@ -268,8 +245,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this Complex32 a, Complex32 b)
-        {
+        public static bool AlmostEqual(this Complex32 a, Complex32 b) {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), DefaultSingleAccuracy);
         }
 
@@ -279,8 +255,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqualRelative(this double a, double b)
-        {
+        public static bool AlmostEqualRelative(this double a, double b) {
             return AlmostEqualNormRelative(a, b, a - b, DefaultDoubleAccuracy);
         }
 
@@ -290,8 +265,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqualRelative(this float a, float b)
-        {
+        public static bool AlmostEqualRelative(this float a, float b) {
             return AlmostEqualNormRelative(a, b, a - b, DefaultSingleAccuracy);
         }
 
@@ -301,8 +275,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqualRelative(this Complex a, Complex b)
-        {
+        public static bool AlmostEqualRelative(this Complex a, Complex b) {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), DefaultDoubleAccuracy);
         }
 
@@ -312,8 +285,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqualRelative(this Complex32 a, Complex32 b)
-        {
+        public static bool AlmostEqualRelative(this Complex32 a, Complex32 b) {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), DefaultSingleAccuracy);
         }
 
@@ -332,20 +304,17 @@ namespace MathNet.Numerics
         /// <param name="b">The norm of the second value (can be negative).</param>
         /// <param name="diff">The norm of the difference of the two values (can be negative).</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqualNorm(this double a, double b, double diff, int decimalPlaces)
-        {
+        public static bool AlmostEqualNorm(this double a, double b, double diff, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a == b;
             }
 
@@ -371,8 +340,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool AlmostEqualNorm<T>(this T a, T b, int decimalPlaces)
-            where T : IPrecisionSupport<T>
-        {
+            where T : IPrecisionSupport<T> {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), decimalPlaces);
         }
 
@@ -392,39 +360,33 @@ namespace MathNet.Numerics
         /// <param name="diff">The norm of the difference of the two values (can be negative).</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="decimalPlaces"/> is smaller than zero.</exception>
-        public static bool AlmostEqualNormRelative(this double a, double b, double diff, int decimalPlaces)
-        {
-            if (decimalPlaces < 0)
-            {
+        public static bool AlmostEqualNormRelative(this double a, double b, double diff, int decimalPlaces) {
+            if (decimalPlaces < 0) {
                 // Can't have a negative number of decimal places
                 throw new ArgumentOutOfRangeException(nameof(decimalPlaces));
             }
 
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a == b;
             }
 
             // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
             // and any problems associated with that.
-            if (a.Equals(b))
-            {
+            if (a.Equals(b)) {
                 return true;
             }
 
             // If one is almost zero, fall back to absolute equality
-            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision)
-            {
+            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision) {
                 // The values are equal if the difference between the two numbers is smaller than
                 // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
                 // on each side of the numbers, e.g. if decimalPlaces == 2,
@@ -436,8 +398,7 @@ namespace MathNet.Numerics
             int magnitudeOfFirst = Magnitude(a);
             int magnitudeOfSecond = Magnitude(b);
             int magnitudeOfMax = Math.Max(magnitudeOfFirst, magnitudeOfSecond);
-            if (magnitudeOfMax > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1))
-            {
+            if (magnitudeOfMax > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1)) {
                 return false;
             }
 
@@ -463,8 +424,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool AlmostEqualNormRelative<T>(this T a, T b, int decimalPlaces)
-            where T : IPrecisionSupport<T>
-        {
+            where T : IPrecisionSupport<T> {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), decimalPlaces);
         }
 
@@ -475,8 +435,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqual(this double a, double b, int decimalPlaces)
-        {
+        public static bool AlmostEqual(this double a, double b, int decimalPlaces) {
             return AlmostEqualNorm(a, b, a - b, decimalPlaces);
         }
 
@@ -487,8 +446,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqual(this float a, float b, int decimalPlaces)
-        {
+        public static bool AlmostEqual(this float a, float b, int decimalPlaces) {
             return AlmostEqualNorm(a, b, a - b, decimalPlaces);
         }
 
@@ -499,8 +457,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqual(this Complex a, Complex b, int decimalPlaces)
-        {
+        public static bool AlmostEqual(this Complex a, Complex b, int decimalPlaces) {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), decimalPlaces);
         }
 
@@ -511,8 +468,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqual(this Complex32 a, Complex32 b, int decimalPlaces)
-        {
+        public static bool AlmostEqual(this Complex32 a, Complex32 b, int decimalPlaces) {
             return AlmostEqualNorm(a.Norm(), b.Norm(), a.NormOfDifference(b), decimalPlaces);
         }
 
@@ -523,8 +479,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqualRelative(this double a, double b, int decimalPlaces)
-        {
+        public static bool AlmostEqualRelative(this double a, double b, int decimalPlaces) {
             return AlmostEqualNormRelative(a, b, a - b, decimalPlaces);
         }
 
@@ -535,8 +490,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqualRelative(this float a, float b, int decimalPlaces)
-        {
+        public static bool AlmostEqualRelative(this float a, float b, int decimalPlaces) {
             return AlmostEqualNormRelative(a, b, a - b, decimalPlaces);
         }
 
@@ -547,8 +501,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqualRelative(this Complex a, Complex b, int decimalPlaces)
-        {
+        public static bool AlmostEqualRelative(this Complex a, Complex b, int decimalPlaces) {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), decimalPlaces);
         }
 
@@ -559,8 +512,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool AlmostEqualRelative(this Complex32 a, Complex32 b, int decimalPlaces)
-        {
+        public static bool AlmostEqualRelative(this Complex32 a, Complex32 b, int decimalPlaces) {
             return AlmostEqualNormRelative(a.Norm(), b.Norm(), a.NormOfDifference(b), decimalPlaces);
         }
 
@@ -584,27 +536,23 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values between the two values. Must be 1 or larger.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="maxNumbersBetween"/> is smaller than one.</exception>
-        public static bool AlmostEqualNumbersBetween(this double a, double b, long maxNumbersBetween)
-        {
+        public static bool AlmostEqualNumbersBetween(this double a, double b, long maxNumbersBetween) {
             // Make sure maxNumbersBetween is non-negative and small enough that the
             // default NAN won't compare as equal to anything.
-            if (maxNumbersBetween < 1)
-            {
+            if (maxNumbersBetween < 1) {
                 throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a == b;
             }
 
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -627,27 +575,23 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values between the two values. Must be 1 or larger.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="maxNumbersBetween"/> is smaller than one.</exception>
-        public static bool AlmostEqualNumbersBetween(this float a, float b, int maxNumbersBetween)
-        {
+        public static bool AlmostEqualNumbersBetween(this float a, float b, int maxNumbersBetween) {
             // Make sure maxNumbersBetween is non-negative and small enough that the
             // default NAN won't compare as equal to anything.
-            if (maxNumbersBetween < 1)
-            {
+            if (maxNumbersBetween < 1) {
                 throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if (float.IsInfinity(a) || float.IsInfinity(b))
-            {
+            if (float.IsInfinity(a) || float.IsInfinity(b)) {
                 return a == b;
             }
 
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves.
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -670,8 +614,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqual(this IList<double> a, IList<double> b, double maximumAbsoluteError)
-        {
+        public static bool ListAlmostEqual(this IList<double> a, IList<double> b, double maximumAbsoluteError) {
             return ListForAll(a, b, AlmostEqual, maximumAbsoluteError);
         }
 
@@ -682,8 +625,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqual(this IList<float> a, IList<float> b, double maximumAbsoluteError)
-        {
+        public static bool ListAlmostEqual(this IList<float> a, IList<float> b, double maximumAbsoluteError) {
             return ListForAll(a, b, AlmostEqual, maximumAbsoluteError);
         }
 
@@ -694,8 +636,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqual(this IList<Complex> a, IList<Complex> b, double maximumAbsoluteError)
-        {
+        public static bool ListAlmostEqual(this IList<Complex> a, IList<Complex> b, double maximumAbsoluteError) {
             return ListForAll(a, b, AlmostEqual, maximumAbsoluteError);
         }
 
@@ -706,8 +647,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqual(this IList<Complex32> a, IList<Complex32> b, double maximumAbsoluteError)
-        {
+        public static bool ListAlmostEqual(this IList<Complex32> a, IList<Complex32> b, double maximumAbsoluteError) {
             return ListForAll(a, b, AlmostEqual, maximumAbsoluteError);
         }
 
@@ -718,8 +658,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqualRelative(this IList<double> a, IList<double> b, double maximumError)
-        {
+        public static bool ListAlmostEqualRelative(this IList<double> a, IList<double> b, double maximumError) {
             return ListForAll(a, b, AlmostEqualRelative, maximumError);
         }
 
@@ -730,8 +669,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqualRelative(this IList<float> a, IList<float> b, double maximumError)
-        {
+        public static bool ListAlmostEqualRelative(this IList<float> a, IList<float> b, double maximumError) {
             return ListForAll(a, b, AlmostEqualRelative, maximumError);
         }
 
@@ -742,8 +680,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqualRelative(this IList<Complex> a, IList<Complex> b, double maximumError)
-        {
+        public static bool ListAlmostEqualRelative(this IList<Complex> a, IList<Complex> b, double maximumError) {
             return ListForAll(a, b, AlmostEqualRelative, maximumError);
         }
 
@@ -754,8 +691,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        public static bool ListAlmostEqualRelative(this IList<Complex32> a, IList<Complex32> b, double maximumError)
-        {
+        public static bool ListAlmostEqualRelative(this IList<Complex32> a, IList<Complex32> b, double maximumError) {
             return ListForAll(a, b, AlmostEqualRelative, maximumError);
         }
 
@@ -766,8 +702,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqual(this IList<double> a, IList<double> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqual(this IList<double> a, IList<double> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
         }
 
@@ -778,8 +713,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqual(this IList<float> a, IList<float> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqual(this IList<float> a, IList<float> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
         }
 
@@ -790,8 +724,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqual(this IList<Complex> a, IList<Complex> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqual(this IList<Complex> a, IList<Complex> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
         }
 
@@ -802,8 +735,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqual(this IList<Complex32> a, IList<Complex32> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqual(this IList<Complex32> a, IList<Complex32> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
         }
 
@@ -814,8 +746,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqualRelative(this IList<double> a, IList<double> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqualRelative(this IList<double> a, IList<double> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
         }
 
@@ -826,8 +757,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqualRelative(this IList<float> a, IList<float> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqualRelative(this IList<float> a, IList<float> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
         }
 
@@ -838,8 +768,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqualRelative(this IList<Complex> a, IList<Complex> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqualRelative(this IList<Complex> a, IList<Complex> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
         }
 
@@ -850,8 +779,7 @@ namespace MathNet.Numerics
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
-        public static bool ListAlmostEqualRelative(this IList<Complex32> a, IList<Complex32> b, int decimalPlaces)
-        {
+        public static bool ListAlmostEqualRelative(this IList<Complex32> a, IList<Complex32> b, int decimalPlaces) {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
         }
 
@@ -863,22 +791,17 @@ namespace MathNet.Numerics
         /// <param name="b">The second value list.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
         public static bool ListAlmostEqualNorm<T>(this IList<T> a, IList<T> b, double maximumAbsoluteError)
-            where T : IPrecisionSupport<T>
-        {
-            if (a == null && b == null)
-            {
+            where T : IPrecisionSupport<T> {
+            if (a == null && b == null) {
                 return true;
             }
 
-            if (a == null || b == null || a.Count != b.Count)
-            {
+            if (a == null || b == null || a.Count != b.Count) {
                 return false;
             }
 
-            for (int i = 0; i < a.Count; i++)
-            {
-                if (!AlmostEqualNorm(a[i], b[i], maximumAbsoluteError))
-                {
+            for (int i = 0; i < a.Count; i++) {
+                if (!AlmostEqualNorm(a[i], b[i], maximumAbsoluteError)) {
                     return false;
                 }
             }
@@ -894,22 +817,17 @@ namespace MathNet.Numerics
         /// <param name="b">The second value list.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static bool ListAlmostEqualNormRelative<T>(this IList<T> a, IList<T> b, double maximumError)
-            where T : IPrecisionSupport<T>
-        {
-            if (a == null && b == null)
-            {
+            where T : IPrecisionSupport<T> {
+            if (a == null && b == null) {
                 return true;
             }
 
-            if (a == null || b == null || a.Count != b.Count)
-            {
+            if (a == null || b == null || a.Count != b.Count) {
                 return false;
             }
 
-            for (int i = 0; i < a.Count; i++)
-            {
-                if (!AlmostEqualNormRelative(a[i], b[i], maximumError))
-                {
+            for (int i = 0; i < a.Count; i++) {
+                if (!AlmostEqualNormRelative(a[i], b[i], maximumError)) {
                     return false;
                 }
             }
@@ -917,22 +835,17 @@ namespace MathNet.Numerics
             return true;
         }
 
-        static bool ListForAll<T,TP>(IList<T> a, IList<T> b, Func<T, T, TP, bool> predicate, TP parameter)
-        {
-            if (a == null && b == null)
-            {
+        static bool ListForAll<T, TP>(IList<T> a, IList<T> b, Func<T, T, TP, bool> predicate, TP parameter) {
+            if (a == null && b == null) {
                 return true;
             }
 
-            if (a == null || b == null || a.Count != b.Count)
-            {
+            if (a == null || b == null || a.Count != b.Count) {
                 return false;
             }
 
-            for (int i = 0; i < a.Count; i++)
-            {
-                if (!predicate(a[i], b[i], parameter))
-                {
+            for (int i = 0; i < a.Count; i++) {
+                if (!predicate(a[i], b[i], parameter)) {
                     return false;
                 }
             }
@@ -947,8 +860,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
         public static bool AlmostEqual<T>(this Vector<T> a, Vector<T> b, double maximumAbsoluteError)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumAbsoluteError);
         }
 
@@ -959,8 +871,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static bool AlmostEqualRelative<T>(this Vector<T> a, Vector<T> b, double maximumError)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumError);
         }
 
@@ -972,8 +883,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool AlmostEqual<T>(this Vector<T> a, Vector<T> b, int decimalPlaces)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
         }
 
@@ -985,8 +895,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool AlmostEqualRelative<T>(this Vector<T> a, Vector<T> b, int decimalPlaces)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
         }
 
@@ -997,8 +906,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
         public static bool AlmostEqual<T>(this Matrix<T> a, Matrix<T> b, double maximumAbsoluteError)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumAbsoluteError);
         }
 
@@ -1009,8 +917,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static bool AlmostEqualRelative<T>(this Matrix<T> a, Matrix<T> b, double maximumError)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumError);
         }
 
@@ -1022,8 +929,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool AlmostEqual<T>(this Matrix<T> a, Matrix<T> b, int decimalPlaces)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
         }
 
@@ -1035,8 +941,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool AlmostEqualRelative<T>(this Matrix<T> a, Matrix<T> b, int decimalPlaces)
-            where T : struct, IEquatable<T>, IFormattable
-        {
+            where T : struct, IEquatable<T>, IFormattable {
             return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
         }
 
@@ -1047,8 +952,7 @@ namespace MathNet.Numerics
             1e-17, 1e-18, 1e-19, 1e-20
         };
 
-        static double Pow10(int y)
-        {
+        static double Pow10(int y) {
             return -NegativePowersOf10.Length < y && y <= 0
                ? NegativePowersOf10[-y]
                : Math.Pow(10.0, y);

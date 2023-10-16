@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FishDetector))]
-public class WaterZone : MonoBehaviour
-{
+public class WaterZone : MonoBehaviour {
     public FishDetector detector;
 
     public WaterMaterialInterface waterMaterial;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         if (detector == null)
             detector = GetComponent<FishDetector>();
 
@@ -33,7 +31,7 @@ public class WaterZone : MonoBehaviour
             return;
         force *= forceScale;
         force = Mathf.Clamp(force, forceRange.x, forceRange.y);
-        Vector2 dir = (up) ? Vector2.up: Vector2.down;
+        Vector2 dir = (up) ? Vector2.up : Vector2.down;
         int nodeIdx = PiecewiseLinear.ClosestIndexBefore(
             waterMaterial.waterSurfaceNodes, position.x, PiecewiseLinear.transformPosition, true);
         PerturbNode(nodeIdx, dir * force);

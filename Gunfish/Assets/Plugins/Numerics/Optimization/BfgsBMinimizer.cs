@@ -27,23 +27,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization.LineSearch;
+using System;
+using System.Collections.Generic;
 
-namespace MathNet.Numerics.Optimization
-{
+namespace MathNet.Numerics.Optimization {
     /// <summary>
     /// Broyden–Fletcher–Goldfarb–Shanno Bounded (BFGS-B) algorithm is an iterative method for solving box-constrained nonlinear optimization problems
     /// http://www.ece.northwestern.edu/~nocedal/PSfiles/limited.ps.gz
     /// </summary>
-    public class BfgsBMinimizer : BfgsMinimizerBase
-    {
+    public class BfgsBMinimizer : BfgsMinimizerBase {
         public BfgsBMinimizer(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations = 1000)
-            : base(gradientTolerance,parameterTolerance,functionProgressTolerance,maximumIterations)
-        {
+            : base(gradientTolerance, parameterTolerance, functionProgressTolerance, maximumIterations) {
         }
 
         /// <summary>
@@ -54,8 +51,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="upperBound">The upper bound</param>
         /// <param name="initialGuess">The initial guess</param>
         /// <returns>The MinimizationResult which contains the minimum and the ExitCondition</returns>
-        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> initialGuess)
-        {
+        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> initialGuess) {
             _lowerBound = lowerBound;
             _upperBound = upperBound;
             if (!objective.IsGradientSupported)
@@ -96,8 +92,7 @@ namespace MathNet.Numerics.Optimization
             var isFixed = gradientProjectionResult.IsFixed;
             var freeCount = lowerBound.Count - fixedCount;
 
-            if (freeCount > 0)
-            {
+            if (freeCount > 0) {
                 reducedGradient = new DenseVector(freeCount);
                 reducedHessian = new DenseMatrix(freeCount, freeCount);
                 reducedMap = new List<int>(freeCount);
@@ -111,30 +106,27 @@ namespace MathNet.Numerics.Optimization
 
                 solution1 = ReducedToFull(reducedMap, reducedSolution1, cauchyPoint);
             }
-            else
-            {
+            else {
                 solution1 = cauchyPoint;
             }
 
             var directionFromCauchy = solution1 - cauchyPoint;
             var maxStepFromCauchyPoint = FindMaxStep(cauchyPoint, directionFromCauchy, lowerBound, upperBound);
 
-            var solution2 = cauchyPoint + Math.Min(maxStepFromCauchyPoint, 1.0)*directionFromCauchy;
+            var solution2 = cauchyPoint + Math.Min(maxStepFromCauchyPoint, 1.0) * directionFromCauchy;
 
             var lineSearchDirection = solution2 - objective.Point;
             var maxLineSearchStep = FindMaxStep(objective.Point, lineSearchDirection, lowerBound, upperBound);
-            var estStepSize = -objective.Gradient*lineSearchDirection/(lineSearchDirection*pseudoHessian*lineSearchDirection);
+            var estStepSize = -objective.Gradient * lineSearchDirection / (lineSearchDirection * pseudoHessian * lineSearchDirection);
 
             var startingStepSize = Math.Min(Math.Max(estStepSize, 1.0), maxLineSearchStep);
 
             // Line search
             LineSearchResult lineSearchResult;
-            try
-            {
+            try {
                 lineSearchResult = lineSearcher.FindConformingStep(objective, lineSearchDirection, startingStepSize, upperBound: maxLineSearchStep);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 throw new InnerOptimizationException("Line search failed.", e);
             }
 
@@ -166,8 +158,7 @@ namespace MathNet.Numerics.Optimization
             out double startingStepSize,
             IObjectiveFunction previousPoint,
             IObjectiveFunction candidatePoint,
-            Vector<double> step)
-        {
+            Vector<double> step) {
             Vector<double> lineSearchDirection;
             var y = candidatePoint.Gradient - previousPoint.Gradient;
 
@@ -178,8 +169,7 @@ namespace MathNet.Numerics.Optimization
                 var sHs = step * pseudoHessian * step;
                 pseudoHessian = pseudoHessian + y.OuterProduct(y) * (1.0 / sy) - Hs.OuterProduct(Hs) * (1.0 / sHs);
             }
-            else
-            {
+            else {
                 //pseudo_hessian = LinearAlgebra.Double.DiagonalMatrix.Identity(initial_guess.Count);
             }
 
@@ -190,8 +180,7 @@ namespace MathNet.Numerics.Optimization
             var isFixed = gradientProjectionResult.IsFixed;
             var freeCount = _lowerBound.Count - fixedCount;
             Vector<double> solution1;
-            if (freeCount > 0)
-            {
+            if (freeCount > 0) {
                 var reducedGradient = new DenseVector(freeCount);
                 var reducedHessian = new DenseMatrix(freeCount, freeCount);
                 var reducedMap = new List<int>(freeCount);
@@ -205,8 +194,7 @@ namespace MathNet.Numerics.Optimization
 
                 solution1 = ReducedToFull(reducedMap, reducedSolution1, cauchyPoint);
             }
-            else
-            {
+            else {
                 solution1 = cauchyPoint;
             }
 
@@ -218,8 +206,7 @@ namespace MathNet.Numerics.Optimization
             lineSearchDirection = solution2 - candidatePoint.Point;
             maxLineSearchStep = FindMaxStep(candidatePoint.Point, lineSearchDirection, _lowerBound, _upperBound);
 
-            if (maxLineSearchStep == 0.0)
-            {
+            if (maxLineSearchStep == 0.0) {
                 lineSearchDirection = cauchyPoint - candidatePoint.Point;
                 maxLineSearchStep = FindMaxStep(candidatePoint.Point, lineSearchDirection, _lowerBound, _upperBound);
             }
@@ -230,8 +217,7 @@ namespace MathNet.Numerics.Optimization
             return lineSearchDirection;
         }
 
-        static Vector<double> ReducedToFull(List<int> reducedMap, Vector<double> reducedVector, Vector<double> fullVector)
-        {
+        static Vector<double> ReducedToFull(List<int> reducedMap, Vector<double> reducedVector, Vector<double> fullVector) {
             var output = fullVector.Clone();
             for (int ii = 0; ii < reducedMap.Count; ++ii)
                 output[reducedMap[ii]] = reducedVector[ii];
@@ -241,16 +227,14 @@ namespace MathNet.Numerics.Optimization
         Vector<double> _lowerBound;
         Vector<double> _upperBound;
 
-        static double FindMaxStep(Vector<double> startingPoint, Vector<double> searchDirection, Vector<double> lowerBound, Vector<double> upperBound)
-        {
+        static double FindMaxStep(Vector<double> startingPoint, Vector<double> searchDirection, Vector<double> lowerBound, Vector<double> upperBound) {
             double maxStep = double.PositiveInfinity;
-            for (int ii = 0; ii < startingPoint.Count; ++ii)
-            {
+            for (int ii = 0; ii < startingPoint.Count; ++ii) {
                 double paramMaxStep;
                 if (searchDirection[ii] > 0)
-                    paramMaxStep = (upperBound[ii] - startingPoint[ii])/searchDirection[ii];
+                    paramMaxStep = (upperBound[ii] - startingPoint[ii]) / searchDirection[ii];
                 else if (searchDirection[ii] < 0)
-                    paramMaxStep = (startingPoint[ii] - lowerBound[ii])/-searchDirection[ii];
+                    paramMaxStep = (startingPoint[ii] - lowerBound[ii]) / -searchDirection[ii];
                 else
                     paramMaxStep = double.PositiveInfinity;
 
@@ -260,19 +244,14 @@ namespace MathNet.Numerics.Optimization
             return maxStep;
         }
 
-        static void CreateReducedData(Vector<double> initialPoint, Vector<double> cauchyPoint, List<bool> isFixed, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> gradient, Matrix<double> pseudoHessian, Vector<double> reducedInitialPoint, Vector<double> reducedCauchyPoint, Vector<double> reducedGradient, Matrix<double> reducedHessian, List<int> reducedMap)
-        {
+        static void CreateReducedData(Vector<double> initialPoint, Vector<double> cauchyPoint, List<bool> isFixed, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> gradient, Matrix<double> pseudoHessian, Vector<double> reducedInitialPoint, Vector<double> reducedCauchyPoint, Vector<double> reducedGradient, Matrix<double> reducedHessian, List<int> reducedMap) {
             int ll = 0;
-            for (int ii = 0; ii < lowerBound.Count; ++ii)
-            {
-                if (!isFixed[ii])
-                {
+            for (int ii = 0; ii < lowerBound.Count; ++ii) {
+                if (!isFixed[ii]) {
                     // hessian
                     int mm = 0;
-                    for (int jj = 0; jj < lowerBound.Count; ++jj)
-                    {
-                        if (!isFixed[jj])
-                        {
+                    for (int jj = 0; jj < lowerBound.Count; ++jj) {
+                        if (!isFixed[jj]) {
                             reducedHessian[ll, mm++] = pseudoHessian[ii, jj];
                         }
                     }
@@ -288,8 +267,7 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        protected override double GetProjectedGradient(IObjectiveFunctionEvaluation candidatePoint, int ii)
-        {
+        protected override double GetProjectedGradient(IObjectiveFunctionEvaluation candidatePoint, int ii) {
             double projectedGradient;
             bool atLowerBound = candidatePoint.Point[ii] - _lowerBound[ii] < VerySmall;
             bool atUpperBound = _upperBound[ii] - candidatePoint.Point[ii] < VerySmall;

@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization {
     using Numerics;
     using Complex = System.Numerics.Complex;
 
@@ -50,8 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
-    internal sealed class DenseEvd : Evd
-    {
+    internal sealed class DenseEvd : Evd {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseEvd"/> class. This object will compute the
         /// the eigenvalue decomposition when the constructor is called and cache it's decomposition.
@@ -60,10 +58,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="symmetricity">If it is known whether the matrix is symmetric or not the routine can skip checking it itself.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If EVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public static DenseEvd Create(DenseMatrix matrix, Symmetricity symmetricity)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public static DenseEvd Create(DenseMatrix matrix, Symmetricity symmetricity) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.");
             }
 
@@ -75,8 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var eigenValues = new LinearAlgebra.Complex.DenseVector(order);
 
             bool isSymmetric;
-            switch (symmetricity)
-            {
+            switch (symmetricity) {
                 case Symmetricity.Hermitian:
                     isSymmetric = true;
                     break;
@@ -94,8 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         }
 
         DenseEvd(Matrix<Complex32> eigenVectors, Vector<Complex> eigenValues, Matrix<Complex32> blockDiagonal, bool isSymmetric)
-            : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric)
-        {
+            : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric) {
         }
 
         /// <summary>
@@ -103,63 +97,51 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<Complex32> input, Matrix<Complex32> result)
-        {
+        public override void Solve(Matrix<Complex32> input, Matrix<Complex32> result) {
             // The solution X should have the same number of columns as B
-            if (input.ColumnCount != result.ColumnCount)
-            {
+            if (input.ColumnCount != result.ColumnCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (EigenValues.Count != input.RowCount)
-            {
+            if (EigenValues.Count != input.RowCount) {
                 throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (EigenValues.Count != result.RowCount)
-            {
+            if (EigenValues.Count != result.RowCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
-            if (IsSymmetric)
-            {
+            if (IsSymmetric) {
                 var order = EigenValues.Count;
                 var tmp = new Complex32[order];
 
-                for (var k = 0; k < order; k++)
-                {
-                    for (var j = 0; j < order; j++)
-                    {
+                for (var k = 0; k < order; k++) {
+                    for (var j = 0; j < order; j++) {
                         Complex32 value = 0.0f;
-                        if (j < order)
-                        {
-                            for (var i = 0; i < order; i++)
-                            {
-                                value += ((DenseMatrix) EigenVectors).Values[(j*order) + i].Conjugate()*input.At(i, k);
+                        if (j < order) {
+                            for (var i = 0; i < order; i++) {
+                                value += ((DenseMatrix)EigenVectors).Values[(j * order) + i].Conjugate() * input.At(i, k);
                             }
 
-                            value /= (float) EigenValues[j].Real;
+                            value /= (float)EigenValues[j].Real;
                         }
 
                         tmp[j] = value;
                     }
 
-                    for (var j = 0; j < order; j++)
-                    {
+                    for (var j = 0; j < order; j++) {
                         Complex32 value = 0.0f;
-                        for (var i = 0; i < order; i++)
-                        {
-                            value += ((DenseMatrix) EigenVectors).Values[(i*order) + j]*tmp[i];
+                        for (var i = 0; i < order; i++) {
+                            value += ((DenseMatrix)EigenVectors).Values[(i * order) + j] * tmp[i];
                         }
 
                         result.At(j, k, value);
                     }
                 }
             }
-            else
-            {
+            else {
                 throw new ArgumentException("Matrix must be symmetric.");
             }
         }
@@ -169,57 +151,47 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<Complex32> input, Vector<Complex32> result)
-        {
+        public override void Solve(Vector<Complex32> input, Vector<Complex32> result) {
             // Ax=b where A is an m x m matrix
             // Check that b is a column vector with m entries
-            if (EigenValues.Count != input.Count)
-            {
+            if (EigenValues.Count != input.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             // Check that x is a column vector with n entries
-            if (EigenValues.Count != result.Count)
-            {
+            if (EigenValues.Count != result.Count) {
                 throw new ArgumentException("Matrix dimensions must agree.");
             }
 
-            if (IsSymmetric)
-            {
+            if (IsSymmetric) {
                 // Symmetric case -> x = V * inv(λ) * VH * b;
                 var order = EigenValues.Count;
                 var tmp = new Complex32[order];
                 Complex32 value;
 
-                for (var j = 0; j < order; j++)
-                {
+                for (var j = 0; j < order; j++) {
                     value = 0;
-                    if (j < order)
-                    {
-                        for (var i = 0; i < order; i++)
-                        {
-                            value += ((DenseMatrix) EigenVectors).Values[(j*order) + i].Conjugate()*input[i];
+                    if (j < order) {
+                        for (var i = 0; i < order; i++) {
+                            value += ((DenseMatrix)EigenVectors).Values[(j * order) + i].Conjugate() * input[i];
                         }
 
-                        value /= (float) EigenValues[j].Real;
+                        value /= (float)EigenValues[j].Real;
                     }
 
                     tmp[j] = value;
                 }
 
-                for (var j = 0; j < order; j++)
-                {
+                for (var j = 0; j < order; j++) {
                     value = 0;
-                    for (var i = 0; i < order; i++)
-                    {
-                        value += ((DenseMatrix) EigenVectors).Values[(i*order) + j]*tmp[i];
+                    for (var i = 0; i < order; i++) {
+                        value += ((DenseMatrix)EigenVectors).Values[(i * order) + j] * tmp[i];
                     }
 
                     result[j] = value;
                 }
             }
-            else
-            {
+            else {
                 throw new ArgumentException("Matrix must be symmetric.");
             }
         }

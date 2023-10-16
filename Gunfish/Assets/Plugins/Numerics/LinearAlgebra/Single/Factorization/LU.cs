@@ -29,8 +29,7 @@
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Single.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
     /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
@@ -41,29 +40,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    internal abstract class LU : LU<float>
-    {
+    internal abstract class LU : LU<float> {
         protected LU(Matrix<float> factors, int[] pivots)
-            : base(factors, pivots)
-        {
+            : base(factors, pivots) {
         }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the LU factorization was computed.
         /// </summary>
-        public override float Determinant
-        {
-            get
-            {
+        public override float Determinant {
+            get {
                 var det = 1.0f;
-                for (var j = 0; j < Factors.RowCount; j++)
-                {
-                    if (Pivots[j] != j)
-                    {
+                for (var j = 0; j < Factors.RowCount; j++) {
+                    if (Pivots[j] != j) {
                         det *= -Factors.At(j, j);
                     }
-                    else
-                    {
+                    else {
                         det *= Factors.At(j, j);
                     }
                 }

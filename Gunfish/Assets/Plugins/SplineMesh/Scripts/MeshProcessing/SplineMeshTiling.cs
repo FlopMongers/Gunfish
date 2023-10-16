@@ -61,13 +61,15 @@ namespace SplineMesh {
         }
 
         private void OnValidate() {
-            if (spline == null) return;
+            if (spline == null)
+                return;
             toUpdate = true;
         }
 
         private void Update() {
             // we can prevent the generated content to be updated during playmode to preserve baked data saved in the scene
-            if (!updateInPlayMode && Application.isPlaying) return;
+            if (!updateInPlayMode && Application.isPlaying)
+                return;
 
             if (toUpdate) {
                 toUpdate = false;
@@ -78,7 +80,8 @@ namespace SplineMesh {
         public void CreateMeshes() {
 #if UNITY_EDITOR
             // we don't update if we are in prefab mode
-            if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null) return;
+            if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null)
+                return;
 #endif
             var used = new List<GameObject>();
 
@@ -90,7 +93,8 @@ namespace SplineMesh {
                     go.GetComponent<MeshCollider>().enabled = generateCollider;
                     used.Add(go);
                 }
-            } else {
+            }
+            else {
                 var go = FindOrCreate("segment 1 mesh");
                 go.GetComponent<MeshBender>().SetInterval(spline, 0);
                 go.GetComponent<MeshCollider>().enabled = generateCollider;
@@ -116,7 +120,8 @@ namespace SplineMesh {
                     typeof(MeshBender),
                     typeof(MeshCollider));
                 res.isStatic = !updateInPlayMode;
-            } else {
+            }
+            else {
                 res = childTransform.gameObject;
             }
             res.GetComponent<MeshRenderer>().material = material;

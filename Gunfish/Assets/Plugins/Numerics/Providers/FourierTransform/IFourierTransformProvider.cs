@@ -29,18 +29,15 @@
 
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.Providers.FourierTransform
-{
-    public enum FourierTransformScaling : int
-    {
+namespace MathNet.Numerics.Providers.FourierTransform {
+    public enum FourierTransformScaling : int {
         NoScaling = 0,
         SymmetricScaling = 1,
         BackwardScaling = 2,
         ForwardScaling = 3
     }
 
-    public interface IFourierTransformProvider
-    {
+    public interface IFourierTransformProvider {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.

@@ -1,122 +1,109 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using FunkyCode.LightShape;
+﻿using FunkyCode.LightShape;
 using FunkyCode.Utilities;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	[System.Serializable]
-	public class DayLightColliderShape
-	{
-		public DayLightCollider2D.ShadowType shadowType = DayLightCollider2D.ShadowType.SpritePhysicsShape;
-		
-		public DayLightCollider2D.MaskType maskType = DayLightCollider2D.MaskType.Sprite;
+namespace FunkyCode {
+    [System.Serializable]
+    public class DayLightColliderShape {
+        public DayLightCollider2D.ShadowType shadowType = DayLightCollider2D.ShadowType.SpritePhysicsShape;
 
-		public Transform transform;
-	
-		public DayLightingColliderTransform transform2D = new DayLightingColliderTransform();
+        public DayLightCollider2D.MaskType maskType = DayLightCollider2D.MaskType.Sprite;
 
-		public SpriteShape spriteShape = new SpriteShape();
-		public SpritePhysicsShape spritePhysicsShape = new SpritePhysicsShape();
-		public Collider2DShape colliderShape = new Collider2DShape();
+        public Transform transform;
 
-		public float height = 1;
-		public float thickness = 1;
+        public DayLightingColliderTransform transform2D = new DayLightingColliderTransform();
 
-		public bool isStatic = false;
+        public SpriteShape spriteShape = new SpriteShape();
+        public SpritePhysicsShape spritePhysicsShape = new SpritePhysicsShape();
+        public Collider2DShape colliderShape = new Collider2DShape();
 
-		public void SetTransform(Transform t)
-		{
-			transform = t;
+        public float height = 1;
+        public float thickness = 1;
 
-			transform2D.SetShape(this);
+        public bool isStatic = false;
 
-			spriteShape.SetTransform(t);
-			spritePhysicsShape.SetTransform(t);
-			
-			colliderShape.SetTransform(t);
-		}
+        public void SetTransform(Transform t) {
+            transform = t;
 
-		public void ResetLocal()
-		{
-			spriteShape.ResetLocal();
-			spritePhysicsShape.ResetLocal();
+            transform2D.SetShape(this);
 
-			colliderShape.ResetLocal();
-		}
+            spriteShape.SetTransform(t);
+            spritePhysicsShape.SetTransform(t);
 
-		public void ResetWorld()
-		{
-			spritePhysicsShape.ResetWorld();
+            colliderShape.SetTransform(t);
+        }
 
-			colliderShape.ResetWorld();
-		}
+        public void ResetLocal() {
+            spriteShape.ResetLocal();
+            spritePhysicsShape.ResetLocal();
 
-		public List<MeshObject> GetMeshes()
-		{
-			switch(shadowType)
-			{
+            colliderShape.ResetLocal();
+        }
 
-				case DayLightCollider2D.ShadowType.FillCollider2D:
+        public void ResetWorld() {
+            spritePhysicsShape.ResetWorld();
 
-					return(colliderShape.GetMeshes());
+            colliderShape.ResetWorld();
+        }
 
-				case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
+        public List<MeshObject> GetMeshes() {
+            switch (shadowType) {
 
-					return(spritePhysicsShape.GetMeshes());
-			}
+                case DayLightCollider2D.ShadowType.FillCollider2D:
 
-			return(null);
-		}
+                    return (colliderShape.GetMeshes());
 
-		public List<Polygon2> GetPolygonsLocal()
-		{
-			switch(shadowType)
-			{
-				case DayLightCollider2D.ShadowType.SpritePhysicsShape:
-				case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
+                case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
 
-					return(spritePhysicsShape.GetPolygonsLocal());
+                    return (spritePhysicsShape.GetMeshes());
+            }
 
-				case DayLightCollider2D.ShadowType.Collider2D:
-				case DayLightCollider2D.ShadowType.FillCollider2D:
+            return (null);
+        }
 
-					return(colliderShape.GetPolygonsLocal());
-			}
+        public List<Polygon2> GetPolygonsLocal() {
+            switch (shadowType) {
+                case DayLightCollider2D.ShadowType.SpritePhysicsShape:
+                case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
 
-			return(null);
-		}
+                    return (spritePhysicsShape.GetPolygonsLocal());
 
-		public List<Polygon2> GetPolygonsWorld()
-		{
-			switch(shadowType)
-			{
-				case DayLightCollider2D.ShadowType.SpritePhysicsShape:
-				case DayLightCollider2D.ShadowType.SpriteProjectionShape:
-				case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
+                case DayLightCollider2D.ShadowType.Collider2D:
+                case DayLightCollider2D.ShadowType.FillCollider2D:
 
-					return(spritePhysicsShape.GetPolygonsWorld());
-					
-				case DayLightCollider2D.ShadowType.Collider2D:
-				case DayLightCollider2D.ShadowType.SpriteProjectionCollider:
-				case DayLightCollider2D.ShadowType.FillCollider2D:
+                    return (colliderShape.GetPolygonsLocal());
+            }
 
-					return(colliderShape.GetPolygonsWorld());
-			}
+            return (null);
+        }
 
-			return(null);
-		}
+        public List<Polygon2> GetPolygonsWorld() {
+            switch (shadowType) {
+                case DayLightCollider2D.ShadowType.SpritePhysicsShape:
+                case DayLightCollider2D.ShadowType.SpriteProjectionShape:
+                case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
 
-		public Rect GetShadowBounds()
-		{
-			List<Polygon2> polygons = GetPolygonsWorld();
+                    return (spritePhysicsShape.GetPolygonsWorld());
 
-			if (polygons != null)
-			{
-				return( Polygon2Helper.GetDayRect(polygons, height) );
-			}
+                case DayLightCollider2D.ShadowType.Collider2D:
+                case DayLightCollider2D.ShadowType.SpriteProjectionCollider:
+                case DayLightCollider2D.ShadowType.FillCollider2D:
 
-			return(new Rect());
-		}
-	}
+                    return (colliderShape.GetPolygonsWorld());
+            }
+
+            return (null);
+        }
+
+        public Rect GetShadowBounds() {
+            List<Polygon2> polygons = GetPolygonsWorld();
+
+            if (polygons != null) {
+                return (Polygon2Helper.GetDayRect(polygons, height));
+            }
+
+            return (new Rect());
+        }
+    }
 }

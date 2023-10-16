@@ -29,8 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
     /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
@@ -43,8 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class LU<T> : ISolver<T>
-        where T : struct, IEquatable<T>, IFormattable
-    {
+        where T : struct, IEquatable<T>, IFormattable {
         static readonly T One = BuilderInstance<T>.Matrix.One;
 
         readonly Lazy<Matrix<T>> _lazyL;
@@ -54,8 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         protected readonly Matrix<T> Factors;
         protected readonly int[] Pivots;
 
-        protected LU(Matrix<T> factors, int[] pivots)
-        {
+        protected LU(Matrix<T> factors, int[] pivots) {
             Factors = factors;
             Pivots = pivots;
 
@@ -64,11 +61,9 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
             _lazyP = new Lazy<Permutation>(() => Permutation.FromInversions(Pivots));
         }
 
-        Matrix<T> ComputeL()
-        {
+        Matrix<T> ComputeL() {
             var result = Factors.LowerTriangle();
-            for (var i = 0; i < result.RowCount; i++)
-            {
+            for (var i = 0; i < result.RowCount; i++) {
                 result.At(i, i, One);
             }
             return result;
@@ -99,8 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
-        public virtual Matrix<T> Solve(Matrix<T> input)
-        {
+        public virtual Matrix<T> Solve(Matrix<T> input) {
             var x = Matrix<T>.Build.SameAs(input, input.RowCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
@@ -118,8 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
-        public virtual Vector<T> Solve(Vector<T> input)
-        {
+        public virtual Vector<T> Solve(Vector<T> input) {
             var x = Vector<T>.Build.SameAs(input, input.Count);
             Solve(input, x);
             return x;

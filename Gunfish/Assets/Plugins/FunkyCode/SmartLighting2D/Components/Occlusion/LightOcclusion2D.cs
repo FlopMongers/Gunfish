@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using FunkyCode.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode
-{
+namespace FunkyCode {
     [ExecuteInEditMode]
-    public class LightOcclusion2D : MonoBehaviour
-    {
-        public enum ShadowType {Collider, SpritePhysicsShape};
-        public enum OcclusionType {Hard, Soft};
+    public class LightOcclusion2D : MonoBehaviour {
+        public enum ShadowType { Collider, SpritePhysicsShape };
+        public enum OcclusionType { Hard, Soft };
 
         public OcclusionType occlusionType = OcclusionType.Hard;
         public float occlusionSize = 1f;
@@ -17,83 +15,69 @@ namespace FunkyCode
         public LightingOcclusionShape shape = new LightingOcclusionShape();
 
         public GameObject occlusionGameObject;
-        
-        public GameObject GetOcclusionGameObject()
-        {
-            if (occlusionGameObject == null) 
-            {
+
+        public GameObject GetOcclusionGameObject() {
+            if (occlusionGameObject == null) {
                 GameObject gameObject = new GameObject("Occlusion");
                 gameObject.transform.parent = transform;
 
                 occlusionGameObject = gameObject;
             }
 
-            if (occlusionGameObject)
-            {
+            if (occlusionGameObject) {
                 occlusionGameObject.transform.localPosition = new Vector3(0, 0, 0);
             }
-            return(occlusionGameObject);
+            return (occlusionGameObject);
         }
 
         public MeshFilter meshFilter;
 
-        public MeshFilter GetMeshFilter()
-        {
-            if (meshFilter == null)
-            {
+        public MeshFilter GetMeshFilter() {
+            if (meshFilter == null) {
                 GameObject gameObject = GetOcclusionGameObject();
                 meshFilter = gameObject.GetComponent<MeshFilter>();
 
-                if (meshFilter == null)
-                {
+                if (meshFilter == null) {
                     meshFilter = gameObject.AddComponent<MeshFilter>();
                 }
             }
-            return(meshFilter);
+            return (meshFilter);
         }
 
         public MeshRenderer meshRenderer;
 
-        public MeshRenderer GetMeshRenderer()
-        {
-            if (meshRenderer == null)
-            {
+        public MeshRenderer GetMeshRenderer() {
+            if (meshRenderer == null) {
                 GameObject gameObject = GetOcclusionGameObject();
 
                 meshRenderer = gameObject.GetComponent<MeshRenderer>();
 
-                if (meshRenderer == null)
-                {
+                if (meshRenderer == null) {
                     meshRenderer = gameObject.AddComponent<MeshRenderer>();
                 }
             }
-            return(meshRenderer);
+            return (meshRenderer);
         }
 
-        public LightingOcclussion GetOcclusionShape()
-        {
-            if (occlusionShape == null)
-            {
+        public LightingOcclussion GetOcclusionShape() {
+            if (occlusionShape == null) {
                 occlusionShape = new LightingOcclussion(shape, occlusionSize);
             }
 
-            return(occlusionShape);
+            return (occlusionShape);
         }
 
-        public void OnEnable()
-        {
-            shape.SetTransform(transform); 
+        public void OnEnable() {
+            shape.SetTransform(transform);
 
             Initialize();
         }
 
-        public void Initialize()
-        {
+        public void Initialize() {
             occlusionShape = null;
             shape.ResetLocal();
 
-            switch(occlusionType)
-            {
+            switch (occlusionType) {
                 case OcclusionType.Hard:
 
                     GenerateMesh_Hard();
@@ -101,17 +85,16 @@ namespace FunkyCode
                     break;
 
                 case OcclusionType.Soft:
-                
+
                     GenerateMesh_Soft();
 
                     break;
             }
         }
 
-        public void Update() {}
+        public void Update() { }
 
-        void GenerateMesh_Hard()
-        {
+        void GenerateMesh_Hard() {
             List<Pair2D> iterate1, iterate2;
             Vector2D first = null;
             Pair2D pA, pB;
@@ -126,17 +109,16 @@ namespace FunkyCode
             MeshFilter meshFilter = GetMeshFilter();
             occlusionShape = GetOcclusionShape();
 
-            for(int x = 0; x < occlusionShape.polygonPoints.Count; x++)
-            {
+            for (int x = 0; x < occlusionShape.polygonPoints.Count; x++) {
                 iterate1 = occlusionShape.polygonPoints[x];
                 iterate2 = occlusionShape.outlinePoints[x];
-        
+
                 first = null;
 
                 int i = 0;
-                for(int y = 0; y < iterate1.Count; y++) {
+                for (int y = 0; y < iterate1.Count; y++) {
                     pA = iterate1[y];
-                    
+
                     if (isEdgeCollider && first == null) {
                         first = pA.A;
                         continue;
@@ -170,7 +152,7 @@ namespace FunkyCode
 
                     count += 4;
 
-                    i ++;
+                    i++;
                 }
             }
 
@@ -202,14 +184,12 @@ namespace FunkyCode
             MeshFilter meshFilter = GetMeshFilter();
             occlusionShape = GetOcclusionShape();
 
-            for(int x = 0; x < occlusionShape.polygonPairs.Count; x++)
-            {
+            for (int x = 0; x < occlusionShape.polygonPairs.Count; x++) {
                 iterate3 = occlusionShape.polygonPairs[x];
 
-                for(int y = 0; y < iterate3.Count; y++)
-                {
+                for (int y = 0; y < iterate3.Count; y++) {
                     p = iterate3[y];
-                
+
                     vA.x = p.A.x;
                     vA.y = p.A.y;
 
@@ -229,16 +209,16 @@ namespace FunkyCode
                     angleB = p.A.Atan2(p.B) - Mathf.PI / 2;
                     angleC = p.B.Atan2(p.C) - Mathf.PI / 2;
 
-                    vA.Push (angleA, occlusionSize);
-                    vB.Push (angleB, occlusionSize);
-                    vC.Push (angleC, occlusionSize);
+                    vA.Push(angleA, occlusionSize);
+                    vB.Push(angleB, occlusionSize);
+                    vC.Push(angleC, occlusionSize);
 
                     Vector2D ps = (vB + vC) / 2;
 
                     float distance = Vector2.Distance(p.B, vB.ToVector2()) - 180f * Mathf.Deg2Rad;
                     float rot = p.B.Atan2(ps.ToVector2());
 
-                    ps = new Vector2D( p.B );
+                    ps = new Vector2D(p.B);
                     ps.Push(rot, distance);
 
                     vertices.Add(pA.ToVector2());
@@ -259,7 +239,7 @@ namespace FunkyCode
                     vertices.Add(vC.ToVector2());
                     uvs.Add(new Vector2(0.5f, 1f));
 
-                
+
 
                     triangles.Add(count + 0);
                     triangles.Add(count + 1);

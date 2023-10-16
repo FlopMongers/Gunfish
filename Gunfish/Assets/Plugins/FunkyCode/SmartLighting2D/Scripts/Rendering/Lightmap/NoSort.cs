@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode.Rendering.Lightmap
-{
-    public class NoSort
-    {
-        public static void Draw(Pass pass)
-        {
+namespace FunkyCode.Rendering.Lightmap {
+    public class NoSort {
+        public static void Draw(Pass pass) {
             // Rooms
             DrawRooms(pass);
-            
+
             DrawTilemapRooms(pass);
 
             // Light Emissions
@@ -26,10 +23,9 @@ namespace FunkyCode.Rendering.Lightmap
             DrawLight(pass);
         }
 
-        private static void DrawRooms(Pass pass)
-        {
+        private static void DrawRooms(Pass pass) {
             var roomList = LightRoom2D.List;
-            
+
             int roomCount = roomList.Count;
             if (roomCount < 1)
                 return;
@@ -37,34 +33,29 @@ namespace FunkyCode.Rendering.Lightmap
             // Draw Collider Pass
             Room.drawColliderPass = false;
 
-            for(int i = 0; i < roomCount; i++)
-            {
+            for (int i = 0; i < roomCount; i++) {
                 var id = roomList[i];
                 if (id.lightLayer != pass.layerId)
                     continue;
-                
-                switch(id.shape.type)
-                {
+
+                switch (id.shape.type) {
                     case LightRoom2D.RoomType.Collider:
                         Room.DrawColliderPass(id, pass.camera);
                         break;
                 }
             }
 
-            if (Room.drawColliderPass)
-            {
+            if (Room.drawColliderPass) {
                 GL.End();
             }
 
             // Draw Sprite Pass?
-            for(int i = 0; i < roomCount; i++)
-            {
+            for (int i = 0; i < roomCount; i++) {
                 var id = roomList[i];
                 if (id.lightLayer != pass.layerId)
                     continue;
-                
-                switch(id.shape.type)
-                {
+
+                switch (id.shape.type) {
                     case LightRoom2D.RoomType.Sprite:
                         Room.DrawSprite(id, pass.camera);
                         break;
@@ -72,26 +63,23 @@ namespace FunkyCode.Rendering.Lightmap
             }
         }
 
-        private static void DrawTilemapRooms(Pass pass)
-        {
+        private static void DrawTilemapRooms(Pass pass) {
             var roomTilemapList = LightTilemapRoom2D.List;
             int roomTilemapCount = roomTilemapList.Count;
 
             if (roomTilemapCount < 1)
                 return;
 
-            for(int i = 0; i < roomTilemapCount; i++)
-            {
-                var id = roomTilemapList[i];  
+            for (int i = 0; i < roomTilemapCount; i++) {
+                var id = roomTilemapList[i];
                 if (id.lightLayer != pass.layerId)
                     continue;
-                
+
                 TilemapRoom.Draw(id, pass.camera);
             }
         }
 
-        private static void DrawLightSprites(Pass pass)
-        {
+        private static void DrawLightSprites(Pass pass) {
             var spriteRendererList = LightSprite2D.List;
             int spriteRendererCount = spriteRendererList.Count;
 
@@ -101,8 +89,7 @@ namespace FunkyCode.Rendering.Lightmap
             LightSprite.Pass.currentTexture = null;
 
             // Draw Simple
-            for(int i = 0; i < spriteRendererCount; i++)
-            {
+            for (int i = 0; i < spriteRendererCount; i++) {
                 var id = spriteRendererList[i];
                 if (id.lightLayer != pass.layerId)
                     continue;
@@ -110,22 +97,19 @@ namespace FunkyCode.Rendering.Lightmap
                 LightSprite.Pass.Draw(id, pass.camera);
             }
 
-            if (LightSprite.Pass.currentTexture != null)
-            {
+            if (LightSprite.Pass.currentTexture != null) {
                 GL.End();
             }
         }
 
-        private static void DrawLightSprites_Scriptable(Pass pass)
-        {
+        private static void DrawLightSprites_Scriptable(Pass pass) {
             var spriteRendererList = Scriptable.LightSprite2D.List;
             int spriteRendererCount = spriteRendererList.Count;
 
             if (spriteRendererCount < 1)
                 return;
 
-            for(int i = 0; i < spriteRendererCount; i++)
-            {
+            for (int i = 0; i < spriteRendererCount; i++) {
                 var id = spriteRendererList[i];
                 if (id.LightLayer != pass.layerId)
                     continue;
@@ -134,66 +118,57 @@ namespace FunkyCode.Rendering.Lightmap
             }
         }
 
-        private static void DrawLightTextures(Pass pass)
-        {
+        private static void DrawLightTextures(Pass pass) {
             var lightTextureList = LightTexture2D.List;
             int lightTextureCount = lightTextureList.Count;
 
             if (lightTextureCount < 1)
                 return;
 
-			for(int i = 0; i < lightTextureCount; i++)
-            {
-				var id = lightTextureList[i];
-				if (id.lightLayer != pass.layerId)
-					continue;
+            for (int i = 0; i < lightTextureCount; i++) {
+                var id = lightTextureList[i];
+                if (id.lightLayer != pass.layerId)
+                    continue;
 
-				TextureRenderer.Draw(id, pass.camera);
-			}
+                TextureRenderer.Draw(id, pass.camera);
+            }
         }
 
-        private static void DrawLightParticleSystem(Pass pass)
-        {
+        private static void DrawLightParticleSystem(Pass pass) {
             var particleRendererList = LightParticleSystem2D.List;
             int lightParticleSystemCount = particleRendererList.Count;
 
             if (lightParticleSystemCount < 1)
                 return;
 
-			for(int i = 0; i < lightParticleSystemCount; i++)
-            {
-				var id = particleRendererList[i];
-				if (id.lightLayer != pass.layerId)
-					continue;
+            for (int i = 0; i < lightParticleSystemCount; i++) {
+                var id = particleRendererList[i];
+                if (id.lightLayer != pass.layerId)
+                    continue;
 
-				ParticleRenderer.Draw(id, pass.camera);
-			}
+                ParticleRenderer.Draw(id, pass.camera);
+            }
         }
 
-        private static void DrawLight(Pass pass)
-        {
+        private static void DrawLight(Pass pass) {
             var lightList = Light2D.List;
             int lightCount = lightList.Count;
             if (lightCount < 1)
                 return;
 
-            for(int i = 0; i < lightCount; i++)
-            {
+            for (int i = 0; i < lightCount; i++) {
                 var id = lightList[i];
-                if (id.lightLayer >= 0 && id.lightLayer == pass.layerId)
-                {
+                if (id.lightLayer >= 0 && id.lightLayer == pass.layerId) {
                     Rendering.Lightmap.LightSource.Draw(id, pass.camera);
                 }
 
-                if (id.occlusionLayer > 0 && (id.occlusionLayer - 1) == pass.layerId)
-                {
+                if (id.occlusionLayer > 0 && (id.occlusionLayer - 1) == pass.layerId) {
                     Rendering.Lightmap.LightSource.DrawOcclusion(id, pass.camera);
                 }
 
-                if (id.translucentLayer > 1 && (id.translucentLayer - 2) == pass.layerId)
-                {
+                if (id.translucentLayer > 1 && (id.translucentLayer - 2) == pass.layerId) {
                     Rendering.Lightmap.LightSource.DrawTranslucent(id, pass.camera);
-                }   
+                }
             }
         }
     }

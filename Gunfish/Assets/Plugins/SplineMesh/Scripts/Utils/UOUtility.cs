@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using System;
 using System.Linq;
-using System;
+using UnityEditor;
+using UnityEngine;
 
 namespace SplineMesh {
     public static class UOUtility {
@@ -25,7 +25,8 @@ namespace SplineMesh {
         public static void Destroy(GameObject go) {
             if (Application.isPlaying) {
                 UnityEngine.Object.Destroy(go);
-            } else {
+            }
+            else {
                 UnityEngine.Object.DestroyImmediate(go);
             }
         }
@@ -33,7 +34,8 @@ namespace SplineMesh {
         public static void Destroy(Component comp) {
             if (Application.isPlaying) {
                 UnityEngine.Object.Destroy(comp);
-            } else {
+            }
+            else {
                 UnityEngine.Object.DestroyImmediate(comp);
             }
         }

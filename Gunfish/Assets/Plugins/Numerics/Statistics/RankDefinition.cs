@@ -27,10 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Statistics
-{
-    public enum RankDefinition
-    {
+namespace MathNet.Numerics.Statistics {
+    public enum RankDefinition {
         /// <summary>Replace ties with their mean (non-integer ranks). Default.</summary>
         Average = 1,
         Default = 1,

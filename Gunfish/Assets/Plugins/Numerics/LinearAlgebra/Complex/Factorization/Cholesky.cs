@@ -29,8 +29,7 @@
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -42,25 +41,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    internal abstract class Cholesky : Cholesky<Complex>
-    {
+    internal abstract class Cholesky : Cholesky<Complex> {
         protected Cholesky(Matrix<Complex> factor)
-            : base(factor)
-        {
+            : base(factor) {
         }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override Complex Determinant
-        {
-            get
-            {
+        public override Complex Determinant {
+            get {
                 var det = Complex.One;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
+                for (var j = 0; j < Factor.RowCount; j++) {
                     var d = Factor.At(j, j);
-                    det *= d*d;
+                    det *= d * d;
                 }
 
                 return det;
@@ -70,14 +64,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// <summary>
         /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override Complex DeterminantLn
-        {
-            get
-            {
+        public override Complex DeterminantLn {
+            get {
                 var det = Complex.Zero;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
-                    det += 2.0*Factor.At(j, j).Ln();
+                for (var j = 0; j < Factor.RowCount; j++) {
+                    det += 2.0 * Factor.At(j, j).Ln();
                 }
 
                 return det;

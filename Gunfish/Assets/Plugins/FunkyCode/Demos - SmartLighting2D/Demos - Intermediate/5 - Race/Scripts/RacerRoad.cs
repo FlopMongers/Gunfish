@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RacerRoad : MonoBehaviour
-{
+public class RacerRoad : MonoBehaviour {
     public static List<RacerRoad> list = new List<RacerRoad>();
 
-   	public void OnEnable() {
-		list.Add(this);
-	}
+    public void OnEnable() {
+        list.Add(this);
+    }
 
     void Update() {
         if (RacerController.instance == null) {
             return;
         }
-        
+
         float distance = Mathf.Abs(transform.position.y - RacerController.instance.transform.position.y);
 
         if (distance > 80) {

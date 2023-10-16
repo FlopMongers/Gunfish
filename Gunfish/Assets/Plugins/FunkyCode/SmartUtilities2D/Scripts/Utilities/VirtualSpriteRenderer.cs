@@ -1,41 +1,40 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.Utilities
-{
-	public class VirtualSpriteRenderer {
-		public Sprite sprite;
+namespace FunkyCode.Utilities {
+    public class VirtualSpriteRenderer {
+        public Sprite sprite;
 
-		public Color color = Color.white;
-		public Material material;
+        public Color color = Color.white;
+        public Material material;
 
-		public bool flipX = false;
-		public bool flipY = false;
+        public bool flipX = false;
+        public bool flipY = false;
 
-		public SpriteDrawMode drawMode;
-		public SpriteTileMode tileMode;
+        public SpriteDrawMode drawMode;
+        public SpriteTileMode tileMode;
 
-		public Vector2 size;
-		
-		public VirtualSpriteRenderer() {}
+        public Vector2 size;
 
-		public VirtualSpriteRenderer(SpriteRenderer spriteRenderer) {
-			Set(spriteRenderer);
-		}
+        public VirtualSpriteRenderer() { }
 
-		public void Set(SpriteRenderer spriteRenderer) {
-			sprite = spriteRenderer.sprite;
+        public VirtualSpriteRenderer(SpriteRenderer spriteRenderer) {
+            Set(spriteRenderer);
+        }
 
-			flipX = spriteRenderer.flipX;
-			flipY = spriteRenderer.flipY;
+        public void Set(SpriteRenderer spriteRenderer) {
+            sprite = spriteRenderer.sprite;
 
-			tileMode = spriteRenderer.tileMode;
-			drawMode = spriteRenderer.drawMode;
+            flipX = spriteRenderer.flipX;
+            flipY = spriteRenderer.flipY;
 
-			size = spriteRenderer.size;
+            tileMode = spriteRenderer.tileMode;
+            drawMode = spriteRenderer.drawMode;
 
-			//material = spriteRenderer.sharedMaterial;
+            size = spriteRenderer.size;
 
-			color = spriteRenderer.color;
-		}
-	}
+            //material = spriteRenderer.sharedMaterial;
+
+            color = spriteRenderer.color;
+        }
+    }
 }

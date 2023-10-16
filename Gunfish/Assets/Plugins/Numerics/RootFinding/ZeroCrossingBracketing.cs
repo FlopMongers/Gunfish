@@ -30,39 +30,32 @@
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.RootFinding
-{
-    public static class ZeroCrossingBracketing
-    {
-        public static IEnumerable<(double, double)> FindIntervalsWithin(Func<double, double> f, double lowerBound, double upperBound, int subdivisions)
-        {
+namespace MathNet.Numerics.RootFinding {
+    public static class ZeroCrossingBracketing {
+        public static IEnumerable<(double, double)> FindIntervalsWithin(Func<double, double> f, double lowerBound, double upperBound, int subdivisions) {
             // TODO: Consider binary-style search instead of linear scan
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
-            if (Math.Sign(fmin) != Math.Sign(fmax))
-            {
+            if (Math.Sign(fmin) != Math.Sign(fmax)) {
                 yield return (lowerBound, upperBound);
                 yield break;
             }
 
-            double subdiv = (upperBound - lowerBound)/subdivisions;
+            double subdiv = (upperBound - lowerBound) / subdivisions;
             double smin = lowerBound;
             int sign = Math.Sign(fmin);
 
-            for (int k = 0; k < subdivisions; k++)
-            {
+            for (int k = 0; k < subdivisions; k++) {
                 double smax = smin + subdiv;
                 double sfmax = f(smax);
-                if (double.IsInfinity(sfmax))
-                {
+                if (double.IsInfinity(sfmax)) {
                     // expand interval to include pole
                     smin = smax;
                     continue;
                 }
 
-                if (Math.Sign(sfmax) != sign)
-                {
+                if (Math.Sign(sfmax) != sign) {
                     yield return (smin, smax);
                     sign = Math.Sign(sfmax);
                 }
@@ -79,34 +72,28 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Usually 50.</param>
         /// <returns>True if the bracketing operation succeeded, false otherwise.</returns>
         /// <remarks>This iterative methods stops when two values with opposite signs are found.</remarks>
-        public static bool Expand(Func<double, double> f, ref double lowerBound, ref double upperBound, double factor = 1.6, int maxIterations = 50)
-        {
+        public static bool Expand(Func<double, double> f, ref double lowerBound, ref double upperBound, double factor = 1.6, int maxIterations = 50) {
             double originalLowerBound = lowerBound;
             double originalUpperBound = upperBound;
 
-            if (lowerBound >= upperBound)
-            {
+            if (lowerBound >= upperBound) {
                 throw new ArgumentOutOfRangeException(nameof(upperBound), "xmax must be greater than xmin.");
             }
 
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
-            for (int i = 0; i < maxIterations; i++)
-            {
-                if (Math.Sign(fmin) != Math.Sign(fmax))
-                {
+            for (int i = 0; i < maxIterations; i++) {
+                if (Math.Sign(fmin) != Math.Sign(fmax)) {
                     return true;
                 }
 
-                if (Math.Abs(fmin) < Math.Abs(fmax))
-                {
-                    lowerBound += factor*(lowerBound - upperBound);
+                if (Math.Abs(fmin) < Math.Abs(fmax)) {
+                    lowerBound += factor * (lowerBound - upperBound);
                     fmin = f(lowerBound);
                 }
-                else
-                {
-                    upperBound += factor*(upperBound - lowerBound);
+                else {
+                    upperBound += factor * (upperBound - lowerBound);
                     fmax = f(upperBound);
                 }
             }
@@ -116,13 +103,11 @@ namespace MathNet.Numerics.RootFinding
             return false;
         }
 
-        public static bool Reduce(Func<double, double> f, ref double lowerBound, ref double upperBound, int subdivisions = 1000)
-        {
+        public static bool Reduce(Func<double, double> f, ref double lowerBound, ref double upperBound, int subdivisions = 1000) {
             double originalLowerBound = lowerBound;
             double originalUpperBound = upperBound;
 
-            if (lowerBound >= upperBound)
-            {
+            if (lowerBound >= upperBound) {
                 throw new ArgumentOutOfRangeException(nameof(upperBound), "xmax must be greater than xmin.");
             }
 
@@ -130,8 +115,7 @@ namespace MathNet.Numerics.RootFinding
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
-            if (Math.Sign(fmin) != Math.Sign(fmax))
-            {
+            if (Math.Sign(fmin) != Math.Sign(fmax)) {
                 return true;
             }
 
@@ -139,19 +123,16 @@ namespace MathNet.Numerics.RootFinding
             double smin = lowerBound;
             int sign = Math.Sign(fmin);
 
-            for (int k = 0; k < subdivisions; k++)
-            {
+            for (int k = 0; k < subdivisions; k++) {
                 double smax = smin + subdiv;
                 double sfmax = f(smax);
-                if (double.IsInfinity(sfmax))
-                {
+                if (double.IsInfinity(sfmax)) {
                     // expand interval to include pole
                     smin = smax;
                     continue;
                 }
 
-                if (Math.Sign(sfmax) != sign)
-                {
+                if (Math.Sign(sfmax) != sign) {
                     lowerBound = smin;
                     upperBound = smax;
                     return true;
@@ -165,8 +146,7 @@ namespace MathNet.Numerics.RootFinding
             return false;
         }
 
-        public static bool ExpandReduce(Func<double, double> f, ref double lowerBound, ref double upperBound, double expansionFactor = 1.6, int expansionMaxIterations = 50, int reduceSubdivisions = 100)
-        {
+        public static bool ExpandReduce(Func<double, double> f, ref double lowerBound, ref double upperBound, double expansionFactor = 1.6, int expansionMaxIterations = 50, int reduceSubdivisions = 100) {
             return Expand(f, ref lowerBound, ref upperBound, expansionFactor, expansionMaxIterations) || Reduce(f, ref lowerBound, ref upperBound, reduceSubdivisions);
         }
     }

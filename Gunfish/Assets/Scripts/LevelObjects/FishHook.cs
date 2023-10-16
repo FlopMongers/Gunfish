@@ -10,8 +10,7 @@ while touching, accelerate the jiggle timer
 turn off the collision when zooming 
 */
 
-public class FishHook : MonoBehaviour
-{
+public class FishHook : MonoBehaviour {
     public FishDetector detector;
     public Shaker shaker;
     public LineRenderer line;
@@ -62,18 +61,15 @@ public class FishHook : MonoBehaviour
         }
     }
 
-    void Zoom() 
-    {
+    void Zoom() {
         zooming = true;
-        foreach (var fishPair in fishJointMap) 
-        {
+        foreach (var fishPair in fishJointMap) {
             fishPair.Value.breakForce = float.MaxValue;
         }
         StartCoroutine(CoZoom());
     }
 
-    IEnumerator CoZoom() 
-    {
+    IEnumerator CoZoom() {
         // TODO lerp according to an animation curve
         float zoomTimer = zoomDuration;
         float percentage;
@@ -88,8 +84,7 @@ public class FishHook : MonoBehaviour
             fish.segments[0].transform.parent = detector.transform;
         }
         detector.SetCollidersEnabled(false);
-        while (zoomTimer > 0) 
-        {
+        while (zoomTimer > 0) {
             percentage = 1 - (zoomTimer / zoomDuration);
             line.SetPosition(1, line.transform.InverseTransformPoint(Vector3.Lerp(lineStartPosition, lineTargetPosition, percentage)));
             detector.transform.position = Vector3.Lerp(lineStartPosition, lineTargetPosition, percentage);
@@ -111,30 +106,25 @@ public class FishHook : MonoBehaviour
         detector.SetCollidersEnabled(true);
     }
 
-    void StartJiggle() 
-    {
+    void StartJiggle() {
         shaker.Activate(jiggleThreshold);
     }
 
-    void OnFishEnter(GunfishSegment segment, Collider2D collider) 
-    {
+    void OnFishEnter(GunfishSegment segment, Collider2D collider) {
         //if (shaker.shaking)
         if (!shaker.shaking)
             jiggle_timer = jiggleThreshold;
         StickFish(segment);
     }
 
-    void OnFishExit(GunfishSegment segment, Collider2D collider) 
-    {
-        if (fishJointMap.ContainsKey(segment.gunfish)) 
-        {
+    void OnFishExit(GunfishSegment segment, Collider2D collider) {
+        if (fishJointMap.ContainsKey(segment.gunfish)) {
             Destroy(fishJointMap[segment.gunfish]);
             fishJointMap.Remove(segment.gunfish);
         }
     }
 
-    void StickFish(GunfishSegment segment) 
-    {
+    void StickFish(GunfishSegment segment) {
         if (fishJointMap.ContainsKey(segment.gunfish))
             return;
 

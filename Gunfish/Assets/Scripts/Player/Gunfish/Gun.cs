@@ -9,7 +9,7 @@ public class Gun : MonoBehaviour {
     public List<GunBarrel> barrels = new List<GunBarrel>();
 
     public FloatGameEvent OnAmmoChanged;
-    
+
     private int layerMask;
 
     public float ammo;
@@ -29,38 +29,34 @@ public class Gun : MonoBehaviour {
         fireCooldown_timer = Mathf.Max(0, fireCooldown_timer - Time.deltaTime);
 
         // reload timer
-        if (reload_timer > 0) 
-        {
+        if (reload_timer > 0) {
             reload_timer = Mathf.Max(0, reload_timer - Time.deltaTime);
             OnAmmoChanged?.Invoke(1 - (reload_timer / gunfish.data.gun.reload));
-            if (reload_timer <= 0) 
-            {
+            if (reload_timer <= 0) {
                 ammo = gunfish.data.gun.maxAmmo;
-                OnAmmoChanged?.Invoke(ammo/gunfish.data.gun.maxAmmo);
+                OnAmmoChanged?.Invoke(ammo / gunfish.data.gun.maxAmmo);
             }
         }
         // if ammo is not full
-        else if (ammo != gunfish.data.gun.maxAmmo && reloadWait_timer > 0) 
-        {
+        else if (ammo != gunfish.data.gun.maxAmmo && reloadWait_timer > 0) {
             reloadWait_timer = Mathf.Max(0, reloadWait_timer - Time.deltaTime);
             if (reloadWait_timer <= 0)
                 reload_timer = gunfish.data.gun.reload;
         }
     }
 
-    public bool CheckFire() 
-    {
+    public bool CheckFire() {
         if (!gunfish.statusData.CanFire)
             return false;
 
         if (fireCooldown_timer > 0)
             return false;
 
-        if (ammo <= 0) 
+        if (ammo <= 0)
             return false;
 
         ammo -= 1;
-        OnAmmoChanged?.Invoke(ammo/gunfish.data.gun.maxAmmo);
+        OnAmmoChanged?.Invoke(ammo / gunfish.data.gun.maxAmmo);
 
         fireCooldown_timer = gunfish.data.gun.fireCooldown;
         reloadWait_timer = gunfish.data.gun.reloadWait;
@@ -68,13 +64,13 @@ public class Gun : MonoBehaviour {
         return true;
     }
 
-    public void Fire(ButtonStatus firingStatus)
-    {
+    public void Fire(ButtonStatus firingStatus) {
         // if pressed, then fire
         if (firingStatus != ButtonStatus.Pressed)
             return;
 
-        if (!CheckFire()) return;
+        if (!CheckFire())
+            return;
 
         Kickback(gunfish.data.gun.kickback);
         Vector3 endPoint;
@@ -91,7 +87,7 @@ public class Gun : MonoBehaviour {
                 GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponent<Shootable>();
                 if (fishSegment != null) {
-                    bool fishHit = (GameManager.instance != null) 
+                    bool fishHit = (GameManager.instance != null)
                         ? GameManager.instance.MatchManager.ResolveHit(this, fishSegment)
                         : ResolveHit(this, fishSegment);
                     if (fishHit) {

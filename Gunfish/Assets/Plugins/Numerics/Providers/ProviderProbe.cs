@@ -30,62 +30,49 @@
 using System;
 using System.Threading;
 
-namespace MathNet.Numerics.Providers
-{
-    public class ProviderProbe<T> where T : class
-    {
+namespace MathNet.Numerics.Providers {
+    public class ProviderProbe<T> where T : class {
         readonly bool _disabled;
         readonly Lazy<IProviderCreator<T>> _creator;
 
-        public ProviderProbe(string typeName, bool disabled = false)
-        {
+        public ProviderProbe(string typeName, bool disabled = false) {
             _disabled = disabled;
-            _creator = new Lazy<IProviderCreator<T>>(() =>
-            {
+            _creator = new Lazy<IProviderCreator<T>>(() => {
                 var type = Type.GetType(typeName);
                 return type is null ? null : Activator.CreateInstance(type) as IProviderCreator<T>;
             }, LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
-        public T Create()
-        {
-            if (_disabled)
-            {
+        public T Create() {
+            if (_disabled) {
                 throw new NotSupportedException("Specific Native Provider disabled by an application switch");
             }
 
-            if (AppSwitches.DisableNativeProviders)
-            {
+            if (AppSwitches.DisableNativeProviders) {
                 throw new NotSupportedException("Native Providers are disabled by an application switch");
             }
 
-            if (AppSwitches.DisableNativeProviderProbing)
-            {
+            if (AppSwitches.DisableNativeProviderProbing) {
                 throw new NotSupportedException("Native Provider Probing is disabled by an application switch");
             }
 
             var creator = _creator.Value;
-            if (creator is null)
-            {
+            if (creator is null) {
                 throw new NotSupportedException("Native Provider Probing failed to resolve creator");
             }
 
             return creator.CreateProvider();
         }
 
-        public T TryCreate()
-        {
-            if (_disabled || AppSwitches.DisableNativeProviderProbing || AppSwitches.DisableNativeProviders)
-            {
+        public T TryCreate() {
+            if (_disabled || AppSwitches.DisableNativeProviderProbing || AppSwitches.DisableNativeProviders) {
                 return null;
             }
 
-            try
-            {
+            try {
                 return _creator.Value?.CreateProvider();
             }
-            catch
-            {
+            catch {
                 // intentionally swallow exceptions here - use the explicit variants if you're interested in why
                 return null;
             }

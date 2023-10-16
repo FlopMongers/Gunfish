@@ -1,10 +1,8 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.Optimization
-{
-    public interface IObjectiveModelEvaluation
-    {
+namespace MathNet.Numerics.Optimization {
+    public interface IObjectiveModelEvaluation {
         IObjectiveModel CreateNew();
 
         /// <summary>
@@ -61,8 +59,7 @@ namespace MathNet.Numerics.Optimization
         bool IsHessianSupported { get; }
     }
 
-    public interface IObjectiveModel : IObjectiveModelEvaluation
-    {
+    public interface IObjectiveModel : IObjectiveModelEvaluation {
         void SetParameters(Vector<double> initialGuess, List<bool> isFixed = null);
 
         void EvaluateAt(Vector<double> parameters);

@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionDamageReceiver : MonoBehaviour
-{
+public class CollisionDamageReceiver : MonoBehaviour {
 
     // hook up to either shootable or gunfish
     // I know this is an anti-pattern.

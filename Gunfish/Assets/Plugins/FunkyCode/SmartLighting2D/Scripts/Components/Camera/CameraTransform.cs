@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FunkyCode.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode
-{
-    public class CameraTransform
-    {
+namespace FunkyCode {
+    public class CameraTransform {
         public static List<CameraTransform> List = new List<CameraTransform>();
 
         private Camera camera = null;
@@ -23,47 +21,39 @@ namespace FunkyCode
 
         public Camera Camera => camera;
 
-        public static void Update()
-        {
-            for(int id = 0; id < List.Count; id++)
-			{
+        public static void Update() {
+            for (int id = 0; id < List.Count; id++) {
                 var transform = List[id];
 
-                if (transform.Camera)
-                {
+                if (transform.Camera) {
                     transform.Update();
                 }
-                else
-                {
+                else {
                     List.Remove(transform);
-                }				
-			}
+                }
+            }
         }
 
         // Change
-        public static float GetRadius(Camera camera)
-        {
+        public static float GetRadius(Camera camera) {
             float cameraRadius = camera.orthographicSize;
 
-            if (camera.pixelWidth > camera.pixelHeight)
-            {
+            if (camera.pixelWidth > camera.pixelHeight) {
                 cameraRadius *= (float)camera.pixelWidth / camera.pixelHeight;
             }
 
             cameraRadius = Mathf.Sqrt(cameraRadius * cameraRadius + cameraRadius * cameraRadius);
 
-            return(cameraRadius);
+            return (cameraRadius);
         }
 
-        public static Rect GetWorldRect(Camera camera)
-        {
+        public static Rect GetWorldRect(Camera camera) {
             var cameraTransform = GetCamera(camera);
 
             return cameraTransform.WorldRect();
         }
 
-        public static CameraTransform GetCamera(Camera camera)
-        {
+        public static CameraTransform GetCamera(Camera camera) {
             if (camera == null)
                 Debug.LogError("Camera == Null");
 
@@ -79,17 +69,15 @@ namespace FunkyCode
 
             List.Add(cameraTransform);
 
-            return(cameraTransform);
+            return (cameraTransform);
         }
 
-        public void Update(bool force = false)
-        {
+        public void Update(bool force = false) {
             if (camera == null)
                 return;
-            
+
             var transform = camera.transform;
-            if (transform.hasChanged || force)
-            {
+            if (transform.hasChanged || force) {
                 transform.hasChanged = false;
 
                 position = LightingPosition.GetPosition2D(transform.position);
@@ -101,16 +89,14 @@ namespace FunkyCode
             }
         }
 
-        public Rect WorldRect()
-        {
+        public Rect WorldRect() {
             if (worldPolygon != null)
                 return worldRect;
 
             return WorldRectGenerate();
         }
 
-        private Rect WorldRectGenerate()
-        {
+        private Rect WorldRectGenerate() {
             float cameraSizeY = camera.orthographicSize;
             float cameraSizeX = cameraSizeY * (float)camera.pixelWidth / camera.pixelHeight;
 
@@ -139,15 +125,13 @@ namespace FunkyCode
 
             worldRect = worldPolygon.GetRect();
 
-            return(worldRect);
+            return (worldRect);
         }
-        
-        private Polygon2 Polygon()
-        {
-            if (polygon == null)
-            {
+
+        private Polygon2 Polygon() {
+            if (polygon == null) {
                 polygon = new Polygon2(4);
-                
+
                 polygon.points[0] = Vector2.zero;
                 polygon.points[1] = Vector2.zero;
                 polygon.points[2] = Vector2.zero;

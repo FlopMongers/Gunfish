@@ -1,14 +1,11 @@
-﻿using UnityEngine;
+﻿using FunkyCode.LightingSettings;
 using UnityEditor;
-using FunkyCode.LightingSettings;
+using UnityEngine;
 
-namespace FunkyCode
-{
-    public class ProjectSettingsEditor
-    {
-        static public void Draw()
-        {
-            EditorGUI.BeginChangeCheck ();
+namespace FunkyCode {
+    public class ProjectSettingsEditor {
+        static public void Draw() {
+            EditorGUI.BeginChangeCheck();
 
             LightingSettings.ProjectSettings projectSettings = Lighting2D.ProjectSettings;
 
@@ -16,21 +13,20 @@ namespace FunkyCode
 
             EditorGUILayout.Space();
 
-            projectSettings.renderingMode = (RenderingMode)EditorGUILayout.EnumPopup("Rendering Mode", projectSettings.renderingMode);   
-                
+            projectSettings.renderingMode = (RenderingMode)EditorGUILayout.EnumPopup("Rendering Mode", projectSettings.renderingMode);
+
             EditorGUILayout.Space();
 
             projectSettings.colorSpace = (LightingSettings.ColorSpace)EditorGUILayout.EnumPopup("Color Space", projectSettings.colorSpace);
 
             EditorGUILayout.Space();
-            
+
             projectSettings.shaderPreview = (LightingSettings.ShaderPreview)EditorGUILayout.EnumPopup("Shader Preview", projectSettings.shaderPreview);
 
-            if (projectSettings.shaderPreview == LightingSettings.ShaderPreview.Enabled)
-			{
+            if (projectSettings.shaderPreview == LightingSettings.ShaderPreview.Enabled) {
                 EditorGUILayout.Space();
-            
-				EditorGUILayout.HelpBox("Shader Preview Enabled", MessageType.Warning);
+
+                EditorGUILayout.HelpBox("Shader Preview Enabled", MessageType.Warning);
             }
 
             EditorGUILayout.Space();
@@ -57,7 +53,7 @@ namespace FunkyCode
 
             Chunks.Draw(projectSettings);
 
-            EditorGUI.EndChangeCheck ();
+            EditorGUI.EndChangeCheck();
 
             if (GUI.changed) {
                 LightingManager2D.ForceUpdate();
@@ -77,12 +73,12 @@ namespace FunkyCode
                     return;
                 }
 
-                EditorGUI.indentLevel++;   
+                EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
 
 
-                
+
                 mainProfile.chunks.enabled = EditorGUILayout.Toggle("Enable", mainProfile.chunks.enabled);
 
                 mainProfile.chunks.chunkSize = EditorGUILayout.IntSlider("Chunk Size", mainProfile.chunks.chunkSize, 10, 100);
@@ -94,22 +90,19 @@ namespace FunkyCode
             }
         }
 
-        public class GizmosView
-        {
-            public static void Draw(LightingSettings.ProjectSettings mainProfile)
-            {
+        public class GizmosView {
+            public static void Draw(LightingSettings.ProjectSettings mainProfile) {
                 bool foldout = GUIFoldoutHeader.Begin("Gizmos", mainProfile.gizmos);
 
-                if (!foldout)
-                {
+                if (!foldout) {
                     GUIFoldoutHeader.End();
                     return;
                 }
 
-                EditorGUI.indentLevel++;   
+                EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-    
+
                 mainProfile.gizmos.drawGizmos = (EditorDrawGizmos)EditorGUILayout.EnumPopup("Draw Gizmos", mainProfile.gizmos.drawGizmos);
 
                 mainProfile.gizmos.drawGizmosShadowCasters = (EditorShadowCasters)EditorGUILayout.EnumPopup("Gizmos Shadow Casters", mainProfile.gizmos.drawGizmosShadowCasters);
@@ -126,21 +119,18 @@ namespace FunkyCode
             }
         }
 
-        
 
-        public class EditorView
-        {
-            public static void Draw(LightingSettings.ProjectSettings mainProfile)
-            {
+
+        public class EditorView {
+            public static void Draw(LightingSettings.ProjectSettings mainProfile) {
                 bool foldout = GUIFoldoutHeader.Begin("Editor View (Overlay)", mainProfile.editorView);
 
-                if (!foldout)
-                {
+                if (!foldout) {
                     GUIFoldoutHeader.End();
                     return;
                 }
 
-                EditorGUI.indentLevel++;   
+                EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
 

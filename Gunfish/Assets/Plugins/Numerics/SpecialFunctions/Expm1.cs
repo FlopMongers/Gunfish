@@ -30,25 +30,20 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
-    public partial class SpecialFunctions
-    {
+namespace MathNet.Numerics {
+    public partial class SpecialFunctions {
         /// <summary>
         /// Numerically stable exponential minus one, i.e. <code>x -> exp(x)-1</code>
         /// </summary>
         /// <param name="power">A number specifying a power.</param>
         /// <returns>Returns <code>exp(power)-1</code>.</returns>
-        public static double Expm1(double power)
-        {
+        public static double Expm1(double power) {
             double x = Math.Abs(power);
-            if (x > 0.1)
-            {
+            if (x > 0.1) {
                 return Math.Exp(power) - 1.0;
             }
 
-            if (x < x.PositiveEpsilonOf())
-            {
+            if (x < x.PositiveEpsilonOf()) {
                 return x;
             }
 
@@ -56,8 +51,7 @@ namespace MathNet.Numerics
             int k = 0;
             double term = 1.0;
             return Series.Evaluate(
-                () =>
-                {
+                () => {
                     k++;
                     term *= power;
                     term /= k;
@@ -71,8 +65,7 @@ namespace MathNet.Numerics
         /// <param name="power">A number specifying a power.</param>
         /// <returns>Returns <code>exp(power)-1</code>.</returns>
         [Obsolete("Use Expm1 instead")]
-        public static double ExponentialMinusOne(double power)
-        {
+        public static double ExponentialMinusOne(double power) {
             return Expm1(power);
         }
     }

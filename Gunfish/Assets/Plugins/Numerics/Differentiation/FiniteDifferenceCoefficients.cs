@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Double;
+using System;
 
-namespace MathNet.Numerics.Differentiation
-{
+namespace MathNet.Numerics.Differentiation {
     /// <summary>
     /// Class to calculate finite difference coefficients using Taylor series expansion method.
     /// <remarks>
@@ -42,16 +41,13 @@ namespace MathNet.Numerics.Differentiation
     /// </para>
     /// </remarks>
     /// </summary>
-    public class FiniteDifferenceCoefficients
-    {
+    public class FiniteDifferenceCoefficients {
         /// <summary>
         /// Number of points for finite difference coefficients. Changing this value recalculates the coefficients table.
         /// </summary>
-        public int Points
-        {
+        public int Points {
             get => _points;
-            set
-            {
+            set {
                 CalculateCoefficients(value);
                 _points = value;
             }
@@ -64,8 +60,7 @@ namespace MathNet.Numerics.Differentiation
         /// Initializes a new instance of the <see cref="FiniteDifferenceCoefficients"/> class.
         /// </summary>
         /// <param name="points">Number of finite difference coefficients.</param>
-        public FiniteDifferenceCoefficients(int points)
-        {
+        public FiniteDifferenceCoefficients(int points) {
             Points = points;
             CalculateCoefficients(Points);
         }
@@ -76,8 +71,7 @@ namespace MathNet.Numerics.Differentiation
         /// <param name="center">Current function position with respect to coefficients. Must be within point range.</param>
         /// <param name="order">Order of finite difference coefficients.</param>
         /// <returns>Vector of finite difference coefficients.</returns>
-        public double[] GetCoefficients(int center, int order)
-        {
+        public double[] GetCoefficients(int center, int order) {
             if (center >= _coefficients.Length)
                 throw new ArgumentOutOfRangeException(nameof(center), "Center position must be within the point range.");
             if (order >= _coefficients.Length)
@@ -96,29 +90,24 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         /// <param name="center">Current function position with respect to coefficients. Must be within point range.</param>
         /// <returns>Rectangular array of coefficients, with columns specifying order.</returns>
-        public double[,] GetCoefficientsForAllOrders(int center)
-        {
+        public double[,] GetCoefficientsForAllOrders(int center) {
             if (center >= _coefficients.Length)
                 throw new ArgumentOutOfRangeException(nameof(center), "Center position must be within the point range.");
 
             return _coefficients[center];
         }
 
-        void CalculateCoefficients(int points)
-        {
+        void CalculateCoefficients(int points) {
             var c = new double[points][,];
 
             // For ever possible center given the number of points, compute ever possible coefficient for all possible orders.
-            for (int center = 0; center < points; center++)
-            {
+            for (int center = 0; center < points; center++) {
                 // Deltas matrix for center located at 'center'.
                 var A = new DenseMatrix(points);
                 var l = points - center - 1;
-                for (int row = points - 1; row >= 0; row--)
-                {
+                for (int row = points - 1; row >= 0; row--) {
                     A[row, 0] = 1.0;
-                    for (int col = 1; col < points; col++)
-                    {
+                    for (int col = 1; col < points; col++) {
                         A[row, col] = A[row, col - 1] * l / col;
                     }
                     l -= 1;
@@ -128,10 +117,8 @@ namespace MathNet.Numerics.Differentiation
 
                 // "Polish" results by rounding.
                 var fac = SpecialFunctions.Factorial(points);
-                for (int j = 0; j < points; j++)
-                {
-                    for (int k = 0; k < points; k++)
-                    {
+                for (int j = 0; j < points; j++) {
+                    for (int k = 0; k < points; k++) {
                         c[center][j, k] = (Math.Round(c[center][j, k] * fac, MidpointRounding.AwayFromZero)) / fac;
                     }
                 }

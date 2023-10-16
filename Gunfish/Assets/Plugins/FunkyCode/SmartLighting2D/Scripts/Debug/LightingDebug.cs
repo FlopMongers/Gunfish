@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using FunkyCode.Utilities;
+﻿using FunkyCode.Utilities;
+using UnityEngine;
 
-namespace FunkyCode
-{
-    public class LightingDebug
-    {
+namespace FunkyCode {
+    public class LightingDebug {
         static public float atlasTimer = 0;
-    
+
         static public TimerHelper timer;
 
         static UnityEngine.Object[] lights = null;
@@ -14,8 +12,7 @@ namespace FunkyCode
         static UnityEngine.Object[] sprites = null;
         static UnityEngine.Object[] tilemaps = null;
 
-        static public void OnGUI()
-        {
+        static public void OnGUI() {
             if (lights == null) {
                 lights = UnityEngine.Object.FindObjectsOfType(typeof(Light2D));
                 colliders = UnityEngine.Object.FindObjectsOfType(typeof(LightCollider2D));
@@ -24,34 +21,30 @@ namespace FunkyCode
                 tilemaps = UnityEngine.Object.FindObjectsOfType(typeof(LightTilemapCollider2D));
             }
 
-            if (timer == null)
-            {
+            if (timer == null) {
                 LightingDebug.timer = TimerHelper.Create();
             }
 
-            if (timer.GetMillisecs() > 1000)
-            {
+            if (timer.GetMillisecs() > 1000) {
                 SecondUpdate();
             }
 
             int count = 0;
-            foreach(Light2D light in Light2D.List)
-            {
-                if (!light.InCameras())
-                {
+            foreach (Light2D light in Light2D.List) {
+                if (!light.InCameras()) {
                     continue;
                 }
 
-                count ++;
+                count++;
             }
 
             LightingManager2D manager2D = LightingManager2D.Get();
             //LightMainBuffer2D mainBuffer = LightMainBuffer2D.Get();
 
-            GUI.skin.GetStyle("label").alignment =  TextAnchor.UpperLeft;
+            GUI.skin.GetStyle("label").alignment = TextAnchor.UpperLeft;
 
             int textSpace = 15;
-            
+
             int y = textSpace;
 
             //GUI.Label(new Rect(10, y, 500, 20), "Total Custom Physics Shapes: " + totalPhysicsShapes);
@@ -65,7 +58,7 @@ namespace FunkyCode
             GUI.Label(new Rect(10, y, 500, 20), "Atlas Timer: " + atlasTimer);
 
             y += textSpace;
-            
+
             //GUI.Label(new Rect(10, y, 500, 20), "Camera Size: " + mainBuffer.cameraSize);
 
             y += textSpace;
@@ -78,7 +71,7 @@ namespace FunkyCode
 
             y += textSpace;
 
-        //  GUI.Label(new Rect(10, y, 500, 20), "Free Buffers: " + LightBuffers.GetFreeCount() + "/" + LightBuffers.GetList().Count);
+            //  GUI.Label(new Rect(10, y, 500, 20), "Free Buffers: " + LightBuffers.GetFreeCount() + "/" + LightBuffers.GetList().Count);
 
             y += textSpace;
 
@@ -145,7 +138,7 @@ namespace FunkyCode
             GUI.Label(new Rect(10, y, 500, 20), "=========================");
 
             y += textSpace;
-            
+
             //GUI.Label(new Rect(10, y, 500, 20), "Light Main Buffer Updates: " + ShowLightMainBufferUpdates);
 
             y += textSpace;
@@ -153,18 +146,18 @@ namespace FunkyCode
             GUI.Label(new Rect(10, y, 500, 20), "=========================");
 
             y += textSpace;
-    /*
-            Texture texture = LightMainBuffer2D.Get().bufferCamera.activeTexture;
-            if (texture != null) {
-                GUI.Label(new Rect(10, y, 500, 20), "Main Buffer Resolution: " + texture.width + "x" + texture.height);
-            } else {
-                GUI.Label(new Rect(10, y, 500, 20), "Main Buffer Resolution: NULL");
-            }*/
+            /*
+                    Texture texture = LightMainBuffer2D.Get().bufferCamera.activeTexture;
+                    if (texture != null) {
+                        GUI.Label(new Rect(10, y, 500, 20), "Main Buffer Resolution: " + texture.width + "x" + texture.height);
+                    } else {
+                        GUI.Label(new Rect(10, y, 500, 20), "Main Buffer Resolution: NULL");
+                    }*/
 
             y += textSpace;
 
-        
-            RightBottomPanel() ;    
+
+            RightBottomPanel();
         }
 
         public static void RightBottomPanel() {
@@ -179,9 +172,8 @@ namespace FunkyCode
             GUI.Label(new Rect(0, -50, Screen.width - 10, Screen.height), "Colliders Count: " + colliders.Length, style);
             GUI.Label(new Rect(0, -70, Screen.width - 10, Screen.height), "Sprite Renderers Count: " + sprites.Length, style);
         }
-            
-        static public void SecondUpdate()
-        {
+
+        static public void SecondUpdate() {
 
             timer = TimerHelper.Create();
 

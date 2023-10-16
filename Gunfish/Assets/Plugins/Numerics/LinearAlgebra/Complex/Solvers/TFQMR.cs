@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -51,8 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class TFQMR : IIterativeSolver<Complex>
-    {
+    public sealed class TFQMR : IIterativeSolver<Complex> {
         /// <summary>
         /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
         /// </summary>
@@ -60,8 +58,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix<Complex> matrix, Vector<Complex> residual, Vector<Complex> x, Vector<Complex> b)
-        {
+        static void CalculateTrueResidual(Matrix<Complex> matrix, Vector<Complex> residual, Vector<Complex> x, Vector<Complex> b) {
             // -Ax = residual
             matrix.Multiply(x, residual);
             residual.Multiply(-1, residual);
@@ -75,8 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </summary>
         /// <param name="number">Number to check</param>
         /// <returns><c>true</c> if <paramref name="number"/> even, otherwise <c>false</c></returns>
-        static bool IsEven(int number)
-        {
+        static bool IsEven(int number) {
             return number % 2 == 0;
         }
 
@@ -89,25 +85,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="result">The result vector, <c>x</c></param>
         /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
         /// <param name="preconditioner">The preconditioner to use for approximations.</param>
-        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator, IPreconditioner<Complex> preconditioner)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator, IPreconditioner<Complex> preconditioner) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
-            if (input.Count != matrix.RowCount || result.Count != input.Count)
-            {
+            if (input.Count != matrix.RowCount || result.Count != input.Count) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, input, result);
             }
 
-            if (iterator == null)
-            {
+            if (iterator == null) {
                 iterator = new Iterator<Complex>();
             }
 
-            if (preconditioner == null)
-            {
+            if (preconditioner == null) {
                 preconditioner = new UnitPreconditioner<Complex>();
             }
 
@@ -138,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             // Initialize
             var tau = input.L2Norm();
-            Complex rho = tau*tau;
+            Complex rho = tau * tau;
 
             // Calculate the initial values for v
             // M temp = yEven
@@ -152,22 +143,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             // Start the iteration
             var iterationNumber = 0;
-            while (iterator.DetermineStatus(iterationNumber, result, input, pseudoResiduals) == IterationStatus.Continue)
-            {
+            while (iterator.DetermineStatus(iterationNumber, result, input, pseudoResiduals) == IterationStatus.Continue) {
                 // First part of the step, the even bit
-                if (IsEven(iterationNumber))
-                {
+                if (IsEven(iterationNumber)) {
                     // sigma = (v, r)
                     var sigma = r.ConjugateDotProduct(v);
-                    if (sigma.Real.AlmostEqualNumbersBetween(0, 1) && sigma.Imaginary.AlmostEqualNumbersBetween(0, 1))
-                    {
+                    if (sigma.Real.AlmostEqualNumbersBetween(0, 1) && sigma.Imaginary.AlmostEqualNumbersBetween(0, 1)) {
                         // FAIL HERE
                         iterator.Cancel();
                         break;
                     }
 
                     // alpha = rho / sigma
-                    alpha = rho/sigma;
+                    alpha = rho / sigma;
 
                     // yOdd = yEven - alpha * v
                     v.Multiply(-alpha, temp1);
@@ -192,18 +180,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 temp2.CopyTo(pseudoResiduals);
 
                 // d = yOdd + theta * theta * eta / alpha * d
-                d.Multiply(theta*theta*eta/alpha, temp);
+                d.Multiply(theta * theta * eta / alpha, temp);
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.L2Norm()/tau;
-                var c = 1/Math.Sqrt(1 + (theta*theta));
+                theta = pseudoResiduals.L2Norm() / tau;
+                var c = 1 / Math.Sqrt(1 + (theta * theta));
 
                 // tau = tau * theta * c
-                tau *= theta*c;
+                tau *= theta * c;
 
                 // eta = c^2 * alpha
-                eta = c*c*alpha;
+                eta = c * c * alpha;
 
                 // x = x + eta * d
                 d.Multiply(eta, temp1);
@@ -211,8 +199,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 temp2.CopyTo(x);
 
                 // Check convergence and see if we can bail
-                if (iterator.DetermineStatus(iterationNumber, result, input, pseudoResiduals) != IterationStatus.Continue)
-                {
+                if (iterator.DetermineStatus(iterationNumber, result, input, pseudoResiduals) != IterationStatus.Continue) {
                     // Calculate the real values
                     preconditioner.Approximate(x, result);
 
@@ -222,25 +209,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     CalculateTrueResidual(matrix, temp, result, input);
 
                     // Now recheck the convergence
-                    if (iterator.DetermineStatus(iterationNumber, result, input, temp) != IterationStatus.Continue)
-                    {
+                    if (iterator.DetermineStatus(iterationNumber, result, input, temp) != IterationStatus.Continue) {
                         // We're all good now.
                         return;
                     }
                 }
 
                 // The odd step
-                if (!IsEven(iterationNumber))
-                {
-                    if (rho.Real.AlmostEqualNumbersBetween(0, 1) && rho.Imaginary.AlmostEqualNumbersBetween(0, 1))
-                    {
+                if (!IsEven(iterationNumber)) {
+                    if (rho.Real.AlmostEqualNumbersBetween(0, 1) && rho.Imaginary.AlmostEqualNumbersBetween(0, 1)) {
                         // FAIL HERE
                         iterator.Cancel();
                         break;
                     }
 
                     var rhoNew = r.ConjugateDotProduct(pseudoResiduals);
-                    var beta = rhoNew/rho;
+                    var beta = rhoNew / rho;
 
                     // Update rho for the next loop
                     rho = rhoNew;

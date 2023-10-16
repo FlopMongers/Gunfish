@@ -27,91 +27,79 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.ObjectiveFunctions;
+using System;
 
-namespace MathNet.Numerics.Optimization
-{
-    public static class ObjectiveFunction
-    {
+namespace MathNet.Numerics.Optimization {
+    public static class ObjectiveFunction {
         /// <summary>
         /// Objective function where neither Gradient nor Hessian is available.
         /// </summary>
-        public static IObjectiveFunction Value(Func<Vector<double>, double> function)
-        {
+        public static IObjectiveFunction Value(Func<Vector<double>, double> function) {
             return new ValueObjectiveFunction(function);
         }
 
         /// <summary>
         /// Objective function where the Gradient is available. Greedy evaluation.
         /// </summary>
-        public static IObjectiveFunction Gradient(Func<Vector<double>, (double, Vector<double>)> function)
-        {
+        public static IObjectiveFunction Gradient(Func<Vector<double>, (double, Vector<double>)> function) {
             return new GradientObjectiveFunction(function);
         }
 
         /// <summary>
         /// Objective function where the Gradient is available. Lazy evaluation.
         /// </summary>
-        public static IObjectiveFunction Gradient(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient)
-        {
+        public static IObjectiveFunction Gradient(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient) {
             return new LazyObjectiveFunction(function, gradient: gradient);
         }
 
         /// <summary>
         /// Objective function where the Hessian is available. Greedy evaluation.
         /// </summary>
-        public static IObjectiveFunction Hessian(Func<Vector<double>, (double, Matrix<double>)> function)
-        {
+        public static IObjectiveFunction Hessian(Func<Vector<double>, (double, Matrix<double>)> function) {
             return new HessianObjectiveFunction(function);
         }
 
         /// <summary>
         /// Objective function where the Hessian is available. Lazy evaluation.
         /// </summary>
-        public static IObjectiveFunction Hessian(Func<Vector<double>, double> function, Func<Vector<double>, Matrix<double>> hessian)
-        {
+        public static IObjectiveFunction Hessian(Func<Vector<double>, double> function, Func<Vector<double>, Matrix<double>> hessian) {
             return new LazyObjectiveFunction(function, hessian: hessian);
         }
 
         /// <summary>
         /// Objective function where both Gradient and Hessian are available. Greedy evaluation.
         /// </summary>
-        public static IObjectiveFunction GradientHessian(Func<Vector<double>, (double, Vector<double>, Matrix<double>)> function)
-        {
+        public static IObjectiveFunction GradientHessian(Func<Vector<double>, (double, Vector<double>, Matrix<double>)> function) {
             return new GradientHessianObjectiveFunction(function);
         }
 
         /// <summary>
         /// Objective function where both Gradient and Hessian are available. Lazy evaluation.
         /// </summary>
-        public static IObjectiveFunction GradientHessian(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient, Func<Vector<double>, Matrix<double>> hessian)
-        {
+        public static IObjectiveFunction GradientHessian(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient, Func<Vector<double>, Matrix<double>> hessian) {
             return new LazyObjectiveFunction(function, gradient: gradient, hessian: hessian);
         }
 
         /// <summary>
         /// Objective function where neither first nor second derivative is available.
         /// </summary>
-        public static IScalarObjectiveFunction ScalarValue(Func<double, double> function)
-        {
+        public static IScalarObjectiveFunction ScalarValue(Func<double, double> function) {
             return new ScalarValueObjectiveFunction(function);
         }
 
         /// <summary>
         /// Objective function where the first derivative is available.
         /// </summary>
-        public static IScalarObjectiveFunction ScalarDerivative(Func<double, double> function, Func<double, double> derivative)
-        {
+        public static IScalarObjectiveFunction ScalarDerivative(Func<double, double> function, Func<double, double> derivative) {
             return new ScalarObjectiveFunction(function, derivative);
         }
 
         /// <summary>
         /// Objective function where the first and second derivatives are available.
         /// </summary>
-        public static IScalarObjectiveFunction ScalarSecondDerivative(Func<double, double> function, Func<double, double> derivative, Func<double,double> secondDerivative)
-        {
+        public static IScalarObjectiveFunction ScalarSecondDerivative(Func<double, double> function, Func<double, double> derivative, Func<double, double> secondDerivative) {
             return new ScalarObjectiveFunction(function, derivative, secondDerivative);
         }
 
@@ -120,8 +108,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public static IObjectiveModel NonlinearModel(Func<Vector<double>, Vector<double>, Vector<double>> function,
             Func<Vector<double>, Vector<double>, Matrix<double>> derivatives,
-            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
-        {
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null) {
             var objective = new NonlinearObjectiveFunction(function, derivatives);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
@@ -132,8 +119,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public static IObjectiveModel NonlinearModel(Func<Vector<double>, Vector<double>, Vector<double>> function,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
-            int accuracyOrder = 2)
-        {
+            int accuracyOrder = 2) {
             var objective = new NonlinearObjectiveFunction(function, accuracyOrder: accuracyOrder);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
@@ -144,24 +130,19 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public static IObjectiveModel NonlinearModel(Func<Vector<double>, double, double> function,
             Func<Vector<double>, double, Vector<double>> derivatives,
-            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
-        {
-            Vector<double> Func(Vector<double> point, Vector<double> x)
-            {
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null) {
+            Vector<double> Func(Vector<double> point, Vector<double> x) {
                 var functionValues = CreateVector.Dense<double>(x.Count);
-                for (int i = 0; i < x.Count; i++)
-                {
+                for (int i = 0; i < x.Count; i++) {
                     functionValues[i] = function(point, x[i]);
                 }
 
                 return functionValues;
             }
 
-            Matrix<double> Prime(Vector<double> point, Vector<double> x)
-            {
+            Matrix<double> Prime(Vector<double> point, Vector<double> x) {
                 var derivativeValues = CreateMatrix.Dense<double>(x.Count, point.Count);
-                for (int i = 0; i < x.Count; i++)
-                {
+                for (int i = 0; i < x.Count; i++) {
                     derivativeValues.SetRow(i, derivatives(point, x[i]));
                 }
 
@@ -178,13 +159,10 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public static IObjectiveModel NonlinearModel(Func<Vector<double>, double, double> function,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
-            int accuracyOrder = 2)
-        {
-            Vector<double> Func(Vector<double> point, Vector<double> x)
-            {
+            int accuracyOrder = 2) {
+            Vector<double> Func(Vector<double> point, Vector<double> x) {
                 var functionValues = CreateVector.Dense<double>(x.Count);
-                for (int i = 0; i < x.Count; i++)
-                {
+                for (int i = 0; i < x.Count; i++) {
                     functionValues[i] = function(point, x[i]);
                 }
 
@@ -201,8 +179,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public static IObjectiveFunction NonlinearFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
             Func<Vector<double>, Vector<double>, Matrix<double>> derivatives,
-            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
-        {
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null) {
             var objective = new NonlinearObjectiveFunction(function, derivatives);
             objective.SetObserved(observedX, observedY, weight);
             return objective.ToObjectiveFunction();
@@ -214,8 +191,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public static IObjectiveFunction NonlinearFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
-            int accuracyOrder = 2)
-        {
+            int accuracyOrder = 2) {
             var objective = new NonlinearObjectiveFunction(function, null, accuracyOrder: accuracyOrder);
             objective.SetObserved(observedX, observedY, weight);
             return objective.ToObjectiveFunction();

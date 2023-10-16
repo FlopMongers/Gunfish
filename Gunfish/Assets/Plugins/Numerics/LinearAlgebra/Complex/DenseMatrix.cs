@@ -27,19 +27,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -47,8 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// </summary>
     [Serializable]
     [DebuggerDisplay("DenseMatrix {RowCount}x{ColumnCount}-Complex")]
-    public class DenseMatrix : Matrix
-    {
+    public class DenseMatrix : Matrix {
         /// <summary>
         /// Number of rows.
         /// </summary>
@@ -76,8 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// storage for performance or interop reasons.
         /// </summary>
         public DenseMatrix(DenseColumnMajorMatrixStorage<Complex> storage)
-            : base(storage)
-        {
+            : base(storage) {
             _rowCount = storage.RowCount;
             _columnCount = storage.ColumnCount;
             _values = storage.Data;
@@ -89,8 +86,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <exception cref="ArgumentException">If the order is less than one.</exception>
         public DenseMatrix(int order)
-            : this(new DenseColumnMajorMatrixStorage<Complex>(order, order))
-        {
+            : this(new DenseColumnMajorMatrixStorage<Complex>(order, order)) {
         }
 
         /// <summary>
@@ -99,8 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
         public DenseMatrix(int rows, int columns)
-            : this(new DenseColumnMajorMatrixStorage<Complex>(rows, columns))
-        {
+            : this(new DenseColumnMajorMatrixStorage<Complex>(rows, columns)) {
         }
 
         /// <summary>
@@ -110,8 +105,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
         public DenseMatrix(int rows, int columns, Complex[] storage)
-            : this(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, storage))
-        {
+            : this(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, storage)) {
         }
 
         /// <summary>
@@ -119,8 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the other matrix.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfMatrix(Matrix<Complex> matrix)
-        {
+        public static DenseMatrix OfMatrix(Matrix<Complex> matrix) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfMatrix(matrix.Storage));
         }
 
@@ -129,8 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the provided array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfArray(Complex[,] array)
-        {
+        public static DenseMatrix OfArray(Complex[,] array) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfArray(array));
         }
 
@@ -140,8 +132,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, Complex>> enumerable)
-        {
+        public static DenseMatrix OfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, Complex>> enumerable) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfIndexedEnumerable(rows, columns, enumerable));
         }
 
@@ -151,8 +142,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfIndexed(int rows, int columns, IEnumerable<(int, int, Complex)> enumerable)
-        {
+        public static DenseMatrix OfIndexed(int rows, int columns, IEnumerable<(int, int, Complex)> enumerable) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfIndexedEnumerable(rows, columns, enumerable));
         }
 
@@ -162,8 +152,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumnMajor(int rows, int columns, IEnumerable<Complex> columnMajor)
-        {
+        public static DenseMatrix OfColumnMajor(int rows, int columns, IEnumerable<Complex> columnMajor) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnMajorEnumerable(rows, columns, columnMajor));
         }
 
@@ -173,8 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumns(IEnumerable<IEnumerable<Complex>> data)
-        {
+        public static DenseMatrix OfColumns(IEnumerable<IEnumerable<Complex>> data) {
             return OfColumnArrays(data.Select(v => v.ToArray()).ToArray());
         }
 
@@ -184,8 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumns(int rows, int columns, IEnumerable<IEnumerable<Complex>> data)
-        {
+        public static DenseMatrix OfColumns(int rows, int columns, IEnumerable<IEnumerable<Complex>> data) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnEnumerables(rows, columns, data));
         }
 
@@ -194,8 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumnArrays(params Complex[][] columns)
-        {
+        public static DenseMatrix OfColumnArrays(params Complex[][] columns) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnArrays(columns));
         }
 
@@ -204,8 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumnArrays(IEnumerable<Complex[]> columns)
-        {
+        public static DenseMatrix OfColumnArrays(IEnumerable<Complex[]> columns) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnArrays((columns as Complex[][]) ?? columns.ToArray()));
         }
 
@@ -214,11 +199,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumnVectors(params Vector<Complex>[] columns)
-        {
+        public static DenseMatrix OfColumnVectors(params Vector<Complex>[] columns) {
             var storage = new VectorStorage<Complex>[columns.Length];
-            for (int i = 0; i < columns.Length; i++)
-            {
+            for (int i = 0; i < columns.Length; i++) {
                 storage[i] = columns[i].Storage;
             }
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnVectors(storage));
@@ -229,8 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumnVectors(IEnumerable<Vector<Complex>> columns)
-        {
+        public static DenseMatrix OfColumnVectors(IEnumerable<Vector<Complex>> columns) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
         }
 
@@ -240,8 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfRows(IEnumerable<IEnumerable<Complex>> data)
-        {
+        public static DenseMatrix OfRows(IEnumerable<IEnumerable<Complex>> data) {
             return OfRowArrays(data.Select(v => v.ToArray()).ToArray());
         }
 
@@ -251,8 +232,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<Complex>> data)
-        {
+        public static DenseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<Complex>> data) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
         }
 
@@ -261,8 +241,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfRowArrays(params Complex[][] rows)
-        {
+        public static DenseMatrix OfRowArrays(params Complex[][] rows) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowArrays(rows));
         }
 
@@ -271,8 +250,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfRowArrays(IEnumerable<Complex[]> rows)
-        {
+        public static DenseMatrix OfRowArrays(IEnumerable<Complex[]> rows) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowArrays((rows as Complex[][]) ?? rows.ToArray()));
         }
 
@@ -281,11 +259,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfRowVectors(params Vector<Complex>[] rows)
-        {
+        public static DenseMatrix OfRowVectors(params Vector<Complex>[] rows) {
             var storage = new VectorStorage<Complex>[rows.Length];
-            for (int i = 0; i < rows.Length; i++)
-            {
+            for (int i = 0; i < rows.Length; i++) {
                 storage[i] = rows[i].Storage;
             }
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowVectors(storage));
@@ -296,8 +272,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfRowVectors(IEnumerable<Vector<Complex>> rows)
-        {
+        public static DenseMatrix OfRowVectors(IEnumerable<Vector<Complex>> rows) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
         }
 
@@ -306,8 +281,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the vector.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfDiagonalVector(Vector<Complex> diagonal)
-        {
+        public static DenseMatrix OfDiagonalVector(Vector<Complex> diagonal) {
             var m = new DenseMatrix(diagonal.Count, diagonal.Count);
             m.SetDiagonal(diagonal);
             return m;
@@ -318,8 +292,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the vector.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfDiagonalVector(int rows, int columns, Vector<Complex> diagonal)
-        {
+        public static DenseMatrix OfDiagonalVector(int rows, int columns, Vector<Complex> diagonal) {
             var m = new DenseMatrix(rows, columns);
             m.SetDiagonal(diagonal);
             return m;
@@ -330,8 +303,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfDiagonalArray(Complex[] diagonal)
-        {
+        public static DenseMatrix OfDiagonalArray(Complex[] diagonal) {
             var m = new DenseMatrix(diagonal.Length, diagonal.Length);
             m.SetDiagonal(diagonal);
             return m;
@@ -342,8 +314,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfDiagonalArray(int rows, int columns, Complex[] diagonal)
-        {
+        public static DenseMatrix OfDiagonalArray(int rows, int columns, Complex[] diagonal) {
             var m = new DenseMatrix(rows, columns);
             m.SetDiagonal(diagonal);
             return m;
@@ -352,51 +323,47 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Create a new dense matrix and initialize each value to the same provided value.
         /// </summary>
-        public static DenseMatrix Create(int rows, int columns, Complex value)
-        {
-            if (value == Complex.Zero) return new DenseMatrix(rows, columns);
+        public static DenseMatrix Create(int rows, int columns, Complex value) {
+            if (value == Complex.Zero)
+                return new DenseMatrix(rows, columns);
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfValue(rows, columns, value));
         }
 
         /// <summary>
         /// Create a new dense matrix and initialize each value using the provided init function.
         /// </summary>
-        public static DenseMatrix Create(int rows, int columns, Func<int, int, Complex> init)
-        {
+        public static DenseMatrix Create(int rows, int columns, Func<int, int, Complex> init) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfInit(rows, columns, init));
         }
 
         /// <summary>
         /// Create a new diagonal dense matrix and initialize each diagonal value to the same provided value.
         /// </summary>
-        public static DenseMatrix CreateDiagonal(int rows, int columns, Complex value)
-        {
-            if (value == Complex.Zero) return new DenseMatrix(rows, columns);
+        public static DenseMatrix CreateDiagonal(int rows, int columns, Complex value) {
+            if (value == Complex.Zero)
+                return new DenseMatrix(rows, columns);
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(rows, columns, _ => value));
         }
 
         /// <summary>
         /// Create a new diagonal dense matrix and initialize each diagonal value using the provided init function.
         /// </summary>
-        public static DenseMatrix CreateDiagonal(int rows, int columns, Func<int, Complex> init)
-        {
+        public static DenseMatrix CreateDiagonal(int rows, int columns, Func<int, Complex> init) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(rows, columns, init));
         }
 
         /// <summary>
         /// Create a new square sparse identity matrix where each diagonal value is set to One.
         /// </summary>
-        public static DenseMatrix CreateIdentity(int order)
-        {
+        public static DenseMatrix CreateIdentity(int order) {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(order, order, _ => One));
         }
 
         /// <summary>
         /// Create a new dense matrix with values sampled from the provided random distribution.
         /// </summary>
-        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
-        {
-            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, Generate.RandomComplex(rows*columns, distribution)));
+        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution) {
+            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, Generate.RandomComplex(rows * columns, distribution)));
         }
 
         /// <summary>
@@ -407,22 +374,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
-        public override double L1Norm()
-        {
+        public override double L1Norm() {
             return LinearAlgebraControl.Provider.MatrixNorm(Norm.OneNorm, _rowCount, _columnCount, _values);
         }
 
         /// <summary>Calculates the induced infinity norm of this matrix.</summary>
         /// <returns>The maximum absolute row sum of the matrix.</returns>
-        public override double InfinityNorm()
-        {
+        public override double InfinityNorm() {
             return LinearAlgebraControl.Provider.MatrixNorm(Norm.InfinityNorm, _rowCount, _columnCount, _values);
         }
 
         /// <summary>Calculates the entry-wise Frobenius norm of this matrix.</summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override double FrobeniusNorm()
-        {
+        public override double FrobeniusNorm() {
             return LinearAlgebraControl.Provider.MatrixNorm(Norm.FrobeniusNorm, _rowCount, _columnCount, _values);
         }
 
@@ -430,10 +394,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the negation.</param>
-        protected override void DoNegate(Matrix<Complex> result)
-        {
-            if (result is DenseMatrix denseResult)
-            {
+        protected override void DoNegate(Matrix<Complex> result) {
+            if (result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.ScaleArray(-1, _values, denseResult._values);
                 return;
             }
@@ -445,10 +407,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
-        protected override void DoConjugate(Matrix<Complex> result)
-        {
-            if (result is DenseMatrix denseResult)
-            {
+        protected override void DoConjugate(Matrix<Complex> result) {
+            if (result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.ConjugateArray(_values, denseResult._values);
                 return;
             }
@@ -461,21 +421,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <param name="result">The matrix to store the result of the addition.</param>
-        protected override void DoAdd(Complex scalar, Matrix<Complex> result)
-        {
-            if (result is DenseMatrix denseResult)
-            {
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                {
+        protected override void DoAdd(Complex scalar, Matrix<Complex> result) {
+            if (result is DenseMatrix denseResult) {
+                CommonParallel.For(0, _values.Length, 4096, (a, b) => {
                     var v = denseResult._values;
-                    for (int i = a; i < b; i++)
-                    {
+                    for (int i = a; i < b; i++) {
                         v[i] = _values[i] + scalar;
                     }
                 });
             }
-            else
-            {
+            else {
                 base.DoAdd(scalar, result);
             }
         }
@@ -487,22 +442,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of add</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        protected override void DoAdd(Matrix<Complex> other, Matrix<Complex> result)
-        {
+        protected override void DoAdd(Matrix<Complex> other, Matrix<Complex> result) {
             // dense + dense = dense
-            if (other.Storage is DenseColumnMajorMatrixStorage<Complex> denseOther && result.Storage is DenseColumnMajorMatrixStorage<Complex> denseResult)
-            {
+            if (other.Storage is DenseColumnMajorMatrixStorage<Complex> denseOther && result.Storage is DenseColumnMajorMatrixStorage<Complex> denseResult) {
                 LinearAlgebraControl.Provider.AddArrays(_values, denseOther.Data, denseResult.Data);
                 return;
             }
 
             // dense + diagonal = any
-            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther)
-            {
+            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther) {
                 Storage.CopyToUnchecked(result.Storage, ExistingData.Clear);
                 var diagonal = diagonalOther.Data;
-                for (int i = 0; i < diagonal.Length; i++)
-                {
+                for (int i = 0; i < diagonal.Length; i++) {
                     result.At(i, i, result.At(i, i) + diagonal[i]);
                 }
                 return;
@@ -516,21 +467,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        protected override void DoSubtract(Complex scalar, Matrix<Complex> result)
-        {
-            if (result is DenseMatrix denseResult)
-            {
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                {
+        protected override void DoSubtract(Complex scalar, Matrix<Complex> result) {
+            if (result is DenseMatrix denseResult) {
+                CommonParallel.For(0, _values.Length, 4096, (a, b) => {
                     var v = denseResult._values;
-                    for (int i = a; i < b; i++)
-                    {
+                    for (int i = a; i < b; i++) {
                         v[i] = _values[i] - scalar;
                     }
                 });
             }
-            else
-            {
+            else {
                 base.DoSubtract(scalar, result);
             }
         }
@@ -540,22 +486,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        protected override void DoSubtract(Matrix<Complex> other, Matrix<Complex> result)
-        {
+        protected override void DoSubtract(Matrix<Complex> other, Matrix<Complex> result) {
             // dense + dense = dense
-            if (other.Storage is DenseColumnMajorMatrixStorage<Complex> denseOther && result.Storage is DenseColumnMajorMatrixStorage<Complex> denseResult)
-            {
+            if (other.Storage is DenseColumnMajorMatrixStorage<Complex> denseOther && result.Storage is DenseColumnMajorMatrixStorage<Complex> denseResult) {
                 LinearAlgebraControl.Provider.SubtractArrays(_values, denseOther.Data, denseResult.Data);
                 return;
             }
 
             // dense + diagonal = matrix
-            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther)
-            {
+            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther) {
                 CopyTo(result);
                 var diagonal = diagonalOther.Data;
-                for (int i = 0; i < diagonal.Length; i++)
-                {
+                for (int i = 0; i < diagonal.Length; i++) {
                     result.At(i, i, result.At(i, i) - diagonal[i]);
                 }
                 return;
@@ -569,14 +511,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
         /// <param name="result">The matrix to store the result of the multiplication.</param>
-        protected override void DoMultiply(Complex scalar, Matrix<Complex> result)
-        {
-            if (result is DenseMatrix denseResult)
-            {
+        protected override void DoMultiply(Complex scalar, Matrix<Complex> result) {
+            if (result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoMultiply(scalar, result);
             }
         }
@@ -586,10 +525,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoMultiply(Vector<Complex> rightSide, Vector<Complex> result)
-        {
-            if (rightSide is DenseVector denseRight && result is DenseVector denseResult)
-            {
+        protected override void DoMultiply(Vector<Complex> rightSide, Vector<Complex> result) {
+            if (rightSide is DenseVector denseRight && result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiply(
                     _values,
                     _rowCount,
@@ -599,8 +536,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     1,
                     denseResult.Values);
             }
-            else
-            {
+            else {
                 base.DoMultiply(rightSide, result);
             }
         }
@@ -610,10 +546,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoMultiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
-            {
+        protected override void DoMultiply(Matrix<Complex> other, Matrix<Complex> result) {
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiply(
                     _values,
                     _rowCount,
@@ -625,20 +559,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther)
-            {
+            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther) {
                 var diagonal = diagonalOther.Data;
                 var d = Math.Min(ColumnCount, other.ColumnCount);
-                if (d < other.ColumnCount)
-                {
+                if (d < other.ColumnCount) {
                     result.ClearSubMatrix(0, RowCount, ColumnCount, other.ColumnCount - ColumnCount);
                 }
                 int index = 0;
-                for (int j = 0; j < d; j++)
-                {
-                    for (int i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, _values[index]*diagonal[j]);
+                for (int j = 0; j < d; j++) {
+                    for (int i = 0; i < RowCount; i++) {
+                        result.At(i, j, _values[index] * diagonal[j]);
                         index++;
                     }
                 }
@@ -653,10 +583,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoTransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
-            {
+        protected override void DoTransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result) {
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.DontTranspose,
                     Providers.LinearAlgebra.Transpose.Transpose,
@@ -672,20 +600,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther)
-            {
+            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther) {
                 var diagonal = diagonalOther.Data;
                 var d = Math.Min(ColumnCount, other.RowCount);
-                if (d < other.RowCount)
-                {
+                if (d < other.RowCount) {
                     result.ClearSubMatrix(0, RowCount, ColumnCount, other.RowCount - ColumnCount);
                 }
                 int index = 0;
-                for (int j = 0; j < d; j++)
-                {
-                    for (int i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, _values[index]*diagonal[j]);
+                for (int j = 0; j < d; j++) {
+                    for (int i = 0; i < RowCount; i++) {
+                        result.At(i, j, _values[index] * diagonal[j]);
                         index++;
                     }
                 }
@@ -700,10 +624,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
-            {
+        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result) {
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.DontTranspose,
                     Providers.LinearAlgebra.Transpose.ConjugateTranspose,
@@ -719,26 +641,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther)
-            {
+            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther) {
                 var diagonal = diagonalOther.Data;
                 var conjugateDiagonal = new Complex[diagonal.Length];
-                for (int i = 0; i < diagonal.Length; i++)
-                {
+                for (int i = 0; i < diagonal.Length; i++) {
                     conjugateDiagonal[i] = diagonal[i].Conjugate();
                 }
 
                 var d = Math.Min(ColumnCount, other.RowCount);
-                if (d < other.RowCount)
-                {
+                if (d < other.RowCount) {
                     result.ClearSubMatrix(0, RowCount, ColumnCount, other.RowCount - ColumnCount);
                 }
                 int index = 0;
-                for (int j = 0; j < d; j++)
-                {
-                    for (int i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, _values[index]*conjugateDiagonal[j]);
+                for (int j = 0; j < d; j++) {
+                    for (int i = 0; i < RowCount; i++) {
+                        result.At(i, j, _values[index] * conjugateDiagonal[j]);
                         index++;
                     }
                 }
@@ -753,10 +670,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result)
-        {
-            if (rightSide is DenseVector denseRight && result is DenseVector denseResult)
-            {
+        protected override void DoTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result) {
+            if (rightSide is DenseVector denseRight && result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.Transpose,
                     Providers.LinearAlgebra.Transpose.DontTranspose,
@@ -780,10 +695,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result)
-        {
-            if (rightSide is DenseVector denseRight && result is DenseVector denseResult)
-            {
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result) {
+            if (rightSide is DenseVector denseRight && result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.ConjugateTranspose,
                     Providers.LinearAlgebra.Transpose.DontTranspose,
@@ -807,10 +720,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoTransposeThisAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
-            {
+        protected override void DoTransposeThisAndMultiply(Matrix<Complex> other, Matrix<Complex> result) {
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.Transpose,
                     Providers.LinearAlgebra.Transpose.DontTranspose,
@@ -826,20 +737,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther)
-            {
+            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther) {
                 var diagonal = diagonalOther.Data;
                 var d = Math.Min(RowCount, other.ColumnCount);
-                if (d < other.ColumnCount)
-                {
+                if (d < other.ColumnCount) {
                     result.ClearSubMatrix(0, ColumnCount, RowCount, other.ColumnCount - RowCount);
                 }
                 int index = 0;
-                for (int i = 0; i < ColumnCount; i++)
-                {
-                    for (int j = 0; j < d; j++)
-                    {
-                        result.At(i, j, _values[index]*diagonal[j]);
+                for (int i = 0; i < ColumnCount; i++) {
+                    for (int j = 0; j < d; j++) {
+                        result.At(i, j, _values[index] * diagonal[j]);
                         index++;
                     }
                     index += (RowCount - d);
@@ -855,10 +762,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
-            {
+        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex> other, Matrix<Complex> result) {
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.ConjugateTranspose,
                     Providers.LinearAlgebra.Transpose.DontTranspose,
@@ -874,20 +779,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther)
-            {
+            if (other.Storage is DiagonalMatrixStorage<Complex> diagonalOther) {
                 var diagonal = diagonalOther.Data;
                 var d = Math.Min(RowCount, other.ColumnCount);
-                if (d < other.ColumnCount)
-                {
+                if (d < other.ColumnCount) {
                     result.ClearSubMatrix(0, ColumnCount, RowCount, other.ColumnCount - RowCount);
                 }
                 int index = 0;
-                for (int i = 0; i < ColumnCount; i++)
-                {
-                    for (int j = 0; j < d; j++)
-                    {
-                        result.At(i, j, _values[index].Conjugate()*diagonal[j]);
+                for (int i = 0; i < ColumnCount; i++) {
+                    for (int j = 0; j < d; j++) {
+                        result.At(i, j, _values[index].Conjugate() * diagonal[j]);
                         index++;
                     }
                     index += (RowCount - d);
@@ -903,14 +804,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="divisor">The scalar to divide the matrix with.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected override void DoDivide(Complex divisor, Matrix<Complex> result)
-        {
-            if (result is DenseMatrix denseResult)
-            {
+        protected override void DoDivide(Complex divisor, Matrix<Complex> result) {
+            if (result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.ScaleArray(1.0 / divisor, _values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoDivide(divisor, result);
             }
         }
@@ -920,14 +818,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
         /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
-        protected override void DoPointwiseMultiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
-            {
+        protected override void DoPointwiseMultiply(Matrix<Complex> other, Matrix<Complex> result) {
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoPointwiseMultiply(other, result);
             }
         }
@@ -937,14 +832,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="divisor">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Matrix<Complex> divisor, Matrix<Complex> result)
-        {
-            if (divisor is DenseMatrix denseDivisor && result is DenseMatrix denseResult)
-            {
+        protected override void DoPointwiseDivide(Matrix<Complex> divisor, Matrix<Complex> result) {
+            if (divisor is DenseMatrix denseDivisor && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseDivisor._values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoPointwiseDivide(divisor, result);
             }
         }
@@ -954,14 +846,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="exponent">The exponent to raise this matrix values to.</param>
         /// <param name="result">The vector to store the result of the pointwise power.</param>
-        protected override void DoPointwisePower(Matrix<Complex> exponent, Matrix<Complex> result)
-        {
-            if (exponent is DenseMatrix denseExponent && result is DenseMatrix denseResult)
-            {
+        protected override void DoPointwisePower(Matrix<Complex> exponent, Matrix<Complex> result) {
+            if (exponent is DenseMatrix denseExponent && result is DenseMatrix denseResult) {
                 LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoPointwisePower(exponent, result);
             }
         }
@@ -971,16 +860,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <returns>The trace of this matrix</returns>
         /// <exception cref="ArgumentException">If the matrix is not square</exception>
-        public override Complex Trace()
-        {
-            if (_rowCount != _columnCount)
-            {
+        public override Complex Trace() {
+            if (_rowCount != _columnCount) {
                 throw new ArgumentException("Matrix must be square.");
             }
 
             var sum = Complex.Zero;
-            for (var i = 0; i < _rowCount; i++)
-            {
+            for (var i = 0; i < _rowCount; i++) {
                 sum += _values[(i * _rowCount) + i];
             }
 
@@ -998,20 +884,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseMatrix operator +(DenseMatrix leftSide, DenseMatrix rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseMatrix operator +(DenseMatrix leftSide, DenseMatrix rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
-            if (leftSide == null)
-            {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
-            if (leftSide._rowCount != rightSide._rowCount || leftSide._columnCount != rightSide._columnCount)
-            {
+            if (leftSide._rowCount != rightSide._rowCount || leftSide._columnCount != rightSide._columnCount) {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
@@ -1024,10 +906,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseMatrix operator +(DenseMatrix rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseMatrix operator +(DenseMatrix rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
@@ -1045,20 +925,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseMatrix operator -(DenseMatrix leftSide, DenseMatrix rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseMatrix operator -(DenseMatrix leftSide, DenseMatrix rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
-            if (leftSide == null)
-            {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
-            if (leftSide._rowCount != rightSide._rowCount || leftSide._columnCount != rightSide._columnCount)
-            {
+            if (leftSide._rowCount != rightSide._rowCount || leftSide._columnCount != rightSide._columnCount) {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
@@ -1071,10 +947,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The matrix to negate.</param>
         /// <returns>A matrix containing the negated values.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseMatrix operator -(DenseMatrix rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseMatrix operator -(DenseMatrix rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
@@ -1088,10 +962,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The constant to multiply the matrix by.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static DenseMatrix operator *(DenseMatrix leftSide, Complex rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseMatrix operator *(DenseMatrix leftSide, Complex rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -1105,10 +977,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The constant to multiply the matrix by.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseMatrix operator *(Complex leftSide, DenseMatrix rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseMatrix operator *(Complex leftSide, DenseMatrix rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
@@ -1126,20 +996,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static DenseMatrix operator *(DenseMatrix leftSide, DenseMatrix rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseMatrix operator *(DenseMatrix leftSide, DenseMatrix rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
-            if (rightSide == null)
-            {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
-            if (leftSide._columnCount != rightSide._rowCount)
-            {
+            if (leftSide._columnCount != rightSide._rowCount) {
                 throw DimensionsDontMatch<ArgumentException>(leftSide, rightSide);
             }
 
@@ -1153,10 +1019,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The vector to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator *(DenseMatrix leftSide, DenseVector rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseVector operator *(DenseMatrix leftSide, DenseVector rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -1170,10 +1034,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The matrix to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator *(DenseVector leftSide, DenseMatrix rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseVector operator *(DenseVector leftSide, DenseMatrix rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
@@ -1187,10 +1049,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The constant to multiply the matrix by.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static DenseMatrix operator %(DenseMatrix leftSide, Complex rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseMatrix operator %(DenseMatrix leftSide, Complex rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -1200,20 +1060,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public override bool IsSymmetric()
-        {
-            if (RowCount != ColumnCount)
-            {
+        public override bool IsSymmetric() {
+            if (RowCount != ColumnCount) {
                 return false;
             }
 
-            for (var j = 0; j < ColumnCount; j++)
-            {
+            for (var j = 0; j < ColumnCount; j++) {
                 var index = j * RowCount;
-                for (var i = j + 1; i < RowCount; i++)
-                {
-                    if (_values[(i*ColumnCount) + j] != _values[index + i])
-                    {
+                for (var i = j + 1; i < RowCount; i++) {
+                    if (_values[(i * ColumnCount) + j] != _values[index + i]) {
                         return false;
                     }
                 }
@@ -1225,29 +1080,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Evaluates whether this matrix is Hermitian (conjugate symmetric).
         /// </summary>
-        public override bool IsHermitian()
-        {
-            if (RowCount != ColumnCount)
-            {
+        public override bool IsHermitian() {
+            if (RowCount != ColumnCount) {
                 return false;
             }
 
             int stride = RowCount + 1;
-            for (var k = 0; k < _values.Length; k += stride)
-            {
-                if (!_values[k].IsReal())
-                {
+            for (var k = 0; k < _values.Length; k += stride) {
+                if (!_values[k].IsReal()) {
                     return false;
                 }
             }
 
-            for (var j = 0; j < ColumnCount; j++)
-            {
+            for (var j = 0; j < ColumnCount; j++) {
                 var index = j * RowCount;
-                for (var i = j + 1; i < RowCount; i++)
-                {
-                    if (_values[(i*ColumnCount) + j] != _values[index + i].Conjugate())
-                    {
+                for (var i = j + 1; i < RowCount; i++) {
+                    if (_values[(i * ColumnCount) + j] != _values[index + i].Conjugate()) {
                         return false;
                     }
                 }
@@ -1256,33 +1104,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return true;
         }
 
-        public override Cholesky<Complex> Cholesky()
-        {
+        public override Cholesky<Complex> Cholesky() {
             return DenseCholesky.Create(this);
         }
 
-        public override LU<Complex> LU()
-        {
+        public override LU<Complex> LU() {
             return DenseLU.Create(this);
         }
 
-        public override QR<Complex> QR(QRMethod method = QRMethod.Thin)
-        {
+        public override QR<Complex> QR(QRMethod method = QRMethod.Thin) {
             return DenseQR.Create(this, method);
         }
 
-        public override GramSchmidt<Complex> GramSchmidt()
-        {
+        public override GramSchmidt<Complex> GramSchmidt() {
             return DenseGramSchmidt.Create(this);
         }
 
-        public override Svd<Complex> Svd(bool computeVectors = true)
-        {
+        public override Svd<Complex> Svd(bool computeVectors = true) {
             return DenseSvd.Create(this, computeVectors);
         }
 
-        public override Evd<Complex> Evd(Symmetricity symmetricity = Symmetricity.Unknown)
-        {
+        public override Evd<Complex> Evd(Symmetricity symmetricity = Symmetricity.Unknown) {
             return DenseEvd.Create(this, symmetricity);
         }
     }

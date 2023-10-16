@@ -1,47 +1,44 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.LightingSettings
-{
-	[CreateAssetMenu(fileName = "LightingProfile", menuName = "Light 2D/Profile", order = 1)]
+namespace FunkyCode.LightingSettings {
+    [CreateAssetMenu(fileName = "LightingProfile", menuName = "Light 2D/Profile", order = 1)]
 
-	public class Profile : ScriptableObject
-	{
-		public LightmapPresetList lightmapPresets;
+    public class Profile : ScriptableObject {
+        public LightmapPresetList lightmapPresets;
 
-		public LightPresetList lightPresets;
+        public LightPresetList lightPresets;
 
-		public EventPresetList eventPresets;
+        public EventPresetList eventPresets;
 
-		public QualitySettings qualitySettings;
+        public QualitySettings qualitySettings;
 
-		public DayLightingSettings dayLightingSettings;
+        public DayLightingSettings dayLightingSettings;
 
-		public Layers layers;
+        public Layers layers;
 
-		public Color DarknessColor
-		{
-			set => lightmapPresets.list[0].darknessColor = value;
-			get => lightmapPresets.list[0].darknessColor;
-		}
+        public Color DarknessColor {
+            set => lightmapPresets.list[0].darknessColor = value;
+            get => lightmapPresets.list[0].darknessColor;
+        }
 
-		public Profile() {
-			
-			layers = new Layers();
+        public Profile() {
 
-			qualitySettings = new QualitySettings();
+            layers = new Layers();
 
-			lightmapPresets = new LightmapPresetList();
-			lightmapPresets.list[0] = new LightmapPreset(0);
-			lightmapPresets.list[0].darknessColor = new Color(0, 0, 0, 1);
+            qualitySettings = new QualitySettings();
 
-			lightPresets = new LightPresetList();
-			lightPresets.list[0] = new LightPreset(0);
+            lightmapPresets = new LightmapPresetList();
+            lightmapPresets.list[0] = new LightmapPreset(0);
+            lightmapPresets.list[0].darknessColor = new Color(0, 0, 0, 1);
 
-			eventPresets = new EventPresetList();
-			eventPresets.list[0] = new EventPreset(0);
-			eventPresets.list[1] = new EventPreset(1);
-			
-			dayLightingSettings = new DayLightingSettings();
-		}
-	}
+            lightPresets = new LightPresetList();
+            lightPresets.list[0] = new LightPreset(0);
+
+            eventPresets = new EventPresetList();
+            eventPresets.list[0] = new EventPreset(0);
+            eventPresets.list[1] = new EventPreset(1);
+
+            dayLightingSettings = new DayLightingSettings();
+        }
+    }
 }

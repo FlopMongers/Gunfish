@@ -16,12 +16,10 @@ using UnityEngine;
 
 #else
 
-    namespace FunkyCode.SuperTilemapEditorSupport
-    {
-        public class TilemapRoom2D : LightTilemapCollider.Base
-        {
-            public override void Initialize() {}
-        }
+namespace FunkyCode.SuperTilemapEditorSupport {
+    public class TilemapRoom2D : LightTilemapCollider.Base {
+        public override void Initialize() { }
     }
+}
 
 #endif

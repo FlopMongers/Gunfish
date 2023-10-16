@@ -24,7 +24,7 @@ public class PlayerManager : Singleton<PlayerManager> {
         var pattern = GameManager.debug == true ? "(Keyboard|Controller|Joystick)" : "Joystick";
         var regex = new Regex(pattern);
         var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
-        
+
         int playerIndex = 0;
         inputDevices.ForEach(device => {
             var playerInput = inputManager.JoinPlayer(playerIndex: playerIndex++, pairWithDevice: device);

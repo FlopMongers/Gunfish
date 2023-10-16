@@ -30,13 +30,11 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the Marcum-Q functions.
     /// </summary>
-    public static partial class SpecialFunctions
-    {
+    public static partial class SpecialFunctions {
         /// <summary>
         /// Returns the Marcum Q-function Q[ν](a,b). <a href="https://en.wikipedia.org/wiki/Marcum_Q-function">Marcum Q-function (Wikipedia)</a>
         /// <para>References: A. Gil, J. Segura and N.M. Temme. Efficient and accurate algorithms for the
@@ -46,8 +44,7 @@ namespace MathNet.Numerics
         /// <param name="a">The value to compute the Marcum Q-function of. Range: 0≦a≦10000</param>
         /// <param name="b">The value to compute the Marcum Q-function of. Range: 0≦b≦10000</param>
         /// <returns>The Marcum Q-function Q[ν](a,b)</returns>
-        public static double MarcumQ(double nu,double a,double b)
-        {
+        public static double MarcumQ(double nu, double a, double b) {
             MarcumQFunction.Marcum(nu, a, b, out _, out double q, out _);
 
             return q;
@@ -67,8 +64,7 @@ namespace MathNet.Numerics
         /// <para>2: Any of the arguments of the function is out of range.The function value is set to zero.</para>
         /// </param>
         /// <returns>The Marcum Q-function Q[ν](a,b)</returns>
-        public static double MarcumQ(double nu, double a, double b, out int err)
-        {
+        public static double MarcumQ(double nu, double a, double b, out int err) {
             MarcumQFunction.Marcum(nu, a, b, out _, out double q, out err);
 
             return q;
@@ -82,8 +78,7 @@ namespace MathNet.Numerics
         /// computation and inversion of the incomplete gamma function ratios. SIAM J Sci Comput.
         /// (2012) 34(6), A2965-A2981</para>
         /// </summary>
-        internal static class MarcumQFunction
-        {
+        internal static class MarcumQFunction {
             #region Constants
             /// <summary>
             /// Fortran 95 TINY(0.0d0)
@@ -147,26 +142,22 @@ namespace MathNet.Numerics
             /// <para>1: Underflow problems. The function values are set to zero and one.</para>
             /// <para>2: Any of the arguments of the function is out of range.The function values (P_mu(a, x) and Q_mu(a, x)) are set to zero.</para>
             /// </param>
-            public static void Marcum(double mu, double x, double y, out double p, out double q, out int ierr)
-            {
+            public static void Marcum(double mu, double x, double y, out double p, out double q, out int ierr) {
                 ierr = 0;
                 p = 0;
                 q = 0;
 
-                if ((x > 10000) || (y > 10000) || (mu > 10000))
-                {
+                if ((x > 10000) || (y > 10000) || (mu > 10000)) {
                     ierr = 2;
                 }
 
-                if ((x < 0) || (y < 0) || (mu < 1))
-                {
+                if ((x < 0) || (y < 0) || (mu < 1)) {
                     ierr = 2;
                 }
 
                 ierr = 0;
 
-                if (ierr == 0)
-                {
+                if (ierr == 0) {
                     double mulim = 135.0;
                     double b = 1.0;
                     double w = b * Math.Sqrt(4 * x + 2 * mu);
@@ -174,54 +165,44 @@ namespace MathNet.Numerics
                     double y0 = x + mu - w;
                     double y1 = x + mu + w;
 
-                    if ((y > x + mu) && (x < 30))
-                    {
+                    if ((y > x + mu) && (x < 30)) {
                         // Series for Q in terms of ratios of Gamma functions
                         Qser(mu, x, y, out p, out q, out ierr);
                     }
-                    else if ((y <= x + mu) && (x < 30))
-                    {
+                    else if ((y <= x + mu) && (x < 30)) {
                         // Series for P in terms of ratios of Gamma functions
                         Pser(mu, x, y, out p, out q, out ierr);
                     }
-                    else if ((mu * mu < 2 * xi) && (xi > 30))
-                    {
+                    else if ((mu * mu < 2 * xi) && (xi > 30)) {
                         // Asymptotic expansion for xy large
                         PQasyxy(mu, x, y, out p, out q, out ierr);
                     }
-                    else if (((mu >= mulim) && (y0 <= y)) && (y <= y1))
-                    {
+                    else if (((mu >= mulim) && (y0 <= y)) && (y <= y1)) {
                         // Asymptotic expansion for mu large
                         PQasymu(mu, x, y, out p, out q, out ierr);
                     }
-                    else if (((y <= y1) && (y > x + mu)) && (mu < mulim))
-                    {
+                    else if (((y <= y1) && (y > x + mu)) && (mu < mulim)) {
                         // Recurrence relation for Q
                         Qrec(mu, x, y, out p, out q, out ierr);
                     }
-                    else if (((y >= y0) && (y <= x + mu)) && (mu < mulim))
-                    {
+                    else if (((y >= y0) && (y <= x + mu)) && (mu < mulim)) {
                         // Recurrence relation for P
                         Prec(mu, x, y, out p, out q, out ierr);
                     }
-                    else
-                    {
+                    else {
                         // Integral representation
                         MarcumPQtrap(mu, x, y, out p, out q, ref ierr);
                     }
                 }
 
-                if (ierr == 0)
-                {
-                    if (p < 1e-290)
-                    {
+                if (ierr == 0) {
+                    if (p < 1e-290) {
                         p = 0;
                         q = 1;
                         ierr = 1;
                     }
 
-                    if (q < 1e-290)
-                    {
+                    if (q < 1e-290) {
                         p = 1;
                         q = 0;
                         ierr = 1;
@@ -234,8 +215,7 @@ namespace MathNet.Numerics
 
             // Evaluation of the cf for the ratio Ipnu(z)/Ipnu-1(z)
             // We use Lentz-Thompson algorithm.
-            static double Fc(double pnu, double z)
-            {
+            static double Fc(double pnu, double z) {
                 int m = 0;
                 double b = 2 * pnu / z;
                 double a = 1d;
@@ -244,19 +224,16 @@ namespace MathNet.Numerics
                 double d0 = 0d;
                 double delta = 0d;
 
-                while (Math.Abs(delta - 1) > Epss)
-                {
+                while (Math.Abs(delta - 1) > Epss) {
                     d0 = b + a * d0;
 
-                    if (Math.Abs(d0) < Dwarf)
-                    {
+                    if (Math.Abs(d0) < Dwarf) {
                         d0 = Dwarf;
                     }
 
                     c0 = b + a / c0;
 
-                    if (Math.Abs(c0) < Dwarf)
-                    {
+                    if (Math.Abs(c0) < Dwarf) {
                         c0 = Dwarf;
                     }
 
@@ -272,24 +249,20 @@ namespace MathNet.Numerics
             }
 
             // Math.Power??
-            static double Factor(double x, int n)
-            {
+            static double Factor(double x, int n) {
                 double facto = 1;
 
-                for (int i = 1; i <= n; i++)
-                {
+                for (int i = 1; i <= n; i++) {
                     facto *= x / i;
                 }
 
                 return facto;
             }
 
-            static double Pol(double[] fjkm, int d, double v)
-            {
+            static double Pol(double[] fjkm, int d, double v) {
                 double s = fjkm[d];
                 int m = d;
-                while (m > 0)
-                {
+                while (m > 0) {
                     m--;
                     s = s * v + fjkm[m];
                 }
@@ -297,8 +270,7 @@ namespace MathNet.Numerics
                 return s;
             }
 
-            static void Fjkproc16(double u, double[,] fjk)
-            {
+            static void Fjkproc16(double u, double[,] fjk) {
                 double[] fjkm = new double[33];
                 double[] un = new double[65];
 
@@ -306,8 +278,7 @@ namespace MathNet.Numerics
                 double v = u * u;
                 un[2] = v;
 
-                for (int n = 2; n <= 64; n++)
-                {
+                for (int n = 2; n <= 64; n++) {
                     un[n] = u * un[n - 1];
                 }
 
@@ -3406,14 +3377,12 @@ namespace MathNet.Numerics
                 #endregion k: 16
             }
 
-            static void SetFjk16(double[,] fjk, int j, int k, double[] un, double[] fjkm, double v)
-            {
+            static void SetFjk16(double[,] fjk, int j, int k, double[] un, double[] fjkm, double v) {
                 int d = j + 2 * k;
                 fjk[j, k] = un[d] * Pol(fjkm, d, v);
             }
 
-            static int Startingpser(double mu, double x, double y)
-            {
+            static int Startingpser(double mu, double x, double y) {
                 double mulnmu = mu * Math.Log(mu);
                 double lnx = Math.Log(x);
                 double lny = Math.Log(y);
@@ -3424,29 +3393,24 @@ namespace MathNet.Numerics
                 int a = 0;
                 int b = 0;
 
-                while (Math.Abs(n - n1) > 1)
-                {
+                while (Math.Abs(n - n1) > 1) {
                     n1 = n;
                     n = Ps(mu, mulnmu, lnx, y, lny, n, a, b);
                 }
 
                 n += 1;
 
-                if (mu + n > y)
-                {
-                    if (y > mu)
-                    {
+                if (mu + n > y) {
+                    if (y > mu) {
                         a = 1;
                     }
-                    else
-                    {
+                    else {
                         b = 1;
                     }
 
                     n1 = 0;
 
-                    while (Math.Abs(n - n1) > 1)
-                    {
+                    while (Math.Abs(n - n1) > 1) {
                         n1 = n;
                         n = Ps(mu, mulnmu, lnx, y, lny, n, a, b);
                     }
@@ -3455,36 +3419,29 @@ namespace MathNet.Numerics
                 return (int)Math.Round(n) + 1;
             }
 
-            static double Ps(double mu, double mulnmu, double lnx,double y, double lny, double n, int a, int b)
-            {
+            static double Ps(double mu, double mulnmu, double lnx, double y, double lny, double n, int a, int b) {
                 double lneps = Math.Log(Epss);
 
-                if ((a == 0) && (b == 0))
-                {
+                if ((a == 0) && (b == 0)) {
                     return (n - lneps) / (Math.Log(n) - lnx);
                 }
-                else if ((a == 0) && (b == 1))
-                {
+                else if ((a == 0) && (b == 1)) {
                     return (2 * n - lneps + mulnmu - mu * Math.Log(mu + n)) / (Math.Log(n) - lnx - lny + Math.Log(mu + n));
                 }
-                else if ((a == 1) && (b == 0))
-                {
+                else if ((a == 1) && (b == 0)) {
                     return (2 * n - lneps - y + mu * lny - mu * Math.Log(mu + n) + mu) / (Math.Log(n) - lnx - lny + Math.Log(mu + n));
                 }
-                else
-                {
+                else {
                     throw new ArgumentException("(a,b) must be (a==0&b==0)||(a==1&b==0)||(a==0&b==1)");
                 }
 
             }
 
-            static void Hypfun(double x, out double sinh, out double cosh)
-            {
+            static void Hypfun(double x, out double sinh, out double cosh) {
                 double ax = Math.Abs(x);
                 double y, f, f2, ss;
 
-                if (ax < 0.21)
-                {
+                if (ax < 0.21) {
                     y = ax < 0.07 ? x * x : x * x / 9;
 
                     f = 2.0 + y * (y * 28 + 2520.0) / (y * (y + 420) + 15120.0);
@@ -3492,8 +3449,7 @@ namespace MathNet.Numerics
                     sinh = 2 * x * f / (f2 - y);
                     cosh = (f2 + y) / (f2 - y);
 
-                    if (ax >= 0.07)
-                    {
+                    if (ax >= 0.07) {
                         ss = 2.0 * sinh / 3.0;
                         f = ss * ss;
 
@@ -3501,8 +3457,7 @@ namespace MathNet.Numerics
                         cosh = cosh * (1.0 + f);
                     }
                 }
-                else
-                {
+                else {
                     y = Math.Exp(x);
                     f = 1.0 / y;
                     cosh = (y + f) / 2.0;
@@ -3511,14 +3466,12 @@ namespace MathNet.Numerics
             }
 
             // Computes the Incomplete Gama(1/2-n,x), x >= 0, n=0,1,2, ...
-            static double Ignega(int n, double x)
-            {
+            static double Ignega(int n, double x) {
                 double a = 0.5 - n;
                 double delta = Epss / 100.0;
                 double g;
 
-                if (x > 1.5)
-                {
+                if (x > 1.5) {
                     double p = 0.0;
                     double q = (x - 1 - a) * (x + 1 - a);
                     double r = 4 * (x + 1 - a);
@@ -3527,8 +3480,7 @@ namespace MathNet.Numerics
                     double t = 1.0;
                     g = 1.0;
 
-                    while ((t / g) > delta)
-                    {
+                    while ((t / g) > delta) {
                         p += s;
                         q += r;
                         r += 8;
@@ -3541,14 +3493,12 @@ namespace MathNet.Numerics
 
                     g *= Math.Exp(a * Math.Log(x)) / (x + 1 - a);
                 }
-                else
-                {
+                else {
                     double t = 1;
                     double s = 1.0 / a;
                     int k = 1;
 
-                    while (Math.Abs(t / s) > delta)
-                    {
+                    while (Math.Abs(t / s) > delta) {
                         t *= -x / k;
                         s += t / (k + a);
                         k++;
@@ -3556,8 +3506,7 @@ namespace MathNet.Numerics
 
                     g = Constants.SqrtPi;
 
-                    for (int i = 1; i <= n; i++)
-                    {
+                    for (int i = 1; i <= n; i++) {
                         g /= (0.5 - i);
                     }
 
@@ -3567,34 +3516,28 @@ namespace MathNet.Numerics
                 return g;
             }
 
-            static double Alfinv(int t, double r)
-            {
+            static double Alfinv(int t, double r) {
                 double a, b;
 
-                if (t + r < 2.7)
-                {
-                    if (t == 0)
-                    {
+                if (t + r < 2.7) {
+                    if (t == 0) {
                         a = Math.Exp(Math.Log(3.0 * r) / 3.0);
                         double a2 = a * a;
                         b = a * (1.0 + a2 * (-1.0 / 30.0 + 0.004312 * a2));
                     }
-                    else
-                    {
+                    else {
                         a = Math.Sqrt(2.0 * (1.0 + r));
                         double a2 = a * a;
                         b = a / (1.0 + a2 / 8.0);
                     }
                 }
-                else
-                {
+                else {
                     a = Math.Log(0.7357589 * (r + t));
                     double lna = Math.Log(a) / a;
                     b = 1.0 + a + Math.Log(a) * (1.0 / a - 1.0) + 0.5 * lna * lna;
                 }
 
-                while (Math.Abs(a / b - 1) > 1e-2)
-                {
+                while (Math.Abs(a / b - 1) > 1e-2) {
                     a = b;
                     b = Fi(a, r, t);
                 }
@@ -3602,19 +3545,16 @@ namespace MathNet.Numerics
                 return b;
             }
 
-            static double Falfa(double al, double r, int t, out double df)
-            {
+            static double Falfa(double al, double r, int t, out double df) {
                 Hypfun(al, out double sh, out double ch);
 
                 double falfa;
 
-                if (t == 1)
-                {
+                if (t == 1) {
                     falfa = al * sh / ch - 1.0 - r / ch;
                     df = (sh + (al + r * sh) / ch) / ch;
                 }
-                else
-                {
+                else {
                     falfa = al - (sh + r) / ch;
                     df = al - (sh + r) / ch;
                 }
@@ -3622,23 +3562,19 @@ namespace MathNet.Numerics
                 return falfa;
             }
 
-            static double Fi(double al, double r, int t)
-            {
+            static double Fi(double al, double r, int t) {
                 double p = Falfa(al, r, t, out var q);
                 double fi = al - p / q;
 
                 return fi;
             }
 
-            static double Recipgam(double x, out double q, out double r)
-            {
-                if (x == 0)
-                {
+            static double Recipgam(double x, out double q, out double r) {
+                if (x == 0) {
                     q = 0.5772156649015328606e-0;
                     r = -0.6558780715202538811e-0;
                 }
-                else
-                {
+                else {
                     double tx = 2 * x;
                     double t = 2 * tx * tx - 1;
 
@@ -3675,32 +3611,25 @@ namespace MathNet.Numerics
                 return recipgam;
             }
 
-            static double Errorfunction(double x, bool erfcc, bool expo)
-            {
+            static double Errorfunction(double x, bool erfcc, bool expo) {
                 double y;
 
-                if (erfcc)
-                {
-                    if (x < -6.5)
-                    {
+                if (erfcc) {
+                    if (x < -6.5) {
                         y = 2;
                     }
-                    else if (x < 0)
-                    {
+                    else if (x < 0) {
                         y = 2 - Errorfunction(-x, true, false);
                     }
-                    else if (x == 0)
-                    {
+                    else if (x == 0) {
                         y = 1;
                     }
-                    else if (x < 0.5)
-                    {
+                    else if (x < 0.5) {
                         y = expo ? Math.Exp(x * x) : 1;
 
                         y = y * (1 - Errorfunction(x, false, false));
                     }
-                    else if (x < 4)
-                    {
+                    else if (x < 4) {
                         y = expo ? 1 : Math.Exp(-x * x);
 
                         double[] r = {
@@ -3727,8 +3656,7 @@ namespace MathNet.Numerics
 
                         y = y * Fractio(x, 8, r, s);
                     }
-                    else
-                    {
+                    else {
                         double z = x * x;
 
                         y = expo ? 1 : Math.Exp(-z);
@@ -3754,26 +3682,20 @@ namespace MathNet.Numerics
                         y = y * (Constants.InvSqrtPi - z * Fractio(z, 5, r, s)) / x;
                     }
                 }
-                else
-                {
-                    if (x == 0)
-                    {
+                else {
+                    if (x == 0) {
                         y = 0;
                     }
-                    else if (Math.Abs(x) > 6.5)
-                    {
+                    else if (Math.Abs(x) > 6.5) {
                         y = x / Math.Abs(x);
                     }
-                    else if (x > 0.5)
-                    {
+                    else if (x > 0.5) {
                         y = 1 - Errorfunction(x, true, false);
                     }
-                    else if (x < -0.5)
-                    {
+                    else if (x < -0.5) {
                         y = Errorfunction(-x, true, false) - 1;
                     }
-                    else
-                    {
+                    else {
                         double[] r = {
                                 3.209377589138469473e3,
                                 3.774852376853020208e2,
@@ -3797,13 +3719,11 @@ namespace MathNet.Numerics
                 return y;
             }
 
-            static double Fractio(double x, int n, double[] r, double[] s)
-            {
+            static double Fractio(double x, int n, double[] r, double[] s) {
                 double a = r[n];
                 double b = 1;
 
-                for (int k = n - 1; k >= 0; k--)
-                {
+                for (int k = n - 1; k >= 0; k--) {
                     a = a * x + r[k];
                     b = b * x + s[k];
                 }
@@ -3811,8 +3731,7 @@ namespace MathNet.Numerics
                 return a / b;
             }
 
-            static double Zetaxy(double x, double y)
-            {
+            static double Zetaxy(double x, double y) {
                 double zeta;
 
                 double z = (y - x - 1);
@@ -3827,8 +3746,7 @@ namespace MathNet.Numerics
                 double x10 = Math.Pow(x, 10);//x9 * x;
                 double x2p1 = 2 * x + 1;
 
-                if (Math.Abs(z) < 0.05)
-                {
+                if (Math.Abs(z) < 0.05) {
                     double[] ck = new double[11];
 
                     ck[0] = 1.0;
@@ -3858,8 +3776,7 @@ namespace MathNet.Numerics
                     double t = 1;
                     int k = 1;
 
-                    while ((Math.Abs(t) > 1e-15) && (k < 11))
-                    {
+                    while ((Math.Abs(t) > 1e-15) && (k < 11)) {
                         t = ck[k] * Math.Pow(z2, k);
                         S += t;
                         k++;
@@ -3867,13 +3784,11 @@ namespace MathNet.Numerics
 
                     zeta = -z / Math.Sqrt(x2p1) * S;
                 }
-                else
-                {
+                else {
                     double w = Math.Sqrt(1.0 + 4 * x * y);
                     zeta = Math.Sqrt(2.0 * (x + y - w - Math.Log(2.0 * y / (1.0 + w))));
 
-                    if (x + 1 < y)
-                    {
+                    if (x + 1 < y) {
                         zeta = -zeta;
                     }
                 }
@@ -3881,16 +3796,14 @@ namespace MathNet.Numerics
                 return zeta;
             }
 
-            static double Chepolsum(int n, double t, double[] ak)
-            {
+            static double Chepolsum(int n, double t, double[] ak) {
                 double u0 = 0;
                 double u1 = 0;
                 double u2 = 0;
                 double tt = t + t;
                 int k = n;
 
-                while (k >= 0)
-                {
+                while (k >= 0) {
                     u2 = u1;
                     u1 = u0;
                     u0 = tt * u1 - u2 + ak[k];
@@ -3902,27 +3815,22 @@ namespace MathNet.Numerics
                 return s;
             }
 
-            static double Oddchepolsum(int n, double x, double[] ak)
-            {
+            static double Oddchepolsum(int n, double x, double[] ak) {
                 double s;
 
-                if (n == 0)
-                {
+                if (n == 0) {
                     s = ak[0] * x;
                 }
-                else if (n == 1)
-                {
+                else if (n == 1) {
                     s = x * (ak[0] + ak[1] * (4 * x * x - 3));
                 }
-                else
-                {
+                else {
                     double y = 2 * (2 * x * x - 1);
                     double r = ak[n];
                     double h = ak[n - 1] + r * y;
                     int k = n - 2;
 
-                    while (k >= 0)
-                    {
+                    while (k >= 0) {
                         s = r;
                         r = h;
                         h = ak[k] + r * y - s;
@@ -3935,12 +3843,10 @@ namespace MathNet.Numerics
                 return s;
             }
 
-            static double Logoneplusx(double t)
-            {
+            static double Logoneplusx(double t) {
                 double y;
 
-                if ((-0.2928 < t) && (t < 0.4142))
-                {
+                if ((-0.2928 < t) && (t < 0.4142)) {
                     double[] ck = new double[101];
                     double p = TwoExp1Over4;
                     p = (p - 1) / (p + 1);
@@ -3951,8 +3857,7 @@ namespace MathNet.Numerics
                     double c = 1;
                     int j = 1;
 
-                    while (Math.Abs(c) > 1e-20)
-                    {
+                    while (Math.Abs(c) > 1e-20) {
                         pj *= p2;
                         c = pj / (2.0 * j + 1.0);
                         ck[j] = c;
@@ -3962,24 +3867,20 @@ namespace MathNet.Numerics
                     double x = t / (2.0 + t) * (1.0 + p2) / (2.0 * p);
                     y = 4 * Oddchepolsum(j - 1, x, ck);
                 }
-                else
-                {
+                else {
                     y = Math.Log(1 + t);
                 }
 
                 return y;
             }
 
-            static double Xminsinx(double x)
-            {
+            static double Xminsinx(double x) {
                 double f;
 
-                if (Math.Abs(x) > 1)
-                {
+                if (Math.Abs(x) > 1) {
                     f = 6 * (x - Math.Sin(x)) / (x * x * x);
                 }
-                else
-                {
+                else {
                     double[] fk = new double[]
                     {
                             1.95088260487819821294e-0,
@@ -4001,28 +3902,24 @@ namespace MathNet.Numerics
                 return f;
             }
 
-            static double Trapsum(double a, double b, double h, double d, double xis2, double mu, double wxis, double ys)
-            {
+            static double Trapsum(double a, double b, double h, double d, double xis2, double mu, double wxis, double ys) {
                 double s = 0;
                 double b0 = b;
                 double inte, aa, bb;
 
-                if (d == 0)
-                {
+                if (d == 0) {
                     Integrand(a, ref b0, out inte, xis2, mu, wxis, ys);
 
                     s = inte / 2.0;
                     aa = a + h;
                     bb = b - h / 2.0;
                 }
-                else
-                {
+                else {
                     aa = a + d;
                     bb = b;
                 }
 
-                while ((aa < bb) && (aa < b0))
-                {
+                while ((aa < bb) && (aa < b0)) {
                     Integrand(aa, ref b0, out inte, xis2, mu, wxis, ys);
                     s += inte;
                     aa += h;
@@ -4031,15 +3928,13 @@ namespace MathNet.Numerics
                 return s * h;
             }
 
-            static double Trap(double a, double b, double e, double xis2, double mu, double wxis, double ys)
-            {
+            static double Trap(double a, double b, double e, double xis2, double mu, double wxis, double ys) {
                 double h = (b - a) / 8d;
                 double p = Trapsum(a, b, h, 0, xis2, mu, wxis, ys);
                 double nc = 0; // double? int?
                 double v = 1;
 
-                while (((v > e) && (nc < 10)) || (nc <= 2))
-                {
+                while (((v > e) && (nc < 10)) || (nc <= 2)) {
                     nc += 1;
                     double q = Trapsum(a, b, h, h / 2, xis2, mu, wxis, ys);
                     v = Math.Abs(q) > 0 ? Math.Abs(p / q - 1) : 0;
@@ -4050,25 +3945,21 @@ namespace MathNet.Numerics
                 return p;
             }
 
-            static void Integrand(double theta, ref double b0, out double inte, double xis2, double mu, double wxis, double ys)
-            {
+            static void Integrand(double theta, ref double b0, out double inte, double xis2, double mu, double wxis, double ys) {
                 double eps = 1e-16;
                 double lneps = Math.Log(eps);
                 double f;
 
-                if (theta > b0)
-                {
+                if (theta > b0) {
                     f = 0;
                 }
-                else if (Math.Abs(theta) < 1e-10)
-                {
+                else if (Math.Abs(theta) < 1e-10) {
                     double rtheta = (1.0 + wxis) / (2 * ys);
                     double theta2 = theta * theta;
                     double psitheta = -wxis * theta2 * 0.5;
                     f = rtheta / (1.0 - rtheta) * Math.Exp(mu * psitheta);
                 }
-                else
-                {
+                else {
                     double theta2 = theta * theta;
                     double sintheta = Math.Sin(theta);
                     double costheta = Math.Cos(theta);
@@ -4085,12 +3976,10 @@ namespace MathNet.Numerics
 
                     f = mu * psitheta;
 
-                    if (f > lneps)
-                    {
+                    if (f > lneps) {
                         f = Math.Exp(f);
                     }
-                    else
-                    {
+                    else {
                         f = 0;
                         b0 = Math.Min(theta, b0);
                     }
@@ -4112,8 +4001,7 @@ namespace MathNet.Numerics
              * For computing the incomplete gamma functions we use the routine incgam included in the module IncgamFI.
              * Reference: A. Gil, J. Segura and NM Temme, Efficient and accurate algorithms for
              * the computation and inversion of the incomplete gamma function ratios. SIAM J Sci Comput.*/
-            static void Qser(double mu, double x, double y, out double p, out double q, out int ierro)
-            {
+            static void Qser(double mu, double x, double y, out double p, out double q, out int ierro) {
                 ierro = 0;
 
                 IncompleteGamma.Incgam(mu, y, out p, out q, out var ierr);
@@ -4121,14 +4009,12 @@ namespace MathNet.Numerics
                 double q0 = q;
                 double lh0 = mu * Math.Log(y) - y - IncompleteGamma.Loggam(mu + 1);
 
-                if ((lh0 > Math.Log(Dwarf)) && (x < 100))
-                {
+                if ((lh0 > Math.Log(Dwarf)) && (x < 100)) {
                     double h0 = Math.Exp(lh0);
                     double xy = x * y;
                     double delta = Epss / 100;
 
-                    for (int n = 0; (q0 / q > delta) && (n < 1000); n++)
-                    {
+                    for (int n = 0; (q0 / q > delta) && (n < 1000); n++) {
                         q0 = x * (q0 + h0) / (n + 1.0);
                         h0 = xy * h0 / ((n + 1.0) * (mu + n + 1));
                         q = q + q0;
@@ -4137,8 +4023,7 @@ namespace MathNet.Numerics
                     q = Math.Exp(-x) * q;
                     p = 1 - q;
                 }
-                else
-                {
+                else {
                     // Computing Q forward
                     double x1 = y;
                     double s = 0;
@@ -4146,8 +4031,7 @@ namespace MathNet.Numerics
                     double k = 0;
                     int m = 0;
 
-                    while ((k < 10000) && (m == 0))
-                    {
+                    while ((k < 10000) && (m == 0)) {
                         double a = mu + k;
 
                         IncompleteGamma.Incgam(a, x1, out _, out double q1, out ierr);
@@ -4156,27 +4040,22 @@ namespace MathNet.Numerics
                         s += t;
                         k += 1;
 
-                        if ((s == 0) && (k < 150))
-                        {
+                        if ((s == 0) && (k < 150)) {
                             m = 1;
                         }
 
-                        if (s > 0)
-                        {
-                            if (((t / s) < 1e-16) && (k > 10))
-                            {
+                        if (s > 0) {
+                            if (((t / s) < 1e-16) && (k > 10)) {
                                 m = 1;
                             }
                         }
                     }
 
-                    if (ierr == 0)
-                    {
+                    if (ierr == 0) {
                         q = s;
                         p = 1 - q;
                     }
-                    else
-                    {
+                    else {
                         q = 0;
                         p = 1;
                         ierro = 1;
@@ -4188,8 +4067,7 @@ namespace MathNet.Numerics
              * For computing the incomplete gamma functions we use the routine incgam included in the module IncgamFI.
              * Reference: A. Gil, J. Segura and NM Temme, Efficient and accurate algorithms for
              * the computation and inversion of the incomplete gamma function ratios. SIAM J Sci Comput. */
-            static void Pser(double mu, double x, double y, out double p, out double q, out int ierro)
-            {
+            static void Pser(double mu, double x, double y, out double p, out double q, out int ierro) {
                 ierro = 0;
                 int ierr = 0;
                 double xy = x * y;
@@ -4198,15 +4076,13 @@ namespace MathNet.Numerics
                 double lh0 = -x - y + n * Math.Log(x) + (n + mu) * Math.Log(y) - IncompleteGamma.Loggam(mu + n + 1.0) - IncompleteGamma.Loggam(n + 1.0);
                 double p1;
 
-                if (lh0 < Math.Log(Dwarf))
-                {
+                if (lh0 < Math.Log(Dwarf)) {
                     double x1 = y;
                     double expo = Math.Exp(-x);
                     double facto;
                     double S = 0;
                     double t;
-                    for (int k = Startingpser(mu, x, y) + 1; (k > 0) && (ierr == 0); k--)
-                    {
+                    for (int k = Startingpser(mu, x, y) + 1; (k > 0) && (ierr == 0); k--) {
                         double a = mu + k;
                         facto = Factor(x, k);
                         IncompleteGamma.Incgam(a, x1, out p1, out _, out ierr);
@@ -4215,32 +4091,27 @@ namespace MathNet.Numerics
                         k = k - 1;
                     }
 
-                    if (ierr == 0)
-                    {
+                    if (ierr == 0) {
                         IncompleteGamma.Incgam(mu, x1, out p1, out _, out ierr);
                         S = S + p1;
                         p = S * expo;
                         q = 1 - p;
                     }
-                    else
-                    {
+                    else {
                         ierro = 1;
                         p = 0;
                         q = 1;
                     }
                 }
-                else
-                {
+                else {
                     double h0 = Math.Exp(lh0);
 
                     IncompleteGamma.Incgam(mu + n, y, out p, out q, out ierr);
 
-                    if (ierr == 0)
-                    {
+                    if (ierr == 0) {
                         p1 = p * Math.Exp(-x + n * Math.Log(x) - IncompleteGamma.Loggam(n + 1));
                         p = 0;
-                        for (int k = n; k > 0; k--)
-                        {
+                        for (int k = n; k > 0; k--) {
                             h0 = h0 * k * (mu + k) / xy;
                             p1 = k * p1 / x + h0;
                             p = p + p1;
@@ -4248,8 +4119,7 @@ namespace MathNet.Numerics
 
                         q = 1 - p;
                     }
-                    else
-                    {
+                    else {
                         ierro = 1;
                         p = 0;
                         q = 1;
@@ -4258,8 +4128,7 @@ namespace MathNet.Numerics
 
             }
 
-            static void Prec(double mu, double x, double y, out double p, out double q, out int ierro)
-            {
+            static void Prec(double mu, double x, double y, out double p, out double q, out int ierro) {
                 ierro = 0;
                 int ierr = 0;
                 double b = 1d;
@@ -4275,12 +4144,10 @@ namespace MathNet.Numerics
                 MarcumPQtrap(mur + 1, x, y, out double p1, out q, ref ierr);
                 MarcumPQtrap(mur + 0, x, y, out double p0, out q, ref ierr);
 
-                if (ierr == 0)
-                {
+                if (ierr == 0) {
                     p = 0;  // initialize
 
-                    for (int n = 0; n < n3; n++)
-                    {
+                    for (int n = 0; n < n3; n++) {
                         p = ((1 + cmu) * p0 - p1) / cmu;
                         p1 = p0;
                         p0 = p;
@@ -4289,8 +4156,7 @@ namespace MathNet.Numerics
 
                     q = 1 - p;
                 }
-                else
-                {
+                else {
                     p = 0;
                     q = 1;
                     ierro = 1;
@@ -4298,26 +4164,21 @@ namespace MathNet.Numerics
 
             }
 
-            static void Qrec(double mu, double x, double y, out double p, out double q, out int ierro)
-            {
+            static void Qrec(double mu, double x, double y, out double p, out double q, out int ierro) {
                 ierro = 0;
                 int ierr = 0;
                 double b = 1.0;
                 double nu = y - x + b * (b - Math.Sqrt(2 * (x + y) + b * b));
 
-                if (nu < 5)
-                {
-                    if (x < 200.0)
-                    {
+                if (nu < 5) {
+                    if (x < 200.0) {
                         Qser(mu, x, y, out p, out q, out ierr);
                     }
-                    else
-                    {
+                    else {
                         Prec(mu, x, y, out p, out q, out ierr);
                     }
                 }
-                else
-                {
+                else {
                     int n1 = (int)Math.Round(mu);
                     int n2 = (int)Math.Round(nu) - 1;
                     int n3 = n1 - n2;
@@ -4326,8 +4187,7 @@ namespace MathNet.Numerics
                     double[] cmu = new double[301];
                     cmu[0] = Math.Sqrt(y / x) * Fc(mu, xi);
 
-                    for (int n = 1; n <= n3; n++)
-                    {
+                    for (int n = 1; n <= n3; n++) {
                         cmu[n] = y / (mu - n + x * cmu[n - 1]);
                     }
 
@@ -4335,12 +4195,10 @@ namespace MathNet.Numerics
                     MarcumPQtrap(mur - 1, x, y, out p, out double q0, ref ierr);
                     MarcumPQtrap(mur + 0, x, y, out p, out double q1, ref ierr);
 
-                    if (ierr == 0)
-                    {
+                    if (ierr == 0) {
                         q = 0;  // initialize
 
-                        for (int n = 1; n <= n3; n++)
-                        {
+                        for (int n = 1; n <= n3; n++) {
                             double c = cmu[n3 + 1 - n];
                             q = (1.0 + c) * q1 - c * q0;
                             q0 = q1;
@@ -4349,8 +4207,7 @@ namespace MathNet.Numerics
 
                         p = 1 - q;
                     }
-                    else
-                    {
+                    else {
                         q = 0.0;
                         p = 1.0;
                         ierro = 1;
@@ -4358,8 +4215,7 @@ namespace MathNet.Numerics
                 }
             }
 
-            static void PQasyxy(double mu, double x, double y, out double p, out double q, out int ierro)
-            {
+            static void PQasyxy(double mu, double x, double y, out double p, out double q, out int ierro) {
                 ierro = 0;
                 double s = y >= x ? 1.0 : -1.0;
                 double delta = Epss / 100.0;
@@ -4369,14 +4225,12 @@ namespace MathNet.Numerics
                 double sigmaxi = ((y - x) * (y - x)) / (x + y + xi);
                 double mulrho = mu * Math.Log(rho);
 
-                if ((mulrho < Math.Log(Dwarf)) || (mulrho > Math.Log(Giant)))
-                {
+                if ((mulrho < Math.Log(Dwarf)) || (mulrho > Math.Log(Giant))) {
                     q = s == 1.0 ? 0.0 : 1.0;
                     p = s == 1.0 ? 1.0 : 0.0;
                     ierro = 1;
                 }
-                else
-                {
+                else {
                     double rhomu = Math.Exp(mulrho);
                     double er = Errorfunction(Math.Sqrt(sigmaxi), true, true);
                     double psi0 = 0.5 * rhomu * er / Math.Sqrt(rho);
@@ -4392,8 +4246,7 @@ namespace MathNet.Numerics
                     double[] bn = new double[101];
                     bn[0] = 1;
 
-                    while ((Math.Abs(bn[n]) > delta) && (n < n0))
-                    {
+                    while ((Math.Abs(bn[n]) > delta) && (n < n0)) {
                         n++;
                         int tnm1 = 2 * n - 1;
                         an = (mu2 - tnm1 * tnm1) * an / (8 * n * xi);
@@ -4406,20 +4259,17 @@ namespace MathNet.Numerics
                     double[] phin = new double[101];
                     phin[nrec] = Math.Exp((nrec - 0.5) * Math.Log(sigmaxi)) * Ignega(nrec, sigmaxi);
 
-                    for (int m = nrec + 1; m <= n0; m++)
-                    {
+                    for (int m = nrec + 1; m <= n0; m++) {
                         phin[m] = (-sigmaxi * phin[m - 1] + 1) / (m - 0.5);
                     }
 
-                    for (int m = nrec - 1; m >= 1; m--)
-                    {
+                    for (int m = nrec - 1; m >= 1; m--) {
                         phin[m] = (1 - (m + 0.5) * phin[m + 1]) / sigmaxi;
                     }
 
                     double pq = psi0;
 
-                    for (int m = 1; m <= n0; m++)
-                    {
+                    for (int m = 1; m <= n0; m++) {
                         c = -c;
                         double psi = c * bn[m] * phin[m];
                         pq = pq + psi;
@@ -4427,21 +4277,18 @@ namespace MathNet.Numerics
 
                     pq = pq * Math.Exp(-sigmaxi);
 
-                    if (s == 1.0)
-                    {
+                    if (s == 1.0) {
                         q = pq;
                         p = 1.0 - q;
                     }
-                    else
-                    {
+                    else {
                         p = pq;
                         q = 1.0 - p;
                     }
                 }
             }
 
-            static void PQasymu(double mu0, double x0, double y0, out double p, out double q, out int ierro)
-            {
+            static void PQasymu(double mu0, double x0, double y0, out double p, out double q, out int ierro) {
                 ierro = 0;
                 double mu = mu0 - 1.0;
                 double x = x0 / mu;
@@ -4461,23 +4308,19 @@ namespace MathNet.Numerics
                 double s = psik[0 + psikofst];
                 double lexpor = -mu * 0.5 * zeta * zeta;
 
-                if ((lexpor < Math.Log(Dwarf)) || (lexpor > Math.Log(Giant)))
-                {
-                    if (a == 1)
-                    {
+                if ((lexpor < Math.Log(Dwarf)) || (lexpor > Math.Log(Giant))) {
+                    if (a == 1) {
                         q = 0.0;
                         p = 1.0;
                     }
-                    else
-                    {
+                    else {
                         p = 0.0;
                         q = 1.0;
                     }
 
                     ierro = 1;
                 }
-                else
-                {
+                else {
                     r = Math.Exp(lexpor);
                     psik[-1 + psikofst] = 0.0;
 
@@ -4487,16 +4330,14 @@ namespace MathNet.Numerics
                     int k = 1;
                     double zetaj = 1.0;
 
-                    while ((Math.Abs(bk / s) > 1e-30) && (k <= 16))
-                    {
+                    while ((Math.Abs(bk / s) > 1e-30) && (k <= 16)) {
                         muk[k] = mu * muk[k - 1];
                         psik[k + psikofst] = ((k - 1) * psik[k - 2 + psikofst] + r * zetaj) / mu;
                         bk = 0;
                         int b = 1;
                         zetaj = -zeta * zetaj;
 
-                        for (int j = 0; j <= k; j++)
-                        {
+                        for (int j = 0; j <= k; j++) {
                             int t = (a == -1) && (b == -1) ? -1 : 1;
 
                             b = -b;
@@ -4509,21 +4350,18 @@ namespace MathNet.Numerics
 
                     r = Math.Sqrt(mu / Constants.Pi2) * s;
 
-                    if (a == 1)
-                    {
+                    if (a == 1) {
                         q = r;
                         p = 1 - q;
                     }
-                    else
-                    {
+                    else {
                         p = r;
                         q = 1 - p;
                     }
                 }
             }
 
-            static void MarcumPQtrap(double mu, double x, double y, out double p, out double q, ref int ierr)
-            {
+            static void MarcumPQtrap(double mu, double x, double y, out double p, out double q, ref int ierr) {
                 double xs = x / mu;
                 double ys = y / mu;
                 double xis2 = 4 * xs * ys;
@@ -4534,32 +4372,26 @@ namespace MathNet.Numerics
                 double pq = Trap(a, b, epstrap, xis2, mu, wxis, ys);
                 double zeta = Zetaxy(xs, ys);
 
-                if ((-mu * 0.5 * zeta * zeta) < Math.Log(Dwarf))
-                {
-                    if (y > x + mu)
-                    {
+                if ((-mu * 0.5 * zeta * zeta) < Math.Log(Dwarf)) {
+                    if (y > x + mu) {
                         p = 1.0;
                         q = 0.0;
                     }
-                    else
-                    {
+                    else {
                         p = 0.0;
                         q = 1.0;
                     }
 
                     ierr = 1;
                 }
-                else
-                {
+                else {
                     pq = pq * Math.Exp(-mu * 0.5 * zeta * zeta) / Math.PI;
 
-                    if (zeta < 0)
-                    {
+                    if (zeta < 0) {
                         q = pq;
                         p = 1 - q;
                     }
-                    else
-                    {
+                    else {
                         p = -pq;
                         q = 1 - p;
                     }
@@ -4571,8 +4403,7 @@ namespace MathNet.Numerics
             /// <summary>
             /// computation of the incomplete gamma function ratios
             /// </summary>
-            static class IncompleteGamma
-            {
+            static class IncompleteGamma {
                 /// <summary>
                 /// Calculation of the incomplete gamma functions ratios P(a,x) and Q(a,x).
                 /// </summary>
@@ -4581,8 +4412,7 @@ namespace MathNet.Numerics
                 /// <param name="p">function P(a,x)</param>
                 /// <param name="q">function Q(a,x)</param>
                 /// <param name="ierr">error flag</param>
-                internal static void Incgam(double a, double x, out double p, out double q, out int ierr)
-                {
+                internal static void Incgam(double a, double x, out double p, out double q, out int ierr) {
                     ierr = 0;
                     p = 0;
                     q = 0;
@@ -4590,72 +4420,58 @@ namespace MathNet.Numerics
                     double lnx = x < Dwarf ? Math.Log(Dwarf) : Math.Log(x);
                     double dp;
 
-                    if (a > Alfa(x))
-                    {
+                    if (a > Alfa(x)) {
                         dp = Dompart(a, x, false);
 
-                        if (dp < 0)
-                        {
+                        if (dp < 0) {
                             ierr = 1;
-                            p = 0; q = 0;
+                            p = 0;
+                            q = 0;
                         }
-                        else
-                        {
-                            if ((x < 0.3 * a) || (a < 12))
-                            {
+                        else {
+                            if ((x < 0.3 * a) || (a < 12)) {
                                 p = Ptaylor(a, x, dp);
                             }
-                            else
-                            {
+                            else {
                                 p = PQasymp(a, x, dp, true);
                             }
 
                             q = 1.0 - p;
                         }
                     }
-                    else
-                    {
-                        if (a < -Dwarf / lnx)
-                        {
+                    else {
+                        if (a < -Dwarf / lnx) {
                             q = 0.0;
                         }
-                        else
-                        {
-                            if (x < 1.0)
-                            {
+                        else {
+                            if (x < 1.0) {
                                 dp = Dompart(a, x, true);
 
-                                if (dp < 0)
-                                {
+                                if (dp < 0) {
                                     ierr = 1;
-                                    q = 0; p = 0;
+                                    q = 0;
+                                    p = 0;
                                 }
-                                else
-                                {
+                                else {
                                     q = Qtaylor(a, x, dp);
                                     p = 1.0 - q;
                                 }
                             }
-                            else
-                            {
+                            else {
                                 dp = Dompart(a, x, false);
 
-                                if (dp < 0)
-                                {
+                                if (dp < 0) {
                                     ierr = 1;
-                                    p = 0; q = 0;
+                                    p = 0;
+                                    q = 0;
                                 }
-                                else
-                                {
-                                    if ((x > 1.5 * a) || (a < 12.0))
-                                    {
+                                else {
+                                    if ((x > 1.5 * a) || (a < 12.0)) {
                                         q = Qfraction(a, x, dp);
                                     }
-                                    else
-                                    {
+                                    else {
                                         q = PQasymp(a, x, dp, false);
-                                        if (dp == 0.0)
-                                        {
+                                        if (dp == 0.0) {
                                             q = 0.0;
                                         }
                                     }
@@ -4675,21 +4491,18 @@ namespace MathNet.Numerics
                 /// <param name="q">function Q(a,x)</param>
                 /// <param name="xr">soluction of the equations P(a,xr)=p and Q(a,xr)=q with a as a given positive parameter.</param>
                 /// <param name="ierr">error flag</param>
-                internal static void Invincgam(double a, double p, double q, out double xr, out int ierr)
-                {
+                internal static void Invincgam(double a, double p, double q, out double xr, out int ierr) {
                     ierr = 0;
                     bool pcase;
                     double porq, s, x0, a2, a3, eta = 0;
                     int m;
 
-                    if (p < 0.5)
-                    {
+                    if (p < 0.5) {
                         pcase = true;
                         porq = p;
                         s = -1;
                     }
-                    else
-                    {
+                    else {
                         pcase = false;
                         porq = q;
                         s = 1;
@@ -4699,8 +4512,7 @@ namespace MathNet.Numerics
 
                     double[] ck = new double[6];
 
-                    if (logr < Math.Log(0.2 * (1 + a)))
-                    {
+                    if (logr < Math.Log(0.2 * (1 + a))) {
                         double r = Math.Exp(logr);
                         m = 0;
                         a2 = a * a;
@@ -4719,8 +4531,7 @@ namespace MathNet.Numerics
                         ck[5] = (1.0 / 24.0) * (2888 + 1179 * a3 + 125 * a4 + 3971 * a2 + 5661 * a) / (ap14 * ap22 * (a + 3) * (a + 4));
                         x0 = r * (1 + r * (ck[2] + r * (ck[3] + r * (ck[4] + r * ck[5]))));
                     }
-                    else if ((q < Math.Min(0.02, Math.Exp(-1.5 * a) / Gamma(a))) && (a < 10.0))
-                    {
+                    else if ((q < Math.Min(0.02, Math.Exp(-1.5 * a) / Gamma(a))) && (a < 10.0)) {
                         m = 0;
                         double b = 1.0 - a;
                         double b2 = b * b;
@@ -4728,8 +4539,7 @@ namespace MathNet.Numerics
                         eta = Math.Sqrt(-2 / a * Math.Log(q * Gamstar(a) * Constants.Sqrt2Pi / Math.Sqrt(a)));
                         x0 = a * Lambdaeta(eta);
                         double L = Math.Log(x0);
-                        if ((a > 0.12) || (x0 > 5))
-                        {
+                        if ((a > 0.12) || (x0 > 5)) {
                             double L2 = L * L;
                             double L3 = L2 * L;
                             double L4 = L3 * L;
@@ -4740,44 +4550,35 @@ namespace MathNet.Numerics
                             ck[4] = (-12 * b3 * L + 84 * b * L2 - 114 * b2 * L + 72 + 36 * L2 + 3 * L4 - 72 * L + 162 * b - 168 * b * L - 12 * L3 + 25 * b3 - 22 * b * L3 + 36 * b2 * L2 + 120 * b2) / 12.0;
                             x0 = x0 - L + b * r * (ck[1] + r * (ck[2] + r * (ck[3] + r * ck[4])));
                         }
-                        else
-                        {
+                        else {
                             double r = 1.0 / x0;
                             ck[1] = L - 1;
                             x0 = x0 - L + b * r * ck[1];
                         }
                     }
-                    else if (Math.Abs(porq - 0.5) < 1.0e-5)
-                    {
+                    else if (Math.Abs(porq - 0.5) < 1.0e-5) {
                         m = 0;
                         x0 = a - 1.0 / 3.0 + (8.0 / 405.0 + 184.0 / 25515.0 / a) / a;
                     }
-                    else if (Math.Abs(a - 1) < 1.0e-4)
-                    {
+                    else if (Math.Abs(a - 1) < 1.0e-4) {
                         m = 0;
-                        if (pcase)
-                        {
+                        if (pcase) {
                             x0 = -Math.Log(1.0 - p);
                         }
-                        else
-                        {
+                        else {
                             x0 = -Math.Log(q);
                         }
                     }
-                    else if (a < 1.0)
-                    {
+                    else if (a < 1.0) {
                         m = 0;
-                        if (pcase)
-                        {
+                        if (pcase) {
                             x0 = Math.Exp((1.0 / a) * (Math.Log(porq) + Loggam(a + 1.0)));
                         }
-                        else
-                        {
+                        else {
                             x0 = Math.Exp((1.0 / a) * (Math.Log(1.0 - porq) + Loggam(a + 1.0)));
                         }
                     }
-                    else
-                    {
+                    else {
                         m = 1;
                         double r = Inverfc(2 * porq);
                         eta = s * r / Math.Sqrt(a * 0.5);
@@ -4791,20 +4592,16 @@ namespace MathNet.Numerics
                     a2 = a * a;
 
                     // Implementation of the high order Newton-like method
-                    while ((t > 1.0e-15) && (n < 15))
-                    {
+                    while ((t > 1.0e-15) && (n < 15)) {
                         x = x0;
                         double x2 = x * x;
-                        if (m == 0)
-                        {
+                        if (m == 0) {
                             double dlnr = (1.0 - a) * Math.Log(x) + x + Loggam(a);
-                            if (dlnr > Math.Log(Giant))
-                            {
+                            if (dlnr > Math.Log(Giant)) {
                                 n = 20;
                                 ierr = -1;
                             }
-                            else
-                            {
+                            else {
                                 double r = Math.Exp(dlnr);
                                 Incgam(a, x, out double px, out double qx, out _);
 
@@ -4813,25 +4610,20 @@ namespace MathNet.Numerics
                                 ck[2] = (x - a + 1.0) / (2.0 * x);
                                 ck[3] = (2 * x2 - 4 * x * a + 4 * x + 2 * a2 - 3 * a + 1) / (6 * x2);
                                 r = ck[1];
-                                if (a > 0.1)
-                                {
+                                if (a > 0.1) {
                                     x0 = x + r * (1 + r * (ck[2] + r * ck[3]));
                                 }
-                                else
-                                {
-                                    if (a > 0.05)
-                                    {
+                                else {
+                                    if (a > 0.05) {
                                         x0 = x + r * (1 + r * (ck[2]));
                                     }
-                                    else
-                                    {
+                                    else {
                                         x0 = x + r;
                                     }
                                 }
                             }
                         }
-                        else
-                        {
+                        else {
                             double y = eta;
                             double fp = -Math.Sqrt(a / Constants.Pi2) * Math.Exp(-0.5 * a * y * y) / (Gamstar(a));
                             double r = -(1.0 / fp) * x;
@@ -4841,18 +4633,14 @@ namespace MathNet.Numerics
                             ck[3] = (2 * x2 - 4 * x * a + 4 * x + 2 * a2 - 3 * a + 1) / (6 * x2);
                             r = ck[1];
 
-                            if (a > 0.1)
-                            {
+                            if (a > 0.1) {
                                 x0 = x + r * (1 + r * (ck[2] + r * ck[3]));
                             }
-                            else
-                            {
-                                if (a > 0.05)
-                                {
+                            else {
+                                if (a > 0.05) {
                                     x0 = x + r * (1 + r * (ck[2]));
                                 }
-                                else
-                                {
+                                else {
                                     x0 = x + r;
                                 }
                             }
@@ -4862,8 +4650,7 @@ namespace MathNet.Numerics
                         n = n + 1;
                         x = x0;
                     }
-                    if (n == 15)
-                    {
+                    if (n == 15) {
                         ierr = -2;
                     }
 
@@ -4871,18 +4658,15 @@ namespace MathNet.Numerics
                 }
 
                 // to compute hyperbolic function sinh (x)
-                static double Sinh(double x, double eps)
-                {
+                static double Sinh(double x, double eps) {
                     double y;
 
                     double ax = Math.Abs(x);
 
-                    if (x == 0.0)
-                    {
+                    if (x == 0.0) {
                         y = 0;
                     }
-                    else if (ax < 0.12)
-                    {
+                    else if (ax < 0.12) {
                         double e = eps / 10.0;
                         double x2 = x * x;
                         y = 1;
@@ -4890,8 +4674,7 @@ namespace MathNet.Numerics
                         int u = 0;
                         int k = 1;
 
-                        while (t > e)
-                        {
+                        while (t > e) {
                             u = u + 8 * k - 2;
                             k = k + 1;
                             t = t * x2 / u;
@@ -4900,13 +4683,11 @@ namespace MathNet.Numerics
 
                         y = x * y;
                     }
-                    else if (ax < 0.36)
-                    {
+                    else if (ax < 0.36) {
                         double t = Sinh(x / 3.0, eps);
                         y = t * (3 + 4 * t * t);
                     }
-                    else
-                    {
+                    else {
                         double t = Math.Exp(x);
                         y = (t - 1.0 / t) / 2.0;
                     }
@@ -4914,40 +4695,32 @@ namespace MathNet.Numerics
                     return y;
                 }
 
-                static double Exmin1(double x, double eps)
-                {
+                static double Exmin1(double x, double eps) {
                     double y;
 
-                    if (x == 0.0)
-                    {
+                    if (x == 0.0) {
                         y = 1.0;
                     }
-                    else if ((x < -0.69) || (x > 0.4))
-                    {
+                    else if ((x < -0.69) || (x > 0.4)) {
                         y = (Math.Exp(x) - 1.0) / x;
                     }
-                    else
-                    {
+                    else {
                         double t = x / 2.0;
                         y = Math.Exp(t) * Sinh(t, eps) / t;
                     }
                     return y;
                 }
 
-                static double Exmin1minx(double x, double eps)
-                {
+                static double Exmin1minx(double x, double eps) {
                     double y;
 
-                    if (x == 0.0)
-                    {
+                    if (x == 0.0) {
                         y = 1.0;
                     }
-                    else if (Math.Abs(x) > 0.9)
-                    {
+                    else if (Math.Abs(x) > 0.9) {
                         y = (Math.Exp(x) - 1 - x) / (x * x / 2.0);
                     }
-                    else
-                    {
+                    else {
                         double t = Sinh(x / 2.0, eps);
                         double t2 = t * t;
                         y = (2 * t2 + (2 * t * Math.Sqrt(1.0 + t2) - x)) / (x * x / 2.0);
@@ -4957,12 +4730,10 @@ namespace MathNet.Numerics
                 }
 
                 // x >-1; computes ln(1+x) with good relative precision when |x| is small
-                static double Logoneplusx(double x)
-                {
+                static double Logoneplusx(double x) {
                     double y0 = Math.Log(1.0 + x);
 
-                    if ((-0.2928 < x) && (x < 0.4142))
-                    {
+                    if ((-0.2928 < x) && (x < 0.4142)) {
                         double s = y0 * Exmin1(y0, MachTol);
                         double r = (s - x) / (s + 1.0);
                         y0 = y0 - r * (6 - r) / (6 - 4 * r);
@@ -4971,8 +4742,7 @@ namespace MathNet.Numerics
                     return y0;
                 }
 
-                static double Lnec(double x)
-                {
+                static double Lnec(double x) {
                     double z = Logoneplusx(x);
                     double y0 = z - x;
                     double e2 = Exmin1minx(z, MachTol);
@@ -4983,21 +4753,17 @@ namespace MathNet.Numerics
                     return ln1;
                 }
 
-                static double Alfa(double x)
-                {
+                static double Alfa(double x) {
                     double alfa;
                     double lnx = Math.Log(x);
 
-                    if (x > 0.25)
-                    {
+                    if (x > 0.25) {
                         alfa = x + 0.25;
                     }
-                    else if (x >= Dwarf)
-                    {
+                    else if (x >= Dwarf) {
                         alfa = -0.6931 / lnx;
                     }
-                    else
-                    {
+                    else {
                         alfa = -0.6931 / Math.Log(Dwarf);
                     }
 
@@ -5011,24 +4777,19 @@ namespace MathNet.Numerics
                 /// <param name="x">argument of the functions</param>
                 /// <param name="qt">argument of the functions</param>
                 /// <returns></returns>
-                internal static double Dompart(double a, double x, bool qt)
-                {
+                internal static double Dompart(double a, double x, bool qt) {
                     double dompart;
                     double lnx = Math.Log(x);
                     double r;
 
-                    if (a <= 1.0)
-                    {
+                    if (a <= 1.0) {
                         r = -x + a * lnx;
                     }
-                    else
-                    {
-                        if (x == a)
-                        {
+                    else {
+                        if (x == a) {
                             r = 0;
                         }
-                        else
-                        {
+                        else {
                             double la = x / a;
                             r = a * (1.0 - la + Math.Log(la));
                         }
@@ -5038,31 +4799,24 @@ namespace MathNet.Numerics
 
                     double dp = r < ExpLow ? 0.0 : Math.Exp(r);
 
-                    if (qt)
-                    {
+                    if (qt) {
                         dompart = dp;
                     }
-                    else
-                    {
-                        if ((a < 3.0) || (x < 0.2))
-                        {
+                    else {
+                        if ((a < 3.0) || (x < 0.2)) {
                             dompart = Math.Exp(a * lnx - x) / Gamma(a + 1.0);
                         }
-                        else
-                        {
+                        else {
                             double mu = (x - a) / a;
                             double c = Lnec(mu);
 
-                            if ((a * c) > Math.Log(Giant))
-                            {
+                            if ((a * c) > Math.Log(Giant)) {
                                 dompart = -100;
                             }
-                            else if ((a * c) < Math.Log(Dwarf))
-                            {
+                            else if ((a * c) < Math.Log(Dwarf)) {
                                 dompart = 0.0;
                             }
-                            else
-                            {
+                            else {
                                 dompart = Math.Exp(a * c) / (Math.Sqrt(a * 2 * Math.PI) * Gamstar(a));
                             }
                         }
@@ -5072,26 +4826,21 @@ namespace MathNet.Numerics
                 }
 
                 // a[0]/2+a[1]T1(x)+...a[n]Tn(x); series of Chebychev polynomials
-                static double Chepolsum(int n, double x, double[] a)
-                {
+                static double Chepolsum(int n, double x, double[] a) {
                     double chepolsum;
 
-                    if (n == 0)
-                    {
+                    if (n == 0) {
                         chepolsum = a[0] / 2;
                     }
-                    else if (n == 1)
-                    {
+                    else if (n == 1) {
                         chepolsum = a[0] / 2 + a[1] + x;
                     }
-                    else
-                    {
+                    else {
                         double tx = x + x;
                         double r = a[n];
                         double h = a[n - 1] + r * tx;
 
-                        for (int k = n - 2; k >= 1; k--)
-                        {
+                        for (int k = n - 2; k >= 1; k--) {
                             double s = r;
                             r = h;
                             h = a[k] + r * tx - s;
@@ -5104,28 +4853,22 @@ namespace MathNet.Numerics
                 }
 
                 // function g in ln(Gamma(1+x))=x*(1-x)*g(x), 0<=x<=1
-                static double Auxloggam(double x)
-                {
+                static double Auxloggam(double x) {
                     double g;
 
-                    if (x < -1)
-                    {
+                    if (x < -1) {
                         g = Giant;
                     }
-                    else if (Math.Abs(x) <= Dwarf)
-                    {
+                    else if (Math.Abs(x) <= Dwarf) {
                         g = -Constants.EulerMascheroni;
                     }
-                    else if (Math.Abs(x - 1) <= MachTol)
-                    {
+                    else if (Math.Abs(x - 1) <= MachTol) {
                         g = Constants.EulerMascheroni - 1;
                     }
-                    else if (x < 0)
-                    {
+                    else if (x < 0) {
                         g = -(x * (1 + x) * Auxloggam(x + 1) + Logoneplusx(x)) / (x * (1 - x));
                     }
-                    else if (x < 1)
-                    {
+                    else if (x < 1) {
                         double[] ak = {
                             -0.98283078605877425496,
                             0.7611416167043584304e-1,
@@ -5158,12 +4901,10 @@ namespace MathNet.Numerics
 
                         g = Chepolsum(25, t, ak);
                     }
-                    else if (x < 1.5)
-                    {
+                    else if (x < 1.5) {
                         g = (Logoneplusx(x - 1) + (x - 1) * (2 - x) * Auxloggam(x - 1)) / (x * (1 - x));
                     }
-                    else
-                    {
+                    else {
                         g = (Math.Log(x) + (x - 1) * (2 - x) * Auxloggam(x - 1)) / (x * (1 - x));
                     }
 
@@ -5175,34 +4916,27 @@ namespace MathNet.Numerics
                 /// </summary>
                 /// <param name="x">argument of the functions</param>
                 /// <returns></returns>
-                internal static double Loggam(double x)
-                {
+                internal static double Loggam(double x) {
                     //return SpecialFunctions.GammaLn(x);
 
                     double loggam;
 
-                    if (x >= 3.0)
-                    {
+                    if (x >= 3.0) {
                         loggam = (x - 0.5) * Math.Log(x) - x + LnSqrt2Pi + Stirling(x);
                     }
-                    else if (x >= 2.0)
-                    {
+                    else if (x >= 2.0) {
                         loggam = (x - 2) * (3 - x) * Auxloggam(x - 2.0) + Logoneplusx(x - 2.0);
                     }
-                    else if (x >= 1.0)
-                    {
+                    else if (x >= 1.0) {
                         loggam = (x - 1.0) * (2.0 - x) * Auxloggam(x - 1.0);
                     }
-                    else if (x > 0.5)
-                    {
+                    else if (x > 0.5) {
                         loggam = x * (1.0 - x) * Auxloggam(x) - Logoneplusx(x - 1.0);
                     }
-                    else if (x > 0.0)
-                    {
+                    else if (x > 0.0) {
                         loggam = x * (1 - x) * Auxloggam(x) - Math.Log(x);
                     }
-                    else
-                    {
+                    else {
                         loggam = Giant;
                     }
 
@@ -5210,16 +4944,13 @@ namespace MathNet.Numerics
                 }
 
                 // function g in 1/gamma(x+1)=1+x*(x-1)*g(x), -1<=x<=1
-                static double Auxgam(double x)
-                {
+                static double Auxgam(double x) {
                     double auxgam;
 
-                    if (x < 0)
-                    {
+                    if (x < 0) {
                         auxgam = -(1 + (1 + x) * (1 + x) * Auxgam(1 + x)) / (1 - x);
                     }
-                    else
-                    {
+                    else {
                         double[] dr = {
                             -1.013609258009865776949,
                             0.784903531024782283535e-1,
@@ -5249,34 +4980,27 @@ namespace MathNet.Numerics
                 }
 
                 // ln(gamma(1+x)), -1<=x<=1
-                static double Lngam1(double x)
-                {
+                static double Lngam1(double x) {
                     return -Logoneplusx(x * (x - 1) * Auxgam(x));
                 }
 
                 // Stirling series, function corresponding with asymptotic series for Math.Log(gamma(x)) that is:  1/(12x)-1/(360x**3)...; x>= 3
-                static double Stirling(double x)
-                {
+                static double Stirling(double x) {
                     double stirling;
 
-                    if (x < Dwarf)
-                    {
+                    if (x < Dwarf) {
                         stirling = Giant;
                     }
-                    else if (x < 1.0)
-                    {
+                    else if (x < 1.0) {
                         stirling = Lngam1(x) - (x + 0.5) * Math.Log(x) + x - LnSqrt2Pi;
                     }
-                    else if (x < 2.0)
-                    {
+                    else if (x < 2.0) {
                         stirling = Lngam1(x - 1) - (x - 0.5) * Math.Log(x) + x - LnSqrt2Pi;
                     }
-                    else if (x < 3.0)
-                    {
+                    else if (x < 3.0) {
                         stirling = Lngam1(x - 2) - (x - 0.5) * Math.Log(x) + x - LnSqrt2Pi + Math.Log(x - 1);
                     }
-                    else if (x < 12.0)
-                    {
+                    else if (x < 12.0) {
                         double[] a = {
                             1.996379051590076518221,
                             -0.17971032528832887213e-2,
@@ -5301,12 +5025,10 @@ namespace MathNet.Numerics
 
                         stirling = Chepolsum(17, z, a) / (12.0 * x);
                     }
-                    else
-                    {
+                    else {
                         double z = 1.0 / (x * x);
 
-                        if (x < 1000)
-                        {
+                        if (x < 1000) {
                             double[] c = {
                                 0.25721014990011306473e-1,
                                 0.82475966166999631057e-1,
@@ -5319,8 +5041,7 @@ namespace MathNet.Numerics
 
                             stirling = ((((((c[5] * z + c[4]) * z + c[3]) * z + c[2]) * z + c[1]) * z + c[0]) / (c[6] + z) / x);
                         }
-                        else
-                        {
+                        else {
                             stirling = (((-z / 1680.0 + 1.0 / 1260.0) * z - 1.0 / 360.0) * z + 1.0 / 12.0) / x;
                         }
                     }
@@ -5329,52 +5050,41 @@ namespace MathNet.Numerics
                 }
 
                 // Euler gamma function Gamma(x), x real
-                static double Gamma(double x)
-                {
+                static double Gamma(double x) {
                     double gam;
                     int k = (int)Math.Round(x);
                     int k1 = k - 1;
                     double dw = k == 0 ? Dwarf : MachTol;
 
-                    if ((k <= 0) && (Math.Abs(k - x) <= dw))
-                    {
-                        if (k % 2 > 0)
-                        {
+                    if ((k <= 0) && (Math.Abs(k - x) <= dw)) {
+                        if (k % 2 > 0) {
                             // k is odd
                             gam = k - x < 0 ? -Giant : Giant;
                         }
-                        else
-                        {
+                        else {
                             // k is even
                             gam = x - k < 0 ? -Giant : Giant;
                         }
                     }
-                    else if (x < 0.45)
-                    {
+                    else if (x < 0.45) {
                         gam = Math.PI / (Math.Sin(Math.PI * x) * Gamma(1 - x));
                     }
-                    else if ((Math.Abs(k - x) < dw) && (x < 21.0))
-                    {
+                    else if ((Math.Abs(k - x) < dw) && (x < 21.0)) {
                         gam = 1;
 
-                        for (int n = 2; n <= k1; n++)
-                        {
+                        for (int n = 2; n <= k1; n++) {
                             gam = gam * n;
                         }
                     }
-                    else if ((Math.Abs(k - x - 0.5) < dw) && (x < 21.0))
-                    {
+                    else if ((Math.Abs(k - x - 0.5) < dw) && (x < 21.0)) {
                         gam = Constants.SqrtPi;
 
-                        for (int n = 1; n <= k1; n++)
-                        {
+                        for (int n = 1; n <= k1; n++) {
                             gam = gam * (n - 0.5);
                         }
                     }
-                    else if (x < 3.0)
-                    {
-                        if (k > x)
-                        {
+                    else if (x < 3.0) {
+                        if (k > x) {
                             k = k1;
                         }
 
@@ -5383,13 +5093,11 @@ namespace MathNet.Numerics
                         double z = k1 + x;
                         gam = Gamma(z);
 
-                        for (int n = 1; n <= k1; n++)
-                        {
+                        for (int n = 1; n <= k1; n++) {
                             gam = gam / (z - n);
                         }
                     }
-                    else
-                    {
+                    else {
                         gam = Constants.Sqrt2Pi * Math.Exp(-x + (x - 0.5) * Math.Log(x) + Stirling(x));
                     }
 
@@ -5398,20 +5106,16 @@ namespace MathNet.Numerics
 
                 // gamstar(x)=exp(stirling(x)), x>0; or
                 // gamma(x)/(exp(-x+(x-0.5)*ln(x))/sqrt(2pi)
-                static double Gamstar(double x)
-                {
+                static double Gamstar(double x) {
                     double gamstar;
 
-                    if (x >= 3.0)
-                    {
+                    if (x >= 3.0) {
                         gamstar = Math.Exp(Stirling(x));
                     }
-                    else if (x > 0.0)
-                    {
+                    else if (x > 0.0) {
                         gamstar = Gamma(x) / (Math.Exp(-x + (x - 0.5) * Math.Log(x)) * Constants.Sqrt2Pi);
                     }
-                    else
-                    {
+                    else {
                         gamstar = Giant;
                     }
 
@@ -5419,31 +5123,24 @@ namespace MathNet.Numerics
                 }
 
                 // coefficients are from Cody (1969), Math. Comp., 23, 631-637
-                static double Errorfunction(double x, bool erfcc, bool expo)
-                {
+                static double Errorfunction(double x, bool erfcc, bool expo) {
                     double y;
 
-                    if (erfcc)
-                    {
-                        if (x < -6.5)
-                        {
+                    if (erfcc) {
+                        if (x < -6.5) {
                             y = 2.0;
                         }
-                        else if (x < 0)
-                        {
+                        else if (x < 0) {
                             y = 2.0 - Errorfunction(-x, true, false);
                         }
-                        else if (x == 0.0)
-                        {
+                        else if (x == 0.0) {
                             y = 1.0;
                         }
-                        else if (x < 0.5)
-                        {
+                        else if (x < 0.5) {
                             y = expo ? Math.Exp(x * x) : 1.0;
                             y *= 1.0 - Errorfunction(x, false, false);
                         }
-                        else if (x < 4.0)
-                        {
+                        else if (x < 4.0) {
                             y = expo ? 1 : Math.Exp(-x * x);
 
                             double[] r = {
@@ -5470,8 +5167,7 @@ namespace MathNet.Numerics
 
                             y *= Fractio(x, 8, r, s);
                         }
-                        else
-                        {
+                        else {
                             double z = x * x;
                             y = expo ? 1 : Math.Exp(-z);
                             z = 1 / z;
@@ -5495,26 +5191,20 @@ namespace MathNet.Numerics
                             y *= (Constants.InvSqrtPi - z * Fractio(z, 5, r, s)) / x;
                         }
                     }
-                    else
-                    {
-                        if (x == 0.0)
-                        {
+                    else {
+                        if (x == 0.0) {
                             y = 0;
                         }
-                        else if (Math.Abs(x) > 6.5)
-                        {
+                        else if (Math.Abs(x) > 6.5) {
                             y = x / Math.Abs(x);
                         }
-                        else if (x > 0.5)
-                        {
+                        else if (x > 0.5) {
                             y = 1.0 - Errorfunction(x, true, false);
                         }
-                        else if (x < -0.5)
-                        {
+                        else if (x < -0.5) {
                             y = Errorfunction(-x, true, false) - 1.0;
                         }
-                        else
-                        {
+                        else {
                             double[] r = {
                                 3.209377589138469473e3,
                                 3.774852376853020208e2,
@@ -5537,13 +5227,11 @@ namespace MathNet.Numerics
                     return y;
                 }
 
-                static double Fractio(double x, int n, double[] r, double[] s)
-                {
+                static double Fractio(double x, int n, double[] r, double[] s) {
                     double a = r[n];
                     double b = 1;
 
-                    for (int k = n - 1; k >= 0; k--)
-                    {
+                    for (int k = n - 1; k >= 0; k--) {
                         a = a * x + r[k];
                         b = b * x + s[k];
                     }
@@ -5551,16 +5239,13 @@ namespace MathNet.Numerics
                     return a / b;
                 }
 
-                static double PQasymp(double a, double x, double dp, bool p)
-                {
+                static double PQasymp(double a, double x, double dp, bool p) {
                     double pqasymp;
 
-                    if (dp == 0.0)
-                    {
+                    if (dp == 0.0) {
                         pqasymp = p ? 0.0 : 1.0;
                     }
-                    else
-                    {
+                    else {
 
                         double s = p ? -1 : 1;
 
@@ -5570,8 +5255,7 @@ namespace MathNet.Numerics
                         y = y * a;
                         double v = Math.Sqrt(Math.Abs(y));
 
-                        if (mu < 0.0)
-                        {
+                        if (mu < 0.0) {
                             eta = -eta;
                             v = -v;
                         }
@@ -5585,8 +5269,7 @@ namespace MathNet.Numerics
                     return pqasymp;
                 }
 
-                static double Saeta(double a, double eta)
-                {
+                static double Saeta(double a, double eta) {
                     double eps = Epss;
 
                     double[] fm = {
@@ -5623,8 +5306,7 @@ namespace MathNet.Numerics
                     bm[25] = fm[26];
                     bm[24] = fm[25];
 
-                    for (int m = 24; m >= 1; m--)
-                    {
+                    for (int m = 24; m >= 1; m--) {
                         bm[m - 1] = fm[m] + (m + 1) * bm[m + 1] / a;
                     }
 
@@ -5633,8 +5315,7 @@ namespace MathNet.Numerics
                     double y = eta;
                     int i = 1;
 
-                    while ((Math.Abs(t / s) > eps) && (i < 25))
-                    {
+                    while ((Math.Abs(t / s) > eps) && (i < 25)) {
                         t = bm[i] * y;
                         s = s + t;
                         i++;
@@ -5646,17 +5327,14 @@ namespace MathNet.Numerics
                     return saeta;
                 }
 
-                static double Qfraction(double a, double x, double dp)
-                {
+                static double Qfraction(double a, double x, double dp) {
                     double eps = Epss;
                     double p, q;
 
-                    if (dp == 0.0)
-                    {
+                    if (dp == 0.0) {
                         q = 0.0;
                     }
-                    else
-                    {
+                    else {
                         p = 0.0;
                         q = (x - 1.0 - a) * (x + 1.0 - a);
                         double r = 4 * (x + 1.0 - a);
@@ -5665,8 +5343,7 @@ namespace MathNet.Numerics
                         double t = 1.0;
                         double g = 1.0;
 
-                        while (Math.Abs(t / g) >= eps)
-                        {
+                        while (Math.Abs(t / g) >= eps) {
                             p = p + s;
                             q = q + r;
                             r = r + 8;
@@ -5683,18 +5360,15 @@ namespace MathNet.Numerics
                     return q;
                 }
 
-                static double Qtaylor(double a, double x, double dp)
-                {
+                static double Qtaylor(double a, double x, double dp) {
                     double eps = Epss;
                     double lnx = Math.Log(x);
                     double q;
 
-                    if (dp == 0.0)
-                    {
+                    if (dp == 0.0) {
                         q = 0.0;
                     }
-                    else
-                    {
+                    else {
                         double r = a * lnx;
                         q = r * Exmin1(r, eps); // q = x ^ a - 1
                         double s = a * (1.0 - a) * Auxgam(a); // s = 1 - 1 / Gamma(1 + a)
@@ -5706,8 +5380,7 @@ namespace MathNet.Numerics
                         double t = 1.0;
                         double v = 1.0;
 
-                        while (Math.Abs(t / v) > eps)
-                        {
+                        while (Math.Abs(t / v) > eps) {
                             p += x;
                             q += r;
                             r += 2;
@@ -5721,23 +5394,19 @@ namespace MathNet.Numerics
                     return q;
                 }
 
-                static double Ptaylor(double a, double x, double dp)
-                {
+                static double Ptaylor(double a, double x, double dp) {
                     double eps = Epss;
                     double p;
 
-                    if (dp == 0.0)
-                    {
+                    if (dp == 0.0) {
                         p = 0.0;
                     }
-                    else
-                    {
+                    else {
                         p = 1.0;
                         double c = 1.0;
                         double r = a;
 
-                        while ((c / p) > eps)
-                        {
+                        while ((c / p) > eps) {
                             r += 1;
                             c *= x / r;
                             p += c;
@@ -5749,12 +5418,10 @@ namespace MathNet.Numerics
                     return p;
                 }
 
-                static double Eps1(double eta)
-                {
+                static double Eps1(double eta) {
                     double eps1;
 
-                    if (Math.Abs(eta) < 1.0)
-                    {
+                    if (Math.Abs(eta) < 1.0) {
                         double[] ak = {
                             -3.333333333438e-1,
                             -2.070740359969e-1,
@@ -5771,8 +5438,7 @@ namespace MathNet.Numerics
                         };
                         eps1 = Ratfun(eta, ak, bk);
                     }
-                    else
-                    {
+                    else {
                         double la = Lambdaeta(eta);
                         eps1 = Math.Log(eta / (la - 1.0)) / eta;
                     }
@@ -5780,134 +5446,157 @@ namespace MathNet.Numerics
                     return eps1;
                 }
 
-                static double Eps2(double eta)
-                {
+                static double Eps2(double eta) {
                     double eps2;
                     double[] ak = new double[5];
                     double[] bk = new double[5];
 
-                    if (eta < -5.0)
-                    {
+                    if (eta < -5.0) {
                         double x = eta * eta;
                         double lnmeta = Math.Log(-eta);
                         eps2 = (12.0 - x - 6.0 * (lnmeta * lnmeta)) / (12.0 * x * eta);
                     }
-                    else if (eta < -2.0)
-                    {
-                        ak[0] = -1.72847633523e-2; bk[0] = 1.00000000000e+0;
-                        ak[1] = -1.59372646475e-2; bk[1] = 7.64050615669e-1;
-                        ak[2] = -4.64910887221e-3; bk[2] = 2.97143406325e-1;
-                        ak[3] = -6.06834887760e-4; bk[3] = 5.79490176079e-2;
-                        ak[4] = -6.14830384279e-6; bk[4] = 5.74558524851e-3;
+                    else if (eta < -2.0) {
+                        ak[0] = -1.72847633523e-2;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = -1.59372646475e-2;
+                        bk[1] = 7.64050615669e-1;
+                        ak[2] = -4.64910887221e-3;
+                        bk[2] = 2.97143406325e-1;
+                        ak[3] = -6.06834887760e-4;
+                        bk[3] = 5.79490176079e-2;
+                        ak[4] = -6.14830384279e-6;
+                        bk[4] = 5.74558524851e-3;
                         eps2 = Ratfun(eta, ak, bk);
                     }
-                    else if (eta < 2.0)
-                    {
-                        ak[0] = -1.72839517431e-2; bk[0] = 1.00000000000e+0;
-                        ak[1] = -1.46362417966e-2; bk[1] = 6.90560400696e-1;
-                        ak[2] = -3.57406772616e-3; bk[2] = 2.49962384741e-1;
-                        ak[3] = -3.91032032692e-4; bk[3] = 4.43843438769e-2;
-                        ak[4] = 2.49634036069e-6; bk[4] = 4.24073217211e-3;
+                    else if (eta < 2.0) {
+                        ak[0] = -1.72839517431e-2;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = -1.46362417966e-2;
+                        bk[1] = 6.90560400696e-1;
+                        ak[2] = -3.57406772616e-3;
+                        bk[2] = 2.49962384741e-1;
+                        ak[3] = -3.91032032692e-4;
+                        bk[3] = 4.43843438769e-2;
+                        ak[4] = 2.49634036069e-6;
+                        bk[4] = 4.24073217211e-3;
                         eps2 = Ratfun(eta, ak, bk);
                     }
-                    else if (eta < 1000.0)
-                    {
-                        ak[0] = 9.99944669480e-1; bk[0] = 1.00000000000e+0;
-                        ak[1] = 1.04649839762e+2; bk[1] = 1.04526456943e+2;
-                        ak[2] = 8.57204033806e+2; bk[2] = 8.23313447808e+2;
-                        ak[3] = 7.31901559577e+2; bk[3] = 3.11993802124e+3;
-                        ak[4] = 4.55174411671e+1; bk[4] = 3.97003311219e+3;
+                    else if (eta < 1000.0) {
+                        ak[0] = 9.99944669480e-1;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = 1.04649839762e+2;
+                        bk[1] = 1.04526456943e+2;
+                        ak[2] = 8.57204033806e+2;
+                        bk[2] = 8.23313447808e+2;
+                        ak[3] = 7.31901559577e+2;
+                        bk[3] = 3.11993802124e+3;
+                        ak[4] = 4.55174411671e+1;
+                        bk[4] = 3.97003311219e+3;
                         double x = 1.0 / eta;
                         eps2 = Ratfun(x, ak, bk) / (-12.0 * eta);
                     }
-                    else
-                    {
+                    else {
                         eps2 = -1.0 / (12.0 * eta);
                     }
 
                     return eps2;
                 }
 
-                static double Eps3(double eta)
-                {
+                static double Eps3(double eta) {
                     double eps3;
                     double[] ak = new double[5];
                     double[] bk = new double[5];
 
-                    if (eta < -8.0)
-                    {
+                    if (eta < -8.0) {
                         double x = eta * eta;
                         double y = Math.Log(-eta) / eta;
                         eps3 = (-30.0 + eta * y * (6.0 * x * y * y - 12.0 + x)) / (12.0 * eta * x * x);
                     }
-                    else if (eta < -4.0)
-                    {
-                        ak[0] = 4.95346498136e-2; bk[0] = 1.00000000000e+0;
-                        ak[1] = 2.99521337141e-2; bk[1] = 7.59803615283e-1;
-                        ak[2] = 6.88296911516e-3; bk[2] = 2.61547111595e-1;
-                        ak[3] = 5.12634846317e-4; bk[3] = 4.64854522477e-2;
-                        ak[4] = -2.01411722031e-5; bk[4] = 4.03751193496e-3;
+                    else if (eta < -4.0) {
+                        ak[0] = 4.95346498136e-2;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = 2.99521337141e-2;
+                        bk[1] = 7.59803615283e-1;
+                        ak[2] = 6.88296911516e-3;
+                        bk[2] = 2.61547111595e-1;
+                        ak[3] = 5.12634846317e-4;
+                        bk[3] = 4.64854522477e-2;
+                        ak[4] = -2.01411722031e-5;
+                        bk[4] = 4.03751193496e-3;
                         eps3 = Ratfun(eta, ak, bk) / (eta * eta);
                     }
-                    else if (eta < -2.0)
-                    {
-                        ak[0] = 4.52313583942e-3; bk[0] = 1.00000000000e+0;
-                        ak[1] = 1.20744920113e-3; bk[1] = 9.12203410349e-1;
-                        ak[2] = -7.89724156582e-5; bk[2] = 4.05368773071e-1;
-                        ak[3] = -5.04476066942e-5; bk[3] = 9.01638932349e-2;
-                        ak[4] = -5.35770949796e-6; bk[4] = 9.48935714996e-3;
+                    else if (eta < -2.0) {
+                        ak[0] = 4.52313583942e-3;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = 1.20744920113e-3;
+                        bk[1] = 9.12203410349e-1;
+                        ak[2] = -7.89724156582e-5;
+                        bk[2] = 4.05368773071e-1;
+                        ak[3] = -5.04476066942e-5;
+                        bk[3] = 9.01638932349e-2;
+                        ak[4] = -5.35770949796e-6;
+                        bk[4] = 9.48935714996e-3;
                         eps3 = Ratfun(eta, ak, bk);
                     }
-                    else if (eta < 2.0)
-                    {
-                        ak[0] = 4.39937562904e-3; bk[0] = 1.00000000000e+0;
-                        ak[1] = 4.87225670639e-4; bk[1] = 7.94435257415e-1;
-                        ak[2] = -1.28470657374e-4; bk[2] = 3.33094721709e-1;
-                        ak[3] = 5.29110969589e-6; bk[3] = 7.03527806143e-2;
-                        ak[4] = 1.57166771750e-7; bk[4] = 8.06110846078e-3;
+                    else if (eta < 2.0) {
+                        ak[0] = 4.39937562904e-3;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = 4.87225670639e-4;
+                        bk[1] = 7.94435257415e-1;
+                        ak[2] = -1.28470657374e-4;
+                        bk[2] = 3.33094721709e-1;
+                        ak[3] = 5.29110969589e-6;
+                        bk[3] = 7.03527806143e-2;
+                        ak[4] = 1.57166771750e-7;
+                        bk[4] = 8.06110846078e-3;
                         eps3 = Ratfun(eta, ak, bk);
                     }
-                    else if (eta < 10.0)
-                    {
-                        ak[0] = -1.14811912320e-3; bk[0] = 1.00000000000e+0;
-                        ak[1] = -1.12850923276e-1; bk[1] = 1.42482206905e+1;
-                        ak[2] = 1.51623048511e+0; bk[2] = 6.97360396285e+1;
-                        ak[3] = -2.18472031183e-1; bk[3] = 2.18938950816e+2;
-                        ak[4] = 7.30002451555e-2; bk[4] = 2.77067027185e+2;
+                    else if (eta < 10.0) {
+                        ak[0] = -1.14811912320e-3;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = -1.12850923276e-1;
+                        bk[1] = 1.42482206905e+1;
+                        ak[2] = 1.51623048511e+0;
+                        bk[2] = 6.97360396285e+1;
+                        ak[3] = -2.18472031183e-1;
+                        bk[3] = 2.18938950816e+2;
+                        ak[4] = 7.30002451555e-2;
+                        bk[4] = 2.77067027185e+2;
                         double x = 1.0 / eta;
                         eps3 = Ratfun(x, ak, bk) / (eta * eta);
                     }
-                    else if (eta < 100.0)
-                    {
-                        ak[0] = -1.45727889667e-4; bk[0] = 1.00000000000e+0;
-                        ak[1] = -2.90806748131e-1; bk[1] = 1.39612587808e+2;
-                        ak[2] = -1.33085045450e+1; bk[2] = 2.18901116348e+3;
-                        ak[3] = 1.99722374056e+2; bk[3] = 7.11524019009e+3;
-                        ak[4] = -1.14311378756e+1; bk[4] = 4.55746081453e+4;
+                    else if (eta < 100.0) {
+                        ak[0] = -1.45727889667e-4;
+                        bk[0] = 1.00000000000e+0;
+                        ak[1] = -2.90806748131e-1;
+                        bk[1] = 1.39612587808e+2;
+                        ak[2] = -1.33085045450e+1;
+                        bk[2] = 2.18901116348e+3;
+                        ak[3] = 1.99722374056e+2;
+                        bk[3] = 7.11524019009e+3;
+                        ak[4] = -1.14311378756e+1;
+                        bk[4] = 4.55746081453e+4;
                         double x = 1.0 / eta;
                         eps3 = Ratfun(x, ak, bk) / (eta * eta);
                     }
-                    else
-                    {
+                    else {
                         double eta3 = eta * eta * eta;
                         eps3 = -Math.Log(eta) / (12.0 * eta3);
                     }
                     return eps3;
                 }
 
-                static double Lambdaeta(double eta)
-                {
+                static double Lambdaeta(double eta) {
                     double la, r;
 
                     double s = eta * eta * 0.5;
                     double[] ak = new double[6];
 
-                    if (eta == 0.0)
-                    {
+                    if (eta == 0.0) {
                         la = 1;
                     }
-                    else if (eta < -1.0)
-                    {
+                    else if (eta < -1.0) {
                         r = Math.Exp(-1 - s);
                         ak[1] = 1.0;
                         ak[2] = 1.0;
@@ -5917,8 +5606,7 @@ namespace MathNet.Numerics
                         ak[6] = 54.0 / 5.0;
                         la = r * (ak[1] + r * (ak[2] + r * (ak[3] + r * (ak[4] + r * (ak[5] + r * ak[6])))));
                     }
-                    else if (eta < 1.0)
-                    {
+                    else if (eta < 1.0) {
                         ak[1] = 1.0;
                         ak[2] = 1.0 / 3.0;
                         ak[3] = 1.0 / 36.0;
@@ -5928,11 +5616,11 @@ namespace MathNet.Numerics
                         r = eta;
                         la = 1 + r * (ak[1] + r * (ak[2] + r * (ak[3] + r * (ak[4] + r * (ak[5] + r * ak[6])))));
                     }
-                    else
-                    {
+                    else {
                         r = 11 + s;
                         double L = Math.Log(r);
-                        la = r + L; r = 1.0 / r;
+                        la = r + L;
+                        r = 1.0 / r;
                         double L2 = L * L;
                         double L3 = L2 * L;
                         double L4 = L3 * L;
@@ -5946,13 +5634,11 @@ namespace MathNet.Numerics
                         la = la + L * r * (ak[1] + r * (ak[2] + r * (ak[3] + r * (ak[4] + r * (ak[5] + r * ak[6])))));
                     }
 
-                    if (((eta > -3.5) && (eta < -0.03)) || ((eta > 0.03) && (eta < 40.0)))
-                    {
+                    if (((eta > -3.5) && (eta < -0.03)) || ((eta > 0.03) && (eta < 40.0))) {
                         r = 1;
                         double q = la;
 
-                        while (r > 1.0e-8)
-                        {
+                        while (r > 1.0e-8) {
                             la = q * (s + Math.Log(q)) / (q - 1.0);
                             r = Math.Abs(q / la - 1);
                             q = la;
@@ -5963,23 +5649,19 @@ namespace MathNet.Numerics
                 }
 
                 // Abramowitx & Stegun 26.2.23;
-                static double Invq(double x)
-                {
+                static double Invq(double x) {
                     double t = Math.Sqrt(-2 * Math.Log(x));
                     t = t - (2.515517 + t * (0.802853 + t * 0.010328)) / (1.0 + t * (1.432788 + t * (0.189269 + t * 0.001308)));
                     return t;
                 }
 
-                static double Inverfc(double x)
-                {
+                static double Inverfc(double x) {
                     double y;
 
-                    if (x > 1.0)
-                    {
+                    if (x > 1.0) {
                         y = -Inverfc(2 - x);
                     }
-                    else
-                    {
+                    else {
                         double y0 = 0.70710678 * Invq(x / 2.0);
                         var f = Errorfunction(y0, true, false) - x;
                         double y02 = y0 * y0;
@@ -5997,15 +5679,13 @@ namespace MathNet.Numerics
                     return y;
                 }
 
-                static double Ratfun(double x, double[] ak, double[] bk)
-                {
+                static double Ratfun(double x, double[] ak, double[] bk) {
                     double p = ak[0] + x * (ak[1] + x * (ak[2] + x * (ak[3] + x * ak[4])));
                     double q = bk[0] + x * (bk[1] + x * (bk[2] + x * (bk[3] + x * bk[4])));
                     return p / q;
                 }
 
-                static double InvGam(double a, double q, bool pgam)
-                {
+                static double InvGam(double a, double q, bool pgam) {
                     double z;
                     double x = 0d;
                     double f;
@@ -6027,22 +5707,17 @@ namespace MathNet.Numerics
                     double q0 = pgam ? 1 - q : q;
                     double t = 2 * q0;
 
-                    if (Math.Abs(t - 1) < 1.0e-10)
-                    {
+                    if (Math.Abs(t - 1) < 1.0e-10) {
                         x = a - 1.0 / 3.0 + (8.0 / 405.0 + 184.0 / 25515.0 / a) / a;
                     }
-                    else
-                    {
-                        if (t == 2.0)
-                        {
+                    else {
+                        if (t == 2.0) {
                             z = -6.0;
                         }
-                        else if (t < 1.0e-50)
-                        {
+                        else if (t < 1.0e-50) {
                             z = 15.0;
                         }
-                        else
-                        {
+                        else {
                             z = Inverfc(t);
                             y = z / Math.Sqrt(a / 2.0);
                             y2 = y * y;
@@ -6052,14 +5727,12 @@ namespace MathNet.Numerics
                             y6 = y3 * y3;
                             double sq2 = Constants.Sqrt2;
 
-                            if (Math.Abs(y) < 0.3)
-                            {
+                            if (Math.Abs(y) < 0.3) {
                                 a1 = -1.0 / 3.0 + 1.0 / 36.0 * y + 1.0 / 1620.0 * y2 - 7.0 / 6480.0 * y3 + 5.0 / 18144.0 * y4 - 11.0 / 382725.0 * y5 - 101.0 / 16329600.0 * y6;
                                 a2 = -7.0 / 405.0 - 7.0 / 2592.0 * y + 533.0 / 204120.0 * y2 - 1579.0 / 2099520.0 * y3 + 109.0 / 1749600.0 * y4 + 10217.0 / 251942400.0 * y5;
                                 a3 = 449.0 / 102060.0 - 63149.0 / 20995200.0 * y + 29233.0 / 36741600.0 * y2 + 346793.0 / 5290790400.0 * y3 - 18442139.0 / 130947062400.0 * y4;
                             }
-                            else
-                            {
+                            else {
                                 f = Inveta(y / sq2);
                                 mu = f - 1.0;
                                 mu2 = mu * mu;
@@ -6105,24 +5778,20 @@ namespace MathNet.Numerics
                     return x;
                 }
 
-                static double Inveta(double x)
-                {
+                static double Inveta(double x) {
 
-                    if (x < -26.0)
-                    {
+                    if (x < -26.0) {
                         return 0.0;
                     }
 
-                    if (x == 0.0)
-                    {
+                    if (x == 0.0) {
                         return 1.0;
                     }
 
                     double z = x * x, t, p, q, mu;
                     double x2 = x * Constants.Pi2;
 
-                    if (x2 > 2.0)
-                    {
+                    if (x2 > 2.0) {
                         p = z + 1;
                         q = Math.Log(p);
                         double a = 1.0 / q;
@@ -6131,13 +5800,11 @@ namespace MathNet.Numerics
                         mu = z + q + r * (1 + r * (a - 0.5 + b * r));
                         t = mu + 1;
                     }
-                    else if (x2 > -1.5)
-                    {
+                    else if (x2 > -1.5) {
                         mu = x2 * (1.0 + x2 * (1.0 / 3.0 + x2 * (1.0 / 36.0 + x2 * (-1.0 / 270.0 + x2 * (1.0 / 4320.0 + x2 / 17010.0)))));
                         t = mu + 1;
                     }
-                    else
-                    {
+                    else {
                         p = Math.Exp(-z - 1.0);
                         t = p * (1.0 + p * (1.0 + p * (1.5 + p * (8.0 / 3.0 + p * 125.0 / 24.0))));
                         mu = t - 1;
@@ -6146,14 +5813,12 @@ namespace MathNet.Numerics
                     bool ready = false;
                     int k = 0;
 
-                    while (!ready)
-                    {
+                    while (!ready) {
                         ready = true;
                         p = Lnec(mu);
                         double r = -p - z;
 
-                        if (Math.Abs(r) > 1.0e-18)
-                        {
+                        if (Math.Abs(r) > 1.0e-18) {
                             r = r * t / mu;
                             p = r / t / mu;
                             q = r * (1.0 - p * (4 * t - 1.0) / 6.0) / (1.0 - p * (2 * t + 1.0) / 3.0);
@@ -6161,13 +5826,11 @@ namespace MathNet.Numerics
                             t = t - q;
                             k = k + 1;
 
-                            if ((t <= 0) || (mu <= -1))
-                            {
+                            if ((t <= 0) || (mu <= -1)) {
                                 t = 0;
                                 mu = -1;
                             }
-                            else
-                            {
+                            else {
                                 ready = (k > 5) || (Math.Abs(q) < (1.0e-10) * (Math.Abs(mu) + 1));
                             }
                         }

@@ -1,20 +1,17 @@
-﻿using System.Collections;
+﻿using FunkyCode.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode
-{
-    public struct SpriteTransform
-    {
+namespace FunkyCode {
+    public struct SpriteTransform {
         public Vector2 position;
         public Vector2 scale;
         public float rotation;
 
         public Rect uv;
 
-        public SpriteTransform(VirtualSpriteRenderer spriteRenderer, Vector2 position, Vector2 scale, float rotation)
-        {
+        public SpriteTransform(VirtualSpriteRenderer spriteRenderer, Vector2 position, Vector2 scale, float rotation) {
             var sprite = spriteRenderer.sprite;
 
             /*
@@ -27,8 +24,7 @@ namespace FunkyCode
                 return;
             }*/
 
-            if (!sprite)
-            {
+            if (!sprite) {
                 this.position = Vector2.zero;
                 this.scale = Vector2.zero;
                 this.rotation = 0;
@@ -48,10 +44,10 @@ namespace FunkyCode
 
             // Scale
             var textureScale = new Vector2(
-                textureWidth / spriteWidth, 
+                textureWidth / spriteWidth,
                 textureHeight / spriteHeight
             );
-    
+
             float pixelsPerUnit = sprite.pixelsPerUnit * 2;
 
             scale.x = (scale.x / textureScale.x) * (textureWidth / pixelsPerUnit);
@@ -65,7 +61,7 @@ namespace FunkyCode
 
             // Pivot
             Vector2 pivot = sprite.pivot;
-            
+
             pivot.x = ((pivot.x / spriteWidth) - 0.5f) * (scale.x * 2);
             pivot.y = ((pivot.y / spriteHeight) - 0.5f) * (scale.y * 2);
 

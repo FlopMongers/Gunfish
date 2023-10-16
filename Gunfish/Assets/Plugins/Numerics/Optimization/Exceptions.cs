@@ -29,10 +29,8 @@
 
 using System;
 
-namespace MathNet.Numerics.Optimization
-{
-    public class OptimizationException : Exception
-    {
+namespace MathNet.Numerics.Optimization {
+    public class OptimizationException : Exception {
         public OptimizationException(string message)
             : base(message) { }
 
@@ -40,32 +38,27 @@ namespace MathNet.Numerics.Optimization
             : base(message, innerException) { }
     }
 
-    public class MaximumIterationsException : OptimizationException
-    {
+    public class MaximumIterationsException : OptimizationException {
         public MaximumIterationsException(string message)
             : base(message) { }
     }
 
-    public class EvaluationException : OptimizationException
-    {
+    public class EvaluationException : OptimizationException {
         public IObjectiveFunctionEvaluation ObjectiveFunction { get; }
 
         public EvaluationException(string message, IObjectiveFunctionEvaluation eval)
-            : base(message)
-        {
+            : base(message) {
             ObjectiveFunction = eval;
         }
 
         public EvaluationException(string message, IObjectiveFunctionEvaluation eval, Exception innerException)
-            : base(message, innerException)
-        {
+            : base(message, innerException) {
             ObjectiveFunction = eval;
         }
 
     }
 
-    public class InnerOptimizationException : OptimizationException
-    {
+    public class InnerOptimizationException : OptimizationException {
         public InnerOptimizationException(string message)
             : base(message) { }
 
@@ -73,8 +66,7 @@ namespace MathNet.Numerics.Optimization
             : base(message, innerException) { }
     }
 
-    public class IncompatibleObjectiveException : OptimizationException
-    {
+    public class IncompatibleObjectiveException : OptimizationException {
         public IncompatibleObjectiveException(string message)
             : base(message) { }
     }

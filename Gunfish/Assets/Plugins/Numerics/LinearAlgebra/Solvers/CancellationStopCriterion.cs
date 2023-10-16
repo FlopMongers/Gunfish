@@ -31,21 +31,18 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterion{T}"/> that uses a cancellation token as stop criterion.
     /// </summary>
-    public sealed class CancellationStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public sealed class CancellationStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable {
         readonly CancellationToken _masterToken;
         CancellationTokenSource _currentTcs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IterationCountStopCriterion{T}"/> class.
         /// </summary>
-        public CancellationStopCriterion()
-        {
+        public CancellationStopCriterion() {
             _masterToken = CancellationToken.None;
             _currentTcs = CancellationTokenSource.CreateLinkedTokenSource(CancellationToken.None);
         }
@@ -53,8 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Initializes a new instance of the <see cref="IterationCountStopCriterion{T}"/> class.
         /// </summary>
-        public CancellationStopCriterion(CancellationToken masterToken)
-        {
+        public CancellationStopCriterion(CancellationToken masterToken) {
             _masterToken = masterToken;
             _currentTcs = CancellationTokenSource.CreateLinkedTokenSource(masterToken);
         }
@@ -72,30 +68,26 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
-        {
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector) {
             return _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Continue;
         }
 
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public IterationStatus Status
-        {
+        public IterationStatus Status {
             [DebuggerStepThrough]
             get => _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Continue;
         }
 
-        public void Cancel()
-        {
+        public void Cancel() {
             _currentTcs.Cancel();
         }
 
         /// <summary>
         /// Resets the <see cref="IterationCountStopCriterion{T}"/> to the pre-calculation state.
         /// </summary>
-        public void Reset()
-        {
+        public void Reset() {
             _currentTcs = CancellationTokenSource.CreateLinkedTokenSource(_masterToken);
         }
 
@@ -103,8 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Clones the current <see cref="IterationCountStopCriterion{T}"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="IterationCountStopCriterion{T}"/> class.</returns>
-        public IIterationStopCriterion<T> Clone()
-        {
+        public IIterationStopCriterion<T> Clone() {
             return new CancellationStopCriterion<T>(_masterToken);
         }
     }

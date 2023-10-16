@@ -27,34 +27,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Statistics;
 
-namespace MathNet.Numerics.Financial
-{
-    public static class AbsoluteReturnMeasures
-    {
+namespace MathNet.Numerics.Financial {
+    public static class AbsoluteReturnMeasures {
         /// <summary>
         /// Compound Monthly Return or Geometric Return or Annualized Return
         /// </summary>
-        public static double CompoundReturn(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
+        public static double CompoundReturn(this IEnumerable<double> data) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
             int count = 0;
             double compoundReturn = 1.0;
-            foreach (var item in data)
-            {
+            foreach (var item in data) {
                 count++;
                 compoundReturn *= 1 + item;
             }
 
-            return count == 0 ? double.NaN : Math.Pow(compoundReturn, 1.0/count) - 1.0;
+            return count == 0 ? double.NaN : Math.Pow(compoundReturn, 1.0 / count) - 1.0;
         }
 
         /// <summary>
@@ -63,10 +58,8 @@ namespace MathNet.Numerics.Financial
         /// and then dividing the total by the number of gain periods.
         /// </summary>
         /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
-        public static double GainMean(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
+        public static double GainMean(this IEnumerable<double> data) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
@@ -79,10 +72,8 @@ namespace MathNet.Numerics.Financial
         /// and then dividing the total by the number of loss periods.
         /// </summary>
         /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
-        public static double LossMean(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
+        public static double LossMean(this IEnumerable<double> data) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 

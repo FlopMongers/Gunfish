@@ -29,11 +29,10 @@
 
 // Converted from code released with a MIT license available at https://code.google.com/p/nelder-mead-simplex/
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.Optimization
-{
+namespace MathNet.Numerics.Optimization {
     /// <summary>
     /// Class implementing the Nelder-Mead simplex algorithm, used to find a minima when no gradient is available.
     /// Called fminsearch() in Matlab. A description of the algorithm can be found at
@@ -41,15 +40,13 @@ namespace MathNet.Numerics.Optimization
     /// or
     /// https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method
     /// </summary>
-    public sealed class NelderMeadSimplex : IUnconstrainedMinimizer
-    {
+    public sealed class NelderMeadSimplex : IUnconstrainedMinimizer {
         static readonly double JITTER = 1e-10d;           // a small value used to protect against floating point noise
 
         public double ConvergenceTolerance { get; set; }
         public int MaximumIterations { get; set; }
 
-        public NelderMeadSimplex(double convergenceTolerance, int maximumIterations)
-        {
+        public NelderMeadSimplex(double convergenceTolerance, int maximumIterations) {
             ConvergenceTolerance = convergenceTolerance;
             MaximumIterations = maximumIterations;
         }
@@ -62,8 +59,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
         /// <param name="initialGuess">The initial guess</param>
         /// <returns>The minimum point</returns>
-        public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess)
-        {
+        public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess) {
             return Minimum(objectiveFunction, initialGuess, ConvergenceTolerance, MaximumIterations);
         }
 
@@ -74,8 +70,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="initialGuess">The initial guess</param>
         /// <param name="initalPertubation">The initial perturbation</param>
         /// <returns>The minimum point</returns>
-        public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation)
-        {
+        public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation) {
             return Minimum(objectiveFunction, initialGuess, initalPertubation, ConvergenceTolerance, MaximumIterations);
         }
 
@@ -87,11 +82,9 @@ namespace MathNet.Numerics.Optimization
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
         /// <param name="initialGuess">The initial guess</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance=1e-8, int maximumIterations=1000)
-        {
+        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance = 1e-8, int maximumIterations = 1000) {
             var initalPertubation = new LinearAlgebra.Double.DenseVector(initialGuess.Count);
-            for (int i = 0; i < initialGuess.Count; i++)
-            {
+            for (int i = 0; i < initialGuess.Count; i++) {
                 initalPertubation[i] = initialGuess[i] == 0.0 ? 0.00025 : initialGuess[i] * 0.05;
             }
             return Minimum(objectiveFunction, initialGuess, initalPertubation, convergenceTolerance, maximumIterations);
@@ -104,11 +97,10 @@ namespace MathNet.Numerics.Optimization
         /// <param name="initialGuess">The initial guess</param>
         /// <param name="initalPertubation">The initial perturbation</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance=1e-8, int maximumIterations=1000)
-        {
+        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance = 1e-8, int maximumIterations = 1000) {
             // confirm that we are in a position to commence
             if (objectiveFunction == null)
-                throw new ArgumentNullException(nameof(objectiveFunction),"ObjectiveFunction must be set to a valid ObjectiveFunctionDelegate");
+                throw new ArgumentNullException(nameof(objectiveFunction), "ObjectiveFunction must be set to a valid ObjectiveFunctionDelegate");
 
             if (initialGuess == null)
                 throw new ArgumentNullException(nameof(initialGuess), "initialGuess must be initialized");
@@ -116,7 +108,7 @@ namespace MathNet.Numerics.Optimization
             if (initalPertubation == null)
                 throw new ArgumentNullException(nameof(initalPertubation), "initalPertubation must be initialized, if unknown use overloaded version of FindMinimum()");
 
-            SimplexConstant[] simplexConstants = SimplexConstant.CreateSimplexConstantsFromVectors(initialGuess,initalPertubation);
+            SimplexConstant[] simplexConstants = SimplexConstant.CreateSimplexConstantsFromVectors(initialGuess, initalPertubation);
 
             // create the initial simplex
             int numDimensions = simplexConstants.Length;
@@ -131,22 +123,18 @@ namespace MathNet.Numerics.Optimization
             int numTimesHasConverged = 0;
 
             // iterate until we converge, or complete our permitted number of iterations
-            while (true)
-            {
+            while (true) {
                 errorProfile = EvaluateSimplex(errorValues);
 
                 // see if the range in point heights is small enough to exit
                 // to handle the case when the function is symmetrical and extra iteration is performed
-                if (HasConverged(convergenceTolerance, errorProfile, errorValues))
-                {
+                if (HasConverged(convergenceTolerance, errorProfile, errorValues)) {
                     numTimesHasConverged++;
                 }
-                else
-                {
+                else {
                     numTimesHasConverged = 0;
                 }
-                if (numTimesHasConverged == 2)
-                {
+                if (numTimesHasConverged == 2) {
                     exitCondition = ExitCondition.Converged;
                     break;
                 }
@@ -154,21 +142,18 @@ namespace MathNet.Numerics.Optimization
                 // attempt a reflection of the simplex
                 double reflectionPointValue = TryToScaleSimplex(-1.0, ref errorProfile, vertices, errorValues, objectiveFunction);
                 ++evaluationCount;
-                if (reflectionPointValue <= errorValues[errorProfile.LowestIndex])
-                {
+                if (reflectionPointValue <= errorValues[errorProfile.LowestIndex]) {
                     // it's better than the best point, so attempt an expansion of the simplex
                     TryToScaleSimplex(2.0, ref errorProfile, vertices, errorValues, objectiveFunction);
                     ++evaluationCount;
                 }
-                else if (reflectionPointValue >= errorValues[errorProfile.NextHighestIndex])
-                {
+                else if (reflectionPointValue >= errorValues[errorProfile.NextHighestIndex]) {
                     // it would be worse than the second best point, so attempt a contraction to look
                     // for an intermediate point
                     double currentWorst = errorValues[errorProfile.HighestIndex];
                     double contractionPointValue = TryToScaleSimplex(0.5, ref errorProfile, vertices, errorValues, objectiveFunction);
                     ++evaluationCount;
-                    if (contractionPointValue >= currentWorst)
-                    {
+                    if (contractionPointValue >= currentWorst) {
                         // that would be even worse, so let's try to contract uniformly towards the low point;
                         // don't bother to update the error profile, we'll do it at the start of the
                         // next iteration
@@ -177,8 +162,7 @@ namespace MathNet.Numerics.Optimization
                     }
                 }
                 // check to see if we have exceeded our alloted number of evaluations
-                if (evaluationCount >= maximumIterations)
-                {
+                if (evaluationCount >= maximumIterations) {
                     throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({maximumIterations}) reached."));
                 }
             }
@@ -194,11 +178,9 @@ namespace MathNet.Numerics.Optimization
         /// <param name="vertices"></param>
         /// <param name="objectiveFunction"></param>
         /// <returns></returns>
-        static double[] InitializeErrorValues(Vector<double>[] vertices, IObjectiveFunction objectiveFunction)
-        {
+        static double[] InitializeErrorValues(Vector<double>[] vertices, IObjectiveFunction objectiveFunction) {
             double[] errorValues = new double[vertices.Length];
-            for (int i = 0; i < vertices.Length; i++)
-            {
+            for (int i = 0; i < vertices.Length; i++) {
                 objectiveFunction.EvaluateAt(vertices[i]);
                 errorValues[i] = objectiveFunction.Value;
             }
@@ -213,8 +195,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="errorProfile"></param>
         /// <param name="errorValues"></param>
         /// <returns></returns>
-        static bool HasConverged(double convergenceTolerance, ErrorProfile errorProfile, double[] errorValues)
-        {
+        static bool HasConverged(double convergenceTolerance, ErrorProfile errorProfile, double[] errorValues) {
             double range = 2 * Math.Abs(errorValues[errorProfile.HighestIndex] - errorValues[errorProfile.LowestIndex]) /
                 (Math.Abs(errorValues[errorProfile.HighestIndex]) + Math.Abs(errorValues[errorProfile.LowestIndex]) + JITTER);
 
@@ -226,34 +207,27 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         /// <param name="errorValues"></param>
         /// <returns></returns>
-        static ErrorProfile EvaluateSimplex(double[] errorValues)
-        {
+        static ErrorProfile EvaluateSimplex(double[] errorValues) {
             ErrorProfile errorProfile = new ErrorProfile();
-            if (errorValues[0] > errorValues[1])
-            {
+            if (errorValues[0] > errorValues[1]) {
                 errorProfile.HighestIndex = 0;
                 errorProfile.NextHighestIndex = 1;
             }
-            else
-            {
+            else {
                 errorProfile.HighestIndex = 1;
                 errorProfile.NextHighestIndex = 0;
             }
 
-            for (int index = 0; index < errorValues.Length; index++)
-            {
+            for (int index = 0; index < errorValues.Length; index++) {
                 double errorValue = errorValues[index];
-                if (errorValue <= errorValues[errorProfile.LowestIndex])
-                {
+                if (errorValue <= errorValues[errorProfile.LowestIndex]) {
                     errorProfile.LowestIndex = index;
                 }
-                if (errorValue > errorValues[errorProfile.HighestIndex])
-                {
+                if (errorValue > errorValues[errorProfile.HighestIndex]) {
                     errorProfile.NextHighestIndex = errorProfile.HighestIndex; // downgrade the current highest to next highest
                     errorProfile.HighestIndex = index;
                 }
-                else if (errorValue > errorValues[errorProfile.NextHighestIndex] && index != errorProfile.HighestIndex)
-                {
+                else if (errorValue > errorValues[errorProfile.NextHighestIndex] && index != errorProfile.HighestIndex) {
                     errorProfile.NextHighestIndex = index;
                 }
             }
@@ -267,23 +241,20 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         /// <param name="simplexConstants"></param>
         /// <returns></returns>
-        static Vector<double>[] InitializeVertices(SimplexConstant[] simplexConstants)
-        {
+        static Vector<double>[] InitializeVertices(SimplexConstant[] simplexConstants) {
             int numDimensions = simplexConstants.Length;
             Vector<double>[] vertices = new Vector<double>[numDimensions + 1];
 
             // define one point of the simplex as the given initial guesses
             var p0 = new LinearAlgebra.Double.DenseVector(numDimensions);
-            for (int i = 0; i < numDimensions; i++)
-            {
+            for (int i = 0; i < numDimensions; i++) {
                 p0[i] = simplexConstants[i].Value;
             }
 
             // now fill in the vertices, creating the additional points as:
             // P(i) = P(0) + Scale(i) * UnitVector(i)
             vertices[0] = p0;
-            for (int i = 0; i < numDimensions; i++)
-            {
+            for (int i = 0; i < numDimensions; i++) {
                 double scale = simplexConstants[i].InitialPerturbation;
                 Vector<double> unitVector = new LinearAlgebra.Double.DenseVector(numDimensions);
                 unitVector[i] = 1;
@@ -302,8 +273,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="objectiveFunction"></param>
         /// <returns></returns>
         static double TryToScaleSimplex(double scaleFactor, ref ErrorProfile errorProfile, Vector<double>[] vertices,
-                                          double[] errorValues, IObjectiveFunction objectiveFunction)
-        {
+                                          double[] errorValues, IObjectiveFunction objectiveFunction) {
             // find the centroid through which we will reflect
             Vector<double> centroid = ComputeCentroid(vertices, errorProfile);
 
@@ -318,8 +288,7 @@ namespace MathNet.Numerics.Optimization
             double newErrorValue = objectiveFunction.Value;
 
             // if it's better, replace the old high point
-            if (newErrorValue < errorValues[errorProfile.HighestIndex])
-            {
+            if (newErrorValue < errorValues[errorProfile.HighestIndex]) {
                 vertices[errorProfile.HighestIndex] = newPoint;
                 errorValues[errorProfile.HighestIndex] = newErrorValue;
             }
@@ -335,13 +304,10 @@ namespace MathNet.Numerics.Optimization
         /// <param name="errorValues"></param>
         /// <param name="objectiveFunction"></param>
         static void ShrinkSimplex(ErrorProfile errorProfile, Vector<double>[] vertices, double[] errorValues,
-                                      IObjectiveFunction objectiveFunction)
-        {
+                                      IObjectiveFunction objectiveFunction) {
             Vector<double> lowestVertex = vertices[errorProfile.LowestIndex];
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                if (i != errorProfile.LowestIndex)
-                {
+            for (int i = 0; i < vertices.Length; i++) {
+                if (i != errorProfile.LowestIndex) {
                     vertices[i] = (vertices[i].Add(lowestVertex)).Multiply(0.5);
                     objectiveFunction.EvaluateAt(vertices[i]);
                     errorValues[i] = objectiveFunction.Value;
@@ -355,25 +321,20 @@ namespace MathNet.Numerics.Optimization
         /// <param name="vertices"></param>
         /// <param name="errorProfile"></param>
         /// <returns></returns>
-        static Vector<double> ComputeCentroid(Vector<double>[] vertices, ErrorProfile errorProfile)
-        {
+        static Vector<double> ComputeCentroid(Vector<double>[] vertices, ErrorProfile errorProfile) {
             int numVertices = vertices.Length;
             // find the centroid of all points except the worst one
             Vector<double> centroid = new LinearAlgebra.Double.DenseVector(numVertices - 1);
-            for (int i = 0; i < numVertices; i++)
-            {
-                if (i != errorProfile.HighestIndex)
-                {
+            for (int i = 0; i < numVertices; i++) {
+                if (i != errorProfile.HighestIndex) {
                     centroid = centroid.Add(vertices[i]);
                 }
             }
             return centroid.Multiply(1.0d / (numVertices - 1));
         }
 
-        sealed class SimplexConstant
-        {
-            SimplexConstant(double value, double initialPerturbation)
-            {
+        sealed class SimplexConstant {
+            SimplexConstant(double value, double initialPerturbation) {
                 Value = value;
                 InitialPerturbation = initialPerturbation;
             }
@@ -386,19 +347,16 @@ namespace MathNet.Numerics.Optimization
             // The size of the initial perturbation
             public double InitialPerturbation { get; }
 
-            public static SimplexConstant[] CreateSimplexConstantsFromVectors(Vector<double> initialGuess, Vector<double> initialPertubation)
-            {
+            public static SimplexConstant[] CreateSimplexConstantsFromVectors(Vector<double> initialGuess, Vector<double> initialPertubation) {
                 var constants = new SimplexConstant[initialGuess.Count];
-                for (int i = 0; i < constants.Length;i++ )
-                {
+                for (int i = 0; i < constants.Length; i++) {
                     constants[i] = new SimplexConstant(initialGuess[i], initialPertubation[i]);
                 }
                 return constants;
             }
         }
 
-        sealed class ErrorProfile
-        {
+        sealed class ErrorProfile {
             public int HighestIndex { get; set; }
             public int NextHighestIndex { get; set; }
             public int LowestIndex { get; set; }

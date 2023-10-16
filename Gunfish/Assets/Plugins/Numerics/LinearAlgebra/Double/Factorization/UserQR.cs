@@ -27,13 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Threading;
+using System;
+using System.Linq;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
     /// <para>Any real square matrix A may be decomposed as A = QR where Q is an orthogonal matrix
@@ -43,8 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    internal sealed class UserQR : QR
-    {
+    internal sealed class UserQR : QR {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserQR"/> class. This object will compute the
         /// QR factorization when the constructor is called and cache it's factorization.
@@ -52,10 +50,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="method">The QR factorization method to use.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
-        public static UserQR Create(Matrix<double> matrix, QRMethod method = QRMethod.Full)
-        {
-            if (matrix.RowCount < matrix.ColumnCount)
-            {
+        public static UserQR Create(Matrix<double> matrix, QRMethod method = QRMethod.Full) {
+            if (matrix.RowCount < matrix.ColumnCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
@@ -65,33 +61,27 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var minmn = Math.Min(matrix.RowCount, matrix.ColumnCount);
             var u = new double[minmn][];
 
-            if (method == QRMethod.Full)
-            {
+            if (method == QRMethod.Full) {
                 r = matrix.Clone();
                 q = Matrix<double>.Build.SameAs(matrix, matrix.RowCount, matrix.RowCount, fullyMutable: true);
 
-                for (var i = 0; i < matrix.RowCount; i++)
-                {
+                for (var i = 0; i < matrix.RowCount; i++) {
                     q.At(i, i, 1.0);
                 }
 
-                for (var i = 0; i < minmn; i++)
-                {
+                for (var i = 0; i < minmn; i++) {
                     u[i] = GenerateColumn(r, i, i);
                     ComputeQR(u[i], r, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.MaxDegreeOfParallelism);
                 }
 
-                for (var i = minmn - 1; i >= 0; i--)
-                {
+                for (var i = minmn - 1; i >= 0; i--) {
                     ComputeQR(u[i], q, i, matrix.RowCount, i, matrix.RowCount, Control.MaxDegreeOfParallelism);
                 }
             }
-            else
-            {
+            else {
                 q = matrix.Clone();
 
-                for (var i = 0; i < minmn; i++)
-                {
+                for (var i = 0; i < minmn; i++) {
                     u[i] = GenerateColumn(q, i, i);
                     ComputeQR(u[i], q, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.MaxDegreeOfParallelism);
                 }
@@ -99,13 +89,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 r = q.SubMatrix(0, matrix.ColumnCount, 0, matrix.ColumnCount);
                 q.Clear();
 
-                for (var i = 0; i < matrix.ColumnCount; i++)
-                {
+                for (var i = 0; i < matrix.ColumnCount; i++) {
                     q.At(i, i, 1.0);
                 }
 
-                for (var i = minmn - 1; i >= 0; i--)
-                {
+                for (var i = minmn - 1; i >= 0; i--) {
                     ComputeQR(u[i], q, i, matrix.RowCount, i, matrix.ColumnCount, Control.MaxDegreeOfParallelism);
                 }
             }
@@ -114,8 +102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         UserQR(Matrix<double> q, Matrix<double> rFull, QRMethod method)
-            : base(q, rFull, method)
-        {
+            : base(q, rFull, method) {
         }
 
         /// <summary>
@@ -125,45 +112,39 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
         /// <returns>Generated vector</returns>
-        static double[] GenerateColumn(Matrix<double> a, int row, int column)
-        {
+        static double[] GenerateColumn(Matrix<double> a, int row, int column) {
             var ru = a.RowCount - row;
             var u = new double[ru];
 
-            for (var i = row; i < a.RowCount; i++)
-            {
+            for (var i = row; i < a.RowCount; i++) {
                 u[i - row] = a.At(i, row);
                 a.At(i, row, 0.0);
             }
 
-            var norm = u.Sum(t => t*t);
+            var norm = u.Sum(t => t * t);
             norm = Math.Sqrt(norm);
 
-            if (row == a.RowCount - 1 || norm == 0)
-            {
+            if (row == a.RowCount - 1 || norm == 0) {
                 a.At(row, column, -u[0]);
                 u[0] = Constants.Sqrt2;
                 return u;
             }
 
-            var scale = 1.0/norm;
-            if (u[0] < 0.0)
-            {
+            var scale = 1.0 / norm;
+            if (u[0] < 0.0) {
                 scale *= -1.0;
             }
 
-            a.At(row, column, -1.0/scale);
+            a.At(row, column, -1.0 / scale);
 
-            for (var i = 0; i < ru; i++)
-            {
+            for (var i = 0; i < ru; i++) {
                 u[i] *= scale;
             }
 
             u[0] += 1.0;
-            var s = Math.Sqrt(1.0/u[0]);
+            var s = Math.Sqrt(1.0 / u[0]);
 
-            for (var i = 0; i < ru; i++)
-            {
+            for (var i = 0; i < ru; i++) {
                 u[i] *= s;
             }
 
@@ -180,37 +161,30 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="columnStart">The first column</param>
         /// <param name="columnDim">The last column</param>
         /// <param name="availableCores">Number of available CPUs</param>
-        static void ComputeQR(double[] u, Matrix<double> a, int rowStart, int rowDim, int columnStart, int columnDim, int availableCores)
-        {
-            if (rowDim < rowStart || columnDim < columnStart)
-            {
+        static void ComputeQR(double[] u, Matrix<double> a, int rowStart, int rowDim, int columnStart, int columnDim, int availableCores) {
+            if (rowDim < rowStart || columnDim < columnStart) {
                 return;
             }
 
             var tmpColCount = columnDim - columnStart;
 
-            if ((availableCores > 1) && (tmpColCount > 200))
-            {
-                var tmpSplit = columnStart + (tmpColCount/2);
-                var tmpCores = availableCores/2;
+            if ((availableCores > 1) && (tmpColCount > 200)) {
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
 
                 CommonParallel.Invoke(
                     () => ComputeQR(u, a, rowStart, rowDim, columnStart, tmpSplit, tmpCores),
                     () => ComputeQR(u, a, rowStart, rowDim, tmpSplit, columnDim, tmpCores));
             }
-            else
-            {
-                for (var j = columnStart; j < columnDim; j++)
-                {
+            else {
+                for (var j = columnStart; j < columnDim; j++) {
                     var scale = 0.0;
-                    for (var i = rowStart; i < rowDim; i++)
-                    {
-                        scale += u[i - rowStart]*a.At(i, j);
+                    for (var i = rowStart; i < rowDim; i++) {
+                        scale += u[i - rowStart] * a.At(i, j);
                     }
 
-                    for (var i = rowStart; i < rowDim; i++)
-                    {
-                        a.At(i, j, a.At(i, j) - (u[i - rowStart]*scale));
+                    for (var i = rowStart; i < rowDim; i++) {
+                        a.At(i, j, a.At(i, j) - (u[i - rowStart] * scale));
                     }
                 }
             }
@@ -221,23 +195,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<double> input, Matrix<double> result)
-        {
+        public override void Solve(Matrix<double> input, Matrix<double> result) {
             // The solution X should have the same number of columns as B
-            if (input.ColumnCount != result.ColumnCount)
-            {
+            if (input.ColumnCount != result.ColumnCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (FullR.RowCount != input.RowCount)
-            {
+            if (FullR.RowCount != input.RowCount) {
                 throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (FullR.ColumnCount != result.RowCount)
-            {
+            if (FullR.ColumnCount != result.RowCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
@@ -245,19 +215,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Compute Y = transpose(Q)*B
             var column = new double[FullR.RowCount];
-            for (var j = 0; j < input.ColumnCount; j++)
-            {
-                for (var k = 0; k < FullR.RowCount; k++)
-                {
+            for (var j = 0; j < input.ColumnCount; j++) {
+                for (var k = 0; k < FullR.RowCount; k++) {
                     column[k] = inputCopy.At(k, j);
                 }
 
-                for (var i = 0; i < FullR.RowCount; i++)
-                {
+                for (var i = 0; i < FullR.RowCount; i++) {
                     double s = 0;
-                    for (var k = 0; k < FullR.RowCount; k++)
-                    {
-                        s += Q.At(k, i)*column[k];
+                    for (var k = 0; k < FullR.RowCount; k++) {
+                        s += Q.At(k, i) * column[k];
                     }
 
                     inputCopy.At(i, j, s);
@@ -265,26 +231,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Solve R*X = Y;
-            for (var k = FullR.ColumnCount - 1; k >= 0; k--)
-            {
-                for (var j = 0; j < input.ColumnCount; j++)
-                {
-                    inputCopy.At(k, j, inputCopy.At(k, j)/FullR.At(k, k));
+            for (var k = FullR.ColumnCount - 1; k >= 0; k--) {
+                for (var j = 0; j < input.ColumnCount; j++) {
+                    inputCopy.At(k, j, inputCopy.At(k, j) / FullR.At(k, k));
                 }
 
-                for (var i = 0; i < k; i++)
-                {
-                    for (var j = 0; j < input.ColumnCount; j++)
-                    {
-                        inputCopy.At(i, j, inputCopy.At(i, j) - (inputCopy.At(k, j)*FullR.At(i, k)));
+                for (var i = 0; i < k; i++) {
+                    for (var j = 0; j < input.ColumnCount; j++) {
+                        inputCopy.At(i, j, inputCopy.At(i, j) - (inputCopy.At(k, j) * FullR.At(i, k)));
                     }
                 }
             }
 
-            for (var i = 0; i < FullR.ColumnCount; i++)
-            {
-                for (var j = 0; j < inputCopy.ColumnCount; j++)
-                {
+            for (var i = 0; i < FullR.ColumnCount; i++) {
+                for (var j = 0; j < inputCopy.ColumnCount; j++) {
                     result.At(i, j, inputCopy.At(i, j));
                 }
             }
@@ -295,18 +255,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<double> input, Vector<double> result)
-        {
+        public override void Solve(Vector<double> input, Vector<double> result) {
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (FullR.RowCount != input.Count)
-            {
+            if (FullR.RowCount != input.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             // Check that x is a column vector with n entries
-            if (FullR.ColumnCount != result.Count)
-            {
+            if (FullR.ColumnCount != result.Count) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(FullR, result);
             }
 
@@ -314,34 +271,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Compute Y = transpose(Q)*B
             var column = new double[FullR.RowCount];
-            for (var k = 0; k < FullR.RowCount; k++)
-            {
+            for (var k = 0; k < FullR.RowCount; k++) {
                 column[k] = inputCopy[k];
             }
 
-            for (var i = 0; i < FullR.RowCount; i++)
-            {
+            for (var i = 0; i < FullR.RowCount; i++) {
                 double s = 0;
-                for (var k = 0; k < FullR.RowCount; k++)
-                {
-                    s += Q.At(k, i)*column[k];
+                for (var k = 0; k < FullR.RowCount; k++) {
+                    s += Q.At(k, i) * column[k];
                 }
 
                 inputCopy[i] = s;
             }
 
             // Solve R*X = Y;
-            for (var k = FullR.ColumnCount - 1; k >= 0; k--)
-            {
+            for (var k = FullR.ColumnCount - 1; k >= 0; k--) {
                 inputCopy[k] /= FullR.At(k, k);
-                for (var i = 0; i < k; i++)
-                {
-                    inputCopy[i] -= inputCopy[k]*FullR.At(i, k);
+                for (var i = 0; i < k; i++) {
+                    inputCopy[i] -= inputCopy[k] * FullR.At(i, k);
                 }
             }
 
-            for (var i = 0; i < FullR.ColumnCount; i++)
-            {
+            for (var i = 0; i < FullR.ColumnCount; i++) {
                 result[i] = inputCopy[i];
             }
         }

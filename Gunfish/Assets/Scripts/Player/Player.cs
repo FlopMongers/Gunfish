@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUIController {
+public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIController {
     public static int playerCount = 0;
     public int playerNumber;
 

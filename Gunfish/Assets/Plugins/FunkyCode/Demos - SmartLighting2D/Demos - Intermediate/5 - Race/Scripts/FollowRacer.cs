@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowRacer : MonoBehaviour
-{
+public class FollowRacer : MonoBehaviour {
     Camera Camera;
-    void Start()
-    {
+    void Start() {
         Camera = GetComponent<Camera>();
     }
 
-    void Update()
-    {
+    void Update() {
         if (RacerController.instance == null) {
             return;
         }

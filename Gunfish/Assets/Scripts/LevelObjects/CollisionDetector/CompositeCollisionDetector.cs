@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CompositeCollisionDetector : MonoBehaviour
-{
+public class CompositeCollisionDetector : MonoBehaviour {
 
     public List<SubCollisionDetector> detectors = new List<SubCollisionDetector>();
     public bool grabChildren; // SUS SUS SUS AMOGUS AMOGUS SUUUUUUUS!!!!!!!
@@ -18,8 +17,7 @@ public class CompositeCollisionDetector : MonoBehaviour
     bool init;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         Init(this.grabChildren, this.generateSubCollisionDetectors, this.oomphable);
     }
 

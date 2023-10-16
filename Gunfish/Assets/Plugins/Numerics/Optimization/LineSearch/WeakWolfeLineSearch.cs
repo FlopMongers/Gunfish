@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.Optimization.LineSearch
-{
+namespace MathNet.Numerics.Optimization.LineSearch {
     /// <summary>
     /// Search for a step size alpha that satisfies the weak Wolfe conditions. The weak Wolfe
     /// Conditions are
@@ -45,48 +44,38 @@ namespace MathNet.Numerics.Optimization.LineSearch
     /// http://en.wikipedia.org/wiki/Wolfe_conditions
     /// http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
     /// </summary>
-    public class WeakWolfeLineSearch : WolfeLineSearch
-    {
+    public class WeakWolfeLineSearch : WolfeLineSearch {
         public WeakWolfeLineSearch(double c1, double c2, double parameterTolerance, int maxIterations = 10)
-            : base(c1,c2,parameterTolerance,maxIterations)
-        {
+            : base(c1, c2, parameterTolerance, maxIterations) {
             // Validation in base class
         }
 
         protected override ExitCondition WolfeExitCondition => ExitCondition.WeakWolfeCriteria;
 
-        protected override bool WolfeCondition(double stepDd, double initialDd)
-        {
+        protected override bool WolfeCondition(double stepDd, double initialDd) {
             return stepDd < C2 * initialDd;
         }
 
-        protected override void ValidateValue(IObjectiveFunctionEvaluation eval)
-        {
-            if (!IsFinite(eval.Value))
-            {
+        protected override void ValidateValue(IObjectiveFunctionEvaluation eval) {
+            if (!IsFinite(eval.Value)) {
                 throw new EvaluationException(FormattableString.Invariant($"Non-finite value returned by objective function: {eval.Value}"), eval);
             }
         }
 
-        protected override void ValidateInputArguments(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep, double upperBound)
-        {
+        protected override void ValidateInputArguments(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep, double upperBound) {
             if (!startingPoint.IsGradientSupported)
                 throw new ArgumentException("objective function does not support gradient");
         }
 
-        protected override void ValidateGradient(IObjectiveFunctionEvaluation eval)
-        {
-            foreach (double x in eval.Gradient)
-            {
-                if (!IsFinite(x))
-                {
+        protected override void ValidateGradient(IObjectiveFunctionEvaluation eval) {
+            foreach (double x in eval.Gradient) {
+                if (!IsFinite(x)) {
                     throw new EvaluationException(FormattableString.Invariant($"Non-finite value returned by gradient: {x}"), eval);
                 }
             }
         }
 
-        static bool IsFinite(double x)
-        {
+        static bool IsFinite(double x) {
             return !(double.IsNaN(x) || double.IsInfinity(x));
         }
     }

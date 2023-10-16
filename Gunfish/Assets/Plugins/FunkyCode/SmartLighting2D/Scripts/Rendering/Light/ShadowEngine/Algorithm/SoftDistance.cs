@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FunkyCode.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode.Rendering.Light.Shadow
-{
-    public static class SoftDistance
-    { 
+namespace FunkyCode.Rendering.Light.Shadow {
+    public static class SoftDistance {
         public static Pair2 pair = Pair2.Zero();
         public static Vector2 edgeAWorld, edgeBWorld, edgeALocal, edgeBLocal;
         public static Vector2 projectedMiddle, projectedLeft, projectedRight, outerLeft, outerRight;
@@ -14,10 +12,8 @@ namespace FunkyCode.Rendering.Light.Shadow
 
         public static float sqrt;
 
-        public static void Draw(List<Polygon2> polygons, float shadowDistanceMin, float shadowDistanceMax, float translucency)
-        {
-            if (polygons == null)
-            {
+        public static void Draw(List<Polygon2> polygons, float shadowDistanceMin, float shadowDistanceMax, float translucency) {
+            if (polygons == null) {
                 return;
             }
 
@@ -29,40 +25,33 @@ namespace FunkyCode.Rendering.Light.Shadow
 
             bool finiteShadows = true;
 
-            if (shadowDistanceMin <= 0 && shadowDistanceMax <= 0)
-            {
+            if (shadowDistanceMin <= 0 && shadowDistanceMax <= 0) {
                 shadowDistanceMin = ShadowEngine.lightSize;
                 shadowDistanceMax = ShadowEngine.lightSize;
 
                 finiteShadows = false;
             }
 
-            for(int i = 0; i < PolygonCount; i++)
-            {
+            for (int i = 0; i < PolygonCount; i++) {
                 Vector2[] pointsList = polygons[i].points;
                 int pointsCount = pointsList.Length;
 
-                if (ShadowEngine.ignoreInside)
-                {
+                if (ShadowEngine.ignoreInside) {
                     // change to sides of vertices, improve performance
-                    if (Math2D.PointInPoly(-position, polygons[i]))
-                    { 
+                    if (Math2D.PointInPoly(-position, polygons[i])) {
                         continue;
                     }
-                } 
-                    else if (ShadowEngine.dontdrawInside)
-                {
-                    if (Math2D.PointInPoly(-position, polygons[i]))
-                    { 
+                }
+                else if (ShadowEngine.dontdrawInside) {
+                    if (Math2D.PointInPoly(-position, polygons[i])) {
                         ShadowEngine.continueDrawing = false;
                         return;
                     }
                 }
 
-                for(int x = 0; x < pointsCount; x++)
-                {
+                for (int x = 0; x < pointsCount; x++) {
                     int next = (x + 1) % pointsCount;
-                    
+
                     pair.A = pointsList[x];
                     pair.B = pointsList[next];
 
@@ -108,14 +97,12 @@ namespace FunkyCode.Rendering.Light.Shadow
                     GL.Vertex3(draw.x + edgeBWorld.x, draw.y + edgeBWorld.y, 0);
                     GL.Vertex3(draw.x + projectedLeft.x, draw.y + projectedLeft.y, 0);
 
-                    if (finiteShadows)
-                    {
+                    if (finiteShadows) {
                         DrawLine(projectedRight, projectedLeft, 0, translucency);
                         DrawLine(edgeBWorld, projectedLeft, -1, translucency);
                         DrawLine(edgeAWorld, projectedRight, 1, translucency);
                     }
-                        else
-                    {
+                    else {
                         // Detailed Shadow
                         Vector2 closestPoint = Math2D.ClosestPointOnLine(projectedLeft, projectedRight);
 
@@ -124,12 +111,12 @@ namespace FunkyCode.Rendering.Light.Shadow
                         closestPoint.y = closestPoint.y / sqrt;
 
                         projectedMiddle.x = mx + closestPoint.x * shadowLength;
-                        projectedMiddle.y = my + closestPoint.y *shadowLength;                        
-                                    
+                        projectedMiddle.y = my + closestPoint.y * shadowLength;
+
                         // Middle Fin
                         GL.Vertex3(draw.x + projectedLeft.x, draw.y + projectedLeft.y, 0);
                         GL.Vertex3(draw.x + projectedRight.x, draw.y + projectedRight.y, 0);
-                        GL.Vertex3(draw.x + projectedMiddle.x, draw.y + projectedMiddle.y, 0); 
+                        GL.Vertex3(draw.x + projectedMiddle.x, draw.y + projectedMiddle.y, 0);
 
                         DrawLine(edgeBWorld, projectedLeft, -11, translucency);
                         DrawLine(edgeAWorld, projectedRight, 11, translucency);
@@ -138,8 +125,7 @@ namespace FunkyCode.Rendering.Light.Shadow
             }
         }
 
-        public static void DrawLine(Vector2 point, Vector2 nextPoint, int type, float translucency)
-        {
+        public static void DrawLine(Vector2 point, Vector2 nextPoint, int type, float translucency) {
             float stepNext = nextPoint.magnitude / ShadowEngine.lightSize;
             float sizePointNext = Mathf.Lerp(ShadowEngine.light.shadowDistanceClose, ShadowEngine.light.shadowDistanceFar, stepNext);
 
@@ -150,14 +136,13 @@ namespace FunkyCode.Rendering.Light.Shadow
             sizePointNext = sizePointNext < 0 ? 0 : sizePointNext * ShadowEngine.lightSize * 0.01f;
 
             float direction = point.Atan2(nextPoint);
-            
+
             Vector2 p1 = point;
             Vector2 p2 = nextPoint;
             Vector2 p3 = nextPoint;
             Vector2 p4 = point;
 
-            switch(type)
-            {
+            switch (type) {
                 case -1: // left penumbra
 
                     p3.x += Mathf.Cos(direction - Mathf.PI / 2) * sizePointNext;
@@ -196,13 +181,13 @@ namespace FunkyCode.Rendering.Light.Shadow
                     GL.TexCoord3(0, 0, 0);
                     GL.Vertex3(nextPoint.x - sizePointNext, nextPoint.y - sizePointNext, 0);
 
-                break;
+                    break;
 
                 case 1: // right penumbra
 
                     p3.x += Mathf.Cos(direction + Mathf.PI / 2) * sizePointNext;
                     p3.y += Mathf.Sin(direction + Mathf.PI / 2) * sizePointNext;
-                    
+
                     GL.Color(new Color(0, 0, translucency, 0));
 
                     GL.TexCoord3(0, 0, 1);
@@ -214,7 +199,7 @@ namespace FunkyCode.Rendering.Light.Shadow
                     GL.TexCoord3(0, 1, 1);
                     GL.Vertex3(p3.x, p3.y, 0);
 
-                break;
+                    break;
 
                 case -11: // left penumbra
 
@@ -232,13 +217,13 @@ namespace FunkyCode.Rendering.Light.Shadow
                     GL.TexCoord3(0, 1, 1);
                     GL.Vertex3(p3.x, p3.y, 0);
 
-                break;
+                    break;
 
                 case 11: // right penumbra
 
                     p3.x += Mathf.Cos(direction + Mathf.PI / 2) * sizePointNext;
                     p3.y += Mathf.Sin(direction + Mathf.PI / 2) * sizePointNext;
-                    
+
                     GL.Color(new Color(0, 0, translucency, 0));
 
                     GL.TexCoord3(0, 0, 1);
@@ -250,7 +235,7 @@ namespace FunkyCode.Rendering.Light.Shadow
                     GL.TexCoord3(0, 1, 1);
                     GL.Vertex3(p3.x, p3.y, 0);
 
-                break;
+                    break;
 
                 // soft line
 
@@ -261,7 +246,7 @@ namespace FunkyCode.Rendering.Light.Shadow
 
                     p4.x -= Mathf.Cos(direction + Mathf.PI / 2) * sizePoint;
                     p4.y -= Mathf.Sin(direction + Mathf.PI / 2) * sizePoint;
-                    
+
                     GL.Color(new Color(0, 0, translucency, 1));
 
                     GL.TexCoord3(0, 0, 0);
@@ -278,7 +263,7 @@ namespace FunkyCode.Rendering.Light.Shadow
                     GL.TexCoord3(0, 0, 0);
                     GL.Vertex3(p1.x, p1.y, 0);
 
-                break;
+                    break;
             }
         }
     }

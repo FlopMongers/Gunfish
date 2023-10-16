@@ -28,7 +28,7 @@ namespace SplineMesh {
             generated = generatedTranform != null ? generatedTranform.gameObject : Instantiate(Follower, gameObject.transform);
             generated.name = generatedName;
 
-            spline = GetComponent<Spline>(); 
+            spline = GetComponent<Spline>();
 #if UNITY_EDITOR
             EditorApplication.update += EditorUpdate;
 #endif

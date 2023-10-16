@@ -3,73 +3,68 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace FunkyCode.LightTilemapCollider
-{
-	[System.Serializable]
-    public class Isometric : Base
-	{
-		public bool ZasY = false;
-		private Tilemap tilemap2D;
+namespace FunkyCode.LightTilemapCollider {
+    [System.Serializable]
+    public class Isometric : Base {
+        public bool ZasY = false;
+        private Tilemap tilemap2D;
 
-		public override MapType TilemapType()
-		{
-			return(MapType.UnityIsometric);
-		}
-	
-        public override void Initialize()
-		{
-			base.Initialize();
-			
-			if (!UpdateProperties()) {
-				return;
-			}
+        public override MapType TilemapType() {
+            return (MapType.UnityIsometric);
+        }
 
-			MapTiles.Clear();
+        public override void Initialize() {
+            base.Initialize();
 
-			tilemap2D = properties.tilemap;
+            if (!UpdateProperties()) {
+                return;
+            }
 
-			ITilemap tilemap = (ITilemap) FormatterServices.GetUninitializedObject(typeof(ITilemap));
-			typeof(ITilemap).GetField("m_Tilemap", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(tilemap, tilemap2D);
+            MapTiles.Clear();
 
-			foreach (Vector3Int position in tilemap2D.cellBounds.allPositionsWithin)
-			{
-				TileData tileData = new TileData();
+            tilemap2D = properties.tilemap;
 
-				TileBase tilebase = tilemap2D.GetTile(position);
+            ITilemap tilemap = (ITilemap)FormatterServices.GetUninitializedObject(typeof(ITilemap));
+            typeof(ITilemap).GetField("m_Tilemap", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(tilemap, tilemap2D);
 
-				if (tilebase != null) {
-					tilebase.GetTileData(position, tilemap, ref tileData);
+            foreach (Vector3Int position in tilemap2D.cellBounds.allPositionsWithin) {
+                TileData tileData = new TileData();
 
-					LightTile lightTile = new LightTile();
-					lightTile.gridPosition = new Vector3Int(position.x, position.y, position.z);
+                TileBase tilebase = tilemap2D.GetTile(position);
 
-					lightTile.scale = tilemap.GetTransformMatrix(position).lossyScale;
+                if (tilebase != null) {
+                    tilebase.GetTileData(position, tilemap, ref tileData);
 
-					lightTile.SetSprite(tileData.sprite);
-					lightTile.GetPhysicsShapePolygons();
+                    LightTile lightTile = new LightTile();
+                    lightTile.gridPosition = new Vector3Int(position.x, position.y, position.z);
 
-					MapTiles.Add(lightTile);
-				}
-			}
+                    lightTile.scale = tilemap.GetTransformMatrix(position).lossyScale;
 
-			chunkManager.Update(MapTiles, this);
-		}
+                    lightTile.SetSprite(tileData.sprite);
+                    lightTile.GetPhysicsShapePolygons();
 
-		public override Vector2 TileWorldPosition(LightTile tile) {
-			Vector2 tilemapOffset = properties.transform.position;
-            
+                    MapTiles.Add(lightTile);
+                }
+            }
+
+            chunkManager.Update(MapTiles, this);
+        }
+
+        public override Vector2 TileWorldPosition(LightTile tile) {
+            Vector2 tilemapOffset = properties.transform.position;
+
             // Tile Offset
             Vector2 tileOffset = new Vector2(tile.gridPosition.x, tile.gridPosition.y);
-       
+
             tileOffset.x += properties.cellAnchor.x;
             tileOffset.y += properties.cellAnchor.y;
 
             tileOffset.x += properties.cellGap.x * tile.gridPosition.x;
             tileOffset.y += properties.cellGap.y * tile.gridPosition.y;
-            
+
             // Tile Position
             Vector2 tilePosition = tilemapOffset;
-            
+
             tilePosition.x += tileOffset.x * 0.5f;
             tilePosition.x += tileOffset.y * -0.5f;
             tilePosition.x *= properties.cellSize.x;
@@ -80,37 +75,37 @@ namespace FunkyCode.LightTilemapCollider
             if (ZasY) {
                 tilePosition.y += tile.gridPosition.z * 0.25f;
             }
-     
+
             tilePosition.x *= properties.transform.lossyScale.x;
             tilePosition.y *= properties.transform.lossyScale.y;
 
-			return(tilePosition);
-		}
+            return (tilePosition);
+        }
 
-		public override float TileWorldRotation(LightTile tile) {
-			float worldRotation = tilemap2D.transform.eulerAngles.z;
+        public override float TileWorldRotation(LightTile tile) {
+            float worldRotation = tilemap2D.transform.eulerAngles.z;
 
-			return(worldRotation);
-		}
+            return (worldRotation);
+        }
 
-		public override Vector2 TileWorldScale() {
+        public override Vector2 TileWorldScale() {
             Vector2 scale = new Vector2();
 
             scale.x = properties.transform.lossyScale.x; //properties.cellSize.x * 
             scale.y = properties.transform.lossyScale.y; // properties.cellSize.y *
 
-            return(scale);
+            return (scale);
         }
 
-		override public bool IsPhysicsShape() {
-			if (maskType == MaskType.SpritePhysicsShape) {
-				return(true);
-			}
+        override public bool IsPhysicsShape() {
+            if (maskType == MaskType.SpritePhysicsShape) {
+                return (true);
+            }
 
-			if (shadowType == ShadowType.SpritePhysicsShape) {
-				return(true);
-			}
-			return(false);
-		}
+            if (shadowType == ShadowType.SpritePhysicsShape) {
+                return (true);
+            }
+            return (false);
+        }
     }
 }

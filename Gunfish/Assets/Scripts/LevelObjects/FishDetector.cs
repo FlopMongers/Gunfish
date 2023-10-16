@@ -8,7 +8,7 @@ public class FishDetector : MonoBehaviour {
     public FishCollisionEvent OnFishCollideEnter, OnFishCollideExit;
     public FishTriggerEvent OnFishTriggerEnter, OnFishTriggerExit, OnFirstSegmentTriggerExit;
 
-    public bool DetectCollision=true, DetectTrigger=true;
+    public bool DetectCollision = true, DetectTrigger = true;
 
     [HideInInspector]
     public List<Collider2D> colliders = new List<Collider2D>();
@@ -25,33 +25,28 @@ public class FishDetector : MonoBehaviour {
     bool DetectFishEnter(GunfishSegment segment) {
         if (segment == null)
             return false;
-        if (fishes.ContainsKey(segment.gunfish) == false)
-        {
+        if (fishes.ContainsKey(segment.gunfish) == false) {
             fishes[segment.gunfish] = 0;
         }
         fishes[segment.gunfish] += 1;
         return fishes[segment.gunfish] == 1; // we'll see about this...
     }
 
-    bool DetectFishExit(GunfishSegment segment)
-    {
+    bool DetectFishExit(GunfishSegment segment) {
         if (segment == null)
             return false;
-        if (fishes.ContainsKey(segment.gunfish) == false)
-        {
+        if (fishes.ContainsKey(segment.gunfish) == false) {
             return false;
         }
         fishes[segment.gunfish] -= 1;
-        if (fishes[segment.gunfish] <= 0)
-        {
+        if (fishes[segment.gunfish] <= 0) {
             fishes.Remove(segment.gunfish);
             return true;
         }
         return false;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
+    private void OnCollisionEnter2D(Collision2D collision) {
         if (!DetectCollision)
             return;
         var segment = collision.collider.GetComponent<GunfishSegment>();
@@ -59,8 +54,7 @@ public class FishDetector : MonoBehaviour {
             OnFishCollideEnter?.Invoke(segment, collision);
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
+    private void OnCollisionExit2D(Collision2D collision) {
         if (!DetectCollision)
             return;
         var segment = collision.collider.GetComponent<GunfishSegment>();
@@ -68,8 +62,7 @@ public class FishDetector : MonoBehaviour {
             OnFishCollideExit?.Invoke(segment, collision);
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
+    public void OnTriggerEnter2D(Collider2D collision) {
         if (!DetectTrigger)
             return;
         var segment = collision.GetComponent<GunfishSegment>();
@@ -78,8 +71,7 @@ public class FishDetector : MonoBehaviour {
         }
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
-    {
+    public void OnTriggerExit2D(Collider2D collision) {
         if (!DetectTrigger)
             return;
         var segment = collision.GetComponent<GunfishSegment>();

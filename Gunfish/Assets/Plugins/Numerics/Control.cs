@@ -39,25 +39,21 @@ using MathNet.Numerics.Providers.LinearAlgebra;
 using System.Runtime.InteropServices;
 #endif
 
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// Sets parameters for the library.
     /// </summary>
-    public static class Control
-    {
+    public static class Control {
         static int _maxDegreeOfParallelism;
         static int _parallelizeOrder;
         static int _parallelizeElements;
         static string _nativeProviderHintPath;
 
-        static Control()
-        {
+        static Control() {
             ConfigureAuto();
         }
 
-        public static void ConfigureAuto()
-        {
+        public static void ConfigureAuto() {
             // Random Numbers & Distributions
             CheckDistributionParameters = true;
 
@@ -69,8 +65,7 @@ namespace MathNet.Numerics
             TaskScheduler = TaskScheduler.Default;
         }
 
-        public static void UseManaged()
-        {
+        public static void UseManaged() {
             LinearAlgebraControl.UseManaged();
             FourierTransformControl.UseManaged();
             SparseSolverControl.UseManaged();
@@ -80,10 +75,8 @@ namespace MathNet.Numerics
         /// Use a specific provider if configured, e.g. using
         /// environment variables, or fall back to the best providers.
         /// </summary>
-        public static void UseDefaultProviders()
-        {
-            if (AppSwitches.DisableNativeProviders)
-            {
+        public static void UseDefaultProviders() {
+            if (AppSwitches.DisableNativeProviders) {
                 UseManaged();
                 return;
             }
@@ -96,10 +89,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Use the best provider available.
         /// </summary>
-        public static void UseBestProviders()
-        {
-            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
-            {
+        public static void UseBestProviders() {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing) {
                 UseManaged();
                 return;
             }
@@ -113,8 +104,7 @@ namespace MathNet.Numerics
         /// Use the Intel MKL native provider for linear algebra.
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
         /// </summary>
-        public static void UseNativeMKL()
-        {
+        public static void UseNativeMKL() {
             LinearAlgebraControl.UseNativeMKL();
             FourierTransformControl.UseNativeMKL();
             SparseSolverControl.UseNativeMKL();
@@ -128,8 +118,7 @@ namespace MathNet.Numerics
         /// True if the provider was found and initialized successfully.
         /// False if it failed and the previous provider is still active.
         /// </returns>
-        public static bool TryUseNativeMKL()
-        {
+        public static bool TryUseNativeMKL() {
             bool linearAlgebra = LinearAlgebraControl.TryUseNativeMKL();
             bool fourierTransform = FourierTransformControl.TryUseNativeMKL();
             bool directSparseSolver = SparseSolverControl.TryUseNativeMKL();
@@ -140,8 +129,7 @@ namespace MathNet.Numerics
         /// Use the Nvidia CUDA native provider for linear algebra.
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
         /// </summary>
-        public static void UseNativeCUDA()
-        {
+        public static void UseNativeCUDA() {
             LinearAlgebraControl.UseNativeCUDA();
         }
 
@@ -152,8 +140,7 @@ namespace MathNet.Numerics
         /// True if the provider was found and initialized successfully.
         /// False if it failed and the previous provider is still active.
         /// </returns>
-        public static bool TryUseNativeCUDA()
-        {
+        public static bool TryUseNativeCUDA() {
             bool linearAlgebra = LinearAlgebraControl.TryUseNativeCUDA();
             return linearAlgebra;
         }
@@ -162,8 +149,7 @@ namespace MathNet.Numerics
         /// Use the OpenBLAS native provider for linear algebra.
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
         /// </summary>
-        public static void UseNativeOpenBLAS()
-        {
+        public static void UseNativeOpenBLAS() {
             LinearAlgebraControl.UseNativeOpenBLAS();
         }
 
@@ -174,8 +160,7 @@ namespace MathNet.Numerics
         /// True if the provider was found and initialized successfully.
         /// False if it failed and the previous provider is still active.
         /// </returns>
-        public static bool TryUseNativeOpenBLAS()
-        {
+        public static bool TryUseNativeOpenBLAS() {
             bool linearAlgebra = LinearAlgebraControl.TryUseNativeOpenBLAS();
             return linearAlgebra;
         }
@@ -187,10 +172,8 @@ namespace MathNet.Numerics
         /// True if one of the native providers was found and successfully initialized.
         /// False if it failed and the previous provider is still active.
         /// </returns>
-        public static bool TryUseNative()
-        {
-            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
-            {
+        public static bool TryUseNative() {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing) {
                 return false;
             }
 
@@ -200,15 +183,13 @@ namespace MathNet.Numerics
             return linearAlgebra || fourierTransform || directSparseSolver;
         }
 
-        public static void FreeResources()
-        {
+        public static void FreeResources() {
             LinearAlgebraControl.FreeResources();
             FourierTransformControl.FreeResources();
             SparseSolverControl.FreeResources();
         }
 
-        public static void UseSingleThread()
-        {
+        public static void UseSingleThread() {
             _maxDegreeOfParallelism = 1;
             ThreadSafeRandomNumberGenerators = false;
 
@@ -217,8 +198,7 @@ namespace MathNet.Numerics
             SparseSolverControl.Provider.InitializeVerify();
         }
 
-        public static void UseMultiThreading()
-        {
+        public static void UseMultiThreading() {
             _maxDegreeOfParallelism = Environment.ProcessorCount;
             ThreadSafeRandomNumberGenerators = true;
 
@@ -246,11 +226,9 @@ namespace MathNet.Numerics
         /// <summary>
         /// Optional path to try to load native provider binaries from.
         /// </summary>
-        public static string NativeProviderPath
-        {
+        public static string NativeProviderPath {
             get => _nativeProviderHintPath;
-            set
-            {
+            set {
                 _nativeProviderHintPath = value;
                 LinearAlgebraControl.HintPath = value;
                 FourierTransformControl.HintPath = value;
@@ -263,11 +241,9 @@ namespace MathNet.Numerics
         /// when parallelization is applicable.
         /// </summary>
         /// <remarks>Default to the number of processor cores, must be between 1 and 1024 (inclusive).</remarks>
-        public static int MaxDegreeOfParallelism
-        {
+        public static int MaxDegreeOfParallelism {
             get => _maxDegreeOfParallelism;
-            set
-            {
+            set {
                 _maxDegreeOfParallelism = Math.Max(1, Math.Min(1024, value));
 
                 // Reinitialize providers:
@@ -287,8 +263,7 @@ namespace MathNet.Numerics
         /// must calculate multiply in parallel threads.
         /// </summary>
         /// <value>The order. Default 64, must be at least 3.</value>
-        internal static int ParallelizeOrder
-        {
+        internal static int ParallelizeOrder {
             get => _parallelizeOrder;
             set => _parallelizeOrder = Math.Max(3, value);
         }
@@ -298,14 +273,12 @@ namespace MathNet.Numerics
         /// must contain before we multiply threads.
         /// </summary>
         /// <value>Number of elements. Default 300, must be at least 3.</value>
-        internal static int ParallelizeElements
-        {
+        internal static int ParallelizeElements {
             get => _parallelizeElements;
             set => _parallelizeElements = Math.Max(3, value);
         }
 
-        public static string Describe()
-        {
+        public static string Describe() {
             var versionAttribute = typeof(Control).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
 
             var sb = new StringBuilder();
@@ -342,13 +315,11 @@ namespace MathNet.Numerics
             sb.AppendLine($"Process Architecture: {RuntimeInformation.ProcessArchitecture}");
 #endif
             var processorArchitecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
-            if (!string.IsNullOrEmpty(processorArchitecture))
-            {
+            if (!string.IsNullOrEmpty(processorArchitecture)) {
                 sb.AppendLine($"Processor Architecture: {processorArchitecture}");
             }
             var processorId = Environment.GetEnvironmentVariable("PROCESSOR_IDENTIFIER");
-            if (!string.IsNullOrEmpty(processorId))
-            {
+            if (!string.IsNullOrEmpty(processorId)) {
                 sb.AppendLine($"Processor Identifier: {processorId}");
             }
 

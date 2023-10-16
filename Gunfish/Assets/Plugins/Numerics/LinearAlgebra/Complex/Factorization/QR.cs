@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -46,31 +45,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the
     /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.
     /// </remarks>
-    internal abstract class QR : QR<Complex>
-    {
+    internal abstract class QR : QR<Complex> {
         protected QR(Matrix<Complex> q, Matrix<Complex> rFull, QRMethod method)
-            : base(q, rFull, method)
-        {
+            : base(q, rFull, method) {
         }
 
         /// <summary>
         /// Gets the absolute determinant value of the matrix for which the QR matrix was computed.
         /// </summary>
-        public override Complex Determinant
-        {
-            get
-            {
-                if (FullR.RowCount != FullR.ColumnCount)
-                {
+        public override Complex Determinant {
+            get {
+                if (FullR.RowCount != FullR.ColumnCount) {
                     throw new ArgumentException("Matrix must be square.");
                 }
 
                 var det = Complex.One;
-                for (var i = 0; i < FullR.ColumnCount; i++)
-                {
+                for (var i = 0; i < FullR.ColumnCount; i++) {
                     det *= FullR.At(i, i);
-                    if (FullR.At(i, i).Magnitude.AlmostEqual(0.0))
-                    {
+                    if (FullR.At(i, i).Magnitude.AlmostEqual(0.0)) {
                         return 0;
                     }
                 }
@@ -83,14 +75,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// Gets a value indicating whether the matrix is full rank or not.
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public override bool IsFullRank
-        {
-            get
-            {
-                for (var i = 0; i < FullR.ColumnCount; i++)
-                {
-                    if (FullR.At(i, i).Magnitude.AlmostEqual(0.0))
-                    {
+        public override bool IsFullRank {
+            get {
+                for (var i = 0; i < FullR.ColumnCount; i++) {
+                    if (FullR.At(i, i).Magnitude.AlmostEqual(0.0)) {
                         return false;
                     }
                 }

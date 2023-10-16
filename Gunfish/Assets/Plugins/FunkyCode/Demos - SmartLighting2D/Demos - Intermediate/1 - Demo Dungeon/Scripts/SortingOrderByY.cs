@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 
 [ExecuteInEditMode]
-public class SortingOrderByY : MonoBehaviour
-{
+public class SortingOrderByY : MonoBehaviour {
     public int sortingOrder = 0;
     public SpriteRenderer spriteRenderer;
-    
+
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }

@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization for dense matrices.</para>
     /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
@@ -41,8 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    internal sealed class DenseCholesky : Cholesky
-    {
+    internal sealed class DenseCholesky : Cholesky {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseCholesky"/> class. This object will compute the
         /// Cholesky factorization when the constructor is called and cache it's factorization.
@@ -51,22 +49,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
-        public static DenseCholesky Create(DenseMatrix matrix)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public static DenseCholesky Create(DenseMatrix matrix) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.");
             }
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            var factor = (DenseMatrix) matrix.Clone();
+            var factor = (DenseMatrix)matrix.Clone();
             LinearAlgebraControl.Provider.CholeskyFactor(factor.Values, factor.RowCount);
             return new DenseCholesky(factor);
         }
 
         DenseCholesky(Matrix<double> factor)
-            : base(factor)
-        {
+            : base(factor) {
         }
 
         /// <summary>
@@ -74,34 +69,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<double> input, Matrix<double> result)
-        {
-            if (result.RowCount != input.RowCount)
-            {
+        public override void Solve(Matrix<double> input, Matrix<double> result) {
+            if (result.RowCount != input.RowCount) {
                 throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
-            if (result.ColumnCount != input.ColumnCount)
-            {
+            if (result.ColumnCount != input.ColumnCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
-            if (input.RowCount != Factor.RowCount)
-            {
+            if (input.RowCount != Factor.RowCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
-            if (input is DenseMatrix dinput && result is DenseMatrix dresult)
-            {
+            if (input is DenseMatrix dinput && result is DenseMatrix dresult) {
                 // Copy the contents of input to result.
                 Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
 
                 // Cholesky solve by overwriting result.
-                var dfactor = (DenseMatrix) Factor;
+                var dfactor = (DenseMatrix)Factor;
                 LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
             }
-            else
-            {
+            else {
                 throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
             }
         }
@@ -111,29 +100,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<double> input, Vector<double> result)
-        {
-            if (input.Count != result.Count)
-            {
+        public override void Solve(Vector<double> input, Vector<double> result) {
+            if (input.Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (input.Count != Factor.RowCount)
-            {
+            if (input.Count != Factor.RowCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
-            if (input is DenseVector dinput && result is DenseVector dresult)
-            {
+            if (input is DenseVector dinput && result is DenseVector dresult) {
                 // Copy the contents of input to result.
                 Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
 
                 // Cholesky solve by overwriting result.
-                var dfactor = (DenseMatrix) Factor;
+                var dfactor = (DenseMatrix)Factor;
                 LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
             }
-            else
-            {
+            else {
                 throw new NotSupportedException("Can only do Cholesky factorization for dense vectors at the moment.");
             }
         }
@@ -146,21 +130,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="matrix"/> does not have the same dimensions as the existing factor.</exception>
-        public override void Factorize(Matrix<double> matrix)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public override void Factorize(Matrix<double> matrix) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.");
             }
 
-            if (matrix.RowCount != Factor.RowCount || matrix.ColumnCount != Factor.ColumnCount)
-            {
+            if (matrix.RowCount != Factor.RowCount || matrix.ColumnCount != Factor.ColumnCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, Factor);
             }
 
-            if (matrix is DenseMatrix dmatrix)
-            {
-                var dfactor = (DenseMatrix) Factor;
+            if (matrix is DenseMatrix dmatrix) {
+                var dfactor = (DenseMatrix)Factor;
 
                 // Overwrite the existing Factor matrix with the input.
                 Buffer.BlockCopy(dmatrix.Values, 0, dfactor.Values, 0, dmatrix.Values.Length * Constants.SizeOfDouble);
@@ -168,8 +148,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 // Perform factorization (while overwriting).
                 LinearAlgebraControl.Provider.CholeskyFactor(dfactor.Values, dfactor.RowCount);
             }
-            else
-            {
+            else {
                 throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
             }
         }

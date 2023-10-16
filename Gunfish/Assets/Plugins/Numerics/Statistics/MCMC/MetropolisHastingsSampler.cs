@@ -27,10 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Statistics.Mcmc
-{
-    using System;
+namespace MathNet.Numerics.Statistics.Mcmc {
     using Distributions;
+    using System;
 
     /// <summary>
     /// Metropolis-Hastings sampling produces samples from distribution P by sampling from a proposal distribution Q
@@ -42,8 +41,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// of the distribution P.
     /// </summary>
     /// <typeparam name="T">The type of samples this sampler produces.</typeparam>
-    public class MetropolisHastingsSampler<T> : McmcSampler<T>
-    {
+    public class MetropolisHastingsSampler<T> : McmcSampler<T> {
         /// <summary>
         /// Evaluates the log density function of the target distribution.
         /// </summary>
@@ -84,8 +82,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="proposal">A method that samples from the proposal distribution.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
-        public MetropolisHastingsSampler(T x0, DensityLn<T> pdfLnP, TransitionKernelLn<T> krnlQ, LocalProposalSampler<T> proposal, int burnInterval = 0)
-        {
+        public MetropolisHastingsSampler(T x0, DensityLn<T> pdfLnP, TransitionKernelLn<T> krnlQ, LocalProposalSampler<T> proposal, int burnInterval = 0) {
             _current = x0;
             _currentDensityLn = pdfLnP(x0);
             _pdfLnP = pdfLnP;
@@ -100,13 +97,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Gets or sets the number of iterations in between returning samples.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When burn interval is negative.</exception>
-        public int BurnInterval
-        {
+        public int BurnInterval {
             get => _burnInterval;
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentException("Value must not be negative (zero is ok).");
                 }
                 _burnInterval = value;
@@ -116,10 +110,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// This method runs the sampler for a number of iterations without returning a sample
         /// </summary>
-        void Burn(int n)
-        {
-            for (int i = 0; i < n; i++)
-            {
+        void Burn(int n) {
+            for (int i = 0; i < n; i++) {
                 // Get a sample from the proposal.
                 T next = _proposal(_current);
                 // Evaluate the density at the next sample.
@@ -132,14 +124,12 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 Samples++;
 
                 double acc = Math.Min(0.0, p + bwd - _currentDensityLn - fwd);
-                if (acc == 0.0)
-                {
+                if (acc == 0.0) {
                     _current = next;
                     _currentDensityLn = p;
                     Accepts++;
                 }
-                else if (Bernoulli.Sample(RandomSource, Math.Exp(acc)) == 1)
-                {
+                else if (Bernoulli.Sample(RandomSource, Math.Exp(acc)) == 1) {
                     _current = next;
                     _currentDensityLn = p;
                     Accepts++;
@@ -150,8 +140,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Returns a sample from the distribution P.
         /// </summary>
-        public override T Sample()
-        {
+        public override T Sample() {
             Burn(BurnInterval + 1);
 
             return _current;

@@ -30,13 +30,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.Statistics
-{
+namespace MathNet.Numerics.Statistics {
     /// <summary>
     /// Running statistics over a window of data, allows updating by adding values.
     /// </summary>
-    public class MovingStatistics
-    {
+    public class MovingStatistics {
         readonly double[] _oldValues;
         readonly int _windowSize;
 
@@ -52,10 +50,8 @@ namespace MathNet.Numerics.Statistics
         double _max = double.NegativeInfinity;
         double _min = double.PositiveInfinity;
 
-        public MovingStatistics(int windowSize)
-        {
-            if (windowSize < 1)
-            {
+        public MovingStatistics(int windowSize) {
+            if (windowSize < 1) {
                 throw new ArgumentException("Value must be positive.", nameof(windowSize));
             }
             _windowSize = windowSize;
@@ -63,8 +59,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         public MovingStatistics(int windowSize, IEnumerable<double> values)
-            : this(windowSize)
-        {
+            : this(windowSize) {
             PushRange(values);
         }
 
@@ -79,17 +74,13 @@ namespace MathNet.Numerics.Statistics
         /// Returns the minimum value in the sample data.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double Minimum
-        {
-            get
-            {
-                if (_lastNaNTimeToLive > 0)
-                {
+        public double Minimum {
+            get {
+                if (_lastNaNTimeToLive > 0) {
                     return double.NaN;
                 }
 
-                if (_lastNegInfTimeToLive > 0)
-                {
+                if (_lastNegInfTimeToLive > 0) {
                     return double.NegativeInfinity;
                 }
 
@@ -101,17 +92,13 @@ namespace MathNet.Numerics.Statistics
         /// Returns the maximum value in the sample data.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double Maximum
-        {
-            get
-            {
-                if (_lastNaNTimeToLive > 0)
-                {
+        public double Maximum {
+            get {
+                if (_lastNaNTimeToLive > 0) {
                     return double.NaN;
                 }
 
-                if (_lastPosInfTimeToLive > 0)
-                {
+                if (_lastPosInfTimeToLive > 0) {
                     return double.PositiveInfinity;
                 }
 
@@ -123,22 +110,17 @@ namespace MathNet.Numerics.Statistics
         /// Evaluates the sample mean, an estimate of the population mean.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double Mean
-        {
-            get
-            {
-                if (_lastNaNTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
-                {
+        public double Mean {
+            get {
+                if (_lastNaNTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0)) {
                     return double.NaN;
                 }
 
-                if (_lastPosInfTimeToLive > 0)
-                {
+                if (_lastPosInfTimeToLive > 0) {
                     return double.PositiveInfinity;
                 }
 
-                if (_lastNegInfTimeToLive > 0)
-                {
+                if (_lastNegInfTimeToLive > 0) {
                     return double.NegativeInfinity;
                 }
 
@@ -151,17 +133,13 @@ namespace MathNet.Numerics.Statistics
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
-                {
+        public double Variance {
+            get {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0) {
                     return double.NaN;
                 }
 
-                if (_lastPosInfTimeToLive > 0)
-                {
+                if (_lastPosInfTimeToLive > 0) {
                     return double.PositiveInfinity;
                 }
 
@@ -174,17 +152,13 @@ namespace MathNet.Numerics.Statistics
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double PopulationVariance
-        {
-            get
-            {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
-                {
+        public double PopulationVariance {
+            get {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0) {
                     return double.NaN;
                 }
 
-                if (_lastPosInfTimeToLive > 0)
-                {
+                if (_lastPosInfTimeToLive > 0) {
                     return double.PositiveInfinity;
                 }
 
@@ -197,17 +171,13 @@ namespace MathNet.Numerics.Statistics
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double StandardDeviation
-        {
-            get
-            {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
-                {
+        public double StandardDeviation {
+            get {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0) {
                     return double.NaN;
                 }
 
-                if (_lastPosInfTimeToLive > 0)
-                {
+                if (_lastPosInfTimeToLive > 0) {
                     return double.PositiveInfinity;
                 }
 
@@ -220,17 +190,13 @@ namespace MathNet.Numerics.Statistics
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double PopulationStandardDeviation
-        {
-            get
-            {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
-                {
+        public double PopulationStandardDeviation {
+            get {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0) {
                     return double.NaN;
                 }
 
-                if (_lastPosInfTimeToLive > 0)
-                {
+                if (_lastPosInfTimeToLive > 0) {
                     return double.PositiveInfinity;
                 }
 
@@ -241,33 +207,28 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Update the running statistics by adding another observed sample (in-place).
         /// </summary>
-        public void Push(double value)
-        {
+        public void Push(double value) {
             DecrementTimeToLive();
 
-            if (double.IsNaN(value))
-            {
+            if (double.IsNaN(value)) {
                 _lastNaNTimeToLive = _windowSize;
                 Reset(double.PositiveInfinity, double.NegativeInfinity);
                 return;
             }
 
-            if (double.IsPositiveInfinity(value))
-            {
+            if (double.IsPositiveInfinity(value)) {
                 _lastPosInfTimeToLive = _windowSize;
                 Reset(_min, double.NegativeInfinity);
                 return;
             }
 
-            if (double.IsNegativeInfinity(value))
-            {
+            if (double.IsNegativeInfinity(value)) {
                 _lastNegInfTimeToLive = _windowSize;
                 Reset(double.PositiveInfinity, _max);
                 return;
             }
 
-            if (_count < _windowSize)
-            {
+            if (_count < _windowSize) {
                 _oldValues[_count] = value;
                 _count++;
                 var d = value - _m1;
@@ -277,18 +238,15 @@ namespace MathNet.Numerics.Statistics
                 _m1 += s;
                 _m2 += t;
 
-                if (value < _min)
-                {
+                if (value < _min) {
                     _min = value;
                 }
 
-                if (value > _max)
-                {
+                if (value > _max) {
                     _max = value;
                 }
             }
-            else
-            {
+            else {
                 var oldValue = _oldValues[_lastIndex];
                 var d = value - oldValue;
                 var s = d / _count;
@@ -301,8 +259,7 @@ namespace MathNet.Numerics.Statistics
 
                 _oldValues[_lastIndex] = value;
                 _lastIndex++;
-                if (_lastIndex == WindowSize)
-                {
+                if (_lastIndex == WindowSize) {
                     _lastIndex = 0;
                 }
                 _max = value > _max ? value : _oldValues.Maximum();
@@ -313,34 +270,27 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Update the running statistics by adding a sequence of observed sample (in-place).
         /// </summary>
-        public void PushRange(IEnumerable<double> values)
-        {
-            foreach (var value in values)
-            {
+        public void PushRange(IEnumerable<double> values) {
+            foreach (var value in values) {
                 Push(value);
             }
         }
 
-        void DecrementTimeToLive()
-        {
-            if (_lastNaNTimeToLive > 0)
-            {
+        void DecrementTimeToLive() {
+            if (_lastNaNTimeToLive > 0) {
                 _lastNaNTimeToLive--;
             }
 
-            if (_lastPosInfTimeToLive > 0)
-            {
+            if (_lastPosInfTimeToLive > 0) {
                 _lastPosInfTimeToLive--;
             }
 
-            if (_lastNegInfTimeToLive > 0)
-            {
+            if (_lastNegInfTimeToLive > 0) {
                 _lastNegInfTimeToLive--;
             }
         }
 
-        void Reset(double min, double max)
-        {
+        void Reset(double min, double max) {
             _totalCountOffset += _count + 1;
             _count = 0;
             _m1 = 0;

@@ -29,8 +29,7 @@
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -52,27 +51,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     ///  - columns corresponding to the pair of complex conjugate eigenvalues
     ///    lambda[i] and lambda[i+1] encode real and imaginary parts of eigenvectors.
     /// </remarks>
-    internal abstract class Evd : Evd<double>
-    {
+    internal abstract class Evd : Evd<double> {
         protected Evd(Matrix<double> eigenVectors, Vector<Complex> eigenValues, Matrix<double> blockDiagonal, bool isSymmetric)
-            : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric)
-        {
+            : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric) {
         }
 
         /// <summary>
         /// Gets the absolute value of determinant of the square matrix for which the EVD was computed.
         /// </summary>
-        public override double Determinant
-        {
-            get
-            {
+        public override double Determinant {
+            get {
                 var det = Complex.One;
-                for (var i = 0; i < EigenValues.Count; i++)
-                {
+                for (var i = 0; i < EigenValues.Count; i++) {
                     det *= EigenValues[i];
 
-                    if (EigenValues[i].AlmostEqual(Complex.Zero))
-                    {
+                    if (EigenValues[i].AlmostEqual(Complex.Zero)) {
                         return 0;
                     }
                 }
@@ -85,15 +78,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Gets the effective numerical matrix rank.
         /// </summary>
         /// <value>The number of non-negligible singular values.</value>
-        public override int Rank
-        {
-            get
-            {
+        public override int Rank {
+            get {
                 var rank = 0;
-                for (var i = 0; i < EigenValues.Count; i++)
-                {
-                    if (EigenValues[i].AlmostEqual(Complex.Zero))
-                    {
+                for (var i = 0; i < EigenValues.Count; i++) {
+                    if (EigenValues[i].AlmostEqual(Complex.Zero)) {
                         continue;
                     }
 
@@ -108,14 +97,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Gets a value indicating whether the matrix is full rank or not.
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public override bool IsFullRank
-        {
-            get
-            {
-                for (var i = 0; i < EigenValues.Count; i++)
-                {
-                    if (EigenValues[i].AlmostEqual(Complex.Zero))
-                    {
+        public override bool IsFullRank {
+            get {
+                for (var i = 0; i < EigenValues.Count; i++) {
+                    if (EigenValues[i].AlmostEqual(Complex.Zero)) {
                         return false;
                     }
                 }

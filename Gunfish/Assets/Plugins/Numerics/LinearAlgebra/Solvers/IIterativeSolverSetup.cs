@@ -29,15 +29,13 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Defines the interface for objects that can create an iterative solver with
     /// specific settings. This interface is used to pass iterative solver creation
     /// setup information around.
     /// </summary>
-    public interface IIterativeSolverSetup<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public interface IIterativeSolverSetup<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// Gets the type of the solver that will be created by this setup object.
         /// </summary>

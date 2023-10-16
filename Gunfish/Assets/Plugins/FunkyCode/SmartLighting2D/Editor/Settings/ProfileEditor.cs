@@ -1,652 +1,584 @@
-﻿using UnityEngine;
-using UnityEditor;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightSettings;
+using UnityEditor;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	public class ProfileEditor
-	{
-		public static void DrawProfile(LightingSettings.Profile profile)
-		{
-			EditorGUI.BeginChangeCheck ();
+namespace FunkyCode {
+    public class ProfileEditor {
+        public static void DrawProfile(LightingSettings.Profile profile) {
+            EditorGUI.BeginChangeCheck();
 
-			// Common Settings
+            // Common Settings
 
-			CommonSettings(profile.lightmapPresets.list[0]);
+            CommonSettings(profile.lightmapPresets.list[0]);
 
-			EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-			// Quality Settings
+            // Quality Settings
 
-			QualitySettings.Draw(profile);
+            QualitySettings.Draw(profile);
 
-			EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-			// Layers
+            // Layers
 
-			Layers.Draw(profile);
-			
-			EditorGUILayout.Space();
+            Layers.Draw(profile);
 
-			// Day Lighting
+            EditorGUILayout.Space();
 
-			DayLighting.Draw(profile);
-			
-			EditorGUILayout.Space();
+            // Day Lighting
 
-			// Lightmap Presets
+            DayLighting.Draw(profile);
 
-			LightmapPresets.Draw(profile.lightmapPresets);
+            EditorGUILayout.Space();
 
-			EditorGUILayout.Space();
+            // Lightmap Presets
 
-			// Light Presets
+            LightmapPresets.Draw(profile.lightmapPresets);
 
-			LightPresets.Draw(profile.lightPresets);
+            EditorGUILayout.Space();
 
-			EditorGUILayout.Space();
+            // Light Presets
 
-			// Event Presets
+            LightPresets.Draw(profile.lightPresets);
 
-			EventPresets.Draw(profile.eventPresets);
+            EditorGUILayout.Space();
 
-			EditorGUILayout.Space();
+            // Event Presets
 
-			EditorGUI.EndChangeCheck ();
+            EventPresets.Draw(profile.eventPresets);
 
-			if (GUI.changed)
-			{
-				if (!EditorApplication.isPlaying)
-				{
-					if (Lighting2D.Profile == profile)
-					{
-						Light2D.ForceUpdateAll();
-					
-						LightingManager2D.ForceUpdate();
+            EditorGUILayout.Space();
 
-						/*
+            EditorGUI.EndChangeCheck();
+
+            if (GUI.changed) {
+                if (!EditorApplication.isPlaying) {
+                    if (Lighting2D.Profile == profile) {
+                        Light2D.ForceUpdateAll();
+
+                        LightingManager2D.ForceUpdate();
+
+                        /*
 
 						foreach(OnRenderMode onRender in OnRenderMode.List) {
 							LightmapPreset lightmapPreset = onRender.mainBuffer.GetLightmapPreset();
 							lightmapPreset.sortingLayer.ApplyToMeshRenderer(onRender.meshRenderer);
 						}*/
-					}
+                    }
 
-					EditorUtility.SetDirty(profile);
-				}
-			}
-		}
-		
-		public static void Draw()
-		{
-			LightingSettings.Profile profile = Lighting2D.Profile;
+                    EditorUtility.SetDirty(profile);
+                }
+            }
+        }
 
-			EditorGUI.BeginDisabledGroup(true);
-			EditorGUILayout.ObjectField("Current Profile", profile, typeof(LightingSettings.Profile), true);
-			EditorGUI.EndDisabledGroup();
+        public static void Draw() {
+            LightingSettings.Profile profile = Lighting2D.Profile;
 
-			EditorGUILayout.Space();
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ObjectField("Current Profile", profile, typeof(LightingSettings.Profile), true);
+            EditorGUI.EndDisabledGroup();
 
-			if (profile == null)
-			{
-				EditorGUILayout.HelpBox("Lighting2D Settings Profile Not Found!", MessageType.Error);
+            EditorGUILayout.Space();
 
-				return;
-			}
+            if (profile == null) {
+                EditorGUILayout.HelpBox("Lighting2D Settings Profile Not Found!", MessageType.Error);
 
-			DrawProfile(profile);
-		}
+                return;
+            }
 
-		public class LightPresets
-		{
-			public static void Draw(LightPresetList lightPresetList)
-			{
-				bool foldout = GUIFoldoutHeader.Begin( "Light Presets (" + lightPresetList.list.Length + ")", lightPresetList);
+            DrawProfile(profile);
+        }
 
-				if (!foldout)
-				{
-					GUIFoldoutHeader.End();
-					return;
-				}
+        public class LightPresets {
+            public static void Draw(LightPresetList lightPresetList) {
+                bool foldout = GUIFoldoutHeader.Begin("Light Presets (" + lightPresetList.list.Length + ")", lightPresetList);
 
-				EditorGUI.indentLevel++;
+                if (!foldout) {
+                    GUIFoldoutHeader.End();
+                    return;
+                }
 
-				int presetCount = EditorGUILayout.IntSlider ("Count", lightPresetList.list.Length, 1, 8);
+                EditorGUI.indentLevel++;
 
-				if (presetCount !=lightPresetList.list.Length)
-				{
-					int oldCount = lightPresetList.list.Length;
+                int presetCount = EditorGUILayout.IntSlider("Count", lightPresetList.list.Length, 1, 8);
 
-					System.Array.Resize(ref lightPresetList.list, presetCount);
+                if (presetCount != lightPresetList.list.Length) {
+                    int oldCount = lightPresetList.list.Length;
 
-					for(int i = oldCount; i < presetCount; i++)
-					{
-						lightPresetList.list[i] = new LightPreset(i);
-					}
-				}
+                    System.Array.Resize(ref lightPresetList.list, presetCount);
 
-				for(int i = 0; i < lightPresetList.list.Length; i++)
-				{
-					LightPreset lightPreset = lightPresetList.list[i];
-					
-					bool fold = GUIFoldout.Draw( "Preset " + (i + 1) + " (" + lightPreset.name + ")", lightPreset);
+                    for (int i = oldCount; i < presetCount; i++) {
+                        lightPresetList.list[i] = new LightPreset(i);
+                    }
+                }
 
-					if (!fold)
-					{
-						continue;
-					}
+                for (int i = 0; i < lightPresetList.list.Length; i++) {
+                    LightPreset lightPreset = lightPresetList.list[i];
 
-					EditorGUI.indentLevel++;
+                    bool fold = GUIFoldout.Draw("Preset " + (i + 1) + " (" + lightPreset.name + ")", lightPreset);
 
-					lightPreset.name = EditorGUILayout.TextField ("Name", lightPreset.name);
+                    if (!fold) {
+                        continue;
+                    }
 
-					EditorGUILayout.Space();
-					
-					DrawLightLayers(lightPreset.layerSetting);
+                    EditorGUI.indentLevel++;
 
-					EditorGUI.indentLevel--;
-				}
+                    lightPreset.name = EditorGUILayout.TextField("Name", lightPreset.name);
 
-				EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
 
-				GUIFoldoutHeader.End();
-			}
-		}
+                    DrawLightLayers(lightPreset.layerSetting);
 
-		public class EventPresets
-		{
-			public static void Draw(EventPresetList eventPresetList)
-			{
-				bool foldout = GUIFoldoutHeader.Begin( "Light Event Presets (" + (eventPresetList.list.Length - 1) + ")", eventPresetList);
+                    EditorGUI.indentLevel--;
+                }
 
-				if (!foldout)
-				{
-					GUIFoldoutHeader.End();
-					return;
-				}
+                EditorGUI.indentLevel--;
 
-				EditorGUI.indentLevel++;
+                GUIFoldoutHeader.End();
+            }
+        }
 
-				int bufferCount = EditorGUILayout.IntSlider ("Count", eventPresetList.list.Length - 1, 1, 4) + 1;
+        public class EventPresets {
+            public static void Draw(EventPresetList eventPresetList) {
+                bool foldout = GUIFoldoutHeader.Begin("Light Event Presets (" + (eventPresetList.list.Length - 1) + ")", eventPresetList);
 
-				if (bufferCount != eventPresetList.list.Length)
-				{
-					int oldCount = eventPresetList.list.Length;
+                if (!foldout) {
+                    GUIFoldoutHeader.End();
+                    return;
+                }
 
-					System.Array.Resize(ref eventPresetList.list, bufferCount);
+                EditorGUI.indentLevel++;
 
-					for(int i = oldCount; i < bufferCount; i++)
-					{
-						eventPresetList.list[i] = new EventPreset(i);
-					}
-				}
+                int bufferCount = EditorGUILayout.IntSlider("Count", eventPresetList.list.Length - 1, 1, 4) + 1;
 
-				for(int i = 1; i < eventPresetList.list.Length; i++)
-				{
-					EventPreset eventPreset = eventPresetList.list[i];
+                if (bufferCount != eventPresetList.list.Length) {
+                    int oldCount = eventPresetList.list.Length;
 
-					bool fold = GUIFoldout.Draw( "Preset " + (i) + " (" + eventPreset.name + ")", eventPreset);
+                    System.Array.Resize(ref eventPresetList.list, bufferCount);
 
-					if (!fold)
-					{
-						continue;
-					}
+                    for (int i = oldCount; i < bufferCount; i++) {
+                        eventPresetList.list[i] = new EventPreset(i);
+                    }
+                }
 
-					EditorGUI.indentLevel++;
+                for (int i = 1; i < eventPresetList.list.Length; i++) {
+                    EventPreset eventPreset = eventPresetList.list[i];
 
-					eventPreset.name = EditorGUILayout.TextField ("Name", eventPreset.name);
+                    bool fold = GUIFoldout.Draw("Preset " + (i) + " (" + eventPreset.name + ")", eventPreset);
 
-					EditorGUILayout.Space();
-					
-					DrawEventLayers(eventPreset.layerSetting);
+                    if (!fold) {
+                        continue;
+                    }
 
-					EditorGUI.indentLevel--;
-				}
+                    EditorGUI.indentLevel++;
 
-				EditorGUI.indentLevel--;
+                    eventPreset.name = EditorGUILayout.TextField("Name", eventPreset.name);
 
-				GUIFoldoutHeader.End();
-			}
-		}
+                    EditorGUILayout.Space();
 
-		static public void DrawEventLayers(EventPresetLayers presetLayers)
-		{
-			LayerEventSetting[] layerSetting = presetLayers.Get();
+                    DrawEventLayers(eventPreset.layerSetting);
 
-			int layerCount = layerSetting.Length;
+                    EditorGUI.indentLevel--;
+                }
 
-			layerCount = EditorGUILayout.IntSlider("Layer Count", layerCount, 1, 4);
+                EditorGUI.indentLevel--;
 
-			EditorGUILayout.Space();
+                GUIFoldoutHeader.End();
+            }
+        }
 
-			if (layerCount != layerSetting.Length)
-			{
-				int oldCount = layerSetting.Length;
+        static public void DrawEventLayers(EventPresetLayers presetLayers) {
+            LayerEventSetting[] layerSetting = presetLayers.Get();
 
-				System.Array.Resize(ref layerSetting, layerCount);
+            int layerCount = layerSetting.Length;
 
-				for(int i = oldCount; i < layerCount; i++)
-				{
-					if (layerSetting[i] == null)
-					{
-						layerSetting[i] = new LayerEventSetting();
-						layerSetting[i].layerID = i;
-					}
-				}
+            layerCount = EditorGUILayout.IntSlider("Layer Count", layerCount, 1, 4);
 
-				presetLayers.SetArray(layerSetting);
-			}
+            EditorGUILayout.Space();
 
-			for(int i = 0; i < layerSetting.Length; i++)
-			{
-				LayerEventSetting layer = layerSetting[i];
+            if (layerCount != layerSetting.Length) {
+                int oldCount = layerSetting.Length;
 
-				layer.layerID = EditorGUILayout.Popup(" ", layer.layerID, Lighting2D.Profile.layers.colliderLayers.GetNames());
-			}
-		}
+                System.Array.Resize(ref layerSetting, layerCount);
 
-		static public void DrawLightLayers(LightPresetLayers presetLayers)
-		{
-			LayerSetting[] layerSetting = presetLayers.Get();
+                for (int i = oldCount; i < layerCount; i++) {
+                    if (layerSetting[i] == null) {
+                        layerSetting[i] = new LayerEventSetting();
+                        layerSetting[i].layerID = i;
+                    }
+                }
 
-			int layerCount = layerSetting.Length;
+                presetLayers.SetArray(layerSetting);
+            }
 
-			layerCount = EditorGUILayout.IntSlider("Layer Count", layerCount, 1, 8);
+            for (int i = 0; i < layerSetting.Length; i++) {
+                LayerEventSetting layer = layerSetting[i];
 
-			EditorGUILayout.Space();
+                layer.layerID = EditorGUILayout.Popup(" ", layer.layerID, Lighting2D.Profile.layers.colliderLayers.GetNames());
+            }
+        }
 
-			if (layerCount != layerSetting.Length)
-			{
-				int oldCount = layerSetting.Length;
+        static public void DrawLightLayers(LightPresetLayers presetLayers) {
+            LayerSetting[] layerSetting = presetLayers.Get();
 
-				System.Array.Resize(ref layerSetting, layerCount);
+            int layerCount = layerSetting.Length;
 
-				for(int i = oldCount; i < layerCount; i++)
-				{
-					if (layerSetting[i] == null)
-					{
-						layerSetting[i] = new LayerSetting();
-						layerSetting[i].layerID = i;
-					}
-					
-				}
+            layerCount = EditorGUILayout.IntSlider("Layer Count", layerCount, 1, 8);
 
-				presetLayers.SetArray(layerSetting);
-			}
+            EditorGUILayout.Space();
 
-			for(int i = 0; i < layerSetting.Length; i++)
-			{
-				LayerSetting layer = layerSetting[i];
+            if (layerCount != layerSetting.Length) {
+                int oldCount = layerSetting.Length;
 
-				bool foldout = GUIFoldout.Draw( "Layer " + (i + 1), layer);
+                System.Array.Resize(ref layerSetting, layerCount);
 
-				if (foldout)
-				{
-					EditorGUI.indentLevel++;
-				
-					layer.layerID = EditorGUILayout.Popup("Layer (Collider)", layer.layerID, Lighting2D.Profile.layers.colliderLayers.GetNames());
-					
-					layer.type = (LightLayerType)EditorGUILayout.EnumPopup("Type", layer.type);
+                for (int i = oldCount; i < layerCount; i++) {
+                    if (layerSetting[i] == null) {
+                        layerSetting[i] = new LayerSetting();
+                        layerSetting[i].layerID = i;
+                    }
 
-					bool shadowEnabled = layer.type != LightLayerType.MaskOnly;
-					bool maskEnabled = layer.type != LightLayerType.ShadowOnly;
-					
-					EditorGUILayout.Space();
+                }
 
-					layer.sorting = (LightLayerSorting)EditorGUILayout.EnumPopup("Sorting", layer.sorting);
-					
-					EditorGUI.BeginDisabledGroup(layer.sorting == LightLayerSorting.None);
-					
-					layer.sortingIgnore = (LightLayerSortingIgnore)EditorGUILayout.EnumPopup("Sorting Ignore", layer.sortingIgnore);
-					
-					EditorGUI.EndDisabledGroup();
+                presetLayers.SetArray(layerSetting);
+            }
 
-					EditorGUILayout.Space();
+            for (int i = 0; i < layerSetting.Length; i++) {
+                LayerSetting layer = layerSetting[i];
 
-					EditorGUI.BeginDisabledGroup(!shadowEnabled);
+                bool foldout = GUIFoldout.Draw("Layer " + (i + 1), layer);
 
-					layer.shadowEffect = (LightLayerShadowEffect)EditorGUILayout.EnumPopup("Shadow Effect", layer.shadowEffect);
+                if (foldout) {
+                    EditorGUI.indentLevel++;
 
-					EditorGUI.EndDisabledGroup();
+                    layer.layerID = EditorGUILayout.Popup("Layer (Collider)", layer.layerID, Lighting2D.Profile.layers.colliderLayers.GetNames());
 
-					EditorGUI.BeginDisabledGroup(!shadowEnabled || layer.shadowEffect != LightLayerShadowEffect.PerpendicularProjection);
+                    layer.type = (LightLayerType)EditorGUILayout.EnumPopup("Type", layer.type);
 
-					layer.shadowEffectLayer = EditorGUILayout.Popup("Effect Layer (Collider)", layer.shadowEffectLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+                    bool shadowEnabled = layer.type != LightLayerType.MaskOnly;
+                    bool maskEnabled = layer.type != LightLayerType.ShadowOnly;
 
-					EditorGUI.EndDisabledGroup();
+                    EditorGUILayout.Space();
 
-					EditorGUILayout.Space();
+                    layer.sorting = (LightLayerSorting)EditorGUILayout.EnumPopup("Sorting", layer.sorting);
 
-					EditorGUI.BeginDisabledGroup(!maskEnabled);
+                    EditorGUI.BeginDisabledGroup(layer.sorting == LightLayerSorting.None);
 
-					layer.maskLit = (LightLayerMaskLit)EditorGUILayout.EnumPopup("Mask Lit", layer.maskLit);
+                    layer.sortingIgnore = (LightLayerSortingIgnore)EditorGUILayout.EnumPopup("Sorting Ignore", layer.sortingIgnore);
 
-					EditorGUI.EndDisabledGroup();
+                    EditorGUI.EndDisabledGroup();
 
-					bool maskEffectLit = (layer.maskLit == LightLayerMaskLit.AboveLit);
-			
-					EditorGUI.BeginDisabledGroup(!maskEnabled || !maskEffectLit);
-				
-					layer.maskLitDistance = EditorGUILayout.FloatField("Mask Lit Distance", layer.maskLitDistance);
+                    EditorGUILayout.Space();
 
-					if (layer.maskLitDistance < 0)
-					{
-						layer.maskLitDistance = 0;
-					}
-			
-					EditorGUI.EndDisabledGroup();
+                    EditorGUI.BeginDisabledGroup(!shadowEnabled);
 
-					EditorGUILayout.Space();
+                    layer.shadowEffect = (LightLayerShadowEffect)EditorGUILayout.EnumPopup("Shadow Effect", layer.shadowEffect);
 
-					EditorGUI.indentLevel--;
-				}
-				
-				EditorGUILayout.Space();
-			}
-		}
+                    EditorGUI.EndDisabledGroup();
 
-		public class LightmapPresets
-		{
-			public static void Draw(LightmapPresetList lightmapList)
-			{
-				bool foldout = GUIFoldoutHeader.Begin( "Lightmap Presets (" + lightmapList.list.Length + ")", lightmapList);
+                    EditorGUI.BeginDisabledGroup(!shadowEnabled || layer.shadowEffect != LightLayerShadowEffect.PerpendicularProjection);
 
-				if (!foldout)
-				{
-					GUIFoldoutHeader.End();
-					return;
-				}
+                    layer.shadowEffectLayer = EditorGUILayout.Popup("Effect Layer (Collider)", layer.shadowEffectLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
 
-				EditorGUI.indentLevel++;
+                    EditorGUI.EndDisabledGroup();
 
-				int bufferCount = EditorGUILayout.IntSlider ("Count", lightmapList.list.Length, 1, 8);
+                    EditorGUILayout.Space();
 
-				if (bufferCount != lightmapList.list.Length)
-				{
-					int oldCount = lightmapList.list.Length;
+                    EditorGUI.BeginDisabledGroup(!maskEnabled);
 
-					System.Array.Resize(ref lightmapList.list, bufferCount);
+                    layer.maskLit = (LightLayerMaskLit)EditorGUILayout.EnumPopup("Mask Lit", layer.maskLit);
 
-					for(int i = oldCount; i < bufferCount; i++)
-					{
-						lightmapList.list[i] = new LightmapPreset(i);
-					}
-				}
+                    EditorGUI.EndDisabledGroup();
 
-				for(int i = 0; i < lightmapList.list.Length; i++)
-				{
-					LightmapPreset lightmapPreset = lightmapList.list[i];
+                    bool maskEffectLit = (layer.maskLit == LightLayerMaskLit.AboveLit);
 
-					bool fold = GUIFoldout.Draw( "Preset " + (i + 1) + " (" + lightmapPreset.name + ")", lightmapPreset);
+                    EditorGUI.BeginDisabledGroup(!maskEnabled || !maskEffectLit);
 
-					if (!fold)
-					{
-						continue;
-					}
+                    layer.maskLitDistance = EditorGUILayout.FloatField("Mask Lit Distance", layer.maskLitDistance);
 
-					EditorGUI.indentLevel++;
+                    if (layer.maskLitDistance < 0) {
+                        layer.maskLitDistance = 0;
+                    }
 
-					lightmapPreset.name = EditorGUILayout.TextField ("Name", lightmapPreset.name);
+                    EditorGUI.EndDisabledGroup();
 
-					EditorGUILayout.Space();
+                    EditorGUILayout.Space();
 
-					lightmapPreset.type = (LightmapPreset.Type)EditorGUILayout.EnumPopup ("Type", lightmapPreset.type);
+                    EditorGUI.indentLevel--;
+                }
 
-					lightmapPreset.hdr = (LightmapPreset.HDR)EditorGUILayout.EnumPopup ("HDR", lightmapPreset.hdr);
+                EditorGUILayout.Space();
+            }
+        }
 
-					switch(lightmapPreset.type)
-					{
-						case LightmapPreset.Type.RGB24:
-						case LightmapPreset.Type.R8:
-						case LightmapPreset.Type.RHalf:
+        public class LightmapPresets {
+            public static void Draw(LightmapPresetList lightmapList) {
+                bool foldout = GUIFoldoutHeader.Begin("Lightmap Presets (" + lightmapList.list.Length + ")", lightmapList);
 
-							EditorGUILayout.Space();
+                if (!foldout) {
+                    GUIFoldoutHeader.End();
+                    return;
+                }
 
-							CommonSettings(lightmapPreset);
+                EditorGUI.indentLevel++;
 
-							EditorGUILayout.Space();
-							
-							EditorGUILayout.Space();
+                int bufferCount = EditorGUILayout.IntSlider("Count", lightmapList.list.Length, 1, 8);
 
-							LayerSettings.DrawList(lightmapPreset.dayLayers, "Day Layers (" + lightmapPreset.dayLayers.list.Length + ")", Lighting2D.Profile.layers.dayLayers, true);
+                if (bufferCount != lightmapList.list.Length) {
+                    int oldCount = lightmapList.list.Length;
 
-							EditorGUILayout.Space();
-							
-							LayerSettings.DrawList(lightmapPreset.lightLayers, "Light Layers (" + lightmapPreset.lightLayers.list.Length  + ")", Lighting2D.Profile.layers.lightLayers, false);
+                    System.Array.Resize(ref lightmapList.list, bufferCount);
 
-							EditorGUILayout.Space();
+                    for (int i = oldCount; i < bufferCount; i++) {
+                        lightmapList.list[i] = new LightmapPreset(i);
+                    }
+                }
 
-							break;
+                for (int i = 0; i < lightmapList.list.Length; i++) {
+                    LightmapPreset lightmapPreset = lightmapList.list[i];
 
-						case LightmapPreset.Type.Depth8:
+                    bool fold = GUIFoldout.Draw("Preset " + (i + 1) + " (" + lightmapPreset.name + ")", lightmapPreset);
 
-							lightmapPreset.depth = EditorGUILayout.IntSlider("Depth", lightmapPreset.depth, -100, 100);
+                    if (!fold) {
+                        continue;
+                    }
 
-							lightmapPreset.resolution = EditorGUILayout.Slider("Resolution", lightmapPreset.resolution, 0.25f, 1.0f);
-						
-							EditorGUILayout.Space();
+                    EditorGUI.indentLevel++;
 
-							LayerSettings.DrawList(lightmapPreset.dayLayers, "Day Layers (" + lightmapPreset.dayLayers.list.Length + ")", Lighting2D.Profile.layers.dayLayers, false);
+                    lightmapPreset.name = EditorGUILayout.TextField("Name", lightmapPreset.name);
 
-							EditorGUILayout.Space();
+                    EditorGUILayout.Space();
 
-							break;
-					}
+                    lightmapPreset.type = (LightmapPreset.Type)EditorGUILayout.EnumPopup("Type", lightmapPreset.type);
 
-					EditorGUI.indentLevel--;
-				}
-			
-				EditorGUI.indentLevel--;
+                    lightmapPreset.hdr = (LightmapPreset.HDR)EditorGUILayout.EnumPopup("HDR", lightmapPreset.hdr);
 
-				GUIFoldoutHeader.End();
-			}
-		}
+                    switch (lightmapPreset.type) {
+                        case LightmapPreset.Type.RGB24:
+                        case LightmapPreset.Type.R8:
+                        case LightmapPreset.Type.RHalf:
 
-		public class Layers
-		{
-			public static void Draw(LightingSettings.Profile profile)
-			{
-				bool foldout = GUIFoldoutHeader.Begin("Layers", profile.layers);
-		
-				if (!foldout)
-				{
-					GUIFoldoutHeader.End();
-					return;
-				}
+                            EditorGUILayout.Space();
 
-				EditorGUI.indentLevel++;
+                            CommonSettings(lightmapPreset);
 
-					EditorGUILayout.Space();
+                            EditorGUILayout.Space();
 
-					DrawList(profile.layers.colliderLayers, "Collider Layers", "Collider Layer");
+                            EditorGUILayout.Space();
 
-					EditorGUILayout.Space();
+                            LayerSettings.DrawList(lightmapPreset.dayLayers, "Day Layers (" + lightmapPreset.dayLayers.list.Length + ")", Lighting2D.Profile.layers.dayLayers, true);
 
-					DrawList(profile.layers.lightLayers, "Light Layers", "Light Layer");
+                            EditorGUILayout.Space();
 
-					EditorGUILayout.Space();
+                            LayerSettings.DrawList(lightmapPreset.lightLayers, "Light Layers (" + lightmapPreset.lightLayers.list.Length + ")", Lighting2D.Profile.layers.lightLayers, false);
 
-					DrawList(profile.layers.dayLayers, "Day Layers", "Day Layer");
+                            EditorGUILayout.Space();
 
-				EditorGUI.indentLevel--;
+                            break;
 
-				GUIFoldoutHeader.End();
-			}
+                        case LightmapPreset.Type.Depth8:
 
-			public static void DrawList(LightingSettings.LayersList layerList, string name, string singular)
-			{
-				bool foldout = GUIFoldout.Draw(name, layerList);
+                            lightmapPreset.depth = EditorGUILayout.IntSlider("Depth", lightmapPreset.depth, -100, 100);
 
-				if (!foldout)
-				{
-					return;
-				}
-				
-				EditorGUI.indentLevel++;
+                            lightmapPreset.resolution = EditorGUILayout.Slider("Resolution", lightmapPreset.resolution, 0.25f, 1.0f);
 
-				int lightLayerCount = EditorGUILayout.IntSlider ("Count", layerList.names.Length, 1, 10);
+                            EditorGUILayout.Space();
 
-				if (lightLayerCount != layerList.names.Length)
-				{
-					int oldCount = layerList.names.Length;
+                            LayerSettings.DrawList(lightmapPreset.dayLayers, "Day Layers (" + lightmapPreset.dayLayers.list.Length + ")", Lighting2D.Profile.layers.dayLayers, false);
 
-					System.Array.Resize(ref layerList.names, lightLayerCount);
+                            EditorGUILayout.Space();
 
-					for(int i = oldCount; i < lightLayerCount; i++)
-					{
-						layerList.names[i] = singular + " " + (i);
-					}
-				}
+                            break;
+                    }
 
-				for(int i = 0; i < lightLayerCount; i++)
-				{
-					layerList.names[i] = EditorGUILayout.TextField(" ", layerList.names[i]);
-				}
+                    EditorGUI.indentLevel--;
+                }
 
-				EditorGUI.indentLevel--;
-			}
-		}
+                EditorGUI.indentLevel--;
 
-		public class QualitySettings
-		{
-			public static void Draw(LightingSettings.Profile profile)
-			{
-				bool foldout = GUIFoldoutHeader.Begin( "Quality", profile.qualitySettings);
+                GUIFoldoutHeader.End();
+            }
+        }
 
-				if (!foldout)
-				{
-					GUIFoldoutHeader.End();
-					return;
-				}
-		
-				EditorGUI.indentLevel++;
+        public class Layers {
+            public static void Draw(LightingSettings.Profile profile) {
+                bool foldout = GUIFoldoutHeader.Begin("Layers", profile.layers);
 
-					EditorGUILayout.Space();
+                if (!foldout) {
+                    GUIFoldoutHeader.End();
+                    return;
+                }
 
-					profile.qualitySettings.projection = (Projection)EditorGUILayout.EnumPopup("Projection", profile.qualitySettings.projection);
-							
-					profile.qualitySettings.coreAxis = (CoreAxis)EditorGUILayout.EnumPopup("Core Axis", profile.qualitySettings.coreAxis);
+                EditorGUI.indentLevel++;
 
-					profile.qualitySettings.updateMethod = (LightingSettings.UpdateMethod)EditorGUILayout.EnumPopup("Update Method", profile.qualitySettings.updateMethod);
+                EditorGUILayout.Space();
 
-					profile.qualitySettings.lightTextureSize = (LightingSourceTextureSize)EditorGUILayout.Popup("Light Resolution", (int)profile.qualitySettings.lightTextureSize, LightingSettings.QualitySettings.LightingSourceTextureSizeArray);
+                DrawList(profile.layers.colliderLayers, "Collider Layers", "Collider Layer");
 
-					profile.qualitySettings.lightFilterMode = (FilterMode)EditorGUILayout.EnumPopup("Light Filter Mode", profile.qualitySettings.lightFilterMode);
-						
-					profile.qualitySettings.lightEffectTextureSize = (LightingSourceTextureSize)EditorGUILayout.Popup("Translucent Resolution", (int)profile.qualitySettings.lightEffectTextureSize, LightingSettings.QualitySettings.LightingSourceTextureSizeArray);
+                EditorGUILayout.Space();
 
-					profile.qualitySettings.lightmapFilterMode = (FilterMode)EditorGUILayout.EnumPopup("Lightmap Filter Mode", profile.qualitySettings.lightmapFilterMode);
+                DrawList(profile.layers.lightLayers, "Light Layers", "Light Layer");
 
-				EditorGUI.indentLevel--;
+                EditorGUILayout.Space();
 
-				GUIFoldoutHeader.End();
-			}
-		}
+                DrawList(profile.layers.dayLayers, "Day Layers", "Day Layer");
 
-		public class DayLighting
-		{
-			public static void Draw(LightingSettings.Profile profile)
-			{
-				bool foldout = GUIFoldoutHeader.Begin( "Day Lighting", profile.dayLightingSettings);
+                EditorGUI.indentLevel--;
 
-				if (!foldout)
-				{
-					GUIFoldoutHeader.End();
-					return;
-				}
+                GUIFoldoutHeader.End();
+            }
 
-				EditorGUI.indentLevel++;
+            public static void DrawList(LightingSettings.LayersList layerList, string name, string singular) {
+                bool foldout = GUIFoldout.Draw(name, layerList);
 
-					EditorGUILayout.Space();
+                if (!foldout) {
+                    return;
+                }
 
-					profile.dayLightingSettings.ShadowColor = EditorGUILayout.ColorField("Shadow Color", profile.dayLightingSettings.ShadowColor);
+                EditorGUI.indentLevel++;
 
-					profile.dayLightingSettings.ShadowColor.a = EditorGUILayout.Slider("Shadow Alpha", profile.dayLightingSettings.ShadowColor.a, 0, 1);
-					
-					profile.dayLightingSettings.direction = EditorGUILayout.Slider("Direction", profile.dayLightingSettings.direction, 0 , 360);
+                int lightLayerCount = EditorGUILayout.IntSlider("Count", layerList.names.Length, 1, 10);
 
-					profile.dayLightingSettings.height = EditorGUILayout.Slider("Height", profile.dayLightingSettings.height, 0.1f, 10);
+                if (lightLayerCount != layerList.names.Length) {
+                    int oldCount = layerList.names.Length;
 
-					NormalMap.Draw(profile);
-			
-				EditorGUI.indentLevel--;
+                    System.Array.Resize(ref layerList.names, lightLayerCount);
 
-				GUIFoldoutHeader.End();
-			}
+                    for (int i = oldCount; i < lightLayerCount; i++) {
+                        layerList.names[i] = singular + " " + (i);
+                    }
+                }
 
-			public class NormalMap
-			{
-				public static void Draw(LightingSettings.Profile profile)
-				{
-					profile.dayLightingSettings.bumpMap.height = EditorGUILayout.Slider("Bump Height", profile.dayLightingSettings.bumpMap.height, 0, 5);
-					profile.dayLightingSettings.bumpMap.strength = EditorGUILayout.Slider("Bump Strength", profile.dayLightingSettings.bumpMap.strength, 0, 5);
-				}
-			}
-		}
+                for (int i = 0; i < lightLayerCount; i++) {
+                    layerList.names[i] = EditorGUILayout.TextField(" ", layerList.names[i]);
+                }
 
-		static void CommonSettings(LightmapPreset lightmapPreset)
-		{
-			if (lightmapPreset.type != LightmapPreset.Type.Depth8)
-			{
-				lightmapPreset.darknessColor = EditorGUILayout.ColorField("Darkness Color", lightmapPreset.darknessColor);
-				lightmapPreset.darknessColor.a = EditorGUILayout.Slider("Darkness Alpha", lightmapPreset.darknessColor.a, 0, 1);
-				lightmapPreset.resolution = EditorGUILayout.Slider("Resolution", lightmapPreset.resolution, 0.25f, 1.0f);
-			}
-		}
+                EditorGUI.indentLevel--;
+            }
+        }
 
-		public class LayerSettings
-		{
-			public static void DrawList(LightmapLayerList lightmapLayers, string name, LayersList layerList, bool drawType)
-			{
-				bool foldout = GUIFoldout.Draw(name, lightmapLayers);
+        public class QualitySettings {
+            public static void Draw(LightingSettings.Profile profile) {
+                bool foldout = GUIFoldoutHeader.Begin("Quality", profile.qualitySettings);
 
-				if (!foldout)
-				{
-					return;
-				}
+                if (!foldout) {
+                    GUIFoldoutHeader.End();
+                    return;
+                }
 
-				EditorGUI.indentLevel++;
+                EditorGUI.indentLevel++;
 
-				LightmapLayer[] layerSettings = lightmapLayers.Get();
-			
-				int layerCount = EditorGUILayout.IntSlider ("Count", layerSettings.Length, 0, 10);
+                EditorGUILayout.Space();
 
-				EditorGUILayout.Space();
-				
-				if (layerCount != layerSettings.Length)
-				{
-					int oldCount = layerSettings.Length;
+                profile.qualitySettings.projection = (Projection)EditorGUILayout.EnumPopup("Projection", profile.qualitySettings.projection);
 
-					System.Array.Resize(ref layerSettings, layerCount);
+                profile.qualitySettings.coreAxis = (CoreAxis)EditorGUILayout.EnumPopup("Core Axis", profile.qualitySettings.coreAxis);
 
-					for(int i = oldCount; i < layerCount; i++)
-					{
-						if (layerSettings[i] == null)
-						{
-							layerSettings[i] = new LightmapLayer();
-							layerSettings[i].id = i;
-						}
-					}
+                profile.qualitySettings.updateMethod = (LightingSettings.UpdateMethod)EditorGUILayout.EnumPopup("Update Method", profile.qualitySettings.updateMethod);
 
-					lightmapLayers.SetArray(layerSettings);
-				}
+                profile.qualitySettings.lightTextureSize = (LightingSourceTextureSize)EditorGUILayout.Popup("Light Resolution", (int)profile.qualitySettings.lightTextureSize, LightingSettings.QualitySettings.LightingSourceTextureSizeArray);
 
-				for(int i = 0; i < layerSettings.Length; i++)
-				{
-					layerSettings[i].id = EditorGUILayout.Popup("Layer", layerSettings[i].id, layerList.GetNames());
+                profile.qualitySettings.lightFilterMode = (FilterMode)EditorGUILayout.EnumPopup("Light Filter Mode", profile.qualitySettings.lightFilterMode);
 
-					if (drawType)
-					{
-						layerSettings[i].type = (LayerType)EditorGUILayout.EnumPopup("Type", layerSettings[i].type);
-						layerSettings[i].sorting = (LayerSorting)EditorGUILayout.EnumPopup("Sorting", layerSettings[i].sorting);
-					}
-						
-					EditorGUILayout.Space();
-				}
+                profile.qualitySettings.lightEffectTextureSize = (LightingSourceTextureSize)EditorGUILayout.Popup("Translucent Resolution", (int)profile.qualitySettings.lightEffectTextureSize, LightingSettings.QualitySettings.LightingSourceTextureSizeArray);
 
-				EditorGUI.indentLevel--;
-			}
-		}
-	}
+                profile.qualitySettings.lightmapFilterMode = (FilterMode)EditorGUILayout.EnumPopup("Lightmap Filter Mode", profile.qualitySettings.lightmapFilterMode);
+
+                EditorGUI.indentLevel--;
+
+                GUIFoldoutHeader.End();
+            }
+        }
+
+        public class DayLighting {
+            public static void Draw(LightingSettings.Profile profile) {
+                bool foldout = GUIFoldoutHeader.Begin("Day Lighting", profile.dayLightingSettings);
+
+                if (!foldout) {
+                    GUIFoldoutHeader.End();
+                    return;
+                }
+
+                EditorGUI.indentLevel++;
+
+                EditorGUILayout.Space();
+
+                profile.dayLightingSettings.ShadowColor = EditorGUILayout.ColorField("Shadow Color", profile.dayLightingSettings.ShadowColor);
+
+                profile.dayLightingSettings.ShadowColor.a = EditorGUILayout.Slider("Shadow Alpha", profile.dayLightingSettings.ShadowColor.a, 0, 1);
+
+                profile.dayLightingSettings.direction = EditorGUILayout.Slider("Direction", profile.dayLightingSettings.direction, 0, 360);
+
+                profile.dayLightingSettings.height = EditorGUILayout.Slider("Height", profile.dayLightingSettings.height, 0.1f, 10);
+
+                NormalMap.Draw(profile);
+
+                EditorGUI.indentLevel--;
+
+                GUIFoldoutHeader.End();
+            }
+
+            public class NormalMap {
+                public static void Draw(LightingSettings.Profile profile) {
+                    profile.dayLightingSettings.bumpMap.height = EditorGUILayout.Slider("Bump Height", profile.dayLightingSettings.bumpMap.height, 0, 5);
+                    profile.dayLightingSettings.bumpMap.strength = EditorGUILayout.Slider("Bump Strength", profile.dayLightingSettings.bumpMap.strength, 0, 5);
+                }
+            }
+        }
+
+        static void CommonSettings(LightmapPreset lightmapPreset) {
+            if (lightmapPreset.type != LightmapPreset.Type.Depth8) {
+                lightmapPreset.darknessColor = EditorGUILayout.ColorField("Darkness Color", lightmapPreset.darknessColor);
+                lightmapPreset.darknessColor.a = EditorGUILayout.Slider("Darkness Alpha", lightmapPreset.darknessColor.a, 0, 1);
+                lightmapPreset.resolution = EditorGUILayout.Slider("Resolution", lightmapPreset.resolution, 0.25f, 1.0f);
+            }
+        }
+
+        public class LayerSettings {
+            public static void DrawList(LightmapLayerList lightmapLayers, string name, LayersList layerList, bool drawType) {
+                bool foldout = GUIFoldout.Draw(name, lightmapLayers);
+
+                if (!foldout) {
+                    return;
+                }
+
+                EditorGUI.indentLevel++;
+
+                LightmapLayer[] layerSettings = lightmapLayers.Get();
+
+                int layerCount = EditorGUILayout.IntSlider("Count", layerSettings.Length, 0, 10);
+
+                EditorGUILayout.Space();
+
+                if (layerCount != layerSettings.Length) {
+                    int oldCount = layerSettings.Length;
+
+                    System.Array.Resize(ref layerSettings, layerCount);
+
+                    for (int i = oldCount; i < layerCount; i++) {
+                        if (layerSettings[i] == null) {
+                            layerSettings[i] = new LightmapLayer();
+                            layerSettings[i].id = i;
+                        }
+                    }
+
+                    lightmapLayers.SetArray(layerSettings);
+                }
+
+                for (int i = 0; i < layerSettings.Length; i++) {
+                    layerSettings[i].id = EditorGUILayout.Popup("Layer", layerSettings[i].id, layerList.GetNames());
+
+                    if (drawType) {
+                        layerSettings[i].type = (LayerType)EditorGUILayout.EnumPopup("Type", layerSettings[i].type);
+                        layerSettings[i].sorting = (LayerSorting)EditorGUILayout.EnumPopup("Sorting", layerSettings[i].sorting);
+                    }
+
+                    EditorGUILayout.Space();
+                }
+
+                EditorGUI.indentLevel--;
+            }
+        }
+    }
 }

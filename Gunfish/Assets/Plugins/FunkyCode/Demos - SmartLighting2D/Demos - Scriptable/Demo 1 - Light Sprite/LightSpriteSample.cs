@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode
-{
+namespace FunkyCode {
     [ExecuteInEditMode]
-    public class LightSpriteSample : MonoBehaviour
-    {
+    public class LightSpriteSample : MonoBehaviour {
         public Sprite sprite;
 
         public Scriptable.LightSprite2D lightSprite;
-    
+
         void Start() {
             Scriptable.LightSprite2D light = new Scriptable.LightSprite2D();
 

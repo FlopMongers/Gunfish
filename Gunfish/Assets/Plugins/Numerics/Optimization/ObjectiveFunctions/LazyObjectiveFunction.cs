@@ -27,13 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.Optimization.ObjectiveFunctions
-{
-    internal class LazyObjectiveFunction : IObjectiveFunction
-    {
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions {
+    internal class LazyObjectiveFunction : IObjectiveFunction {
         readonly Func<Vector<double>, double> _function;
         readonly Func<Vector<double>, Vector<double>> _gradient;
         readonly Func<Vector<double>, Matrix<double>> _hessian;
@@ -49,8 +47,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         bool _hasHessianValue;
         Matrix<double> _hessianValue;
 
-        public LazyObjectiveFunction(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient = null, Func<Vector<double>, Matrix<double>> hessian = null)
-        {
+        public LazyObjectiveFunction(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient = null, Func<Vector<double>, Matrix<double>> hessian = null) {
             _function = function;
             _gradient = gradient;
             _hessian = hessian;
@@ -59,16 +56,13 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             IsHessianSupported = hessian != null;
         }
 
-        public IObjectiveFunction CreateNew()
-        {
+        public IObjectiveFunction CreateNew() {
             return new LazyObjectiveFunction(_function, _gradient, _hessian);
         }
 
-        public IObjectiveFunction Fork()
-        {
+        public IObjectiveFunction Fork() {
             // no need to deep-clone values since they are replaced on evaluation
-            return new LazyObjectiveFunction(_function, _gradient, _hessian)
-            {
+            return new LazyObjectiveFunction(_function, _gradient, _hessian) {
                 _point = _point,
                 _hasFunctionValue = _hasFunctionValue,
                 _functionValue = _functionValue,
@@ -82,8 +76,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public bool IsGradientSupported { get; }
         public bool IsHessianSupported { get; }
 
-        public void EvaluateAt(Vector<double> point)
-        {
+        public void EvaluateAt(Vector<double> point) {
             _point = point;
             _hasFunctionValue = false;
             _hasGradientValue = false;
@@ -96,12 +89,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public Vector<double> Point => _point;
 
-        public double Value
-        {
-            get
-            {
-                if (!_hasFunctionValue)
-                {
+        public double Value {
+            get {
+                if (!_hasFunctionValue) {
                     _functionValue = _function(_point);
                     _hasFunctionValue = true;
                 }
@@ -109,12 +99,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             }
         }
 
-        public Vector<double> Gradient
-        {
-            get
-            {
-                if (!_hasGradientValue)
-                {
+        public Vector<double> Gradient {
+            get {
+                if (!_hasGradientValue) {
                     _gradientValue = _gradient(_point);
                     _hasGradientValue = true;
                 }
@@ -122,12 +109,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             }
         }
 
-        public Matrix<double> Hessian
-        {
-            get
-            {
-                if (!_hasHessianValue)
-                {
+        public Matrix<double> Hessian {
+            get {
+                if (!_hasHessianValue) {
                     _hessianValue = _hessian(_point);
                     _hasHessianValue = true;
                 }

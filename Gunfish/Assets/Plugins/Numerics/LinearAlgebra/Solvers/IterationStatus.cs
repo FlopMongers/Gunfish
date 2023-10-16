@@ -27,13 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Iterative Calculation Status
     /// </summary>
-    public enum IterationStatus
-    {
+    public enum IterationStatus {
         Continue = 0,
         Converged,
         Diverged,

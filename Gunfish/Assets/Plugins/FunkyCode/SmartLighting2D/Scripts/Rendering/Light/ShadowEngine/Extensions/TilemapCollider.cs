@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode.Rendering.Light.Shadow
-{
-    public class TilemapCollider
-    {
-        public class Rectangle
-        {
-            static public void Draw(Light2D light, LightTilemapCollider2D id)
-            {
+namespace FunkyCode.Rendering.Light.Shadow {
+    public class TilemapCollider {
+        public class Rectangle {
+            static public void Draw(Light2D light, LightTilemapCollider2D id) {
                 Vector2 position = -light.transform.position;
 
-                switch(id.rectangle.shadowType)
-                {
+                switch (id.rectangle.shadowType) {
                     case LightTilemapCollider.ShadowType.CompositeCollider:
 
                         ShadowEngine.objectOffset = id.transform.position;
@@ -21,8 +16,8 @@ namespace FunkyCode.Rendering.Light.Shadow
                         ShadowEngine.Draw(id.rectangle.compositeColliders, 0, 0, 0);
 
                         ShadowEngine.objectOffset = Vector2.zero;
-                        
-                    break;
+
+                        break;
                 }
             }
         }

@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class DemoFollowMouse : MonoBehaviour {
 
-	void Update () {
-		Vector3 pos = GetMousePosition();
-		pos.z = transform.position.z;
+    void Update() {
+        Vector3 pos = GetMousePosition();
+        pos.z = transform.position.z;
 
-		transform.position = pos;
+        transform.position = pos;
 
-	
-	}
 
-	public static Vector2 GetMousePosition() {
-		if (Camera.main == null) {
-			return(Vector2.zero);
-		}
-		return(Camera.main.ScreenToWorldPoint (Input.mousePosition));
-	}
+    }
+
+    public static Vector2 GetMousePosition() {
+        if (Camera.main == null) {
+            return (Vector2.zero);
+        }
+        return (Camera.main.ScreenToWorldPoint(Input.mousePosition));
+    }
 }

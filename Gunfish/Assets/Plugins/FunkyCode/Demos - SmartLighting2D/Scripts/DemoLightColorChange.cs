@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using FunkyCode.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode
-{
-    public class DemoLightColorChange : MonoBehaviour
-    {
+namespace FunkyCode {
+    public class DemoLightColorChange : MonoBehaviour {
         public float speed = 1f;
         public float time = 1f;
         public Color[] colors;

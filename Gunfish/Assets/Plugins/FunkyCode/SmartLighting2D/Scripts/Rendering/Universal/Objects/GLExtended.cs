@@ -1,21 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-namespace FunkyCode
-{
-    public class GLExtended
-    {
+namespace FunkyCode {
+    public class GLExtended {
         public static Color color = Color.white;
 
-        public static void ResetColor()
-        {
+        public static void ResetColor() {
             color = Color.white;
         }
 
-        public static void DrawMeshPass(MeshObject mesh, Vector3 position, Vector2 scale, float rotation)
-        {
+        public static void DrawMeshPass(MeshObject mesh, Vector3 position, Vector2 scale, float rotation) {
             Vector2 v0, v1, v2;
             Vector3 p0, p1, p2;
             int t0, t1, t2;
@@ -28,16 +24,15 @@ namespace FunkyCode
             float sin = Mathf.Sin(angle);
 
             int length = mesh.triangles.Length;
-            
+
             GL.Color(color);
 
-            for (int i = 0; i < length; i += 3)
-            {
+            for (int i = 0; i < length; i += 3) {
                 t0 = mesh.triangles[i + 0];
                 t1 = mesh.triangles[i + 1];
                 t2 = mesh.triangles[i + 2];
 
-                p0 = mesh.vertices[t0]; 
+                p0 = mesh.vertices[t0];
                 p1 = mesh.vertices[t1];
                 p2 = mesh.vertices[t2];
 
@@ -59,8 +54,7 @@ namespace FunkyCode
                 v2.x = p2.x * cos - p2.y * sin + position.x;
                 v2.y = p2.x * sin + p2.y * cos + position.y;
 
-                if (useUV)
-                {
+                if (useUV) {
                     uv0 = mesh.uv[t0];
                     uv1 = mesh.uv[t1];
                     uv2 = mesh.uv[t2];
@@ -73,10 +67,9 @@ namespace FunkyCode
 
                     GL.TexCoord3(uv2.x, uv2.y, 0);
                     GL.Vertex3(v2.x, v2.y, 0);
-                    
+
                 }
-                    else
-                {
+                else {
                     GL.Vertex3(v2.x, v2.y, 0);
                     GL.Vertex3(v1.x, v1.y, 0);
                     GL.Vertex3(v0.x, v0.y, 0);
@@ -84,8 +77,7 @@ namespace FunkyCode
             }
         }
 
-         public static void DrawMeshPass(MeshObject mesh)
-         {
+        public static void DrawMeshPass(MeshObject mesh) {
             Vector3 p0, p1, p2;
             int t0, t1, t2;
 
@@ -94,13 +86,12 @@ namespace FunkyCode
             GL.Begin(GL.TRIANGLES);
             GL.Color(color);
 
-            for (int i = 0; i < length; i += 3)
-            {
+            for (int i = 0; i < length; i += 3) {
                 t0 = mesh.triangles[i];
                 t1 = mesh.triangles[i + 1];
                 t2 = mesh.triangles[i + 2];
 
-                p0 = mesh.vertices[t0]; 
+                p0 = mesh.vertices[t0];
                 p1 = mesh.vertices[t1];
                 p2 = mesh.vertices[t2];
 
@@ -112,20 +103,17 @@ namespace FunkyCode
             GL.End();
         }
 
-        public static void DrawMeshPass(List<MeshObject> meshes, Vector3 position, Vector2 scale, float rotation)
-        {
+        public static void DrawMeshPass(List<MeshObject> meshes, Vector3 position, Vector2 scale, float rotation) {
             int length = meshes.Count;
 
-            for (int i = 0; i < length; i += 3)
-            {
+            for (int i = 0; i < length; i += 3) {
                 MeshObject mesh = meshes[i];
 
                 DrawMeshPass(mesh, position, scale, rotation);
             }
         }
 
-        public static void DrawMesh(MeshObject mesh, Vector3 position, Vector2 scale, float rotation)
-        {
+        public static void DrawMesh(MeshObject mesh, Vector3 position, Vector2 scale, float rotation) {
             GL.Begin(GL.TRIANGLES);
 
             DrawMeshPass(mesh, position, scale, rotation);
@@ -133,16 +121,14 @@ namespace FunkyCode
             GL.End();
         }
 
-        public static void DrawMesh(List<MeshObject> meshes, Vector3 position, Vector2 scale, float rotation)
-        {
+        public static void DrawMesh(List<MeshObject> meshes, Vector3 position, Vector2 scale, float rotation) {
             GL.Begin(GL.TRIANGLES);
 
             int length = meshes.Count;
 
-            for (int i = 0; i < length; i += 3)
-            {
+            for (int i = 0; i < length; i += 3) {
                 MeshObject mesh = meshes[i];
-                
+
                 DrawMeshPass(mesh, position, scale, rotation);
             }
 

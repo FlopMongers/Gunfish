@@ -29,11 +29,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Runtime;
+using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// Implements a multiply-with-carry Xorshift pseudo random number generator (RNG) specified in Marsaglia, George. (2003). Xorshift RNGs.
     /// <code>Xn = a * Xn−3 + c mod 2^32</code>
@@ -41,8 +40,7 @@ namespace MathNet.Numerics.Random
     /// </summary>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
-    public class Xorshift : RandomSource
-    {
+    public class Xorshift : RandomSource {
         /// <summary>
         /// The default value for X1.
         /// </summary>
@@ -66,7 +64,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// The multiplier to compute a double-precision floating point number [0, 1)
         /// </summary>
-        const double UlongToDoubleMultiplier = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
+        const double UlongToDoubleMultiplier = 1.0 / 4294967296.0; // 1.0/(uint.MaxValue + 1.0)
 
         /// <summary>
         /// Seed or last but three unsigned random number.
@@ -112,8 +110,7 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift() : this(RandomSeed.Robust())
-        {
+        public Xorshift() : this(RandomSeed.Robust()) {
         }
 
         /// <summary>
@@ -129,8 +126,7 @@ namespace MathNet.Numerics.Random
         /// set whether the instance is thread safe.
         /// Note: <paramref name="c"/> must be less than <paramref name="a"/>.
         /// </remarks>
-        public Xorshift(long a, long c, long x1, long x2) : this(RandomSeed.Robust(), a, c, x1, x2)
-        {
+        public Xorshift(long a, long c, long x1, long x2) : this(RandomSeed.Robust(), a, c, x1, x2) {
         }
 
         /// <summary>
@@ -146,8 +142,7 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
-        {
+        public Xorshift(bool threadSafe) : this(RandomSeed.Robust(), threadSafe) {
         }
 
         /// <summary>
@@ -160,8 +155,7 @@ namespace MathNet.Numerics.Random
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
         /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
-        public Xorshift(bool threadSafe, long a, long c, long x1, long x2) : this(RandomSeed.Robust(), threadSafe, a, c, x1, x2)
-        {
+        public Xorshift(bool threadSafe, long a, long c, long x1, long x2) : this(RandomSeed.Robust(), threadSafe, a, c, x1, x2) {
         }
 
         /// <summary>
@@ -178,8 +172,7 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators)
-        {
+        public Xorshift(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators) {
         }
 
         /// <summary>
@@ -194,8 +187,7 @@ namespace MathNet.Numerics.Random
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
         /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
-        public Xorshift(int seed, long a, long c, long x1, long x2) : this(seed, Control.ThreadSafeRandomNumberGenerators, a, c, x1, x2)
-        {
+        public Xorshift(int seed, long a, long c, long x1, long x2) : this(seed, Control.ThreadSafeRandomNumberGenerators, a, c, x1, x2) {
         }
 
         /// <summary>
@@ -211,10 +203,8 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift(int seed, bool threadSafe) : base(threadSafe)
-        {
-            if (seed == 0)
-            {
+        public Xorshift(int seed, bool threadSafe) : base(threadSafe) {
+            if (seed == 0) {
                 seed = 1;
             }
 
@@ -235,15 +225,12 @@ namespace MathNet.Numerics.Random
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
         /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
-        public Xorshift(int seed, bool threadSafe, long a, long c, long x1, long x2) : base(threadSafe)
-        {
-            if (seed == 0)
-            {
+        public Xorshift(int seed, bool threadSafe, long a, long c, long x1, long x2) : base(threadSafe) {
+            if (seed == 0) {
                 seed = 1;
             }
 
-            if (a <= c)
-            {
+            if (a <= c) {
                 throw new ArgumentException("a must be greater than c.", nameof(a));
             }
 
@@ -257,21 +244,19 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
-        {
-            var t = (_a*_x) + _c;
+        protected sealed override double DoSample() {
+            var t = (_a * _x) + _c;
             _x = _y;
             _y = _z;
             _c = t >> 32;
             _z = t & 0xffffffff;
-            return _z*UlongToDoubleMultiplier;
+            return _z * UlongToDoubleMultiplier;
         }
 
         /// <summary>
         /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
         /// </summary>
-        protected sealed override int DoSampleInteger()
-        {
+        protected sealed override int DoSampleInteger() {
             var t = (_a * _x) + _c;
             _x = _y;
             _y = _z;
@@ -279,8 +264,7 @@ namespace MathNet.Numerics.Random
             _z = t & 0xffffffff;
             uint uint32 = (uint)_z;
             int int31 = (int)(uint32 >> 1);
-            if (int31 == int.MaxValue)
-            {
+            if (int31 == int.MaxValue) {
                 return DoSampleInteger();
             }
 
@@ -290,10 +274,8 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
         /// </summary>
-        protected sealed override void DoSampleBytes(byte[] buffer)
-        {
-            for (var i = 0; i < buffer.Length; i++)
-            {
+        protected sealed override void DoSampleBytes(byte[] buffer) {
+            for (var i = 0; i < buffer.Length; i++) {
                 var t = (_a * _x) + _c;
                 _x = _y;
                 _y = _z;
@@ -308,28 +290,24 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [CLSCompliant(false)]
-        public static void Doubles(double[] values, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
-        {
-            if (a <= c)
-            {
+        public static void Doubles(double[] values, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed) {
+            if (a <= c) {
                 throw new ArgumentException("a must be greater than c.", nameof(a));
             }
 
-            if (seed == 0)
-            {
+            if (seed == 0) {
                 seed = 1;
             }
 
             ulong x = (uint)seed;
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                var t = (a*x) + c;
+            for (int i = 0; i < values.Length; i++) {
+                var t = (a * x) + c;
                 x = x1;
                 x1 = x2;
                 c = t >> 32;
                 x2 = t & 0xffffffff;
-                values[i] = x2*UlongToDoubleMultiplier;
+                values[i] = x2 * UlongToDoubleMultiplier;
             }
         }
 
@@ -339,8 +317,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [CLSCompliant(false)]
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
-        {
+        public static double[] Doubles(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed) {
             var data = new double[length];
             Doubles(data, seed, a, c, x1, x2);
             return data;
@@ -351,28 +328,24 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
         [CLSCompliant(false)]
-        public static IEnumerable<double> DoubleSequence(int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
-        {
-            if (a <= c)
-            {
+        public static IEnumerable<double> DoubleSequence(int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed) {
+            if (a <= c) {
                 throw new ArgumentException("a must be greater than c.", nameof(a));
             }
 
-            if (seed == 0)
-            {
+            if (seed == 0) {
                 seed = 1;
             }
 
             ulong x = (uint)seed;
 
-            while (true)
-            {
-                var t = (a*x) + c;
+            while (true) {
+                var t = (a * x) + c;
                 x = x1;
                 x1 = x2;
                 c = t >> 32;
                 x2 = t & 0xffffffff;
-                yield return x2*UlongToDoubleMultiplier;
+                yield return x2 * UlongToDoubleMultiplier;
             }
         }
     }

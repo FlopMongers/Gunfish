@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD) for <see cref="DenseMatrix"/>.</para>
     /// <para>Suppose M is an m-by-n matrix whose entries are real numbers.
@@ -46,8 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    internal sealed class DenseSvd : Svd
-    {
+    internal sealed class DenseSvd : Svd {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseSvd"/> class. This object will compute the
         /// the singular value decomposition when the constructor is called and cache it's decomposition.
@@ -56,20 +54,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public static DenseSvd Create(DenseMatrix matrix, bool computeVectors)
-        {
+        public static DenseSvd Create(DenseMatrix matrix, bool computeVectors) {
             var nm = Math.Min(matrix.RowCount, matrix.ColumnCount);
             var s = new DenseVector(nm);
             var u = new DenseMatrix(matrix.RowCount);
             var vt = new DenseMatrix(matrix.ColumnCount);
-            LinearAlgebraControl.Provider.SingularValueDecomposition(computeVectors, ((DenseMatrix) matrix.Clone()).Values, matrix.RowCount, matrix.ColumnCount, s.Values, u.Values, vt.Values);
+            LinearAlgebraControl.Provider.SingularValueDecomposition(computeVectors, ((DenseMatrix)matrix.Clone()).Values, matrix.RowCount, matrix.ColumnCount, s.Values, u.Values, vt.Values);
 
             return new DenseSvd(s, u, vt, computeVectors);
         }
 
         DenseSvd(Vector<double> s, Matrix<double> u, Matrix<double> vt, bool vectorsComputed)
-            : base(s, u, vt, vectorsComputed)
-        {
+            : base(s, u, vt, vectorsComputed) {
         }
 
         /// <summary>
@@ -77,37 +73,30 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<double> input, Matrix<double> result)
-        {
-            if (!VectorsComputed)
-            {
+        public override void Solve(Matrix<double> input, Matrix<double> result) {
+            if (!VectorsComputed) {
                 throw new InvalidOperationException("The singular vectors were not computed.");
             }
 
             // The solution X should have the same number of columns as B
-            if (input.ColumnCount != result.ColumnCount)
-            {
+            if (input.ColumnCount != result.ColumnCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (U.RowCount != input.RowCount)
-            {
+            if (U.RowCount != input.RowCount) {
                 throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (VT.ColumnCount != result.RowCount)
-            {
+            if (VT.ColumnCount != result.RowCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
-            if (input is DenseMatrix dinput && result is DenseMatrix dresult)
-            {
-                LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, input.ColumnCount, dresult.Values);
+            if (input is DenseMatrix dinput && result is DenseMatrix dresult) {
+                LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector)S).Values, ((DenseMatrix)U).Values, ((DenseMatrix)VT).Values, dinput.Values, input.ColumnCount, dresult.Values);
             }
-            else
-            {
+            else {
                 throw new NotSupportedException("Can only do SVD factorization for dense matrices at the moment.");
             }
         }
@@ -117,32 +106,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<double> input, Vector<double> result)
-        {
-            if (!VectorsComputed)
-            {
+        public override void Solve(Vector<double> input, Vector<double> result) {
+            if (!VectorsComputed) {
                 throw new InvalidOperationException("The singular vectors were not computed.");
             }
 
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (U.RowCount != input.Count)
-            {
+            if (U.RowCount != input.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             // Check that x is a column vector with n entries
-            if (VT.ColumnCount != result.Count)
-            {
+            if (VT.ColumnCount != result.Count) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(VT, result);
             }
 
-            if (input is DenseVector dinput && result is DenseVector dresult)
-            {
-                LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, 1, dresult.Values);
+            if (input is DenseVector dinput && result is DenseVector dresult) {
+                LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector)S).Values, ((DenseMatrix)U).Values, ((DenseMatrix)VT).Values, dinput.Values, 1, dresult.Values);
             }
-            else
-            {
+            else {
                 throw new NotSupportedException("Can only do SVD factorization for dense vectors at the moment.");
             }
         }

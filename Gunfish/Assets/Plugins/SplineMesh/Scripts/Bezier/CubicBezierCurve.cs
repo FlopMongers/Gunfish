@@ -133,7 +133,8 @@ namespace SplineMesh {
             Length += Vector3.Distance(previousPosition, GetLocation(1));
             samples.Add(CreateSample(Length, 1));
 
-            if (Changed != null) Changed.Invoke();
+            if (Changed != null)
+                Changed.Invoke();
         }
 
         private CurveSample CreateSample(float distance, float time) {
@@ -166,7 +167,8 @@ namespace SplineMesh {
                 }
                 previous = cp;
             }
-            if (!found) throw new Exception("Can't find curve samples.");
+            if (!found)
+                throw new Exception("Can't find curve samples.");
             float t = next == previous ? 0 : (time - previous.timeInCurve) / (next.timeInCurve - previous.timeInCurve);
 
             return CurveSample.Lerp(previous, next, t);
@@ -192,14 +194,16 @@ namespace SplineMesh {
                 }
                 previous = cp;
             }
-            if (!found) throw new Exception("Can't find curve samples.");
+            if (!found)
+                throw new Exception("Can't find curve samples.");
             float t = next == previous ? 0 : (d - previous.distanceInCurve) / (next.distanceInCurve - previous.distanceInCurve);
 
             return CurveSample.Lerp(previous, next, t);
         }
 
         private static void AssertTimeInBounds(float time) {
-            if (time < 0 || time > 1) throw new ArgumentException("Time must be between 0 and 1 (was " + time + ").");
+            if (time < 0 || time > 1)
+                throw new ArgumentException("Time must be between 0 and 1 (was " + time + ").");
         }
 
         public CurveSample GetProjectionSample(Vector3 pointToProject) {
@@ -215,19 +219,22 @@ namespace SplineMesh {
                 i++;
             }
             CurveSample previous, next;
-            if(closestIndex == 0) {
+            if (closestIndex == 0) {
                 previous = samples[closestIndex];
                 next = samples[closestIndex + 1];
-            } else if(closestIndex == samples.Count - 1) {
+            }
+            else if (closestIndex == samples.Count - 1) {
                 previous = samples[closestIndex - 1];
                 next = samples[closestIndex];
-            } else {
+            }
+            else {
                 var toPreviousSample = (pointToProject - samples[closestIndex - 1].location).sqrMagnitude;
                 var toNextSample = (pointToProject - samples[closestIndex + 1].location).sqrMagnitude;
                 if (toPreviousSample < toNextSample) {
                     previous = samples[closestIndex - 1];
                     next = samples[closestIndex];
-                } else {
+                }
+                else {
                     previous = samples[closestIndex];
                     next = samples[closestIndex + 1];
                 }

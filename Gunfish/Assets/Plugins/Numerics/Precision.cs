@@ -32,14 +32,12 @@ using System.Numerics;
 using System.Runtime;
 using System.Runtime.InteropServices;
 
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// Support Interface for Precision Operations (like AlmostEquals).
     /// </summary>
     /// <typeparam name="T">Type of the implementing class.</typeparam>
-    public interface IPrecisionSupport<in T>
-    {
+    public interface IPrecisionSupport<in T> {
         /// <summary>
         /// Returns a Norm of a value of this type, which is appropriate for measuring how
         /// close this value is to zero.
@@ -72,8 +70,7 @@ namespace MathNet.Numerics
     /// </list>
     /// </para>
     /// </remarks>
-    public static partial class Precision
-    {
+    public static partial class Precision {
         /// <summary>
         /// The number of binary digits used to represent the binary number for a double precision floating
         /// point value. i.e. there are this many digits used to represent the
@@ -98,7 +95,7 @@ namespace MathNet.Numerics
         /// Standard epsilon, the maximum relative precision of IEEE 754 double-precision floating numbers (64 bit).
         /// According to the definition of Prof. Higham and used in the ISO C standard and MATLAB.
         /// </summary>
-        public static readonly double PositiveDoublePrecision = 2*DoublePrecision;
+        public static readonly double PositiveDoublePrecision = 2 * DoublePrecision;
 
         /// <summary>
         /// Standard epsilon, the maximum relative precision of IEEE 754 single-precision floating numbers (32 bit).
@@ -110,7 +107,7 @@ namespace MathNet.Numerics
         /// Standard epsilon, the maximum relative precision of IEEE 754 single-precision floating numbers (32 bit).
         /// According to the definition of Prof. Higham and used in the ISO C standard and MATLAB.
         /// </summary>
-        public static readonly double PositiveSinglePrecision = 2*SinglePrecision;
+        public static readonly double PositiveSinglePrecision = 2 * SinglePrecision;
 
         /// <summary>
         /// Actual double precision machine epsilon, the smallest number that can be subtracted from 1, yielding a results different than 1.
@@ -129,33 +126,31 @@ namespace MathNet.Numerics
         /// <summary>
         /// The number of significant decimal places of double-precision floating numbers (64 bit).
         /// </summary>
-        public static readonly int DoubleDecimalPlaces = (int) Math.Floor(Math.Abs(Math.Log10(DoublePrecision)));
+        public static readonly int DoubleDecimalPlaces = (int)Math.Floor(Math.Abs(Math.Log10(DoublePrecision)));
 
         /// <summary>
         /// The number of significant decimal places of single-precision floating numbers (32 bit).
         /// </summary>
-        public static readonly int SingleDecimalPlaces = (int) Math.Floor(Math.Abs(Math.Log10(SinglePrecision)));
+        public static readonly int SingleDecimalPlaces = (int)Math.Floor(Math.Abs(Math.Log10(SinglePrecision)));
 
         /// <summary>
         /// Value representing 10 * 2^(-53) = 1.11022302462516E-15
         /// </summary>
-        static readonly double DefaultDoubleAccuracy = DoublePrecision*10;
+        static readonly double DefaultDoubleAccuracy = DoublePrecision * 10;
 
         /// <summary>
         /// Value representing 10 * 2^(-24) = 5.96046447753906E-07
         /// </summary>
-        static readonly float DefaultSingleAccuracy = (float) (SinglePrecision*10);
+        static readonly float DefaultSingleAccuracy = (float)(SinglePrecision * 10);
 
         /// <summary>
         /// Returns the magnitude of the number.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The magnitude of the number.</returns>
-        public static int Magnitude(this double value)
-        {
+        public static int Magnitude(this double value) {
             // Can't do this with zero because the 10-log of zero doesn't exist.
-            if (value.Equals(0.0))
-            {
+            if (value.Equals(0.0)) {
                 return 0;
             }
 
@@ -178,11 +173,9 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The magnitude of the number.</returns>
-        public static int Magnitude(this float value)
-        {
+        public static int Magnitude(this float value) {
             // Can't do this with zero because the 10-log of zero doesn't exist.
-            if (value.Equals(0.0f))
-            {
+            if (value.Equals(0.0f)) {
                 return 0;
             }
 
@@ -204,15 +197,13 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value of the number.</returns>
-        public static double ScaleUnitMagnitude(this double value)
-        {
-            if (value.Equals(0.0))
-            {
+        public static double ScaleUnitMagnitude(this double value) {
+            if (value.Equals(0.0)) {
                 return value;
             }
 
             int magnitude = Magnitude(value);
-            return value*Math.Pow(10, -magnitude);
+            return value * Math.Pow(10, -magnitude);
         }
 
         /// <summary>
@@ -222,8 +213,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The input double value.</param>
         /// <returns>A long value which is roughly the equivalent of the double value.</returns>
-        static long AsDirectionalInt64(double value)
-        {
+        static long AsDirectionalInt64(double value) {
             // Convert in the normal way.
             long result = BitConverter.DoubleToInt64Bits(value);
 
@@ -240,8 +230,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The input float value.</param>
         /// <returns>An int value which is roughly the equivalent of the double value.</returns>
-        static int AsDirectionalInt32(float value)
-        {
+        static int AsDirectionalInt32(float value) {
             // Convert in the normal way.
             int result = SingleToInt32Bits(value);
 
@@ -261,15 +250,12 @@ namespace MathNet.Numerics
         /// Increment(double.MaxValue) will return positive infinity.
         /// </remarks>
         /// <returns>The next larger floating point value.</returns>
-        public static double Increment(this double value, int count = 1)
-        {
-            if (double.IsInfinity(value) || double.IsNaN(value) || count == 0)
-            {
+        public static double Increment(this double value, int count = 1) {
+            if (double.IsInfinity(value) || double.IsNaN(value) || count == 0) {
                 return value;
             }
 
-            if (count < 0)
-            {
+            if (count < 0) {
                 return Decrement(value, -count);
             }
 
@@ -280,18 +266,15 @@ namespace MathNet.Numerics
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
             long intValue = BitConverter.DoubleToInt64Bits(value);
-            if (intValue < 0)
-            {
+            if (intValue < 0) {
                 intValue -= count;
             }
-            else
-            {
+            else {
                 intValue += count;
             }
 
             // Note that long.MinValue has the same bit pattern as -0.0.
-            if (intValue == long.MinValue)
-            {
+            if (intValue == long.MinValue) {
                 return 0;
             }
 
@@ -310,15 +293,12 @@ namespace MathNet.Numerics
         /// Decrement(double.MinValue) will return negative infinity.
         /// </remarks>
         /// <returns>The next smaller floating point value.</returns>
-        public static double Decrement(this double value, int count = 1)
-        {
-            if (double.IsInfinity(value) || double.IsNaN(value) || count == 0)
-            {
+        public static double Decrement(this double value, int count = 1) {
+            if (double.IsInfinity(value) || double.IsNaN(value) || count == 0) {
                 return value;
             }
 
-            if (count < 0)
-            {
+            if (count < 0) {
                 return Increment(value, -count);
             }
 
@@ -332,18 +312,15 @@ namespace MathNet.Numerics
 
             // If the value is zero then we'd really like the value to be -0. So we'll make it -0
             // and then everything else should work out.
-            if (intValue == 0)
-            {
+            if (intValue == 0) {
                 // Note that long.MinValue has the same bit pattern as -0.0.
                 intValue = long.MinValue;
             }
 
-            if (intValue < 0)
-            {
+            if (intValue < 0) {
                 intValue += count;
             }
-            else
-            {
+            else {
                 intValue -= count;
             }
 
@@ -360,9 +337,8 @@ namespace MathNet.Numerics
         /// <returns>
         ///     Zero if |<paramref name="a"/>| is fewer than <paramref name="maxNumbersBetween"/> numbers from zero, <paramref name="a"/> otherwise.
         /// </returns>
-        public static double CoerceZero(this double a, int maxNumbersBetween)
-        {
-            return CoerceZero(a, (long) maxNumbersBetween);
+        public static double CoerceZero(this double a, int maxNumbersBetween) {
+            return CoerceZero(a, (long)maxNumbersBetween);
         }
 
         /// <summary>
@@ -376,22 +352,18 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than zero.
         /// </exception>
-        public static double CoerceZero(this double a, long maxNumbersBetween)
-        {
-            if (maxNumbersBetween < 0)
-            {
+        public static double CoerceZero(this double a, long maxNumbersBetween) {
+            if (maxNumbersBetween < 0) {
                 throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
-            if (double.IsInfinity(a) || double.IsNaN(a))
-            {
+            if (double.IsInfinity(a) || double.IsNaN(a)) {
                 return a;
             }
 
             // We allow maxNumbersBetween between 0 and the number so
             // we need to check if there a
-            if (NumbersBetween(0.0, a) <= (ulong) maxNumbersBetween)
-            {
+            if (NumbersBetween(0.0, a) <= (ulong)maxNumbersBetween) {
                 return 0.0;
             }
 
@@ -407,20 +379,16 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="maximumAbsoluteError"/> is smaller than zero.
         /// </exception>
-        public static double CoerceZero(this double a, double maximumAbsoluteError)
-        {
-            if (maximumAbsoluteError < 0)
-            {
+        public static double CoerceZero(this double a, double maximumAbsoluteError) {
+            if (maximumAbsoluteError < 0) {
                 throw new ArgumentOutOfRangeException(nameof(maximumAbsoluteError));
             }
 
-            if (double.IsInfinity(a) || double.IsNaN(a))
-            {
+            if (double.IsInfinity(a) || double.IsNaN(a)) {
                 return a;
             }
 
-            if (Math.Abs(a) < maximumAbsoluteError)
-            {
+            if (Math.Abs(a) < maximumAbsoluteError) {
                 return 0.0;
             }
 
@@ -432,8 +400,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The real number to coerce to zero, if it is almost zero.</param>
         /// <returns>Zero if |<paramref name="a"/>| is smaller than 2^(-53) = 1.11e-16, <paramref name="a"/> otherwise.</returns>
-        public static double CoerceZero(this double a)
-        {
+        public static double CoerceZero(this double a) {
             return CoerceZero(a, DoublePrecision);
         }
 
@@ -446,24 +413,20 @@ namespace MathNet.Numerics
         ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than zero.
         /// </exception>
         /// <returns>Tuple of the bottom and top range ends.</returns>
-        public static (double, double) RangeOfMatchingFloatingPointNumbers(this double value, long maxNumbersBetween)
-        {
+        public static (double, double) RangeOfMatchingFloatingPointNumbers(this double value, long maxNumbersBetween) {
             // Make sure ulpDifference is non-negative
-            if (maxNumbersBetween < 1)
-            {
+            if (maxNumbersBetween < 1) {
                 throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
             // If the value is infinity (positive or negative) just
             // return the same infinity for the range.
-            if (double.IsInfinity(value))
-            {
+            if (double.IsInfinity(value)) {
                 return (value, value);
             }
 
             // If the value is a NaN then the range is a NaN too.
-            if (double.IsNaN(value))
-            {
+            if (double.IsNaN(value)) {
                 return (double.NaN, double.NaN);
             }
 
@@ -477,8 +440,7 @@ namespace MathNet.Numerics
 
             // We need to protect against over- and under-flow of the intValue when
             // we start to add the ulpsDifference.
-            if (intValue < 0)
-            {
+            if (intValue < 0) {
                 // Note that long.MinValue has the same bit pattern as
                 // -0.0. Therefore we're working in opposite direction (i.e. add if we want to
                 // go more negative and subtract if we want to go less negative)
@@ -500,8 +462,7 @@ namespace MathNet.Numerics
 
                 return (bottomRangeEnd, topRangeEnd);
             }
-            else
-            {
+            else {
                 // IntValue is positive
                 var topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
                     // Overflow, which means we'd have to go further than a long would allow us.
@@ -530,8 +491,7 @@ namespace MathNet.Numerics
         /// <param name="value">The value.</param>
         /// <param name="maxNumbersBetween">The <c>ulps</c> difference.</param>
         /// <returns>The maximum floating point number which is <paramref name="maxNumbersBetween"/> larger than the given <paramref name="value"/>.</returns>
-        public static double MaximumMatchingFloatingPointNumber(this double value, long maxNumbersBetween)
-        {
+        public static double MaximumMatchingFloatingPointNumber(this double value, long maxNumbersBetween) {
             return RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween).Item2;
         }
 
@@ -542,8 +502,7 @@ namespace MathNet.Numerics
         /// <param name="value">The value.</param>
         /// <param name="maxNumbersBetween">The <c>ulps</c> difference.</param>
         /// <returns>The minimum floating point number which is <paramref name="maxNumbersBetween"/> smaller than the given <paramref name="value"/>.</returns>
-        public static double MinimumMatchingFloatingPointNumber(this double value, long maxNumbersBetween)
-        {
+        public static double MinimumMatchingFloatingPointNumber(this double value, long maxNumbersBetween) {
             return RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween).Item1;
         }
 
@@ -565,39 +524,34 @@ namespace MathNet.Numerics
         /// Tuple with the number of ULPS between the <c>value</c> and the <c>value - relativeDifference</c> as first,
         /// and the number of ULPS between the <c>value</c> and the <c>value + relativeDifference</c> as second value.
         /// </returns>
-        public static (long, long) RangeOfMatchingNumbers(this double value, double relativeDifference)
-        {
+        public static (long, long) RangeOfMatchingNumbers(this double value, double relativeDifference) {
             // Make sure the relative is non-negative
-            if (relativeDifference < 0)
-            {
+            if (relativeDifference < 0) {
                 throw new ArgumentOutOfRangeException(nameof(relativeDifference));
             }
 
             // If the value is infinity (positive or negative) then
             // we can't determine the range.
-            if (double.IsInfinity(value))
-            {
+            if (double.IsInfinity(value)) {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             // If the value is a NaN then we can't determine the range.
-            if (double.IsNaN(value))
-            {
+            if (double.IsNaN(value)) {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             // If the value is zero (0.0) then we can't calculate the relative difference
             // so return the ulps counts for the difference.
-            if (value.Equals(0))
-            {
+            if (value.Equals(0)) {
                 var v = BitConverter.DoubleToInt64Bits(relativeDifference);
                 return (v, v);
             }
 
             // Calculate the ulps for the maximum and minimum values
             // Note that these can overflow
-            long max = AsDirectionalInt64(value + (relativeDifference*Math.Abs(value)));
-            long min = AsDirectionalInt64(value - (relativeDifference*Math.Abs(value)));
+            long max = AsDirectionalInt64(value + (relativeDifference * Math.Abs(value)));
+            long min = AsDirectionalInt64(value - (relativeDifference * Math.Abs(value)));
 
             // Calculate the ulps from the value
             long intValue = AsDirectionalInt64(value);
@@ -626,15 +580,12 @@ namespace MathNet.Numerics
         ///     Thrown if <paramref name="b"/> is <c>double.NaN</c>.
         /// </exception>
         [CLSCompliant(false)]
-        public static ulong NumbersBetween(this double a, double b)
-        {
-            if (double.IsNaN(a) || double.IsInfinity(a))
-            {
+        public static ulong NumbersBetween(this double a, double b) {
+            if (double.IsNaN(a) || double.IsInfinity(a)) {
                 throw new ArgumentOutOfRangeException(nameof(a));
             }
 
-            if (double.IsNaN(b) || double.IsInfinity(b))
-            {
+            if (double.IsNaN(b) || double.IsInfinity(b)) {
                 throw new ArgumentOutOfRangeException(nameof(b));
             }
 
@@ -645,7 +596,7 @@ namespace MathNet.Numerics
 
             // Now find the number of values between the two doubles. This should not overflow
             // given that there are more long values than there are double values
-            return (a >= b) ? (ulong) (intA - intB) : (ulong) (intB - intA);
+            return (a >= b) ? (ulong)(intA - intB) : (ulong)(intB - intA);
         }
 
         /// <summary>
@@ -657,21 +608,17 @@ namespace MathNet.Numerics
         /// </returns>
         /// <remarks>Evaluates the <b>negative</b> epsilon. The more common positive epsilon is equal to two times this negative epsilon.</remarks>
         /// <seealso cref="PositiveEpsilonOf(double)"/>
-        public static double EpsilonOf(this double value)
-        {
-            if (double.IsInfinity(value) || double.IsNaN(value))
-            {
+        public static double EpsilonOf(this double value) {
+            if (double.IsInfinity(value) || double.IsNaN(value)) {
                 return double.NaN;
             }
 
             long signed64 = BitConverter.DoubleToInt64Bits(value);
-            if (signed64 == 0)
-            {
+            if (signed64 == 0) {
                 signed64++;
                 return BitConverter.Int64BitsToDouble(signed64) - value;
             }
-            if (signed64-- < 0)
-            {
+            if (signed64-- < 0) {
                 return BitConverter.Int64BitsToDouble(signed64) - value;
             }
             return value - BitConverter.Int64BitsToDouble(signed64);
@@ -686,21 +633,17 @@ namespace MathNet.Numerics
         /// </returns>
         /// <remarks>Evaluates the <b>negative</b> epsilon. The more common positive epsilon is equal to two times this negative epsilon.</remarks>
         /// <seealso cref="PositiveEpsilonOf(float)"/>
-        public static float EpsilonOf(this float value)
-        {
-            if (float.IsInfinity(value) || float.IsNaN(value))
-            {
+        public static float EpsilonOf(this float value) {
+            if (float.IsInfinity(value) || float.IsNaN(value)) {
                 return float.NaN;
             }
 
             int signed32 = SingleToInt32Bits(value);
-            if (signed32 == 0)
-            {
+            if (signed32 == 0) {
                 signed32++;
                 return Int32BitsToSingle(signed32) - value;
             }
-            if (signed32-- < 0)
-            {
+            if (signed32-- < 0) {
                 return Int32BitsToSingle(signed32) - value;
             }
             return value - Int32BitsToSingle(signed32);
@@ -713,9 +656,8 @@ namespace MathNet.Numerics
         /// <returns>Relative Epsilon (positive double or NaN)</returns>
         /// <remarks>Evaluates the <b>positive</b> epsilon. See also <see cref="EpsilonOf(double)"/></remarks>
         /// <seealso cref="EpsilonOf(double)"/>
-        public static double PositiveEpsilonOf(this double value)
-        {
-            return 2*EpsilonOf(value);
+        public static double PositiveEpsilonOf(this double value) {
+            return 2 * EpsilonOf(value);
         }
 
         /// <summary>
@@ -725,8 +667,7 @@ namespace MathNet.Numerics
         /// <returns>Relative Epsilon (positive float or NaN)</returns>
         /// <remarks>Evaluates the <b>positive</b> epsilon. See also <see cref="EpsilonOf(float)"/></remarks>
         /// <seealso cref="EpsilonOf(float)"/>
-        public static float PositiveEpsilonOf(this float value)
-        {
+        public static float PositiveEpsilonOf(this float value) {
             return 2 * EpsilonOf(value);
         }
 
@@ -735,8 +676,7 @@ namespace MathNet.Numerics
         /// This is also known as unit roundoff error. According to the definition of Prof. Demmel.
         /// </summary>
         /// <returns>Positive Machine epsilon</returns>
-        static double MeasureMachineEpsilon()
-        {
+        static double MeasureMachineEpsilon() {
             double eps = 1.0d;
 
             while ((1.0d - (eps / 2.0d)) < 1.0d)
@@ -750,8 +690,7 @@ namespace MathNet.Numerics
         /// This is also known as unit roundoff error. According to the definition of Prof. Higham.
         /// </summary>
         /// <returns>Machine epsilon</returns>
-        static double MeasurePositiveMachineEpsilon()
-        {
+        static double MeasurePositiveMachineEpsilon() {
             double eps = 1.0d;
 
             while ((1.0d + (eps / 2.0d)) > 1.0d)
@@ -765,8 +704,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="number">Number to be rounded.</param>
         /// <param name="basis">The basis to whose multiples to round to. Must be positive.</param>
-        public static double RoundToMultiple(this double number, double basis)
-        {
+        public static double RoundToMultiple(this double number, double basis) {
             return Math.Round(number / basis, MidpointRounding.AwayFromZero) * basis;
         }
 
@@ -775,9 +713,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="number">Number to be rounded.</param>
         /// <param name="basis">The basis to whose multiples to round to. Must be positive.</param>
-        public static float RoundToMultiple(this float number, float basis)
-        {
-            return (float) RoundToMultiple((double) number, basis);
+        public static float RoundToMultiple(this float number, float basis) {
+            return (float)RoundToMultiple((double)number, basis);
         }
 
         /// <summary>
@@ -785,8 +722,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="number">Number to be rounded.</param>
         /// <param name="basis">The basis to whose multiples to round to. Must be positive.</param>
-        public static decimal RoundToMultiple(this decimal number, decimal basis)
-        {
+        public static decimal RoundToMultiple(this decimal number, decimal basis) {
             return Math.Round(number / basis, MidpointRounding.AwayFromZero) * basis;
         }
 
@@ -795,8 +731,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="number">Number to be rounded.</param>
         /// <param name="basis">The basis to whose powers to round to. Must be positive.</param>
-        public static double RoundToPower(this double number, double basis)
-        {
+        public static double RoundToPower(this double number, double basis) {
             return number < 0.0
                 ? -Math.Pow(basis, Math.Round(Math.Log(-number, basis), MidpointRounding.AwayFromZero))
                 : Math.Pow(basis, Math.Round(Math.Log(number, basis), MidpointRounding.AwayFromZero));
@@ -807,9 +742,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="number">Number to be rounded.</param>
         /// <param name="basis">The basis to whose powers to round to. Must be positive.</param>
-        public static float RoundToPower(this float number, float basis)
-        {
-            return (float) RoundToPower((double) number, basis);
+        public static float RoundToPower(this float number, float basis) {
+            return (float)RoundToPower((double)number, basis);
         }
 
         /// <summary>
@@ -819,8 +753,7 @@ namespace MathNet.Numerics
         /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
         /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
         /// <returns>Rounded number</returns>
-        public static double Round(this double number, int digits)
-        {
+        public static double Round(this double number, int digits) {
             return digits >= 0
                 ? Math.Round(number, digits, MidpointRounding.AwayFromZero)
                 : RoundToMultiple(number, Math.Pow(10.0, -digits));
@@ -833,9 +766,8 @@ namespace MathNet.Numerics
         /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
         /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
         /// <returns>Rounded number</returns>
-        public static float Round(this float number, int digits)
-        {
-            return (float) Round((double) number, digits);
+        public static float Round(this float number, int digits) {
+            return (float)Round((double)number, digits);
         }
 
         /// <summary>
@@ -845,25 +777,23 @@ namespace MathNet.Numerics
         /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
 		/// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
 		/// <returns>Rounded number</returns>
-		public static decimal Round(this decimal number, int digits)
-        {
+		public static decimal Round(this decimal number, int digits) {
             return digits >= 0
                 ? Math.Round(number, digits, MidpointRounding.AwayFromZero)
-                : RoundToMultiple(number, (decimal) Math.Pow(10.0, -digits));
+                : RoundToMultiple(number, (decimal)Math.Pow(10.0, -digits));
         }
 
-		/// <summary>
-		/// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
-		/// </summary>
-		/// <param name="number">Number to be rounded</param>
+        /// <summary>
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
         /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
-		/// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
-		/// <returns>Rounded number</returns>
-		public static int Round(this int number, int digits)
-        {
+        /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        public static int Round(this int number, int digits) {
             return digits >= 0
                 ? number
-                : (int) Round((decimal) number, digits);
+                : (int)Round((decimal)number, digits);
         }
 
         /// <summary>
@@ -874,11 +804,10 @@ namespace MathNet.Numerics
         /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
         /// <returns>Rounded number</returns>
         [CLSCompliant(false)]
-        public static uint Round(this uint number, int digits)
-        {
+        public static uint Round(this uint number, int digits) {
             return digits >= 0
                 ? number
-                : (uint) Round((decimal) number, digits);
+                : (uint)Round((decimal)number, digits);
         }
 
         /// <summary>
@@ -888,40 +817,10 @@ namespace MathNet.Numerics
         /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
         /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
         /// <returns>Rounded number</returns>
-        public static long Round(this long number, int digits)
-        {
+        public static long Round(this long number, int digits) {
             return digits >= 0
                 ? number
-                : (long) Round((decimal) number, digits);
-        }
-
-        /// <summary>
-        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
-        /// </summary>
-        /// <param name="number">Number to be rounded</param>
-        /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
-        /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
-        /// <returns>Rounded number</returns>
-        [CLSCompliant(false)]
-        public static ulong Round(this ulong number, int digits)
-        {
-            return digits >= 0
-                ? number
-                : (ulong) Round((decimal) number, digits);
-        }
-
-        /// <summary>
-        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
-        /// </summary>
-        /// <param name="number">Number to be rounded</param>
-        /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
-        /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
-        /// <returns>Rounded number</returns>
-        public static short Round(this short number, int digits)
-        {
-            return digits >= 0
-                ? number
-                : (short) Round((decimal) number, digits);
+                : (long)Round((decimal)number, digits);
         }
 
         /// <summary>
@@ -932,11 +831,10 @@ namespace MathNet.Numerics
         /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
         /// <returns>Rounded number</returns>
         [CLSCompliant(false)]
-        public static ushort Round(this ushort number, int digits)
-        {
+        public static ulong Round(this ulong number, int digits) {
             return digits >= 0
                 ? number
-                : (ushort) Round((decimal) number, digits);
+                : (ulong)Round((decimal)number, digits);
         }
 
         /// <summary>
@@ -946,18 +844,42 @@ namespace MathNet.Numerics
         /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
         /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
         /// <returns>Rounded number</returns>
-        public static BigInteger Round(this BigInteger number, int digits)
-        {
-            if (digits >= 0)
-            {
+        public static short Round(this short number, int digits) {
+            return digits >= 0
+                ? number
+                : (short)Round((decimal)number, digits);
+        }
+
+        /// <summary>
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
+        /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
+        /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        [CLSCompliant(false)]
+        public static ushort Round(this ushort number, int digits) {
+            return digits >= 0
+                ? number
+                : (ushort)Round((decimal)number, digits);
+        }
+
+        /// <summary>
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
+        /// <param name="digits">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000.</param>
+        /// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        public static BigInteger Round(this BigInteger number, int digits) {
+            if (digits >= 0) {
                 return number;
             }
 
-            var onelarger = number / BigInteger.Pow(10, (-digits)-1);
+            var onelarger = number / BigInteger.Pow(10, (-digits) - 1);
             var divided = onelarger / 10;
             var lastDigit = onelarger - divided * 10;
-            if (lastDigit >= 5)
-            {
+            if (lastDigit >= 5) {
                 divided += 1;
             }
 
@@ -965,26 +887,22 @@ namespace MathNet.Numerics
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        static double Truncate(double value)
-        {
+        static double Truncate(double value) {
             return Math.Truncate(value);
         }
 
-        static int SingleToInt32Bits(float value)
-        {
+        static int SingleToInt32Bits(float value) {
             var union = new SingleIntUnion { Single = value };
             return union.Int32;
         }
 
-        static float Int32BitsToSingle(int value)
-        {
+        static float Int32BitsToSingle(int value) {
             var union = new SingleIntUnion { Int32 = value };
             return union.Single;
         }
 
         [StructLayout(LayoutKind.Explicit)]
-        struct SingleIntUnion
-        {
+        struct SingleIntUnion {
             [FieldOffset(0)]
             public float Single;
 

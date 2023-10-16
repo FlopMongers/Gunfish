@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
-using TMPro;
 
 public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     private struct MarqueeContents {
@@ -48,7 +48,8 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     }
 
     private void UpdateDebug() {
-        if (!GameManager.debug) return;
+        if (!GameManager.debug)
+            return;
     }
 
     public void EnqueueRandomQuip() {
@@ -82,7 +83,8 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     }
 
     private void OnGUI() {
-        if (!GameManager.debug) return;
+        if (!GameManager.debug)
+            return;
         GUI.TextField(new Rect(0f, 20f, 200f, 20f), "Press P to start a countdown");
     }
 
@@ -92,7 +94,7 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
             if (!queue.TryDequeue(out contents)) {
                 continue;
             }
-            
+
             textAsset.SetText(contents.text);
 
             print($"Contents clip: {contents.clip}");

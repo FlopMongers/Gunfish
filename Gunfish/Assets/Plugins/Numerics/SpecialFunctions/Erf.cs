@@ -39,13 +39,11 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the error function.
     /// </summary>
-    public partial class SpecialFunctions
-    {
+    public partial class SpecialFunctions {
         /// <summary>
         /// **************************************
         /// COEFFICIENTS FOR METHOD ErfImp       *
@@ -275,25 +273,20 @@ namespace MathNet.Numerics
         ///         <item>returns -1 if <c>x == double.NegativeInfinity</c>.</item>
         ///     </list>
         /// </remarks>
-        public static double Erf(double x)
-        {
-            if (x == 0)
-            {
+        public static double Erf(double x) {
+            if (x == 0) {
                 return 0;
             }
 
-            if (double.IsPositiveInfinity(x))
-            {
+            if (double.IsPositiveInfinity(x)) {
                 return 1;
             }
 
-            if (double.IsNegativeInfinity(x))
-            {
+            if (double.IsNegativeInfinity(x)) {
                 return -1;
             }
 
-            if (double.IsNaN(x))
-            {
+            if (double.IsNaN(x)) {
                 return double.NaN;
             }
 
@@ -309,25 +302,20 @@ namespace MathNet.Numerics
         ///         <item>returns 2 if <c>x == double.NegativeInfinity</c>.</item>
         ///     </list>
         /// </remarks>
-        public static double Erfc(double x)
-        {
-            if (x == 0)
-            {
+        public static double Erfc(double x) {
+            if (x == 0) {
                 return 1;
             }
 
-            if (double.IsPositiveInfinity(x))
-            {
+            if (double.IsPositiveInfinity(x)) {
                 return 0;
             }
 
-            if (double.IsNegativeInfinity(x))
-            {
+            if (double.IsNegativeInfinity(x)) {
                 return 2;
             }
 
-            if (double.IsNaN(x))
-            {
+            if (double.IsNaN(x)) {
                 return double.NaN;
             }
 
@@ -345,32 +333,26 @@ namespace MathNet.Numerics
         /// <summary>Calculates the inverse error function evaluated at z.</summary>
         /// <param name="z">value to evaluate.</param>
         /// <returns>the inverse error function evaluated at Z.</returns>
-        public static double ErfInv(double z)
-        {
-            if (z == 0.0)
-            {
+        public static double ErfInv(double z) {
+            if (z == 0.0) {
                 return 0.0;
             }
 
-            if (z >= 1.0)
-            {
+            if (z >= 1.0) {
                 return double.PositiveInfinity;
             }
 
-            if (z <= -1.0)
-            {
+            if (z <= -1.0) {
                 return double.NegativeInfinity;
             }
 
             double p, q, s;
-            if (z < 0)
-            {
+            if (z < 0) {
                 p = -z;
                 q = 1 - p;
                 s = -1;
             }
-            else
-            {
+            else {
                 p = z;
                 q = 1 - z;
                 s = 1;
@@ -385,17 +367,13 @@ namespace MathNet.Numerics
         /// <param name="z">Where to evaluate the error function.</param>
         /// <param name="invert">Whether to compute 1 - the error function.</param>
         /// <returns>the error function.</returns>
-        static double ErfImp(double z, bool invert)
-        {
-            if (z < 0)
-            {
-                if (!invert)
-                {
+        static double ErfImp(double z, bool invert) {
+            if (z < 0) {
+                if (!invert) {
                     return -ErfImp(-z, false);
                 }
 
-                if (z < -0.5)
-                {
+                if (z < -0.5) {
                     return 2 - ErfImp(-z, true);
                 }
 
@@ -407,115 +385,96 @@ namespace MathNet.Numerics
             // Big bunch of selection statements now to pick which
             // implementation to use, try to put most likely options
             // first:
-            if (z < 0.5)
-            {
+            if (z < 0.5) {
                 // We're going to calculate erf:
-                if (z < 1e-10)
-                {
-                    result = (z*1.125) + (z*0.003379167095512573896158903121545171688);
+                if (z < 1e-10) {
+                    result = (z * 1.125) + (z * 0.003379167095512573896158903121545171688);
                 }
-                else
-                {
+                else {
                     // Worst case absolute error found: 6.688618532e-21
-                    result = (z*1.125) + (z*Polynomial.Evaluate(z, ErfImpAn)/Polynomial.Evaluate(z, ErfImpAd));
+                    result = (z * 1.125) + (z * Polynomial.Evaluate(z, ErfImpAn) / Polynomial.Evaluate(z, ErfImpAd));
                 }
             }
-            else if (z < 110)
-            {
+            else if (z < 110) {
                 // We'll be calculating erfc:
                 invert = !invert;
                 double r, b;
-                if (z < 0.75)
-                {
+                if (z < 0.75) {
                     // Worst case absolute error found: 5.582813374e-21
-                    r = Polynomial.Evaluate(z - 0.5, ErfImpBn)/Polynomial.Evaluate(z - 0.5, ErfImpBd);
+                    r = Polynomial.Evaluate(z - 0.5, ErfImpBn) / Polynomial.Evaluate(z - 0.5, ErfImpBd);
                     b = 0.3440242112F;
                 }
-                else if (z < 1.25)
-                {
+                else if (z < 1.25) {
                     // Worst case absolute error found: 4.01854729e-21
-                    r = Polynomial.Evaluate(z - 0.75, ErfImpCn)/Polynomial.Evaluate(z - 0.75, ErfImpCd);
+                    r = Polynomial.Evaluate(z - 0.75, ErfImpCn) / Polynomial.Evaluate(z - 0.75, ErfImpCd);
                     b = 0.419990927F;
                 }
-                else if (z < 2.25)
-                {
+                else if (z < 2.25) {
                     // Worst case absolute error found: 2.866005373e-21
-                    r = Polynomial.Evaluate(z - 1.25, ErfImpDn)/Polynomial.Evaluate(z - 1.25, ErfImpDd);
+                    r = Polynomial.Evaluate(z - 1.25, ErfImpDn) / Polynomial.Evaluate(z - 1.25, ErfImpDd);
                     b = 0.4898625016F;
                 }
-                else if (z < 3.5)
-                {
+                else if (z < 3.5) {
                     // Worst case absolute error found: 1.045355789e-21
-                    r = Polynomial.Evaluate(z - 2.25, ErfImpEn) /Polynomial.Evaluate(z - 2.25, ErfImpEd);
+                    r = Polynomial.Evaluate(z - 2.25, ErfImpEn) / Polynomial.Evaluate(z - 2.25, ErfImpEd);
                     b = 0.5317370892F;
                 }
-                else if (z < 5.25)
-                {
+                else if (z < 5.25) {
                     // Worst case absolute error found: 8.300028706e-22
-                    r = Polynomial.Evaluate(z - 3.5, ErfImpFn) /Polynomial.Evaluate(z - 3.5, ErfImpFd);
+                    r = Polynomial.Evaluate(z - 3.5, ErfImpFn) / Polynomial.Evaluate(z - 3.5, ErfImpFd);
                     b = 0.5489973426F;
                 }
-                else if (z < 8)
-                {
+                else if (z < 8) {
                     // Worst case absolute error found: 1.700157534e-21
-                    r = Polynomial.Evaluate(z - 5.25, ErfImpGn) /Polynomial.Evaluate(z - 5.25, ErfImpGd);
+                    r = Polynomial.Evaluate(z - 5.25, ErfImpGn) / Polynomial.Evaluate(z - 5.25, ErfImpGd);
                     b = 0.5571740866F;
                 }
-                else if (z < 11.5)
-                {
+                else if (z < 11.5) {
                     // Worst case absolute error found: 3.002278011e-22
-                    r = Polynomial.Evaluate(z - 8, ErfImpHn) /Polynomial.Evaluate(z - 8, ErfImpHd);
+                    r = Polynomial.Evaluate(z - 8, ErfImpHn) / Polynomial.Evaluate(z - 8, ErfImpHd);
                     b = 0.5609807968F;
                 }
-                else if (z < 17)
-                {
+                else if (z < 17) {
                     // Worst case absolute error found: 6.741114695e-21
-                    r = Polynomial.Evaluate(z - 11.5, ErfImpIn) /Polynomial.Evaluate(z - 11.5, ErfImpId);
+                    r = Polynomial.Evaluate(z - 11.5, ErfImpIn) / Polynomial.Evaluate(z - 11.5, ErfImpId);
                     b = 0.5626493692F;
                 }
-                else if (z < 24)
-                {
+                else if (z < 24) {
                     // Worst case absolute error found: 7.802346984e-22
-                    r = Polynomial.Evaluate(z - 17, ErfImpJn) /Polynomial.Evaluate(z - 17, ErfImpJd);
+                    r = Polynomial.Evaluate(z - 17, ErfImpJn) / Polynomial.Evaluate(z - 17, ErfImpJd);
                     b = 0.5634598136F;
                 }
-                else if (z < 38)
-                {
+                else if (z < 38) {
                     // Worst case absolute error found: 2.414228989e-22
-                    r = Polynomial.Evaluate(z - 24, ErfImpKn) /Polynomial.Evaluate(z - 24, ErfImpKd);
+                    r = Polynomial.Evaluate(z - 24, ErfImpKn) / Polynomial.Evaluate(z - 24, ErfImpKd);
                     b = 0.5638477802F;
                 }
-                else if (z < 60)
-                {
+                else if (z < 60) {
                     // Worst case absolute error found: 5.896543869e-24
-                    r = Polynomial.Evaluate(z - 38, ErfImpLn) /Polynomial.Evaluate(z - 38, ErfImpLd);
+                    r = Polynomial.Evaluate(z - 38, ErfImpLn) / Polynomial.Evaluate(z - 38, ErfImpLd);
                     b = 0.5640528202F;
                 }
-                else if (z < 85)
-                {
+                else if (z < 85) {
                     // Worst case absolute error found: 3.080612264e-21
-                    r = Polynomial.Evaluate(z - 60, ErfImpMn) /Polynomial.Evaluate(z - 60, ErfImpMd);
+                    r = Polynomial.Evaluate(z - 60, ErfImpMn) / Polynomial.Evaluate(z - 60, ErfImpMd);
                     b = 0.5641309023F;
                 }
-                else
-                {
+                else {
                     // Worst case absolute error found: 8.094633491e-22
-                    r = Polynomial.Evaluate(z - 85, ErfImpNn) /Polynomial.Evaluate(z - 85, ErfImpNd);
+                    r = Polynomial.Evaluate(z - 85, ErfImpNn) / Polynomial.Evaluate(z - 85, ErfImpNd);
                     b = 0.5641584396F;
                 }
 
-                double g = Math.Exp(-z*z)/z;
-                result = (g*b) + (g*r);
+                double g = Math.Exp(-z * z) / z;
+                result = (g * b) + (g * r);
             }
-            else
-            {
+            else {
                 // Any value of z larger than 28 will underflow to zero:
                 result = 0;
                 invert = !invert;
             }
 
-            if (invert)
-            {
+            if (invert) {
                 result = 1 - result;
             }
 
@@ -534,27 +493,22 @@ namespace MathNet.Numerics
         /// <summary>calculates the complementary inverse error function evaluated at z.</summary>
         /// <param name="z">value to evaluate.</param>
         /// <returns>the complementary inverse error function evaluated at Z.</returns>
-        public static double ErfcInv(double z)
-        {
-            if (z <= 0.0)
-            {
+        public static double ErfcInv(double z) {
+            if (z <= 0.0) {
                 return double.PositiveInfinity;
             }
 
-            if (z >= 2.0)
-            {
+            if (z >= 2.0) {
                 return double.NegativeInfinity;
             }
 
             double p, q, s;
-            if (z > 1)
-            {
+            if (z > 1) {
                 q = 2 - z;
                 p = 1 - q;
                 s = -1;
             }
-            else
-            {
+            else {
                 p = 1 - z;
                 q = z;
                 s = 1;
@@ -570,12 +524,10 @@ namespace MathNet.Numerics
         /// <param name="q">Second intermediate parameter.</param>
         /// <param name="s">Third intermediate parameter.</param>
         /// <returns>the inverse error function.</returns>
-        static double ErfInvImpl(double p, double q, double s)
-        {
+        static double ErfInvImpl(double p, double q, double s) {
             double result;
 
-            if (p <= 0.5)
-            {
+            if (p <= 0.5) {
                 // Evaluate inverse erf using the rational approximation:
                 //
                 // x = p(p+10)(Y+R(p))
@@ -587,12 +539,11 @@ namespace MathNet.Numerics
                 // long double: Max error found: 1.017064e-20
                 // Maximum Deviation Found (actual error term at infinite precision) 8.030e-21
                 const float y = 0.0891314744949340820313f;
-                double g = p*(p + 10);
-                double r = Polynomial.Evaluate(p, ErvInvImpAn) /Polynomial.Evaluate(p, ErvInvImpAd);
-                result = (g*y) + (g*r);
+                double g = p * (p + 10);
+                double r = Polynomial.Evaluate(p, ErvInvImpAn) / Polynomial.Evaluate(p, ErvInvImpAd);
+                result = (g * y) + (g * r);
             }
-            else if (q >= 0.25)
-            {
+            else if (q >= 0.25) {
                 // Rational approximation for 0.5 > q >= 0.25
                 //
                 // x = sqrt(-2*log(q)) / (Y + R(q))
@@ -604,13 +555,12 @@ namespace MathNet.Numerics
                 // long double : Max error found: 6.084616e-20
                 // Maximum Deviation Found (error term) 4.811e-20
                 const float y = 2.249481201171875f;
-                double g = Math.Sqrt(-2*Math.Log(q));
+                double g = Math.Sqrt(-2 * Math.Log(q));
                 double xs = q - 0.25;
-                double r = Polynomial.Evaluate(xs, ErvInvImpBn) /Polynomial.Evaluate(xs, ErvInvImpBd);
-                result = g/(y + r);
+                double r = Polynomial.Evaluate(xs, ErvInvImpBn) / Polynomial.Evaluate(xs, ErvInvImpBd);
+                result = g / (y + r);
             }
-            else
-            {
+            else {
                 // For q < 0.25 we have a series of rational approximations all
                 // of the general form:
                 //
@@ -629,49 +579,44 @@ namespace MathNet.Numerics
                 // small input values indeed: 80 and 128 bit long double's go all the
                 // way down to ~ 1e-5000 so the "tail" is rather long...
                 double x = Math.Sqrt(-Math.Log(q));
-                if (x < 3)
-                {
+                if (x < 3) {
                     // Max error found: 1.089051e-20
                     const float y = 0.807220458984375f;
                     double xs = x - 1.125;
-                    double r = Polynomial.Evaluate(xs, ErvInvImpCn) /Polynomial.Evaluate(xs, ErvInvImpCd);
-                    result = (y*x) + (r*x);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpCn) / Polynomial.Evaluate(xs, ErvInvImpCd);
+                    result = (y * x) + (r * x);
                 }
-                else if (x < 6)
-                {
+                else if (x < 6) {
                     // Max error found: 8.389174e-21
                     const float y = 0.93995571136474609375f;
                     double xs = x - 3;
-                    double r = Polynomial.Evaluate(xs, ErvInvImpDn) /Polynomial.Evaluate(xs, ErvInvImpDd);
-                    result = (y*x) + (r*x);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpDn) / Polynomial.Evaluate(xs, ErvInvImpDd);
+                    result = (y * x) + (r * x);
                 }
-                else if (x < 18)
-                {
+                else if (x < 18) {
                     // Max error found: 1.481312e-19
                     const float y = 0.98362827301025390625f;
                     double xs = x - 6;
-                    double r = Polynomial.Evaluate(xs, ErvInvImpEn) /Polynomial.Evaluate(xs, ErvInvImpEd);
-                    result = (y*x) + (r*x);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpEn) / Polynomial.Evaluate(xs, ErvInvImpEd);
+                    result = (y * x) + (r * x);
                 }
-                else if (x < 44)
-                {
+                else if (x < 44) {
                     // Max error found: 5.697761e-20
                     const float y = 0.99714565277099609375f;
                     double xs = x - 18;
-                    double r = Polynomial.Evaluate(xs, ErvInvImpFn) /Polynomial.Evaluate(xs, ErvInvImpFd);
-                    result = (y*x) + (r*x);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpFn) / Polynomial.Evaluate(xs, ErvInvImpFd);
+                    result = (y * x) + (r * x);
                 }
-                else
-                {
+                else {
                     // Max error found: 1.279746e-20
                     const float y = 0.99941349029541015625f;
                     double xs = x - 44;
-                    double r = Polynomial.Evaluate(xs, ErvInvImpGn) /Polynomial.Evaluate(xs, ErvInvImpGd);
-                    result = (y*x) + (r*x);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpGn) / Polynomial.Evaluate(xs, ErvInvImpGd);
+                    result = (y * x) + (r * x);
                 }
             }
 
-            return s*result;
+            return s * result;
         }
     }
 }

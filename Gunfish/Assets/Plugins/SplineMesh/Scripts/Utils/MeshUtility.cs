@@ -61,7 +61,7 @@ namespace SplineMesh {
             mesh.triangles = new int[0];
             mesh.vertices = vertices == null ? source.vertices : vertices.ToArray();
             mesh.normals = normals == null ? source.normals : normals.ToArray();
-            mesh.uv = uv == null? source.uv : uv.ToArray();
+            mesh.uv = uv == null ? source.uv : uv.ToArray();
             mesh.uv2 = uv2 == null ? source.uv2 : uv2.ToArray();
             mesh.uv3 = uv3 == null ? source.uv3 : uv3.ToArray();
             mesh.uv4 = uv4 == null ? source.uv4 : uv4.ToArray();

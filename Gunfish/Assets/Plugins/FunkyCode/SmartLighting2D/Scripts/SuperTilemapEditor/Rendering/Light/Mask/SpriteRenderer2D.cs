@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
- #if (SUPER_TILEMAP_EDITOR)
+#if (SUPER_TILEMAP_EDITOR)
 
     namespace FunkyCode.SuperTilemapEditorSupport.Light.Mask
     {
@@ -97,15 +97,13 @@
         }
     }
 
-#else  
+#else
 
-    namespace FunkyCode.SuperTilemapEditorSupport.Light.Mask
-    { 
-        public class SpriteRenderer2D
-        {
-            static public void Sprite(Light2D light, LightTilemapCollider2D id, Material material) {}
-            static public void BumpedSprite(Light2D light, LightTilemapCollider2D id, Material material) {}
-        }
+namespace FunkyCode.SuperTilemapEditorSupport.Light.Mask {
+    public class SpriteRenderer2D {
+        static public void Sprite(Light2D light, LightTilemapCollider2D id, Material material) { }
+        static public void BumpedSprite(Light2D light, LightTilemapCollider2D id, Material material) { }
     }
+}
 
 #endif

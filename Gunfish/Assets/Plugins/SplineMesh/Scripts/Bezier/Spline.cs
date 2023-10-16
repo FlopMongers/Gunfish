@@ -120,11 +120,11 @@ namespace SplineMesh {
                 res--;
             return res;
         }
-		
-	/// <summary>
-	/// Refreshes the spline's internal list of curves.
-	// </summary>
-	public void RefreshCurves() {
+
+        /// <summary>
+        /// Refreshes the spline's internal list of curves.
+        // </summary>
+        public void RefreshCurves() {
             curves.Clear();
             for (int i = 0; i < nodes.Count - 1; i++) {
                 SplineNode n = nodes[i];
@@ -152,12 +152,13 @@ namespace SplineMesh {
             foreach (CubicBezierCurve curve in curves) {
                 // test if distance is approximatly equals to curve length, because spline
                 // length may be greater than cumulated curve length due to float precision
-                if(d > curve.Length && d < curve.Length + 0.0001f) {
+                if (d > curve.Length && d < curve.Length + 0.0001f) {
                     d = curve.Length;
                 }
                 if (d > curve.Length) {
                     d -= curve.Length;
-                } else {
+                }
+                else {
                     return curve.GetSampleAtDistance(d);
                 }
             }
@@ -245,10 +246,10 @@ namespace SplineMesh {
 
         SplineNode start, end;
         private void updateLoopBinding() {
-            if(start != null) {
+            if (start != null) {
                 start.Changed -= StartNodeChanged;
             }
-            if(end != null) {
+            if (end != null) {
                 end.Changed -= EndNodeChanged;
             }
             if (isLoop) {
@@ -257,7 +258,8 @@ namespace SplineMesh {
                 start.Changed += StartNodeChanged;
                 end.Changed += EndNodeChanged;
                 StartNodeChanged(null, null);
-            } else {
+            }
+            else {
                 start = null;
                 end = null;
             }

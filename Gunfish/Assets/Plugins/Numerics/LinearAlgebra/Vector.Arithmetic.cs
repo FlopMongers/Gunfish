@@ -29,10 +29,8 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra
-{
-    public abstract partial class Vector<T>
-    {
+namespace MathNet.Numerics.LinearAlgebra {
+    public abstract partial class Vector<T> {
         /// <summary>
         /// The zero value for type T.
         /// </summary>
@@ -81,8 +79,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to subtract from.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        protected void DoSubtractFrom(T scalar, Vector<T> result)
-        {
+        protected void DoSubtractFrom(T scalar, Vector<T> result) {
             DoNegate(result);
             result.DoAdd(scalar, result);
         }
@@ -120,11 +117,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="other">The other vector</param>
         /// <param name="result">The matrix to store the result of the product.</param>
-        protected void DoOuterProduct(Vector<T> other, Matrix<T> result)
-        {
+        protected void DoOuterProduct(Vector<T> other, Matrix<T> result) {
             var work = Build.Dense(Count);
-            for (var i = 0; i < other.Count; i++)
-            {
+            for (var i = 0; i < other.Count; i++) {
                 DoMultiply(other.At(i), work);
                 result.SetColumn(i, work);
             }
@@ -264,10 +259,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <returns>A copy of the vector with the scalar added.</returns>
-        public Vector<T> Add(T scalar)
-        {
-            if (scalar.Equals(Zero))
-            {
+        public Vector<T> Add(T scalar) {
+            if (scalar.Equals(Zero)) {
                 return Clone();
             }
 
@@ -282,15 +275,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar to add.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void Add(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Add(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
-            if (scalar.Equals(Zero))
-            {
+            if (scalar.Equals(Zero)) {
                 CopyTo(result);
                 return;
             }
@@ -304,10 +294,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The vector to add to this one.</param>
         /// <returns>A new vector containing the sum of both vectors.</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public Vector<T> Add(Vector<T> other)
-        {
-            if (Count != other.Count)
-            {
+        public Vector<T> Add(Vector<T> other) {
+            if (Count != other.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
@@ -323,10 +311,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The vector to store the result of the addition.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void Add(Vector<T> other, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Add(Vector<T> other, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -338,10 +324,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
         /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
-        public Vector<T> Subtract(T scalar)
-        {
-            if (scalar.Equals(Zero))
-            {
+        public Vector<T> Subtract(T scalar) {
+            if (scalar.Equals(Zero)) {
                 return Clone();
             }
 
@@ -356,15 +340,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar to subtract.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void Subtract(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Subtract(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
-            if (scalar.Equals(Zero))
-            {
+            if (scalar.Equals(Zero)) {
                 CopyTo(result);
                 return;
             }
@@ -377,8 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to subtract from.</param>
         /// <returns>A new vector containing the subtraction of the scalar and this vector.</returns>
-        public Vector<T> SubtractFrom(T scalar)
-        {
+        public Vector<T> SubtractFrom(T scalar) {
             var result = Build.SameAs(this);
             DoSubtractFrom(scalar, result);
             return result;
@@ -390,10 +370,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar to subtract from.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void SubtractFrom(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void SubtractFrom(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -405,8 +383,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <returns>The negated vector.</returns>
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
-        public Vector<T> Negate()
-        {
+        public Vector<T> Negate() {
             var retrunVector = Build.SameAs(this);
             DoNegate(retrunVector);
             return retrunVector;
@@ -416,10 +393,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Negates vector and save result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        public void Negate(Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Negate(Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -432,10 +407,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The vector to subtract from this one.</param>
         /// <returns>A new vector containing the subtraction of the two vectors.</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public Vector<T> Subtract(Vector<T> other)
-        {
-            if (Count != other.Count)
-            {
+        public Vector<T> Subtract(Vector<T> other) {
+            if (Count != other.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
@@ -451,10 +424,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The vector to store the result of the subtraction.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void Subtract(Vector<T> other, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Subtract(Vector<T> other, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -465,8 +436,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Return vector with complex conjugate values of the source vector
         /// </summary>
         /// <returns>Conjugated vector</returns>
-        public Vector<T> Conjugate()
-        {
+        public Vector<T> Conjugate() {
             var retrunVector = Build.SameAs(this);
             DoConjugate(retrunVector);
             return retrunVector;
@@ -476,10 +446,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Complex conjugates vector and save result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        public void Conjugate(Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Conjugate(Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -491,15 +459,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
         /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
-        public Vector<T> Multiply(T scalar)
-        {
-            if (scalar.Equals(One))
-            {
+        public Vector<T> Multiply(T scalar) {
+            if (scalar.Equals(One)) {
                 return Clone();
             }
 
-            if (scalar.Equals(Zero))
-            {
+            if (scalar.Equals(Zero)) {
                 return Build.SameAs(this);
             }
 
@@ -514,21 +479,17 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar to multiply.</param>
         /// <param name="result">The vector to store the result of the multiplication.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void Multiply(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Multiply(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
-            if (scalar.Equals(One))
-            {
+            if (scalar.Equals(One)) {
                 CopyTo(result);
                 return;
             }
 
-            if (scalar.Equals(Zero))
-            {
+            if (scalar.Equals(Zero)) {
                 result.Clear();
                 return;
             }
@@ -543,9 +504,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The sum of a[i]*b[i] for all i.</returns>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
         /// <seealso cref="ConjugateDotProduct"/>
-        public T DotProduct(Vector<T> other)
-        {
-            if (Count != other.Count) throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
+        public T DotProduct(Vector<T> other) {
+            if (Count != other.Count)
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
 
             return DoDotProduct(other);
         }
@@ -558,9 +519,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null"/>.</exception>
         /// <seealso cref="DotProduct"/>
-        public T ConjugateDotProduct(Vector<T> other)
-        {
-            if (Count != other.Count) throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
+        public T ConjugateDotProduct(Vector<T> other) {
+            if (Count != other.Count)
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
 
             return DoConjugateDotProduct(other);
         }
@@ -570,10 +531,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to divide with.</param>
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
-        public Vector<T> Divide(T scalar)
-        {
-            if (scalar.Equals(One))
-            {
+        public Vector<T> Divide(T scalar) {
+            if (scalar.Equals(One)) {
                 return Clone();
             }
 
@@ -588,15 +547,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar to divide with.</param>
         /// <param name="result">The vector to store the result of the division.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void Divide(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Divide(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
-            if (scalar.Equals(One))
-            {
+            if (scalar.Equals(One)) {
                 CopyTo(result);
                 return;
             }
@@ -609,8 +565,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to divide.</param>
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
-        public Vector<T> DivideByThis(T scalar)
-        {
+        public Vector<T> DivideByThis(T scalar) {
             var result = Build.SameAs(this);
             DoDivideByThis(scalar, result);
             return result;
@@ -622,10 +577,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar to divide.</param>
         /// <param name="result">The vector to store the result of the division.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void DivideByThis(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void DivideByThis(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -638,8 +591,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <returns>A vector containing the result.</returns>
-        public Vector<T> Modulus(T divisor)
-        {
+        public Vector<T> Modulus(T divisor) {
             var result = Build.SameAs(this);
             DoModulus(divisor, result);
             return result;
@@ -651,10 +603,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        public void Modulus(T divisor, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Modulus(T divisor, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -667,8 +617,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <returns>A vector containing the result.</returns>
-        public Vector<T> ModulusByThis(T dividend)
-        {
+        public Vector<T> ModulusByThis(T dividend) {
             var result = Build.SameAs(this);
             DoModulusByThis(dividend, result);
             return result;
@@ -680,10 +629,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        public void ModulusByThis(T dividend, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void ModulusByThis(T dividend, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -696,8 +643,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <returns>A vector containing the result.</returns>
-        public Vector<T> Remainder(T divisor)
-        {
+        public Vector<T> Remainder(T divisor) {
             var result = Build.SameAs(this);
             DoRemainder(divisor, result);
             return result;
@@ -709,10 +655,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        public void Remainder(T divisor, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void Remainder(T divisor, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -725,8 +669,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <returns>A vector containing the result.</returns>
-        public Vector<T> RemainderByThis(T dividend)
-        {
+        public Vector<T> RemainderByThis(T dividend) {
             var result = Build.SameAs(this);
             DoRemainderByThis(dividend, result);
             return result;
@@ -738,10 +681,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        public void RemainderByThis(T dividend, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void RemainderByThis(T dividend, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -754,10 +695,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public Vector<T> PointwiseMultiply(Vector<T> other)
-        {
-            if (Count != other.Count)
-            {
+        public Vector<T> PointwiseMultiply(Vector<T> other) {
+            if (Count != other.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
@@ -773,15 +712,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseMultiply(Vector<T> other, Vector<T> result)
-        {
-            if (Count != other.Count)
-            {
+        public void PointwiseMultiply(Vector<T> other, Vector<T> result) {
+            if (Count != other.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
-            if (Count != result.Count)
-            {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -794,10 +730,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
-        public Vector<T> PointwiseDivide(Vector<T> divisor)
-        {
-            if (Count != divisor.Count)
-            {
+        public Vector<T> PointwiseDivide(Vector<T> divisor) {
+            if (Count != divisor.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(divisor));
             }
 
@@ -813,15 +747,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseDivide(Vector<T> divisor, Vector<T> result)
-        {
-            if (Count != divisor.Count)
-            {
+        public void PointwiseDivide(Vector<T> divisor, Vector<T> result) {
+            if (Count != divisor.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(divisor));
             }
 
-            if (Count != result.Count)
-            {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -832,8 +763,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise raise this vector to an exponent.
         /// </summary>
         /// <param name="exponent">The exponent to raise this vector values to.</param>
-        public Vector<T> PointwisePower(T exponent)
-        {
+        public Vector<T> PointwisePower(T exponent) {
             var result = Build.SameAs(this);
             DoPointwisePower(exponent, result);
             return result;
@@ -845,10 +775,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="exponent">The exponent to raise this vector values to.</param>
         /// <param name="result">The matrix to store the result into.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwisePower(T exponent, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwisePower(T exponent, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -859,10 +787,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise raise this vector to an exponent and store the result into the result vector.
         /// </summary>
         /// <param name="exponent">The exponent to raise this vector values to.</param>
-        public Vector<T> PointwisePower(Vector<T> exponent)
-        {
-            if (Count != exponent.Count)
-            {
+        public Vector<T> PointwisePower(Vector<T> exponent) {
+            if (Count != exponent.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(exponent));
             }
 
@@ -877,15 +803,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="exponent">The exponent to raise this vector values to.</param>
         /// <param name="result">The vector to store the result into.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwisePower(Vector<T> exponent, Vector<T> result)
-        {
-            if (Count != exponent.Count)
-            {
+        public void PointwisePower(Vector<T> exponent, Vector<T> result) {
+            if (Count != exponent.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(exponent));
             }
 
-            if (Count != result.Count)
-            {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -898,10 +821,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
-        public Vector<T> PointwiseModulus(Vector<T> divisor)
-        {
-            if (Count != divisor.Count)
-            {
+        public Vector<T> PointwiseModulus(Vector<T> divisor) {
+            if (Count != divisor.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(divisor));
             }
 
@@ -918,15 +839,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The vector to store the result of the pointwise modulus.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseModulus(Vector<T> divisor, Vector<T> result)
-        {
-            if (Count != divisor.Count)
-            {
+        public void PointwiseModulus(Vector<T> divisor, Vector<T> result) {
+            if (Count != divisor.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(divisor));
             }
 
-            if (Count != result.Count)
-            {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -938,10 +856,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
-        public Vector<T> PointwiseRemainder(Vector<T> divisor)
-        {
-            if (Count != divisor.Count)
-            {
+        public Vector<T> PointwiseRemainder(Vector<T> divisor) {
+            if (Count != divisor.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(divisor));
             }
 
@@ -958,15 +874,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The vector to store the result of the pointwise remainder.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseRemainder(Vector<T> divisor, Vector<T> result)
-        {
-            if (Count != divisor.Count)
-            {
+        public void PointwiseRemainder(Vector<T> divisor, Vector<T> result) {
+            if (Count != divisor.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(divisor));
             }
 
-            if (Count != result.Count)
-            {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -981,8 +894,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="f">Function which takes a vector, modifies it in place and returns void</param>
         /// <returns>New instance of vector which is the result</returns>
-        protected Vector<T> PointwiseUnary(Action<Vector<T>> f)
-        {
+        protected Vector<T> PointwiseUnary(Action<Vector<T>> f) {
             var result = Build.SameAs(this);
             f(result);
             return result;
@@ -995,10 +907,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="f">Function which takes a vector, modifies it in place and returns void</param>
         /// <param name="result">The vector where the result is to be stored</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        protected void PointwiseUnary(Action<Vector<T>> f, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        protected void PointwiseUnary(Action<Vector<T>> f, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1014,8 +924,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="f">Function which takes a scalar and a vector, modifies the vector in place and returns void</param>
         /// <param name="other">The scalar to be passed to the function</param>
         /// <returns>The resulting vector</returns>
-        protected Vector<T> PointwiseBinary(Action<T, Vector<T>> f, T other)
-        {
+        protected Vector<T> PointwiseBinary(Action<T, Vector<T>> f, T other) {
             var result = Build.SameAs(this);
             f(other, result);
             return result;
@@ -1029,10 +938,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="x">The scalar to be passed to the function</param>
         /// <param name="result">The vector where the result will be placed</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        protected void PointwiseBinary(Action<T, Vector<T>> f, T x, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        protected void PointwiseBinary(Action<T, Vector<T>> f, T x, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
             f(x, result);
@@ -1048,10 +955,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The other vector to be passed to the function as argument. It is not modified</param>
         /// <returns>The resulting vector</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        protected Vector<T> PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> other)
-        {
-            if (Count != other.Count)
-            {
+        protected Vector<T> PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> other) {
+            if (Count != other.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
@@ -1068,15 +973,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The other vector to be passed to the function as argument. It is not modified</param>
         /// <param name="result">The resulting vector</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        protected void PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> other, Vector<T> result)
-        {
-            if (Count != other.Count)
-            {
+        protected void PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> other, Vector<T> result) {
+            if (Count != other.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
-            if (Count != result.Count)
-            {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
             f(other, result);
@@ -1085,8 +987,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Pointwise applies the exponent function to each value.
         /// </summary>
-        public Vector<T> PointwiseExp()
-        {
+        public Vector<T> PointwiseExp() {
             return PointwiseUnary(DoPointwiseExp);
         }
 
@@ -1095,16 +996,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseExp(Vector<T> result)
-        {
+        public void PointwiseExp(Vector<T> result) {
             PointwiseUnary(DoPointwiseExp, result);
         }
 
         /// <summary>
         /// Pointwise applies the natural logarithm function to each value.
         /// </summary>
-        public Vector<T> PointwiseLog()
-        {
+        public Vector<T> PointwiseLog() {
             return PointwiseUnary(DoPointwiseLog);
         }
 
@@ -1113,16 +1012,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseLog(Vector<T> result)
-        {
+        public void PointwiseLog(Vector<T> result) {
             PointwiseUnary(DoPointwiseLog, result);
         }
 
         /// <summary>
         /// Pointwise applies the abs function to each value
         /// </summary>
-        public Vector<T> PointwiseAbs()
-        {
+        public Vector<T> PointwiseAbs() {
             return PointwiseUnary(DoPointwiseAbs);
         }
 
@@ -1130,16 +1027,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the abs function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseAbs(Vector<T> result)
-        {
+        public void PointwiseAbs(Vector<T> result) {
             PointwiseUnary(DoPointwiseAbs, result);
         }
 
         /// <summary>
         /// Pointwise applies the acos function to each value
         /// </summary>
-        public Vector<T> PointwiseAcos()
-        {
+        public Vector<T> PointwiseAcos() {
             return PointwiseUnary(DoPointwiseAcos);
         }
 
@@ -1147,16 +1042,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the acos function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseAcos(Vector<T> result)
-        {
+        public void PointwiseAcos(Vector<T> result) {
             PointwiseUnary(DoPointwiseAcos, result);
         }
 
         /// <summary>
         /// Pointwise applies the asin function to each value
         /// </summary>
-        public Vector<T> PointwiseAsin()
-        {
+        public Vector<T> PointwiseAsin() {
             return PointwiseUnary(DoPointwiseAsin);
         }
 
@@ -1164,16 +1057,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the asin function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseAsin(Vector<T> result)
-        {
+        public void PointwiseAsin(Vector<T> result) {
             PointwiseUnary(DoPointwiseAsin, result);
         }
 
         /// <summary>
         /// Pointwise applies the atan function to each value
         /// </summary>
-        public Vector<T> PointwiseAtan()
-        {
+        public Vector<T> PointwiseAtan() {
             return PointwiseUnary(DoPointwiseAtan);
         }
 
@@ -1181,8 +1072,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the atan function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseAtan(Vector<T> result)
-        {
+        public void PointwiseAtan(Vector<T> result) {
             PointwiseUnary(DoPointwiseAtan, result);
         }
 
@@ -1192,8 +1082,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// 'this' vector being the 'y'
         /// </summary>
         /// <param name="other"></param>
-        public Vector<T> PointwiseAtan2(Vector<T> other)
-        {
+        public Vector<T> PointwiseAtan2(Vector<T> other) {
             return PointwiseBinary(DoPointwiseAtan2, other);
         }
 
@@ -1204,16 +1093,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="other"></param>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseAtan2(Vector<T> other, Vector<T> result)
-        {
+        public void PointwiseAtan2(Vector<T> other, Vector<T> result) {
             PointwiseBinary(DoPointwiseAtan2, other, result);
         }
 
         /// <summary>
         /// Pointwise applies the ceiling function to each value
         /// </summary>
-        public Vector<T> PointwiseCeiling()
-        {
+        public Vector<T> PointwiseCeiling() {
             return PointwiseUnary(DoPointwiseCeiling);
         }
 
@@ -1221,16 +1108,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the ceiling function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseCeiling(Vector<T> result)
-        {
+        public void PointwiseCeiling(Vector<T> result) {
             PointwiseUnary(DoPointwiseCeiling, result);
         }
 
         /// <summary>
         /// Pointwise applies the cos function to each value
         /// </summary>
-        public Vector<T> PointwiseCos()
-        {
+        public Vector<T> PointwiseCos() {
             return PointwiseUnary(DoPointwiseCos);
         }
 
@@ -1238,16 +1123,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the cos function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseCos(Vector<T> result)
-        {
+        public void PointwiseCos(Vector<T> result) {
             PointwiseUnary(DoPointwiseCos, result);
         }
 
         /// <summary>
         /// Pointwise applies the cosh function to each value
         /// </summary>
-        public Vector<T> PointwiseCosh()
-        {
+        public Vector<T> PointwiseCosh() {
             return PointwiseUnary(DoPointwiseCosh);
         }
 
@@ -1255,16 +1138,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the cosh function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseCosh(Vector<T> result)
-        {
+        public void PointwiseCosh(Vector<T> result) {
             PointwiseUnary(DoPointwiseCosh, result);
         }
 
         /// <summary>
         /// Pointwise applies the floor function to each value
         /// </summary>
-        public Vector<T> PointwiseFloor()
-        {
+        public Vector<T> PointwiseFloor() {
             return PointwiseUnary(DoPointwiseFloor);
         }
 
@@ -1272,16 +1153,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the floor function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseFloor(Vector<T> result)
-        {
+        public void PointwiseFloor(Vector<T> result) {
             PointwiseUnary(DoPointwiseFloor, result);
         }
 
         /// <summary>
         /// Pointwise applies the log10 function to each value
         /// </summary>
-        public Vector<T> PointwiseLog10()
-        {
+        public Vector<T> PointwiseLog10() {
             return PointwiseUnary(DoPointwiseLog10);
         }
 
@@ -1289,16 +1168,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the log10 function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseLog10(Vector<T> result)
-        {
+        public void PointwiseLog10(Vector<T> result) {
             PointwiseUnary(DoPointwiseLog10, result);
         }
 
         /// <summary>
         /// Pointwise applies the round function to each value
         /// </summary>
-        public Vector<T> PointwiseRound()
-        {
+        public Vector<T> PointwiseRound() {
             return PointwiseUnary(DoPointwiseRound);
         }
 
@@ -1306,16 +1183,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the round function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseRound(Vector<T> result)
-        {
+        public void PointwiseRound(Vector<T> result) {
             PointwiseUnary(DoPointwiseRound, result);
         }
 
         /// <summary>
         /// Pointwise applies the sign function to each value
         /// </summary>
-        public Vector<T> PointwiseSign()
-        {
+        public Vector<T> PointwiseSign() {
             return PointwiseUnary(DoPointwiseSign);
         }
 
@@ -1323,16 +1198,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the sign function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseSign(Vector<T> result)
-        {
+        public void PointwiseSign(Vector<T> result) {
             PointwiseUnary(DoPointwiseSign, result);
         }
 
         /// <summary>
         /// Pointwise applies the sin function to each value
         /// </summary>
-        public Vector<T> PointwiseSin()
-        {
+        public Vector<T> PointwiseSin() {
             return PointwiseUnary(DoPointwiseSin);
         }
 
@@ -1340,16 +1213,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the sin function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseSin(Vector<T> result)
-        {
+        public void PointwiseSin(Vector<T> result) {
             PointwiseUnary(DoPointwiseSin, result);
         }
 
         /// <summary>
         /// Pointwise applies the sinh function to each value
         /// </summary>
-        public Vector<T> PointwiseSinh()
-        {
+        public Vector<T> PointwiseSinh() {
             return PointwiseUnary(DoPointwiseSinh);
         }
 
@@ -1357,16 +1228,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the sinh function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseSinh(Vector<T> result)
-        {
+        public void PointwiseSinh(Vector<T> result) {
             PointwiseUnary(DoPointwiseSinh, result);
         }
 
         /// <summary>
         /// Pointwise applies the sqrt function to each value
         /// </summary>
-        public Vector<T> PointwiseSqrt()
-        {
+        public Vector<T> PointwiseSqrt() {
             return PointwiseUnary(DoPointwiseSqrt);
         }
 
@@ -1374,16 +1243,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the sqrt function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseSqrt(Vector<T> result)
-        {
+        public void PointwiseSqrt(Vector<T> result) {
             PointwiseUnary(DoPointwiseSqrt, result);
         }
 
         /// <summary>
         /// Pointwise applies the tan function to each value
         /// </summary>
-        public Vector<T> PointwiseTan()
-        {
+        public Vector<T> PointwiseTan() {
             return PointwiseUnary(DoPointwiseTan);
         }
 
@@ -1391,16 +1258,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the tan function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseTan(Vector<T> result)
-        {
+        public void PointwiseTan(Vector<T> result) {
             PointwiseUnary(DoPointwiseTan, result);
         }
 
         /// <summary>
         /// Pointwise applies the tanh function to each value
         /// </summary>
-        public Vector<T> PointwiseTanh()
-        {
+        public Vector<T> PointwiseTanh() {
             return PointwiseUnary(DoPointwiseTanh);
         }
 
@@ -1408,8 +1273,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the tanh function to each value
         /// </summary>
         /// <param name="result">The vector to store the result</param>
-        public void PointwiseTanh(Vector<T> result)
-        {
+        public void PointwiseTanh(Vector<T> result) {
             PointwiseUnary(DoPointwiseTanh, result);
         }
 
@@ -1417,8 +1281,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Computes the outer product M[i,j] = u[i]*v[j] of this and another vector.
         /// </summary>
         /// <param name="other">The other vector</param>
-        public Matrix<T> OuterProduct(Vector<T> other)
-        {
+        public Matrix<T> OuterProduct(Vector<T> other) {
             var matrix = Matrix<T>.Build.SameAs(this, Count, other.Count);
             DoOuterProduct(other, matrix);
             return matrix;
@@ -1429,18 +1292,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="other">The other vector</param>
         /// <param name="result">The matrix to store the result of the product.</param>
-        public void OuterProduct(Vector<T> other, Matrix<T> result)
-        {
-            if (Count != result.RowCount || other.Count != result.ColumnCount)
-            {
+        public void OuterProduct(Vector<T> other, Matrix<T> result) {
+            if (Count != result.RowCount || other.Count != result.ColumnCount) {
                 throw new ArgumentException("Matrix dimensions must agree.", nameof(result));
             }
 
             DoOuterProduct(other, result);
         }
 
-        public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
-        {
+        public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v) {
             return u.OuterProduct(v);
         }
 
@@ -1448,8 +1308,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the minimum with a scalar to each value.
         /// </summary>
         /// <param name="scalar">The scalar value to compare to.</param>
-        public Vector<T> PointwiseMinimum(T scalar)
-        {
+        public Vector<T> PointwiseMinimum(T scalar) {
             var result = Build.SameAs(this);
             DoPointwiseMinimum(scalar, result);
             return result;
@@ -1461,10 +1320,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar value to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseMinimum(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseMinimum(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1475,8 +1332,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the maximum with a scalar to each value.
         /// </summary>
         /// <param name="scalar">The scalar value to compare to.</param>
-        public Vector<T> PointwiseMaximum(T scalar)
-        {
+        public Vector<T> PointwiseMaximum(T scalar) {
             var result = Build.SameAs(this);
             DoPointwiseMaximum(scalar, result);
             return result;
@@ -1488,10 +1344,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar value to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseMaximum(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseMaximum(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1502,8 +1356,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the absolute minimum with a scalar to each value.
         /// </summary>
         /// <param name="scalar">The scalar value to compare to.</param>
-        public Vector<T> PointwiseAbsoluteMinimum(T scalar)
-        {
+        public Vector<T> PointwiseAbsoluteMinimum(T scalar) {
             var result = Build.SameAs(this);
             DoPointwiseAbsoluteMinimum(scalar, result);
             return result;
@@ -1515,10 +1368,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar value to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseAbsoluteMinimum(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseAbsoluteMinimum(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1529,8 +1380,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the absolute maximum with a scalar to each value.
         /// </summary>
         /// <param name="scalar">The scalar value to compare to.</param>
-        public Vector<T> PointwiseAbsoluteMaximum(T scalar)
-        {
+        public Vector<T> PointwiseAbsoluteMaximum(T scalar) {
             var result = Build.SameAs(this);
             DoPointwiseAbsoluteMaximum(scalar, result);
             return result;
@@ -1542,10 +1392,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="scalar">The scalar value to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseAbsoluteMaximum(T scalar, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseAbsoluteMaximum(T scalar, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1556,8 +1404,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the minimum with the values of another vector to each value.
         /// </summary>
         /// <param name="other">The vector with the values to compare to.</param>
-        public Vector<T> PointwiseMinimum(Vector<T> other)
-        {
+        public Vector<T> PointwiseMinimum(Vector<T> other) {
             var result = Build.SameAs(this);
             DoPointwiseMinimum(other, result);
             return result;
@@ -1569,10 +1416,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The vector with the values to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseMinimum(Vector<T> other, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseMinimum(Vector<T> other, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1583,8 +1428,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the maximum with the values of another vector to each value.
         /// </summary>
         /// <param name="other">The vector with the values to compare to.</param>
-        public Vector<T> PointwiseMaximum(Vector<T> other)
-        {
+        public Vector<T> PointwiseMaximum(Vector<T> other) {
             var result = Build.SameAs(this);
             DoPointwiseMaximum(other, result);
             return result;
@@ -1596,10 +1440,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The vector with the values to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseMaximum(Vector<T> other, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseMaximum(Vector<T> other, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1610,8 +1452,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the absolute minimum with the values of another vector to each value.
         /// </summary>
         /// <param name="other">The vector with the values to compare to.</param>
-        public Vector<T> PointwiseAbsoluteMinimum(Vector<T> other)
-        {
+        public Vector<T> PointwiseAbsoluteMinimum(Vector<T> other) {
             var result = Build.SameAs(this);
             DoPointwiseAbsoluteMinimum(other, result);
             return result;
@@ -1623,10 +1464,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The vector with the values to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseAbsoluteMinimum(Vector<T> other, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseAbsoluteMinimum(Vector<T> other, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1637,8 +1476,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise applies the absolute maximum with the values of another vector to each value.
         /// </summary>
         /// <param name="other">The vector with the values to compare to.</param>
-        public Vector<T> PointwiseAbsoluteMaximum(Vector<T> other)
-        {
+        public Vector<T> PointwiseAbsoluteMaximum(Vector<T> other) {
             var result = Build.SameAs(this);
             DoPointwiseAbsoluteMaximum(other, result);
             return result;
@@ -1650,10 +1488,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The vector with the values to compare to.</param>
         /// <param name="result">The vector to store the result.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseAbsoluteMaximum(Vector<T> other, Vector<T> result)
-        {
-            if (Count != result.Count)
-            {
+        public void PointwiseAbsoluteMaximum(Vector<T> other, Vector<T> result) {
+            if (Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(result));
             }
 
@@ -1720,8 +1556,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns the value of maximum element.
         /// </summary>
         /// <returns>The value of maximum element.</returns>
-        public T Maximum()
-        {
+        public T Maximum() {
             return At(MaximumIndex());
         }
 
@@ -1735,8 +1570,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns the value of the minimum element.
         /// </summary>
         /// <returns>The value of the minimum element.</returns>
-        public T Minimum()
-        {
+        public T Minimum() {
             return At(MinimumIndex());
         }
 
@@ -1756,8 +1590,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Computes the sum of the absolute value of the vector's elements.
         /// </summary>
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public double SumMagnitudes()
-        {
+        public double SumMagnitudes() {
             return L1Norm();
         }
     }

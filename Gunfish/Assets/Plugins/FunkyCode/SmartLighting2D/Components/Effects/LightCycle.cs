@@ -1,27 +1,23 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode
-{
+namespace FunkyCode {
     [System.Serializable]
-    public class LightCycleBuffer
-    {
+    public class LightCycleBuffer {
         public Gradient gradient = new Gradient();
     }
 
     [System.Serializable]
-    public class LightDayProperties
-    {
+    public class LightDayProperties {
         [Range(0, 360)]
         public float shadowOffset = 0;
 
         public AnimationCurve shadowHeight = new AnimationCurve();
 
-        public AnimationCurve shadowAlpha = new AnimationCurve();  
+        public AnimationCurve shadowAlpha = new AnimationCurve();
     }
 
     [ExecuteInEditMode]
-    public class LightCycle : MonoBehaviour
-    {
+    public class LightCycle : MonoBehaviour {
         [Range(0, 1)]
         public float time = 0;
 
@@ -29,40 +25,35 @@ namespace FunkyCode
 
         public LightCycleBuffer[] nightProperties = new LightCycleBuffer[1]; // lightmap
 
-        public void SetTime(float setTime)
-        {
+        public void SetTime(float setTime) {
             time = setTime;
         }
 
-        void LateUpdate()
-        {
+        void LateUpdate() {
             LightingSettings.LightmapPresetList lightmapPresets = Lighting2D.Profile.lightmapPresets;
 
-            if (lightmapPresets == null)
-            {
+            if (lightmapPresets == null) {
                 return;
             }
-        
+
             /*
             if (Input.GetMouseButton(0)&& Input.touchCount > 1) { // 
                 time += Time.deltaTime * 0.05f;
 
                 time = time % 1;
             }*/
-            
+
             float time360 = (time * 360);
 
             // Day Lighting Properties
             float height = dayProperties.shadowHeight.Evaluate(time);
             float alpha = dayProperties.shadowAlpha.Evaluate(time);
 
-            if (height < 0.01f)
-            {
+            if (height < 0.01f) {
                 height = 0.01f;
             }
 
-            if (alpha < 0)
-            {
+            if (alpha < 0) {
                 alpha = 0;
             }
 
@@ -71,7 +62,7 @@ namespace FunkyCode
             Lighting2D.DayLightingSettings.direction = time360 + dayProperties.shadowOffset;
 
             // Dynamic Properties
-            for(int i = 0; i < nightProperties.Length; i++) {
+            for (int i = 0; i < nightProperties.Length; i++) {
                 if (i >= lightmapPresets.list.Length) {
                     return;
                 }

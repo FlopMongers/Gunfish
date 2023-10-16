@@ -34,8 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Statistics
-{
+namespace MathNet.Numerics.Statistics {
     /// <summary>
     /// Running statistics accumulator, allows updating by adding values
     /// or by combining two accumulators.
@@ -47,8 +46,7 @@ namespace MathNet.Numerics.Statistics
     /// It is not recommended to rely on this mechanism for durable persistence.
     /// </remarks>
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public sealed class RunningStatistics
-    {
+    public sealed class RunningStatistics {
         [DataMember(Order = 1)]
         long _n;
 
@@ -70,12 +68,10 @@ namespace MathNet.Numerics.Statistics
         [DataMember(Order = 7)]
         double _m4;
 
-        public RunningStatistics()
-        {
+        public RunningStatistics() {
         }
-        
-        public RunningStatistics(RunningStatistics runningStatistics)
-        {
+
+        public RunningStatistics(RunningStatistics runningStatistics) {
             _n = runningStatistics._n;
             _min = runningStatistics._min;
             _max = runningStatistics._max;
@@ -85,8 +81,7 @@ namespace MathNet.Numerics.Statistics
             _m4 = runningStatistics._m4;
         }
 
-        public RunningStatistics(IEnumerable<double> values)
-        {
+        public RunningStatistics(IEnumerable<double> values) {
             PushRange(values);
         }
 
@@ -118,80 +113,77 @@ namespace MathNet.Numerics.Statistics
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double Variance => _n < 2 ? double.NaN : _m2/(_n - 1);
+        public double Variance => _n < 2 ? double.NaN : _m2 / (_n - 1);
 
         /// <summary>
         /// Evaluates the variance from the provided full population.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double PopulationVariance => _n < 2 ? double.NaN : _m2/_n;
+        public double PopulationVariance => _n < 2 ? double.NaN : _m2 / _n;
 
         /// <summary>
         /// Estimates the unbiased population standard deviation from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double StandardDeviation => _n < 2 ? double.NaN : Math.Sqrt(_m2/(_n - 1));
+        public double StandardDeviation => _n < 2 ? double.NaN : Math.Sqrt(_m2 / (_n - 1));
 
         /// <summary>
         /// Evaluates the standard deviation from the provided full population.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double PopulationStandardDeviation => _n < 2 ? double.NaN : Math.Sqrt(_m2/_n);
+        public double PopulationStandardDeviation => _n < 2 ? double.NaN : Math.Sqrt(_m2 / _n);
 
         /// <summary>
         /// Estimates the unbiased population skewness from the provided samples.
         /// Uses a normalizer (Bessel's correction; type 2).
         /// Returns NaN if data has less than three entries or if any entry is NaN.
         /// </summary>
-        public double Skewness => _n < 3 ? double.NaN : (_n*_m3*Math.Sqrt(_m2/(_n - 1))/(_m2*_m2*(_n - 2)))*(_n - 1);
+        public double Skewness => _n < 3 ? double.NaN : (_n * _m3 * Math.Sqrt(_m2 / (_n - 1)) / (_m2 * _m2 * (_n - 2))) * (_n - 1);
 
         /// <summary>
         /// Evaluates the population skewness from the full population.
         /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double PopulationSkewness => _n < 2 ? double.NaN : Math.Sqrt(_n)*_m3/Math.Pow(_m2, 1.5);
+        public double PopulationSkewness => _n < 2 ? double.NaN : Math.Sqrt(_n) * _m3 / Math.Pow(_m2, 1.5);
 
         /// <summary>
         /// Estimates the unbiased population excess kurtosis from the provided samples.
         /// Uses a normalizer (Bessel's correction; type 2).
         /// Returns NaN if data has less than four entries or if any entry is NaN.
         /// </summary>
-        public double Kurtosis => _n < 4 ? double.NaN : ((double)_n*_n - 1)/((_n - 2)*(_n - 3))*(_n*_m4/(_m2*_m2) - 3 + 6.0/(_n + 1));
+        public double Kurtosis => _n < 4 ? double.NaN : ((double)_n * _n - 1) / ((_n - 2) * (_n - 3)) * (_n * _m4 / (_m2 * _m2) - 3 + 6.0 / (_n + 1));
 
         /// <summary>
         /// Evaluates the population excess kurtosis from the full population.
         /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
         /// Returns NaN if data has less than three entries or if any entry is NaN.
         /// </summary>
-        public double PopulationKurtosis => _n < 3 ? double.NaN : _n*_m4/(_m2*_m2) - 3.0;
+        public double PopulationKurtosis => _n < 3 ? double.NaN : _n * _m4 / (_m2 * _m2) - 3.0;
 
         /// <summary>
         /// Update the running statistics by adding another observed sample (in-place).
         /// </summary>
-        public void Push(double value)
-        {
+        public void Push(double value) {
             _n++;
             double d = value - _m1;
-            double s = d/_n;
-            double s2 = s*s;
-            double t = d*s*(_n - 1);
+            double s = d / _n;
+            double s2 = s * s;
+            double t = d * s * (_n - 1);
 
             _m1 += s;
-            _m4 += t*s2*(_n*_n - 3*_n + 3) + 6*s2*_m2 - 4*s*_m3;
-            _m3 += t*s*(_n - 2) - 3*s*_m2;
+            _m4 += t * s2 * (_n * _n - 3 * _n + 3) + 6 * s2 * _m2 - 4 * s * _m3;
+            _m3 += t * s * (_n - 2) - 3 * s * _m2;
             _m2 += t;
 
-            if (value < _min || double.IsNaN(value))
-            {
+            if (value < _min || double.IsNaN(value)) {
                 _min = value;
             }
 
-            if (value > _max || double.IsNaN(value))
-            {
+            if (value > _max || double.IsNaN(value)) {
                 _max = value;
             }
         }
@@ -199,10 +191,8 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Update the running statistics by adding a sequence of observed sample (in-place).
         /// </summary>
-        public void PushRange(IEnumerable<double> values)
-        {
-            foreach (double value in values)
-            {
+        public void PushRange(IEnumerable<double> values) {
+            foreach (double value in values) {
                 Push(value);
             }
         }
@@ -210,29 +200,26 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Create a new running statistics over the combined samples of two existing running statistics.
         /// </summary>
-        public static RunningStatistics Combine(RunningStatistics a, RunningStatistics b)
-        {
-            if (a._n == 0)
-            {
+        public static RunningStatistics Combine(RunningStatistics a, RunningStatistics b) {
+            if (a._n == 0) {
                 return new RunningStatistics(b);
             }
-            if (b._n == 0)
-            {
+            if (b._n == 0) {
                 return new RunningStatistics(a);
             }
 
             long n = a._n + b._n;
             double d = b._m1 - a._m1;
-            double d2 = d*d;
-            double d3 = d2*d;
-            double d4 = d2*d2;
+            double d2 = d * d;
+            double d3 = d2 * d;
+            double d4 = d2 * d2;
 
-            double m1 = (a._n*a._m1 + b._n*b._m1)/n;
-            double m2 = a._m2 + b._m2 + d2*a._n*b._n/n;
-            double m3 = a._m3 + b._m3 + d3*a._n*b._n*(a._n - b._n)/(n*n)
-                        + 3*d*(a._n*b._m2 - b._n*a._m2)/n;
-            double m4 = a._m4 + b._m4 + d4*a._n*b._n*(a._n*a._n - a._n*b._n + b._n*b._n)/(n*n*n)
-                        + 6*d2*(a._n*a._n*b._m2 + b._n*b._n*a._m2)/(n*n) + 4*d*(a._n*b._m3 - b._n*a._m3)/n;
+            double m1 = (a._n * a._m1 + b._n * b._m1) / n;
+            double m2 = a._m2 + b._m2 + d2 * a._n * b._n / n;
+            double m3 = a._m3 + b._m3 + d3 * a._n * b._n * (a._n - b._n) / (n * n)
+                        + 3 * d * (a._n * b._m2 - b._n * a._m2) / n;
+            double m4 = a._m4 + b._m4 + d4 * a._n * b._n * (a._n * a._n - a._n * b._n + b._n * b._n) / (n * n * n)
+                        + 6 * d2 * (a._n * a._n * b._m2 + b._n * b._n * a._m2) / (n * n) + 4 * d * (a._n * b._m3 - b._n * a._m3) / n;
 
             double min = Math.Min(a._min, b._min);
             double max = Math.Max(a._max, b._max);
@@ -240,8 +227,7 @@ namespace MathNet.Numerics.Statistics
             return new RunningStatistics { _n = n, _m1 = m1, _m2 = m2, _m3 = m3, _m4 = m4, _min = min, _max = max };
         }
 
-        public static RunningStatistics operator +(RunningStatistics a, RunningStatistics b)
-        {
+        public static RunningStatistics operator +(RunningStatistics a, RunningStatistics b) {
             return Combine(a, b);
         }
     }

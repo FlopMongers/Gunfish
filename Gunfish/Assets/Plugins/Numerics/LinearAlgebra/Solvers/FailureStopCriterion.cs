@@ -30,13 +30,11 @@
 using System;
 using System.Diagnostics;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterion{T}"/> that monitors residuals for NaN's.
     /// </summary>
-    public sealed class FailureStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public sealed class FailureStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// The status of the calculation
         /// </summary>
@@ -60,20 +58,16 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
-        {
-            if (iterationNumber < 0)
-            {
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector) {
+            if (iterationNumber < 0) {
                 throw new ArgumentOutOfRangeException(nameof(iterationNumber));
             }
 
-            if (solutionVector.Count != residualVector.Count)
-            {
+            if (solutionVector.Count != residualVector.Count) {
                 throw new ArgumentException("The array arguments must have the same length.");
             }
 
-            if (_lastIteration >= iterationNumber)
-            {
+            if (_lastIteration >= iterationNumber) {
                 // We have already stored the actual last iteration number
                 // For now do nothing. We only care about the next step.
                 return _status;
@@ -92,8 +86,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public IterationStatus Status
-        {
+        public IterationStatus Status {
             [DebuggerStepThrough]
             get => _status;
         }
@@ -101,8 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Resets the <see cref="IIterationStopCriterion{T}"/> to the pre-calculation state.
         /// </summary>
-        public void Reset()
-        {
+        public void Reset() {
             _status = IterationStatus.Continue;
             _lastIteration = -1;
         }
@@ -111,8 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Clones the current <see cref="FailureStopCriterion{T}"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="FailureStopCriterion{T}"/> class.</returns>
-        public IIterationStopCriterion<T> Clone()
-        {
+        public IIterationStopCriterion<T> Clone() {
             return new FailureStopCriterion<T>();
         }
     }

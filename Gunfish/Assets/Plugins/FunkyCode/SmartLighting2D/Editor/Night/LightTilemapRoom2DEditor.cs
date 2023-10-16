@@ -1,55 +1,50 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using FunkyCode.LightTilemapCollider;
+using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using FunkyCode.LightTilemapCollider;
 
-namespace FunkyCode
-{
-	[CustomEditor(typeof(LightTilemapRoom2D))]
-	public class LightTilemapRoom2DEditor : Editor
-	{
-		override public void OnInspectorGUI()
-		{
-			LightTilemapRoom2D script = target as LightTilemapRoom2D;
+namespace FunkyCode {
+    [CustomEditor(typeof(LightTilemapRoom2D))]
+    public class LightTilemapRoom2DEditor : Editor {
+        override public void OnInspectorGUI() {
+            LightTilemapRoom2D script = target as LightTilemapRoom2D;
 
-			script.lightLayer = EditorGUILayout.Popup("Layer (Light)", script.lightLayer, Lighting2D.Profile.layers.lightLayers.GetNames());
+            script.lightLayer = EditorGUILayout.Popup("Layer (Light)", script.lightLayer, Lighting2D.Profile.layers.lightLayers.GetNames());
 
-			EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-			script.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type", script.mapType);
+            script.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type", script.mapType);
 
-			EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-			script.maskType = (LightTilemapRoom2D.MaskType)EditorGUILayout.EnumPopup("Mask Type", script.maskType);
-			
-			EditorGUILayout.Space();
+            script.maskType = (LightTilemapRoom2D.MaskType)EditorGUILayout.EnumPopup("Mask Type", script.maskType);
 
-			script.shaderType = (LightTilemapRoom2D.ShaderType)EditorGUILayout.EnumPopup("Shader Type", script.shaderType);
+            EditorGUILayout.Space();
 
-			script.color = EditorGUILayout.ColorField("Shader Color", script.color);
+            script.shaderType = (LightTilemapRoom2D.ShaderType)EditorGUILayout.EnumPopup("Shader Type", script.shaderType);
 
-			EditorGUILayout.Space();
-		
-			if (GUILayout.Button("Update"))
-			{
-				SpriteExtension.PhysicsShapeManager.Clear();
-				
-				script.Initialize();
-				LightingManager2D.ForceUpdate();
-			}
+            script.color = EditorGUILayout.ColorField("Shader Color", script.color);
 
-			if (GUI.changed) {
-				// script.Initialize();
+            EditorGUILayout.Space();
 
-				LightingManager2D.ForceUpdate();
-				
-				if (!EditorApplication.isPlaying)
-				{
-					EditorUtility.SetDirty(script);
-					EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-				}
-			}
-		}
-	}
+            if (GUILayout.Button("Update")) {
+                SpriteExtension.PhysicsShapeManager.Clear();
+
+                script.Initialize();
+                LightingManager2D.ForceUpdate();
+            }
+
+            if (GUI.changed) {
+                // script.Initialize();
+
+                LightingManager2D.ForceUpdate();
+
+                if (!EditorApplication.isPlaying) {
+                    EditorUtility.SetDirty(script);
+                    EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+                }
+            }
+        }
+    }
 }

@@ -68,21 +68,20 @@ public class DeathMatchManager : MatchManager {
     }
 
     private Player GetLastPlayerStanding() {
-        foreach(var kvp in playerStocks) {
-            if (kvp.Value > 0) return kvp.Key;
+        foreach (var kvp in playerStocks) {
+            if (kvp.Value > 0)
+                return kvp.Key;
         }
         return null;
     }
 
-    public override void NextLevel()
-    {
+    public override void NextLevel() {
         ui.CloseLevelStats();
         // ui.OnLoadingStart();
         base.NextLevel();
     }
 
-    private void EndLevel()
-    {
+    private void EndLevel() {
         FreezeFish(true);
         foreach (var activePlayer in parameters.activePlayers) {
             activePlayer.OnDeath -= OnPlayerDeath;
@@ -90,8 +89,7 @@ public class DeathMatchManager : MatchManager {
         }
 
         var player = GetLastPlayerStanding();
-        if (player != null)
-        {
+        if (player != null) {
             playerScores[player] += 1;
             ui.OnScoreChange(player, playerScores[player]);
         }
@@ -100,8 +98,7 @@ public class DeathMatchManager : MatchManager {
         PlayerManager.instance.SetInputMode(PlayerManager.InputMode.EndLevel);
     }
 
-    public override void ShowStats()
-    {
+    public override void ShowStats() {
         base.ShowStats();
         ui.ShowFinalScores(playerScores);
     }

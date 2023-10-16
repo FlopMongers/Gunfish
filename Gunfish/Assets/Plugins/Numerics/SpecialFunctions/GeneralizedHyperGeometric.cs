@@ -35,10 +35,8 @@ using System;
 using System.Linq;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
-    public static partial class SpecialFunctions
-    {
+namespace MathNet.Numerics {
+    public static partial class SpecialFunctions {
         //Rising and falling factorials - reference here:
         //https://en.wikipedia.org/wiki/Falling_and_rising_factorials
 
@@ -46,30 +44,26 @@ namespace MathNet.Numerics
         /// Computes the Rising Factorial (Pochhammer function)  x -> (x)n, n>= 0. see: https://en.wikipedia.org/wiki/Falling_and_rising_factorials
         /// </summary>
         /// <returns>The real value of the Rising Factorial for x and n</returns>
-        public static double RisingFactorial(double x, int n)
-        {
-                double accumulator = 1.0;
+        public static double RisingFactorial(double x, int n) {
+            double accumulator = 1.0;
 
-                for (int k = 0; k < n; k++)
-                {
-                    accumulator *= (x + k);
-                }
-                return accumulator;
+            for (int k = 0; k < n; k++) {
+                accumulator *= (x + k);
             }
+            return accumulator;
+        }
 
         /// <summary>
         /// Computes the Falling Factorial (Pochhammer function)  x -> x(n), n>= 0. see: https://en.wikipedia.org/wiki/Falling_and_rising_factorials
         /// </summary>
         /// <returns>The real value of the Falling Factorial for x and n</returns>
-        public static double FallingFactorial(double x, int n)
-        {
-                double accumulator = 1.0;
+        public static double FallingFactorial(double x, int n) {
+            double accumulator = 1.0;
 
-                for (int k = 0; k < n; k++)
-                {
-                    accumulator *= (x - k);
-                }
-                return accumulator;
+            for (int k = 0; k < n; k++) {
+                accumulator *= (x - k);
+            }
+            return accumulator;
         }
 
         /// <summary>
@@ -81,16 +75,14 @@ namespace MathNet.Numerics
         /// <param name="b">The list of coefficients in the denominator</param>
         /// <param name="z">The variable in the power series</param>
         /// <returns>The value of the Generalized HyperGeometric Function.</returns>
-        public static double GeneralizedHypergeometric(double[] a, double[] b, int z)
-        {
+        public static double GeneralizedHypergeometric(double[] a, double[] b, int z) {
             const double epsilon = 0.000000000000001;
 
             double cumulatives = 0.0;
             double currentIncrement;
             int n = 0;
 
-            do
-            {
+            do {
                 currentIncrement = HGIncrement(a, b, z, n);
                 cumulatives += currentIncrement;
                 n += 1;
@@ -101,22 +93,19 @@ namespace MathNet.Numerics
         }
 
         //Calculate each iteration of the function
-        static double HGIncrement(double[] a, double[] b, int z, int currentN)
-        {
+        static double HGIncrement(double[] a, double[] b, int z, int currentN) {
             double incrementAs = 1.0;
             double incrementBs = 1.0;
 
             double[] incrementAArray = new double[a.Length];
             double[] incrementBArray = new double[b.Length];
 
-            for (int p = 0; p < a.Length; p++)
-            {
+            for (int p = 0; p < a.Length; p++) {
                 incrementAs *= RisingFactorial(a[p], currentN);
                 incrementAArray[p] = RisingFactorial(a[p], currentN);
             }
 
-            for (int q = 0; q < b.Length; q++)
-            {
+            for (int q = 0; q < b.Length; q++) {
                 incrementBs *= RisingFactorial(b[q], currentN);
                 incrementBArray[q] = RisingFactorial(b[q], currentN);
             }
@@ -124,13 +113,11 @@ namespace MathNet.Numerics
             double numZeros = (from x in incrementAArray where x == 0 select x).Count();
             double numPoles = (from x in incrementBArray where x == 0 select x).Count();
 
-            if (numZeros > 0 && numZeros >= numPoles)
-            {
+            if (numZeros > 0 && numZeros >= numPoles) {
                 return 0.0;
             }
 
-            if (numPoles > 0 && numPoles > numZeros)
-            {
+            if (numPoles > 0 && numPoles > numZeros) {
                 return double.PositiveInfinity;
             }
 

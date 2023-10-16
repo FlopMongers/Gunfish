@@ -29,14 +29,12 @@
 
 using System;
 
-namespace MathNet.Numerics.Differentiation
-{
+namespace MathNet.Numerics.Differentiation {
     /// <summary>
     /// Class for evaluating the Jacobian of a function using finite differences.
     /// By default, a central 3-point method is used.
     /// </summary>
-    public class NumericalJacobian
-    {
+    public class NumericalJacobian {
         /// <summary>
         /// Number of function evaluations.
         /// </summary>
@@ -54,8 +52,7 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         /// <param name="points">Number of points for Jacobian evaluation.</param>
         /// <param name="center">Center point for differentiation.</param>
-        public NumericalJacobian(int points, int center)
-        {
+        public NumericalJacobian(int points, int center) {
             _df = new NumericalDerivative(points, center);
         }
 
@@ -65,8 +62,7 @@ namespace MathNet.Numerics.Differentiation
         /// <param name="f">Scalar univariate function handle.</param>
         /// <param name="x">Point at which to evaluate Jacobian.</param>
         /// <returns>Jacobian vector.</returns>
-        public double[] Evaluate(Func<double, double> f, double x)
-        {
+        public double[] Evaluate(Func<double, double> f, double x) {
             return new[] { _df.EvaluateDerivative(f, x, 1) };
         }
 
@@ -79,8 +75,7 @@ namespace MathNet.Numerics.Differentiation
         /// <param name="f">Multivariate function handle.</param>
         /// <param name="x">Points at which to evaluate Jacobian.</param>
         /// <returns>Jacobian vector.</returns>
-        public double[] Evaluate(Func<double[], double> f, double[] x)
-        {
+        public double[] Evaluate(Func<double[], double> f, double[] x) {
             var jacobian = new double[x.Length];
 
             for (var i = 0; i < jacobian.Length; i++)
@@ -102,8 +97,7 @@ namespace MathNet.Numerics.Differentiation
         /// <param name="x">Points at which to evaluate Jacobian.</param>
         /// <param name="currentValue">Current function value at finite difference center.</param>
         /// <returns>Jacobian vector.</returns>
-        public double[] Evaluate(Func<double[], double> f, double[] x, double currentValue)
-        {
+        public double[] Evaluate(Func<double[], double> f, double[] x, double currentValue) {
             var jacobian = new double[x.Length];
 
             for (var i = 0; i < jacobian.Length; i++)
@@ -118,11 +112,9 @@ namespace MathNet.Numerics.Differentiation
         /// <param name="f">Multivariate function array handle.</param>
         /// <param name="x">Vector at which to evaluate Jacobian.</param>
         /// <returns>Jacobian matrix.</returns>
-        public double[,] Evaluate(Func<double[], double>[] f, double[] x)
-        {
+        public double[,] Evaluate(Func<double[], double>[] f, double[] x) {
             var jacobian = new double[f.Length, x.Length];
-            for (int i = 0; i < f.Length; i++)
-            {
+            for (int i = 0; i < f.Length; i++) {
                 var gradient = Evaluate(f[i], x);
                 for (int j = 0; j < gradient.Length; j++)
                     jacobian[i, j] = gradient[j];
@@ -144,11 +136,9 @@ namespace MathNet.Numerics.Differentiation
         /// <param name="x">Vector at which to evaluate Jacobian.</param>
         /// <param name="currentValues">Vector of current function values.</param>
         /// <returns>Jacobian matrix.</returns>
-        public double[,] Evaluate(Func<double[], double>[] f, double[] x, double[] currentValues)
-        {
+        public double[,] Evaluate(Func<double[], double>[] f, double[] x, double[] currentValues) {
             var jacobian = new double[f.Length, x.Length];
-            for (int i = 0; i < f.Length; i++)
-            {
+            for (int i = 0; i < f.Length; i++) {
                 var gradient = Evaluate(f[i], x, currentValues[i]);
                 for (int j = 0; j < gradient.Length; j++)
                     jacobian[i, j] = gradient[j];
@@ -160,8 +150,7 @@ namespace MathNet.Numerics.Differentiation
         /// <summary>
         /// Resets the function evaluation counter for the Jacobian.
         /// </summary>
-        public void ResetFunctionEvaluations()
-        {
+        public void ResetFunctionEvaluations() {
             _df.ResetEvaluations();
         }
     }

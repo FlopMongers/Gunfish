@@ -1,294 +1,254 @@
-﻿using UnityEditor;
+﻿using FunkyCode.LightingSettings;
+using FunkyCode.LightSettings;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using FunkyCode.LightingSettings;
-using FunkyCode.LightSettings;
 
-namespace FunkyCode
-{
-	[CanEditMultipleObjects]
-	[CustomEditor(typeof(DayLightCollider2D))]
-	public class DayLightCollider2DEditor : Editor
-	{
-		private DayLightCollider2D dayLightCollider2D;
+namespace FunkyCode {
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(DayLightCollider2D))]
+    public class DayLightCollider2DEditor : Editor {
+        private DayLightCollider2D dayLightCollider2D;
 
-		private SerializedProperty shadowType;
-		private SerializedProperty shadowLayer;
+        private SerializedProperty shadowType;
+        private SerializedProperty shadowLayer;
 
-		private SerializedProperty shadowDistance;
-		private SerializedProperty shadowThickness;
-		private SerializedProperty shadowEffect;
-		private SerializedProperty shadowSoftness;
-		private SerializedProperty shadowTranslucency;
+        private SerializedProperty shadowDistance;
+        private SerializedProperty shadowThickness;
+        private SerializedProperty shadowEffect;
+        private SerializedProperty shadowSoftness;
+        private SerializedProperty shadowTranslucency;
 
-		private SerializedProperty maskType;
-		private SerializedProperty maskLit;
-		private SerializedProperty maskLayer;
+        private SerializedProperty maskType;
+        private SerializedProperty maskLit;
+        private SerializedProperty maskLayer;
 
-		private SerializedProperty depth;
+        private SerializedProperty depth;
 
-		private SerializedProperty depthFalloff;
+        private SerializedProperty depthFalloff;
 
-		private SerializedProperty depthCustomValue;
-		
-		private void InitProperties()
-		{
-			shadowType = serializedObject.FindProperty("shadowType");
-			shadowLayer = serializedObject.FindProperty("shadowLayer");
-			shadowDistance = serializedObject.FindProperty("shadowDistance");
-			shadowTranslucency = serializedObject.FindProperty("shadowTranslucency");
+        private SerializedProperty depthCustomValue;
 
-			shadowEffect = serializedObject.FindProperty("shadowEffect");
-			shadowSoftness = serializedObject.FindProperty("shadowSoftness");
+        private void InitProperties() {
+            shadowType = serializedObject.FindProperty("shadowType");
+            shadowLayer = serializedObject.FindProperty("shadowLayer");
+            shadowDistance = serializedObject.FindProperty("shadowDistance");
+            shadowTranslucency = serializedObject.FindProperty("shadowTranslucency");
 
-			shadowThickness = serializedObject.FindProperty("shadowThickness");
+            shadowEffect = serializedObject.FindProperty("shadowEffect");
+            shadowSoftness = serializedObject.FindProperty("shadowSoftness");
 
-			maskType = serializedObject.FindProperty("maskType");
-			maskLayer = serializedObject.FindProperty("maskLayer");
-			maskLit = serializedObject.FindProperty("maskLit");
+            shadowThickness = serializedObject.FindProperty("shadowThickness");
 
-			depth = serializedObject.FindProperty("depth");
-			depthFalloff = serializedObject.FindProperty("depthFalloff");
+            maskType = serializedObject.FindProperty("maskType");
+            maskLayer = serializedObject.FindProperty("maskLayer");
+            maskLit = serializedObject.FindProperty("maskLit");
 
-			depthCustomValue = serializedObject.FindProperty("depthCustomValue");
-		}
+            depth = serializedObject.FindProperty("depth");
+            depthFalloff = serializedObject.FindProperty("depthFalloff");
 
-		private void OnEnable(){
-			dayLightCollider2D = target as DayLightCollider2D;
+            depthCustomValue = serializedObject.FindProperty("depthCustomValue");
+        }
 
-			InitProperties();
-			
-			Undo.undoRedoPerformed += RefreshAll;
-		}
+        private void OnEnable() {
+            dayLightCollider2D = target as DayLightCollider2D;
 
-		internal void OnDisable(){
-			Undo.undoRedoPerformed -= RefreshAll;
-		}
+            InitProperties();
 
-		void RefreshAll(){
-			DayLightCollider2D.ForceUpdateAll();
-		}
+            Undo.undoRedoPerformed += RefreshAll;
+        }
 
-		static public bool foldoutbumpedSprite = false;
+        internal void OnDisable() {
+            Undo.undoRedoPerformed -= RefreshAll;
+        }
 
-		override public void OnInspectorGUI()
-		{
-			DayLightCollider2D script = target as DayLightCollider2D;
+        void RefreshAll() {
+            DayLightCollider2D.ForceUpdateAll();
+        }
 
-			if (!UsesShadows() && !UsesMask() && !UsesDepth())
-			{
-				EditorGUILayout.HelpBox("Day Layers are not included in Lightmap Presets \n", MessageType.Warning);
-				
-				return;
-			}
+        static public bool foldoutbumpedSprite = false;
 
-			if (UsesShadows())
-			{
-				// Shadow Properties
-				EditorGUILayout.PropertyField(shadowType, new GUIContent ("Shadow Type"));
+        override public void OnInspectorGUI() {
+            DayLightCollider2D script = target as DayLightCollider2D;
 
-				if (script.mainShape.shadowType != DayLightCollider2D.ShadowType.None)
-				{
-					shadowLayer.intValue = EditorGUILayout.Popup("Shadow Layer (Day)", shadowLayer.intValue, Lighting2D.Profile.layers.dayLayers.GetNames());
+            if (!UsesShadows() && !UsesMask() && !UsesDepth()) {
+                EditorGUILayout.HelpBox("Day Layers are not included in Lightmap Presets \n", MessageType.Warning);
 
-					if (script.mainShape.shadowType == DayLightCollider2D.ShadowType.SpritePhysicsShape || script.mainShape.shadowType == DayLightCollider2D.ShadowType.Collider2D || script.mainShape.shadowType == DayLightCollider2D.ShadowType.FillSpritePhysicsShape)
-					{
-						EditorGUILayout.PropertyField(shadowEffect, new GUIContent ("Shadow Effect"));
+                return;
+            }
 
-						if (dayLightCollider2D.shadowEffect == DayLightCollider2D.ShadowEffect.Softness)
-						{
-							EditorGUILayout.PropertyField(shadowSoftness, new GUIContent ("Shadow Softness"));
-						}
-					}
-					
-					if (script.mainShape.shadowType != DayLightCollider2D.ShadowType.FillCollider2D && script.mainShape.shadowType != DayLightCollider2D.ShadowType.FillSpritePhysicsShape)
-					{
-						EditorGUILayout.PropertyField(shadowDistance, new GUIContent ("Shadow Distance"));
-					}
+            if (UsesShadows()) {
+                // Shadow Properties
+                EditorGUILayout.PropertyField(shadowType, new GUIContent("Shadow Type"));
 
-					if (script.mainShape.shadowType == DayLightCollider2D.ShadowType.SpriteProjection)
-					{
-						EditorGUILayout.PropertyField(shadowThickness, new GUIContent ("Shadow Thickness"));
-					}
+                if (script.mainShape.shadowType != DayLightCollider2D.ShadowType.None) {
+                    shadowLayer.intValue = EditorGUILayout.Popup("Shadow Layer (Day)", shadowLayer.intValue, Lighting2D.Profile.layers.dayLayers.GetNames());
 
-					EditorGUILayout.PropertyField(shadowTranslucency, new GUIContent ("Shadow Translucency"));
-				}
+                    if (script.mainShape.shadowType == DayLightCollider2D.ShadowType.SpritePhysicsShape || script.mainShape.shadowType == DayLightCollider2D.ShadowType.Collider2D || script.mainShape.shadowType == DayLightCollider2D.ShadowType.FillSpritePhysicsShape) {
+                        EditorGUILayout.PropertyField(shadowEffect, new GUIContent("Shadow Effect"));
 
-				EditorGUILayout.Space();
-			}
+                        if (dayLightCollider2D.shadowEffect == DayLightCollider2D.ShadowEffect.Softness) {
+                            EditorGUILayout.PropertyField(shadowSoftness, new GUIContent("Shadow Softness"));
+                        }
+                    }
 
-			if (UsesMask())
-			{
-				EditorGUILayout.PropertyField(maskType, new GUIContent ("Mask Type"));
-				
-				if (script.mainShape.maskType != DayLightCollider2D.MaskType.None)
-				{
-					maskLayer.intValue = EditorGUILayout.Popup("Mask Layer (Day)", maskLayer.intValue, Lighting2D.Profile.layers.dayLayers.GetNames());
-					
-					if (script.mainShape.maskType == DayLightCollider2D.MaskType.BumpedSprite)
-					{
-						GUIBumpMapMode.DrawDay(script.normalMapMode);
-					}
+                    if (script.mainShape.shadowType != DayLightCollider2D.ShadowType.FillCollider2D && script.mainShape.shadowType != DayLightCollider2D.ShadowType.FillSpritePhysicsShape) {
+                        EditorGUILayout.PropertyField(shadowDistance, new GUIContent("Shadow Distance"));
+                    }
 
-					EditorGUILayout.PropertyField(maskLit, new GUIContent ("Mask Lit"));
-				}
+                    if (script.mainShape.shadowType == DayLightCollider2D.ShadowType.SpriteProjection) {
+                        EditorGUILayout.PropertyField(shadowThickness, new GUIContent("Shadow Thickness"));
+                    }
 
-				EditorGUILayout.Space();
-			}
+                    EditorGUILayout.PropertyField(shadowTranslucency, new GUIContent("Shadow Translucency"));
+                }
 
-			if (UsesDepth())
-			{
-				EditorGUILayout.PropertyField(depth, new GUIContent ("Depth"));
+                EditorGUILayout.Space();
+            }
 
-				if (script.depth != DayLightCollider2D.Depth.None)
-				{
-					if (dayLightCollider2D.shadowType != DayLightCollider2D.ShadowType.FillCollider2D && dayLightCollider2D.shadowType != DayLightCollider2D.ShadowType.FillSpritePhysicsShape && dayLightCollider2D.shadowType != DayLightCollider2D.ShadowType.SpriteOffset)
-					{
-						EditorGUILayout.PropertyField(depthFalloff, new GUIContent ("Depth Falloff"));
-					}
-						else
-					{
-						EditorGUI.BeginDisabledGroup(true);
+            if (UsesMask()) {
+                EditorGUILayout.PropertyField(maskType, new GUIContent("Mask Type"));
 
-						EditorGUILayout.EnumPopup("Depth Falloff", (DayLightCollider2D.DepthFalloff.Disabled));
+                if (script.mainShape.maskType != DayLightCollider2D.MaskType.None) {
+                    maskLayer.intValue = EditorGUILayout.Popup("Mask Layer (Day)", maskLayer.intValue, Lighting2D.Profile.layers.dayLayers.GetNames());
 
-						EditorGUI.EndDisabledGroup();
-					}
+                    if (script.mainShape.maskType == DayLightCollider2D.MaskType.BumpedSprite) {
+                        GUIBumpMapMode.DrawDay(script.normalMapMode);
+                    }
 
-					switch(script.depth)
-					{
-						case DayLightCollider2D.Depth.Custom:
+                    EditorGUILayout.PropertyField(maskLit, new GUIContent("Mask Lit"));
+                }
 
-							depthCustomValue.intValue = EditorGUILayout.IntSlider("Depth Value", depthCustomValue.intValue, -100, 100);
+                EditorGUILayout.Space();
+            }
 
-						break;
+            if (UsesDepth()) {
+                EditorGUILayout.PropertyField(depth, new GUIContent("Depth"));
 
-						case DayLightCollider2D.Depth.SortingOrder:
-						case DayLightCollider2D.Depth.ZPosition:
+                if (script.depth != DayLightCollider2D.Depth.None) {
+                    if (dayLightCollider2D.shadowType != DayLightCollider2D.ShadowType.FillCollider2D && dayLightCollider2D.shadowType != DayLightCollider2D.ShadowType.FillSpritePhysicsShape && dayLightCollider2D.shadowType != DayLightCollider2D.ShadowType.SpriteOffset) {
+                        EditorGUILayout.PropertyField(depthFalloff, new GUIContent("Depth Falloff"));
+                    }
+                    else {
+                        EditorGUI.BeginDisabledGroup(true);
 
-							EditorGUI.BeginDisabledGroup(true);
+                        EditorGUILayout.EnumPopup("Depth Falloff", (DayLightCollider2D.DepthFalloff.Disabled));
 
-							EditorGUILayout.Slider("Depth Value", dayLightCollider2D.GetDepth(), -100, 100);
+                        EditorGUI.EndDisabledGroup();
+                    }
 
-							EditorGUI.EndDisabledGroup();
+                    switch (script.depth) {
+                        case DayLightCollider2D.Depth.Custom:
 
-						break;
-					}
-				}
+                            depthCustomValue.intValue = EditorGUILayout.IntSlider("Depth Value", depthCustomValue.intValue, -100, 100);
 
-				EditorGUILayout.Space();
-			}
+                            break;
 
-			serializedObject.ApplyModifiedProperties();
-			
-			if (GUILayout.Button("Update"))
-			{
-				SpriteExtension.PhysicsShapeManager.Clear();
+                        case DayLightCollider2D.Depth.SortingOrder:
+                        case DayLightCollider2D.Depth.ZPosition:
 
-				foreach(UnityEngine.Object target in targets)
-				{
-					DayLightCollider2D daylightCollider2D = target as DayLightCollider2D;
-					
-					daylightCollider2D.mainShape.ResetLocal();
+                            EditorGUI.BeginDisabledGroup(true);
 
-					daylightCollider2D.Initialize();
-				}
-			}
+                            EditorGUILayout.Slider("Depth Value", dayLightCollider2D.GetDepth(), -100, 100);
 
-			if (GUI.changed)
-			{
-				foreach(UnityEngine.Object target in targets)
-				{
-					DayLightCollider2D daylightCollider2D = target as DayLightCollider2D;
-					daylightCollider2D.Initialize();
+                            EditorGUI.EndDisabledGroup();
 
-					if (!EditorApplication.isPlaying)
-					{
-						EditorUtility.SetDirty(target);
-					}
-				}
+                            break;
+                    }
+                }
 
-				if (!EditorApplication.isPlaying)
-				{
-					EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-				}
-			}
-		}
+                EditorGUILayout.Space();
+            }
 
-		public bool UsesDepth()
-		{
-			LightmapPresetList presetList = Lighting2D.Profile.lightmapPresets;
+            serializedObject.ApplyModifiedProperties();
 
-			for(int i = 0; i < presetList.list.Length; i++)
-			{
-				LightmapPreset preset = presetList[i];
+            if (GUILayout.Button("Update")) {
+                SpriteExtension.PhysicsShapeManager.Clear();
 
-				if (preset.type == LightmapPreset.Type.Depth8)
-				{
-					if (preset.dayLayers.list.Length > 0)
-					{
-						return(true);
-					}
-				}
-			}
+                foreach (UnityEngine.Object target in targets) {
+                    DayLightCollider2D daylightCollider2D = target as DayLightCollider2D;
 
-			return(false);
-		}
+                    daylightCollider2D.mainShape.ResetLocal();
 
-		public bool UsesMask()
-		{
-			LightmapPresetList presetList = Lighting2D.Profile.lightmapPresets;
+                    daylightCollider2D.Initialize();
+                }
+            }
 
-			for(int i = 0; i < presetList.list.Length; i++)
-			{
-				LightmapPreset preset = presetList[i];
+            if (GUI.changed) {
+                foreach (UnityEngine.Object target in targets) {
+                    DayLightCollider2D daylightCollider2D = target as DayLightCollider2D;
+                    daylightCollider2D.Initialize();
 
-				if (preset.type != LightmapPreset.Type.Depth8)
-				{
-					for(int x = 0; x < preset.dayLayers.list.Length; x++)
-					{
-						LightmapLayer layer = preset.dayLayers[x];
+                    if (!EditorApplication.isPlaying) {
+                        EditorUtility.SetDirty(target);
+                    }
+                }
 
-						if (layer.type != LayerType.ShadowsOnly)
-						{
-							return(true);
-						}
-					}
-				}
-			}
+                if (!EditorApplication.isPlaying) {
+                    EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+                }
+            }
+        }
 
-			return(false);
-		}
+        public bool UsesDepth() {
+            LightmapPresetList presetList = Lighting2D.Profile.lightmapPresets;
 
-		public bool UsesShadows()
-		{
-			LightmapPresetList presetList = Lighting2D.Profile.lightmapPresets;
+            for (int i = 0; i < presetList.list.Length; i++) {
+                LightmapPreset preset = presetList[i];
 
-			for(int i = 0; i < presetList.list.Length; i++)
-			{
-				LightmapPreset preset = presetList[i];
+                if (preset.type == LightmapPreset.Type.Depth8) {
+                    if (preset.dayLayers.list.Length > 0) {
+                        return (true);
+                    }
+                }
+            }
 
-				if (preset.type != LightmapPreset.Type.Depth8)
-				{
-					for(int x = 0; x < preset.dayLayers.list.Length; x++)
-					{
-						LightmapLayer layer = preset.dayLayers[x];
+            return (false);
+        }
 
-						if (layer.type != LayerType.MaskOnly)
-						{
-							return(true);
-						}
-					}
-				}
-			}
+        public bool UsesMask() {
+            LightmapPresetList presetList = Lighting2D.Profile.lightmapPresets;
 
-			if (UsesDepth())
-			{
-				return(true);
-			}
+            for (int i = 0; i < presetList.list.Length; i++) {
+                LightmapPreset preset = presetList[i];
 
-			return(false);
-		}
-	}
+                if (preset.type != LightmapPreset.Type.Depth8) {
+                    for (int x = 0; x < preset.dayLayers.list.Length; x++) {
+                        LightmapLayer layer = preset.dayLayers[x];
+
+                        if (layer.type != LayerType.ShadowsOnly) {
+                            return (true);
+                        }
+                    }
+                }
+            }
+
+            return (false);
+        }
+
+        public bool UsesShadows() {
+            LightmapPresetList presetList = Lighting2D.Profile.lightmapPresets;
+
+            for (int i = 0; i < presetList.list.Length; i++) {
+                LightmapPreset preset = presetList[i];
+
+                if (preset.type != LightmapPreset.Type.Depth8) {
+                    for (int x = 0; x < preset.dayLayers.list.Length; x++) {
+                        LightmapLayer layer = preset.dayLayers[x];
+
+                        if (layer.type != LayerType.MaskOnly) {
+                            return (true);
+                        }
+                    }
+                }
+            }
+
+            if (UsesDepth()) {
+                return (true);
+            }
+
+            return (false);
+        }
+    }
 }

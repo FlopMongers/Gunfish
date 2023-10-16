@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FunkyCode.LightSettings;
+using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.LightSettings;
 
-namespace FunkyCode.Rendering.Light
-{
-    public class Pass
-    {
+namespace FunkyCode.Rendering.Light {
+    public class Pass {
         public Light2D light;
         public LayerSetting layer;
         public int layerID;
@@ -29,14 +27,12 @@ namespace FunkyCode.Rendering.Light
 
         public Sorting.SortPass sortPass = new Sorting.SortPass();
 
-        public bool Setup(Light2D light, LayerSetting setLayer)
-        {
+        public bool Setup(Light2D light, LayerSetting setLayer) {
             // Layer ID
             layerID = setLayer.GetLayerID();
 
-            if (layerID < 0)
-            {
-                return(false);
+            if (layerID < 0) {
+                return (false);
             }
 
             layer = setLayer;
@@ -44,7 +40,7 @@ namespace FunkyCode.Rendering.Light
             // Calculation Setup
             this.light = light;
             lightSizeSquared = Mathf.Sqrt(light.size * light.size + light.size * light.size);
-        
+
             colliderList = LightCollider2D.List;
 
             layerShadowList = LightCollider2D.GetShadowList(layerID);
@@ -54,56 +50,47 @@ namespace FunkyCode.Rendering.Light
 
             tilemapShadowList = LightTilemapCollider2D.GetShadowList(layerID);
             tilemapMaskList = LightTilemapCollider2D.GetMaskList(layerID);
-    
+
             // Draw Mask & Shadows?
             drawMask = (layer.type != LightLayerType.ShadowOnly);
             drawShadows = (layer.type != LightLayerType.MaskOnly);
 
             // Materials
 
-            if (light.translucentLayer > 0)
-            {
+            if (light.translucentLayer > 0) {
                 materialMask = Lighting2D.Materials.mask.GetMaskTranslucency();
 
-                if (light.Buffer.translucencyTexture != null)
-                {
+                if (light.Buffer.translucencyTexture != null) {
                     materialMask?.SetTexture("_SecTex", light.Buffer.translucencyTexture.renderTexture);
 
                     materialMask?.SetFloat("_TextureSize", light.GetTextureSize().x);
                 }
             }
-                else
-            {
+            else {
                 materialMask = Lighting2D.Materials.mask.GetMask();
             }
-           
+
             materialNormalMap_PixelToLight = Lighting2D.Materials.bumpMask.GetNormalMapSpritePixelToLight();
 
-            if (materialNormalMap_PixelToLight != null)
-            {
-                if (light.translucentLayer > 0 && light.Buffer.translucencyTexture != null)
-                {
+            if (materialNormalMap_PixelToLight != null) {
+                if (light.translucentLayer > 0 && light.Buffer.translucencyTexture != null) {
                     materialNormalMap_PixelToLight.SetTexture("_SecTex", light.Buffer.translucencyTexture.renderTexture);
                     materialNormalMap_PixelToLight.SetFloat("_TextureSize", light.GetTextureSize().x);
                 }
-                    else
-                {
+                else {
                     materialNormalMap_PixelToLight.SetTexture("_SecTex", null);
                 }
             }
 
             materialNormalMap_ObjectToLight = Lighting2D.Materials.bumpMask.GetNormalMapSpriteObjectToLight();
 
-            if (materialNormalMap_ObjectToLight != null)
-            {
-                if (light.translucentLayer > 0 && light.Buffer.translucencyTexture != null)
-                {
+            if (materialNormalMap_ObjectToLight != null) {
+                if (light.translucentLayer > 0 && light.Buffer.translucencyTexture != null) {
                     materialNormalMap_ObjectToLight.SetTexture("_SecTex", light.Buffer.translucencyTexture.renderTexture);
                     materialNormalMap_ObjectToLight.SetFloat("_TextureSize", light.GetTextureSize().x);
                 }
-                    else
-                {
-                    materialNormalMap_ObjectToLight.SetTexture("_SecTex", null); 
+                else {
+                    materialNormalMap_ObjectToLight.SetTexture("_SecTex", null);
                 }
             }
 
@@ -116,11 +103,11 @@ namespace FunkyCode.Rendering.Light
             materialNormalMap_ObjectToLight.SetFloat("_LightZ", light.bumpMap.depth);
 
             sortPass.pass = this;
-            
+
             // sort
             sortPass.Clear();
 
-            return(true);
+            return (true);
         }
     }
 }

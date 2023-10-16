@@ -31,8 +31,7 @@ using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Continuous Univariate Skewed Generalized Error Distribution (SGED).
     /// Implements the univariate Skewed Generalized Error Distribution. For details about this
@@ -53,8 +52,7 @@ namespace MathNet.Numerics.Distributions
     /// <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters
     /// whether they are in the allowed range.</para></remarks>
-    public class SkewedGeneralizedError : IContinuousDistribution
-    {
+    public class SkewedGeneralizedError : IContinuousDistribution {
         System.Random _random;
 
         readonly double _skewness;
@@ -63,8 +61,7 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the SkewedGeneralizedError class. This is a generalized error distribution
         /// with location=0.0, scale=1.0, skew=0.0 and p=2.0 (a standard normal distribution).
         /// </summary>
-        public SkewedGeneralizedError()
-        {
+        public SkewedGeneralizedError() {
             _random = SystemRandomSource.Default;
             Location = 0.0;
             Scale = 1.0;
@@ -80,10 +77,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
-        public SkewedGeneralizedError(double location, double scale, double skew, double p)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public SkewedGeneralizedError(double location, double scale, double skew, double p) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -99,8 +94,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -109,9 +103,8 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return $"SkewedGeneralizedError(μ = {Location}, σ = {Scale}, λ = { Skew }, p = {P}";
+        public override string ToString() {
+            return $"SkewedGeneralizedError(μ = {Location}, σ = {Scale}, λ = {Skew}, p = {P}";
         }
 
         /// <summary>
@@ -121,8 +114,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
-        public static bool IsValidParameterSet(double location, double scale, double skew, double p)
-        {
+        public static bool IsValidParameterSet(double location, double scale, double skew, double p) {
             return scale > 0.0 && skew > -1.0 && skew < 1.0 && p > 0.0 && !double.IsNaN(location);
         }
 
@@ -171,10 +163,8 @@ namespace MathNet.Numerics.Distributions
         public double Median =>
             Skew == 0 ? Mean : InverseCumulativeDistribution(0.5);
 
-        double CalculateSkewness()
-        {
-            if (Skew == 0)
-            {
+        double CalculateSkewness() {
+            if (Skew == 0) {
                 return 0.0;
             }
 
@@ -192,8 +182,7 @@ namespace MathNet.Numerics.Distributions
             return t1 * (t2 - t3 + t4);
         }
 
-        static double AdjustScale(double scale, double skew, double p)
-        {
+        static double AdjustScale(double scale, double skew, double p) {
             var g1 = SpecialFunctions.Gamma(3.0 / p);
             var g2 = SpecialFunctions.Gamma(0.5 + 1.0 / p);
             var g3 = SpecialFunctions.Gamma(1.0 / p);
@@ -204,38 +193,32 @@ namespace MathNet.Numerics.Distributions
             return scale / Math.Sqrt((n1 - n2) / d);
         }
 
-        static double AdjustX(double x, double scale, double skew, double p)
-        {
+        static double AdjustX(double x, double scale, double skew, double p) {
             return x + AdjustAddend(scale, skew, p);
         }
 
-        static double AdjustAddend(double scale, double skew, double p)
-        {
+        static double AdjustAddend(double scale, double skew, double p) {
             return (Math.Pow(2.0, 2.0 / p) * scale * skew * SpecialFunctions.Gamma(1.0 / 2.0 + 1.0 / p)) /
                 Constants.SqrtPi;
         }
 
-        public static double PDF(double location, double scale, double skew, double p, double x)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static double PDF(double location, double scale, double skew, double p, double x) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             scale = AdjustScale(scale, skew, p);
             x = AdjustX(x, scale, skew, p);
 
-           // p / (2 * sigma * gamma(1 / p) * exp((abs(x - mu) / (sigma * (1 + lambda * sgn(x - mu)))) ^ p))
+            // p / (2 * sigma * gamma(1 / p) * exp((abs(x - mu) / (sigma * (1 + lambda * sgn(x - mu)))) ^ p))
             var d1 = Math.Abs(x - location);
             var d2 = scale * (1.0 + skew * Math.Sign(x - location));
             var d3 = 2.0 * scale * SpecialFunctions.Gamma(1.0 / p);
             return p / (Math.Exp(Math.Pow(d1 / d2, p)) * d3);
         }
 
-        public static double PDFLn(double location, double scale, double skew, double p, double x)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static double PDFLn(double location, double scale, double skew, double p, double x) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -246,10 +229,8 @@ namespace MathNet.Numerics.Distributions
                 Math.Pow(Math.Abs(x - location) / (scale * (1.0 + skew * Math.Sign(x - location))), p);
         }
 
-        public static double CDF(double location, double scale, double skew, double p, double x)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static double CDF(double location, double scale, double skew, double p, double x) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -257,8 +238,7 @@ namespace MathNet.Numerics.Distributions
             x = AdjustX(x, scale, skew, p) - location;
 
             var flip = x < 0;
-            if (flip)
-            {
+            if (flip) {
                 skew = -skew;
                 x = -x;
             }
@@ -267,10 +247,8 @@ namespace MathNet.Numerics.Distributions
             return flip ? 1.0 - res : res;
         }
 
-        public static double InvCDF(double location, double scale, double skew, double p, double pr)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static double InvCDF(double location, double scale, double skew, double p, double pr) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -278,8 +256,7 @@ namespace MathNet.Numerics.Distributions
 
             var flip = pr < (1.0 - skew) / 2.0;
             var lambda = skew;
-            if (flip)
-            {
+            if (flip) {
                 pr = 1.0 - pr;
                 lambda = -lambda;
             }
@@ -292,59 +269,47 @@ namespace MathNet.Numerics.Distributions
             return res - AdjustAddend(scale, skew, p);
         }
 
-        public double InverseCumulativeDistribution(double p)
-        {
+        public double InverseCumulativeDistribution(double p) {
             return InvCDF(Location, Scale, Skew, P, p);
         }
 
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return CDF(Location, Scale, Skew, P, x);
         }
 
-        public double Density(double x)
-        {
+        public double Density(double x) {
             return PDF(Location, Scale, Skew, P, x);
         }
 
-        public double DensityLn(double x)
-        {
+        public double DensityLn(double x) {
             return PDFLn(Location, Scale, Skew, P, x);
         }
 
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, Location, Scale, Skew, P);
         }
 
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, Location, Scale, Skew, P);
         }
 
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, Location, Scale, Skew, P);
         }
 
-        static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p)
-        {
+        static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p) {
             var u = ContinuousUniform.Sample(rnd, 0, 1);
             return InvCDF(location, scale, skew, p, u);
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale, double skew, double p)
-        {
-            for (int i = 0; i < values.Length; i++)
-            {
+        static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale, double skew, double p) {
+            for (int i = 0; i < values.Length; i++) {
                 values[i] = SampleUnchecked(rnd, location, scale, skew, p);
             }
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale, double skew, double p)
-        {
-            while (true)
-            {
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale, double skew, double p) {
+            while (true) {
                 yield return SampleUnchecked(rnd, location, scale, skew, p);
             }
         }
@@ -358,10 +323,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double location, double scale, double skew, double p)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static double Sample(System.Random rnd, double location, double scale, double skew, double p) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -377,10 +340,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double location, double scale, double skew, double p)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double location, double scale, double skew, double p) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -397,10 +358,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(System.Random rnd, double[] values, double location, double scale, double skew, double p)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static void Samples(System.Random rnd, double[] values, double location, double scale, double skew, double p) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -415,10 +374,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(double location, double scale, double skew, double p)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static double Sample(double location, double scale, double skew, double p) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -433,10 +390,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double location, double scale, double skew, double p)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static IEnumerable<double> Samples(double location, double scale, double skew, double p) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -452,10 +407,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="skew">The skew, 1 > λ > -1</param>
         /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(double[] values, double location, double scale, double skew, double p)
-        {
-            if (!IsValidParameterSet(location, scale, skew, p))
-            {
+        public static void Samples(double[] values, double location, double scale, double skew, double p) {
+            if (!IsValidParameterSet(location, scale, skew, p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

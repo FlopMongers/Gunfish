@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization {
     using Numerics;
     using Complex = System.Numerics.Complex;
 
@@ -50,27 +49,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
-    internal abstract class Evd : Evd<Complex32>
-    {
+    internal abstract class Evd : Evd<Complex32> {
         protected Evd(Matrix<Complex32> eigenVectors, Vector<Complex> eigenValues, Matrix<Complex32> blockDiagonal, bool isSymmetric)
-            : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric)
-        {
+            : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric) {
         }
 
         /// <summary>
         /// Gets the absolute value of determinant of the square matrix for which the EVD was computed.
         /// </summary>
-        public override Complex32 Determinant
-        {
-            get
-            {
+        public override Complex32 Determinant {
+            get {
                 var det = Complex.One;
-                for (var i = 0; i < EigenValues.Count; i++)
-                {
+                for (var i = 0; i < EigenValues.Count; i++) {
                     det *= EigenValues[i];
 
-                    if (((Complex32) EigenValues[i]).AlmostEqual(Complex32.Zero))
-                    {
+                    if (((Complex32)EigenValues[i]).AlmostEqual(Complex32.Zero)) {
                         return 0;
                     }
                 }
@@ -83,15 +76,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// Gets the effective numerical matrix rank.
         /// </summary>
         /// <value>The number of non-negligible singular values.</value>
-        public override int Rank
-        {
-            get
-            {
+        public override int Rank {
+            get {
                 var rank = 0;
-                for (var i = 0; i < EigenValues.Count; i++)
-                {
-                    if (((Complex32) EigenValues[i]).AlmostEqual(Complex32.Zero))
-                    {
+                for (var i = 0; i < EigenValues.Count; i++) {
+                    if (((Complex32)EigenValues[i]).AlmostEqual(Complex32.Zero)) {
                         continue;
                     }
 
@@ -106,14 +95,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// Gets a value indicating whether the matrix is full rank or not.
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public override bool IsFullRank
-        {
-            get
-            {
-                for (var i = 0; i < EigenValues.Count; i++)
-                {
-                    if (EigenValues[i].AlmostEqual(Complex.Zero))
-                    {
+        public override bool IsFullRank {
+            get {
+                for (var i = 0; i < EigenValues.Count; i++) {
+                    if (EigenValues[i].AlmostEqual(Complex.Zero)) {
                         return false;
                     }
                 }

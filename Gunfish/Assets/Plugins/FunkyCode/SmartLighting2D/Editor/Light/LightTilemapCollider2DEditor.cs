@@ -1,114 +1,108 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using FunkyCode.LightTilemapCollider;
+using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using FunkyCode.LightTilemapCollider;
 
-namespace FunkyCode
-{
-	[CustomEditor(typeof(LightTilemapCollider2D))]
-	public class LightTilemapCollider2DEditor : Editor
-	{
-		override public void OnInspectorGUI()
-		{
-			LightTilemapCollider2D script = target as LightTilemapCollider2D;
+namespace FunkyCode {
+    [CustomEditor(typeof(LightTilemapCollider2D))]
+    public class LightTilemapCollider2DEditor : Editor {
+        override public void OnInspectorGUI() {
+            LightTilemapCollider2D script = target as LightTilemapCollider2D;
 
-			script.mapType = (MapType)EditorGUILayout.EnumPopup("Tilemap Type", script.mapType);
+            script.mapType = (MapType)EditorGUILayout.EnumPopup("Tilemap Type", script.mapType);
 
-			EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-			switch(script.mapType)
-			{
-				case MapType.UnityRectangle:
-					script.rectangle.shadowType = (ShadowType)EditorGUILayout.EnumPopup("Shadow Type", script.rectangle.shadowType);
-					
-					EditorGUI.BeginDisabledGroup(script.rectangle.shadowType == ShadowType.None);
+            switch (script.mapType) {
+                case MapType.UnityRectangle:
+                    script.rectangle.shadowType = (ShadowType)EditorGUILayout.EnumPopup("Shadow Type", script.rectangle.shadowType);
 
-					script.shadowLayer = EditorGUILayout.Popup("Shadow Layer (Collider)", script.shadowLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
-					
-					switch(script.rectangle.shadowType)
-					{
-						case ShadowType.Grid:
-						case ShadowType.SpritePhysicsShape:
-							script.shadowTileType = (ShadowTileType)EditorGUILayout.EnumPopup("Shadow Tile Type", script.shadowTileType);
-						break;
-					}
+                    EditorGUI.BeginDisabledGroup(script.rectangle.shadowType == ShadowType.None);
 
-					script.shadowTranslucency = EditorGUILayout.Slider( "Shadow Translucency", script.shadowTranslucency, 0, 1);
+                    script.shadowLayer = EditorGUILayout.Popup("Shadow Layer (Collider)", script.shadowLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
 
-					script.rectangle.shadowOptimization = EditorGUILayout.Toggle("Shadow Optimization", script.rectangle.shadowOptimization);				
+                    switch (script.rectangle.shadowType) {
+                        case ShadowType.Grid:
+                        case ShadowType.SpritePhysicsShape:
+                            script.shadowTileType = (ShadowTileType)EditorGUILayout.EnumPopup("Shadow Tile Type", script.shadowTileType);
+                            break;
+                    }
 
-					EditorGUI.EndDisabledGroup();
+                    script.shadowTranslucency = EditorGUILayout.Slider("Shadow Translucency", script.shadowTranslucency, 0, 1);
 
-					EditorGUILayout.Space();
+                    script.rectangle.shadowOptimization = EditorGUILayout.Toggle("Shadow Optimization", script.rectangle.shadowOptimization);
 
-					script.rectangle.maskType = (MaskType)EditorGUILayout.EnumPopup("Mask Type", script.rectangle.maskType);
-					
-					EditorGUI.BeginDisabledGroup(script.rectangle.maskType == MaskType.None);
+                    EditorGUI.EndDisabledGroup();
 
-					script.maskLayer = EditorGUILayout.Popup("Mask Layer (Collider)", script.maskLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+                    EditorGUILayout.Space();
 
-					if (script.rectangle.maskType == MaskType.BumpedSprite)
-					{
-						GUIBumpMapMode.Draw(serializedObject, script);
-					}
+                    script.rectangle.maskType = (MaskType)EditorGUILayout.EnumPopup("Mask Type", script.rectangle.maskType);
 
-					EditorGUI.EndDisabledGroup();
+                    EditorGUI.BeginDisabledGroup(script.rectangle.maskType == MaskType.None);
 
-				break;
+                    script.maskLayer = EditorGUILayout.Popup("Mask Layer (Collider)", script.maskLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
 
-				case MapType.UnityIsometric:
-					
-					script.isometric.shadowType = (ShadowType)EditorGUILayout.EnumPopup("Shadow Type", script.isometric.shadowType);
-					
-					EditorGUI.BeginDisabledGroup(script.isometric.shadowType == ShadowType.None);
+                    if (script.rectangle.maskType == MaskType.BumpedSprite) {
+                        GUIBumpMapMode.Draw(serializedObject, script);
+                    }
 
-					script.shadowLayer = EditorGUILayout.Popup("Shadow Layer (Collider)", script.shadowLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
-					script.shadowTileType = (ShadowTileType)EditorGUILayout.EnumPopup("Shadow Tile Type", script.shadowTileType);
-					
-					EditorGUI.EndDisabledGroup();
+                    EditorGUI.EndDisabledGroup();
 
-					EditorGUILayout.Space();
+                    break;
 
-					script.isometric.maskType = (MaskType)EditorGUILayout.EnumPopup("Mask Type", script.isometric.maskType);
-					
-					EditorGUI.BeginDisabledGroup(script.isometric.maskType == MaskType.None);
+                case MapType.UnityIsometric:
 
-					script.maskLayer = EditorGUILayout.Popup("Mask Layer (Collider)", script.maskLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+                    script.isometric.shadowType = (ShadowType)EditorGUILayout.EnumPopup("Shadow Type", script.isometric.shadowType);
 
-					EditorGUI.EndDisabledGroup();
+                    EditorGUI.BeginDisabledGroup(script.isometric.shadowType == ShadowType.None);
 
-					EditorGUILayout.Space();
+                    script.shadowLayer = EditorGUILayout.Popup("Shadow Layer (Collider)", script.shadowLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+                    script.shadowTileType = (ShadowTileType)EditorGUILayout.EnumPopup("Shadow Tile Type", script.shadowTileType);
 
-					script.isometric.ZasY = EditorGUILayout.Toggle("Z as Y", script.isometric.ZasY);
+                    EditorGUI.EndDisabledGroup();
 
-				break;
+                    EditorGUILayout.Space();
+
+                    script.isometric.maskType = (MaskType)EditorGUILayout.EnumPopup("Mask Type", script.isometric.maskType);
+
+                    EditorGUI.BeginDisabledGroup(script.isometric.maskType == MaskType.None);
+
+                    script.maskLayer = EditorGUILayout.Popup("Mask Layer (Collider)", script.maskLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+
+                    EditorGUI.EndDisabledGroup();
+
+                    EditorGUILayout.Space();
+
+                    script.isometric.ZasY = EditorGUILayout.Toggle("Z as Y", script.isometric.ZasY);
+
+                    break;
 
 
-				case MapType.UnityHexagon:
-					
-					script.hexagon.shadowType = (ShadowType)EditorGUILayout.EnumPopup("Shadow Type", script.hexagon.shadowType);
-					
-					EditorGUI.BeginDisabledGroup(script.hexagon.shadowType == ShadowType.None);
+                case MapType.UnityHexagon:
 
-					script.shadowLayer = EditorGUILayout.Popup("Shadow Layer (Collider)", script.shadowLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
-					script.shadowTileType = (ShadowTileType)EditorGUILayout.EnumPopup("Shadow Tile Type", script.shadowTileType);
-						
-					EditorGUI.EndDisabledGroup();
+                    script.hexagon.shadowType = (ShadowType)EditorGUILayout.EnumPopup("Shadow Type", script.hexagon.shadowType);
 
-					EditorGUILayout.Space();
+                    EditorGUI.BeginDisabledGroup(script.hexagon.shadowType == ShadowType.None);
 
-					script.hexagon.maskType = (MaskType)EditorGUILayout.EnumPopup("Mask Type", script.hexagon.maskType);
-					
-					EditorGUI.BeginDisabledGroup(script.hexagon.maskType == MaskType.None);
+                    script.shadowLayer = EditorGUILayout.Popup("Shadow Layer (Collider)", script.shadowLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+                    script.shadowTileType = (ShadowTileType)EditorGUILayout.EnumPopup("Shadow Tile Type", script.shadowTileType);
 
-					script.maskLayer = EditorGUILayout.Popup("Mask Layer (Collider)", script.maskLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+                    EditorGUI.EndDisabledGroup();
 
-					EditorGUI.EndDisabledGroup();
-				break;
+                    EditorGUILayout.Space();
 
-				case MapType.SuperTilemapEditor:
-					#if (SUPER_TILEMAP_EDITOR)
+                    script.hexagon.maskType = (MaskType)EditorGUILayout.EnumPopup("Mask Type", script.hexagon.maskType);
+
+                    EditorGUI.BeginDisabledGroup(script.hexagon.maskType == MaskType.None);
+
+                    script.maskLayer = EditorGUILayout.Popup("Mask Layer (Collider)", script.maskLayer, Lighting2D.Profile.layers.colliderLayers.GetNames());
+
+                    EditorGUI.EndDisabledGroup();
+                    break;
+
+                case MapType.SuperTilemapEditor:
+#if (SUPER_TILEMAP_EDITOR)
 
 					script.superTilemapEditor.shadowTypeSTE = (SuperTilemapEditorSupport.TilemapCollider2D.ShadowType)EditorGUILayout.EnumPopup("Shadow Type", script.superTilemapEditor.shadowTypeSTE);
 				
@@ -131,43 +125,39 @@ namespace FunkyCode
 					
 					EditorGUI.EndDisabledGroup();
 
-					#endif
-				break;
-			}
+#endif
+                    break;
+            }
 
-			EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-			Update(script);
+            Update(script);
 
-			serializedObject.ApplyModifiedProperties();
-			
-			if (GUI.changed)
-			{
-				script.Initialize();
+            serializedObject.ApplyModifiedProperties();
 
-				Light2D.ForceUpdateAll();
-				LightingManager2D.ForceUpdate();
+            if (GUI.changed) {
+                script.Initialize();
 
-				if (!EditorApplication.isPlaying)
-				{
-					EditorUtility.SetDirty(target);
-					EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-				}
-			}
-		}
+                Light2D.ForceUpdateAll();
+                LightingManager2D.ForceUpdate();
 
-		static void Update(LightTilemapCollider2D script)
-		{
-			if (GUILayout.Button("Update"))
-			{
-				SpriteExtension.PhysicsShapeManager.Clear();
-				
-				script.Initialize();
+                if (!EditorApplication.isPlaying) {
+                    EditorUtility.SetDirty(target);
+                    EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+                }
+            }
+        }
 
-				Light2D.ForceUpdateAll();
-				
-				LightingManager2D.ForceUpdate();
-			}
-		}
-	}
+        static void Update(LightTilemapCollider2D script) {
+            if (GUILayout.Button("Update")) {
+                SpriteExtension.PhysicsShapeManager.Clear();
+
+                script.Initialize();
+
+                Light2D.ForceUpdateAll();
+
+                LightingManager2D.ForceUpdate();
+            }
+        }
+    }
 }

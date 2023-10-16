@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Single.Solvers {
     /// <summary>
     /// A Generalized Product Bi-Conjugate Gradient iterative matrix solver.
     /// </summary>
@@ -59,8 +58,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class GpBiCg : IIterativeSolver<float>
-    {
+    public sealed class GpBiCg : IIterativeSolver<float> {
         /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken
         /// before switching.
@@ -77,14 +75,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Gets or sets the number of steps taken with the <c>BiCgStab</c> algorithm
         /// before switching over to the <c>GPBiCG</c> algorithm.
         /// </summary>
-        public int NumberOfBiCgStabSteps
-        {
+        public int NumberOfBiCgStabSteps {
             get => _numberOfBiCgStabSteps;
 
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -96,14 +91,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Gets or sets the number of steps taken with the <c>GPBiCG</c> algorithm
         /// before switching over to the <c>BiCgStab</c> algorithm.
         /// </summary>
-        public int NumberOfGpBiCgSteps
-        {
+        public int NumberOfGpBiCgSteps {
             get => _numberOfGpbiCgSteps;
 
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -118,8 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix<float> matrix, Vector<float> residual, Vector<float> x, Vector<float> b)
-        {
+        static void CalculateTrueResidual(Matrix<float> matrix, Vector<float> residual, Vector<float> x, Vector<float> b) {
             // -Ax = residual
             matrix.Multiply(x, residual);
             residual.Multiply(-1, residual);
@@ -133,8 +124,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// </summary>
         /// <param name="iterationNumber">Number of iteration</param>
         /// <returns><c>true</c> if yes, otherwise <c>false</c></returns>
-        bool ShouldRunBiCgStabSteps(int iterationNumber)
-        {
+        bool ShouldRunBiCgStabSteps(int iterationNumber) {
             // Run the first steps as BiCGStab
             // The number of steps past a whole iteration set
             var difference = iterationNumber % (_numberOfBiCgStabSteps + _numberOfGpbiCgSteps);
@@ -154,30 +144,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="result">The result vector, <c>x</c></param>
         /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
         /// <param name="preconditioner">The preconditioner to use for approximations.</param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator, IPreconditioner<float> preconditioner)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator, IPreconditioner<float> preconditioner) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
-            if (result.Count != input.Count)
-            {
+            if (result.Count != input.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (input.Count != matrix.RowCount)
-            {
+            if (input.Count != matrix.RowCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix);
             }
 
-            if (iterator == null)
-            {
+            if (iterator == null) {
                 iterator = new Iterator<float>();
             }
 
-            if (preconditioner == null)
-            {
+            if (preconditioner == null) {
                 preconditioner = new UnitPreconditioner<float>();
             }
 
@@ -220,8 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             // for (k = 0, 1, .... )
             var iterationNumber = 0;
-            while (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) == IterationStatus.Continue)
-            {
+            while (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) == IterationStatus.Continue) {
                 // p_k = r_k + beta_(k-1) * (p_(k-1) - u_(k-1))
                 p.Subtract(u, temp);
 
@@ -235,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 matrix.Multiply(temp, s);
 
                 // alpha_k = (r*_0 * r_k) / (r*_0 * s_k)
-                var alpha = rdash.DotProduct(residuals)/rdash.DotProduct(s);
+                var alpha = rdash.DotProduct(residuals) / rdash.DotProduct(s);
 
                 // y_k = t_(k-1) - r_k - alpha_k * w_(k-1) + alpha_k s_k
                 s.Subtract(w, temp);
@@ -263,8 +246,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 // We'll set cDot to 1 if it is zero to prevent NaN's
                 // Note that the calculation should continue fine because
                 // c.DotProduct(t) will be zero and so will c.DotProduct(y)
-                if (cdot.AlmostEqualNumbersBetween(0, 1))
-                {
+                if (cdot.AlmostEqualNumbersBetween(0, 1)) {
                     cdot = 1.0f;
                 }
 
@@ -275,37 +257,34 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 var ctdot = c.DotProduct(t);
                 float eta;
                 float sigma;
-                if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber))
-                {
+                if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber)) {
                     // sigma_k = (c_k * t_k) / (c_k * c_k)
-                    sigma = ctdot/cdot;
+                    sigma = ctdot / cdot;
 
                     // eta_k = 0
                     eta = 0;
                 }
-                else
-                {
+                else {
                     var ydot = y.DotProduct(y);
 
                     // yDot can only be zero if y is a zero vector
                     // We'll set yDot to 1 if it is zero to prevent NaN's
                     // Note that the calculation should continue fine because
                     // y.DotProduct(t) will be zero and so will c.DotProduct(y)
-                    if (ydot.AlmostEqualNumbersBetween(0, 1))
-                    {
+                    if (ydot.AlmostEqualNumbersBetween(0, 1)) {
                         ydot = 1.0f;
                     }
 
                     var ytdot = y.DotProduct(t);
                     var cydot = c.DotProduct(y);
 
-                    var denom = (cdot*ydot) - (cydot*cydot);
+                    var denom = (cdot * ydot) - (cydot * cydot);
 
                     // sigma_k = ((y_k * y_k)(c_k * t_k) - (y_k * t_k)(c_k * y_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    sigma = ((ydot*ctdot) - (ytdot*cydot))/denom;
+                    sigma = ((ydot * ctdot) - (ytdot * cydot)) / denom;
 
                     // eta_k = ((c_k * c_k)(y_k * t_k) - (y_k * c_k)(c_k * t_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    eta = ((cdot*ytdot) - (cydot*ctdot))/denom;
+                    eta = ((cdot * ytdot) - (cydot * ctdot)) / denom;
                 }
 
                 // u_k = sigma_k s_k + eta_k (t_(k-1) - r_k + beta_(k-1) u_(k-1))
@@ -351,7 +330,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
-                beta = (!sigma.AlmostEqualNumbersBetween(0, 1)) ? alpha/sigma*rdash.DotProduct(residuals)/rdash.DotProduct(t0) : 0;
+                beta = (!sigma.AlmostEqualNumbersBetween(0, 1)) ? alpha / sigma * rdash.DotProduct(residuals) / rdash.DotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
                 s.Multiply(beta, temp2);
@@ -361,8 +340,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 preconditioner.Approximate(xtemp, result);
 
                 // Now check for convergence
-                if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)
-                {
+                if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue) {
                     // Recalculate the residuals and go round again. This is done to ensure that
                     // we have the proper residuals.
                     CalculateTrueResidual(matrix, residuals, result, input);

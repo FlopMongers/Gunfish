@@ -31,8 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.Interpolation
-{
+namespace MathNet.Numerics.Interpolation {
     /// <summary>
     /// Rational Interpolation (with poles) using Roland Bulirsch and Josef Stoer's Algorithm.
     /// </summary>
@@ -41,22 +40,18 @@ namespace MathNet.Numerics.Interpolation
     /// This algorithm supports neither differentiation nor integration.
     /// </para>
     /// </remarks>
-    public class BulirschStoerRationalInterpolation : IInterpolation
-    {
+    public class BulirschStoerRationalInterpolation : IInterpolation {
         readonly double[] _x;
         readonly double[] _y;
 
         /// <param name="x">Sample Points t, sorted ascendingly.</param>
         /// <param name="y">Sample Values x(t), sorted ascendingly by x.</param>
-        public BulirschStoerRationalInterpolation(double[] x, double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+        public BulirschStoerRationalInterpolation(double[] x, double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (x.Length < 1)
-            {
+            if (x.Length < 1) {
                 throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
@@ -67,8 +62,7 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Create a Bulirsch-Stoer rational interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
         /// </summary>
-        public static BulirschStoerRationalInterpolation InterpolateSorted(double[] x, double[] y)
-        {
+        public static BulirschStoerRationalInterpolation InterpolateSorted(double[] x, double[] y) {
             return new BulirschStoerRationalInterpolation(x, y);
         }
 
@@ -76,10 +70,8 @@ namespace MathNet.Numerics.Interpolation
         /// Create a Bulirsch-Stoer rational interpolation from an unsorted set of (x,y) value pairs.
         /// WARNING: Works in-place and can thus causes the data array to be reordered.
         /// </summary>
-        public static BulirschStoerRationalInterpolation InterpolateInplace(double[] x, double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+        public static BulirschStoerRationalInterpolation InterpolateInplace(double[] x, double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
@@ -90,8 +82,7 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Create a Bulirsch-Stoer rational interpolation from an unsorted set of (x,y) value pairs.
         /// </summary>
-        public static BulirschStoerRationalInterpolation Interpolate(IEnumerable<double> x, IEnumerable<double> y)
-        {
+        public static BulirschStoerRationalInterpolation Interpolate(IEnumerable<double> x, IEnumerable<double> y) {
             // note: we must make a copy, even if the input was arrays already
             return InterpolateInplace(x.ToArray(), y.ToArray());
         }
@@ -111,8 +102,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public double Interpolate(double t)
-        {
+        public double Interpolate(double t) {
             const double tiny = 1.0e-25;
             int n = _x.Length;
 
@@ -122,16 +112,13 @@ namespace MathNet.Numerics.Interpolation
             int nearestIndex = 0;
             double nearestDistance = Math.Abs(t - _x[0]);
 
-            for (int i = 0; i < n; i++)
-            {
+            for (int i = 0; i < n; i++) {
                 double distance = Math.Abs(t - _x[i]);
-                if (distance.AlmostEqual(0.0))
-                {
+                if (distance.AlmostEqual(0.0)) {
                     return _y[i];
                 }
 
-                if (distance < nearestDistance)
-                {
+                if (distance < nearestDistance) {
                     nearestIndex = i;
                     nearestDistance = distance;
                 }
@@ -142,25 +129,22 @@ namespace MathNet.Numerics.Interpolation
 
             double x = _y[nearestIndex];
 
-            for (int level = 1; level < n; level++)
-            {
-                for (int i = 0; i < n - level; i++)
-                {
+            for (int level = 1; level < n; level++) {
+                for (int i = 0; i < n - level; i++) {
                     double hp = _x[i + level] - t;
-                    double ho = (_x[i] - t)*d[i]/hp;
+                    double ho = (_x[i] - t) * d[i] / hp;
 
                     double den = ho - c[i + 1];
-                    if (den.AlmostEqual(0.0))
-                    {
+                    if (den.AlmostEqual(0.0)) {
                         return double.NaN; // zero-div, singularity
                     }
 
-                    den = (c[i + 1] - d[i])/den;
-                    d[i] = c[i + 1]*den;
-                    c[i] = ho*den;
+                    den = (c[i + 1] - d[i]) / den;
+                    d[i] = c[i + 1] * den;
+                    c[i] = ho * den;
                 }
 
-                x += (2*nearestIndex) < (n - level)
+                x += (2 * nearestIndex) < (n - level)
                     ? c[nearestIndex]
                     : d[--nearestIndex];
             }

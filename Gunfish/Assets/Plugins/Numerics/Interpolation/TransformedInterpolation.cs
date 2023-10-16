@@ -27,24 +27,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.Interpolation
-{
+namespace MathNet.Numerics.Interpolation {
     /// <summary>
     /// Wraps an interpolation with a transformation of the interpolated values.
     /// </summary>
     /// <remarks>Neither differentiation nor integration is supported.</remarks>
-    public class TransformedInterpolation : IInterpolation
-    {
+    public class TransformedInterpolation : IInterpolation {
         readonly IInterpolation _interpolation;
         readonly Func<double, double> _transform;
 
-        public TransformedInterpolation(IInterpolation interpolation, Func<double, double> transform)
-        {
+        public TransformedInterpolation(IInterpolation interpolation, Func<double, double> transform) {
             _interpolation = interpolation;
             _transform = transform;
         }
@@ -56,18 +53,14 @@ namespace MathNet.Numerics.Interpolation
             Func<double, double> transform,
             Func<double, double> transformInverse,
             double[] x,
-            double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+            double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             var yhat = new double[y.Length];
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, y.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     yhat[i] = transformInverse(y[i]);
                 }
             });
@@ -83,18 +76,14 @@ namespace MathNet.Numerics.Interpolation
             Func<double, double> transform,
             Func<double, double> transformInverse,
             double[] x,
-            double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+            double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, y.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     y[i] = transformInverse(y[i]);
                 }
             });
@@ -109,8 +98,7 @@ namespace MathNet.Numerics.Interpolation
             Func<double, double> transform,
             Func<double, double> transformInverse,
             IEnumerable<double> x,
-            IEnumerable<double> y)
-        {
+            IEnumerable<double> y) {
             // note: we must make a copy, even if the input was arrays already
             return InterpolateInplace(transform, transformInverse, x.ToArray(), y.ToArray());
         }

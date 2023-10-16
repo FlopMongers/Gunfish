@@ -1,114 +1,96 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.Lighting2DMaterial
-{
-	[System.Serializable]
-	public class Lights
-	{
-		private LightingMaterial pointLight = null;
-		private LightingMaterial spriteLight = null;
-		private LightingMaterial freeFormLight = null;
-		private LightingMaterial freeFormLightEdge = null;
+namespace FunkyCode.Lighting2DMaterial {
+    [System.Serializable]
+    public class Lights {
+        private LightingMaterial pointLight = null;
+        private LightingMaterial spriteLight = null;
+        private LightingMaterial freeFormLight = null;
+        private LightingMaterial freeFormLightEdge = null;
 
-		private LightingMaterial pointOcclusion = null;
-		private LightingMaterial lightOcclusion = null;
-		private LightingMaterial freeformOcclusion = null;
+        private LightingMaterial pointOcclusion = null;
+        private LightingMaterial lightOcclusion = null;
+        private LightingMaterial freeformOcclusion = null;
 
-		public void Reset()
-		{
-			pointOcclusion = null;
-			lightOcclusion = null;
-			freeformOcclusion = null;
+        public void Reset() {
+            pointOcclusion = null;
+            lightOcclusion = null;
+            freeformOcclusion = null;
 
 
-			spriteLight = null;
-			pointLight = null;
-			freeFormLight = null;
-			freeFormLightEdge = null;
-		}
+            spriteLight = null;
+            pointLight = null;
+            freeFormLight = null;
+            freeFormLightEdge = null;
+        }
 
-		public void Initialize()
-		{
-			Reset();
+        public void Initialize() {
+            Reset();
 
-			GetPointOcclusion();
-			GetLightOcclusion(); // sprite light occlusion
-			GetFreeFormOcclusion();
+            GetPointOcclusion();
+            GetLightOcclusion(); // sprite light occlusion
+            GetFreeFormOcclusion();
 
-			GetPointLight();
-			GetSpriteLight();
-			GetFreeFormLight();
-			GetFreeFormEdgeLight();
-		}
+            GetPointLight();
+            GetSpriteLight();
+            GetFreeFormLight();
+            GetFreeFormEdgeLight();
+        }
 
-		public Material GetPointLight()
-		{
-			if (pointLight == null || pointLight.Get() == null)
-			{
-				pointLight = LightingMaterial.Load("Light2D/Internal/Light/PointLight");
-			}
+        public Material GetPointLight() {
+            if (pointLight == null || pointLight.Get() == null) {
+                pointLight = LightingMaterial.Load("Light2D/Internal/Light/PointLight");
+            }
 
-			return(pointLight.Get());
-		}
+            return (pointLight.Get());
+        }
 
-		public Material GetSpriteLight()
-		{
-			if (spriteLight == null || spriteLight.Get() == null)
-			{
-				spriteLight = LightingMaterial.Load("Light2D/Internal/Light/SpriteLight");
-			}
+        public Material GetSpriteLight() {
+            if (spriteLight == null || spriteLight.Get() == null) {
+                spriteLight = LightingMaterial.Load("Light2D/Internal/Light/SpriteLight");
+            }
 
-			return(spriteLight.Get());
-		}
+            return (spriteLight.Get());
+        }
 
-		public Material GetFreeFormLight()
-		{
-			if (freeFormLight == null || freeFormLight.Get() == null)
-			{
-				freeFormLight = LightingMaterial.Load("Light2D/Internal/Light/FreeFormLight");
-			}
+        public Material GetFreeFormLight() {
+            if (freeFormLight == null || freeFormLight.Get() == null) {
+                freeFormLight = LightingMaterial.Load("Light2D/Internal/Light/FreeFormLight");
+            }
 
-			return(freeFormLight.Get());
-		}
+            return (freeFormLight.Get());
+        }
 
-		public Material GetFreeFormEdgeLight()
-		{
-			if (freeFormLightEdge == null || freeFormLightEdge.Get() == null)
-			{
-				freeFormLightEdge = LightingMaterial.Load("Light2D/Internal/Light/FreeFormFalloff");
-			}
-		
-			return(freeFormLightEdge.Get());
-		}
+        public Material GetFreeFormEdgeLight() {
+            if (freeFormLightEdge == null || freeFormLightEdge.Get() == null) {
+                freeFormLightEdge = LightingMaterial.Load("Light2D/Internal/Light/FreeFormFalloff");
+            }
 
-		public Material GetLightOcclusion()
-		{
-			if (lightOcclusion == null || lightOcclusion.Get() == null)
-			{
-				lightOcclusion = LightingMaterial.Load("Light2D/Internal/Light/SpriteLightOcclusion");
-			}
+            return (freeFormLightEdge.Get());
+        }
 
-			return(lightOcclusion.Get());
-		}
+        public Material GetLightOcclusion() {
+            if (lightOcclusion == null || lightOcclusion.Get() == null) {
+                lightOcclusion = LightingMaterial.Load("Light2D/Internal/Light/SpriteLightOcclusion");
+            }
 
-		public Material GetPointOcclusion()
-		{
-			if (pointOcclusion == null || pointOcclusion.Get() == null)
-			{
-				pointOcclusion = LightingMaterial.Load("Light2D/Internal/Light/PointOcclusion");
-			}
+            return (lightOcclusion.Get());
+        }
 
-			return(pointOcclusion.Get());
-		}
+        public Material GetPointOcclusion() {
+            if (pointOcclusion == null || pointOcclusion.Get() == null) {
+                pointOcclusion = LightingMaterial.Load("Light2D/Internal/Light/PointOcclusion");
+            }
 
-		public Material GetFreeFormOcclusion()
-		{
-			if (freeformOcclusion == null || freeformOcclusion.Get() == null)
-			{
-				freeformOcclusion = LightingMaterial.Load("Light2D/Internal/Light/FreeFormOcclusion");
-			}
+            return (pointOcclusion.Get());
+        }
 
-			return(freeformOcclusion.Get());
-		}
-	}
+        public Material GetFreeFormOcclusion() {
+            if (freeformOcclusion == null || freeformOcclusion.Get() == null) {
+                freeformOcclusion = LightingMaterial.Load("Light2D/Internal/Light/FreeFormOcclusion");
+            }
+
+            return (freeformOcclusion.Get());
+        }
+    }
 }

@@ -1,272 +1,272 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace FunkyCode.Utilities {
-		
-	public class Mesh2DSubmesh {
-		public Vector2[] uv;
-		public Vector3[] vertices;
 
-		public Mesh2DSubmesh(int size) {
-			uv = new Vector2[size];
-			vertices = new Vector3[size];
-		}
-	}
+    public class Mesh2DSubmesh {
+        public Vector2[] uv;
+        public Vector3[] vertices;
 
-	public class Mesh2DMesh {
-		public List<Mesh2DSubmesh> submeshes = new List<Mesh2DSubmesh>();
-		public int verticesCount = 0;
-		
-		public void Add(Mesh2DSubmesh m) {
-			submeshes.Add(m);
-			verticesCount += m.vertices.Length;
-		}
-	}
+        public Mesh2DSubmesh(int size) {
+            uv = new Vector2[size];
+            vertices = new Vector3[size];
+        }
+    }
 
-	public class Max2DMesh {
-		const float pi = Mathf.PI;
-		const float pi2 = pi / 2;
-		const float uv0 = 1f / 32;
-		const float uv1 = 1f - uv0;
+    public class Mesh2DMesh {
+        public List<Mesh2DSubmesh> submeshes = new List<Mesh2DSubmesh>();
+        public int verticesCount = 0;
 
-		static Vector2D A1 = Vector2D.Zero();
-		static Vector2D A2 = Vector2D.Zero();
-		static Vector2D B1 = Vector2D.Zero();
-		static Vector2D B2 = Vector2D.Zero();
+        public void Add(Mesh2DSubmesh m) {
+            submeshes.Add(m);
+            verticesCount += m.vertices.Length;
+        }
+    }
 
-		static Vector2D A3 = Vector2D.Zero();
-		static Vector2D A4 = Vector2D.Zero();
+    public class Max2DMesh {
+        const float pi = Mathf.PI;
+        const float pi2 = pi / 2;
+        const float uv0 = 1f / 32;
+        const float uv1 = 1f - uv0;
 
-		private static Pair2D pair2D = Pair2D.Zero();
+        static Vector2D A1 = Vector2D.Zero();
+        static Vector2D A2 = Vector2D.Zero();
+        static Vector2D B1 = Vector2D.Zero();
+        static Vector2D B2 = Vector2D.Zero();
 
-		static public void Draw(Mesh mesh, Transform transform, Material material) {
-			Matrix4x4 matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+        static Vector2D A3 = Vector2D.Zero();
+        static Vector2D A4 = Vector2D.Zero();
 
-			Graphics.DrawMesh(mesh, matrix, material, 0);
-		}
+        private static Pair2D pair2D = Pair2D.Zero();
 
-		static public void Draw(Mesh mesh, Material material) {
-			Matrix4x4 matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, 0),  new Vector3(1, 1, 1));
+        static public void Draw(Mesh mesh, Transform transform, Material material) {
+            Matrix4x4 matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
 
-			Graphics.DrawMesh(mesh, matrix, material, 0);
-		}
+            Graphics.DrawMesh(mesh, matrix, material, 0);
+        }
 
-		static public Mesh CreatePolygon(Transform transform, Polygon2D polygon, float lineOffset, float lineWidth, bool connectedLine) {
-			Mesh2DMesh trianglesList = new Mesh2DMesh();
+        static public void Draw(Mesh mesh, Material material) {
+            Matrix4x4 matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, 0), new Vector3(1, 1, 1));
 
-			int count = polygon.pointsList.Count;
-			int lastID = count - 1;
-			int startID = 0;
-			
-			if (connectedLine == false) {
-				lastID = 0;
-				startID = 1;
-			}
-			
-			Pair2D p = pair2D;
-			p.A = polygon.pointsList[lastID];
-			
-			for(int i = startID; i < count; i++) {
-				p.B = polygon.pointsList[i];
+            Graphics.DrawMesh(mesh, matrix, material, 0);
+        }
 
-				trianglesList.Add(Max2DMesh.CreateLine(p, transform.localScale, lineWidth, lineOffset));
+        static public Mesh CreatePolygon(Transform transform, Polygon2D polygon, float lineOffset, float lineWidth, bool connectedLine) {
+            Mesh2DMesh trianglesList = new Mesh2DMesh();
 
-				p.A = p.B;
-			}
-			
-			foreach(Polygon2D hole in polygon.holesList) {
-				count = hole.pointsList.Count;
-				lastID = count - 1;
-				startID = 0;
-			
-				if (connectedLine == false) {
-					lastID = 0;
-					startID = 1;
-				}
+            int count = polygon.pointsList.Count;
+            int lastID = count - 1;
+            int startID = 0;
 
-				p.A = hole.pointsList[lastID];
-				
-				for(int i = startID; i < count; i++) {
-					p.B = hole.pointsList[i];
+            if (connectedLine == false) {
+                lastID = 0;
+                startID = 1;
+            }
 
-					trianglesList.Add(Max2DMesh.CreateLine(p, transform.localScale, lineWidth, lineOffset));
+            Pair2D p = pair2D;
+            p.A = polygon.pointsList[lastID];
 
-					p.A = p.B;
-				}
-			} 
-			
-			return(Max2DMesh.Export(trianglesList));
-		}
+            for (int i = startID; i < count; i++) {
+                p.B = polygon.pointsList[i];
 
-		static public Mesh2DSubmesh CreateLine(Pair2D pair, Vector3 transformScale, float lineWidth, float z = 0f) {
-			Mesh2DSubmesh result = new Mesh2DSubmesh(18);
+                trianglesList.Add(Max2DMesh.CreateLine(p, transform.localScale, lineWidth, lineOffset));
 
-			float xuv0 = 0; 
-			float xuv1 = 1f - xuv0;
-			float yuv0 = 0;
-			float yuv1 = 1f - yuv0;
+                p.A = p.B;
+            }
 
-			float size = lineWidth / 6;
-			float rot = (float)Vector2D.Atan2 (pair.A, pair.B);
+            foreach (Polygon2D hole in polygon.holesList) {
+                count = hole.pointsList.Count;
+                lastID = count - 1;
+                startID = 0;
 
-			A1.x = pair.A.x;
-			A1.y = pair.A.y;
+                if (connectedLine == false) {
+                    lastID = 0;
+                    startID = 1;
+                }
 
-			A2.x = pair.A.x;
-			A2.y = pair.A.y;
+                p.A = hole.pointsList[lastID];
 
-			B1.x = pair.B.x;
-			B1.y = pair.B.y;
+                for (int i = startID; i < count; i++) {
+                    p.B = hole.pointsList[i];
 
-			B2.x = pair.B.x;
-			B2.y = pair.B.y;
+                    trianglesList.Add(Max2DMesh.CreateLine(p, transform.localScale, lineWidth, lineOffset));
 
-			Vector2 scale = new Vector2(1f / transformScale.x, 1f / transformScale.y);
+                    p.A = p.B;
+                }
+            }
 
-			A1.Push (rot + pi2, size, scale);
-			A2.Push (rot - pi2, size, scale);
-			B1.Push (rot + pi2, size, scale);
-			B2.Push (rot - pi2, size, scale);
+            return (Max2DMesh.Export(trianglesList));
+        }
 
-			result.vertices[0] = new Vector3((float)B1.x, (float)B1.y, z);
-			result.vertices[1] = new Vector3((float)A1.x, (float)A1.y, z);
-			result.vertices[2] = new Vector3((float)A2.x, (float)A2.y, z);
-			
-			result.vertices[3] = new Vector3((float)A2.x, (float)A2.y, z);
-			result.vertices[4] = new Vector3((float)B2.x, (float)B2.y, z);
-			result.vertices[5] = new Vector3((float)B1.x, (float)B1.y, z);
+        static public Mesh2DSubmesh CreateLine(Pair2D pair, Vector3 transformScale, float lineWidth, float z = 0f) {
+            Mesh2DSubmesh result = new Mesh2DSubmesh(18);
 
-			result.uv[0] = new Vector2(xuv1 / 3, yuv1); 
-			result.uv[1] = new Vector2(1 - xuv1 / 3, yuv1);
-			result.uv[2] = new Vector2(1 - xuv1 / 3, yuv0);
-			
-			result.uv[3] = new Vector2(1 - xuv1 / 3, yuv0);
-			result.uv[4] = new Vector2(yuv1 / 3, xuv0);
-			result.uv[5] = new Vector2(xuv1 / 3, yuv1);
+            float xuv0 = 0;
+            float xuv1 = 1f - xuv0;
+            float yuv0 = 0;
+            float yuv1 = 1f - yuv0;
 
-			A3.x = A1.x;
-			A3.y = A1.y;
+            float size = lineWidth / 6;
+            float rot = (float)Vector2D.Atan2(pair.A, pair.B);
 
-			A4.x = A1.x;
-			A4.y = A1.y;
-		
-			A3.Push (rot - pi2, size, scale);
+            A1.x = pair.A.x;
+            A1.y = pair.A.y;
 
-			A3.x = A1.x;
-			A3.y = A1.y;
-			
-			A4.x = A2.x;
-			A4.y = A2.y;
+            A2.x = pair.A.x;
+            A2.y = pair.A.y;
 
-			A1.Push (rot, size, scale);
-			A2.Push (rot, size, scale);
+            B1.x = pair.B.x;
+            B1.y = pair.B.y;
 
-			result.vertices[6] = new Vector3((float)A3.x, (float)A3.y, z);
-			result.vertices[7] = new Vector3((float)A1.x, (float)A1.y, z);
-			result.vertices[8] = new Vector3((float)A2.x, (float)A2.y, z);
-			
-			result.vertices[9] = new Vector3((float)A2.x, (float)A2.y, z);
-			result.vertices[10] = new Vector3((float)A4.x, (float)A4.y, z);
-			result.vertices[11] = new Vector3((float)A3.x, (float)A3.y, z);
-			
-			result.uv[6] = new Vector2(xuv1 / 3, yuv1); 
-			result.uv[7] = new Vector2(xuv0, yuv1);
-			result.uv[8] = new Vector2(xuv0, yuv0);
+            B2.x = pair.B.x;
+            B2.y = pair.B.y;
 
-			result.uv[9] = new Vector2(xuv0, yuv0);
-			result.uv[10] = new Vector2(yuv1 / 3, xuv0);
-			result.uv[11] = new Vector2(xuv1 / 3, yuv1);
+            Vector2 scale = new Vector2(1f / transformScale.x, 1f / transformScale.y);
 
-			A1.x = B1.x;
-			A1.y = B1.y;
+            A1.Push(rot + pi2, size, scale);
+            A2.Push(rot - pi2, size, scale);
+            B1.Push(rot + pi2, size, scale);
+            B2.Push(rot - pi2, size, scale);
 
-			A2.x = B2.x;
-			A2.y = B2.y;
+            result.vertices[0] = new Vector3((float)B1.x, (float)B1.y, z);
+            result.vertices[1] = new Vector3((float)A1.x, (float)A1.y, z);
+            result.vertices[2] = new Vector3((float)A2.x, (float)A2.y, z);
 
-			B1.Push (rot - Mathf.PI, size, scale);
-			B2.Push (rot - Mathf.PI, size, scale);
-			
-			result.vertices[12] = new Vector3((float)B1.x, (float)B1.y, z);
-			result.vertices[13] = new Vector3((float)A1.x, (float)A1.y, z);
-			result.vertices[14] = new Vector3((float)A2.x, (float)A2.y, z);
+            result.vertices[3] = new Vector3((float)A2.x, (float)A2.y, z);
+            result.vertices[4] = new Vector3((float)B2.x, (float)B2.y, z);
+            result.vertices[5] = new Vector3((float)B1.x, (float)B1.y, z);
 
-			result.vertices[15] = new Vector3((float)A2.x, (float)A2.y, z);
-			result.vertices[16] = new Vector3((float)B2.x, (float)B2.y, z);
-			result.vertices[17] = new Vector3((float)B1.x, (float)B1.y, z);
+            result.uv[0] = new Vector2(xuv1 / 3, yuv1);
+            result.uv[1] = new Vector2(1 - xuv1 / 3, yuv1);
+            result.uv[2] = new Vector2(1 - xuv1 / 3, yuv0);
 
-			result.uv[12] = new Vector2(xuv0, yuv1); 
-			result.uv[13] = new Vector2(xuv1 / 3, yuv1);
-			result.uv[14] = new Vector2(xuv1 / 3, yuv0);
+            result.uv[3] = new Vector2(1 - xuv1 / 3, yuv0);
+            result.uv[4] = new Vector2(yuv1 / 3, xuv0);
+            result.uv[5] = new Vector2(xuv1 / 3, yuv1);
 
-			result.uv[15] = new Vector2(xuv1 / 3, yuv0);
-			result.uv[16] = new Vector2(yuv0, xuv0);
-			result.uv[17] = new Vector2(xuv0, yuv1);
-			
-			return(result);
-		}
+            A3.x = A1.x;
+            A3.y = A1.y;
 
-		static public Mesh Export(Mesh2DMesh trianglesList) {
-			Mesh mesh = new Mesh();
-			Vector3[] vertices = new Vector3[trianglesList.verticesCount];
-			Vector2[] uv = new Vector2[trianglesList.verticesCount];
-			int[] triangles = new int[trianglesList.verticesCount];
+            A4.x = A1.x;
+            A4.y = A1.y;
 
-			int vCount = 0;
-			int count = 0;
-			
-			Mesh2DSubmesh triangle;
-			
-			for(int x = 0; x < trianglesList.submeshes.Count; x++) {
-				triangle = trianglesList.submeshes[x];
+            A3.Push(rot - pi2, size, scale);
 
-				for(int v = 0; v < triangle.vertices.Length; v++) {
-					vertices[vCount] = triangle.vertices[v];
-					uv[vCount] = triangle.uv[v];
+            A3.x = A1.x;
+            A3.y = A1.y;
 
-					vCount += 1;
-				}
+            A4.x = A2.x;
+            A4.y = A2.y;
 
-				int iCount = triangle.vertices.Length;
-				for(int i = 0; i < iCount; i++) {
-					triangles[count + i] = count + i;
-				}
-				
-				count += iCount;
-			}
+            A1.Push(rot, size, scale);
+            A2.Push(rot, size, scale);
 
-			mesh.vertices = vertices;
-			mesh.uv = uv;
-			mesh.triangles = triangles;
+            result.vertices[6] = new Vector3((float)A3.x, (float)A3.y, z);
+            result.vertices[7] = new Vector3((float)A1.x, (float)A1.y, z);
+            result.vertices[8] = new Vector3((float)A2.x, (float)A2.y, z);
 
-			return(mesh);
-		}
+            result.vertices[9] = new Vector3((float)A2.x, (float)A2.y, z);
+            result.vertices[10] = new Vector3((float)A4.x, (float)A4.y, z);
+            result.vertices[11] = new Vector3((float)A3.x, (float)A3.y, z);
 
-		
-		public class Legacy {
+            result.uv[6] = new Vector2(xuv1 / 3, yuv1);
+            result.uv[7] = new Vector2(xuv0, yuv1);
+            result.uv[8] = new Vector2(xuv0, yuv0);
 
-			static public Mesh2DSubmesh CreateBox(float size) {
-				Mesh2DSubmesh result = new Mesh2DSubmesh(6);
+            result.uv[9] = new Vector2(xuv0, yuv0);
+            result.uv[10] = new Vector2(yuv1 / 3, xuv0);
+            result.uv[11] = new Vector2(xuv1 / 3, yuv1);
 
-				result.vertices[0] = new Vector3(-size, -size, 0);
-				result.vertices[1] = new Vector3(size, -size, 0);
-				result.vertices[2] = new Vector3(size, size, 0);
+            A1.x = B1.x;
+            A1.y = B1.y;
 
-				result.vertices[3] = new Vector3(size, size, 0);
-				result.vertices[4] = new Vector3(-size, size, 0);
-				result.vertices[5] = new Vector3(-size, -size, 0);
-				
-				result.uv[0] = new Vector2(uv0, uv0);
-				result.uv[1] = new Vector2(uv1, uv0);
-				result.uv[2] = new Vector2(uv1, uv1);
+            A2.x = B2.x;
+            A2.y = B2.y;
 
-				result.uv[3] = new Vector2(uv1, uv1);
-				result.uv[4] = new Vector2(uv1, uv0);
-				result.uv[5] = new Vector2(uv0, uv0);
-				
-				return(result);
-			}
-		}
-	}
+            B1.Push(rot - Mathf.PI, size, scale);
+            B2.Push(rot - Mathf.PI, size, scale);
+
+            result.vertices[12] = new Vector3((float)B1.x, (float)B1.y, z);
+            result.vertices[13] = new Vector3((float)A1.x, (float)A1.y, z);
+            result.vertices[14] = new Vector3((float)A2.x, (float)A2.y, z);
+
+            result.vertices[15] = new Vector3((float)A2.x, (float)A2.y, z);
+            result.vertices[16] = new Vector3((float)B2.x, (float)B2.y, z);
+            result.vertices[17] = new Vector3((float)B1.x, (float)B1.y, z);
+
+            result.uv[12] = new Vector2(xuv0, yuv1);
+            result.uv[13] = new Vector2(xuv1 / 3, yuv1);
+            result.uv[14] = new Vector2(xuv1 / 3, yuv0);
+
+            result.uv[15] = new Vector2(xuv1 / 3, yuv0);
+            result.uv[16] = new Vector2(yuv0, xuv0);
+            result.uv[17] = new Vector2(xuv0, yuv1);
+
+            return (result);
+        }
+
+        static public Mesh Export(Mesh2DMesh trianglesList) {
+            Mesh mesh = new Mesh();
+            Vector3[] vertices = new Vector3[trianglesList.verticesCount];
+            Vector2[] uv = new Vector2[trianglesList.verticesCount];
+            int[] triangles = new int[trianglesList.verticesCount];
+
+            int vCount = 0;
+            int count = 0;
+
+            Mesh2DSubmesh triangle;
+
+            for (int x = 0; x < trianglesList.submeshes.Count; x++) {
+                triangle = trianglesList.submeshes[x];
+
+                for (int v = 0; v < triangle.vertices.Length; v++) {
+                    vertices[vCount] = triangle.vertices[v];
+                    uv[vCount] = triangle.uv[v];
+
+                    vCount += 1;
+                }
+
+                int iCount = triangle.vertices.Length;
+                for (int i = 0; i < iCount; i++) {
+                    triangles[count + i] = count + i;
+                }
+
+                count += iCount;
+            }
+
+            mesh.vertices = vertices;
+            mesh.uv = uv;
+            mesh.triangles = triangles;
+
+            return (mesh);
+        }
+
+
+        public class Legacy {
+
+            static public Mesh2DSubmesh CreateBox(float size) {
+                Mesh2DSubmesh result = new Mesh2DSubmesh(6);
+
+                result.vertices[0] = new Vector3(-size, -size, 0);
+                result.vertices[1] = new Vector3(size, -size, 0);
+                result.vertices[2] = new Vector3(size, size, 0);
+
+                result.vertices[3] = new Vector3(size, size, 0);
+                result.vertices[4] = new Vector3(-size, size, 0);
+                result.vertices[5] = new Vector3(-size, -size, 0);
+
+                result.uv[0] = new Vector2(uv0, uv0);
+                result.uv[1] = new Vector2(uv1, uv0);
+                result.uv[2] = new Vector2(uv1, uv1);
+
+                result.uv[3] = new Vector2(uv1, uv1);
+                result.uv[4] = new Vector2(uv1, uv0);
+                result.uv[5] = new Vector2(uv0, uv0);
+
+                return (result);
+            }
+        }
+    }
 }

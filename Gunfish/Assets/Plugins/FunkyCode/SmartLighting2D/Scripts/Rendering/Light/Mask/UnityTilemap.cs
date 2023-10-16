@@ -1,13 +1,11 @@
-﻿using UnityEngine;
-using FunkyCode.LightSettings;
+﻿using FunkyCode.LightSettings;
 using FunkyCode.Utilities;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Light
-{
-    public class UnityTilemap
-    {
+namespace FunkyCode.Rendering.Light {
+    public class UnityTilemap {
         public static VirtualSpriteRenderer virtualSpriteRenderer = new VirtualSpriteRenderer();
-        
+
         static public void Sprite(Light2D light, LightTilemapCollider2D id, Material material, LayerSetting layerSetting) {
             Vector2 lightPosition = -light.transform.position;
 
@@ -15,12 +13,12 @@ namespace FunkyCode.Rendering.Light
             Vector2 scale = tilemap.TileWorldScale();
             Vector2 localScale = Vector2.zero;
             float rotation = id.transform.eulerAngles.z;
-            
+
             int count = tilemap.chunkManager.GetTiles(light.transform2D.WorldRect);
 
             Texture2D currentTexture = null;
-            
-            for(int i = 0; i < count; i++) {
+
+            for (int i = 0; i < count; i++) {
                 LightTile tile = tilemap.chunkManager.display[i];
 
                 if (tile.GetSprite() == null) {
@@ -43,7 +41,7 @@ namespace FunkyCode.Rendering.Light
                 if (texture == null) {
                     continue;
                 }
-                
+
                 if (currentTexture != texture) {
                     if (currentTexture != null) {
                         GL.End();
@@ -60,7 +58,7 @@ namespace FunkyCode.Rendering.Light
 
                 localScale.x = scale.x * tile.scale.x;
                 localScale.y = scale.y * tile.scale.y;
-    
+
                 Universal.Sprite.Pass.Draw(tile.spriteMeshObject, virtualSpriteRenderer, tilePosition, localScale, rotation + tile.rotation);
             }
 
@@ -93,7 +91,7 @@ namespace FunkyCode.Rendering.Light
 
             int count = tilemap.chunkManager.GetTiles(light.transform2D.WorldRect);
 
-            for(int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++) {
                 LightTile tile = tilemap.chunkManager.display[i];
 
                 if (tile.GetSprite() == null) {
@@ -122,7 +120,7 @@ namespace FunkyCode.Rendering.Light
                 }
 
                 GLExtended.color = LayerSettingColor.Get(tilePosition, layerSetting, MaskLit.Lit, 1, 1); // 1
-    
+
                 Universal.Sprite.FullRect.Simple.Draw(tile.spriteMeshObject, virtualSpriteRenderer, tilePosition, scale, tile.worldRotation);
             }
 
@@ -133,7 +131,7 @@ namespace FunkyCode.Rendering.Light
 
         static public void MaskShape(Light2D light, LightTilemapCollider2D id, LayerSetting layerSetting) {
             Vector2 lightPosition = -light.transform.position;
-         
+
             LightTilemapCollider.Base tilemap = id.GetCurrentTilemap();
 
             bool isGrid = !tilemap.IsPhysicsShape();
@@ -142,21 +140,21 @@ namespace FunkyCode.Rendering.Light
 
             float rotation = id.transform.eulerAngles.z;
 
-            MeshObject tileMesh = null;	
-            
+            MeshObject tileMesh = null;
+
             if (isGrid) {
                 tileMesh = LightTile.GetStaticMesh(tilemap);
             }
 
             int count = tilemap.chunkManager.GetTiles(light.transform2D.WorldRect);
 
-            for(int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++) {
                 LightTile tile = tilemap.chunkManager.display[i];
 
                 Vector2 tilePosition = tilemap.TileWorldPosition(tile);
 
                 tilePosition += lightPosition;
-                
+
                 if (tile.NotInRange(tilePosition, light.size)) {
                     continue;
                 }
@@ -172,7 +170,7 @@ namespace FunkyCode.Rendering.Light
 
                 GLExtended.color = LayerSettingColor.Get(tilePosition, layerSetting, MaskLit.Lit, 1, 1); // 1?
 
-                GLExtended.DrawMeshPass(tileMesh, tilePosition, scale, rotation + tile.rotation);		
+                GLExtended.DrawMeshPass(tileMesh, tilePosition, scale, rotation + tile.rotation);
             }
 
             GL.Color(Color.white);

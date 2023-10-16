@@ -59,13 +59,11 @@ using System;
 using System.Linq;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the Mittag-Leffler function.
     /// </summary>
-    public static partial class SpecialFunctions
-    {
+    public static partial class SpecialFunctions {
         // Translated from Professor Robert Garrappa's Matlab code[1] by hand.
         //
         // References:
@@ -150,32 +148,26 @@ namespace MathNet.Numerics
         ///    where α and γ must be positive real number.
         ///    If γ is not 1, α must be (0, 1) and |arg(z)| > α π.
         /// </remarks>
-        public static Complex MittagLefflerE(double alpha, double beta, double gamma, Complex z)
-        {
+        public static Complex MittagLefflerE(double alpha, double beta, double gamma, Complex z) {
             const double eps = 2.2204460492503130808E-16; // 2^(1 - 53) = 2.2204E-16
             const double Pi = 3.141592653589793238462643; // π
 
             // alpha must be positive real.
-            if (alpha <= 0)
-            {
+            if (alpha <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(alpha), $"{nameof(alpha)} must be positive.");
             }
 
             // gamma must be positive real.
-            if (gamma <= 0)
-            {
+            if (gamma <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(gamma), $"{nameof(gamma)} must be positive.");
             }
 
             // if gamma is not 1
-            if (Math.Abs(gamma - 1) > eps)
-            { 
-                if (alpha > 1)
-                {
+            if (Math.Abs(gamma - 1) > eps) {
+                if (alpha > 1) {
                     throw new ArgumentOutOfRangeException(nameof(alpha), $"{nameof(alpha)} must satisfy 0 < {nameof(alpha)} < 1.");
                 }
-                else if (Math.Abs(z.Phase) <= alpha * Pi)
-                {
+                else if (Math.Abs(z.Phase) <= alpha * Pi) {
                     throw new NotSupportedException("This works only when |Arg(z)| > alpha*PI.");
                 }
             }
@@ -192,8 +184,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Evaluates the Mittag-Leffler function by Laplace transform inversion.
         /// </summary>
-        private static Complex LTInversion(double t, Complex lambda, double alpha, double beta, double gamma, double log_epsilon)
-        {
+        private static Complex LTInversion(double t, Complex lambda, double alpha, double beta, double gamma, double log_epsilon) {
             const double eps = 2.220446049250313080847263E-16; // 2^(1 - 53) = 2.2204E-16
             const double Pi2 = 6.283185307179586476925287; // 2 π
             const double Ln10 = 2.302585092994045684017991; // log(10)
@@ -255,10 +246,8 @@ namespace MathNet.Numerics
 
             // Evaluation of parameters for inversion of LT in each admissible region
             var find_region = false;
-            while (!find_region)
-            {
-                foreach (var j1 in admissible_regions)
-                {
+            while (!find_region) {
+                foreach (var j1 in admissible_regions) {
                     (var muj, var hj, var Nj) = (j1 + 1 < J1)
                             ? OptimalParametersInRightBoundedRegion(t, phi_s_star[j1], phi_s_star[j1 + 1], p[j1], q[j1], log_epsilon)
                             : OptimalParametersInRightUnboundedRegion(t, phi_s_star[j1], p[j1], log_epsilon);
@@ -267,12 +256,10 @@ namespace MathNet.Numerics
                     h_vett[j1] = hj;
                     N_vett[j1] = Nj;
                 }
-                if (N_vett.Min() > 200)
-                {
+                if (N_vett.Min() > 200) {
                     log_epsilon += Ln10;
                 }
-                else
-                {
+                else {
                     find_region = true;
                 }
             }
@@ -285,8 +272,7 @@ namespace MathNet.Numerics
 
             // Evaluation of the inverse Laplace transform
             var integral = Complex.Zero;
-            for (var k = -N; k <= N; k++)
-            {
+            for (var k = -N; k <= N; k++) {
                 var uk = h * k;
                 var zk = mu * Complex.Pow(I * uk + 1, 2);
                 var zd = 2 * mu * (I - uk);
@@ -297,15 +283,13 @@ namespace MathNet.Numerics
 
             // Evaluation of residues
             var residues = Complex.Zero;
-            for (var k = iN + 1; k < s_star.Length; k++)
-            {
+            for (var k = iN + 1; k < s_star.Length; k++) {
                 residues += 1.0 / alpha * Complex.Pow(s_star[k], 1 - beta) * Complex.Exp(t * s_star[k]);
             }
 
             // Evaluation of the ML function
             var E = integral + residues;
-            if (lambda.Imaginary == 0)
-            {
+            if (lambda.Imaginary == 0) {
                 E = new Complex(E.Real, 0);
             }
 
@@ -315,8 +299,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Finds optimal parameters in a right-bounded region.
         /// </summary>
-        private static (double muj, double hj, double Nj) OptimalParametersInRightBoundedRegion(double t, double phi_s_star_j, double phi_s_star_j1, double pj, double qj, double log_epsilon)
-        {
+        private static (double muj, double hj, double Nj) OptimalParametersInRightBoundedRegion(double t, double phi_s_star_j, double phi_s_star_j1, double pj, double qj, double log_epsilon) {
             const double Pi2 = 6.283185307179586476925287; // 2 π
 
             // Definition of some constants
@@ -336,8 +319,7 @@ namespace MathNet.Numerics
             var sq_phibar_star_j = 0d;
             var sq_phibar_star_j1 = 0d;
             var adm_region = false;
-            if (pj < 1.0e-14 && qj < 1.0e-14)
-            {
+            if (pj < 1.0e-14 && qj < 1.0e-14) {
                 sq_phibar_star_j = sq_phi_star_j;
                 sq_phibar_star_j1 = sq_phi_star_j1;
                 adm_region = true;
@@ -345,49 +327,41 @@ namespace MathNet.Numerics
 
             // Zero or negative values of just pj
             var f_bar = 0d;
-            if (pj < 1.0e-14 && qj >= 1.0e-14)
-            {
+            if (pj < 1.0e-14 && qj >= 1.0e-14) {
                 sq_phibar_star_j = sq_phi_star_j;
                 var f_min = (sq_phi_star_j > 0)
                     ? fac * Math.Pow(sq_phi_star_j / (sq_phi_star_j1 - sq_phi_star_j), qj)
                     : fac;
-                if (f_min < f_max)
-                {
+                if (f_min < f_max) {
                     f_bar = f_min + f_min / f_max * (f_max - f_min);
                     var fq = Math.Pow(f_bar, -1 / qj);
                     sq_phibar_star_j1 = (2 * sq_phi_star_j1 - fq * sq_phi_star_j) / (2 + fq);
                     adm_region = true;
                 }
-                else
-                {
+                else {
                     adm_region = false;
                 }
             }
 
             // Zero or negative values of just qj            
-            if (pj >= 1.0e-14 && qj < 1.0e-14)
-            {
+            if (pj >= 1.0e-14 && qj < 1.0e-14) {
                 sq_phibar_star_j1 = sq_phi_star_j1;
                 var f_min = fac * Math.Pow(sq_phi_star_j1 / (sq_phi_star_j1 - sq_phi_star_j), pj);
-                if (f_min < f_max)
-                {
+                if (f_min < f_max) {
                     f_bar = f_min + f_min / f_max * (f_max - f_min);
                     var fp = Math.Pow(f_bar, -1 / pj);
                     sq_phibar_star_j = (2 * sq_phi_star_j + fp * sq_phi_star_j1) / (2 - fp);
                     adm_region = true;
                 }
-                else
-                {
+                else {
                     adm_region = false;
                 }
             }
 
             // Positive values of both pj and qj
-            if (pj >= 1.0e-14 && qj >= 1.0e-14)
-            {
+            if (pj >= 1.0e-14 && qj >= 1.0e-14) {
                 var f_min = fac * (sq_phi_star_j + sq_phi_star_j1) / Math.Pow(sq_phi_star_j1 - sq_phi_star_j, Math.Max(pj, qj));
-                if (f_min < f_max)
-                {
+                if (f_min < f_max) {
                     f_min = Math.Max(f_min, 1.5);
                     f_bar = f_min + f_min / f_max * (f_max - f_min);
                     var fp = Math.Pow(f_bar, -1 / pj);
@@ -400,8 +374,7 @@ namespace MathNet.Numerics
                     sq_phibar_star_j1 = (-(1 + w) * fq * sq_phi_star_j + (2 + w - (1 + w) * fp) * sq_phi_star_j1) / den;
                     adm_region = true;
                 }
-                else
-                {
+                else {
                     adm_region = false;
                 }
             }
@@ -409,8 +382,7 @@ namespace MathNet.Numerics
             var muj = 0d;
             var hj = 0d;
             var Nj = double.PositiveInfinity;
-            if (adm_region)
-            {
+            if (adm_region) {
                 log_epsilon = log_epsilon - Math.Log(f_bar);
                 var w = (conservative_error_analysis)
                     ? -2 * Math.Pow(sq_phibar_star_j1, 2) * t / (log_epsilon - Math.Pow(sq_phibar_star_j1, 2) * t)
@@ -426,8 +398,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Finds optimal parameters in a right-unbounded region.
         /// </summary>
-        private static (double muj, double hj, double Nj) OptimalParametersInRightUnboundedRegion(double t, double phi_s_star_j, double pj, double log_epsilon)
-        {
+        private static (double muj, double hj, double Nj) OptimalParametersInRightUnboundedRegion(double t, double phi_s_star_j, double pj, double log_epsilon) {
             const double eps = 2.2204460492503130808E-16; // 2^(1 - 53) = 2.2204E-16
             const double Pi = 3.141592653589793238462643; // π
             const double Pi2 = 6.283185307179586476925287; // 2 π
@@ -447,8 +418,7 @@ namespace MathNet.Numerics
             var sq_muj = 0d;
             var Nj = 0d;
             bool stop = false;
-            while (!stop)
-            {
+            while (!stop) {
                 var phi_t = phibar_star_j * t;
                 var log_eps_phi_t = log_epsilon / phi_t;
 
@@ -459,8 +429,7 @@ namespace MathNet.Numerics
                 var fbar = Math.Pow((sq_phibar_star_j - sq_phi_s_star_j) / sq_muj, -pj);
 
                 stop = (pj < 1.0e-14) || (f_min < fbar && fbar < f_max);
-                if (!stop)
-                {
+                if (!stop) {
                     sq_phibar_star_j = Math.Pow(f_tar, -1.0 / pj) * sq_muj + sq_phi_s_star_j;
                     phibar_star_j = Math.Pow(sq_phibar_star_j, 2);
                 }
@@ -472,20 +441,17 @@ namespace MathNet.Numerics
             // Adjusting integration parameters to keep round-off errors under control
             var log_eps = Math.Log(eps);
             var threshold = (log_epsilon - log_eps) / t;
-            if (muj > threshold)
-            {
+            if (muj > threshold) {
                 var Q = (Math.Abs(pj) < 1.0e-14) ? 0 : Math.Pow(f_tar, -1 / pj) * Math.Sqrt(muj);
                 phibar_star_j = Math.Pow(Q + Math.Sqrt(phi_s_star_j), 2);
-                if (phibar_star_j < threshold)
-                {
+                if (phibar_star_j < threshold) {
                     var w = Math.Sqrt(log_eps / (log_eps - log_epsilon));
                     var u = Math.Sqrt(-phibar_star_j * t / log_eps);
                     muj = threshold;
                     Nj = Math.Ceiling(w * log_epsilon / Pi2 / (u * w - 1));
                     hj = Math.Sqrt(log_eps / (log_eps - log_epsilon)) / Nj;
                 }
-                else
-                {
+                else {
                     Nj = double.PositiveInfinity;
                     hj = 0;
                 }

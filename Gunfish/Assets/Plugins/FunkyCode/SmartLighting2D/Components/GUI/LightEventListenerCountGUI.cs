@@ -1,30 +1,25 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode
-{
+namespace FunkyCode {
     [ExecuteInEditMode]
-    public class LightEventListenerCountGUI : MonoBehaviour
-    {
+    public class LightEventListenerCountGUI : MonoBehaviour {
         static private Texture pointTexture;
 
         private LightEventListenerCount lightEventReceiver;
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             lightEventReceiver = GetComponent<LightEventListenerCount>();
         }
 
-        void OnGUI()
-        {
-            if (Camera.main == null)
-            {
+        void OnGUI() {
+            if (Camera.main == null) {
                 return;
             }
-            
+
             Vector2 middlePoint = Camera.main.WorldToScreenPoint(transform.position);
 
             GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-            
+
             string display = lightEventReceiver.lights.Count.ToString();
 
             int size = Screen.height / 20;

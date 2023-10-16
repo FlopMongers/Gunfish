@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using UnityEditor;
+using UnityEngine;
 
 namespace SplineMesh {
     [CustomEditor(typeof(SplineExtrusion))]
@@ -46,7 +46,8 @@ namespace SplineMesh {
                 Vector3 normal = se.transform.TransformPoint(q * (v.point + v.normal) + startSample.location);
 
                 // first we check if at least one thing is in the camera field of view
-                if (!CameraUtility.IsOnScreen(point) && !CameraUtility.IsOnScreen(normal)) continue;
+                if (!CameraUtility.IsOnScreen(point) && !CameraUtility.IsOnScreen(normal))
+                    continue;
 
                 if (v == selection) {
                     // draw the handles for selected vertex position and normal
@@ -65,17 +66,20 @@ namespace SplineMesh {
                             int i = se.shapeVertices.IndexOf(v);
                             if (i == se.shapeVertices.Count - 1) {
                                 se.shapeVertices.Add(newVertex);
-                            } else {
+                            }
+                            else {
                                 se.shapeVertices.Insert(i + 1, newVertex);
                             }
                             selection = newVertex;
-                        } else {
+                        }
+                        else {
                             v.point = newVertexPoint;
                             // normal must be updated if point has been moved
                             normal = se.transform.TransformPoint(q * (v.point + v.normal) + startSample.location);
                         }
                         se.SetToUpdate();
-                    } else {
+                    }
+                    else {
                         // vertex position handle hasn't been moved
                         // create a handle for normal
                         Vector3 movedNormal = Handles.Slider2D(normal, startSample.tangent, Vector3.right, Vector3.up, size, Handles.CircleHandleCap, snap);
@@ -90,7 +94,8 @@ namespace SplineMesh {
                     DrawQuad(HandleUtility.WorldToGUIPoint(point), CURVE_COLOR);
                     DrawQuad(HandleUtility.WorldToGUIPoint(normal), Color.red);
                     Handles.EndGUI();
-                } else {
+                }
+                else {
                     // we draw a button to allow selection of the vertex
                     Handles.BeginGUI();
                     Vector2 p = HandleUtility.WorldToGUIPoint(point);

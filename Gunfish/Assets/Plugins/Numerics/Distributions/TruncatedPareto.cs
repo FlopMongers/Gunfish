@@ -31,10 +31,8 @@ using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.Distributions
-{
-    public class TruncatedPareto : IContinuousDistribution
-    {
+namespace MathNet.Numerics.Distributions {
+    public class TruncatedPareto : IContinuousDistribution {
         System.Random _random;
 
         /// <summary>
@@ -45,10 +43,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="truncation">The truncation (T) of the distribution. Range: T > xm.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are non-positive or if T ≤ xm.</exception>
-        public TruncatedPareto(double scale, double shape, double truncation, System.Random randomSource = null)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public TruncatedPareto(double scale, double shape, double truncation, System.Random randomSource = null) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             _random = randomSource ?? SystemRandomSource.Default;
@@ -61,8 +57,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Truncated Pareto(Scale = {Scale}, Shape = {Shape}, Truncation = {Truncation})";
         }
 
@@ -72,8 +67,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="truncation">The truncation (T) of the distribution. Range: T > xm.</param>
-        public static bool IsValidParameterSet(double scale, double shape, double truncation)
-        {
+        public static bool IsValidParameterSet(double scale, double shape, double truncation) {
             var allFinite = scale.IsFinite() && shape.IsFinite() && truncation.IsFinite();
             return allFinite && scale > 0.0 && shape > 0.0 && truncation > scale;
         }
@@ -81,8 +75,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -107,15 +100,12 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="n">The order (n) of the moment. Range: n ≥ 1.</param>
         /// <returns>the n-th moment of the distribution.</returns>
-        public double GetMoment(int n)
-        {
+        public double GetMoment(int n) {
             double moment;
-            if (Shape.AlmostEqual(n))
-            {
+            if (Shape.AlmostEqual(n)) {
                 moment = ((Shape * Math.Pow(Scale, n)) / (1 - Math.Pow(Scale / Truncation, Shape))) * Math.Log(Truncation / Scale);
             }
-            else
-            {
+            else {
                 moment = ((Shape * Math.Pow(Scale, n)) / (Shape - n)) * ((1 - Math.Pow((Scale / Truncation), (Shape - n))) / (1 - Math.Pow(Scale / Truncation, Shape)));
             }
 
@@ -160,10 +150,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the truncated Pareto distribution.
         /// </summary>
-        public double Skewness
-        {
-            get
-            {
+        public double Skewness {
+            get {
                 var mean = Mean;
                 var variance = Variance;
                 var std = StdDev;
@@ -180,8 +168,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the truncated Pareto distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, Scale, Shape, Truncation);
         }
 
@@ -189,8 +176,7 @@ namespace MathNet.Numerics.Distributions
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="values">The array to fill with the samples.</param>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, Scale, Shape, Truncation);
         }
 
@@ -198,8 +184,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the truncated Pareto distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, Scale, Shape, Truncation);
         }
 
@@ -211,10 +196,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="truncation">The truncation (T) of the distribution. Range: T > xm.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double scale, double shape, double truncation)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public static double Sample(System.Random rnd, double scale, double shape, double truncation) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, scale, shape, truncation);
@@ -228,10 +211,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="truncation">The truncation (T) of the distribution. Range: T > xm.</param>
-        public static void Samples(System.Random rnd, double[] values, double scale, double shape, double truncation)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public static void Samples(System.Random rnd, double[] values, double scale, double shape, double truncation) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             SamplesUnchecked(rnd, values, scale, shape, truncation);
@@ -245,38 +226,30 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="truncation">The truncation (T) of the distribution. Range: T > xm.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double scale, double shape, double truncation)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double scale, double shape, double truncation) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(rnd, scale, shape, truncation);
         }
 
-        internal static double SampleUnchecked(System.Random rnd, double scale, double shape, double truncation)
-        {
+        internal static double SampleUnchecked(System.Random rnd, double scale, double shape, double truncation) {
             double uniform = rnd.NextDouble();
             return InvCDFUncheckedImpl(scale, shape, truncation, uniform);
         }
 
-        internal static void SamplesUnchecked(System.Random rnd, double[] values, double scale, double shape, double truncation)
-        {
-            if (values.Length == 0)
-            {
+        internal static void SamplesUnchecked(System.Random rnd, double[] values, double scale, double shape, double truncation) {
+            if (values.Length == 0) {
                 return;
             }
             double[] uniforms = rnd.NextDoubles(values.Length);
-            for (var j = 0; j < values.Length; ++j)
-            {
+            for (var j = 0; j < values.Length; ++j) {
                 values[j] = InvCDFUncheckedImpl(scale, shape, truncation, uniforms[j]);
             }
         }
 
-        internal static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale, double shape, double truncation)
-        {
-            while (true)
-            {
+        internal static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale, double shape, double truncation) {
+            while (true) {
                 yield return SampleUnchecked(rnd, scale, shape, truncation);
             }
         }
@@ -287,8 +260,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
+        public double Density(double x) {
             return DensityImpl(Scale, Shape, Truncation, x);
         }
 
@@ -298,8 +270,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
+        public double DensityLn(double x) {
             return DensityLnImpl(Scale, Shape, Truncation, x);
         }
 
@@ -309,8 +280,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return CumulativeDistributionImpl(Scale, Shape, Truncation, x);
         }
 
@@ -319,8 +289,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative distribution function.</param>
         /// <returns>the inverse cumulative distribution at location <paramref name="p"/>.</returns>
-        public double InvCDF(double p)
-        {
+        public double InvCDF(double p) {
             return InvCDFUncheckedImpl(Scale, Shape, Truncation, p);
         }
 
@@ -333,10 +302,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The location at which to compute the inverse cumulative distribution function.</param>
         ///  <returns>the inverse cumulative distribution at location <paramref name="p"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double InvCDF(double scale, double shape, double truncation, double p)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public static double InvCDF(double scale, double shape, double truncation, double p) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return InvCDFUncheckedImpl(scale, shape, truncation, p);
@@ -351,10 +318,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double scale, double shape, double truncation, double x)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public static double PDF(double scale, double shape, double truncation, double x) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityImpl(scale, shape, truncation, x);
@@ -369,10 +334,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double scale, double shape, double truncation, double x)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public static double PDFLn(double scale, double shape, double truncation, double x) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityLnImpl(scale, shape, truncation, x);
@@ -387,30 +350,25 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double scale, double shape, double truncation, double x)
-        {
-            if (!IsValidParameterSet(scale, shape, truncation))
-            {
+        public static double CDF(double scale, double shape, double truncation, double x) {
+            if (!IsValidParameterSet(scale, shape, truncation)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return CumulativeDistributionImpl(scale, shape, truncation, x);
         }
 
-        static double DensityImpl(double scale, double shape, double truncation, double x)
-        {
+        static double DensityImpl(double scale, double shape, double truncation, double x) {
             if (x < scale || x > truncation)
                 return 0;
             else
                 return (shape * Math.Pow(scale, shape) * Math.Pow(x, -shape - 1)) / (1 - Math.Pow(scale / truncation, shape));
         }
 
-        static double DensityLnImpl(double scale, double shape, double truncation, double x)
-        {
+        static double DensityLnImpl(double scale, double shape, double truncation, double x) {
             return Math.Log(DensityImpl(scale, shape, truncation, x));
         }
 
-        static double CumulativeDistributionImpl(double scale, double shape, double truncation, double x)
-        {
+        static double CumulativeDistributionImpl(double scale, double shape, double truncation, double x) {
             if (x <= scale)
                 return 0;
             else if (x >= truncation)
@@ -419,8 +377,7 @@ namespace MathNet.Numerics.Distributions
                 return (1 - Math.Pow(scale, shape) * Math.Pow(x, -shape)) / (1 - Math.Pow(scale / truncation, shape));
         }
 
-        static double InvCDFUncheckedImpl(double scale, double shape, double truncation, double p)
-        {
+        static double InvCDFUncheckedImpl(double scale, double shape, double truncation, double p) {
             var numerator = p * Math.Pow(truncation, shape) - p * Math.Pow(scale, shape) - Math.Pow(truncation, shape);
             var denominator = Math.Pow(truncation, shape) * Math.Pow(scale, shape);
             return Math.Pow(-numerator / denominator, -(1 / shape));

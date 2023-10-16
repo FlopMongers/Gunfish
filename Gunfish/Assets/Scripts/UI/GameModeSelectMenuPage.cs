@@ -16,9 +16,10 @@ public class GameModeSelectMenuPage : IMenuPage {
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
-        
+
         foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
-            if (!playerInput) continue;
+            if (!playerInput)
+                continue;
             playerInput.currentActionMap.FindAction("Navigate").performed += OnNavigate;
             playerInput.currentActionMap.FindAction("Submit").performed += OnSubmit;
         }
@@ -27,7 +28,7 @@ public class GameModeSelectMenuPage : IMenuPage {
         gameModeName = menuContext.document.rootVisualElement.Q<Label>("gamemode-name");
         backButton = menuContext.document.rootVisualElement.Q<Button>("back-button");
         nextButton = menuContext.document.rootVisualElement.Q<Button>("next-button");
-        
+
         displayedGameModeIndex = 0;
         gameModes = GameManager.instance.GameModeList;
         if (gameModes.Count > 0) {
@@ -37,7 +38,8 @@ public class GameModeSelectMenuPage : IMenuPage {
 
     public void OnDisable(MenuPageContext context) {
         foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
-            if (!playerInput) continue;
+            if (!playerInput)
+                continue;
             playerInput.currentActionMap.FindAction("Navigate").performed -= OnNavigate;
             playerInput.currentActionMap.FindAction("Submit").performed -= OnSubmit;
         }
@@ -58,10 +60,11 @@ public class GameModeSelectMenuPage : IMenuPage {
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
             if (direction.x > 0) {
                 IncrementGameMode();
-            } else {
+            }
+            else {
                 DecrementGameMode();
             }
-        } 
+        }
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {

@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using FunkyCode.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode.Rendering.Light.Shadow
-{
-    public static class PerpendicularIntersection
-    {
+namespace FunkyCode.Rendering.Light.Shadow {
+    public static class PerpendicularIntersection {
         public static Pair2 pair = Pair2.Zero();
 
         public static void Draw(List<Polygon2> polygons, float shadowDistance) {
@@ -39,14 +37,14 @@ namespace FunkyCode.Rendering.Light.Shadow
 
             GL.Color(Color.black);
 
-            for(int i = 0; i < PolygonCount; i++) {
+            for (int i = 0; i < PolygonCount; i++) {
 
                 Vector2[] pointsList = polygons[i].points;
                 int pointsCount = pointsList.Length;
-            
-                for(int x = 0; x < pointsCount; x++) {
+
+                for (int x = 0; x < pointsCount; x++) {
                     int next = (x + 1) % pointsCount;
-                    
+
                     pair.A = pointsList[x];
                     pair.B = pointsList[next];
 
@@ -62,19 +60,19 @@ namespace FunkyCode.Rendering.Light.Shadow
                     float edgeBWorldX = edgeBLocalX + offset.x;
                     float edgeBWorldY = edgeBLocalY + offset.y;
 
-                    float lightDirection = Mathf.Atan2((edgeAWorldY + edgeBWorldY) / 2 , (edgeAWorldX + edgeBWorldX) / 2 ) * Mathf.Rad2Deg;
+                    float lightDirection = Mathf.Atan2((edgeAWorldY + edgeBWorldY) / 2, (edgeAWorldX + edgeBWorldX) / 2) * Mathf.Rad2Deg;
                     float EdgeDirection = (Mathf.Atan2(edgeALocalY - edgeBLocalY, edgeALocalX - edgeBLocalX) * Mathf.Rad2Deg - 180 + 720) % 360;
 
                     lightDirection -= EdgeDirection;
-    
+
                     lightDirection = (lightDirection + 720) % 360;
 
-                    angleA = (float)System.Math.Atan2 (edgeAWorldY, edgeAWorldX);
-                    angleB = (float)System.Math.Atan2 (edgeBWorldY, edgeBWorldX);
+                    angleA = (float)System.Math.Atan2(edgeAWorldY, edgeAWorldX);
+                    angleB = (float)System.Math.Atan2(edgeBWorldY, edgeBWorldX);
 
                     rotA = angleA - Mathf.Deg2Rad * light.outerAngle;
                     rotB = angleB + Mathf.Deg2Rad * light.outerAngle;
-                                        
+
                     // Right Collision
                     vC.x = edgeAWorldX;
                     vC.y = edgeAWorldY;
@@ -108,12 +106,13 @@ namespace FunkyCode.Rendering.Light.Shadow
                     pB.y += Mathf.Sin(rotB) * lightSizeSquared;
 
                     // Right Intersection
-                    intersectionRight = LineIntersectPolygons(vC - offset, vA - offset,  polygons);
-                  
+                    intersectionRight = LineIntersectPolygons(vC - offset, vA - offset, polygons);
+
                     if (intersectionRight != null) {
                         if (intersectionRight.Value.y < 0) {
                             intersectionRight = null;
-                        } else {
+                        }
+                        else {
                             intersectionRight = intersectionRight + offset;
 
                             vA.x = (float)intersectionRight.Value.x;
@@ -126,11 +125,12 @@ namespace FunkyCode.Rendering.Light.Shadow
 
                     // Left Intersection
                     intersectionLeft = LineIntersectPolygons(vD - offset, vB - offset, polygons);
-               
+
                     if (intersectionLeft != null) {
                         if (intersectionLeft.Value.y < 0) {
                             intersectionLeft = null;
-                        } else {
+                        }
+                        else {
                             intersectionLeft = intersectionLeft + offset;
 
                             vB.x = (float)intersectionLeft.Value.x;
@@ -138,7 +138,7 @@ namespace FunkyCode.Rendering.Light.Shadow
 
                             intersectionLeftOffset = intersectionLeft.Value;
                             intersectionLeftOffset.y += shadowDistance;
-                        }     
+                        }
                     }
 
                     GL.TexCoord3(fill.x0, fill.y0, 0);
@@ -154,7 +154,8 @@ namespace FunkyCode.Rendering.Light.Shadow
                         GL.Vertex3(vA.x, vA.y, 0);
                         GL.Vertex3(intersectionLeftOffset.x, intersectionLeftOffset.y, 0);
 
-                    } else {
+                    }
+                    else {
 
                         if (intersectionRight != null) {
                             GL.Vertex3(vA.x, vA.y, 0);
@@ -191,7 +192,7 @@ namespace FunkyCode.Rendering.Light.Shadow
             float distance = 1000000000;
             Vector2? result = null;
 
-            for(int i = 0; i < poly.points.Length; i++) {
+            for (int i = 0; i < poly.points.Length; i++) {
                 Vector2 pa = poly.points[i];
                 Vector2 pb = poly.points[(i + 1) % poly.points.Length];
 
@@ -216,15 +217,16 @@ namespace FunkyCode.Rendering.Light.Shadow
                             result = intersection.Value;
                             d = distance;
                         }
-                    } else {
+                    }
+                    else {
                         result = intersection.Value;
                         distance = d;
                     }
-                    
+
                 }
             }
 
-            return(result);
+            return (result);
         }
 
 
@@ -232,12 +234,12 @@ namespace FunkyCode.Rendering.Light.Shadow
             Vector2? result = null;
             float distance = 1000000000;
 
-            foreach(List<Polygon2> polygons in ShadowEngine.effectPolygons) {
+            foreach (List<Polygon2> polygons in ShadowEngine.effectPolygons) {
                 if (originlPoly == polygons) {
                     continue;
                 }
 
-                foreach(Polygon2 polygon in polygons) {
+                foreach (Polygon2 polygon in polygons) {
                     Vector2? intersection = PolygonClosestIntersection(polygon, startPoint, endPoint);
 
                     if (intersection != null) {
@@ -247,16 +249,17 @@ namespace FunkyCode.Rendering.Light.Shadow
                                 result = intersection.Value;
                                 d = distance;
                             }
-                        } else {
+                        }
+                        else {
                             result = intersection.Value;
                             distance = d;
                         }
                     }
                 }
-                
+
             }
-            
-            return(result);
+
+            return (result);
         }
 
     }

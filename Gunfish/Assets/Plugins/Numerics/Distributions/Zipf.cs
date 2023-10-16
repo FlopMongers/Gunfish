@@ -27,12 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Random;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Discrete Univariate Zipf distribution.
     /// Zipf's law, an empirical law formulated using mathematical statistics, refers to the fact
@@ -41,8 +40,7 @@ namespace MathNet.Numerics.Distributions
     /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Zipf%27s_law">Wikipedia - Zipf distribution</a>.
     /// </summary>
-    public class Zipf : IDiscreteDistribution
-    {
+    public class Zipf : IDiscreteDistribution {
         System.Random _random;
 
         /// <summary>
@@ -60,10 +58,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public Zipf(double s, int n)
-        {
-            if (!IsValidParameterSet(s, n))
-            {
+        public Zipf(double s, int n) {
+            if (!IsValidParameterSet(s, n)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -78,10 +74,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Zipf(double s, int n, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(s, n))
-            {
+        public Zipf(double s, int n, System.Random randomSource) {
+            if (!IsValidParameterSet(s, n)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -94,8 +88,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Zipf(S = {_s}, N = {_n})";
         }
 
@@ -104,8 +97,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public static bool IsValidParameterSet(double s, int n)
-        {
+        public static bool IsValidParameterSet(double s, int n) {
             return n > 0 && s > 0.0;
         }
 
@@ -122,8 +114,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -131,23 +122,20 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean => SpecialFunctions.GeneralHarmonic(_n, _s - 1.0)/SpecialFunctions.GeneralHarmonic(_n, _s);
+        public double Mean => SpecialFunctions.GeneralHarmonic(_n, _s - 1.0) / SpecialFunctions.GeneralHarmonic(_n, _s);
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                if (_s <= 3)
-                {
+        public double Variance {
+            get {
+                if (_s <= 3) {
                     throw new NotSupportedException();
                 }
 
                 var ghns = SpecialFunctions.GeneralHarmonic(_n, _s);
-                return (SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s))
-                       - (Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2)/(ghns*ghns));
+                return (SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s))
+                       - (Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2) / (ghns * ghns));
             }
         }
 
@@ -159,33 +147,27 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get
-            {
+        public double Entropy {
+            get {
                 double sum = 0;
-                for (var i = 0; i < _n; i++)
-                {
-                    sum += Math.Log(i + 1)/Math.Pow(i + 1, _s);
+                for (var i = 0; i < _n; i++) {
+                    sum += Math.Log(i + 1) / Math.Pow(i + 1, _s);
                 }
 
-                return ((_s/SpecialFunctions.GeneralHarmonic(_n, _s))*sum) + Math.Log(SpecialFunctions.GeneralHarmonic(_n, _s));
+                return ((_s / SpecialFunctions.GeneralHarmonic(_n, _s)) * sum) + Math.Log(SpecialFunctions.GeneralHarmonic(_n, _s));
             }
         }
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get
-            {
-                if (_s <= 4)
-                {
+        public double Skewness {
+            get {
+                if (_s <= 4) {
                     throw new NotSupportedException();
                 }
 
-                return ((SpecialFunctions.GeneralHarmonic(_n, _s - 3)*Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s), 2)) - (SpecialFunctions.GeneralHarmonic(_n, _s - 1)*((3*SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2))))/Math.Pow((SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2), 1.5);
+                return ((SpecialFunctions.GeneralHarmonic(_n, _s - 3) * Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s), 2)) - (SpecialFunctions.GeneralHarmonic(_n, _s - 1) * ((3 * SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2)))) / Math.Pow((SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2), 1.5);
             }
         }
 
@@ -214,9 +196,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public double Probability(int k)
-        {
-            return (1.0/Math.Pow(k, _s))/SpecialFunctions.GeneralHarmonic(_n, _s);
+        public double Probability(int k) {
+            return (1.0 / Math.Pow(k, _s)) / SpecialFunctions.GeneralHarmonic(_n, _s);
         }
 
         /// <summary>
@@ -224,8 +205,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public double ProbabilityLn(int k)
-        {
+        public double ProbabilityLn(int k) {
             return Math.Log(Probability(k));
         }
 
@@ -234,14 +214,12 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
-        public double CumulativeDistribution(double x)
-        {
-            if (x < 1)
-            {
+        public double CumulativeDistribution(double x) {
+            if (x < 1) {
                 return 0.0;
             }
 
-            return SpecialFunctions.GeneralHarmonic((int)x, _s)/SpecialFunctions.GeneralHarmonic(_n, _s);
+            return SpecialFunctions.GeneralHarmonic((int)x, _s) / SpecialFunctions.GeneralHarmonic(_n, _s);
         }
 
         /// <summary>
@@ -251,14 +229,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public static double PMF(double s, int n, int k)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static double PMF(double s, int n, int k) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return (1.0/Math.Pow(k, s))/SpecialFunctions.GeneralHarmonic(n, s);
+            return (1.0 / Math.Pow(k, s)) / SpecialFunctions.GeneralHarmonic(n, s);
         }
 
         /// <summary>
@@ -268,10 +244,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public static double PMFLn(double s, int n, int k)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static double PMFLn(double s, int n, int k) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -286,19 +260,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double s, int n, double x)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static double CDF(double s, int n, double x) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (x < 1)
-            {
+            if (x < 1) {
                 return 0.0;
             }
 
-            return SpecialFunctions.GeneralHarmonic((int)x, s)/SpecialFunctions.GeneralHarmonic(n, s);
+            return SpecialFunctions.GeneralHarmonic((int)x, s) / SpecialFunctions.GeneralHarmonic(n, s);
         }
 
         /// <summary>
@@ -308,22 +279,18 @@ namespace MathNet.Numerics.Distributions
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns>a random number from the Zipf distribution.</returns>
-        static int SampleUnchecked(System.Random rnd, double s, int n)
-        {
+        static int SampleUnchecked(System.Random rnd, double s, int n) {
             var r = 0.0;
-            while (r == 0.0)
-            {
+            while (r == 0.0) {
                 r = rnd.NextDouble();
             }
 
-            var p = 1.0/SpecialFunctions.GeneralHarmonic(n, s);
+            var p = 1.0 / SpecialFunctions.GeneralHarmonic(n, s);
             int i;
             var sum = 0.0;
-            for (i = 1; i <= n; i++)
-            {
-                sum += p/Math.Pow(i, s);
-                if (sum >= r)
-                {
+            for (i = 1; i <= n; i++) {
+                sum += p / Math.Pow(i, s);
+                if (sum >= r) {
                     break;
                 }
             }
@@ -331,18 +298,14 @@ namespace MathNet.Numerics.Distributions
             return i;
         }
 
-        static void SamplesUnchecked(System.Random rnd, int[] values, double s, int n)
-        {
-            for (int i = 0; i < values.Length; i++)
-            {
+        static void SamplesUnchecked(System.Random rnd, int[] values, double s, int n) {
+            for (int i = 0; i < values.Length; i++) {
                 values[i] = SampleUnchecked(rnd, s, n);
             }
         }
 
-        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double s, int n)
-        {
-            while (true)
-            {
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double s, int n) {
+            while (true) {
                 yield return SampleUnchecked(rnd, s, n);
             }
         }
@@ -351,16 +314,14 @@ namespace MathNet.Numerics.Distributions
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public int Sample()
-        {
+        public int Sample() {
             return SampleUnchecked(_random, _s, _n);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(int[] values)
-        {
+        public void Samples(int[] values) {
             SamplesUnchecked(_random, values, _s, _n);
         }
 
@@ -368,8 +329,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples an array of zipf distributed random variables.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<int> Samples()
-        {
+        public IEnumerable<int> Samples() {
             return SamplesUnchecked(_random, _s, _n);
         }
 
@@ -379,10 +339,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public static int Sample(System.Random rnd, double s, int n)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static int Sample(System.Random rnd, double s, int n) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -395,10 +353,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public static IEnumerable<int> Samples(System.Random rnd, double s, int n)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static IEnumerable<int> Samples(System.Random rnd, double s, int n) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -412,10 +368,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public static void Samples(System.Random rnd, int[] values, double s, int n)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static void Samples(System.Random rnd, int[] values, double s, int n) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -427,10 +381,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public static int Sample(double s, int n)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static int Sample(double s, int n) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -442,10 +394,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public static IEnumerable<int> Samples(double s, int n)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static IEnumerable<int> Samples(double s, int n) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -458,10 +408,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        public static void Samples(int[] values, double s, int n)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
+        public static void Samples(int[] values, double s, int n) {
+            if (!(n > 0 && s > 0.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

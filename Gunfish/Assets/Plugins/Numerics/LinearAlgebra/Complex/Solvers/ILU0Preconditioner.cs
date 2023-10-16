@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -43,8 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class ILU0Preconditioner : IPreconditioner<Complex>
-    {
+    public sealed class ILU0Preconditioner : IPreconditioner<Complex> {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The
         /// decomposition matrices are combined to reduce storage.
@@ -55,13 +53,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix<Complex> UpperTriangle()
-        {
+        internal Matrix<Complex> UpperTriangle() {
             var result = new SparseMatrix(_decompositionLU.RowCount);
-            for (var i = 0; i < _decompositionLU.RowCount; i++)
-            {
-                for (var j = i; j < _decompositionLU.ColumnCount; j++)
-                {
+            for (var i = 0; i < _decompositionLU.RowCount; i++) {
+                for (var j = i; j < _decompositionLU.ColumnCount; j++) {
                     result[i, j] = _decompositionLU[i, j];
                 }
             }
@@ -73,19 +68,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Returns the lower triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix<Complex> LowerTriangle()
-        {
+        internal Matrix<Complex> LowerTriangle() {
             var result = new SparseMatrix(_decompositionLU.RowCount);
-            for (var i = 0; i < _decompositionLU.RowCount; i++)
-            {
-                for (var j = 0; j <= i; j++)
-                {
-                    if (i == j)
-                    {
+            for (var i = 0; i < _decompositionLU.RowCount; i++) {
+                for (var j = 0; j <= i; j++) {
+                    if (i == j) {
                         result[i, j] = 1.0;
                     }
-                    else
-                    {
+                    else {
                         result[i, j] = _decompositionLU[i, j];
                     }
                 }
@@ -100,15 +90,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The matrix upon which the preconditioner is based. </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex> matrix)
-        {
-            if (matrix == null)
-            {
+        public void Initialize(Matrix<Complex> matrix) {
+            if (matrix == null) {
                 throw new ArgumentNullException(nameof(matrix));
             }
 
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
@@ -127,29 +114,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             //         end
             //     end
             // end
-            for (var i = 0; i < _decompositionLU.RowCount; i++)
-            {
-                for (var k = 0; k < i; k++)
-                {
-                    if (_decompositionLU[i, k] != 0.0)
-                    {
-                        var t = _decompositionLU[i, k]/_decompositionLU[k, k];
+            for (var i = 0; i < _decompositionLU.RowCount; i++) {
+                for (var k = 0; k < i; k++) {
+                    if (_decompositionLU[i, k] != 0.0) {
+                        var t = _decompositionLU[i, k] / _decompositionLU[k, k];
                         _decompositionLU[i, k] = t;
-                        if (_decompositionLU[k, i] != 0.0)
-                        {
-                            _decompositionLU[i, i] = _decompositionLU[i, i] - (t*_decompositionLU[k, i]);
+                        if (_decompositionLU[k, i] != 0.0) {
+                            _decompositionLU[i, i] = _decompositionLU[i, i] - (t * _decompositionLU[k, i]);
                         }
 
-                        for (var j = k + 1; j < _decompositionLU.RowCount; j++)
-                        {
-                            if (j == i)
-                            {
+                        for (var j = k + 1; j < _decompositionLU.RowCount; j++) {
+                            if (j == i) {
                                 continue;
                             }
 
-                            if (_decompositionLU[i, j] != 0.0)
-                            {
-                                _decompositionLU[i, j] = _decompositionLU[i, j] - (t*_decompositionLU[k, j]);
+                            if (_decompositionLU[i, j] != 0.0) {
+                                _decompositionLU[i, j] = _decompositionLU[i, j] - (t * _decompositionLU[k, j]);
                             }
                         }
                     }
@@ -162,15 +142,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
-        {
-            if (_decompositionLU == null)
-            {
+        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs) {
+            if (_decompositionLU == null) {
                 throw new ArgumentException("The requested matrix does not exist.");
             }
 
-            if ((lhs.Count != rhs.Count) || (lhs.Count != _decompositionLU.RowCount))
-            {
+            if ((lhs.Count != rhs.Count) || (lhs.Count != _decompositionLU.RowCount)) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
@@ -183,16 +160,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             // }
             // NOTE: l_ii should be 1 because u_ii has to be the value
             var rowValues = new DenseVector(_decompositionLU.RowCount);
-            for (var i = 0; i < _decompositionLU.RowCount; i++)
-            {
+            for (var i = 0; i < _decompositionLU.RowCount; i++) {
                 // Clear the rowValues
                 rowValues.Clear();
                 _decompositionLU.Row(i, rowValues);
 
                 var sum = Complex.Zero;
-                for (var j = 0; j < i; j++)
-                {
-                    sum += rowValues[j]*lhs[j];
+                for (var j = 0; j < i; j++) {
+                    sum += rowValues[j] * lhs[j];
                 }
 
                 lhs[i] = rhs[i] - sum;
@@ -205,17 +180,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             // {
             //     x_i = u_ii^-1 * (z_i - SUM_(j > i) u_ij * x_j)
             // }
-            for (var i = _decompositionLU.RowCount - 1; i > -1; i--)
-            {
+            for (var i = _decompositionLU.RowCount - 1; i > -1; i--) {
                 _decompositionLU.Row(i, rowValues);
 
                 var sum = Complex.Zero;
-                for (var j = _decompositionLU.RowCount - 1; j > i; j--)
-                {
-                    sum += rowValues[j]*lhs[j];
+                for (var j = _decompositionLU.RowCount - 1; j > i; j--) {
+                    sum += rowValues[j] * lhs[j];
                 }
 
-                lhs[i] = 1/rowValues[i]*(lhs[i] - sum);
+                lhs[i] = 1 / rowValues[i] * (lhs[i] - sum);
             }
         }
     }

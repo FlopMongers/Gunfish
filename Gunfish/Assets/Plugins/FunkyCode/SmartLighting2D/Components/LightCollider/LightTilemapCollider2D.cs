@@ -1,144 +1,129 @@
-using System.Collections.Generic;
-using UnityEngine;
 using FunkyCode.LightingSettings;
 using FunkyCode.LightTilemapCollider;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	public enum ShadowTileType {AllTiles, ColliderOnly};
+namespace FunkyCode {
+    public enum ShadowTileType { AllTiles, ColliderOnly };
 
-	[ExecuteInEditMode]
-	public class LightTilemapCollider2D : MonoBehaviour
-	{
-		public MapType mapType = MapType.UnityRectangle;
+    [ExecuteInEditMode]
+    public class LightTilemapCollider2D : MonoBehaviour {
+        public MapType mapType = MapType.UnityRectangle;
 
-		public int shadowLayer = 0;
-		public int maskLayer = 0;
-		
-		public float shadowTranslucency = 0;
-		
-		public ShadowTileType shadowTileType = ShadowTileType.AllTiles;
+        public int shadowLayer = 0;
+        public int maskLayer = 0;
 
-		public BumpMapMode bumpMapMode = new BumpMapMode();
+        public float shadowTranslucency = 0;
 
-		public Rectangle rectangle = new Rectangle();
-		public Isometric isometric = new Isometric();
-		public Hexagon hexagon = new Hexagon();
+        public ShadowTileType shadowTileType = ShadowTileType.AllTiles;
 
-		public SuperTilemapEditorSupport.TilemapCollider2D superTilemapEditor = new SuperTilemapEditorSupport.TilemapCollider2D();
+        public BumpMapMode bumpMapMode = new BumpMapMode();
 
-		public LightTilemapTransform lightingTransform = new LightTilemapTransform();
+        public Rectangle rectangle = new Rectangle();
+        public Isometric isometric = new Isometric();
+        public Hexagon hexagon = new Hexagon();
 
-		public static List<LightTilemapCollider2D> List = new List<LightTilemapCollider2D>();
-		public static LightColliderLayer<LightTilemapCollider2D> layerManagerMask = new LightColliderLayer<LightTilemapCollider2D>();
-		public static LightColliderLayer<LightTilemapCollider2D> layerManagerCollision = new LightColliderLayer<LightTilemapCollider2D>();
+        public SuperTilemapEditorSupport.TilemapCollider2D superTilemapEditor = new SuperTilemapEditorSupport.TilemapCollider2D();
 
-		private int listMaskLayer = -1;
-		private int listCollisionLayer = -1;
+        public LightTilemapTransform lightingTransform = new LightTilemapTransform();
 
-		static public List<LightTilemapCollider2D> GetMaskList(int layer)
-		{
-			return(layerManagerMask.layerList[layer]);
-		}
+        public static List<LightTilemapCollider2D> List = new List<LightTilemapCollider2D>();
+        public static LightColliderLayer<LightTilemapCollider2D> layerManagerMask = new LightColliderLayer<LightTilemapCollider2D>();
+        public static LightColliderLayer<LightTilemapCollider2D> layerManagerCollision = new LightColliderLayer<LightTilemapCollider2D>();
 
-		static public List<LightTilemapCollider2D> GetShadowList(int layer)
-		{
-			return(layerManagerCollision.layerList[layer]);
-		}
+        private int listMaskLayer = -1;
+        private int listCollisionLayer = -1;
 
-		// Layer List
-		void ClearLayerList()
-		{
-			layerManagerMask.Remove(listMaskLayer, this);
-			layerManagerCollision.Remove(listCollisionLayer, this);
-		
-			listMaskLayer = -1;
-			listCollisionLayer = -1;
-		}
+        static public List<LightTilemapCollider2D> GetMaskList(int layer) {
+            return (layerManagerMask.layerList[layer]);
+        }
 
-		void UpdateLayerList()
-		{
-			listMaskLayer = layerManagerMask.Update(listMaskLayer, maskLayer, this);
-			listCollisionLayer = layerManagerCollision.Update(listCollisionLayer, shadowLayer, this);
-		}
+        static public List<LightTilemapCollider2D> GetShadowList(int layer) {
+            return (layerManagerCollision.layerList[layer]);
+        }
 
-		public bool ShadowsDisabled()
-		{
-			return(GetCurrentTilemap().ShadowsDisabled());
-		}
+        // Layer List
+        void ClearLayerList() {
+            layerManagerMask.Remove(listMaskLayer, this);
+            layerManagerCollision.Remove(listCollisionLayer, this);
 
-		public bool MasksDisabled()
-		{
-			return(GetCurrentTilemap().MasksDisabled());
-		}
+            listMaskLayer = -1;
+            listCollisionLayer = -1;
+        }
 
-		public bool InLight(Light2D light)
-		{
-			Rect tilemapRect = GetCurrentTilemap().GetRect();
-			Rect lightRect = light.transform2D.WorldRect;
+        void UpdateLayerList() {
+            listMaskLayer = layerManagerMask.Update(listMaskLayer, maskLayer, this);
+            listCollisionLayer = layerManagerCollision.Update(listCollisionLayer, shadowLayer, this);
+        }
 
-			return(tilemapRect.Overlaps(lightRect));
-		}
+        public bool ShadowsDisabled() {
+            return (GetCurrentTilemap().ShadowsDisabled());
+        }
 
-		public void RefreshTile(Vector3Int position)
-		{
-			switch(mapType)
-			{
-				case MapType.UnityRectangle:
-					rectangle.RefreshTile(position);
-				break;
-			}
-		}
+        public bool MasksDisabled() {
+            return (GetCurrentTilemap().MasksDisabled());
+        }
 
-		public void OnEnable() {
-			List.Add(this);
+        public bool InLight(Light2D light) {
+            Rect tilemapRect = GetCurrentTilemap().GetRect();
+            Rect lightRect = light.transform2D.WorldRect;
 
-			UpdateLayerList();
+            return (tilemapRect.Overlaps(lightRect));
+        }
 
-			LightingManager2D.Get();
+        public void RefreshTile(Vector3Int position) {
+            switch (mapType) {
+                case MapType.UnityRectangle:
+                    rectangle.RefreshTile(position);
+                    break;
+            }
+        }
 
-			rectangle.SetGameObject(gameObject);
-			isometric.SetGameObject(gameObject);
-			hexagon.SetGameObject(gameObject);
+        public void OnEnable() {
+            List.Add(this);
 
-			superTilemapEditor.eventsInit = false;
-			superTilemapEditor.SetGameObject(gameObject);
+            UpdateLayerList();
 
-			Initialize();
+            LightingManager2D.Get();
 
-			Light2D.ForceUpdateAll();
-		}
+            rectangle.SetGameObject(gameObject);
+            isometric.SetGameObject(gameObject);
+            hexagon.SetGameObject(gameObject);
 
-		public void OnDisable()
-		{
-			List.Remove(this);
+            superTilemapEditor.eventsInit = false;
+            superTilemapEditor.SetGameObject(gameObject);
 
-			ClearLayerList();
+            Initialize();
 
-			Light2D.ForceUpdateAll();
-		}
+            Light2D.ForceUpdateAll();
+        }
 
-		public void Update()
-		{
-			UpdateLayerList();
+        public void OnDisable() {
+            List.Remove(this);
 
-			lightingTransform.Update(this);
+            ClearLayerList();
 
-			if (lightingTransform.UpdateNeeded)
-			{
-				GetCurrentTilemap().ResetWorld();
+            Light2D.ForceUpdateAll();
+        }
 
-				// Update if light is in range
-				foreach(Light2D light in Light2D.List)
-				{
-					//if (IsInRange(light)) {
-						light.ForceUpdate();
-					//}
-				}
-			}
-		}
+        public void Update() {
+            UpdateLayerList();
 
-		/*
+            lightingTransform.Update(this);
+
+            if (lightingTransform.UpdateNeeded) {
+                GetCurrentTilemap().ResetWorld();
+
+                // Update if light is in range
+                foreach (Light2D light in Light2D.List) {
+                    //if (IsInRange(light)) {
+                    light.ForceUpdate();
+                    //}
+                }
+            }
+        }
+
+        /*
 		public bool IsInRange(Light2D light) {
 			float radius = GetCurrentTilemap().GetRadius() + light.size;
 			float distance = Vector2.Distance(light.transform.position, transform.position);
@@ -146,142 +131,127 @@ namespace FunkyCode
 			return(distance < radius);
 		}*/
 
-		//public bool IsNotInRange(Light2D light) {
-			//float radius = GetCurrentTilemap().GetRadius() + light.size;
-			//float distance = Vector2.Distance(light.transform.position, transform.position);
+        //public bool IsNotInRange(Light2D light) {
+        //float radius = GetCurrentTilemap().GetRadius() + light.size;
+        //float distance = Vector2.Distance(light.transform.position, transform.position);
 
-			//return(distance > radius);
+        //return(distance > radius);
 
-		//	return(false);
-		//}
+        //	return(false);
+        //}
 
-		public LightTilemapCollider.Base GetCurrentTilemap()
-		{
-			switch(mapType)
-			{
-				case MapType.SuperTilemapEditor:
-					return(superTilemapEditor);
+        public LightTilemapCollider.Base GetCurrentTilemap() {
+            switch (mapType) {
+                case MapType.SuperTilemapEditor:
+                    return (superTilemapEditor);
 
-				case MapType.UnityRectangle:
-					return(rectangle);
+                case MapType.UnityRectangle:
+                    return (rectangle);
 
-				case MapType.UnityIsometric:
-					return(isometric);
+                case MapType.UnityIsometric:
+                    return (isometric);
 
-				case MapType.UnityHexagon:
-					return(hexagon);
-			}
+                case MapType.UnityHexagon:
+                    return (hexagon);
+            }
 
-			return(null);
-		}
+            return (null);
+        }
 
-		public void Initialize()
-		{
-			rectangle.SetGameObject(gameObject);
-			isometric.SetGameObject(gameObject);
-			hexagon.SetGameObject(gameObject);
+        public void Initialize() {
+            rectangle.SetGameObject(gameObject);
+            isometric.SetGameObject(gameObject);
+            hexagon.SetGameObject(gameObject);
 
-			TilemapEvents.Initialize();
+            TilemapEvents.Initialize();
 
-			GetCurrentTilemap().Initialize();
-		}
+            GetCurrentTilemap().Initialize();
+        }
 
-		public List<LightTile> GetTileList()
-		{
-			return(GetCurrentTilemap().MapTiles);
-		}
+        public List<LightTile> GetTileList() {
+            return (GetCurrentTilemap().MapTiles);
+        }
 
-		public TilemapProperties GetTilemapProperties()
-		{
-			return(GetCurrentTilemap().Properties);
-		}
+        public TilemapProperties GetTilemapProperties() {
+            return (GetCurrentTilemap().Properties);
+        }
 
-		void OnDrawGizmosSelected()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected)
-			{
-				return;
-			}
-			
-			DrawGizmos();
-		}
+        void OnDrawGizmosSelected() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected) {
+                return;
+            }
 
-		private void OnDrawGizmos()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always)
-			{
-				return;
-			}
+            DrawGizmos();
+        }
 
-			DrawGizmos();
-		}
+        private void OnDrawGizmos() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always) {
+                return;
+            }
 
-		private void DrawGizmos()
-		{
-			if (!isActiveAndEnabled)
-			{
-				return;
-			}
+            DrawGizmos();
+        }
 
-			LightTilemapCollider.Base tilemap = GetCurrentTilemap();
+        private void DrawGizmos() {
+            if (!isActiveAndEnabled) {
+                return;
+            }
 
-			switch(Lighting2D.ProjectSettings.gizmos.drawGizmosShadowCasters)
-			{
-				case EditorShadowCasters.Enabled:
+            LightTilemapCollider.Base tilemap = GetCurrentTilemap();
 
-					UnityEngine.Gizmos.color = new Color(1f, 0.5f, 0.25f);
+            switch (Lighting2D.ProjectSettings.gizmos.drawGizmosShadowCasters) {
+                case EditorShadowCasters.Enabled:
 
-					foreach(LightTile tile in GetTileList())
-					{
-						GizmosHelper.DrawPolygons(tile.GetWorldPolygons(tilemap), transform.position);
-					}
+                    UnityEngine.Gizmos.color = new Color(1f, 0.5f, 0.25f);
 
-					// GizmosHelper.DrawPolygons(superTilemapEditor.GetWorldColliders(), transform.position);
+                    foreach (LightTile tile in GetTileList()) {
+                        GizmosHelper.DrawPolygons(tile.GetWorldPolygons(tilemap), transform.position);
+                    }
 
-				break;
-			}
+                    // GizmosHelper.DrawPolygons(superTilemapEditor.GetWorldColliders(), transform.position);
 
-			switch(Lighting2D.ProjectSettings.gizmos.drawGizmosChunks)
-			{
-				case EditorChunks.Enabled:
+                    break;
+            }
 
-					UnityEngine.Gizmos.color = new Color(1, 0.5f, 0.75f);
+            switch (Lighting2D.ProjectSettings.gizmos.drawGizmosChunks) {
+                case EditorChunks.Enabled:
 
-					Rect rect = GetCurrentTilemap().GetRect();
+                    UnityEngine.Gizmos.color = new Color(1, 0.5f, 0.75f);
 
-					Vector2Int pos0 = Chunks.TilemapManager.TransformBounds(new Vector2(rect.x, rect.y));
-					Vector2Int pos1 = Chunks.TilemapManager.TransformBounds(new Vector2(rect.x + rect.width, rect.y + rect.height));
+                    Rect rect = GetCurrentTilemap().GetRect();
 
-					// Lighting2D.ProjectSettings.chunks.chunkSize
-					int chunkSize = Chunks.TilemapManager.ChunkSize;
+                    Vector2Int pos0 = Chunks.TilemapManager.TransformBounds(new Vector2(rect.x, rect.y));
+                    Vector2Int pos1 = Chunks.TilemapManager.TransformBounds(new Vector2(rect.x + rect.width, rect.y + rect.height));
 
-					for(int i = pos0.x; i <= pos1.x + 1; i++ ) {
-						Vector2 lineA = new Vector2(i * chunkSize, pos0.y * chunkSize);
-						Vector2 lineB = new Vector2(i * chunkSize, (pos1.y + 1) * chunkSize);
-						UnityEngine.Gizmos.DrawLine(lineA, lineB);
-					}
+                    // Lighting2D.ProjectSettings.chunks.chunkSize
+                    int chunkSize = Chunks.TilemapManager.ChunkSize;
 
-					for(int i = pos0.y; i <= pos1.y + 1; i++ ) {
-						Vector2 lineA = new Vector2(pos0.x * chunkSize, i * chunkSize);
-						Vector2 lineB = new Vector2((pos1.x + 1) * chunkSize, i * chunkSize);
-						UnityEngine.Gizmos.DrawLine(lineA, lineB);
-					}
+                    for (int i = pos0.x; i <= pos1.x + 1; i++) {
+                        Vector2 lineA = new Vector2(i * chunkSize, pos0.y * chunkSize);
+                        Vector2 lineB = new Vector2(i * chunkSize, (pos1.y + 1) * chunkSize);
+                        UnityEngine.Gizmos.DrawLine(lineA, lineB);
+                    }
 
-				break;
-			}
+                    for (int i = pos0.y; i <= pos1.y + 1; i++) {
+                        Vector2 lineA = new Vector2(pos0.x * chunkSize, i * chunkSize);
+                        Vector2 lineB = new Vector2((pos1.x + 1) * chunkSize, i * chunkSize);
+                        UnityEngine.Gizmos.DrawLine(lineA, lineB);
+                    }
 
-			switch(Lighting2D.ProjectSettings.gizmos.drawGizmosBounds)
-			{
-				case EditorGizmosBounds.Enabled:
+                    break;
+            }
 
-					UnityEngine.Gizmos.color = new Color(0, 1f, 1f);
-		
-					Rect rect = GetCurrentTilemap().GetRect();
+            switch (Lighting2D.ProjectSettings.gizmos.drawGizmosBounds) {
+                case EditorGizmosBounds.Enabled:
 
-					GizmosHelper.DrawRect(transform.position, rect);
+                    UnityEngine.Gizmos.color = new Color(0, 1f, 1f);
 
-				break;
-			}
-		}
-	}
+                    Rect rect = GetCurrentTilemap().GetRect();
+
+                    GizmosHelper.DrawRect(transform.position, rect);
+
+                    break;
+            }
+        }
+    }
 }

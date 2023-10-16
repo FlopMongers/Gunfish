@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FunkyCode.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
 #if (SUPER_TILEMAP_EDITOR)
 
@@ -33,14 +33,12 @@ using FunkyCode.Utilities;
         }
     }
 
-#else 
+#else
 
-    namespace FunkyCode.SuperTilemapEditorSupport.Light.Shadow
-    {
-        public class Grid
-        { 
-            static public void Draw(Light2D light, LightTilemapCollider2D id) {}
-        }
+namespace FunkyCode.SuperTilemapEditorSupport.Light.Shadow {
+    public class Grid {
+        static public void Draw(Light2D light, LightTilemapCollider2D id) { }
     }
+}
 
 #endif

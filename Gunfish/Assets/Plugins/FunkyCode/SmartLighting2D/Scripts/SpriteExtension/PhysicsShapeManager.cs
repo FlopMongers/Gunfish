@@ -1,82 +1,68 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode.SpriteExtension
-{
-	public static class PhysicsShapeManager
-	{
-		static public Dictionary<Sprite, PhysicsShape> dictionary = new Dictionary<Sprite, PhysicsShape>();
+namespace FunkyCode.SpriteExtension {
+    public static class PhysicsShapeManager {
+        static public Dictionary<Sprite, PhysicsShape> dictionary = new Dictionary<Sprite, PhysicsShape>();
 
-		static public void Clear()
-		{
-			dictionary = new Dictionary<Sprite, PhysicsShape>();
-		}
+        static public void Clear() {
+            dictionary = new Dictionary<Sprite, PhysicsShape>();
+        }
 
-		static public PhysicsShape RequestCustomShape(Sprite originalSprite)
-		{
-			if (originalSprite == null)
-			{
-				return null;
-			}
-			
-			PhysicsShape shape = null;
+        static public PhysicsShape RequestCustomShape(Sprite originalSprite) {
+            if (originalSprite == null) {
+                return null;
+            }
 
-			bool exist = dictionary.TryGetValue(originalSprite, out shape);
+            PhysicsShape shape = null;
 
-			if (exist)
-			{
-				if (shape == null || shape.GetSprite().texture == null)
-				{
-					shape = RequestCustomShapeAccess(originalSprite);
-				} 
+            bool exist = dictionary.TryGetValue(originalSprite, out shape);
 
-				return shape;
-			}
-				else
-			{
-				return RequestCustomShapeAccess(originalSprite);
-			}
-		}
+            if (exist) {
+                if (shape == null || shape.GetSprite().texture == null) {
+                    shape = RequestCustomShapeAccess(originalSprite);
+                }
 
-		static public PhysicsShape RequestCustomShapeAccess(Sprite originalSprite)
-		{
-			PhysicsShape shape = null;
+                return shape;
+            }
+            else {
+                return RequestCustomShapeAccess(originalSprite);
+            }
+        }
 
-			bool exist = dictionary.TryGetValue(originalSprite, out shape);
+        static public PhysicsShape RequestCustomShapeAccess(Sprite originalSprite) {
+            PhysicsShape shape = null;
 
-			if (exist)
-			{
-				if (shape == null || shape.GetSprite().texture == null)
-				{
-					dictionary.Remove(originalSprite);
+            bool exist = dictionary.TryGetValue(originalSprite, out shape);
 
-					shape = AddShape(originalSprite);
+            if (exist) {
+                if (shape == null || shape.GetSprite().texture == null) {
+                    dictionary.Remove(originalSprite);
 
-					dictionary.Add(originalSprite, shape);
-				}
+                    shape = AddShape(originalSprite);
 
-				return(shape);
-			}
-				else
-			{		
-				shape = AddShape(originalSprite);
+                    dictionary.Add(originalSprite, shape);
+                }
 
-				dictionary.Add(originalSprite, shape);
+                return (shape);
+            }
+            else {
+                shape = AddShape(originalSprite);
 
-				return(shape);
-			}
-		}
+                dictionary.Add(originalSprite, shape);
 
-		static private PhysicsShape AddShape(Sprite sprite)
-		{
-			if (sprite == null || sprite.texture == null)
-			{
-				return(null);
-			}
+                return (shape);
+            }
+        }
 
-			PhysicsShape shape = new PhysicsShape(sprite);
+        static private PhysicsShape AddShape(Sprite sprite) {
+            if (sprite == null || sprite.texture == null) {
+                return (null);
+            }
 
-			return(shape);
-		}
-	}
+            PhysicsShape shape = new PhysicsShape(sprite);
+
+            return (shape);
+        }
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class FishSelectMenuPage : IMenuPage {
     private MenuPageContext menuContext;
     public List<GunfishData> fishes;
-    
+
     private List<GunfishData> displayedFishes;
     private List<int> displayedFishIndices;
 
@@ -20,7 +20,8 @@ public class FishSelectMenuPage : IMenuPage {
 
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.instance.PlayerInputs[i];
-            if (!playerInput) continue;
+            if (!playerInput)
+                continue;
             int playerIndex = i;
             playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
             playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
@@ -31,10 +32,10 @@ public class FishSelectMenuPage : IMenuPage {
             var image = menuContext.document.rootVisualElement
                 .Q<VisualElement>($"FishSelector{playerIndex + 1}")
                 .Q<VisualElement>("fish-image");
-            
+
             fishImages.Add(image);
         }
-        
+
         displayedFishes = new List<GunfishData>();
         displayedFishIndices = new List<int>();
 
@@ -54,7 +55,8 @@ public class FishSelectMenuPage : IMenuPage {
     public void OnDisable(MenuPageContext context) {
         for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.instance.PlayerInputs[i];
-            if (!playerInput) continue;
+            if (!playerInput)
+                continue;
             int playerIndex = i;
             playerInput.currentActionMap.FindAction("Navigate").performed -= (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
             playerInput.currentActionMap.FindAction("Submit").performed -= (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
@@ -76,7 +78,8 @@ public class FishSelectMenuPage : IMenuPage {
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
             if (direction.x > 0) {
                 IncrementFish(deviceIndex);
-            } else {
+            }
+            else {
                 DecrementFish(deviceIndex);
             }
         }
@@ -103,7 +106,7 @@ public class FishSelectMenuPage : IMenuPage {
     private void SetFish(int deviceIndex, GunfishData fish) {
         var material = fish.spriteMat;
         var texture = material.mainTexture as Texture2D;
-        
+
         fishImages[deviceIndex].style.backgroundImage = texture;
 
         PlayerManager.instance.SetPlayerFish(deviceIndex, fish);

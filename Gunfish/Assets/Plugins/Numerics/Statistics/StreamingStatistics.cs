@@ -32,8 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.Statistics
-{
+namespace MathNet.Numerics.Statistics {
     /// <summary>
     /// Statistics operating on an IEnumerable in a single pass, without keeping the full data in memory.
     /// Can be used in a streaming way, e.g. on large datasets not fitting into memory.
@@ -41,22 +40,18 @@ namespace MathNet.Numerics.Statistics
     /// <seealso cref="SortedArrayStatistics"/>
     /// <seealso cref="StreamingStatistics"/>
     /// <seealso cref="Statistics"/>
-    public static class StreamingStatistics
-    {
+    public static class StreamingStatistics {
         /// <summary>
         /// Returns the smallest value from the enumerable, in a single pass without memoization.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double Minimum(IEnumerable<double> stream)
-        {
+        public static double Minimum(IEnumerable<double> stream) {
             double min = double.PositiveInfinity;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (d < min || double.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (d < min || double.IsNaN(d)) {
                     min = d;
                 }
 
@@ -71,15 +66,12 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static float Minimum(IEnumerable<float> stream)
-        {
+        public static float Minimum(IEnumerable<float> stream) {
             float min = float.PositiveInfinity;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (d < min || float.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (d < min || float.IsNaN(d)) {
                     min = d;
                 }
 
@@ -94,15 +86,12 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double Maximum(IEnumerable<double> stream)
-        {
+        public static double Maximum(IEnumerable<double> stream) {
             double max = double.NegativeInfinity;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (d > max || double.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (d > max || double.IsNaN(d)) {
                     max = d;
                 }
 
@@ -117,15 +106,12 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static float Maximum(IEnumerable<float> stream)
-        {
+        public static float Maximum(IEnumerable<float> stream) {
             float max = float.NegativeInfinity;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (d > max || float.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (d > max || float.IsNaN(d)) {
                     max = d;
                 }
 
@@ -140,15 +126,12 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double MinimumAbsolute(IEnumerable<double> stream)
-        {
+        public static double MinimumAbsolute(IEnumerable<double> stream) {
             double min = double.PositiveInfinity;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (Math.Abs(d) < min || double.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (Math.Abs(d) < min || double.IsNaN(d)) {
                     min = Math.Abs(d);
                 }
 
@@ -163,15 +146,12 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static float MinimumAbsolute(IEnumerable<float> stream)
-        {
+        public static float MinimumAbsolute(IEnumerable<float> stream) {
             float min = float.PositiveInfinity;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (Math.Abs(d) < min || float.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (Math.Abs(d) < min || float.IsNaN(d)) {
                     min = Math.Abs(d);
                 }
 
@@ -186,15 +166,12 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double MaximumAbsolute(IEnumerable<double> stream)
-        {
+        public static double MaximumAbsolute(IEnumerable<double> stream) {
             double max = 0.0d;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (Math.Abs(d) > max || double.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (Math.Abs(d) > max || double.IsNaN(d)) {
                     max = Math.Abs(d);
                 }
 
@@ -209,15 +186,12 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static float MaximumAbsolute(IEnumerable<float> stream)
-        {
+        public static float MaximumAbsolute(IEnumerable<float> stream) {
             float max = 0.0f;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                if (Math.Abs(d) > max || float.IsNaN(d))
-                {
+            foreach (var d in stream) {
+                if (Math.Abs(d) > max || float.IsNaN(d)) {
                     max = Math.Abs(d);
                 }
 
@@ -232,21 +206,17 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static Complex MinimumMagnitudePhase(IEnumerable<Complex> stream)
-        {
+        public static Complex MinimumMagnitudePhase(IEnumerable<Complex> stream) {
             double minMagnitude = double.PositiveInfinity;
             Complex min = new Complex(double.PositiveInfinity, double.PositiveInfinity);
             bool any = false;
 
-            foreach (var d in stream)
-            {
+            foreach (var d in stream) {
                 double magnitude = d.Magnitude;
-                if (double.IsNaN(magnitude))
-                {
+                if (double.IsNaN(magnitude)) {
                     return new Complex(double.NaN, double.NaN);
                 }
-                if (magnitude < minMagnitude || magnitude == minMagnitude && d.Phase < min.Phase)
-                {
+                if (magnitude < minMagnitude || magnitude == minMagnitude && d.Phase < min.Phase) {
                     minMagnitude = magnitude;
                     min = d;
                 }
@@ -262,21 +232,17 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static Complex32 MinimumMagnitudePhase(IEnumerable<Complex32> stream)
-        {
+        public static Complex32 MinimumMagnitudePhase(IEnumerable<Complex32> stream) {
             float minMagnitude = float.PositiveInfinity;
             Complex32 min = new Complex32(float.PositiveInfinity, float.PositiveInfinity);
             bool any = false;
 
-            foreach (var d in stream)
-            {
+            foreach (var d in stream) {
                 float magnitude = d.Magnitude;
-                if (float.IsNaN(magnitude))
-                {
+                if (float.IsNaN(magnitude)) {
                     return new Complex32(float.NaN, float.NaN);
                 }
-                if (magnitude < minMagnitude || magnitude == minMagnitude && d.Phase < min.Phase)
-                {
+                if (magnitude < minMagnitude || magnitude == minMagnitude && d.Phase < min.Phase) {
                     minMagnitude = magnitude;
                     min = d;
                 }
@@ -292,21 +258,17 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static Complex MaximumMagnitudePhase(IEnumerable<Complex> stream)
-        {
+        public static Complex MaximumMagnitudePhase(IEnumerable<Complex> stream) {
             double maxMagnitude = 0.0d;
             Complex max = Complex.Zero;
             bool any = false;
 
-            foreach (var d in stream)
-            {
+            foreach (var d in stream) {
                 double magnitude = d.Magnitude;
-                if (double.IsNaN(magnitude))
-                {
+                if (double.IsNaN(magnitude)) {
                     return new Complex(double.NaN, double.NaN);
                 }
-                if (magnitude > maxMagnitude || magnitude == maxMagnitude && d.Phase > max.Phase)
-                {
+                if (magnitude > maxMagnitude || magnitude == maxMagnitude && d.Phase > max.Phase) {
                     maxMagnitude = magnitude;
                     max = d;
                 }
@@ -322,21 +284,17 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static Complex32 MaximumMagnitudePhase(IEnumerable<Complex32> stream)
-        {
+        public static Complex32 MaximumMagnitudePhase(IEnumerable<Complex32> stream) {
             float maxMagnitude = 0.0f;
             Complex32 max = Complex32.Zero;
             bool any = false;
 
-            foreach (var d in stream)
-            {
+            foreach (var d in stream) {
                 float magnitude = d.Magnitude;
-                if (float.IsNaN(magnitude))
-                {
+                if (float.IsNaN(magnitude)) {
                     return new Complex32(float.NaN, float.NaN);
                 }
-                if (magnitude > maxMagnitude || magnitude == maxMagnitude && d.Phase > max.Phase)
-                {
+                if (magnitude > maxMagnitude || magnitude == maxMagnitude && d.Phase > max.Phase) {
                     maxMagnitude = magnitude;
                     max = d;
                 }
@@ -352,15 +310,13 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double Mean(IEnumerable<double> stream)
-        {
+        public static double Mean(IEnumerable<double> stream) {
             double mean = 0;
             ulong m = 0;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                mean += (d - mean)/++m;
+            foreach (var d in stream) {
+                mean += (d - mean) / ++m;
                 any = true;
             }
 
@@ -372,8 +328,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double Mean(IEnumerable<float> stream)
-        {
+        public static double Mean(IEnumerable<float> stream) {
             return Mean(stream.Select(x => (double)x));
         }
 
@@ -382,13 +337,11 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double GeometricMean(IEnumerable<double> stream)
-        {
+        public static double GeometricMean(IEnumerable<double> stream) {
             ulong m = 0;
             double sum = 0;
 
-            foreach (var d in stream)
-            {
+            foreach (var d in stream) {
                 sum += Math.Log(d);
                 m++;
             }
@@ -401,8 +354,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double GeometricMean(IEnumerable<float> stream)
-        {
+        public static double GeometricMean(IEnumerable<float> stream) {
             return GeometricMean(stream.Select(x => (double)x));
         }
 
@@ -411,18 +363,16 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double HarmonicMean(IEnumerable<double> stream)
-        {
+        public static double HarmonicMean(IEnumerable<double> stream) {
             ulong m = 0;
             double sum = 0;
 
-            foreach (var d in stream)
-            {
+            foreach (var d in stream) {
                 sum += 1.0 / d;
                 m++;
             }
 
-            return m > 0 ? m/sum : double.NaN;
+            return m > 0 ? m / sum : double.NaN;
         }
 
         /// <summary>
@@ -430,8 +380,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double HarmonicMean(IEnumerable<float> stream)
-        {
+        public static double HarmonicMean(IEnumerable<float> stream) {
             return HarmonicMean(stream.Select(x => (double)x));
         }
 
@@ -441,31 +390,27 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static double Variance(IEnumerable<double> samples)
-        {
+        public static double Variance(IEnumerable<double> samples) {
             double variance = 0;
             double sum = 0;
             ulong count = 0;
 
-            using (var iterator = samples.GetEnumerator())
-            {
-                if (iterator.MoveNext())
-                {
+            using (var iterator = samples.GetEnumerator()) {
+                if (iterator.MoveNext()) {
                     count++;
                     sum = iterator.Current;
                 }
 
-                while (iterator.MoveNext())
-                {
+                while (iterator.MoveNext()) {
                     count++;
                     double xi = iterator.Current;
                     sum += xi;
-                    double diff = (count*xi) - sum;
-                    variance += (diff*diff)/(count*(count - 1));
+                    double diff = (count * xi) - sum;
+                    variance += (diff * diff) / (count * (count - 1));
                 }
             }
 
-            return count > 1 ? variance/(count - 1) : double.NaN;
+            return count > 1 ? variance / (count - 1) : double.NaN;
         }
 
         /// <summary>
@@ -474,8 +419,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static double Variance(IEnumerable<float> samples)
-        {
+        public static double Variance(IEnumerable<float> samples) {
             return Variance(samples.Select(x => (double)x));
         }
 
@@ -485,31 +429,27 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">Sample stream, no sorting is assumed.</param>
-        public static double PopulationVariance(IEnumerable<double> population)
-        {
+        public static double PopulationVariance(IEnumerable<double> population) {
             double variance = 0;
             double sum = 0;
             ulong count = 0;
 
-            using (var iterator = population.GetEnumerator())
-            {
-                if (iterator.MoveNext())
-                {
+            using (var iterator = population.GetEnumerator()) {
+                if (iterator.MoveNext()) {
                     count++;
                     sum = iterator.Current;
                 }
 
-                while (iterator.MoveNext())
-                {
+                while (iterator.MoveNext()) {
                     count++;
                     double xi = iterator.Current;
                     sum += xi;
-                    double diff = (count*xi) - sum;
-                    variance += (diff*diff)/(count*(count - 1));
+                    double diff = (count * xi) - sum;
+                    variance += (diff * diff) / (count * (count - 1));
                 }
             }
 
-            return variance/count;
+            return variance / count;
         }
 
         /// <summary>
@@ -518,8 +458,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">Sample stream, no sorting is assumed.</param>
-        public static double PopulationVariance(IEnumerable<float> population)
-        {
+        public static double PopulationVariance(IEnumerable<float> population) {
             return PopulationVariance(population.Select(x => (double)x));
         }
 
@@ -529,8 +468,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static double StandardDeviation(IEnumerable<double> samples)
-        {
+        public static double StandardDeviation(IEnumerable<double> samples) {
             return Math.Sqrt(Variance(samples));
         }
 
@@ -540,8 +478,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static double StandardDeviation(IEnumerable<float> samples)
-        {
+        public static double StandardDeviation(IEnumerable<float> samples) {
             return Math.Sqrt(Variance(samples));
         }
 
@@ -551,8 +488,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">Sample stream, no sorting is assumed.</param>
-        public static double PopulationStandardDeviation(IEnumerable<double> population)
-        {
+        public static double PopulationStandardDeviation(IEnumerable<double> population) {
             return Math.Sqrt(PopulationVariance(population));
         }
 
@@ -562,8 +498,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">Sample stream, no sorting is assumed.</param>
-        public static double PopulationStandardDeviation(IEnumerable<float> population)
-        {
+        public static double PopulationStandardDeviation(IEnumerable<float> population) {
             return Math.Sqrt(PopulationVariance(population));
         }
 
@@ -573,23 +508,19 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for variance if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static (double Mean, double Variance) MeanVariance(IEnumerable<double> samples)
-        {
+        public static (double Mean, double Variance) MeanVariance(IEnumerable<double> samples) {
             double mean = 0;
             double variance = 0;
             double sum = 0;
             ulong count = 0;
 
-            using (var iterator = samples.GetEnumerator())
-            {
-                if (iterator.MoveNext())
-                {
+            using (var iterator = samples.GetEnumerator()) {
+                if (iterator.MoveNext()) {
                     count++;
                     sum = mean = iterator.Current;
                 }
 
-                while (iterator.MoveNext())
-                {
+                while (iterator.MoveNext()) {
                     count++;
                     double xi = iterator.Current;
                     sum += xi;
@@ -599,7 +530,7 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            return (count > 0 ? mean : double.NaN, count > 1 ? variance/(count - 1) : double.NaN);
+            return (count > 0 ? mean : double.NaN, count > 1 ? variance / (count - 1) : double.NaN);
         }
 
         /// <summary>
@@ -608,8 +539,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for variance if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static (double Mean, double Variance) MeanVariance(IEnumerable<float> samples)
-        {
+        public static (double Mean, double Variance) MeanVariance(IEnumerable<float> samples) {
             return MeanVariance(samples.Select(x => (double)x));
         }
 
@@ -619,8 +549,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for standard deviation if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static (double Mean, double StandardDeviation) MeanStandardDeviation(IEnumerable<double> samples)
-        {
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(IEnumerable<double> samples) {
             var meanVariance = MeanVariance(samples);
             return (meanVariance.Item1, Math.Sqrt(meanVariance.Item2));
         }
@@ -631,8 +560,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for standard deviation if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static (double Mean, double StandardDeviation) MeanStandardDeviation(IEnumerable<float> samples)
-        {
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(IEnumerable<float> samples) {
             return MeanStandardDeviation(samples.Select(x => (double)x));
         }
 
@@ -643,8 +571,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="samples1">First sample stream.</param>
         /// <param name="samples2">Second sample stream.</param>
-        public static double Covariance(IEnumerable<double> samples1, IEnumerable<double> samples2)
-        {
+        public static double Covariance(IEnumerable<double> samples1, IEnumerable<double> samples2) {
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
             var n = 0;
             var mean1 = 0.0;
@@ -652,29 +579,25 @@ namespace MathNet.Numerics.Statistics
             var comoment = 0.0;
 
             using (var s1 = samples1.GetEnumerator())
-            using (var s2 = samples2.GetEnumerator())
-            {
-                while (s1.MoveNext())
-                {
-                    if (!s2.MoveNext())
-                    {
+            using (var s2 = samples2.GetEnumerator()) {
+                while (s1.MoveNext()) {
+                    if (!s2.MoveNext()) {
                         throw new ArgumentException("All vectors must have the same dimensionality.");
                     }
 
                     var mean2Prev = mean2;
                     n++;
-                    mean1 += (s1.Current - mean1)/n;
-                    mean2 += (s2.Current - mean2)/n;
-                    comoment += (s1.Current - mean1)*(s2.Current - mean2Prev);
+                    mean1 += (s1.Current - mean1) / n;
+                    mean2 += (s2.Current - mean2) / n;
+                    comoment += (s1.Current - mean1) * (s2.Current - mean2Prev);
                 }
 
-                if (s2.MoveNext())
-                {
+                if (s2.MoveNext()) {
                     throw new ArgumentException("All vectors must have the same dimensionality.");
                 }
             }
 
-            return n > 1 ? comoment/(n - 1) : double.NaN;
+            return n > 1 ? comoment / (n - 1) : double.NaN;
         }
 
         /// <summary>
@@ -684,8 +607,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="samples1">First sample stream.</param>
         /// <param name="samples2">Second sample stream.</param>
-        public static double Covariance(IEnumerable<float> samples1, IEnumerable<float> samples2)
-        {
+        public static double Covariance(IEnumerable<float> samples1, IEnumerable<float> samples2) {
             return Covariance(samples1.Select(x => (double)x), samples2.Select(x => (double)x));
         }
 
@@ -696,8 +618,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="population1">First population stream.</param>
         /// <param name="population2">Second population stream.</param>
-        public static double PopulationCovariance(IEnumerable<double> population1, IEnumerable<double> population2)
-        {
+        public static double PopulationCovariance(IEnumerable<double> population1, IEnumerable<double> population2) {
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
             var n = 0;
             var mean1 = 0.0;
@@ -705,12 +626,9 @@ namespace MathNet.Numerics.Statistics
             var comoment = 0.0;
 
             using (var p1 = population1.GetEnumerator())
-            using (var p2 = population2.GetEnumerator())
-            {
-                while (p1.MoveNext())
-                {
-                    if (!p2.MoveNext())
-                    {
+            using (var p2 = population2.GetEnumerator()) {
+                while (p1.MoveNext()) {
+                    if (!p2.MoveNext()) {
                         throw new ArgumentException("All vectors must have the same dimensionality.");
                     }
 
@@ -721,13 +639,12 @@ namespace MathNet.Numerics.Statistics
                     comoment += (p1.Current - mean1) * (p2.Current - mean2Prev);
                 }
 
-                if (p2.MoveNext())
-                {
+                if (p2.MoveNext()) {
                     throw new ArgumentException("All vectors must have the same dimensionality.");
                 }
             }
 
-            return comoment/n;
+            return comoment / n;
         }
 
         /// <summary>
@@ -737,8 +654,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="population1">First population stream.</param>
         /// <param name="population2">Second population stream.</param>
-        public static double PopulationCovariance(IEnumerable<float> population1, IEnumerable<float> population2)
-        {
+        public static double PopulationCovariance(IEnumerable<float> population1, IEnumerable<float> population2) {
             return PopulationCovariance(population1.Select(x => (double)x), population2.Select(x => (double)x));
         }
 
@@ -747,15 +663,13 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double RootMeanSquare(IEnumerable<double> stream)
-        {
+        public static double RootMeanSquare(IEnumerable<double> stream) {
             double mean = 0;
             ulong m = 0;
             bool any = false;
 
-            foreach (var d in stream)
-            {
-                mean += (d*d - mean)/++m;
+            foreach (var d in stream) {
+                mean += (d * d - mean) / ++m;
                 any = true;
             }
 
@@ -767,8 +681,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double RootMeanSquare(IEnumerable<float> stream)
-        {
+        public static double RootMeanSquare(IEnumerable<float> stream) {
             return RootMeanSquare(stream.Select(x => (double)x));
         }
 
@@ -778,28 +691,23 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="stream">The input stream to evaluate.</param>
         /// <returns></returns>
-        public static double Entropy(IEnumerable<double> stream)
-        {
+        public static double Entropy(IEnumerable<double> stream) {
             // http://en.wikipedia.org/wiki/Shannon_entropy
 
             var index = new Dictionary<double, double>();
 
             // count the number of occurrences of each item in the stream
             int totalCount = 0;
-            foreach (double value in stream)
-            {
-                if (double.IsNaN(value))
-                {
+            foreach (double value in stream) {
+                if (double.IsNaN(value)) {
                     return double.NaN;
                 }
 
                 double currentValueCount;
-                if (index.TryGetValue(value, out currentValueCount))
-                {
+                if (index.TryGetValue(value, out currentValueCount)) {
                     index[value] = ++currentValueCount;
                 }
-                else
-                {
+                else {
                     index.Add(value, 1);
                 }
 
@@ -808,8 +716,7 @@ namespace MathNet.Numerics.Statistics
 
             // calculate the entropy of the stream
             double entropy = 0;
-            foreach (var item in index)
-            {
+            foreach (var item in index) {
                 double p = item.Value / totalCount;
                 entropy += p * Math.Log(p, 2);
             }

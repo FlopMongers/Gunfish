@@ -35,11 +35,9 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
 
-    public static partial class SpecialFunctions
-    {
+    public static partial class SpecialFunctions {
         /// <summary>
         /// Computes the logarithm of the Euler Beta function.
         /// </summary>
@@ -47,15 +45,12 @@ namespace MathNet.Numerics
         /// <param name="w">The second Beta parameter, a positive real number.</param>
         /// <returns>The logarithm of the Euler Beta function evaluated at z,w.</returns>
         /// <exception cref="ArgumentException">If <paramref name="z"/> or <paramref name="w"/> are not positive.</exception>
-        public static double BetaLn(double z, double w)
-        {
-            if (z <= 0.0)
-            {
+        public static double BetaLn(double z, double w) {
+            if (z <= 0.0) {
                 throw new ArgumentException("Value must be positive.", nameof(z));
             }
 
-            if (w <= 0.0)
-            {
+            if (w <= 0.0) {
                 throw new ArgumentException("Value must be positive.", nameof(w));
             }
 
@@ -69,8 +64,7 @@ namespace MathNet.Numerics
         /// <param name="w">The second Beta parameter, a positive real number.</param>
         /// <returns>The Euler Beta function evaluated at z,w.</returns>
         /// <exception cref="ArgumentException">If <paramref name="z"/> or <paramref name="w"/> are not positive.</exception>
-        public static double Beta(double z, double w)
-        {
+        public static double Beta(double z, double w) {
             return Math.Exp(BetaLn(z, w));
         }
 
@@ -82,9 +76,8 @@ namespace MathNet.Numerics
         /// <param name="b">The second Beta parameter, a positive real number.</param>
         /// <param name="x">The upper limit of the integral.</param>
         /// <returns>The lower incomplete (unregularized) beta function.</returns>
-        public static double BetaIncomplete(double a, double b, double x)
-        {
-            return BetaRegularized(a, b, x)*Beta(a, b);
+        public static double BetaIncomplete(double a, double b, double x) {
+            return BetaRegularized(a, b, x) * Beta(a, b);
         }
 
         /// <summary>
@@ -95,35 +88,30 @@ namespace MathNet.Numerics
         /// <param name="b">The second Beta parameter, a positive real number.</param>
         /// <param name="x">The upper limit of the integral.</param>
         /// <returns>The regularized lower incomplete beta function.</returns>
-        public static double BetaRegularized(double a, double b, double x)
-        {
-            if (a < 0.0)
-            {
+        public static double BetaRegularized(double a, double b, double x) {
+            if (a < 0.0) {
                 throw new ArgumentOutOfRangeException(nameof(a), "Value must not be negative (zero is ok).");
             }
 
-            if (b < 0.0)
-            {
+            if (b < 0.0) {
                 throw new ArgumentOutOfRangeException(nameof(b), "Value must not be negative (zero is ok).");
             }
 
-            if (x < 0.0 || x > 1.0)
-            {
+            if (x < 0.0 || x > 1.0) {
                 throw new ArgumentOutOfRangeException(nameof(x), $"Value is expected to be between 0.0 and 1.0 (including 0.0 and 1.0).");
             }
 
             var bt = (x == 0.0 || x == 1.0)
                 ? 0.0
-                : Math.Exp(GammaLn(a + b) - GammaLn(a) - GammaLn(b) + (a*Math.Log(x)) + (b*Math.Log(1.0 - x)));
+                : Math.Exp(GammaLn(a + b) - GammaLn(a) - GammaLn(b) + (a * Math.Log(x)) + (b * Math.Log(1.0 - x)));
 
-            var symmetryTransformation = x >= (a + 1.0)/(a + b + 2.0);
+            var symmetryTransformation = x >= (a + 1.0) / (a + b + 2.0);
 
             /* Continued fraction representation */
             var eps = Precision.DoublePrecision;
-            var fpmin = 0.0.Increment()/eps;
+            var fpmin = 0.0.Increment() / eps;
 
-            if (symmetryTransformation)
-            {
+            if (symmetryTransformation) {
                 x = 1.0 - x;
                 (a, b) = (b, a);
             }
@@ -132,60 +120,53 @@ namespace MathNet.Numerics
             var qap = a + 1.0;
             var qam = a - 1.0;
             var c = 1.0;
-            var d = 1.0 - (qab*x/qap);
+            var d = 1.0 - (qab * x / qap);
 
-            if (Math.Abs(d) < fpmin)
-            {
+            if (Math.Abs(d) < fpmin) {
                 d = fpmin;
             }
 
-            d = 1.0/d;
+            d = 1.0 / d;
             var h = d;
 
-            for (int m = 1, m2 = 2; m <= 50000; m++, m2 += 2)
-            {
-                var aa = m*(b - m)*x/((qam + m2)*(a + m2));
-                d = 1.0 + (aa*d);
+            for (int m = 1, m2 = 2; m <= 50000; m++, m2 += 2) {
+                var aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+                d = 1.0 + (aa * d);
 
-                if (Math.Abs(d) < fpmin)
-                {
+                if (Math.Abs(d) < fpmin) {
                     d = fpmin;
                 }
 
-                c = 1.0 + (aa/c);
-                if (Math.Abs(c) < fpmin)
-                {
+                c = 1.0 + (aa / c);
+                if (Math.Abs(c) < fpmin) {
                     c = fpmin;
                 }
 
-                d = 1.0/d;
-                h *= d*c;
-                aa = -(a + m)*(qab + m)*x/((a + m2)*(qap + m2));
-                d = 1.0 + (aa*d);
+                d = 1.0 / d;
+                h *= d * c;
+                aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+                d = 1.0 + (aa * d);
 
-                if (Math.Abs(d) < fpmin)
-                {
+                if (Math.Abs(d) < fpmin) {
                     d = fpmin;
                 }
 
-                c = 1.0 + (aa/c);
+                c = 1.0 + (aa / c);
 
-                if (Math.Abs(c) < fpmin)
-                {
+                if (Math.Abs(c) < fpmin) {
                     c = fpmin;
                 }
 
-                d = 1.0/d;
-                var del = d*c;
+                d = 1.0 / d;
+                var del = d * c;
                 h *= del;
 
-                if (Math.Abs(del - 1.0) <= eps)
-                {
-                    return symmetryTransformation ? 1.0 - (bt*h/a) : bt*h/a;
+                if (Math.Abs(del - 1.0) <= eps) {
+                    return symmetryTransformation ? 1.0 - (bt * h / a) : bt * h / a;
                 }
             }
 
-            return symmetryTransformation ? 1.0 - (bt*h/a) : bt*h/a;
+            return symmetryTransformation ? 1.0 - (bt * h / a) : bt * h / a;
         }
     }
 }

@@ -27,14 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Random;
-using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Continuous Univariate Weibull distribution.
     /// For details about this distribution, see
@@ -43,8 +42,7 @@ namespace MathNet.Numerics.Distributions
     /// <remarks>
     /// The Weibull distribution is parametrized by a shape and scale parameter.
     /// </remarks>
-    public class Weibull : IContinuousDistribution
-    {
+    public class Weibull : IContinuousDistribution {
         System.Random _random;
 
         readonly double _shape;
@@ -64,10 +62,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
-        public Weibull(double shape, double scale)
-        {
-            if (!IsValidParameterSet(shape, scale))
-            {
+        public Weibull(double shape, double scale) {
+            if (!IsValidParameterSet(shape, scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -83,10 +79,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Weibull(double shape, double scale, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(shape, scale))
-            {
+        public Weibull(double shape, double scale, System.Random randomSource) {
+            if (!IsValidParameterSet(shape, scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -100,8 +94,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Weibull(k = {_shape}, λ = {_scale})";
         }
 
@@ -110,8 +103,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
-        public static bool IsValidParameterSet(double shape, double scale)
-        {
+        public static bool IsValidParameterSet(double shape, double scale) {
             return shape > 0.0 && scale > 0.0;
         }
 
@@ -128,8 +120,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -137,12 +128,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the Weibull distribution.
         /// </summary>
-        public double Mean => _scale*SpecialFunctions.Gamma(1.0 + (1.0/_shape));
+        public double Mean => _scale * SpecialFunctions.Gamma(1.0 + (1.0 / _shape));
 
         /// <summary>
         /// Gets the variance of the Weibull distribution.
         /// </summary>
-        public double Variance => (_scale*_scale*SpecialFunctions.Gamma(1.0 + (2.0/_shape))) - (Mean*Mean);
+        public double Variance => (_scale * _scale * SpecialFunctions.Gamma(1.0 + (2.0 / _shape))) - (Mean * Mean);
 
         /// <summary>
         /// Gets the standard deviation of the Weibull distribution.
@@ -152,43 +143,38 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the entropy of the Weibull distribution.
         /// </summary>
-        public double Entropy => (Constants.EulerMascheroni*(1.0 - (1.0/_shape))) + Math.Log(_scale/_shape) + 1.0;
+        public double Entropy => (Constants.EulerMascheroni * (1.0 - (1.0 / _shape))) + Math.Log(_scale / _shape) + 1.0;
 
         /// <summary>
         /// Gets the skewness of the Weibull distribution.
         /// </summary>
-        public double Skewness
-        {
-            get
-            {
+        public double Skewness {
+            get {
                 double mu = Mean;
                 double sigma = StdDev;
-                double sigma2 = sigma*sigma;
-                double sigma3 = sigma2*sigma;
-                return ((_scale*_scale*_scale*SpecialFunctions.Gamma(1.0 + (3.0/_shape))) - (3.0*sigma2*mu) - (mu*mu*mu))/sigma3;
+                double sigma2 = sigma * sigma;
+                double sigma3 = sigma2 * sigma;
+                return ((_scale * _scale * _scale * SpecialFunctions.Gamma(1.0 + (3.0 / _shape))) - (3.0 * sigma2 * mu) - (mu * mu * mu)) / sigma3;
             }
         }
 
         /// <summary>
         /// Gets the mode of the Weibull distribution.
         /// </summary>
-        public double Mode
-        {
-            get
-            {
-                if (_shape <= 1.0)
-                {
+        public double Mode {
+            get {
+                if (_shape <= 1.0) {
                     return 0.0;
                 }
 
-                return _scale*Math.Pow((_shape - 1.0)/_shape, 1.0/_shape);
+                return _scale * Math.Pow((_shape - 1.0) / _shape, 1.0 / _shape);
             }
         }
 
         /// <summary>
         /// Gets the median of the Weibull distribution.
         /// </summary>
-        public double Median => _scale*Math.Pow(Constants.Ln2, 1.0/_shape);
+        public double Median => _scale * Math.Pow(Constants.Ln2, 1.0 / _shape);
 
         /// <summary>
         /// Gets the minimum of the Weibull distribution.
@@ -205,16 +191,13 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
-        public double Density(double x)
-        {
-            if (x >= 0.0)
-            {
-                if (x == 0.0 && _shape == 1.0)
-                {
-                    return _shape/_scale;
+        public double Density(double x) {
+            if (x >= 0.0) {
+                if (x == 0.0 && _shape == 1.0) {
+                    return _shape / _scale;
                 }
 
-                return _shape*Math.Pow(x/_scale, _shape - 1.0)*Math.Exp(-Math.Pow(x, _shape)*_scalePowShapeInv)/_scale;
+                return _shape * Math.Pow(x / _scale, _shape - 1.0) * Math.Exp(-Math.Pow(x, _shape) * _scalePowShapeInv) / _scale;
             }
 
             return 0.0;
@@ -225,16 +208,13 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
-        public double DensityLn(double x)
-        {
-            if (x >= 0.0)
-            {
-                if (x == 0.0 && _shape == 1.0)
-                {
+        public double DensityLn(double x) {
+            if (x >= 0.0) {
+                if (x == 0.0 && _shape == 1.0) {
                     return Math.Log(_shape) - Math.Log(_scale);
                 }
 
-                return Math.Log(_shape) + ((_shape - 1.0)*Math.Log(x/_scale)) - (Math.Pow(x, _shape)*_scalePowShapeInv) - Math.Log(_scale);
+                return Math.Log(_shape) + ((_shape - 1.0) * Math.Log(x / _scale)) - (Math.Pow(x, _shape) * _scalePowShapeInv) - Math.Log(_scale);
             }
 
             return double.NegativeInfinity;
@@ -245,30 +225,26 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
-        public double CumulativeDistribution(double x)
-        {
-            if (x < 0.0)
-            {
+        public double CumulativeDistribution(double x) {
+            if (x < 0.0) {
                 return 0.0;
             }
 
-            return -SpecialFunctions.Expm1(-Math.Pow(x, _shape)*_scalePowShapeInv);
+            return -SpecialFunctions.Expm1(-Math.Pow(x, _shape) * _scalePowShapeInv);
         }
 
         /// <summary>
         /// Generates a sample from the Weibull distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, _shape, _scale);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, _shape, _scale);
         }
 
@@ -276,32 +252,26 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the Weibull distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, _shape, _scale);
         }
 
-        static double SampleUnchecked(System.Random rnd, double shape, double scale)
-        {
+        static double SampleUnchecked(System.Random rnd, double shape, double scale) {
             var x = rnd.NextDouble();
-            return scale*Math.Pow(-Math.Log(x), 1.0/shape);
+            return scale * Math.Pow(-Math.Log(x), 1.0 / shape);
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double shape, double scale)
-        {
-            var exponent = 1.0/shape;
-            return rnd.NextDoubleSequence().Select(x => scale*Math.Pow(-Math.Log(x), exponent));
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double shape, double scale) {
+            var exponent = 1.0 / shape;
+            return rnd.NextDoubleSequence().Select(x => scale * Math.Pow(-Math.Log(x), exponent));
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double shape, double scale)
-        {
-            var exponent = 1.0/shape;
+        static void SamplesUnchecked(System.Random rnd, double[] values, double shape, double scale) {
+            var exponent = 1.0 / shape;
             rnd.NextDoubles(values);
-            CommonParallel.For(0, values.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
-                    values[i] = scale*Math.Pow(-Math.Log(values[i]), exponent);
+            CommonParallel.For(0, values.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
+                    values[i] = scale * Math.Pow(-Math.Log(values[i]), exponent);
                 }
             });
         }
@@ -314,24 +284,20 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double shape, double scale, double x)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static double PDF(double shape, double scale, double x) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (x >= 0.0)
-            {
-                if (x == 0.0 && shape == 1.0)
-                {
-                    return shape/scale;
+            if (x >= 0.0) {
+                if (x == 0.0 && shape == 1.0) {
+                    return shape / scale;
                 }
 
                 return shape
-                       *Math.Pow(x/scale, shape - 1.0)
-                       *Math.Exp(-Math.Pow(x, shape)*Math.Pow(scale, -shape))
-                       /scale;
+                       * Math.Pow(x / scale, shape - 1.0)
+                       * Math.Exp(-Math.Pow(x, shape) * Math.Pow(scale, -shape))
+                       / scale;
             }
 
             return 0.0;
@@ -345,23 +311,19 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double shape, double scale, double x)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static double PDFLn(double shape, double scale, double x) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (x >= 0.0)
-            {
-                if (x == 0.0 && shape == 1.0)
-                {
+            if (x >= 0.0) {
+                if (x == 0.0 && shape == 1.0) {
                     return Math.Log(shape) - Math.Log(scale);
                 }
 
                 return Math.Log(shape)
-                       + ((shape - 1.0)*Math.Log(x/scale))
-                       - (Math.Pow(x, shape)*Math.Pow(scale, -shape))
+                       + ((shape - 1.0) * Math.Log(x / scale))
+                       - (Math.Pow(x, shape) * Math.Pow(scale, -shape))
                        - Math.Log(scale);
             }
 
@@ -376,19 +338,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double shape, double scale, double x)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static double CDF(double shape, double scale, double x) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 return 0.0;
             }
 
-            return -SpecialFunctions.Expm1(-Math.Pow(x, shape)*Math.Pow(scale, -shape));
+            return -SpecialFunctions.Expm1(-Math.Pow(x, shape) * Math.Pow(scale, -shape));
         }
 
         /// <summary>
@@ -397,23 +356,21 @@ namespace MathNet.Numerics.Distributions
         /// <param name="samples"></param>
         /// <param name="randomSource"></param>
         /// <returns>Returns a Weibull distribution.</returns>
-        public static Weibull Estimate(IEnumerable<double> samples, System.Random randomSource = null)
-        {
+        public static Weibull Estimate(IEnumerable<double> samples, System.Random randomSource = null) {
             var samp = samples as double[] ?? samples.ToArray();
             double n = samp.Length, s1, s2, s3, previousC = int.MinValue, QofC;
 
-            if (n <= 1) throw new Exception("Observations not sufficient");
+            if (n <= 1)
+                throw new Exception("Observations not sufficient");
 
             // Start values
-            double c = 10; double b = 0;
+            double c = 10;
+            double b = 0;
 
-            while (Math.Abs(c - previousC) >= 0.0001)
-            {
+            while (Math.Abs(c - previousC) >= 0.0001) {
                 s1 = s2 = s3 = 0;
-                foreach (double x in samp)
-                {
-                    if (x > 0)
-                    {
+                foreach (double x in samp) {
+                    if (x > 0) {
                         s1 += Math.Log(x);
                         s2 += Math.Pow(x, c);
                         s3 += Math.Pow(x, c) * Math.Log(x);
@@ -425,10 +382,8 @@ namespace MathNet.Numerics.Distributions
                 c = (c + QofC) / 2;
             }
 
-            foreach (double x in samp)
-            {
-                if (x > 0)
-                {
+            foreach (double x in samp) {
+                if (x > 0) {
                     b += Math.Pow(x, c);
                 }
             }
@@ -445,10 +400,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double shape, double scale)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static double Sample(System.Random rnd, double shape, double scale) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -462,10 +415,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double shape, double scale)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double shape, double scale) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -480,10 +431,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(System.Random rnd, double[] values, double shape, double scale)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static void Samples(System.Random rnd, double[] values, double shape, double scale) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -496,10 +445,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(double shape, double scale)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static double Sample(double shape, double scale) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -512,10 +459,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double shape, double scale)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static IEnumerable<double> Samples(double shape, double scale) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -529,10 +474,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(double[] values, double shape, double scale)
-        {
-            if (shape <= 0.0 || scale <= 0.0)
-            {
+        public static void Samples(double[] values, double shape, double scale) {
+            if (shape <= 0.0 || scale <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

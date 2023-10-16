@@ -29,13 +29,11 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// The base interface for classes that provide stop criteria for iterative calculations.
     /// </summary>
-    public interface IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public interface IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
         /// by the current IIterationStopCriterion. Status is set to <c>Status</c> field of current object.

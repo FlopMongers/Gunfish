@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightSettings;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Day
-{
-    public class Pass
-    {
+namespace FunkyCode.Rendering.Day {
+    public class Pass {
         public Sorting.SortList sortList = new Sorting.SortList();
         public Sorting.SortObject sortObject;
         public int layerId;
@@ -24,20 +22,17 @@ namespace FunkyCode.Rendering.Day
         public List<DayLightTilemapCollider2D> tilemapColliderList;
         public int tilemapColliderCount;
 
-        public void SortObjects()
-        {
+        public void SortObjects() {
             sortList.Reset();
 
             var colliderList = DayLightCollider2D.List;
 
-            for(int id = 0; id < colliderList.Count; id++)
-            {
+            for (int id = 0; id < colliderList.Count; id++) {
                 var collider = colliderList[id];
                 if (collider.shadowLayer != layerId && collider.maskLayer != layerId)
                     continue;
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.ZAxisLower:
                         sortList.Add(collider, -collider.transform.position.z);
                         break;
@@ -47,8 +42,7 @@ namespace FunkyCode.Rendering.Day
                         break;
                 }
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.YAxisLower:
                         sortList.Add(collider, -collider.transform.position.y);
                         break;
@@ -60,15 +54,13 @@ namespace FunkyCode.Rendering.Day
             }
 
             var tilemapColliderList = DayLightTilemapCollider2D.List;
-            for(int id = 0; id < tilemapColliderList.Count; id++)
-            {
+            for (int id = 0; id < tilemapColliderList.Count; id++) {
                 var tilemap = tilemapColliderList[id];
 
                 if (tilemap.shadowLayer != layerId && tilemap.maskLayer != layerId)
                     continue;
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.ZAxisLower:
                         sortList.Add(tilemap, -tilemap.transform.position.z);
                         break;
@@ -78,8 +70,7 @@ namespace FunkyCode.Rendering.Day
                         break;
                 }
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.YAxisLower:
                         sortList.Add((object)tilemap, -tilemap.transform.position.y);
                         break;
@@ -93,10 +84,8 @@ namespace FunkyCode.Rendering.Day
             sortList.Sort();
         }
 
-        public bool Setup(LightmapLayer slayer, Camera camera)
-        {
-            if (slayer.id < 0)
-            {
+        public bool Setup(LightmapLayer slayer, Camera camera) {
+            if (slayer.id < 0) {
                 return false;
             }
 
@@ -109,12 +98,12 @@ namespace FunkyCode.Rendering.Day
             colliderList = DayLightCollider2D.List;
             colliderCount = colliderList.Count;
 
-            tilemapColliderList  = DayLightTilemapCollider2D.List;
+            tilemapColliderList = DayLightTilemapCollider2D.List;
             tilemapColliderCount = tilemapColliderList.Count;
 
             drawShadows = slayer.type != LayerType.MaskOnly;
             drawMask = slayer.type != LayerType.ShadowsOnly;
-            
+
             return true;
         }
     }

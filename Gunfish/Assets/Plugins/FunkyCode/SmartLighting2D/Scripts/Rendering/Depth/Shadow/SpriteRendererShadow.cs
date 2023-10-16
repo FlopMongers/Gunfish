@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using FunkyCode.Utilities;
+﻿using FunkyCode.Utilities;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Depth
-{
-    public static class SpriteRendererShadow
-    {
+namespace FunkyCode.Rendering.Depth {
+    public static class SpriteRendererShadow {
         static VirtualSpriteRenderer virtualSpriteRenderer = new VirtualSpriteRenderer();
 
         public static Texture2D currentTexture;
@@ -14,8 +12,7 @@ namespace FunkyCode.Rendering.Depth
         public static float direction;
         public static float shadowDistance;
 
-        static public void Begin(Vector2 offset)
-        {
+        static public void Begin(Vector2 offset) {
             material = Lighting2D.Materials.shadow.GetDepthDayShadow();
             material.mainTexture = null;
 
@@ -26,52 +23,44 @@ namespace FunkyCode.Rendering.Depth
             shadowDistance = Lighting2D.DayLightingSettings.height;
         }
 
-        static public void End()
-        {
+        static public void End() {
             GL.End();
 
             material.mainTexture = null;
             SpriteRendererShadow.currentTexture = null;
         }
 
-        static public void DrawOffset(DayLightCollider2D id)
-        {
-            if (!id.InAnyCamera())
-            {
+        static public void DrawOffset(DayLightCollider2D id) {
+            if (!id.InAnyCamera()) {
                 return;
             }
 
             Vector2 scale = new Vector2(id.transform.lossyScale.x, id.transform.lossyScale.y);
 
             DayLightColliderShape shape = id.mainShape;
-        
+
             SpriteRenderer spriteRenderer = shape.spriteShape.GetSpriteRenderer();
-            
-            if (spriteRenderer == null)
-            {
+
+            if (spriteRenderer == null) {
                 return;
             }
-            
+
             virtualSpriteRenderer.sprite = spriteRenderer.sprite;
             virtualSpriteRenderer.flipX = spriteRenderer.flipX;
             virtualSpriteRenderer.flipY = spriteRenderer.flipY;
 
-            if (virtualSpriteRenderer.sprite == null)
-            {
+            if (virtualSpriteRenderer.sprite == null) {
                 return;
             }
 
             Texture2D texture = virtualSpriteRenderer.sprite.texture;
 
-            if (texture == null)
-            {
+            if (texture == null) {
                 return;
             }
 
-            if (currentTexture != texture)
-            {
-                if (currentTexture != null)
-                {
+            if (currentTexture != texture) {
+                if (currentTexture != null) {
                     GL.End();
                 }
 
@@ -81,7 +70,7 @@ namespace FunkyCode.Rendering.Depth
                 material.SetPass(0);
                 GL.Begin(GL.QUADS);
             }
-        
+
             Vector2 position = new Vector2(id.transform.position.x + cameraOffset.x, id.transform.position.y + cameraOffset.y);
             position.x += Mathf.Cos(direction) * id.mainShape.height * shadowDistance;
             position.y += Mathf.Sin(direction) * id.mainShape.height * shadowDistance;

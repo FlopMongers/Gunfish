@@ -1,249 +1,219 @@
-﻿using UnityEditor;
-using UnityEngine;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightSettings;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace FunkyCode
-{
-	[CanEditMultipleObjects]
-	[CustomEditor(typeof(LightCollider2D))]
-	public class LightCollider2DEditor : Editor
-	{
-		private LightCollider2D lightCollider2D;
+namespace FunkyCode {
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(LightCollider2D))]
+    public class LightCollider2DEditor : Editor {
+        private LightCollider2D lightCollider2D;
 
-		private SerializedProperty shadowType;
-		private SerializedProperty shadowLayer;
-		private SerializedProperty shadowDistance;
-		private SerializedProperty shadowDistanceMin;
-		private SerializedProperty shadowDistanceMax;
-		private SerializedProperty shadowTranslucency;
-		
-		private SerializedProperty maskType;
-		private SerializedProperty maskLayer;
-		private SerializedProperty maskLit;
-		private SerializedProperty maskLitCustom;
-		private SerializedProperty maskPivot;
+        private SerializedProperty shadowType;
+        private SerializedProperty shadowLayer;
+        private SerializedProperty shadowDistance;
+        private SerializedProperty shadowDistanceMin;
+        private SerializedProperty shadowDistanceMax;
+        private SerializedProperty shadowTranslucency;
 
-		private SerializedProperty depthType;
-		private SerializedProperty depthOrder;
+        private SerializedProperty maskType;
+        private SerializedProperty maskLayer;
+        private SerializedProperty maskLit;
+        private SerializedProperty maskLitCustom;
+        private SerializedProperty maskPivot;
 
-		public bool UsesShadows()
-		{
-			LightPreset[] presets = Lighting2D.Profile.lightPresets.Get();
+        private SerializedProperty depthType;
+        private SerializedProperty depthOrder;
 
-			for(int i = 0; i < presets.Length; i++)
-			{
-				LightPreset lightPreset = presets[i];
+        public bool UsesShadows() {
+            LightPreset[] presets = Lighting2D.Profile.lightPresets.Get();
 
-				LayerSetting[] layerSettings = lightPreset.layerSetting.Get();
+            for (int i = 0; i < presets.Length; i++) {
+                LightPreset lightPreset = presets[i];
 
-				for(int x = 0; x < layerSettings.Length; x++)
-				{
-					LayerSetting setting = layerSettings[x];
+                LayerSetting[] layerSettings = lightPreset.layerSetting.Get();
 
-					if (setting.type != LightLayerType.MaskOnly)
-					{
-						return(true);
-					}
-				}
-			}
+                for (int x = 0; x < layerSettings.Length; x++) {
+                    LayerSetting setting = layerSettings[x];
 
-			return(false);
-		}
+                    if (setting.type != LightLayerType.MaskOnly) {
+                        return (true);
+                    }
+                }
+            }
 
-		public bool UsesMasks()
-		{
-			LightPreset[] presets = Lighting2D.Profile.lightPresets.Get();
+            return (false);
+        }
 
-			for(int i = 0; i < presets.Length; i++)
-			{
-				LightPreset lightPreset = presets[i];
+        public bool UsesMasks() {
+            LightPreset[] presets = Lighting2D.Profile.lightPresets.Get();
 
-				LayerSetting[] layerSettings = lightPreset.layerSetting.Get();
+            for (int i = 0; i < presets.Length; i++) {
+                LightPreset lightPreset = presets[i];
 
-				for(int x = 0; x < layerSettings.Length; x++)
-				{
-					LayerSetting setting = layerSettings[x];
+                LayerSetting[] layerSettings = lightPreset.layerSetting.Get();
 
-					if (setting.type != LightLayerType.ShadowOnly)
-					{
-						return(true);
-					}
-				}
-			}
+                for (int x = 0; x < layerSettings.Length; x++) {
+                    LayerSetting setting = layerSettings[x];
 
-			return(false);
-		}
+                    if (setting.type != LightLayerType.ShadowOnly) {
+                        return (true);
+                    }
+                }
+            }
 
-		private void InitProperties()
-		{
-			shadowType = serializedObject.FindProperty("shadowType");
-			shadowLayer = serializedObject.FindProperty("shadowLayer");
-			shadowDistance = serializedObject.FindProperty("shadowDistance");
-			shadowDistanceMin = serializedObject.FindProperty("shadowDistanceMin");
-			shadowDistanceMax = serializedObject.FindProperty("shadowDistanceMax");
-			shadowTranslucency = serializedObject.FindProperty("shadowTranslucency");
-			
-			maskType = serializedObject.FindProperty("maskType");
-			maskLayer = serializedObject.FindProperty("maskLayer");
-			maskLit = serializedObject.FindProperty("maskLit");
-			maskLitCustom = serializedObject.FindProperty("maskLitCustom");
-			maskPivot = serializedObject.FindProperty("maskPivot");
+            return (false);
+        }
 
-			depthType = serializedObject.FindProperty("depthType");
-			depthOrder = serializedObject.FindProperty("depthOrder");
-		}
+        private void InitProperties() {
+            shadowType = serializedObject.FindProperty("shadowType");
+            shadowLayer = serializedObject.FindProperty("shadowLayer");
+            shadowDistance = serializedObject.FindProperty("shadowDistance");
+            shadowDistanceMin = serializedObject.FindProperty("shadowDistanceMin");
+            shadowDistanceMax = serializedObject.FindProperty("shadowDistanceMax");
+            shadowTranslucency = serializedObject.FindProperty("shadowTranslucency");
 
-		private void OnEnable()
-		{
-			lightCollider2D = target as LightCollider2D;
+            maskType = serializedObject.FindProperty("maskType");
+            maskLayer = serializedObject.FindProperty("maskLayer");
+            maskLit = serializedObject.FindProperty("maskLit");
+            maskLitCustom = serializedObject.FindProperty("maskLitCustom");
+            maskPivot = serializedObject.FindProperty("maskPivot");
 
-			InitProperties();
-			
-			Undo.undoRedoPerformed += RefreshAll;
-		}
+            depthType = serializedObject.FindProperty("depthType");
+            depthOrder = serializedObject.FindProperty("depthOrder");
+        }
 
-		internal void OnDisable()
-		{
-			Undo.undoRedoPerformed -= RefreshAll;
-		}
+        private void OnEnable() {
+            lightCollider2D = target as LightCollider2D;
 
-		void RefreshAll()
-		{
-			LightCollider2D.ForceUpdateAll();
-		}
+            InitProperties();
 
-		override public void OnInspectorGUI()
-		{
-			if (lightCollider2D == null)
-			{
-				return;
-			}
+            Undo.undoRedoPerformed += RefreshAll;
+        }
 
-			// Warning
-			// Debug.Log(lightCollider2D.mainShape.spriteShape.GetOriginalSprite().packingMode);
-			
-			// Shadow Properties
+        internal void OnDisable() {
+            Undo.undoRedoPerformed -= RefreshAll;
+        }
 
-			if (UsesShadows())
-			{
-				EditorGUILayout.PropertyField(shadowType, new GUIContent ("Shadow Type"));
+        void RefreshAll() {
+            LightCollider2D.ForceUpdateAll();
+        }
 
-				if (shadowType.intValue != (int)LightCollider2D.ShadowType.None)
-				{
-					EditorGUI.BeginDisabledGroup(shadowType.intValue == (int)LightCollider2D.ShadowType.None);
+        override public void OnInspectorGUI() {
+            if (lightCollider2D == null) {
+                return;
+            }
 
-					shadowLayer.intValue = EditorGUILayout.Popup("Shadow Layer (Collider)", shadowLayer.intValue, Lighting2D.Profile.layers.colliderLayers.GetNames());
+            // Warning
+            // Debug.Log(lightCollider2D.mainShape.spriteShape.GetOriginalSprite().packingMode);
 
-					EditorGUILayout.PropertyField(shadowDistance, new GUIContent ("Shadow Distance"));
+            // Shadow Properties
 
-					if (shadowDistance.intValue > 0)
-					{
-						float minV = shadowDistanceMin.floatValue;
-						float maxV = shadowDistanceMax.floatValue;
+            if (UsesShadows()) {
+                EditorGUILayout.PropertyField(shadowType, new GUIContent("Shadow Type"));
 
-						float min = (float)Mathf.Round(minV * 100f) / 100f;
-						float max = (float)Mathf.Round(maxV * 100f) / 100f;
+                if (shadowType.intValue != (int)LightCollider2D.ShadowType.None) {
+                    EditorGUI.BeginDisabledGroup(shadowType.intValue == (int)LightCollider2D.ShadowType.None);
 
-						EditorGUILayout.MinMaxSlider("Shadow Length (" + min + ", " + max +")", ref minV, ref maxV, 0, 10);
+                    shadowLayer.intValue = EditorGUILayout.Popup("Shadow Layer (Collider)", shadowLayer.intValue, Lighting2D.Profile.layers.colliderLayers.GetNames());
 
-						shadowDistanceMin.floatValue = minV;
-						shadowDistanceMax.floatValue = maxV;
-					}
+                    EditorGUILayout.PropertyField(shadowDistance, new GUIContent("Shadow Distance"));
 
-					//EditorGUILayout.PropertyField(shadowDistanceMin, new GUIContent ("Shadow Distance (Min)"));
+                    if (shadowDistance.intValue > 0) {
+                        float minV = shadowDistanceMin.floatValue;
+                        float maxV = shadowDistanceMax.floatValue;
 
-					//EditorGUILayout.PropertyField(shadowDistanceMax, new GUIContent ("Shadow Distance (Max)"));
+                        float min = (float)Mathf.Round(minV * 100f) / 100f;
+                        float max = (float)Mathf.Round(maxV * 100f) / 100f;
 
-					EditorGUILayout.PropertyField(shadowTranslucency, new GUIContent ("Shadow Translucency"));
+                        EditorGUILayout.MinMaxSlider("Shadow Length (" + min + ", " + max + ")", ref minV, ref maxV, 0, 10);
 
-					EditorGUI.EndDisabledGroup();
-				}
-			}
+                        shadowDistanceMin.floatValue = minV;
+                        shadowDistanceMax.floatValue = maxV;
+                    }
 
-			EditorGUILayout.Space();
+                    //EditorGUILayout.PropertyField(shadowDistanceMin, new GUIContent ("Shadow Distance (Min)"));
 
-			// Mask Properties
+                    //EditorGUILayout.PropertyField(shadowDistanceMax, new GUIContent ("Shadow Distance (Max)"));
 
-			if (UsesMasks())
-			{
-				EditorGUILayout.PropertyField(maskType, new GUIContent ("Mask Type"));
+                    EditorGUILayout.PropertyField(shadowTranslucency, new GUIContent("Shadow Translucency"));
 
-				if (maskType.intValue != (int)LightCollider2D.MaskType.None)
-				{
-					EditorGUI.BeginDisabledGroup(maskType.intValue == (int)LightCollider2D.MaskType.None);
+                    EditorGUI.EndDisabledGroup();
+                }
+            }
 
-					maskLayer.intValue = EditorGUILayout.Popup("Mask Layer (Collider)", maskLayer.intValue, Lighting2D.Profile.layers.colliderLayers.GetNames());
-					
-					if (lightCollider2D.maskLit == LightSettings.MaskLit.Custom)
-					{
-						EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-						EditorGUILayout.PropertyField(maskLit, new GUIContent ("Mask Lit"));
+            // Mask Properties
 
-						EditorGUILayout.PropertyField(maskLitCustom, new GUIContent ("Mask Lit Custom"));
+            if (UsesMasks()) {
+                EditorGUILayout.PropertyField(maskType, new GUIContent("Mask Type"));
 
-						EditorGUILayout.Space();
-					}
-						else
-					{
-						EditorGUILayout.PropertyField(maskLit, new GUIContent ("Mask Lit"));
-					}
-					
-					EditorGUILayout.PropertyField(maskPivot, new GUIContent ("Mask Pivot"));
+                if (maskType.intValue != (int)LightCollider2D.MaskType.None) {
+                    EditorGUI.BeginDisabledGroup(maskType.intValue == (int)LightCollider2D.MaskType.None);
 
-					EditorGUI.EndDisabledGroup();
+                    maskLayer.intValue = EditorGUILayout.Popup("Mask Layer (Collider)", maskLayer.intValue, Lighting2D.Profile.layers.colliderLayers.GetNames());
 
-					if (lightCollider2D.maskType == LightCollider2D.MaskType.BumpedSprite || lightCollider2D.maskType == LightCollider2D.MaskType.BumpedMeshRenderer)
-					{
-						GUIBumpMapMode.Draw(serializedObject, lightCollider2D);
-					}
-				}
-	
-				EditorGUILayout.Space();
-			}
-	
-			serializedObject.ApplyModifiedProperties();
+                    if (lightCollider2D.maskLit == LightSettings.MaskLit.Custom) {
+                        EditorGUILayout.Space();
 
-			// Update
+                        EditorGUILayout.PropertyField(maskLit, new GUIContent("Mask Lit"));
 
-			if (GUILayout.Button("Update"))
-			{
-				SpriteExtension.PhysicsShapeManager.Clear();
+                        EditorGUILayout.PropertyField(maskLitCustom, new GUIContent("Mask Lit Custom"));
 
-				foreach(UnityEngine.Object target in targets)
-				{
-					LightCollider2D lightCollider2D = target as LightCollider2D;
+                        EditorGUILayout.Space();
+                    }
+                    else {
+                        EditorGUILayout.PropertyField(maskLit, new GUIContent("Mask Lit"));
+                    }
 
-					lightCollider2D.Initialize();
-				}
+                    EditorGUILayout.PropertyField(maskPivot, new GUIContent("Mask Pivot"));
 
-				LightingManager2D.ForceUpdate();
-			}
+                    EditorGUI.EndDisabledGroup();
 
-			if (GUI.changed) 
-			{
-				foreach(UnityEngine.Object target in targets)
-				{
-					LightCollider2D lightCollider2D = target as LightCollider2D;
-					lightCollider2D.Initialize();
-					lightCollider2D.UpdateNearbyLights();
+                    if (lightCollider2D.maskType == LightCollider2D.MaskType.BumpedSprite || lightCollider2D.maskType == LightCollider2D.MaskType.BumpedMeshRenderer) {
+                        GUIBumpMapMode.Draw(serializedObject, lightCollider2D);
+                    }
+                }
 
-					if (!EditorApplication.isPlaying)
-					{
-						EditorUtility.SetDirty(target);
-					}
-				}
+                EditorGUILayout.Space();
+            }
 
-				if (!EditorApplication.isPlaying)
-				{
-					EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-				}
+            serializedObject.ApplyModifiedProperties();
 
-				LightingManager2D.ForceUpdate();
-			}
-		}
-	}
+            // Update
+
+            if (GUILayout.Button("Update")) {
+                SpriteExtension.PhysicsShapeManager.Clear();
+
+                foreach (UnityEngine.Object target in targets) {
+                    LightCollider2D lightCollider2D = target as LightCollider2D;
+
+                    lightCollider2D.Initialize();
+                }
+
+                LightingManager2D.ForceUpdate();
+            }
+
+            if (GUI.changed) {
+                foreach (UnityEngine.Object target in targets) {
+                    LightCollider2D lightCollider2D = target as LightCollider2D;
+                    lightCollider2D.Initialize();
+                    lightCollider2D.UpdateNearbyLights();
+
+                    if (!EditorApplication.isPlaying) {
+                        EditorUtility.SetDirty(target);
+                    }
+                }
+
+                if (!EditorApplication.isPlaying) {
+                    EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+                }
+
+                LightingManager2D.ForceUpdate();
+            }
+        }
+    }
 }

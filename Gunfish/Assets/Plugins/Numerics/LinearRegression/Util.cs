@@ -30,17 +30,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.LinearRegression
-{
-    internal static class Util
-    {
-        public static (TU[] U, TV[] V) UnpackSinglePass<TU, TV>(this IEnumerable<Tuple<TU, TV>> samples)
-        {
+namespace MathNet.Numerics.LinearRegression {
+    internal static class Util {
+        public static (TU[] U, TV[] V) UnpackSinglePass<TU, TV>(this IEnumerable<Tuple<TU, TV>> samples) {
             var ux = new List<TU>();
             var vx = new List<TV>();
 
-            foreach (var tuple in samples)
-            {
+            foreach (var tuple in samples) {
                 ux.Add(tuple.Item1);
                 vx.Add(tuple.Item2);
             }
@@ -48,13 +44,11 @@ namespace MathNet.Numerics.LinearRegression
             return (ux.ToArray(), vx.ToArray());
         }
 
-        public static (TU[] U, TV[] V) UnpackSinglePass<TU, TV>(this IEnumerable<(TU, TV)> samples)
-        {
+        public static (TU[] U, TV[] V) UnpackSinglePass<TU, TV>(this IEnumerable<(TU, TV)> samples) {
             var ux = new List<TU>();
             var vx = new List<TV>();
 
-            foreach (var (u, v) in samples)
-            {
+            foreach (var (u, v) in samples) {
                 ux.Add(u);
                 vx.Add(v);
             }

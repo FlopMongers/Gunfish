@@ -27,17 +27,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.LinearAlgebra.Single
-{
+namespace MathNet.Numerics.LinearAlgebra.Single {
     using MathNet.Numerics.Providers.LinearAlgebra;
 
     /// <summary>
@@ -45,8 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     /// </summary>
     [Serializable]
     [DebuggerDisplay("DenseVector {" + nameof(Count) + "}-Single")]
-    public class DenseVector : Vector
-    {
+    public class DenseVector : Vector {
         /// <summary>
         /// Number of elements
         /// </summary>
@@ -64,8 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// storage for performance or interop reasons.
         /// </summary>
         public DenseVector(DenseVectorStorage<float> storage)
-            : base(storage)
-        {
+            : base(storage) {
             _length = storage.Length;
             _values = storage.Data;
         }
@@ -76,8 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <exception cref="ArgumentException">If length is less than one.</exception>
         public DenseVector(int length)
-            : this(new DenseVectorStorage<float>(length))
-        {
+            : this(new DenseVectorStorage<float>(length)) {
         }
 
         /// <summary>
@@ -86,8 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Very efficient, but changes to the array and the vector will affect each other.
         /// </summary>
         public DenseVector(float[] storage)
-            : this(new DenseVectorStorage<float>(storage.Length, storage))
-        {
+            : this(new DenseVectorStorage<float>(storage.Length, storage)) {
         }
 
         /// <summary>
@@ -95,8 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new vector will be independent from the other vector.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public static DenseVector OfVector(Vector<float> vector)
-        {
+        public static DenseVector OfVector(Vector<float> vector) {
             return new DenseVector(DenseVectorStorage<float>.OfVector(vector.Storage));
         }
 
@@ -105,8 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new vector will be independent from the array.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public static DenseVector OfArray(float[] array)
-        {
+        public static DenseVector OfArray(float[] array) {
             return new DenseVector(DenseVectorStorage<float>.OfVector(new DenseVectorStorage<float>(array.Length, array)));
         }
 
@@ -115,8 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public static DenseVector OfEnumerable(IEnumerable<float> enumerable)
-        {
+        public static DenseVector OfEnumerable(IEnumerable<float> enumerable) {
             return new DenseVector(DenseVectorStorage<float>.OfEnumerable(enumerable));
         }
 
@@ -126,8 +118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public static DenseVector OfIndexedEnumerable(int length, IEnumerable<Tuple<int, float>> enumerable)
-        {
+        public static DenseVector OfIndexedEnumerable(int length, IEnumerable<Tuple<int, float>> enumerable) {
             return new DenseVector(DenseVectorStorage<float>.OfIndexedEnumerable(length, enumerable));
         }
 
@@ -137,33 +128,30 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public static DenseVector OfIndexedEnumerable(int length, IEnumerable<(int, float)> enumerable)
-        {
+        public static DenseVector OfIndexedEnumerable(int length, IEnumerable<(int, float)> enumerable) {
             return new DenseVector(DenseVectorStorage<float>.OfIndexedEnumerable(length, enumerable));
         }
 
         /// <summary>
         /// Create a new dense vector and initialize each value using the provided value.
         /// </summary>
-        public static DenseVector Create(int length, float value)
-        {
-            if (value == 0f) return new DenseVector(length);
+        public static DenseVector Create(int length, float value) {
+            if (value == 0f)
+                return new DenseVector(length);
             return new DenseVector(DenseVectorStorage<float>.OfValue(length, value));
         }
 
         /// <summary>
         /// Create a new dense vector and initialize each value using the provided init function.
         /// </summary>
-        public static DenseVector Create(int length, Func<int, float> init)
-        {
+        public static DenseVector Create(int length, Func<int, float> init) {
             return new DenseVector(DenseVectorStorage<float>.OfInit(length, init));
         }
 
         /// <summary>
         /// Create a new dense vector with values sampled from the provided random distribution.
         /// </summary>
-        public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
-        {
+        public static DenseVector CreateRandom(int length, IContinuousDistribution distribution) {
             var samples = Generate.RandomSingle(length, distribution);
             return new DenseVector(new DenseVectorStorage<float>(length, samples));
         }
@@ -182,10 +170,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>
         /// A reference to the internal date of the given vector.
         /// </returns>
-        public static explicit operator float[](DenseVector vector)
-        {
-            if (vector == null)
-            {
+        public static explicit operator float[](DenseVector vector) {
+            if (vector == null) {
                 throw new ArgumentNullException(nameof(vector));
             }
 
@@ -199,10 +185,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>
         /// A <c>DenseVector</c> whose values are bound to the given array.
         /// </returns>
-        public static implicit operator DenseVector(float[] array)
-        {
-            if (array == null)
-            {
+        public static implicit operator DenseVector(float[] array) {
+            if (array == null) {
                 throw new ArgumentNullException(nameof(array));
             }
 
@@ -214,21 +198,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        protected override void DoAdd(float scalar, Vector<float> result)
-        {
-            if (result is DenseVector dense)
-            {
+        protected override void DoAdd(float scalar, Vector<float> result) {
+            if (result is DenseVector dense) {
                 var denseValues = dense._values;
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
+                CommonParallel.For(0, _values.Length, 4096, (a, b) => {
+                    for (int i = a; i < b; i++) {
                         denseValues[i] = _values[i] + scalar;
                     }
                 });
             }
-            else
-            {
+            else {
                 base.DoAdd(scalar, result);
             }
         }
@@ -238,14 +217,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        protected override void DoAdd(Vector<float> other, Vector<float> result)
-        {
-            if (other is DenseVector otherDense && result is DenseVector resultDense)
-            {
+        protected override void DoAdd(Vector<float> other, Vector<float> result) {
+            if (other is DenseVector otherDense && result is DenseVector resultDense) {
                 LinearAlgebraControl.Provider.AddArrays(_values, otherDense._values, resultDense._values);
             }
-            else
-            {
+            else {
                 base.DoAdd(other, result);
             }
         }
@@ -258,10 +234,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator +(DenseVector leftSide, DenseVector rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseVector operator +(DenseVector leftSide, DenseVector rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -273,21 +247,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        protected override void DoSubtract(float scalar, Vector<float> result)
-        {
-            if (result is DenseVector dense)
-            {
+        protected override void DoSubtract(float scalar, Vector<float> result) {
+            if (result is DenseVector dense) {
                 var denseValues = dense._values;
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
+                CommonParallel.For(0, _values.Length, 4096, (a, b) => {
+                    for (int i = a; i < b; i++) {
                         denseValues[i] = _values[i] - scalar;
                     }
                 });
             }
-            else
-            {
+            else {
                 base.DoSubtract(scalar, result);
             }
         }
@@ -297,14 +266,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        protected override void DoSubtract(Vector<float> other, Vector<float> result)
-        {
-            if (other is DenseVector otherDense && result is DenseVector resultDense)
-            {
+        protected override void DoSubtract(Vector<float> other, Vector<float> result) {
+            if (other is DenseVector otherDense && result is DenseVector resultDense) {
                 LinearAlgebraControl.Provider.SubtractArrays(_values, otherDense._values, resultDense._values);
             }
-            else
-            {
+            else {
                 base.DoSubtract(other, result);
             }
         }
@@ -315,10 +281,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator -(DenseVector rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseVector operator -(DenseVector rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
@@ -333,10 +297,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator -(DenseVector leftSide, DenseVector rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseVector operator -(DenseVector leftSide, DenseVector rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -347,14 +309,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        protected override void DoNegate(Vector<float> result)
-        {
-            if (result is DenseVector denseResult)
-            {
+        protected override void DoNegate(Vector<float> result) {
+            if (result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.ScaleArray(-1.0f, _values, denseResult.Values);
             }
-            else
-            {
+            else {
                 base.DoNegate(result);
             }
         }
@@ -365,14 +324,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="scalar">The scalar to multiply.</param>
         /// <param name="result">The vector to store the result of the multiplication.</param>
         /// <remarks></remarks>
-        protected override void DoMultiply(float scalar, Vector<float> result)
-        {
-            if (result is DenseVector denseResult)
-            {
+        protected override void DoMultiply(float scalar, Vector<float> result) {
+            if (result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult.Values);
             }
-            else
-            {
+            else {
                 base.DoMultiply(scalar, result);
             }
         }
@@ -382,8 +338,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The other vector.</param>
         /// <returns>The sum of a[i]*b[i] for all i.</returns>
-        protected override float DoDotProduct(Vector<float> other)
-        {
+        protected override float DoDotProduct(Vector<float> other) {
             return other is DenseVector denseVector
                 ? LinearAlgebraControl.Provider.DotProduct(_values, denseVector.Values)
                 : base.DoDotProduct(other);
@@ -396,10 +351,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="rightSide">The scalar value.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator *(DenseVector leftSide, float rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseVector operator *(DenseVector leftSide, float rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -413,10 +366,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="rightSide">The vector to scale.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator *(float leftSide, DenseVector rightSide)
-        {
-            if (rightSide == null)
-            {
+        public static DenseVector operator *(float leftSide, DenseVector rightSide) {
+            if (rightSide == null) {
                 throw new ArgumentNullException(nameof(rightSide));
             }
 
@@ -431,10 +382,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The dot product between the two vectors.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static float operator *(DenseVector leftSide, DenseVector rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static float operator *(DenseVector leftSide, DenseVector rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -448,10 +397,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="rightSide">The scalar value.</param>
         /// <returns>The result of the division.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator /(DenseVector leftSide, float rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseVector operator /(DenseVector leftSide, float rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -464,21 +411,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoModulus(float divisor, Vector<float> result)
-        {
-            if (result is DenseVector dense)
-            {
+        protected override void DoModulus(float divisor, Vector<float> result) {
+            if (result is DenseVector dense) {
                 var denseValues = dense._values;
-                CommonParallel.For(0, _length, 4096, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
+                CommonParallel.For(0, _length, 4096, (a, b) => {
+                    for (int i = a; i < b; i++) {
                         denseValues[i] = Euclid.Modulus(_values[i], divisor);
                     }
                 });
             }
-            else
-            {
+            else {
                 base.DoModulus(divisor, result);
             }
         }
@@ -489,21 +431,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoRemainder(float divisor, Vector<float> result)
-        {
-            if (result is DenseVector dense)
-            {
+        protected override void DoRemainder(float divisor, Vector<float> result) {
+            if (result is DenseVector dense) {
                 var denseValues = dense._values;
-                CommonParallel.For(0, _length, 4096, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
+                CommonParallel.For(0, _length, 4096, (a, b) => {
+                    for (int i = a; i < b; i++) {
                         denseValues[i] = _values[i] % divisor;
                     }
                 });
             }
-            else
-            {
+            else {
                 base.DoRemainder(divisor, result);
             }
         }
@@ -516,10 +453,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="rightSide">The divisor to use,</param>
         /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator %(DenseVector leftSide, float rightSide)
-        {
-            if (leftSide == null)
-            {
+        public static DenseVector operator %(DenseVector leftSide, float rightSide) {
+            if (leftSide == null) {
                 throw new ArgumentNullException(nameof(leftSide));
             }
 
@@ -530,15 +465,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the index of the absolute minimum element.
         /// </summary>
         /// <returns>The index of absolute minimum element.</returns>
-        public override int AbsoluteMinimumIndex()
-        {
+        public override int AbsoluteMinimumIndex() {
             var index = 0;
             var min = Math.Abs(_values[index]);
-            for (var i = 1; i < _length; i++)
-            {
+            for (var i = 1; i < _length; i++) {
                 var test = Math.Abs(_values[i]);
-                if (test < min)
-                {
+                if (test < min) {
                     index = i;
                     min = test;
                 }
@@ -551,15 +483,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>
-        public override int AbsoluteMaximumIndex()
-        {
+        public override int AbsoluteMaximumIndex() {
             var index = 0;
             var max = Math.Abs(_values[index]);
-            for (var i = 1; i < _length; i++)
-            {
+            for (var i = 1; i < _length; i++) {
                 var test = Math.Abs(_values[i]);
-                if (test > max)
-                {
+                if (test > max) {
                     index = i;
                     max = test;
                 }
@@ -572,14 +501,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the index of the maximum element.
         /// </summary>
         /// <returns>The index of maximum element.</returns>
-        public override int MaximumIndex()
-        {
+        public override int MaximumIndex() {
             var index = 0;
             var max = _values[0];
-            for (var i = 1; i < _length; i++)
-            {
-                if (max < _values[i])
-                {
+            for (var i = 1; i < _length; i++) {
+                if (max < _values[i]) {
                     index = i;
                     max = _values[i];
                 }
@@ -592,14 +518,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the index of the minimum element.
         /// </summary>
         /// <returns>The index of minimum element.</returns>
-        public override int MinimumIndex()
-        {
+        public override int MinimumIndex() {
             var index = 0;
             var min = _values[0];
-            for (var i = 1; i < _length; i++)
-            {
-                if (min > _values[i])
-                {
+            for (var i = 1; i < _length; i++) {
+                if (min > _values[i]) {
                     index = i;
                     min = _values[i];
                 }
@@ -612,11 +535,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Computes the sum of the vector's elements.
         /// </summary>
         /// <returns>The sum of the vector's elements.</returns>
-        public override float Sum()
-        {
+        public override float Sum() {
             var sum = 0f;
-            for (var i = 0; i < _length; i++)
-            {
+            for (var i = 0; i < _length; i++) {
                 sum += _values[i];
             }
             return sum;
@@ -626,11 +547,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public override double L1Norm()
-        {
+        public override double L1Norm() {
             double sum = 0d;
-            for (var i = 0; i < _length; i++)
-            {
+            for (var i = 0; i < _length; i++) {
                 sum += Math.Abs(_values[i]);
             }
             return sum;
@@ -640,8 +559,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the L2 norm of the vector, also known as Euclidean norm.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override double L2Norm()
-        {
+        public override double L2Norm() {
             // TODO: native provider
             return _values.Aggregate(0f, SpecialFunctions.Hypotenuse);
         }
@@ -650,8 +568,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The maximum absolute value.</returns>
-        public override double InfinityNorm()
-        {
+        public override double InfinityNorm() {
             return CommonParallel.Aggregate(_values, (_, v) => Math.Abs(v), Math.Max, 0f);
         }
 
@@ -660,17 +577,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = ( ∑|this[i]|^p )^(1/p)</c></returns>
-        public override double Norm(double p)
-        {
-            if (p < 0d) throw new ArgumentOutOfRangeException(nameof(p));
+        public override double Norm(double p) {
+            if (p < 0d)
+                throw new ArgumentOutOfRangeException(nameof(p));
 
-            if (p == 1d) return L1Norm();
-            if (p == 2d) return L2Norm();
-            if (double.IsPositiveInfinity(p)) return InfinityNorm();
+            if (p == 1d)
+                return L1Norm();
+            if (p == 2d)
+                return L2Norm();
+            if (double.IsPositiveInfinity(p))
+                return InfinityNorm();
 
             double sum = 0d;
-            for (var index = 0; index < _length; index++)
-            {
+            for (var index = 0; index < _length; index++) {
                 sum += Math.Pow(Math.Abs(_values[index]), p);
             }
             return Math.Pow(sum, 1.0 / p);
@@ -681,14 +600,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The vector to pointwise multiply this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result)
-        {
-            if (other is DenseVector denseOther && result is DenseVector denseResult)
-            {
+        protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result) {
+            if (other is DenseVector denseOther && result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoPointwiseMultiply(other, result);
             }
         }
@@ -699,14 +615,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="divisor">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         /// <remarks></remarks>
-        protected override void DoPointwiseDivide(Vector<float> divisor, Vector<float> result)
-        {
-            if (divisor is DenseVector denseOther && result is DenseVector denseResult)
-            {
+        protected override void DoPointwiseDivide(Vector<float> divisor, Vector<float> result) {
+            if (divisor is DenseVector denseOther && result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoPointwiseDivide(divisor, result);
             }
         }
@@ -716,14 +629,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="exponent">The exponent vector to raise this vector values to.</param>
         /// <param name="result">The vector to store the result of the pointwise power.</param>
-        protected override void DoPointwisePower(Vector<float> exponent, Vector<float> result)
-        {
-            if (exponent is DenseVector denseExponent && result is DenseVector denseResult)
-            {
+        protected override void DoPointwisePower(Vector<float> exponent, Vector<float> result) {
+            if (exponent is DenseVector denseExponent && result is DenseVector denseResult) {
                 LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
-            else
-            {
+            else {
                 base.DoPointwisePower(exponent, result);
             }
         }
@@ -743,34 +653,27 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="formatProvider">
         /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
-        public static DenseVector Parse(string value, IFormatProvider formatProvider = null)
-        {
-            if (value == null)
-            {
+        public static DenseVector Parse(string value, IFormatProvider formatProvider = null) {
+            if (value == null) {
                 throw new ArgumentNullException(nameof(value));
             }
 
             value = value.Trim();
-            if (value.Length == 0)
-            {
+            if (value.Length == 0) {
                 throw new FormatException();
             }
 
             // strip out parens
-            if (value.StartsWith("(", StringComparison.Ordinal))
-            {
-                if (!value.EndsWith(")", StringComparison.Ordinal))
-                {
+            if (value.StartsWith("(", StringComparison.Ordinal)) {
+                if (!value.EndsWith(")", StringComparison.Ordinal)) {
                     throw new FormatException();
                 }
 
                 value = value.Substring(1, value.Length - 2).Trim();
             }
 
-            if (value.StartsWith("[", StringComparison.Ordinal))
-            {
-                if (!value.EndsWith("]", StringComparison.Ordinal))
-                {
+            if (value.StartsWith("[", StringComparison.Ordinal)) {
+                if (!value.EndsWith("]", StringComparison.Ordinal)) {
                     throw new FormatException();
                 }
 
@@ -780,7 +683,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             // parsing
             var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
             var data = tokens.Select(t => float.Parse(t, NumberStyles.Any, formatProvider)).ToArray();
-            if (data.Length == 0) throw new FormatException();
+            if (data.Length == 0)
+                throw new FormatException();
             return new DenseVector(data);
         }
 
@@ -798,8 +702,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// If the conversion succeeds, the result will contain a complex number equivalent to value.
         /// Otherwise the result will be <c>null</c>.
         /// </returns>
-        public static bool TryParse(string value, out DenseVector result)
-        {
+        public static bool TryParse(string value, out DenseVector result) {
             return TryParse(value, null, out result);
         }
 
@@ -820,21 +723,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// If the conversion succeeds, the result will contain a complex number equivalent to value.
         /// Otherwise the result will be <c>null</c>.
         /// </returns>
-        public static bool TryParse(string value, IFormatProvider formatProvider, out DenseVector result)
-        {
+        public static bool TryParse(string value, IFormatProvider formatProvider, out DenseVector result) {
             bool ret;
-            try
-            {
+            try {
                 result = Parse(value, formatProvider);
                 ret = true;
             }
-            catch (ArgumentNullException)
-            {
+            catch (ArgumentNullException) {
                 result = null;
                 ret = false;
             }
-            catch (FormatException)
-            {
+            catch (FormatException) {
                 result = null;
                 ret = false;
             }

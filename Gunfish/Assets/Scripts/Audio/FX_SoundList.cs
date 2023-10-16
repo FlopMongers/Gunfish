@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class FX_SoundList : FX_Object
-{
+public class FX_SoundList : FX_Object {
     public static Dictionary<string, int> soundListIndices;
 
     public List<AudioClip> clips = new List<AudioClip>();
@@ -16,25 +15,21 @@ public class FX_SoundList : FX_Object
     public bool shuffle;
 
     // Start is called before the first frame update
-    new void Awake()
-    {
+    new void Awake() {
         aud = GetComponent<AudioSource>();
-        if (!aud || clips.Count == 0) return;
+        if (!aud || clips.Count == 0)
+            return;
 
-        if (!randomize)
-        {
-            if (soundListIndices == null)
-            {
+        if (!randomize) {
+            if (soundListIndices == null) {
                 soundListIndices = new Dictionary<string, int>();
             }
             string objName = gameObject.name.Replace("(Clone)", "");
-            if (soundListIndices.ContainsKey(objName))
-            {
+            if (soundListIndices.ContainsKey(objName)) {
                 soundListIndices[objName] += 1;
                 index = soundListIndices[objName];
             }
-            else
-            {
+            else {
                 soundListIndices.Add(objName, 0);
                 index = 0;
             }
@@ -44,20 +39,16 @@ public class FX_SoundList : FX_Object
         Play();
     }
 
-    public override void Play()
-    {
+    public override void Play() {
         if (randomize)
             index = Random.Range(0, clips.Count);
 
-        if (playCount > 1)
-        {
+        if (playCount > 1) {
             if (shuffle)
                 clips.Shuffle();
             int count = 0;
-            foreach (Transform child in transform)
-            {
-                if (child.name == "src")
-                {
+            foreach (Transform child in transform) {
+                if (child.name == "src") {
                     var child_aud = child.GetComponent<AudioSource>();
                     child_aud.volume = aud.volume;
                     child_aud.pitch = aud.pitch;
@@ -69,26 +60,22 @@ public class FX_SoundList : FX_Object
                 }
             }
         }
-        else
-        {
+        else {
             MaxLifetime = Mathf.Max(lifetime, SetClip(aud, index));
         }
         lifetime = MaxLifetime;
     }
 
-    public override void Replay()
-    {
+    public override void Replay() {
         // base.Replay();
         Play();
     }
 
-    float SetClip(AudioSource src, int index)
-    {
+    float SetClip(AudioSource src, int index) {
         src.clip = clips[index % clips.Count];
         src.Play();
 
-        if (vol != -1)
-        {
+        if (vol != -1) {
             src.volume = vol;
         }
 

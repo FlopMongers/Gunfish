@@ -1,14 +1,14 @@
 #if UNITY_EDITOR
 using System;
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Debug = UnityEngine.Debug;
 using UnityEditor;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class WaterSurfaceGenerator : MonoBehaviour {
     [SerializeField]
@@ -43,7 +43,8 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         var node = Instantiate(waterNodePrefab, position, Quaternion.identity).GetComponent<WaterSurfaceNode>();
         if (prevNode != null) {
             node.prevSpring.connectedBody = prevNode.rb;
-        } else {
+        }
+        else {
             node.prevSpring.enabled = false;
         }
         node.selfSpring.connectedAnchor = node.transform.position;
@@ -55,7 +56,7 @@ public class WaterSurfaceGenerator : MonoBehaviour {
 
     public void Garbulate() {
         ClearCurrentNodes();
-        
+
         float length = dimensions.x;
         float height = dimensions.y;
 

@@ -27,32 +27,26 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.LineSearch;
+using System;
 
-namespace MathNet.Numerics.Optimization
-{
-    public class ConjugateGradientMinimizer : IUnconstrainedMinimizer
-    {
+namespace MathNet.Numerics.Optimization {
+    public class ConjugateGradientMinimizer : IUnconstrainedMinimizer {
         public double GradientTolerance { get; set; }
         public int MaximumIterations { get; set; }
 
-        public ConjugateGradientMinimizer(double gradientTolerance, int maximumIterations)
-        {
+        public ConjugateGradientMinimizer(double gradientTolerance, int maximumIterations) {
             GradientTolerance = gradientTolerance;
             MaximumIterations = maximumIterations;
         }
 
-        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
-        {
+        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess) {
             return Minimum(objective, initialGuess, GradientTolerance, MaximumIterations);
         }
 
-        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000)
-        {
-            if (!objective.IsGradientSupported)
-            {
+        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance = 1e-8, int maxIterations = 1000) {
+            if (!objective.IsGradientSupported) {
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for ConjugateGradient minimization.");
             }
 
@@ -61,8 +55,7 @@ namespace MathNet.Numerics.Optimization
             ValidateGradient(objective);
 
             // Check that we're not already done
-            if (gradient.Norm(2.0) < gradientTolerance)
-            {
+            if (gradient.Norm(2.0) < gradientTolerance) {
                 return new MinimizationResult(objective, 0, ExitCondition.AbsoluteGradient);
             }
 
@@ -75,12 +68,10 @@ namespace MathNet.Numerics.Optimization
             double initialStepSize = 100 * gradientTolerance / (gradient * gradient);
 
             LineSearchResult result;
-            try
-            {
+            try {
                 result = lineSearcher.FindConformingStep(objective, searchDirection, initialStepSize);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 throw new InnerOptimizationException("Line search failed.", e);
             }
 
@@ -94,24 +85,20 @@ namespace MathNet.Numerics.Optimization
             int totalLineSearchSteps = result.Iterations;
             int iterationsWithNontrivialLineSearch = result.Iterations > 0 ? 0 : 1;
             int steepestDescentResets = 0;
-            while (objective.Gradient.Norm(2.0) >= gradientTolerance && iterations < maxIterations)
-            {
+            while (objective.Gradient.Norm(2.0) >= gradientTolerance && iterations < maxIterations) {
                 var previousSteepestDirection = steepestDirection;
                 steepestDirection = -objective.Gradient;
-                var searchDirectionAdjuster = Math.Max(0, steepestDirection*(steepestDirection - previousSteepestDirection)/(previousSteepestDirection*previousSteepestDirection));
+                var searchDirectionAdjuster = Math.Max(0, steepestDirection * (steepestDirection - previousSteepestDirection) / (previousSteepestDirection * previousSteepestDirection));
                 searchDirection = steepestDirection + searchDirectionAdjuster * searchDirection;
-                if (searchDirection * objective.Gradient >= 0)
-                {
+                if (searchDirection * objective.Gradient >= 0) {
                     searchDirection = steepestDirection;
                     steepestDescentResets += 1;
                 }
 
-                try
-                {
+                try {
                     result = lineSearcher.FindConformingStep(objective, searchDirection, stepSize);
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     throw new InnerOptimizationException("Line search failed.", e);
                 }
 
@@ -122,29 +109,23 @@ namespace MathNet.Numerics.Optimization
                 iterations += 1;
             }
 
-            if (iterations == maxIterations)
-            {
+            if (iterations == maxIterations) {
                 throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({maxIterations}) reached."));
             }
 
             return new MinimizationWithLineSearchResult(objective, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
-        static void ValidateGradient(IObjectiveFunctionEvaluation objective)
-        {
-            foreach (var x in objective.Gradient)
-            {
-                if (double.IsNaN(x) || double.IsInfinity(x))
-                {
+        static void ValidateGradient(IObjectiveFunctionEvaluation objective) {
+            foreach (var x in objective.Gradient) {
+                if (double.IsNaN(x) || double.IsInfinity(x)) {
                     throw new EvaluationException("Non-finite gradient returned.", objective);
                 }
             }
         }
 
-        static void ValidateObjective(IObjectiveFunctionEvaluation objective)
-        {
-            if (double.IsNaN(objective.Value) || double.IsInfinity(objective.Value))
-            {
+        static void ValidateObjective(IObjectiveFunctionEvaluation objective) {
+            if (double.IsNaN(objective.Value) || double.IsInfinity(objective.Value)) {
                 throw new EvaluationException("Non-finite objective function returned.", objective);
             }
         }

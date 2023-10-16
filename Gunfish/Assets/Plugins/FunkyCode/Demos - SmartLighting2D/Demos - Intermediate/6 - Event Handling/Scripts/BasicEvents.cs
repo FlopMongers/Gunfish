@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode
-{
+namespace FunkyCode {
     [ExecuteInEditMode]
-    public class BasicEvents : MonoBehaviour
-    {
+    public class BasicEvents : MonoBehaviour {
         SpriteRenderer spriteRenderer;
 
         void Awake() {

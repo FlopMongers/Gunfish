@@ -27,15 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Optimization.LineSearch
-{
-    public class LineSearchResult : MinimizationResult
-    {
+namespace MathNet.Numerics.Optimization.LineSearch {
+    public class LineSearchResult : MinimizationResult {
         public double FinalStep { get; }
 
         public LineSearchResult(IObjectiveFunction functionInfo, int iterations, double finalStep, ExitCondition reasonForExit)
-            : base(functionInfo, iterations, reasonForExit)
-        {
+            : base(functionInfo, iterations, reasonForExit) {
             FinalStep = finalStep;
         }
     }

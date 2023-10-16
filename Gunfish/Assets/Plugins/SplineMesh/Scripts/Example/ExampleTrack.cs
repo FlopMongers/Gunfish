@@ -78,13 +78,15 @@ namespace SplineMesh {
         }
 
         private void OnValidate() {
-            if (spline == null) return;
+            if (spline == null)
+                return;
             toUpdate = true;
         }
 
         private void Update() {
             // we can prevent the generated content to be updated during playmode to preserve baked data saved in the scene
-            if (!updateInPlayMode && Application.isPlaying) return;
+            if (!updateInPlayMode && Application.isPlaying)
+                return;
 
             if (toUpdate) {
                 toUpdate = false;
@@ -116,7 +118,8 @@ namespace SplineMesh {
                             typeof(MeshBender),
                             typeof(MeshCollider));
                         go.isStatic = true;
-                    } else {
+                    }
+                    else {
                         go = childTransform.gameObject;
                     }
                     go.GetComponent<MeshRenderer>().material = tm.material;

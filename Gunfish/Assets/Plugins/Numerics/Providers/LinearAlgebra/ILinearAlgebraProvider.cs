@@ -30,13 +30,11 @@
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
-{
+namespace MathNet.Numerics.Providers.LinearAlgebra {
     /// <summary>
     /// How to transpose a matrix.
     /// </summary>
-    public enum Transpose
-    {
+    public enum Transpose {
         /// <summary>
         /// Don't transpose a matrix.
         /// </summary>
@@ -57,27 +55,26 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// <summary>
     /// Types of matrix norms.
     /// </summary>
-    public enum Norm : byte
-    {
+    public enum Norm : byte {
         /// <summary>
         /// The 1-norm.
         /// </summary>
-        OneNorm = (byte) '1',
+        OneNorm = (byte)'1',
 
         /// <summary>
         /// The Frobenius norm.
         /// </summary>
-        FrobeniusNorm = (byte) 'f',
+        FrobeniusNorm = (byte)'f',
 
         /// <summary>
         /// The infinity norm.
         /// </summary>
-        InfinityNorm = (byte) 'i',
+        InfinityNorm = (byte)'i',
 
         /// <summary>
         /// The largest absolute value norm.
         /// </summary>
-        LargestAbsoluteValue = (byte) 'm'
+        LargestAbsoluteValue = (byte)'m'
     }
 
     /// <summary>
@@ -87,8 +84,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         ILinearAlgebraProvider<double>,
         ILinearAlgebraProvider<float>,
         ILinearAlgebraProvider<Complex>,
-        ILinearAlgebraProvider<Complex32>
-    {
+        ILinearAlgebraProvider<Complex32> {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
@@ -112,8 +108,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// </summary>
     /// <typeparam name="T">Supported data types are Double, Single, Complex, and Complex32.</typeparam>
     public interface ILinearAlgebraProvider<T>
-        where T : struct
-    {
+        where T : struct {
         /*/// <summary>
         /// Queries the provider for the optimal, workspace block size
         /// for the given routine.

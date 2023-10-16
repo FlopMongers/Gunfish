@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode
-{
-	public class SpriteMeshObject
-	{
-		SpriteTiledMesh spriteTiledMesh = null;
+namespace FunkyCode {
+    public class SpriteMeshObject {
+        SpriteTiledMesh spriteTiledMesh = null;
 
-		public SpriteTiledMesh GetTiledMesh() {
-			if (spriteTiledMesh == null) {
-				spriteTiledMesh = new SpriteTiledMesh();
-			}
+        public SpriteTiledMesh GetTiledMesh() {
+            if (spriteTiledMesh == null) {
+                spriteTiledMesh = new SpriteTiledMesh();
+            }
 
-			return(spriteTiledMesh);
-		}
+            return (spriteTiledMesh);
+        }
 
-		/*
+        /*
 		private Mesh rectMesh = null;
 
 		public Mesh GetRectMesh(SpriteTransform spriteTransform) {
@@ -45,5 +43,5 @@ namespace FunkyCode
 			
 			return(rectMesh);
 		}*/
-	}
+    }
 }

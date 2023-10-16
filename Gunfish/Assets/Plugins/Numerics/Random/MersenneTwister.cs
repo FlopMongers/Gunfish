@@ -65,21 +65,19 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
+using System;
 using System.Collections.Generic;
+using System.Runtime;
 using System.Runtime.Serialization;
 using System.Threading;
-using System;
-using System.Runtime;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// Random number generator using Mersenne Twister 19937 algorithm.
     /// </summary>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
-    public class MersenneTwister : RandomSource
-    {
+    public class MersenneTwister : RandomSource {
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
@@ -103,7 +101,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        const double Reciprocal = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
+        const double Reciprocal = 1.0 / 4294967296.0; // 1.0/(uint.MaxValue + 1.0)
 
         /// <summary>
         /// Mersenne twister constant.
@@ -134,8 +132,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public MersenneTwister() : this(RandomSeed.Robust())
-        {
+        public MersenneTwister() : this(RandomSeed.Robust()) {
         }
 
         /// <summary>
@@ -143,8 +140,7 @@ namespace MathNet.Numerics.Random
         /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public MersenneTwister(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
-        {
+        public MersenneTwister(bool threadSafe) : this(RandomSeed.Robust(), threadSafe) {
         }
 
         /// <summary>
@@ -153,8 +149,7 @@ namespace MathNet.Numerics.Random
         /// <param name="seed">The seed value.</param>
         /// <remarks>Uses the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public MersenneTwister(int seed)
-        {
+        public MersenneTwister(int seed) {
             init_genrand((uint)seed);
         }
 
@@ -163,8 +158,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="seed">The seed value.</param>
         /// <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
-        public MersenneTwister(int seed, bool threadSafe) : base(threadSafe)
-        {
+        public MersenneTwister(int seed, bool threadSafe) : base(threadSafe) {
             init_genrand((uint)seed);
         }
 
@@ -195,12 +189,10 @@ namespace MathNet.Numerics.Random
         */
         /* initializes _mt[_n] with a seed */
 
-        void init_genrand(uint s)
-        {
+        void init_genrand(uint s) {
             _mt[0] = s & 0xffffffff;
-            for (_mti = 1; _mti < N; _mti++)
-            {
-                _mt[_mti] = 1812433253*(_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + (uint)_mti;
+            for (_mti = 1; _mti < N; _mti++) {
+                _mt[_mti] = 1812433253 * (_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + (uint)_mti;
                 /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
                 /* In the previous versions, MSBs of the seed affect   */
                 /* only MSBs of the array _mt[].                        */
@@ -251,14 +243,12 @@ namespace MathNet.Numerics.Random
 
         /* generates a random number on [0,0xffffffff]-interval */
 
-        uint genrand_int32()
-        {
+        uint genrand_int32() {
             uint y;
 
             /* mag01[x] = x * MATRIX_A  for x=0,1 */
 
-            if (_mti >= N)
-            {
+            if (_mti >= N) {
                 /* generate _n words at one time */
                 int kk;
 
@@ -267,14 +257,12 @@ namespace MathNet.Numerics.Random
                     init_genrand(5489); /* a default initial seed is used */
                 }
 
-                for (kk = 0; kk < N - M; kk++)
-                {
+                for (kk = 0; kk < N - M; kk++) {
                     y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
                     _mt[kk] = _mt[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
                 }
 
-                for (; kk < N - 1; kk++)
-                {
+                for (; kk < N - 1; kk++) {
                     y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
                     _mt[kk] = _mt[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
                 }
@@ -299,20 +287,17 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
-        {
-            return genrand_int32()*Reciprocal;
+        protected sealed override double DoSample() {
+            return genrand_int32() * Reciprocal;
         }
 
         /// <summary>
         /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
         /// </summary>
-        protected sealed override int DoSampleInteger()
-        {
+        protected sealed override int DoSampleInteger() {
             uint uint32 = genrand_int32();
             int int31 = (int)(uint32 >> 1);
-            if (int31 == int.MaxValue)
-            {
+            if (int31 == int.MaxValue) {
                 return DoSampleInteger();
             }
 
@@ -322,10 +307,8 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
         /// </summary>
-        protected sealed override void DoSampleBytes(byte[] buffer)
-        {
-            for (var i = 0; i < buffer.Length; i++)
-            {
+        protected sealed override void DoSampleBytes(byte[] buffer) {
+            for (var i = 0; i < buffer.Length; i++) {
                 buffer[i] = (byte)(genrand_int32() % 256);
             }
         }
@@ -344,34 +327,28 @@ namespace MathNet.Numerics.Random
         /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static void Doubles(double[] values, int seed)
-        {
+        public static void Doubles(double[] values, int seed) {
             uint[] t = new uint[624];
             int k;
             uint s = (uint)seed;
 
             t[0] = s & 0xffffffff;
-            for (k = 1; k < N; k++)
-            {
-                t[k] = 1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k;
+            for (k = 1; k < N; k++) {
+                t[k] = 1812433253 * (t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k;
                 t[k] &= 0xffffffff;
             }
 
-            for (int i = 0; i < values.Length; i++)
-            {
+            for (int i = 0; i < values.Length; i++) {
                 uint y;
 
-                if (k >= N)
-                {
+                if (k >= N) {
                     int kk;
-                    for (kk = 0; kk < N - M; kk++)
-                    {
+                    for (kk = 0; kk < N - M; kk++) {
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
 
-                    for (; kk < N - 1; kk++)
-                    {
+                    for (; kk < N - 1; kk++) {
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
@@ -390,7 +367,7 @@ namespace MathNet.Numerics.Random
                 y ^= (y << 15) & 0xefc60000;
                 y ^= y >> 18;
 
-                values[i] = y*Reciprocal;
+                values[i] = y * Reciprocal;
             }
         }
 
@@ -399,8 +376,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length, int seed)
-        {
+        public static double[] Doubles(int length, int seed) {
             var data = new double[length];
             Doubles(data, seed);
             return data;
@@ -410,34 +386,28 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> DoubleSequence(int seed)
-        {
+        public static IEnumerable<double> DoubleSequence(int seed) {
             uint[] t = new uint[624];
             int k;
             uint s = (uint)seed;
 
             t[0] = s & 0xffffffff;
-            for (k = 1; k < N; k++)
-            {
-                t[k] = 1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k;
+            for (k = 1; k < N; k++) {
+                t[k] = 1812433253 * (t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k;
                 t[k] &= 0xffffffff;
             }
 
-            while (true)
-            {
+            while (true) {
                 uint y;
 
-                if (k >= N)
-                {
+                if (k >= N) {
                     int kk;
-                    for (kk = 0; kk < N - M; kk++)
-                    {
+                    for (kk = 0; kk < N - M; kk++) {
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
 
-                    for (; kk < N - 1; kk++)
-                    {
+                    for (; kk < N - 1; kk++) {
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
@@ -456,7 +426,7 @@ namespace MathNet.Numerics.Random
                 y ^= (y << 15) & 0xefc60000;
                 y ^= y >> 18;
 
-                yield return y*Reciprocal;
+                yield return y * Reciprocal;
             }
         }
     }

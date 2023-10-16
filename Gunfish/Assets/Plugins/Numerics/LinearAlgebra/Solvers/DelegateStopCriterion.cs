@@ -29,14 +29,12 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Stop criterion that delegates the status determination to a delegate.
     /// </summary>
     public class DelegateStopCriterion<T> : IIterationStopCriterion<T>
-        where T : struct, IEquatable<T>, IFormattable
-    {
+        where T : struct, IEquatable<T>, IFormattable {
         readonly Func<int, Vector<T>, Vector<T>, Vector<T>, IterationStatus> _determine;
         IterationStatus _status = IterationStatus.Continue;
 
@@ -44,8 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Create a new instance of this criterion with a custom implementation.
         /// </summary>
         /// <param name="determine">Custom implementation with the same signature and semantics as the DetermineStatus method.</param>
-        public DelegateStopCriterion(Func<int, Vector<T>, Vector<T>, Vector<T>, IterationStatus> determine)
-        {
+        public DelegateStopCriterion(Func<int, Vector<T>, Vector<T>, Vector<T>, IterationStatus> determine) {
             _determine = determine;
         }
 
@@ -62,8 +59,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
-        {
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector) {
             return _status = _determine(iterationNumber, solutionVector, sourceVector, residualVector);
         }
 
@@ -75,16 +71,14 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Resets the IIterationStopCriterion to the pre-calculation state.
         /// </summary>
-        public void Reset()
-        {
+        public void Reset() {
             _status = IterationStatus.Continue;
         }
 
         /// <summary>
         /// Clones this criterion and its settings.
         /// </summary>
-        public IIterationStopCriterion<T> Clone()
-        {
+        public IIterationStopCriterion<T> Clone() {
             return new DelegateStopCriterion<T>(_determine);
         }
     }

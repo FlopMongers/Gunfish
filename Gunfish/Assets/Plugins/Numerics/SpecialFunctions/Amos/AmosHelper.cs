@@ -1,20 +1,16 @@
 ﻿using System;
 
-namespace MathNet.Numerics
-{
-    public static partial class SpecialFunctions
-    {
+namespace MathNet.Numerics {
+    public static partial class SpecialFunctions {
         // Translated from AMOS fortran codes by hand
         //
         // References:
         // [1] Amos package in netlib. http://www.netlib.org/amos
-        static class AmosHelper
-        {
+        static class AmosHelper {
             #region Bessel- related functions
 
             // The Airy function Ai(z) and derivative
-            public static int zairy(double zr, double zi, int id, int kode, ref double air, ref double aii, ref int nz, ref int ierr)
-            {
+            public static int zairy(double zr, double zi, int id, int kode, ref double air, ref double aii, ref int nz, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZAIRY
@@ -170,13 +166,17 @@ namespace MathNet.Numerics
                 aii = 0;
                 ierr = 0;
                 nz = 0;
-                if (id < 0 || id > 1) ierr = 1;
-                if (kode < 1 || kode > 2) ierr = 1;
-                if (ierr != 0) return 0;
+                if (id < 0 || id > 1)
+                    ierr = 1;
+                if (kode < 1 || kode > 2)
+                    ierr = 1;
+                if (ierr != 0)
+                    return 0;
                 az = zabs(zr, zi);
                 tol = Math.Max(d1mach(4), 1.0E-18);
                 fid = (double)id;
-                if (az > 1.0) goto L70;
+                if (az > 1.0)
+                    goto L70;
                 // -----------------------------------------------------------------------
                 //     POWER SERIES FOR ABS(Z).LE.1.
                 // -----------------------------------------------------------------------
@@ -184,9 +184,11 @@ namespace MathNet.Numerics
                 s1i = conei;
                 s2r = coner;
                 s2i = conei;
-                if (az < tol) goto L170;
+                if (az < tol)
+                    goto L170;
                 aa = az * az;
-                if (aa < tol / az) goto L40;
+                if (aa < tol / az)
+                    goto L40;
                 trm1r = coner;
                 trm1i = conei;
                 trm2r = coner;
@@ -206,8 +208,7 @@ namespace MathNet.Numerics
                 ad = Math.Min(d1, d2);
                 ak = 24.0 + 9.0 * fid;
                 bk = 30.0 - 9.0 * fid;
-                for (k = 1; k <= 25; k++)
-                {
+                for (k = 1; k <= 25; k++) {
                     str = (trm1r * z3r - trm1i * z3i) / d1;
                     trm1i = (trm1r * z3i + trm1i * z3r) / d1;
                     trm1r = str;
@@ -222,15 +223,18 @@ namespace MathNet.Numerics
                     d1 += ak;
                     d2 += bk;
                     ad = Math.Min(d1, d2);
-                    if (atrm < tol * ad) goto L40;
+                    if (atrm < tol * ad)
+                        goto L40;
                     ak += 18.0;
                     bk += 18.0;
                 }
-            L40:
-                if (id == 1) goto L50;
+                L40:
+                if (id == 1)
+                    goto L50;
                 air = s1r * c1 - c2 * (zr * s2r - zi * s2i);
                 aii = s1i * c1 - c2 * (zr * s2i + zi * s2r);
-                if (kode == 1) return 0;
+                if (kode == 1)
+                    return 0;
                 zsqrt(zr, zi, ref str, ref sti);
                 ztar = tth * (zr * str - zi * sti);
                 ztai = tth * (zr * sti + zi * str);
@@ -239,17 +243,19 @@ namespace MathNet.Numerics
                 aii = air * sti + aii * str;
                 air = ptr;
                 return 0;
-            L50:
+                L50:
                 air = -s2r * c2;
                 aii = -s2i * c2;
-                if (az <= tol) goto L60;
+                if (az <= tol)
+                    goto L60;
                 str = zr * s1r - zi * s1i;
                 sti = zr * s1i + zi * s1r;
                 cc = c1 / (fid + 1.0);
                 air += cc * (str * zr - sti * zi);
                 aii += cc * (str * zi + sti * zr);
-            L60:
-                if (kode == 1) return 0;
+                L60:
+                if (kode == 1)
+                    return 0;
                 zsqrt(zr, zi, ref str, ref sti);
                 ztar = tth * (zr * str - zi * sti);
                 ztai = tth * (zr * sti + zi * str);
@@ -261,7 +267,7 @@ namespace MathNet.Numerics
                 // -----------------------------------------------------------------------
                 //     CASE FOR ABS(Z).GT.1.0
                 // -----------------------------------------------------------------------
-            L70:
+                L70:
                 fnu = (1.0 + fid) / 3.0;
                 // -----------------------------------------------------------------------
                 //     SET PARAMETERS RELATED TO MACHINE CONSTANTS.
@@ -292,9 +298,11 @@ namespace MathNet.Numerics
                 bb = i1mach(9) * 0.5;
                 aa = Math.Min(aa, bb);
                 aa = Math.Pow(aa, tth);
-                if (az > aa) goto L260;
+                if (az > aa)
+                    goto L260;
                 aa = Math.Sqrt(aa);
-                if (az > aa) ierr = 3;
+                if (az > aa)
+                    ierr = 3;
                 zsqrt(zr, zi, ref csqr, ref csqi);
                 ztar = tth * (zr * csqr - zi * csqi);
                 ztai = tth * (zr * csqi + zi * csqr);
@@ -304,125 +312,143 @@ namespace MathNet.Numerics
                 iflag = 0;
                 sfac = 1.0;
                 ak = ztai;
-                if (zr >= 0.0) goto L80;
+                if (zr >= 0.0)
+                    goto L80;
                 bk = ztar;
                 ck = -Math.Abs(bk);
                 ztar = ck;
                 ztai = ak;
-            L80:
-                if (zi != 0.0) goto L90;
-                if (zr > 0.0) goto L90;
+                L80:
+                if (zi != 0.0)
+                    goto L90;
+                if (zr > 0.0)
+                    goto L90;
                 ztar = 0.0;
                 ztai = ak;
-            L90:
+                L90:
                 aa = ztar;
-                if (aa >= 0.0 && zr > 0.0) goto L110;
-                if (kode == 2) goto L100;
+                if (aa >= 0.0 && zr > 0.0)
+                    goto L110;
+                if (kode == 2)
+                    goto L100;
                 // -----------------------------------------------------------------------
                 //     OVERFLOW TEST
                 // -----------------------------------------------------------------------
-                if (aa > -alim) goto L100;
+                if (aa > -alim)
+                    goto L100;
                 aa = -aa + alaz * 0.25;
                 iflag = 1;
                 sfac = tol;
-                if (aa > elim) goto L270;
-            L100:
+                if (aa > elim)
+                    goto L270;
+                L100:
                 // -----------------------------------------------------------------------
                 //     CBKNU AND CACON RETURN EXP(ZTA)*K(FNU,ZTA) ON KODE=2
                 // -----------------------------------------------------------------------
                 mr = 1;
-                if (zi < 0.0) mr = -1;
+                if (zi < 0.0)
+                    mr = -1;
                 zacai(ztar, ztai, fnu, kode, mr, 1, cyr, cyi, ref nn, rl, tol, elim, alim);
-                if (nn < 0) goto L280;
+                if (nn < 0)
+                    goto L280;
                 nz += nn;
                 goto L130;
-            L110:
-                if (kode == 2) goto L120;
+                L110:
+                if (kode == 2)
+                    goto L120;
                 // -----------------------------------------------------------------------
                 //     UNDERFLOW TEST
                 // -----------------------------------------------------------------------
-                if (aa < alim) goto L120;
+                if (aa < alim)
+                    goto L120;
                 aa = -aa - 0.25 * alaz;
                 iflag = 2;
                 sfac = 1.0 / tol;
-                if (aa < -elim) goto L210;
-            L120:
+                if (aa < -elim)
+                    goto L210;
+                L120:
                 zbknu(ztar, ztai, fnu, kode, 1, cyr, cyi, ref nz, tol, elim, alim);
-            L130:
+                L130:
                 s1r = cyr[0] * coef;
                 s1i = cyi[0] * coef;
-                if (iflag != 0) goto L150;
-                if (id == 1) goto L140;
+                if (iflag != 0)
+                    goto L150;
+                if (id == 1)
+                    goto L140;
                 air = csqr * s1r - csqi * s1i;
                 aii = csqr * s1i + csqi * s1r;
                 return 0;
-            L140:
+                L140:
                 air = -(zr * s1r - zi * s1i);
                 aii = -(zr * s1i + zi * s1r);
                 return 0;
-            L150:
+                L150:
                 s1r *= sfac;
                 s1i *= sfac;
-                if (id == 1) goto L160;
+                if (id == 1)
+                    goto L160;
                 str = s1r * csqr - s1i * csqi;
                 s1i = s1r * csqi + s1i * csqr;
                 s1r = str;
                 air = s1r / sfac;
                 aii = s1i / sfac;
                 return 0;
-            L160:
+                L160:
                 str = -(s1r * zr - s1i * zi);
                 s1i = -(s1r * zi + s1i * zr);
                 s1r = str;
                 air = s1r / sfac;
                 aii = s1i / sfac;
                 return 0;
-            L170:
+                L170:
                 aa = 1.0E3 * d1mach(1);
                 s1r = zeror;
                 s1i = zeroi;
-                if (id == 1) goto L190;
-                if (az <= aa) goto L180;
+                if (id == 1)
+                    goto L190;
+                if (az <= aa)
+                    goto L180;
                 s1r = c2 * zr;
                 s1i = c2 * zi;
-            L180:
+                L180:
                 air = c1 - s1r;
                 aii = -s1i;
                 return 0;
-            L190:
+                L190:
                 air = -c2;
                 aii = 0.0;
                 aa = Math.Sqrt(aa);
-                if (az <= aa) goto L200;
+                if (az <= aa)
+                    goto L200;
                 s1r = (zr * zr - zi * zi) * 0.5;
                 s1i = zr * zi;
-            L200:
+                L200:
                 air += c1 * s1r;
                 aii += c1 * s1i;
                 return 0;
-            L210:
+                L210:
                 nz = 1;
                 air = zeror;
                 aii = zeroi;
                 return 0;
-            L270:
+                L270:
                 nz = 0;
                 ierr = 2;
                 return 0;
-            L280:
-                if (nn == -1) goto L270;
+                L280:
+                if (nn == -1)
+                    goto L270;
                 nz = 0;
                 ierr = 5;
                 return 0;
-            L260:
+                L260:
                 ierr = 4;
                 nz = 0;
                 return 0;
             }
 
             // The Airy function Bi(z) and derivative
-            public static int zbiry(double zr, double zi, int id, int kode, ref double bir, ref double bii, ref int nz, ref int ierr)
-            {
+            public static int zbiry(double zr, double zi, int id, int kode, ref double bir, ref double bii, ref int nz, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBIRY
@@ -569,13 +595,17 @@ namespace MathNet.Numerics
 
                 ierr = 0;
                 nz = 0;
-                if (id < 0 || id > 1) ierr = 1;
-                if (kode < 1 || kode > 2) ierr = 1;
-                if (ierr != 0) return 0;
+                if (id < 0 || id > 1)
+                    ierr = 1;
+                if (kode < 1 || kode > 2)
+                    ierr = 1;
+                if (ierr != 0)
+                    return 0;
                 az = zabs(zr, zi);
                 tol = Math.Max(d1mach(4), 1.0E-18);
                 fid = (double)id;
-                if (az > 1.0) goto L70;
+                if (az > 1.0)
+                    goto L70;
                 //-----------------------------------------------------------------------
                 //     POWER SERIES FOR CABS(Z).LE.1.
                 //-----------------------------------------------------------------------
@@ -583,9 +613,11 @@ namespace MathNet.Numerics
                 s1i = conei;
                 s2r = coner;
                 s2i = conei;
-                if (az < tol) goto L130;
+                if (az < tol)
+                    goto L130;
                 aa = az * az;
-                if (aa < tol / az) goto L40;
+                if (aa < tol / az)
+                    goto L40;
                 trm1r = coner;
                 trm1i = conei;
                 trm2r = coner;
@@ -605,8 +637,7 @@ namespace MathNet.Numerics
                 ad = Math.Min(d1, d2);
                 ak = 24.0 + 9.0 * fid;
                 bk = 30.0 - 9.0 * fid;
-                for (k = 1; k <= 25; k++)
-                {
+                for (k = 1; k <= 25; k++) {
                     str = (trm1r * z3r - trm1i * z3i) / d1;
                     trm1i = (trm1r * z3i + trm1i * z3r) / d1;
                     trm1r = str;
@@ -621,15 +652,18 @@ namespace MathNet.Numerics
                     d1 = d1 + ak;
                     d2 = d2 + bk;
                     ad = Math.Min(d1, d2);
-                    if (atrm < tol * ad) goto L40;
+                    if (atrm < tol * ad)
+                        goto L40;
                     ak = ak + 18.0;
                     bk = bk + 18.0;
                 }
-            L40:
-                if (id == 1) goto L50;
+                L40:
+                if (id == 1)
+                    goto L50;
                 bir = c1 * s1r + c2 * (zr * s2r - zi * s2i);
                 bii = c1 * s1i + c2 * (zr * s2i + zi * s2r);
-                if (kode == 1) return 0;
+                if (kode == 1)
+                    return 0;
                 zsqrt(zr, zi, ref str, ref sti);
                 ztar = tth * (zr * str - zi * sti);
                 ztai = tth * (zr * sti + zi * str);
@@ -639,17 +673,19 @@ namespace MathNet.Numerics
                 bir = bir * eaa;
                 bii = bii * eaa;
                 return 0;
-            L50:
+                L50:
                 bir = s2r * c2;
                 bii = s2i * c2;
-                if (az <= tol) goto L60;
+                if (az <= tol)
+                    goto L60;
                 cc = c1 / (1.0 + fid);
                 str = s1r * zr - s1i * zi;
                 sti = s1r * zi + s1i * zr;
                 bir = bir + cc * (str * zr - sti * zi);
                 bii = bii + cc * (str * zi + sti * zr);
-            L60:
-                if (kode == 1) return 0;
+                L60:
+                if (kode == 1)
+                    return 0;
                 zsqrt(zr, zi, ref str, ref sti);
                 ztar = tth * (zr * str - zi * sti);
                 ztai = tth * (zr * sti + zi * str);
@@ -662,7 +698,7 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 //     CASE FOR CABS(Z).GT.1.0
                 //-----------------------------------------------------------------------
-            L70:
+                L70:
                 fnu = (1.0 + fid) / 3.0;
                 //-----------------------------------------------------------------------
                 //     SET PARAMETERS RELATED TO MACHINE CONSTANTS.
@@ -694,9 +730,11 @@ namespace MathNet.Numerics
                 bb = (double)i1mach(9) * 0.5;
                 aa = Math.Min(aa, bb);
                 aa = Math.Pow(aa, tth);
-                if (az > aa) goto L260;
+                if (az > aa)
+                    goto L260;
                 aa = Math.Sqrt(aa);
-                if (az > aa) ierr = 3;
+                if (az > aa)
+                    ierr = 3;
                 zsqrt(zr, zi, ref csqr, ref csqi);
                 ztar = tth * (zr * csqr - zi * csqi);
                 ztai = tth * (zr * csqi + zi * csqr);
@@ -705,40 +743,48 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 sfac = 1.0;
                 ak = ztai;
-                if (zr >= 0.0) goto L80;
+                if (zr >= 0.0)
+                    goto L80;
                 bk = ztar;
                 ck = -Math.Abs(bk);
                 ztar = ck;
                 ztai = ak;
-            L80:
-                if (zi != 0.0 || zr > 0.0) goto L90;
+                L80:
+                if (zi != 0.0 || zr > 0.0)
+                    goto L90;
                 ztar = 0.0;
                 ztai = ak;
-            L90:
+                L90:
                 aa = ztar;
-                if (kode == 2) goto L100;
+                if (kode == 2)
+                    goto L100;
                 //-----------------------------------------------------------------------
                 //     OVERFLOW TEST
                 //-----------------------------------------------------------------------
                 bb = Math.Abs(aa);
-                if (bb < alim) goto L100;
+                if (bb < alim)
+                    goto L100;
                 bb = bb + 0.25 * Math.Log(az);
                 sfac = tol;
-                if (bb > elim) goto L190;
-            L100:
+                if (bb > elim)
+                    goto L190;
+                L100:
                 fmr = 0.0;
-                if (aa >= 0.0 && zr > 0.0) goto L110;
+                if (aa >= 0.0 && zr > 0.0)
+                    goto L110;
                 fmr = pi;
-                if (zi < 0.0) fmr = -pi;
+                if (zi < 0.0)
+                    fmr = -pi;
                 ztar = -ztar;
                 ztai = -ztai;
-            L110:
+                L110:
                 //-----------------------------------------------------------------------
                 //     AA=FACTOR FOR ANALYTIC CONTINUATION OF I(FNU,ZTA)
                 //     KODE=2 RETURNS EXP(-ABS(XZTA))*I(FNU,ZTA) FROM CBESI
                 //-----------------------------------------------------------------------
                 zbinu(ztar, ztai, fnu, kode, 1, cyr, cyi, ref nz, rl, fnul, tol, elim, alim);
-                if (nz < 0) goto L200;
+                if (nz < 0)
+                    goto L200;
                 aa = fmr * fnu;
                 z3r = sfac;
                 str = Math.Cos(aa);
@@ -762,43 +808,44 @@ namespace MathNet.Numerics
                 sti = Math.Sin(aa);
                 s1r = coef * (s1r + s2r * str - s2i * sti);
                 s1i = coef * (s1i + s2r * sti + s2i * str);
-                if (id == 1) goto L120;
+                if (id == 1)
+                    goto L120;
                 str = csqr * s1r - csqi * s1i;
                 s1i = csqr * s1i + csqi * s1r;
                 s1r = str;
                 bir = s1r / sfac;
                 bii = s1i / sfac;
                 return 0;
-            L120:
+                L120:
                 str = zr * s1r - zi * s1i;
                 s1i = zr * s1i + zi * s1r;
                 s1r = str;
                 bir = s1r / sfac;
                 bii = s1i / sfac;
                 return 0;
-            L130:
+                L130:
                 aa = c1 * (1.0 - fid) + fid * c2;
                 bir = aa;
                 bii = 0.0;
                 return 0;
-            L190:
+                L190:
                 ierr = 2;
                 nz = 0;
                 return 0;
-            L200:
-                if (nz == -1) goto L190;
+                L200:
+                if (nz == -1)
+                    goto L190;
                 nz = 0;
                 ierr = 5;
                 return 0;
-            L260:
+                L260:
                 ierr = 4;
                 nz = 0;
                 return 0;
             }
 
             // The Bessel function of the first kind and derivative
-            public static int zbesj(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr)
-            {
+            public static int zbesj(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBESJ
@@ -957,10 +1004,14 @@ namespace MathNet.Numerics
 
                 ierr = 0;
                 nz = 0;
-                if (fnu < 0.0) ierr = 1;
-                if (kode < 1 || kode > 2) ierr = 1;
-                if (n < 1) ierr = 1;
-                if (ierr != 0) return 0;
+                if (fnu < 0.0)
+                    ierr = 1;
+                if (kode < 1 || kode > 2)
+                    ierr = 1;
+                if (n < 1)
+                    ierr = 1;
+                if (ierr != 0)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    SET PARAMETERS RELATED TO MACHINE CONSTANTS.
                 //    TOL IS THE APPROXIMATE UNIT ROUNDOFF LIMITED TO 1.0E-18.
@@ -993,11 +1044,15 @@ namespace MathNet.Numerics
                 aa = 0.5 / tol;
                 bb = 0.5 * (double)i1mach(9);
                 aa = Math.Min(aa, bb);
-                if (az > aa) goto L260;
-                if (fn > aa) goto L260;
+                if (az > aa)
+                    goto L260;
+                if (fn > aa)
+                    goto L260;
                 aa = Math.Sqrt(aa);
-                if (az > aa) ierr = 3;
-                if (fn > aa) ierr = 3;
+                if (az > aa)
+                    ierr = 3;
+                if (fn > aa)
+                    ierr = 3;
                 //-----------------------------------------------------------------------
                 //    CALCULATE CSGN=EXP(FNU*HPI*I) TO MINIMIZE LOSSES OF SIGNIFICANCE
                 //    WHEN FNU IS LARGE
@@ -1009,40 +1064,44 @@ namespace MathNet.Numerics
                 arg = (fnu - (inu - ir)) * hpi;
                 csgnr = Math.Cos(arg);
                 csgni = Math.Sin(arg);
-                if (inuh % 2 == 0) goto L40;
+                if (inuh % 2 == 0)
+                    goto L40;
                 csgnr = -csgnr;
                 csgni = -csgni;
-            L40:
+                L40:
                 //-----------------------------------------------------------------------
                 //    ZN IS IN THE RIGHT HALF PLANE
                 //-----------------------------------------------------------------------
                 znr = zi;
                 zni = -zr;
-                if (zi >= 0.0) goto L50;
+                if (zi >= 0.0)
+                    goto L50;
                 znr = -znr;
                 zni = -zni;
                 csgni = -csgni;
                 cii = -cii;
-            L50:
+                L50:
                 zbinu(znr, zni, fnu, kode, n, cyr, cyi, ref nz, rl, fnul, tol, elim, alim);
-                if (nz < 0) goto L130;
+                if (nz < 0)
+                    goto L130;
                 nl = n - nz;
-                if (nl == 0) return 0;
+                if (nl == 0)
+                    return 0;
                 rtol = 1.0 / tol;
                 ascle = d1mach(1) * rtol * 1.0E3;
-                for (i = 1; i <= nl; i++)
-                {
+                for (i = 1; i <= nl; i++) {
                     //      STR = CYR(I)*CSGNR - CYI(I)*CSGNI
                     //      CYI(I) = CYR(I)*CSGNI + CYI(I)*CSGNR
                     //      CYR(I) = STR
                     aa = cyr[i - 1];
                     bb = cyi[i - 1];
                     atol = 1.0;
-                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle) goto L55;
+                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle)
+                        goto L55;
                     aa *= rtol;
                     bb *= rtol;
                     atol = tol;
-            L55:
+                    L55:
                     str = aa * csgnr - bb * csgni;
                     sti = aa * csgni + bb * csgnr;
                     cyr[i - 1] = str * atol;
@@ -1052,24 +1111,24 @@ namespace MathNet.Numerics
                     csgnr = str;
                 }
                 return 0;
-            L130:
-                if (nz == -2) goto L140;
+                L130:
+                if (nz == -2)
+                    goto L140;
                 nz = 0;
                 ierr = 2;
                 return 0;
-            L140:
+                L140:
                 nz = 0;
                 ierr = 5;
                 return 0;
-            L260:
+                L260:
                 nz = 0;
                 ierr = 4;
                 return 0;
             }
 
             // The Bessel function of the second kind and derivative
-            public static int zbesy(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, double[] cwrkr, double[] cwrki, ref int ierr)
-            {
+            public static int zbesy(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, double[] cwrkr, double[] cwrki, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBESY
@@ -1228,27 +1287,34 @@ namespace MathNet.Numerics
 
                 ierr = 0;
                 nz = 0;
-                if (zr == 0.0 && zi == 0.0) ierr = 1;
-                if (fnu < 0.0) ierr = 1;
-                if (kode < 1 || kode > 2) ierr = 1;
-                if (n < 1) ierr = 1;
-                if (ierr != 0) return 0;
+                if (zr == 0.0 && zi == 0.0)
+                    ierr = 1;
+                if (fnu < 0.0)
+                    ierr = 1;
+                if (kode < 1 || kode > 2)
+                    ierr = 1;
+                if (n < 1)
+                    ierr = 1;
+                if (ierr != 0)
+                    return 0;
                 hcii = 0.5;
                 zbesh(zr, zi, fnu, kode, 1, n, cyr, cyi, ref nz1, ref ierr);
-                if (ierr != 0 && ierr != 3) goto L170;
+                if (ierr != 0 && ierr != 3)
+                    goto L170;
                 zbesh(zr, zi, fnu, kode, 2, n, cwrkr, cwrki, ref nz2, ref ierr);
-                if (ierr != 0 && ierr != 3) goto L170;
+                if (ierr != 0 && ierr != 3)
+                    goto L170;
                 nz = Math.Min(nz1, nz2);
-                if (kode == 2) goto L60;
-                for (i = 1; i <= n; i++)
-                {
+                if (kode == 2)
+                    goto L60;
+                for (i = 1; i <= n; i++) {
                     str = cwrkr[i - 1] - cyr[i - 1];
                     sti = cwrki[i - 1] - cyi[i - 1];
                     cyr[i - 1] = -sti * hcii;
                     cyi[i - 1] = str * hcii;
                 }
                 return 0;
-            L60:
+                L60:
                 tol = Math.Max(d1mach(4), 1.0E-18);
                 k1 = i1mach(15);
                 k2 = i1mach(16);
@@ -1262,18 +1328,19 @@ namespace MathNet.Numerics
                 exi = Math.Sin(zr);
                 ey = 0.0;
                 tay = Math.Abs(zi + zi);
-                if (tay < elim) ey = Math.Exp(-tay);
-                if (zi < 0.0) goto L90;
+                if (tay < elim)
+                    ey = Math.Exp(-tay);
+                if (zi < 0.0)
+                    goto L90;
                 c1r = exr * ey;
                 c1i = exi * ey;
                 c2r = exr;
                 c2i = -exi;
-            L70:
+                L70:
                 nz = 0;
                 rtol = 1.0 / tol;
                 ascle = d1mach(1) * rtol * 1.0E3;
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     //      STR = C1R*CYR(I) - C1I*CYI(I)
                     //      STI = C1R*CYI(I) + C1I*CYR(I)
                     //      STR = -STR + C2R*CWRKR(I) - C2I*CWRKI(I)
@@ -1283,42 +1350,44 @@ namespace MathNet.Numerics
                     aa = cwrkr[i - 1];
                     bb = cwrki[i - 1];
                     atol = 1.0;
-                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle) goto L75;
+                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle)
+                        goto L75;
                     aa *= rtol;
                     bb *= rtol;
                     atol = tol;
-            L75:
+                    L75:
                     str = (aa * c2r - bb * c2i) * atol;
                     sti = (aa * c2i + bb * c2r) * atol;
                     aa = cyr[i - 1];
                     bb = cyi[i - 1];
                     atol = 1.0;
-                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle) goto L85;
+                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle)
+                        goto L85;
                     aa *= rtol;
                     bb *= rtol;
                     atol = tol;
-            L85:
+                    L85:
                     str -= (aa * c1r - bb * c1i) * atol;
                     sti -= (aa * c1i + bb * c1r) * atol;
                     cyr[i - 1] = -sti * hcii;
                     cyi[i - 1] = str * hcii;
-                    if (str == 0.0 && sti == 0.0 && ey == 0.0) nz++;
+                    if (str == 0.0 && sti == 0.0 && ey == 0.0)
+                        nz++;
                 }
                 return 0;
-            L90:
+                L90:
                 c1r = exr;
                 c1i = exi;
                 c2r = exr * ey;
                 c2i = -exi * ey;
                 goto L70;
-            L170:
+                L170:
                 nz = 0;
                 return 0;
             }
 
             // The modified Bessel function of the first kind and derivative
-            public static int zbesi(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr)
-            {
+            public static int zbesi(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBESI
@@ -1485,10 +1554,14 @@ namespace MathNet.Numerics
 
                 ierr = 0;
                 nz = 0;
-                if (fnu < 0.0) ierr = 1;
-                if (kode < 1 || kode > 2) ierr = 1;
-                if (n < 1) ierr = 1;
-                if (ierr != 0) return 0;
+                if (fnu < 0.0)
+                    ierr = 1;
+                if (kode < 1 || kode > 2)
+                    ierr = 1;
+                if (n < 1)
+                    ierr = 1;
+                if (ierr != 0)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    SET PARAMETERS RELATED TO MACHINE CONSTANTS.
                 //    TOL IS THE APPROXIMATE UNIT ROUNDOFF LIMITED TO 1.0E-18.
@@ -1521,16 +1594,21 @@ namespace MathNet.Numerics
                 aa = 0.5 / tol;
                 bb = (double)i1mach(9) * 0.5;
                 aa = Math.Min(aa, bb);
-                if (az > aa) goto L260;
-                if (fn > aa) goto L260;
+                if (az > aa)
+                    goto L260;
+                if (fn > aa)
+                    goto L260;
                 aa = Math.Sqrt(aa);
-                if (az > aa) ierr = 3;
-                if (fn > aa) ierr = 3;
+                if (az > aa)
+                    ierr = 3;
+                if (fn > aa)
+                    ierr = 3;
                 znr = zr;
                 zni = zi;
                 csgnr = coner;
                 csgni = conei;
-                if (zr >= 0.0) goto L40;
+                if (zr >= 0.0)
+                    goto L40;
                 znr = -zr;
                 zni = -zi;
                 //-----------------------------------------------------------------------
@@ -1539,36 +1617,41 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 inu = (int)fnu;
                 arg = (fnu - (double)inu) * pi;
-                if (zi < 0.0) arg = -arg;
+                if (zi < 0.0)
+                    arg = -arg;
                 csgnr = Math.Cos(arg);
                 csgni = Math.Sin(arg);
-                if (inu % 2 == 0) goto L40;
+                if (inu % 2 == 0)
+                    goto L40;
                 csgnr = -csgnr;
                 csgni = -csgni;
-            L40:
+                L40:
                 zbinu(znr, zni, fnu, kode, n, cyr, cyi, ref nz, rl, fnul, tol, elim, alim);
-                if (nz < 0) goto L120;
-                if (zr >= 0.0) return 0;
+                if (nz < 0)
+                    goto L120;
+                if (zr >= 0.0)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    ANALYTIC CONTINUATION TO THE LEFT HALF PLANE
                 //-----------------------------------------------------------------------
                 nn = n - nz;
-                if (nn == 0) return 0;
+                if (nn == 0)
+                    return 0;
                 rtol = 1.0 / tol;
                 ascle = d1mach(1) * rtol * 1.0E3;
-                for (i = 1; i <= nn; i++)
-                {
+                for (i = 1; i <= nn; i++) {
                     // STR = CYR(I) * CSGNR - CYI(I) * CSGNI
                     // CYI(I) = CYR(I) * CSGNI + CYI(I) * CSGNR
                     // CYR(I) = STR
                     aa = cyr[i - 1];
                     bb = cyi[i - 1];
                     atol = 1.0;
-                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle) goto L55;
+                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle)
+                        goto L55;
                     aa = aa * rtol;
                     bb = bb * rtol;
                     atol = tol;
-            L55:
+                    L55:
                     str = aa * csgnr - bb * csgni;
                     sti = aa * csgni + bb * csgnr;
                     cyr[i - 1] = str * atol;
@@ -1577,24 +1660,24 @@ namespace MathNet.Numerics
                     csgni = -csgni;
                 }
                 return 0;
-            L120:
-                if (nz == -2) goto L130;
+                L120:
+                if (nz == -2)
+                    goto L130;
                 nz = 0;
                 ierr = 2;
                 return 0;
-            L130:
+                L130:
                 nz = 0;
                 ierr = 5;
                 return 0;
-            L260:
+                L260:
                 nz = 0;
                 ierr = 4;
                 return 0;
             }
 
             // The modified Bessel function of the second kind and derivative
-            public static int zbesk(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr)
-            {
+            public static int zbesk(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBESK
@@ -1756,11 +1839,16 @@ namespace MathNet.Numerics
 
                 ierr = 0;
                 nz = 0;
-                if (zi == 0.0 && zr == 0.0) ierr = 1;
-                if (fnu < 0.0) ierr = 1;
-                if (kode < 1 || kode > 2) ierr = 1;
-                if (n < 1) ierr = 1;
-                if (ierr != 0) return 0;
+                if (zi == 0.0 && zr == 0.0)
+                    ierr = 1;
+                if (fnu < 0.0)
+                    ierr = 1;
+                if (kode < 1 || kode > 2)
+                    ierr = 1;
+                if (n < 1)
+                    ierr = 1;
+                if (ierr != 0)
+                    return 0;
                 nn = n;
                 // -----------------------------------------------------------------------
                 //     SET PARAMETERS RELATED TO MACHINE CONSTANTS.
@@ -1794,90 +1882,111 @@ namespace MathNet.Numerics
                 aa = 0.5 / tol;
                 bb = i1mach(9) * 0.5;
                 aa = Math.Min(aa, bb);
-                if (az > aa) goto L260;
-                if (fn > aa) goto L260;
+                if (az > aa)
+                    goto L260;
+                if (fn > aa)
+                    goto L260;
                 aa = Math.Sqrt(aa);
-                if (az > aa) ierr = 3;
-                if (fn > aa) ierr = 3;
+                if (az > aa)
+                    ierr = 3;
+                if (fn > aa)
+                    ierr = 3;
                 // -----------------------------------------------------------------------
                 //     OVERFLOW TEST ON THE LAST MEMBER OF THE SEQUENCE
                 // -----------------------------------------------------------------------
                 //     UFL = EXP(-ELIM)
                 ufl = d1mach(1) * 1.0E3;
-                if (az < ufl) goto L180;
-                if (fnu > fnul) goto L80;
-                if (fn <= 1.0) goto L60;
-                if (fn > 2.0) goto L50;
-                if (az > tol) goto L60;
+                if (az < ufl)
+                    goto L180;
+                if (fnu > fnul)
+                    goto L80;
+                if (fn <= 1.0)
+                    goto L60;
+                if (fn > 2.0)
+                    goto L50;
+                if (az > tol)
+                    goto L60;
                 arg = az * 0.5;
                 aln = -fn * Math.Log(arg);
-                if (aln > elim) goto L180;
+                if (aln > elim)
+                    goto L180;
                 goto L60;
-            L50:
+                L50:
                 zuoik(zr, zi, fnu, kode, 2, nn, cyr, cyi, ref nuf, tol, elim, alim);
-                if (nuf < 0) goto L180;
+                if (nuf < 0)
+                    goto L180;
                 nz += nuf;
                 nn -= nuf;
                 // -----------------------------------------------------------------------
                 //     HERE NN=N OR NN=0 SINCE NUF=0,NN, OR -1 ON RETURN FROM CUOIK
                 //     IF NUF=NN, THEN CY(I)=CZERO FOR ALL I
                 // -----------------------------------------------------------------------
-                if (nn == 0) goto L100;
-            L60:
-                if (zr < 0.0) goto L70;
+                if (nn == 0)
+                    goto L100;
+                L60:
+                if (zr < 0.0)
+                    goto L70;
                 // -----------------------------------------------------------------------
                 //     RIGHT HALF PLANE COMPUTATION, REAL(Z).GE.0.
                 // -----------------------------------------------------------------------
                 zbknu(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, tol, elim, alim);
-                if (nw < 0) goto L200;
+                if (nw < 0)
+                    goto L200;
                 nz = nw;
                 return 0;
                 // -----------------------------------------------------------------------
                 //     LEFT HALF PLANE COMPUTATION
                 //     PI/2.LT.ARG(Z).LE.PI AND -PI.LT.ARG(Z).LT.-PI/2.
                 // -----------------------------------------------------------------------
-            L70:
-                if (nz != 0) goto L180;
+                L70:
+                if (nz != 0)
+                    goto L180;
                 mr = 1;
-                if (zi < 0.0) mr = -1;
+                if (zi < 0.0)
+                    mr = -1;
                 zacon(zr, zi, fnu, kode, mr, nn, cyr, cyi, ref nw, rl, fnul, tol, elim, alim);
-                if (nw < 0) goto L200;
+                if (nw < 0)
+                    goto L200;
                 nz = nw;
                 return 0;
                 // -----------------------------------------------------------------------
                 //     UNIFORM ASYMPTOTIC EXPANSIONS FOR FNU.GT.FNUL
                 // -----------------------------------------------------------------------
-            L80:
+                L80:
                 mr = 0;
-                if (zr >= 0.0) goto L90;
+                if (zr >= 0.0)
+                    goto L90;
                 mr = 1;
-                if (zi < 0.0) mr = -1;
-            L90:
+                if (zi < 0.0)
+                    mr = -1;
+                L90:
                 zbunk(zr, zi, fnu, kode, mr, nn, cyr, cyi, ref nw, tol, elim, alim);
-                if (nw < 0) goto L200;
+                if (nw < 0)
+                    goto L200;
                 nz += nw;
                 return 0;
-            L100:
-                if (zr < 0.0) goto L180;
+                L100:
+                if (zr < 0.0)
+                    goto L180;
                 return 0;
-            L180:
+                L180:
                 nz = 0;
                 ierr = 2;
                 return 0;
-            L200:
-                if (nw == -1) goto L180;
+                L200:
+                if (nw == -1)
+                    goto L180;
                 nz = 0;
                 ierr = 5;
                 return 0;
-            L260:
+                L260:
                 nz = 0;
                 ierr = 4;
                 return 0;
             }
 
             // The Hankel functions or Bessel functions of third kind and derivative
-            public static int zbesh(double zr, double zi, double fnu, int kode, int m, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr)
-            {
+            public static int zbesh(double zr, double zi, double fnu, int kode, int m, int n, double[] cyr, double[] cyi, ref int nz, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBESH
@@ -2049,12 +2158,18 @@ namespace MathNet.Numerics
 
                 ierr = 0;
                 nz = 0;
-                if (zr == 0.0 && zi == 0.0) ierr = 1;
-                if (fnu < 0.0) ierr = 1;
-                if (m < 1 || m > 2) ierr = 1;
-                if (kode < 1 || kode > 2) ierr = 1;
-                if (n < 1) ierr = 1;
-                if (ierr != 0) return 0;
+                if (zr == 0.0 && zi == 0.0)
+                    ierr = 1;
+                if (fnu < 0.0)
+                    ierr = 1;
+                if (m < 1 || m > 2)
+                    ierr = 1;
+                if (kode < 1 || kode > 2)
+                    ierr = 1;
+                if (n < 1)
+                    ierr = 1;
+                if (ierr != 0)
+                    return 0;
                 nn = n;
                 //-----------------------------------------------------------------------
                 //    SET PARAMETERS RELATED TO MACHINE CONSTANTS.
@@ -2092,36 +2207,49 @@ namespace MathNet.Numerics
                 aa = 0.5 / tol;
                 bb = i1mach(9) * 0.5;
                 aa = Math.Min(aa, bb);
-                if (az > aa) goto L260;
-                if (fn > aa) goto L260;
+                if (az > aa)
+                    goto L260;
+                if (fn > aa)
+                    goto L260;
                 aa = Math.Sqrt(aa);
-                if (az > aa) ierr = 3;
-                if (fn > aa) ierr = 3;
+                if (az > aa)
+                    ierr = 3;
+                if (fn > aa)
+                    ierr = 3;
                 //-----------------------------------------------------------------------
                 //    OVERFLOW TEST ON THE LAST MEMBER OF THE SEQUENCE
                 //-----------------------------------------------------------------------
                 ufl = d1mach(1) * 1.0E3;
-                if (az < ufl) goto L230;
-                if (fnu > fnul) goto L90;
-                if (fn <= 1.0) goto L70;
-                if (fn > 2.0) goto L60;
-                if (az > tol) goto L70;
+                if (az < ufl)
+                    goto L230;
+                if (fnu > fnul)
+                    goto L90;
+                if (fn <= 1.0)
+                    goto L70;
+                if (fn > 2.0)
+                    goto L60;
+                if (az > tol)
+                    goto L70;
                 arg = 0.5 * az;
                 aln = -fn * Math.Log(arg);
-                if (aln > elim) goto L230;
+                if (aln > elim)
+                    goto L230;
                 goto L70;
-            L60:
+                L60:
                 zuoik(znr, zni, fnu, kode, 2, nn, cyr, cyi, ref nuf, tol, elim, alim);
-                if (nuf < 0) goto L230;
+                if (nuf < 0)
+                    goto L230;
                 nz += nuf;
                 nn -= nuf;
                 //-----------------------------------------------------------------------
                 //    HERE NN=N OR NN=0 SINCE NUF=0,NN, OR -1 ON RETURN FROM CUOIK
                 //    IF NUF=NN, THEN CY(I)=CZERO FOR ALL I
                 //-----------------------------------------------------------------------
-                if (nn == 0) goto L140;
-            L70:
-                if (znr < 0.0 || znr == 0.0 && zni < 0.0 && m == 2) goto L80;
+                if (nn == 0)
+                    goto L140;
+                L70:
+                if (znr < 0.0 || znr == 0.0 && zni < 0.0 && m == 2)
+                    goto L80;
                 //-----------------------------------------------------------------------
                 //    RIGHT HALF PLANE COMPUTATION, XN.GE.0. .AND. (XN.NE.0. .OR.
                 //    YN.GE.0. .OR. M=1)
@@ -2131,27 +2259,31 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 //    LEFT HALF PLANE COMPUTATION
                 //-----------------------------------------------------------------------
-            L80:
+                L80:
                 mr = -mm;
                 zacon(znr, zni, fnu, kode, mr, nn, cyr, cyi, ref nw, rl, fnul, tol, elim, alim);
-                if (nw < 0) goto L240;
+                if (nw < 0)
+                    goto L240;
                 nz = nw;
                 goto L110;
-            L90:
+                L90:
                 //-----------------------------------------------------------------------
                 //    UNIFORM ASYMPTOTIC EXPANSIONS FOR FNU.GT.FNUL
                 //-----------------------------------------------------------------------
                 mr = 0;
-                if (znr >= 0.0 && (znr != 0.0 || zni >= 0.0 || m != 2)) goto L100;
+                if (znr >= 0.0 && (znr != 0.0 || zni >= 0.0 || m != 2))
+                    goto L100;
                 mr = -mm;
-                if (znr != 0.0 || zni >= 0.0) goto L100;
+                if (znr != 0.0 || zni >= 0.0)
+                    goto L100;
                 znr = -znr;
                 zni = -zni;
-            L100:
+                L100:
                 zbunk(znr, zni, fnu, kode, mr, nn, cyr, cyi, ref nw, tol, elim, alim);
-                if (nw < 0) goto L240;
+                if (nw < 0)
+                    goto L240;
                 nz += nw;
-            L110:
+                L110:
                 //-----------------------------------------------------------------------
                 //    H(M,FNU,Z) = -FMM*(I/HPI)*(ZT**FNU)*K(FNU,-Z*ZT)
 
@@ -2171,17 +2303,17 @@ namespace MathNet.Numerics
                 //    ZNR = -RHPI*SIN(ARG)
                 csgni = rhpi * Math.Cos(arg);
                 csgnr = -rhpi * Math.Sin(arg);
-                if (inuh % 2 == 0) goto L120;
+                if (inuh % 2 == 0)
+                    goto L120;
                 //    ZNR = -ZNR
                 //    ZNI = -ZNI
                 csgnr = -csgnr;
                 csgni = -csgni;
-            L120:
+                L120:
                 zti = -fmm;
                 rtol = 1.0 / tol;
                 ascle = ufl * rtol;
-                for (i = 1; i <= nn; i++)
-                {
+                for (i = 1; i <= nn; i++) {
                     //      STR = CYR(I)*ZNR - CYI(I)*ZNI
                     //      CYI(I) = CYR(I)*ZNI + CYI(I)*ZNR
                     //      CYR(I) = STR
@@ -2192,11 +2324,12 @@ namespace MathNet.Numerics
                     bb = cyi[i - 1];
                     atol = 1.0;
                     //Computing MAX
-                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle) goto L135;
+                    if (Math.Max(Math.Abs(aa), Math.Abs(bb)) > ascle)
+                        goto L135;
                     aa *= rtol;
                     bb *= rtol;
                     atol = tol;
-            L135:
+                    L135:
                     str = aa * csgnr - bb * csgni;
                     sti = aa * csgni + bb * csgnr;
                     cyr[i - 1] = str * atol;
@@ -2206,19 +2339,21 @@ namespace MathNet.Numerics
                     csgnr = str;
                 }
                 return 0;
-            L140:
-                if (znr < 0.0) goto L230;
+                L140:
+                if (znr < 0.0)
+                    goto L230;
                 return 0;
-            L230:
+                L230:
                 nz = 0;
                 ierr = 2;
                 return 0;
-            L240:
-                if (nw == -1) goto L230;
+                L240:
+                if (nw == -1)
+                    goto L230;
                 nz = 0;
                 ierr = 5;
                 return 0;
-            L260:
+                L260:
                 nz = 0;
                 ierr = 4;
                 return 0;
@@ -2229,8 +2364,7 @@ namespace MathNet.Numerics
             #region LnGamma functions
 
             // The logarithm of the gamma function
-            public static double dgamln(double z, ref int ierr)
-            {
+            public static double dgamln(double z, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  DGAMLN
@@ -2326,14 +2460,18 @@ namespace MathNet.Numerics
                 int i, i1m, k, mz, nz = 0;
 
                 ierr = 0;
-                if (z <= 0.0) goto L70;
-                if (z > 101.0) goto L10;
+                if (z <= 0.0)
+                    goto L70;
+                if (z > 101.0)
+                    goto L10;
                 nz = (int)z;
                 fz = z - (double)nz;
-                if (fz > 0.0) goto L10;
-                if (nz > 100) goto L10;
+                if (fz > 0.0)
+                    goto L10;
+                if (nz > 100)
+                    goto L10;
                 return gln[nz - 1];
-            L10:
+                L10:
                 wdtol = d1mach(4);
                 wdtol = Math.Max(wdtol, 5e-19);
                 i1m = i1mach(14);
@@ -2346,37 +2484,39 @@ namespace MathNet.Numerics
                 zmin = (double)mz;
                 zdmy = z;
                 zinc = 0.0;
-                if (z >= zmin) goto L20;
+                if (z >= zmin)
+                    goto L20;
                 zinc = zmin - nz;
                 zdmy = z + zinc;
-            L20:
+                L20:
                 zp = 1.0 / zdmy;
                 t1 = cf[0] * zp;
                 s = t1;
-                if (zp < wdtol) goto L40;
+                if (zp < wdtol)
+                    goto L40;
                 zsq = zp * zp;
                 tst = t1 * wdtol;
-                for (k = 2; k <= 22; k++)
-                {
+                for (k = 2; k <= 22; k++) {
                     zp *= zsq;
                     trm = cf[k - 1] * zp;
-                    if (Math.Abs(trm) < tst) goto L40;
+                    if (Math.Abs(trm) < tst)
+                        goto L40;
                     s += trm;
                 }
-            L40:
-                if (zinc != 0.0) goto L50;
+                L40:
+                if (zinc != 0.0)
+                    goto L50;
                 tlg = Math.Log(z);
                 return z * (tlg - 1.0) + (con - tlg) * 0.5 + s;
-            L50:
+                L50:
                 zp = 1.0;
                 nz = (int)zinc;
-                for (i = 1; i <= nz; i++)
-                {
+                for (i = 1; i <= nz; i++) {
                     zp *= z + (i - 1);
                 }
                 tlg = Math.Log(zdmy);
                 return zdmy * (tlg - 1.0) - Math.Log(zp) + (con - tlg) * 0.5 + s;
-            L70:
+                L70:
                 ierr = 1;
                 return d1mach(2);
             }
@@ -2385,8 +2525,7 @@ namespace MathNet.Numerics
 
             #region Fortran utilities
 
-            static double d1mach(int i)
-            {
+            static double d1mach(int i) {
                 #region Description
 
                 //***BEGIN PROLOGUE  D1MACH
@@ -2452,19 +2591,22 @@ namespace MathNet.Numerics
                 const double DBL_MAX = double.MaxValue; // 2^1024 * (1 - 2^(-53))
                 const double DBL_MIN = 2.2250738585072013831E-308; // 2^(-1021 - 1)
 
-                switch (i)
-                {
-                    case 1: return DBL_MIN; // the smallest positive magnitude.
-                    case 2: return DBL_MAX; // the largest magnitude.
-                    case 3: return DBL_EPSILON / FLT_RADIX; // return Precision.DoublePrecision; // the smallest relative spacing.
-                    case 4: return DBL_EPSILON; // return Precision.PositiveDoublePrecision; // the largest relative spacing.
-                    case 5: return Math.Log10(FLT_RADIX);
+                switch (i) {
+                    case 1:
+                        return DBL_MIN; // the smallest positive magnitude.
+                    case 2:
+                        return DBL_MAX; // the largest magnitude.
+                    case 3:
+                        return DBL_EPSILON / FLT_RADIX; // return Precision.DoublePrecision; // the smallest relative spacing.
+                    case 4:
+                        return DBL_EPSILON; // return Precision.PositiveDoublePrecision; // the largest relative spacing.
+                    case 5:
+                        return Math.Log10(FLT_RADIX);
                 }
                 return 0;
             }
 
-            static int i1mach(int i)
-            {
+            static int i1mach(int i) {
                 #region Description
 
                 //***BEGIN PROLOGUE  I1MACH
@@ -2542,25 +2684,26 @@ namespace MathNet.Numerics
 
                 #endregion
 
-                switch (i)
-                {
-                    case 9: return int.MaxValue; // the largest magnitude of integer = 2^31 - 1 = 2147483647
-                    case 14: return 53; // return Precision.DoubleWidth; // the number of base-2 digits.
-                    case 15: return -1021; // EMIN, the smallest exponent E.
-                    case 16: return 1024; // EMAX, the largest exponent E = 2^10
+                switch (i) {
+                    case 9:
+                        return int.MaxValue; // the largest magnitude of integer = 2^31 - 1 = 2147483647
+                    case 14:
+                        return 53; // return Precision.DoubleWidth; // the number of base-2 digits.
+                    case 15:
+                        return -1021; // EMIN, the smallest exponent E.
+                    case 16:
+                        return 1024; // EMAX, the largest exponent E = 2^10
                 }
                 return 0;
             }
 
-            static double dsign(double a, double b)
-            {
+            static double dsign(double a, double b) {
                 // Returns the absolute value of A times the sign of B
                 double x = (a >= 0 ? a : -a);
                 return (b >= 0 ? x : -x);
             }
 
-            static double zabs(double zr, double zi)
-            {
+            static double zabs(double zr, double zi) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZABS
@@ -2584,19 +2727,20 @@ namespace MathNet.Numerics
                 //     TRUE FLOATING ZERO
                 //-----------------------------------------------------------------------
                 s = s * 1.0;
-                if (s == 0.0) goto L20;
-                if (u > v) goto L10;
+                if (s == 0.0)
+                    goto L20;
+                if (u > v)
+                    goto L10;
                 q = u / v;
                 return v * Math.Sqrt(1.0 + q * q);
-            L10:
+                L10:
                 q = v / u;
                 return u * Math.Sqrt(1.0 + q * q);
-            L20:
+                L20:
                 return 0.0;
             }
 
-            static int zdiv(double ar, double ai, double br, double bi, ref double cr, ref double ci)
-            {
+            static int zdiv(double ar, double ai, double br, double bi, ref double cr, ref double ci) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZDIV
@@ -2621,8 +2765,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            static int zexp(double ar, double ai, ref double br, ref double bi)
-            {
+            static int zexp(double ar, double ai, ref double br, ref double bi) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZEXP
@@ -2645,8 +2788,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            static int zlog(double ar, double ai, ref double br, ref double bi, ref int ierr)
-            {
+            static int zlog(double ar, double ai, ref double br, ref double bi, ref int ierr) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZLOG
@@ -2664,41 +2806,48 @@ namespace MathNet.Numerics
                 double zm, dtheta;
 
                 ierr = 0;
-                if (ar == 0.0) goto L10;
-                if (ai == 0.0) goto L20;
+                if (ar == 0.0)
+                    goto L10;
+                if (ai == 0.0)
+                    goto L20;
                 dtheta = Math.Atan(ai / ar);
-                if (dtheta <= 0.0) goto L40;
-                if (ar < 0.0) dtheta = dtheta - dpi;
+                if (dtheta <= 0.0)
+                    goto L40;
+                if (ar < 0.0)
+                    dtheta = dtheta - dpi;
                 goto L50;
-            L10:
-                if (ai == 0.0) goto L60;
+                L10:
+                if (ai == 0.0)
+                    goto L60;
                 bi = dhpi;
                 br = Math.Log(Math.Abs(ai));
-                if (ai < 0.0) bi = -bi;
+                if (ai < 0.0)
+                    bi = -bi;
                 return 0;
-            L20:
-                if (ar > 0.0) goto L30;
+                L20:
+                if (ar > 0.0)
+                    goto L30;
                 br = Math.Log(Math.Abs(ar));
                 bi = dpi;
                 return 0;
-            L30:
+                L30:
                 br = Math.Log(ar);
                 bi = 0.0;
                 return 0;
-            L40:
-                if (ar < 0.0) dtheta = dtheta + dpi;
-            L50:
+                L40:
+                if (ar < 0.0)
+                    dtheta = dtheta + dpi;
+                L50:
                 zm = zabs(ar, ai);
                 br = Math.Log(zm);
                 bi = dtheta;
                 return 0;
-            L60:
+                L60:
                 ierr = 1;
                 return 0;
             }
 
-            static int zmlt(double ar, double ai, double br, double bi, ref double cr, ref double ci)
-            {
+            static int zmlt(double ar, double ai, double br, double bi, ref double cr, ref double ci) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZMLT
@@ -2720,8 +2869,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            static int zsqrt(double ar, double ai, ref double br, ref double bi)
-            {
+            static int zsqrt(double ar, double ai, ref double br, ref double bi) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZSQRT
@@ -2740,39 +2888,47 @@ namespace MathNet.Numerics
 
                 zm = zabs(ar, ai);
                 zm = Math.Sqrt(zm);
-                if (ar == 0.0) goto L10;
-                if (ai == 0.0) goto L20;
+                if (ar == 0.0)
+                    goto L10;
+                if (ai == 0.0)
+                    goto L20;
                 dtheta = Math.Atan(ai / ar);
-                if (dtheta <= 0.0) goto L40;
-                if (ar < 0.0) dtheta = dtheta - dpi;
+                if (dtheta <= 0.0)
+                    goto L40;
+                if (ar < 0.0)
+                    dtheta = dtheta - dpi;
                 goto L50;
-            L10:
-                if (ai > 0.0) goto L60;
-                if (ai < 0.0) goto L70;
+                L10:
+                if (ai > 0.0)
+                    goto L60;
+                if (ai < 0.0)
+                    goto L70;
                 br = 0.0;
                 bi = 0.0;
                 return 0;
-            L20:
-                if (ar > 0.0) goto L30;
+                L20:
+                if (ar > 0.0)
+                    goto L30;
                 br = 0.0;
                 bi = Math.Sqrt(Math.Abs(ar));
                 return 0;
-            L30:
+                L30:
                 br = Math.Sqrt(ar);
                 bi = 0.0;
                 return 0;
-            L40:
-                if (ar < 0.0) dtheta = dtheta + dpi;
-            L50:
+                L40:
+                if (ar < 0.0)
+                    dtheta = dtheta + dpi;
+                L50:
                 dtheta = dtheta * 0.5;
                 br = zm * Math.Cos(dtheta);
                 bi = zm * Math.Sin(dtheta);
                 return 0;
-            L60:
+                L60:
                 br = zm * drt;
                 bi = zm * drt;
                 return 0;
-            L70:
+                L70:
                 br = zm * drt;
                 bi = -zm * drt;
                 return 0;
@@ -2782,8 +2938,7 @@ namespace MathNet.Numerics
 
             #region Subroutines to calculate the Bessel functions
 
-            static int zacai(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim)
-            {
+            static int zacai(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZACAI
@@ -2820,43 +2975,50 @@ namespace MathNet.Numerics
                 az = zabs(zr, zi);
                 nn = n;
                 dfnu = fnu + (double)(n - 1);
-                if (az <= 2.0) goto L10;
-                if (az * az * 0.25 > dfnu + 1.0) goto L20;
-            L10:
+                if (az <= 2.0)
+                    goto L10;
+                if (az * az * 0.25 > dfnu + 1.0)
+                    goto L20;
+                L10:
                 // -----------------------------------------------------------------------
                 //     POWER SERIES FOR THE I FUNCTION
                 // -----------------------------------------------------------------------
                 zseri(znr, zni, fnu, kode, nn, yr, yi, ref nw, tol, elim, alim);
                 goto L40;
-            L20:
-                if (az < rl) goto L30;
+                L20:
+                if (az < rl)
+                    goto L30;
                 // -----------------------------------------------------------------------
                 //     ASYMPTOTIC EXPANSION FOR LARGE Z FOR THE I FUNCTION
                 // -----------------------------------------------------------------------
                 zasyi(znr, zni, fnu, kode, nn, yr, yi, ref nw, rl, tol, elim, alim);
-                if (nw < 0) goto L80;
+                if (nw < 0)
+                    goto L80;
                 goto L40;
-            L30:
+                L30:
                 // -----------------------------------------------------------------------
                 //     MILLER ALGORITHM NORMALIZED BY THE SERIES FOR THE I FUNCTION
                 // -----------------------------------------------------------------------
                 zmlri(znr, zni, fnu, kode, nn, yr, yi, ref nw, tol);
-                if (nw < 0) goto L80;
-            L40:
+                if (nw < 0)
+                    goto L80;
+                L40:
                 // -----------------------------------------------------------------------
                 //     ANALYTIC CONTINUATION TO THE LEFT HALF PLANE FOR THE K FUNCTION
                 // -----------------------------------------------------------------------
                 zbknu(znr, zni, fnu, kode, 1, cyr, cyi, ref nw, tol, elim, alim);
-                if (nw != 0) goto L80;
+                if (nw != 0)
+                    goto L80;
                 fmr = (double)mr;
                 sgn = -dsign(pi, fmr);
                 csgnr = 0.0;
                 csgni = sgn;
-                if (kode == 1) goto L50;
+                if (kode == 1)
+                    goto L50;
                 yy = -zni;
                 csgnr = -csgni * Math.Sin(yy);
                 csgni = csgni * Math.Cos(yy);
-            L50:
+                L50:
                 // -----------------------------------------------------------------------
                 //     CALCULATE CSPN=EXP(FNU*PI*I) TO MINIMIZE LOSSES OF SIGNIFICANCE
                 //     WHEN FNU IS LARGE
@@ -2865,31 +3027,33 @@ namespace MathNet.Numerics
                 arg = (fnu - (double)inu) * sgn;
                 cspnr = Math.Cos(arg);
                 cspni = Math.Sin(arg);
-                if (inu % 2 == 0) goto L60;
+                if (inu % 2 == 0)
+                    goto L60;
                 cspnr = -cspnr;
                 cspni = -cspni;
-            L60:
+                L60:
                 c1r = cyr[0];
                 c1i = cyi[0];
                 c2r = yr[0];
                 c2i = yi[0];
-                if (kode == 1) goto L70;
+                if (kode == 1)
+                    goto L70;
                 iuf = 0;
                 ascle = d1mach(1) * 1.0E3 / tol;
                 zs1s2(znr, zni, ref c1r, ref c1i, ref c2r, ref c2i, ref nw, ascle, alim, ref iuf);
                 nz += nw;
-            L70:
+                L70:
                 yr[0] = cspnr * c1r - cspni * c1i + csgnr * c2r - csgni * c2i;
                 yi[0] = cspnr * c1i + cspni * c1r + csgnr * c2i + csgni * c2r;
                 return 0;
-            L80:
+                L80:
                 nz = -1;
-                if (nw == -2) nz = -2;
+                if (nw == -2)
+                    nz = -2;
                 return 0;
             }
 
-            static int zacon(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double fnul, double tol, double elim, double alim)
-            {
+            static int zacon(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double fnul, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZACON
@@ -2931,25 +3095,28 @@ namespace MathNet.Numerics
                 zni = -zi;
                 nn = n;
                 zbinu(znr, zni, fnu, kode, nn, yr, yi, ref nw, rl, fnul, tol, elim, alim);
-                if (nw < 0) goto L90;
+                if (nw < 0)
+                    goto L90;
                 // -----------------------------------------------------------------------
                 //     ANALYTIC CONTINUATION TO THE LEFT HALF PLANE FOR THE K FUNCTION
                 // -----------------------------------------------------------------------
                 nn = Math.Min(2, n);
                 zbknu(znr, zni, fnu, kode, nn, cyr, cyi, ref nw, tol, elim, alim);
-                if (nw != 0) goto L90;
+                if (nw != 0)
+                    goto L90;
                 s1r = cyr[0];
                 s1i = cyi[0];
                 fmr = (double)mr;
                 sgn = -dsign(pi, fmr);
                 csgnr = zeror;
                 csgni = sgn;
-                if (kode == 1) goto L10;
+                if (kode == 1)
+                    goto L10;
                 yy = -zni;
                 cpn = Math.Cos(yy);
                 spn = Math.Sin(yy);
                 zmlt(csgnr, csgni, cpn, spn, ref csgnr, ref csgni);
-            L10:
+                L10:
                 // -----------------------------------------------------------------------
                 //     CALCULATE CSPN=EXP(FNU*PI*I) TO MINIMIZE LOSSES OF SIGNIFICANCE
                 //     WHEN FNU IS LARGE
@@ -2960,27 +3127,30 @@ namespace MathNet.Numerics
                 spn = Math.Sin(arg);
                 cspnr = cpn;
                 cspni = spn;
-                if (inu % 2 == 0) goto L20;
+                if (inu % 2 == 0)
+                    goto L20;
                 cspnr = -cspnr;
                 cspni = -cspni;
-            L20:
+                L20:
                 iuf = 0;
                 c1r = s1r;
                 c1i = s1i;
                 c2r = yr[0];
                 c2i = yi[0];
                 ascle = 1.0E3 * d1mach(1) / tol;
-                if (kode == 1) goto L30;
+                if (kode == 1)
+                    goto L30;
                 zs1s2(znr, zni, ref c1r, ref c1i, ref c2r, ref c2i, ref nw, ascle, alim, ref iuf);
                 nz += nw;
                 sc1r = c1r;
                 sc1i = c1i;
-            L30:
+                L30:
                 zmlt(cspnr, cspni, c1r, c1i, ref str, ref sti);
                 zmlt(csgnr, csgni, c2r, c2i, ref ptr, ref pti);
                 yr[0] = str + ptr;
                 yi[0] = sti + pti;
-                if (n == 1) return 0;
+                if (n == 1)
+                    return 0;
                 cspnr = -cspnr;
                 cspni = -cspni;
                 s2r = cyr[1];
@@ -2989,17 +3159,19 @@ namespace MathNet.Numerics
                 c1i = s2i;
                 c2r = yr[1];
                 c2i = yi[1];
-                if (kode == 1) goto L40;
+                if (kode == 1)
+                    goto L40;
                 zs1s2(znr, zni, ref c1r, ref c1i, ref c2r, ref c2i, ref nw, ascle, alim, ref iuf);
                 nz += nw;
                 sc2r = c1r;
                 sc2i = c1i;
-            L40:
+                L40:
                 zmlt(cspnr, cspni, c1r, c1i, ref str, ref sti);
                 zmlt(csgnr, csgni, c2r, c2i, ref ptr, ref pti);
                 yr[1] = str + ptr;
                 yi[1] = sti + pti;
-                if (n == 2) return 0;
+                if (n == 2)
+                    return 0;
                 cspnr = -cspnr;
                 cspni = -cspni;
                 azn = zabs(znr, zni);
@@ -3027,21 +3199,22 @@ namespace MathNet.Numerics
                 bry[2] = d1mach(2);
                 as2 = zabs(s2r, s2i);
                 kflag = 2;
-                if (as2 > bry[0]) goto L50;
+                if (as2 > bry[0])
+                    goto L50;
                 kflag = 1;
                 goto L60;
-            L50:
-                if (as2 < bry[1]) goto L60;
+                L50:
+                if (as2 < bry[1])
+                    goto L60;
                 kflag = 3;
-            L60:
+                L60:
                 bscle = bry[kflag - 1];
                 s1r *= cssr[kflag - 1];
                 s1i *= cssr[kflag - 1];
                 s2r *= cssr[kflag - 1];
                 s2i *= cssr[kflag - 1];
                 csr = csrr[kflag - 1];
-                for (i = 3; i <= n; i++)
-                {
+                for (i = 3; i <= n; i++) {
                     str = s2r;
                     sti = s2i;
                     s2r = ckr * str - cki * sti + s1r;
@@ -3054,15 +3227,18 @@ namespace MathNet.Numerics
                     sti = c1i;
                     c2r = yr[i - 1];
                     c2i = yi[i - 1];
-                    if (kode == 1) goto L70;
-                    if (iuf < 0) goto L70;
+                    if (kode == 1)
+                        goto L70;
+                    if (iuf < 0)
+                        goto L70;
                     zs1s2(znr, zni, ref c1r, ref c1i, ref c2r, ref c2i, ref nw, ascle, alim, ref iuf);
                     nz += nw;
                     sc1r = sc2r;
                     sc1i = sc2i;
                     sc2r = c1r;
                     sc2i = c1i;
-                    if (iuf != 3) goto L70;
+                    if (iuf != 3)
+                        goto L70;
                     iuf = -4;
                     s1r = sc1r * cssr[kflag - 1];
                     s1i = sc1i * cssr[kflag - 1];
@@ -3070,7 +3246,7 @@ namespace MathNet.Numerics
                     s2i = sc2i * cssr[kflag - 1];
                     str = sc2r;
                     sti = sc2i;
-            L70:
+                    L70:
                     ptr = cspnr * c1r - cspni * c1i;
                     pti = cspnr * c1i + cspni * c1r;
                     yr[i - 1] = ptr + csgnr * c2r - csgni * c2i;
@@ -3079,11 +3255,13 @@ namespace MathNet.Numerics
                     cki += rzi;
                     cspnr = -cspnr;
                     cspni = -cspni;
-                    if (kflag >= 3) goto L80;
+                    if (kflag >= 3)
+                        goto L80;
                     ptr = Math.Abs(c1r);
                     pti = Math.Abs(c1i);
                     c1m = Math.Max(ptr, pti);
-                    if (c1m <= bscle) goto L80;
+                    if (c1m <= bscle)
+                        goto L80;
                     kflag++;
                     bscle = bry[kflag - 1];
                     s1r *= csr;
@@ -3095,18 +3273,18 @@ namespace MathNet.Numerics
                     s2r *= cssr[kflag - 1];
                     s2i *= cssr[kflag - 1];
                     csr = csrr[kflag - 1];
-            L80:
+                    L80:
                     ;
                 }
                 return 0;
-            L90:
+                L90:
                 nz = -1;
-                if (nw == -2) nz = -2;
+                if (nw == -2)
+                    nz = -2;
                 return 0;
             }
 
-            static int zasyi(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim)
-            {
+            static int zasyi(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZASYI
@@ -3153,20 +3331,24 @@ namespace MathNet.Numerics
                 zsqrt(ak1r, ak1i, ref ak1r, ref ak1i);
                 czr = zr;
                 czi = zi;
-                if (kode != 2) goto L10;
+                if (kode != 2)
+                    goto L10;
                 czr = zeror;
                 czi = zi;
-            L10:
-                if (Math.Abs(czr) > elim) goto L100;
+                L10:
+                if (Math.Abs(czr) > elim)
+                    goto L100;
                 dnu2 = dfnu + dfnu;
                 koded = 1;
-                if (Math.Abs(czr) > alim && n > 2) goto L20;
+                if (Math.Abs(czr) > alim && n > 2)
+                    goto L20;
                 koded = 0;
                 zexp(czr, czi, ref str, ref sti);
                 zmlt(ak1r, ak1i, str, sti, ref ak1r, ref ak1i);
-            L20:
+                L20:
                 fdn = 0.0;
-                if (dnu2 > rtr1) fdn = dnu2 * dnu2;
+                if (dnu2 > rtr1)
+                    fdn = dnu2 * dnu2;
                 ezr = zr * 8.0;
                 ezi = zi * 8.0;
                 // -----------------------------------------------------------------------
@@ -3179,7 +3361,8 @@ namespace MathNet.Numerics
                 jl = (int)(rl + rl) + 2;
                 p1r = zeror;
                 p1i = zeroi;
-                if (zi == 0.0) goto L30;
+                if (zi == 0.0)
+                    goto L30;
                 // -----------------------------------------------------------------------
                 //     CALCULATE EXP(PI*(0.5+FNU+N-IL)*I) TO MINIMIZE LOSSES OF
                 //     SIGNIFICANCE WHEN FNU OR N IS LARGE
@@ -3189,15 +3372,16 @@ namespace MathNet.Numerics
                 inu = inu + n - il;
                 ak = -Math.Sin(arg);
                 bk = Math.Cos(arg);
-                if (zi < 0.0) bk = -bk;
+                if (zi < 0.0)
+                    bk = -bk;
                 p1r = ak;
                 p1i = bk;
-                if (inu % 2 == 0) goto L30;
+                if (inu % 2 == 0)
+                    goto L30;
                 p1r = -p1r;
                 p1i = -p1i;
-            L30:
-                for (k = 1; k <= il; k++)
-                {
+                L30:
+                for (k = 1; k <= il; k++) {
                     sqk = fdn - 1.0;
                     atol = s * Math.Abs(sqk);
                     sgn = 1.0;
@@ -3212,8 +3396,7 @@ namespace MathNet.Numerics
                     bb = aez;
                     dkr = ezr;
                     dki = ezi;
-                    for (j = 1; j <= jl; j++)
-                    {
+                    for (j = 1; j <= jl; j++) {
                         zdiv(ckr, cki, dkr, dki, ref str, ref sti);
                         ckr = str * sqk;
                         cki = sti * sqk;
@@ -3228,13 +3411,15 @@ namespace MathNet.Numerics
                         bb += aez;
                         ak += 8.0;
                         sqk -= ak;
-                        if (aa <= atol) goto L50;
+                        if (aa <= atol)
+                            goto L50;
                     }
                     goto L110;
-            L50:
+                    L50:
                     s2r = cs1r;
                     s2i = cs1i;
-                    if (zr + zr >= elim) goto L60;
+                    if (zr + zr >= elim)
+                        goto L60;
                     tzr = zr + zr;
                     tzi = zi + zi;
                     zexp(-tzr, -tzi, ref str, ref sti);
@@ -3242,7 +3427,7 @@ namespace MathNet.Numerics
                     zmlt(str, sti, cs2r, cs2i, ref str, ref sti);
                     s2r += str;
                     s2i += sti;
-            L60:
+                    L60:
                     fdn = fdn + dfnu * 8.0 + 4.0;
                     p1r = -p1r;
                     p1i = -p1i;
@@ -3250,7 +3435,8 @@ namespace MathNet.Numerics
                     yr[m - 1] = s2r * ak1r - s2i * ak1i;
                     yi[m - 1] = s2r * ak1i + s2i * ak1r;
                 }
-                if (n <= 2) return 0;
+                if (n <= 2)
+                    return 0;
                 nn = n;
                 k = nn - 2;
                 ak = (double)k;
@@ -3259,32 +3445,30 @@ namespace MathNet.Numerics
                 rzr = (str + str) * raz;
                 rzi = (sti + sti) * raz;
                 ib = 3;
-                for (i = ib; i <= nn; i++)
-                {
+                for (i = ib; i <= nn; i++) {
                     yr[k - 1] = (ak + fnu) * (rzr * yr[k] - rzi * yi[k]) + yr[k + 1];
                     yi[k - 1] = (ak + fnu) * (rzr * yi[k] + rzi * yr[k]) + yi[k + 1];
                     ak = ak - 1.0;
                     k--;
                 }
-                if (koded == 0) return 0;
+                if (koded == 0)
+                    return 0;
                 zexp(czr, czi, ref ckr, ref cki);
-                for (i = 1; i <= nn; i++)
-                {
+                for (i = 1; i <= nn; i++) {
                     str = yr[i - 1] * ckr - yi[i - 1] * cki;
                     yi[i - 1] = yr[i] * cki + yi[i - 1] * ckr;
                     yr[i - 1] = str;
                 }
                 return 0;
-            L100:
+                L100:
                 nz = -1;
                 return 0;
-            L110:
+                L110:
                 nz = -2;
                 return 0;
             }
 
-            static int zbinu(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, double rl, double fnul, double tol, double elim, double alim)
-            {
+            static int zbinu(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, double rl, double fnul, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBINU
@@ -3310,9 +3494,11 @@ namespace MathNet.Numerics
                 az = zabs(zr, zi);
                 nn = n;
                 dfnu = fnu + (double)(n - 1);
-                if (az <= 2.0) goto L10;
-                if (az * az * 0.25 > dfnu + 1.0) goto L20;
-            L10:
+                if (az <= 2.0)
+                    goto L10;
+                if (az * az * 0.25 > dfnu + 1.0)
+                    goto L20;
+                L10:
                 // -----------------------------------------------------------------------
                 //     POWER SERIES
                 // -----------------------------------------------------------------------
@@ -3320,44 +3506,57 @@ namespace MathNet.Numerics
                 inw = Math.Abs(nw);
                 nz = nz + inw;
                 nn = nn - inw;
-                if (nn == 0) return 0;
-                if (nw >= 0) goto L120;
+                if (nn == 0)
+                    return 0;
+                if (nw >= 0)
+                    goto L120;
                 dfnu = fnu + (double)(nn - 1);
-            L20:
-                if (az < rl) goto L40;
-                if (dfnu <= 1.0) goto L30;
-                if (az + az < dfnu * dfnu) goto L50;
+                L20:
+                if (az < rl)
+                    goto L40;
+                if (dfnu <= 1.0)
+                    goto L30;
+                if (az + az < dfnu * dfnu)
+                    goto L50;
                 // -----------------------------------------------------------------------
                 //     ASYMPTOTIC EXPANSION FOR LARGE Z
                 // -----------------------------------------------------------------------
-            L30:
+                L30:
                 zasyi(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, rl, tol, elim, alim);
-                if (nw < 0) goto L130;
+                if (nw < 0)
+                    goto L130;
                 goto L120;
-            L40:
-                if (dfnu <= 1.0) goto L70;
-            L50:
+                L40:
+                if (dfnu <= 1.0)
+                    goto L70;
+                L50:
                 // -----------------------------------------------------------------------
                 //     OVERFLOW AND UNDERFLOW TEST ON I SEQUENCE FOR MILLER ALGORITHM
                 // -----------------------------------------------------------------------
                 zuoik(zr, zi, fnu, kode, 1, nn, cyr, cyi, ref nw, tol, elim, alim);
-                if (nw < 0) goto L130;
+                if (nw < 0)
+                    goto L130;
                 nz = nz + nw;
                 nn = nn - nw;
-                if (nn == 0) return 0;
+                if (nn == 0)
+                    return 0;
                 dfnu = fnu + (double)(nn - 1);
-                if (dfnu > fnul) goto L110;
-                if (az > fnul) goto L110;
-            L60:
-                if (az > rl) goto L80;
-            L70:
+                if (dfnu > fnul)
+                    goto L110;
+                if (az > fnul)
+                    goto L110;
+                L60:
+                if (az > rl)
+                    goto L80;
+                L70:
                 // -----------------------------------------------------------------------
                 //     MILLER ALGORITHM NORMALIZED BY THE SERIES
                 // -----------------------------------------------------------------------
                 zmlri(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, tol);
-                if (nw < 0) goto L130;
+                if (nw < 0)
+                    goto L130;
                 goto L120;
-            L80:
+                L80:
                 // -----------------------------------------------------------------------
                 //     MILLER ALGORITHM NORMALIZED BY THE WRONSKIAN
                 // -----------------------------------------------------------------------
@@ -3365,41 +3564,45 @@ namespace MathNet.Numerics
                 //     OVERFLOW TEST ON K FUNCTIONS USED IN WRONSKIAN
                 // -----------------------------------------------------------------------
                 zuoik(zr, zi, fnu, kode, 2, 2, cwr, cwi, ref nw, tol, elim, alim);
-                if (nw >= 0) goto L100;
+                if (nw >= 0)
+                    goto L100;
                 nz = nn;
-                for (i = 1; i <= nn; i++)
-                {
+                for (i = 1; i <= nn; i++) {
                     cyr[i - 1] = zeror;
                     cyi[i - 1] = zeroi;
                 }
                 return 0;
-            L100:
-                if (nw > 0) goto L130;
+                L100:
+                if (nw > 0)
+                    goto L130;
                 zwrsk(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, cwr, cwi, tol, elim, alim);
-                if (nw < 0) goto L130;
+                if (nw < 0)
+                    goto L130;
                 goto L120;
-            L110:
+                L110:
                 // -----------------------------------------------------------------------
                 //     INCREMENT FNU+NN-1 UP TO FNUL, COMPUTE AND RECUR BACKWARD
                 // -----------------------------------------------------------------------
                 nui = (int)(fnul - dfnu) + 1;
                 nui = Math.Max(nui, 0);
                 zbuni(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, nui, ref nlast, fnul, tol, elim, alim);
-                if (nw < 0) goto L130;
+                if (nw < 0)
+                    goto L130;
                 nz = nz + nw;
-                if (nlast == 0) goto L120;
+                if (nlast == 0)
+                    goto L120;
                 nn = nlast;
                 goto L60;
-            L120:
+                L120:
                 return 0;
-            L130:
+                L130:
                 nz = -1;
-                if (nw == -2) nz = -2;
+                if (nw == -2)
+                    nz = -2;
                 return 0;
             }
 
-            static int zbknu(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
-            {
+            static int zbknu(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBKNU
@@ -3477,10 +3680,13 @@ namespace MathNet.Numerics
                 rzi = (sti + sti) * rcaz;
                 inu = (int)(fnu + 0.5);
                 dnu = fnu - (double)inu;
-                if (Math.Abs(dnu) == 0.5) goto L110;
+                if (Math.Abs(dnu) == 0.5)
+                    goto L110;
                 dnu2 = 0.0;
-                if (Math.Abs(dnu) > tol) dnu2 = dnu * dnu;
-                if (caz > r1) goto L110;
+                if (Math.Abs(dnu) > tol)
+                    dnu2 = dnu * dnu;
+                if (caz > r1)
+                    goto L110;
                 //-----------------------------------------------------------------------
                 //    SERIES FOR ABS(Z).LE.R1
                 //-----------------------------------------------------------------------
@@ -3489,37 +3695,39 @@ namespace MathNet.Numerics
                 fmur = smur * dnu;
                 fmui = smui * dnu;
                 zshch(fmur, fmui, ref cshr, ref cshi, ref cchr, ref cchi);
-                if (dnu == 0.0) goto L10;
+                if (dnu == 0.0)
+                    goto L10;
                 fc = dnu * dpi;
                 fc = fc / Math.Sin(fc);
                 smur = cshr / dnu;
                 smui = cshi / dnu;
-            L10:
+                L10:
                 a2 = 1.0 + dnu;
                 //-----------------------------------------------------------------------
                 //    GAM(1-Z)*GAM(1+Z)=PI*Z/SIN(PI*Z), T1=1/GAM(1-DNU), T2=1/GAM(1+DNU)
                 //-----------------------------------------------------------------------
                 t2 = Math.Exp(-dgamln(a2, ref idum));
                 t1 = 1.0 / (t2 * fc);
-                if (Math.Abs(dnu) > 0.1) goto L40;
+                if (Math.Abs(dnu) > 0.1)
+                    goto L40;
                 //-----------------------------------------------------------------------
                 //    SERIES FOR F0 TO RESOLVE INDETERMINACY FOR SMALL ABS(DNU)
                 //-----------------------------------------------------------------------
                 ak = 1.0;
                 s = cc[0];
-                for (k = 2; k <= 8; k++)
-                {
+                for (k = 2; k <= 8; k++) {
                     ak = ak * dnu2;
                     tm = cc[k - 1] * ak;
                     s = s + tm;
-                    if (Math.Abs(tm) < tol) goto L30;
+                    if (Math.Abs(tm) < tol)
+                        goto L30;
                 }
-            L30:
+                L30:
                 g1 = -s;
                 goto L50;
-            L40:
+                L40:
                 g1 = (t1 - t2) / (dnu + dnu);
-            L50:
+                L50:
                 g2 = (t1 + t2) * 0.5;
                 fr = fc * (cchr * g1 + smur * g2);
                 fi = fc * (cchi * g1 + smui * g2);
@@ -3538,16 +3746,18 @@ namespace MathNet.Numerics
                 ckr = coner;
                 cki = conei;
                 bk = 1.0 - dnu2;
-                if (inu > 0 || n > 1) goto L80;
+                if (inu > 0 || n > 1)
+                    goto L80;
                 //-----------------------------------------------------------------------
                 //    GENERATE K(FNU,Z), 0.0D0 .LE. FNU .LT. 0.5D0 AND N=1
                 //-----------------------------------------------------------------------
-                if (caz < tol) goto L70;
+                if (caz < tol)
+                    goto L70;
                 zmlt(zr, zi, zr, zi, ref czr, ref czi);
                 czr = 0.25 * czr;
                 czi = 0.25 * czi;
                 t1 = 0.25 * caz * caz;
-            L60:
+                L60:
                 fr = (fr * ak + pr + qr) / bk;
                 fi = (fi * ak + pi + qi) / bk;
                 str = 1.0 / (ak - dnu);
@@ -3565,24 +3775,27 @@ namespace MathNet.Numerics
                 a1 = a1 * t1 * rak;
                 bk = bk + ak + ak + 1.0;
                 ak = ak + 1.0;
-                if (a1 > tol) goto L60;
-            L70:
+                if (a1 > tol)
+                    goto L60;
+                L70:
                 yr[0] = s1r;
                 yi[0] = s1i;
-                if (koded == 1) return 0;
+                if (koded == 1)
+                    return 0;
                 zexp(zr, zi, ref str, ref sti);
                 zmlt(s1r, s1i, str, sti, ref yr[0], ref yi[0]);
                 return 0;
                 //-----------------------------------------------------------------------
                 //    GENERATE K(DNU,Z) AND K(DNU+1,Z) FOR FORWARD RECURRENCE
                 //-----------------------------------------------------------------------
-            L80:
-                if (caz < tol) goto L100;
+                L80:
+                if (caz < tol)
+                    goto L100;
                 zmlt(zr, zi, zr, zi, ref czr, ref czi);
                 czr = 0.25 * czr;
                 czi = 0.25 * czi;
                 t1 = 0.25 * caz * caz;
-            L90:
+                L90:
                 fr = (fr * ak + pr + qr) / bk;
                 fi = (fi * ak + pi + qi) / bk;
                 str = 1.0 / (ak - dnu);
@@ -3604,19 +3817,22 @@ namespace MathNet.Numerics
                 a1 = a1 * t1 * rak;
                 bk = bk + ak + ak + 1.0;
                 ak = ak + 1.0;
-                if (a1 > tol) goto L90;
-            L100:
+                if (a1 > tol)
+                    goto L90;
+                L100:
                 kflag = 2;
                 a1 = fnu + 1.0;
                 ak = a1 * Math.Abs(smur);
-                if (ak > alim) kflag = 3;
+                if (ak > alim)
+                    kflag = 3;
                 str = cssr[kflag - 1];
                 p2r = s2r * str;
                 p2i = s2i * str;
                 zmlt(p2r, p2i, rzr, rzi, ref s2r, ref s2i);
                 s1r = s1r * str;
                 s1i = s1i * str;
-                if (koded == 1) goto L210;
+                if (koded == 1)
+                    goto L210;
                 zexp(zr, zi, ref fr, ref fi);
                 zmlt(s1r, s1i, fr, fi, ref s1r, ref s1i);
                 zmlt(s2r, s2i, fr, fi, ref s2r, ref s2i);
@@ -3627,27 +3843,32 @@ namespace MathNet.Numerics
                 //    KODED=2 AND A TEST FOR ON SCALE VALUES IS MADE DURING FORWARD
                 //    RECURSION
                 //-----------------------------------------------------------------------
-            L110:
+                L110:
                 zsqrt(zr, zi, ref str, ref sti);
                 zdiv(rthpi, czeroi, str, sti, ref coefr, ref coefi);
                 kflag = 2;
-                if (koded == 2) goto L120;
-                if (zr > alim) goto L290;
+                if (koded == 2)
+                    goto L120;
+                if (zr > alim)
+                    goto L290;
                 //    BLANK LINE
                 str = Math.Exp(-zr) * cssr[kflag - 1];
                 sti = -str * Math.Sin(zi);
                 str = str * Math.Cos(zi);
                 zmlt(coefr, coefi, str, sti, ref coefr, ref coefi);
-            L120:
-                if (Math.Abs(dnu) == 0.5) goto L300;
+                L120:
+                if (Math.Abs(dnu) == 0.5)
+                    goto L300;
                 //-----------------------------------------------------------------------
                 //    MILLER ALGORITHM FOR ABS(Z).GT.R1
                 //-----------------------------------------------------------------------
                 ak = Math.Cos(dpi * dnu);
                 ak = Math.Abs(ak);
-                if (ak == czeror) goto L300;
+                if (ak == czeror)
+                    goto L300;
                 fhs = Math.Abs(0.25 - dnu2);
-                if (fhs == czeror) goto L300;
+                if (fhs == czeror)
+                    goto L300;
                 //-----------------------------------------------------------------------
                 //    COMPUTE R2=F(E). IF ABS(Z).GE.R2, USE FORWARD RECURRENCE TO
                 //    DETERMINE THE BACKWARD INDEX K. R2=F(E) IS A STRAIGHT LINE ON
@@ -3659,26 +3880,28 @@ namespace MathNet.Numerics
                 t1 = Math.Max(t1, 12.0);
                 t1 = Math.Min(t1, 60.0);
                 t2 = tth * t1 - 6.0;
-                if (zr != 0.0) goto L130;
+                if (zr != 0.0)
+                    goto L130;
                 t1 = hpi;
                 goto L140;
-            L130:
+                L130:
                 t1 = Math.Atan(zi / zr);
                 t1 = Math.Abs(t1);
-            L140:
-                if (t2 > caz) goto L170;
+                L140:
+                if (t2 > caz)
+                    goto L170;
                 //-----------------------------------------------------------------------
                 //    FORWARD RECURRENCE LOOP WHEN ABS(Z).GE.R2
                 //-----------------------------------------------------------------------
                 etest = ak / (dpi * caz * tol);
                 fk = coner;
-                if (etest < coner) goto L180;
+                if (etest < coner)
+                    goto L180;
                 fks = ctwor;
                 ckr = caz + caz + ctwor;
                 p1r = czeror;
                 p2r = coner;
-                for (i = 1; i <= kmax; i++)
-                {
+                for (i = 1; i <= kmax; i++) {
                     ak = fhs / fks;
                     cbr = ckr / (fk + coner);
                     ptr = p2r;
@@ -3689,14 +3912,15 @@ namespace MathNet.Numerics
                     fhs = fhs + fk + fk;
                     fk = fk + coner;
                     str = Math.Abs(p2r) * fk;
-                    if (etest < str) goto L160;
+                    if (etest < str)
+                        goto L160;
                 }
                 goto L310;
-            L160:
+                L160:
                 fk = fk + spi * t1 * Math.Sqrt(t2 / caz);
                 fhs = Math.Abs(0.25 - dnu2);
                 goto L180;
-            L170:
+                L170:
                 //-----------------------------------------------------------------------
                 //    COMPUTE BACKWARD INDEX K FOR ABS(Z).LT.R2
                 //-----------------------------------------------------------------------
@@ -3706,7 +3930,7 @@ namespace MathNet.Numerics
                 bb = 14.7 * t1 / (28.0 + caz);
                 ak = (Math.Log(ak) + caz * Math.Cos(aa) / (1.0 + 0.008 * caz)) / Math.Cos(bb);
                 fk = 0.12125 * ak * ak / caz + 1.5;
-            L180:
+                L180:
                 //-----------------------------------------------------------------------
                 //    BACKWARD RECURRENCE LOOP FOR MILLER ALGORITHM
                 //-----------------------------------------------------------------------
@@ -3719,8 +3943,7 @@ namespace MathNet.Numerics
                 p2i = czeroi;
                 csr = p2r;
                 csi = p2i;
-                for (i = 1; i <= k; i++)
-                {
+                for (i = 1; i <= k; i++) {
                     a1 = fks - fk;
                     ak = (fks + fk) / (a1 + fhs);
                     rak = 2.0 / (fk + coner);
@@ -3749,12 +3972,14 @@ namespace MathNet.Numerics
                 csi = -csi * ptr;
                 zmlt(coefr, coefi, s1r, s1i, ref str, ref sti);
                 zmlt(str, sti, csr, csi, ref s1r, ref s1i);
-                if (inu > 0 || n > 1) goto L200;
+                if (inu > 0 || n > 1)
+                    goto L200;
                 zdr = zr;
                 zdi = zi;
-                if (iflag == 1) goto L270;
+                if (iflag == 1)
+                    goto L270;
                 goto L240;
-            L200:
+                L200:
                 //-----------------------------------------------------------------------
                 //    COMPUTE P1/P2=(P1/ABS(P2)*CONJG(P2)/ABS(P2) FOR SCALING
                 //-----------------------------------------------------------------------
@@ -3774,28 +3999,32 @@ namespace MathNet.Numerics
                 //    FORWARD RECURSION ON THE THREE TERM RECURSION WITH RELATION WITH
                 //    SCALING NEAR EXPONENT EXTREMES ON KFLAG=1 OR KFLAG=3
                 //-----------------------------------------------------------------------
-            L210:
+                L210:
                 str = dnu + 1.0;
                 ckr = str * rzr;
                 cki = str * rzi;
-                if (n == 1) inu = inu - 1;
-                if (inu > 0) goto L220;
-                if (n > 1) goto L215;
+                if (n == 1)
+                    inu = inu - 1;
+                if (inu > 0)
+                    goto L220;
+                if (n > 1)
+                    goto L215;
                 s1r = s2r;
                 s1i = s2i;
-            L215:
+                L215:
                 zdr = zr;
                 zdi = zi;
-                if (iflag == 1) goto L270;
+                if (iflag == 1)
+                    goto L270;
                 goto L240;
-            L220:
+                L220:
                 inub = 1;
-                if (iflag == 1) goto L261;
-            L225:
+                if (iflag == 1)
+                    goto L261;
+                L225:
                 p1r = csrr[kflag - 1];
                 ascle = bry[kflag - 1];
-                for (i = inub; i <= inu; i++)
-                {
+                for (i = inub; i <= inu; i++) {
                     str = s2r;
                     sti = s2i;
                     s2r = ckr * str - cki * sti + s1r;
@@ -3804,13 +4033,15 @@ namespace MathNet.Numerics
                     s1i = sti;
                     ckr = ckr + rzr;
                     cki = cki + rzi;
-                    if (kflag >= 3) goto L230;
+                    if (kflag >= 3)
+                        goto L230;
                     p2r = s2r * p1r;
                     p2i = s2i * p1r;
                     str = Math.Abs(p2r);
                     sti = Math.Abs(p2i);
                     p2m = Math.Max(str, sti);
-                    if (p2m <= ascle) goto L230;
+                    if (p2m <= ascle)
+                        goto L230;
                     kflag = kflag + 1;
                     ascle = bry[kflag - 1];
                     s1r = s1r * p1r;
@@ -3823,28 +4054,31 @@ namespace MathNet.Numerics
                     s2r = s2r * str;
                     s2i = s2i * str;
                     p1r = csrr[kflag - 1];
-            L230:
+                    L230:
                     ;
                 }
-                if (n != 1) goto L240;
+                if (n != 1)
+                    goto L240;
                 s1r = s2r;
                 s1i = s2i;
-            L240:
+                L240:
                 str = csrr[kflag - 1];
                 yr[0] = s1r * str;
                 yi[0] = s1i * str;
-                if (n == 1) return 0;
+                if (n == 1)
+                    return 0;
                 yr[1] = s2r * str;
                 yi[1] = s2i * str;
-                if (n == 2) return 0;
+                if (n == 2)
+                    return 0;
                 kk = 2;
-            L250:
+                L250:
                 kk = kk + 1;
-                if (kk > n) return 0;
+                if (kk > n)
+                    return 0;
                 p1r = csrr[kflag - 1];
                 ascle = bry[kflag - 1];
-                for (i = kk; i <= n; i++)
-                {
+                for (i = kk; i <= n; i++) {
                     p2r = s2r;
                     p2i = s2i;
                     s2r = ckr * p2r - cki * p2i + s1r;
@@ -3857,11 +4091,13 @@ namespace MathNet.Numerics
                     p2i = s2i * p1r;
                     yr[i - 1] = p2r;
                     yi[i - 1] = p2i;
-                    if (kflag >= 3) goto L260;
+                    if (kflag >= 3)
+                        goto L260;
                     str = Math.Abs(p2r);
                     sti = Math.Abs(p2i);
                     p2m = Math.Max(str, sti);
-                    if (p2m <= ascle) goto L260;
+                    if (p2m <= ascle)
+                        goto L260;
                     kflag = kflag + 1;
                     ascle = bry[kflag - 1];
                     s1r = s1r * p1r;
@@ -3874,14 +4110,14 @@ namespace MathNet.Numerics
                     s2r = s2r * str;
                     s2i = s2i * str;
                     p1r = csrr[kflag - 1];
-            L260:
+                    L260:
                     ;
                 }
                 return 0;
                 //-----------------------------------------------------------------------
                 //    IFLAG=1 CASES, FORWARD RECURRENCE ON SCALED VALUES ON UNDERFLOW
                 //-----------------------------------------------------------------------
-            L261:
+                L261:
                 helim = 0.5 * elim;
                 elm = Math.Exp(-elim);
                 celmr = elm;
@@ -3890,8 +4126,7 @@ namespace MathNet.Numerics
                 zdi = zi;
                 ic = -1;
                 j = 2;
-                for (i = 1; i <= inu; i++)
-                {
+                for (i = 1; i <= inu; i++) {
                     str = s2r;
                     sti = s2i;
                     s2r = str * ckr - sti * cki + s1r;
@@ -3902,7 +4137,8 @@ namespace MathNet.Numerics
                     cki = cki + rzi;
                     alas = Math.Log(zabs(s2r, s2i)); //as = zabs(s2r, s2i); alas = Math.Log(as);
                     p2r = -zdr + alas;
-                    if (p2r < -elim) goto L263;
+                    if (p2r < -elim)
+                        goto L263;
                     zlog(s2r, s2i, ref str, ref sti, ref idum);
                     p2r = -zdr + str;
                     p2i = -zdi + sti;
@@ -3910,28 +4146,32 @@ namespace MathNet.Numerics
                     p1r = p2m * Math.Cos(p2i);
                     p1i = p2m * Math.Sin(p2i);
                     zuchk(p1r, p1i, ref nw, ascle, tol);
-                    if (nw != 0) goto L263;
+                    if (nw != 0)
+                        goto L263;
                     j = 3 - j;
                     cyr[j - 1] = p1r;
                     cyi[j - 1] = p1i;
-                    if (ic == i - 1) goto L264;
+                    if (ic == i - 1)
+                        goto L264;
                     ic = i;
                     goto L262;
-            L263:
-                    if (alas < helim) goto L262;
+                    L263:
+                    if (alas < helim)
+                        goto L262;
                     zdr = zdr - elim;
                     s1r = s1r * celmr;
                     s1i = s1i * celmr;
                     s2r = s2r * celmr;
                     s2i = s2i * celmr;
-            L262:
+                    L262:
                     ;
                 }
-                if (n != 1) goto L270;
+                if (n != 1)
+                    goto L270;
                 s1r = s2r;
                 s1i = s2i;
                 goto L270;
-            L264:
+                L264:
                 kflag = 1;
                 inub = i + 1;
                 s2r = cyr[j - 1];
@@ -3939,40 +4179,46 @@ namespace MathNet.Numerics
                 j = 3 - j;
                 s1r = cyr[j - 1];
                 s1i = cyi[j - 1];
-                if (inub <= inu) goto L225;
-                if (n != 1) goto L240;
+                if (inub <= inu)
+                    goto L225;
+                if (n != 1)
+                    goto L240;
                 s1r = s2r;
                 s1i = s2i;
                 goto L240;
-            L270:
+                L270:
                 yr[0] = s1r;
                 yi[0] = s1i;
-                if (n == 1) goto L280;
+                if (n == 1)
+                    goto L280;
                 yr[1] = s2r;
                 yi[1] = s2i;
-            L280:
+                L280:
                 ascle = bry[0];
                 zkscl(zdr, zdi, fnu, n, yr, yi, ref nz, rzr, rzi, ascle, tol, elim);
                 inu = n - nz;
-                if (inu <= 0) return 0;
+                if (inu <= 0)
+                    return 0;
                 kk = nz + 1;
                 s1r = yr[kk - 1];
                 s1i = yi[kk - 1];
                 yr[kk - 1] = s1r * csrr[0];
                 yi[kk - 1] = s1i * csrr[0];
-                if (inu == 1) return 0;
+                if (inu == 1)
+                    return 0;
                 kk = nz + 2;
                 s2r = yr[kk - 1];
                 s2i = yi[kk - 1];
                 yr[kk - 1] = s2r * csrr[0];
                 yi[kk - 1] = s2i * csrr[0];
-                if (inu == 2) return 0;
+                if (inu == 2)
+                    return 0;
                 t2 = fnu + (double)(kk - 1);
                 ckr = t2 * rzr;
                 cki = t2 * rzi;
                 kflag = 1;
                 goto L250;
-            L290:
+                L290:
                 //-----------------------------------------------------------------------
                 //    SCALE BY EXP(Z), IFLAG = 1 CASES
                 //-----------------------------------------------------------------------
@@ -3983,19 +4229,18 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 //    FNU=HALF ODD INTEGER CASE, DNU=-0.5
                 //-----------------------------------------------------------------------
-            L300:
+                L300:
                 s1r = coefr;
                 s1i = coefi;
                 s2r = coefr;
                 s2i = coefi;
                 goto L210;
-            L310:
+                L310:
                 nz = -2;
                 return 0;
             }
 
-            static int zbuni(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, int nui, ref int nlast, double fnul, double tol, double elim, double alim)
-            {
+            static int zbuni(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, int nui, ref int nlast, double fnul, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBUNI
@@ -4025,28 +4270,33 @@ namespace MathNet.Numerics
                 ax = Math.Abs(zr) * 1.7321;
                 ay = Math.Abs(zi);
                 iform = 1;
-                if (ay > ax) iform = 2;
-                if (nui == 0) goto L60;
+                if (ay > ax)
+                    iform = 2;
+                if (nui == 0)
+                    goto L60;
                 fnui = (double)nui;
                 dfnu = fnu + (double)(n - 1);
                 gnu = dfnu + fnui;
-                if (iform == 2) goto L10;
+                if (iform == 2)
+                    goto L10;
                 // -----------------------------------------------------------------------
                 //     ASYMPTOTIC EXPANSION FOR I(FNU,Z) FOR LARGE FNU APPLIED IN
                 //     -PI/3.LE.ARG(Z).LE.PI/3
                 // -----------------------------------------------------------------------
                 zuni1(zr, zi, gnu, kode, 2, cyr, cyi, ref nw, ref nlast, fnul, tol, elim, alim);
                 goto L20;
-            L10:
+                L10:
                 // -----------------------------------------------------------------------
                 //     ASYMPTOTIC EXPANSION FOR J(FNU,Z*EXP(M*HPI)) FOR LARGE FNU
                 //     APPLIED IN PI/3.LT.ABS(ARG(Z)).LE.PI/2 WHERE M=+I OR -I
                 //     AND HPI=PI/2
                 // -----------------------------------------------------------------------
                 zuni2(zr, zi, gnu, kode, 2, cyr, cyi, ref nw, ref nlast, fnul, tol, elim, alim);
-            L20:
-                if (nw < 0) goto L50;
-                if (nw != 0) goto L90;
+                L20:
+                if (nw < 0)
+                    goto L50;
+                if (nw != 0)
+                    goto L90;
                 str = zabs(cyr[0], cyi[0]);
                 // ----------------------------------------------------------------------
                 //     SCALE BACKWARD RECURRENCE, BRY(3) IS DEFINED BUT NEVER USED
@@ -4057,17 +4307,19 @@ namespace MathNet.Numerics
                 iflag = 2;
                 ascle = bry[1];
                 csclr = 1.0;
-                if (str > bry[0]) goto L21;
+                if (str > bry[0])
+                    goto L21;
                 iflag = 1;
                 ascle = bry[0];
                 csclr = 1.0 / tol;
                 goto L25;
-            L21:
-                if (str < bry[1]) goto L25;
+                L21:
+                if (str < bry[1])
+                    goto L25;
                 iflag = 3;
                 ascle = bry[2];
                 csclr = tol;
-            L25:
+                L25:
                 cscrr = 1.0 / csclr;
                 s1r = cyr[1] * csclr;
                 s1i = cyi[1] * csclr;
@@ -4078,8 +4330,7 @@ namespace MathNet.Numerics
                 sti = -zi * raz;
                 rzr = (str + str) * raz;
                 rzi = (sti + sti) * raz;
-                for (i = 1; i <= nui; i++)
-                {
+                for (i = 1; i <= nui; i++) {
                     str = s2r;
                     sti = s2i;
                     s2r = (dfnu + fnui) * (rzr * str - rzi * sti) + s1r;
@@ -4087,13 +4338,15 @@ namespace MathNet.Numerics
                     s1r = str;
                     s1i = sti;
                     fnui += -1.0;
-                    if (iflag >= 3) goto L30;
+                    if (iflag >= 3)
+                        goto L30;
                     str = s2r * cscrr;
                     sti = s2i * cscrr;
                     c1r = Math.Abs(str);
                     c1i = Math.Abs(sti);
                     c1m = Math.Max(c1r, c1i);
-                    if (c1m <= ascle) goto L30;
+                    if (c1m <= ascle)
+                        goto L30;
                     iflag++;
                     ascle = bry[iflag - 1];
                     s1r *= cscrr;
@@ -4106,17 +4359,17 @@ namespace MathNet.Numerics
                     s1i *= csclr;
                     s2r *= csclr;
                     s2i *= csclr;
-            L30:
+                    L30:
                     ;
                 }
                 yr[n - 1] = s2r * cscrr;
                 yi[n - 1] = s2i * cscrr;
-                if (n == 1) return 0;
+                if (n == 1)
+                    return 0;
                 nl = n - 1;
                 fnui = (double)nl;
                 k = nl;
-                for (i = 1; i <= nl; i++)
-                {
+                for (i = 1; i <= nl; i++) {
                     str = s2r;
                     sti = s2i;
                     s2r = (fnu + fnui) * (rzr * str - rzi * sti) + s1r;
@@ -4129,11 +4382,13 @@ namespace MathNet.Numerics
                     yi[k - 1] = sti;
                     fnui += -1.0;
                     k--;
-                    if (iflag >= 3) goto L40;
+                    if (iflag >= 3)
+                        goto L40;
                     c1r = Math.Abs(str);
                     c1i = Math.Abs(sti);
                     c1m = Math.Max(c1r, c1i);
-                    if (c1m <= ascle) goto L40;
+                    if (c1m <= ascle)
+                        goto L40;
                     iflag++;
                     ascle = bry[iflag - 1];
                     s1r *= cscrr;
@@ -4146,40 +4401,42 @@ namespace MathNet.Numerics
                     s1i *= csclr;
                     s2r *= csclr;
                     s2i *= csclr;
-            L40:
+                    L40:
                     ;
                 }
                 return 0;
-            L50:
+                L50:
                 nz = -1;
-                if (nw == -2) nz = -2;
+                if (nw == -2)
+                    nz = -2;
                 return 0;
-            L60:
-                if (iform == 2) goto L70;
+                L60:
+                if (iform == 2)
+                    goto L70;
                 // -----------------------------------------------------------------------
                 //     ASYMPTOTIC EXPANSION FOR I(FNU,Z) FOR LARGE FNU APPLIED IN
                 //     -PI/3.LE.ARG(Z).LE.PI/3
                 // -----------------------------------------------------------------------
                 zuni1(zr, zi, fnu, kode, n, yr, yi, ref nw, ref nlast, fnul, tol, elim, alim);
                 goto L80;
-            L70:
+                L70:
                 // -----------------------------------------------------------------------
                 //     ASYMPTOTIC EXPANSION FOR J(FNU,Z*EXP(M*HPI)) FOR LARGE FNU
                 //     APPLIED IN PI/3.LT.ABS(ARG(Z)).LE.PI/2 WHERE M=+I OR -I
                 //     AND HPI=PI/2
                 // -----------------------------------------------------------------------
                 zuni2(zr, zi, fnu, kode, n, yr, yi, ref nw, ref nlast, fnul, tol, elim, alim);
-            L80:
-                if (nw < 0) goto L50;
+                L80:
+                if (nw < 0)
+                    goto L50;
                 nz = nw;
                 return 0;
-            L90:
+                L90:
                 nlast = n;
                 return 0;
             }
 
-            static int zbunk(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
-            {
+            static int zbunk(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZBUNK
@@ -4199,26 +4456,26 @@ namespace MathNet.Numerics
                 nz = 0;
                 ax = Math.Abs(zr) * 1.7321;
                 ay = Math.Abs(zi);
-                if (ay > ax) goto L10;
+                if (ay > ax)
+                    goto L10;
                 //-----------------------------------------------------------------------
                 //    ASYMPTOTIC EXPANSION FOR K(FNU,Z) FOR LARGE FNU APPLIED IN
                 //    -PI/3.LE.ARG(Z).LE.PI/3
                 //-----------------------------------------------------------------------
                 zunk1(zr, zi, fnu, kode, mr, n, yr, yi, ref nz, tol, elim, alim);
                 goto L20;
-            L10:
+                L10:
                 //-----------------------------------------------------------------------
                 //    ASYMPTOTIC EXPANSION FOR H(2,FNU,Z*EXP(M*HPI)) FOR LARGE FNU
                 //    APPLIED IN PI/3.LT.ABS(ARG(Z)).LE.PI/2 WHERE M=+I OR -I
                 //    AND HPI=PI/2
                 //-----------------------------------------------------------------------
                 zunk2(zr, zi, fnu, kode, mr, n, yr, yi, ref nz, tol, elim, alim);
-            L20:
+                L20:
                 return 0;
             }
 
-            static int zkscl(double zrr, double zri, double fnu, int n, double[] yr, double[] yi, ref int nz, double rzr, double rzi, double ascle, double tol, double elim)
-            {
+            static int zkscl(double zrr, double zri, double fnu, int n, double[] yr, double[] yi, ref int nz, double rzr, double rzi, double ascle, double tol, double elim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZKSCL
@@ -4248,8 +4505,7 @@ namespace MathNet.Numerics
                 nz = 0;
                 ic = 0;
                 nn = Math.Min(2, n);
-                for (i = 1; i <= nn; i++)
-                {
+                for (i = 1; i <= nn; i++) {
                     s1r = yr[i - 1];
                     s1i = yi[i - 1];
                     cyr[i - 1] = s1r;
@@ -4259,7 +4515,8 @@ namespace MathNet.Numerics
                     nz++;
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
-                    if (acs < -elim) goto L10;
+                    if (acs < -elim)
+                        goto L10;
                     zlog(s1r, s1i, ref csr, ref csi, ref idum);
                     csr -= zrr;
                     csi -= zri;
@@ -4267,22 +4524,27 @@ namespace MathNet.Numerics
                     csr = str * Math.Cos(csi);
                     csi = str * Math.Sin(csi);
                     zuchk(csr, csi, ref nw, ascle, tol);
-                    if (nw != 0) goto L10;
+                    if (nw != 0)
+                        goto L10;
                     yr[i - 1] = csr;
                     yi[i - 1] = csi;
                     ic = i;
                     nz--;
-            L10:
+                    L10:
                     ;
                 }
-                if (n == 1) return 0;
-                if (ic > 1) goto L20;
+                if (n == 1)
+                    return 0;
+                if (ic > 1)
+                    goto L20;
                 yr[0] = zeror;
                 yi[0] = zeroi;
                 nz = 2;
-            L20:
-                if (n == 2) return 0;
-                if (nz == 0) return 0;
+                L20:
+                if (n == 2)
+                    return 0;
+                if (nz == 0)
+                    return 0;
                 fn = fnu + 1.0;
                 ckr = fn * rzr;
                 cki = fn * rzi;
@@ -4299,8 +4561,7 @@ namespace MathNet.Numerics
                 //    FIND TWO CONSECUTIVE Y VALUES ON SCALE. SCALE RECURRENCE IF
                 //    S2 GETS LARGER THAN EXP(ELIM/2)
                 //-----------------------------------------------------------------------
-                for (i = 3; i <= n; i++)
-                {
+                for (i = 3; i <= n; i++) {
                     kk = i;
                     csr = s2r;
                     csi = s2i;
@@ -4316,7 +4577,8 @@ namespace MathNet.Numerics
                     nz++;
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
-                    if (acs < -elim) goto L25;
+                    if (acs < -elim)
+                        goto L25;
                     zlog(s2r, s2i, ref csr, ref csi, ref idum);
                     csr -= zdr;
                     csi -= zdi;
@@ -4324,39 +4586,41 @@ namespace MathNet.Numerics
                     csr = str * Math.Cos(csi);
                     csi = str * Math.Sin(csi);
                     zuchk(csr, csi, ref nw, ascle, tol);
-                    if (nw != 0) goto L25;
+                    if (nw != 0)
+                        goto L25;
                     yr[i - 1] = csr;
                     yi[i - 1] = csi;
                     nz--;
-                    if (ic == kk - 1) goto L40;
+                    if (ic == kk - 1)
+                        goto L40;
                     ic = kk;
                     goto L30;
-            L25:
-                    if (alas < helim) goto L30;
+                    L25:
+                    if (alas < helim)
+                        goto L30;
                     zdr -= elim;
                     s1r *= celmr;
                     s1i *= celmr;
                     s2r *= celmr;
                     s2i *= celmr;
-            L30:
+                    L30:
                     ;
                 }
                 nz = n;
-                if (ic == n) nz = n - 1;
+                if (ic == n)
+                    nz = n - 1;
                 goto L45;
-            L40:
+                L40:
                 nz = kk - 2;
-            L45:
-                for (i = 1; i <= nz; i++)
-                {
+                L45:
+                for (i = 1; i <= nz; i++) {
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                 }
                 return 0;
             }
 
-            static int zmlri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol)
-            {
+            static int zmlri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZMLRI
@@ -4408,8 +4672,7 @@ namespace MathNet.Numerics
                 //    COMPUTE RELATIVE TRUNCATION ERROR INDEX FOR SERIES
                 //-----------------------------------------------------------------------
                 ak = at;
-                for (i = 1; i <= 80; i++)
-                {
+                for (i = 1; i <= 80; i++) {
                     ptr = p2r;
                     pti = p2i;
                     p2r = p1r - (ckr * ptr - cki * pti);
@@ -4419,14 +4682,16 @@ namespace MathNet.Numerics
                     ckr += rzr;
                     cki += rzi;
                     ap = zabs(p2r, p2i);
-                    if (ap > tst * ak * ak) goto L20;
+                    if (ap > tst * ak * ak)
+                        goto L20;
                     ak += 1.0;
                 }
                 goto L110;
-            L20:
+                L20:
                 i++;
                 k = 0;
-                if (inu < iaz) goto L40;
+                if (inu < iaz)
+                    goto L40;
                 //-----------------------------------------------------------------------
                 //    COMPUTE RELATIVE TRUNCATION ERROR FOR RATIOS
                 //-----------------------------------------------------------------------
@@ -4442,8 +4707,7 @@ namespace MathNet.Numerics
                 ack = at * raz;
                 tst = Math.Sqrt(ack / tol);
                 itime = 1;
-                for (k = 1; k <= 80; k++)
-                {
+                for (k = 1; k <= 80; k++) {
                     ptr = p2r;
                     pti = p2i;
                     p2r = p1r - (ckr * ptr - cki * pti);
@@ -4453,19 +4717,21 @@ namespace MathNet.Numerics
                     ckr += rzr;
                     cki += rzi;
                     ap = zabs(p2r, p2i);
-                    if (ap < tst) goto L30;
-                    if (itime == 2) goto L40;
+                    if (ap < tst)
+                        goto L30;
+                    if (itime == 2)
+                        goto L40;
                     ack = zabs(ckr, cki);
                     flam = ack + Math.Sqrt(ack * ack - 1.0);
                     fkap = ap / zabs(p1r, p1i);
                     rho = Math.Min(flam, fkap);
                     tst *= Math.Sqrt(rho / (rho * rho - 1.0));
                     itime = 2;
-            L30:
+                    L30:
                     ;
                 }
                 goto L110;
-            L40:
+                L40:
                 //-----------------------------------------------------------------------
                 //    BACKWARD RECURRENCE AND SUM NORMALIZING RELATION
                 //-----------------------------------------------------------------------
@@ -4486,8 +4752,7 @@ namespace MathNet.Numerics
                 sumr = zeror;
                 sumi = zeroi;
                 km = kk - inu;
-                for (i = 1; i <= km; i++)
-                {
+                for (i = 1; i <= km; i++) {
                     ptr = p2r;
                     pti = p2i;
                     p2r = p1r + (fkk + fnf) * (rzr * ptr - rzi * pti);
@@ -4503,9 +4768,9 @@ namespace MathNet.Numerics
                 }
                 yr[n - 1] = p2r;
                 yi[n - 1] = p2i;
-                if (n == 1) goto L70;
-                for (i = 2; i <= n; i++)
-                {
+                if (n == 1)
+                    goto L70;
+                for (i = 2; i <= n; i++) {
                     ptr = p2r;
                     pti = p2i;
                     p2r = p1r + (fkk + fnf) * (rzr * ptr - rzi * pti);
@@ -4522,10 +4787,10 @@ namespace MathNet.Numerics
                     yr[m - 1] = p2r;
                     yi[m - 1] = p2i;
                 }
-            L70:
-                if (ifnu <= 0) goto L90;
-                for (i = 1; i <= ifnu; i++)
-                {
+                L70:
+                if (ifnu <= 0)
+                    goto L90;
+                for (i = 1; i <= ifnu; i++) {
                     ptr = p2r;
                     pti = p2i;
                     p2r = p1r + (fkk + fnf) * (rzr * ptr - rzi * pti);
@@ -4539,10 +4804,11 @@ namespace MathNet.Numerics
                     bk = ack;
                     fkk += -1.0;
                 }
-            L90:
+                L90:
                 ptr = zr;
                 pti = zi;
-                if (kode == 2) ptr = zeror;
+                if (kode == 2)
+                    ptr = zeror;
                 zlog(rzr, rzi, ref str, ref sti, ref idum);
                 p1r = -fnf * str + ptr;
                 p1i = -fnf * sti + pti;
@@ -4563,20 +4829,18 @@ namespace MathNet.Numerics
                 ptr = p2r * p1r;
                 pti = -p2i * p1r;
                 zmlt(ckr, cki, ptr, pti, ref cnormr, ref cnormi);
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     str = yr[i - 1] * cnormr - yi[i - 1] * cnormi;
                     yi[i - 1] = yr[i - 1] * cnormi + yi[i - 1] * cnormr;
                     yr[i - 1] = str;
                 }
                 return 0;
-            L110:
+                L110:
                 nz = -2;
                 return 0;
             }
 
-            static int zrati(double zr, double zi, double fnu, int n, double[] cyr, double[] cyi, double tol)
-            {
+            static int zrati(double zr, double zi, double fnu, int n, double[] cyr, double[] cyi, double tol) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZRATI
@@ -4627,7 +4891,8 @@ namespace MathNet.Numerics
                 p1i = conei;
                 t1r += rzr;
                 t1i += rzi;
-                if (id > 0) id = 0;
+                if (id > 0)
+                    id = 0;
                 ap2 = zabs(p2r, p2i);
                 ap1 = zabs(p1r, p1i);
                 //-----------------------------------------------------------------------
@@ -4645,7 +4910,7 @@ namespace MathNet.Numerics
                 p2r *= rap1;
                 p2i *= rap1;
                 ap2 *= rap1;
-            L10:
+                L10:
                 k++;
                 ap1 = ap2;
                 ptr = p2r;
@@ -4657,15 +4922,17 @@ namespace MathNet.Numerics
                 t1r += rzr;
                 t1i += rzi;
                 ap2 = zabs(p2r, p2i);
-                if (ap1 <= test) goto L10;
-                if (itime == 2) goto L20;
+                if (ap1 <= test)
+                    goto L10;
+                if (itime == 2)
+                    goto L20;
                 ak = zabs(t1r, t1i) * 0.5;
                 flam = ak + Math.Sqrt(ak * ak - 1.0);
                 rho = Math.Min(ap2 / ap1, flam);
                 test = test1 * Math.Sqrt(rho / (rho * rho - 1.0));
                 itime = 2;
                 goto L10;
-            L20:
+                L20:
                 kk = k + 1 - id;
                 ak = (double)kk;
                 t1r = ak;
@@ -4675,8 +4942,7 @@ namespace MathNet.Numerics
                 p1i = czeroi;
                 p2r = czeror;
                 p2i = czeroi;
-                for (i = 1; i <= kk; i++)
-                {
+                for (i = 1; i <= kk; i++) {
                     ptr = p1r;
                     pti = p1i;
                     rap1 = dfnu + t1r;
@@ -4688,28 +4954,30 @@ namespace MathNet.Numerics
                     p2i = pti;
                     t1r -= coner;
                 }
-                if (p1r != czeror || p1i != czeroi) goto L40;
+                if (p1r != czeror || p1i != czeroi)
+                    goto L40;
                 p1r = tol;
                 p1i = tol;
-            L40:
+                L40:
                 zdiv(p2r, p2i, p1r, p1i, ref cyr[n - 1], ref cyi[n - 1]);
-                if (n == 1) return 0;
+                if (n == 1)
+                    return 0;
                 k = n - 1;
                 ak = (double)k;
                 t1r = ak;
                 t1i = czeroi;
                 cdfnur = fnu * rzr;
                 cdfnui = fnu * rzi;
-                for (i = 2; i <= n; i++)
-                {
+                for (i = 2; i <= n; i++) {
                     ptr = cdfnur + (t1r * rzr - t1i * rzi) + cyr[k];
                     pti = cdfnui + (t1r * rzi + t1i * rzr) + cyi[k];
                     ak = zabs(ptr, pti);
-                    if (ak != czeror) goto L50;
+                    if (ak != czeror)
+                        goto L50;
                     ptr = tol;
                     pti = tol;
                     ak = tol * rt2;
-            L50:
+                    L50:
                     rak = coner / ak;
                     cyr[k - 1] = rak * ptr * rak;
                     cyi[k - 1] = -rak * pti * rak;
@@ -4719,8 +4987,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            static int zs1s2(double zrr, double zri, ref double s1r, ref double s1i, ref double s2r, ref double s2i, ref int nz, double ascle, double alim, ref int iuf)
-            {
+            static int zs1s2(double zrr, double zri, ref double s1r, ref double s1i, ref double s2r, ref double s2i, ref int nz, double ascle, double alim, ref int iuf) {
                 #region Description
 
                 //*** BEGIN PROLOGUE ZS1S2
@@ -4749,24 +5016,28 @@ namespace MathNet.Numerics
                 nz = 0;
                 as1 = zabs(s1r, s1i);
                 as2 = zabs(s2r, s2i);
-                if (s1r == 0.0 && s1i == 0.0) goto L10;
-                if (as1 == 0.0) goto L10;
+                if (s1r == 0.0 && s1i == 0.0)
+                    goto L10;
+                if (as1 == 0.0)
+                    goto L10;
                 aln = -zrr - zrr + Math.Log(as1);
                 s1dr = s1r;
                 s1di = s1i;
                 s1r = zeror;
                 s1i = zeroi;
                 as1 = zeror;
-                if (aln < -alim) goto L10;
+                if (aln < -alim)
+                    goto L10;
                 zlog(s1dr, s1di, ref c1r, ref c1i, ref idum);
                 c1r = c1r - zrr - zrr;
                 c1i = c1i - zri - zri;
                 zexp(c1r, c1i, ref s1r, ref s1i);
                 as1 = zabs(s1r, s1i);
                 iuf++;
-            L10:
+                L10:
                 aa = Math.Max(as1, as2);
-                if (aa > ascle) return 0;
+                if (aa > ascle)
+                    return 0;
                 s1r = zeror;
                 s1i = zeroi;
                 s2r = zeror;
@@ -4776,8 +5047,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            static int zseri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
-            {
+            static int zseri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZSERI
@@ -4812,23 +5082,26 @@ namespace MathNet.Numerics
 
                 nz = 0;
                 az = zabs(zr, zi);
-                if (az == 0.0) goto L160;
+                if (az == 0.0)
+                    goto L160;
                 arm = d1mach(1) * 1.0E3;
                 rtr1 = Math.Sqrt(arm);
                 crscr = 1.0;
                 iflag = 0;
-                if (az < arm) goto L150;
+                if (az < arm)
+                    goto L150;
                 hzr = zr * 0.5;
                 hzi = zi * 0.5;
                 czr = zeror;
                 czi = zeroi;
-                if (az <= rtr1) goto L10;
+                if (az <= rtr1)
+                    goto L10;
                 zmlt(hzr, hzi, hzr, hzi, ref czr, ref czi);
-            L10:
+                L10:
                 acz = zabs(czr, czi);
                 nn = n;
                 zlog(hzr, hzi, ref ckr, ref cki, ref idum);
-            L20:
+                L20:
                 dfnu = fnu + (double)(nn - 1);
                 fnup = dfnu + 1.0;
                 // -----------------------------------------------------------------------
@@ -4838,42 +5111,48 @@ namespace MathNet.Numerics
                 ak1i = cki * dfnu;
                 ak = dgamln(fnup, ref idum);
                 ak1r -= ak;
-                if (kode == 2) ak1r -= zr;
-                if (ak1r > -elim) goto L40;
-            L30:
+                if (kode == 2)
+                    ak1r -= zr;
+                if (ak1r > -elim)
+                    goto L40;
+                L30:
                 nz++;
                 yr[nn - 1] = zeror;
                 yi[nn - 1] = zeroi;
-                if (acz > dfnu) goto L190;
+                if (acz > dfnu)
+                    goto L190;
                 nn--;
-                if (nn == 0) return 0;
+                if (nn == 0)
+                    return 0;
                 goto L20;
-            L40:
-                if (ak1r > -alim) goto L50;
+                L40:
+                if (ak1r > -alim)
+                    goto L50;
                 iflag = 1;
                 ss = 1.0 / tol;
                 crscr = tol;
                 ascle = arm * ss;
-            L50:
+                L50:
                 aa = Math.Exp(ak1r);
-                if (iflag == 1) aa *= ss;
+                if (iflag == 1)
+                    aa *= ss;
                 coefr = aa * Math.Cos(ak1i);
                 coefi = aa * Math.Sin(ak1i);
                 atol = tol * acz / fnup;
                 il = Math.Min(2, nn);
-                for (i = 1; i <= il; i++)
-                {
+                for (i = 1; i <= il; i++) {
                     dfnu = fnu + (nn - i);
                     fnup = dfnu + 1.0;
                     s1r = coner;
                     s1i = conei;
-                    if (acz < tol * fnup) goto L70;
+                    if (acz < tol * fnup)
+                        goto L70;
                     ak1r = coner;
                     ak1i = conei;
                     ak = fnup + 2.0;
                     s = fnup;
                     aa = 2.0;
-            L60:
+                    L60:
                     rs = 1.0 / s;
                     str = ak1r * czr - ak1i * czi;
                     sti = ak1r * czi + ak1i * czr;
@@ -4884,27 +5163,32 @@ namespace MathNet.Numerics
                     s += ak;
                     ak += 2.0;
                     aa = aa * acz * rs;
-                    if (aa > atol) goto L60;
-            L70:
+                    if (aa > atol)
+                        goto L60;
+                    L70:
                     s2r = s1r * coefr - s1i * coefi;
                     s2i = s1r * coefi + s1i * coefr;
                     wr[i - 1] = s2r;
                     wi[i - 1] = s2i;
-                    if (iflag == 0) goto L80;
+                    if (iflag == 0)
+                        goto L80;
                     zuchk(s2r, s2i, ref nw, ascle, tol);
-                    if (nw != 0) goto L30;
-            L80:
+                    if (nw != 0)
+                        goto L30;
+                    L80:
                     m = nn - i + 1;
                     yr[m - 1] = s2r * crscr;
                     yi[m - 1] = s2i * crscr;
-                    if (i == il) goto L90;
+                    if (i == il)
+                        goto L90;
                     zdiv(coefr, coefi, hzr, hzi, ref str, ref sti);
                     coefr = str * dfnu;
                     coefi = sti * dfnu;
-            L90:
+                    L90:
                     ;
                 }
-                if (nn <= 2) return 0;
+                if (nn <= 2)
+                    return 0;
                 k = nn - 2;
                 ak = (double)k;
                 raz = 1.0 / az;
@@ -4912,11 +5196,11 @@ namespace MathNet.Numerics
                 sti = -zi * raz;
                 rzr = (str + str) * raz;
                 rzi = (sti + sti) * raz;
-                if (iflag == 1) goto L120;
+                if (iflag == 1)
+                    goto L120;
                 ib = 3;
-            L100:
-                for (i = ib; i <= nn; i++)
-                {
+                L100:
+                for (i = ib; i <= nn; i++) {
                     yr[k - 1] = (ak + fnu) * (rzr * yr[k] - rzi * yi[k]) + yr[k + 1];
                     yi[k - 1] = (ak + fnu) * (rzr * yi[k] + rzi * yr[k]) + yi[k + 1];
                     ak += -1.0;
@@ -4926,7 +5210,7 @@ namespace MathNet.Numerics
                 // -----------------------------------------------------------------------
                 //     RECUR BACKWARD WITH SCALED VALUES
                 // -----------------------------------------------------------------------
-            L120:
+                L120:
                 // -----------------------------------------------------------------------
                 //     EXP(-ALIM)=EXP(-ELIM)/TOL=APPROX. ONE PRECISION ABOVE THE
                 //     UNDERFLOW LIMIT = ASCLE = D1MACH(1)*SS*1.0D+3
@@ -4935,8 +5219,7 @@ namespace MathNet.Numerics
                 s1i = wi[0];
                 s2r = wr[1];
                 s2i = wi[1];
-                for (l = 3; l <= nn; l++)
-                {
+                for (l = 3; l <= nn; l++) {
                     ckr = s2r;
                     cki = s2i;
                     s2r = s1r + (ak + fnu) * (rzr * ckr - rzi * cki);
@@ -4949,26 +5232,30 @@ namespace MathNet.Numerics
                     yi[k - 1] = cki;
                     ak += -1.0;
                     k--;
-                    if (zabs(ckr, cki) > ascle) goto L140;
+                    if (zabs(ckr, cki) > ascle)
+                        goto L140;
                 }
                 return 0;
-            L140:
+                L140:
                 ib = l + 1;
-                if (ib > nn) return 0;
+                if (ib > nn)
+                    return 0;
                 goto L100;
-            L150:
+                L150:
                 nz = n;
-                if (fnu == 0.0) nz--;
-            L160:
+                if (fnu == 0.0)
+                    nz--;
+                L160:
                 yr[0] = zeror;
                 yi[0] = zeroi;
-                if (fnu != 0.0) goto L170;
+                if (fnu != 0.0)
+                    goto L170;
                 yr[0] = coner;
                 yi[0] = conei;
-            L170:
-                if (n == 1) return 0;
-                for (i = 2; i <= n; i++)
-                {
+                L170:
+                if (n == 1)
+                    return 0;
+                for (i = 2; i <= n; i++) {
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                 }
@@ -4977,13 +5264,12 @@ namespace MathNet.Numerics
                 //     RETURN WITH NZ.LT.0 IF ABS(Z*Z/4).GT.FNU+N-NZ-1 COMPLETE
                 //     THE CALCULATION IN CBINU WITH N=N-ABS(NZ)
                 // -----------------------------------------------------------------------
-            L190:
+                L190:
                 nz = -nz;
                 return 0;
             }
 
-            static int zshch(double zr, double zi, ref double cshr, ref double cshi, ref double cchr, ref double cchi)
-            {
+            static int zshch(double zr, double zi, ref double cshr, ref double cshi, ref double cchr, ref double cchi) {
                 #region Description
 
                 //*** BEGIN PROLOGUE ZSHCH
@@ -5008,8 +5294,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            static int zuchk(double yr, double yi, ref int nz, double ascle, double tol)
-            {
+            static int zuchk(double yr, double yi, ref int nz, double ascle, double tol) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUCHK
@@ -5034,15 +5319,16 @@ namespace MathNet.Numerics
                 wr = Math.Abs(yr);
                 wi = Math.Abs(yi);
                 st = Math.Min(wr, wi);
-                if (st > ascle) return 0;
+                if (st > ascle)
+                    return 0;
                 ss = Math.Max(wr, wi);
                 st /= tol;
-                if (ss < st) nz = 1;
+                if (ss < st)
+                    nz = 1;
                 return 0;
             }
 
-            static int zunhj(double zr, double zi, double fnu, int ipmtr, double tol, ref double phir, ref double phii, ref double argr, ref double argi, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double asumr, ref double asumi, ref double bsumr, ref double bsumi)
-            {
+            static int zunhj(double zr, double zi, double fnu, int ipmtr, double tol, ref double phir, ref double phii, ref double argr, ref double argi, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double asumr, ref double asumi, ref double bsumr, ref double bsumi) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUNHJ
@@ -5367,7 +5653,8 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 test = d1mach(1) * 1.0E3;
                 ac = fnu * test;
-                if (Math.Abs(zr) > ac || Math.Abs(zi) > ac) goto L15;
+                if (Math.Abs(zr) > ac || Math.Abs(zi) > ac)
+                    goto L15;
                 zeta1r = Math.Abs(Math.Log(test)) * 2.0 + fnu;
                 zeta1i = 0.0;
                 zeta2r = fnu;
@@ -5377,7 +5664,7 @@ namespace MathNet.Numerics
                 argr = 1.0;
                 argi = 0.0;
                 return 0;
-            L15:
+                L15:
                 zbr = zr * rfnu;
                 zbi = zi * rfnu;
                 rfnu2 = rfnu * rfnu;
@@ -5390,7 +5677,8 @@ namespace MathNet.Numerics
                 w2r = coner - zbr * zbr + zbi * zbi;
                 w2i = conei - zbr * zbi - zbr * zbi;
                 aw2 = zabs(w2r, w2i);
-                if (aw2 > 0.25) goto L130;
+                if (aw2 > 0.25)
+                    goto L130;
                 //-----------------------------------------------------------------------
                 //    POWER SERIES FOR ABS(W2).LE.0.25D0
                 //-----------------------------------------------------------------------
@@ -5400,18 +5688,19 @@ namespace MathNet.Numerics
                 sumar = gama[0];
                 sumai = zeroi;
                 ap[0] = 1.0;
-                if (aw2 < tol) goto L20;
-                for (k = 2; k <= 30; k++)
-                {
+                if (aw2 < tol)
+                    goto L20;
+                for (k = 2; k <= 30; k++) {
                     pr[k - 1] = pr[k - 2] * w2r - pi[k - 2] * w2i;
                     pi[k - 1] = pr[k - 2] * w2i + pi[k - 2] * w2r;
                     sumar += pr[k - 1] * gama[k - 1];
                     sumai += pi[k - 1] * gama[k - 1];
                     ap[k - 1] = ap[k - 2] * aw2;
-                    if (ap[k - 1] < tol) goto L20;
+                    if (ap[k - 1] < tol)
+                        goto L20;
                 }
                 k = 30;
-            L20:
+                L20:
                 kmax = k;
                 zetar = w2r * sumar - w2i * sumai;
                 zetai = w2r * sumai + w2i * sumar;
@@ -5430,14 +5719,14 @@ namespace MathNet.Numerics
                 zsqrt(zar, zai, ref str, ref sti);
                 phir = str * rfn13;
                 phii = sti * rfn13;
-                if (ipmtr == 1) goto L120;
+                if (ipmtr == 1)
+                    goto L120;
                 //-----------------------------------------------------------------------
                 //    SUM SERIES FOR ASUM AND BSUM
                 //-----------------------------------------------------------------------
                 sumbr = zeror;
                 sumbi = zeroi;
-                for (k = 1; k <= kmax; k++)
-                {
+                for (k = 1; k <= kmax; k++) {
                     sumbr += pr[k - 1] * beta[k - 1];
                     sumbi += pi[k - 1] * beta[k - 1];
                 }
@@ -5452,66 +5741,76 @@ namespace MathNet.Numerics
                 pp = 1.0;
                 ias = 0;
                 ibs = 0;
-                if (rfnu2 < tol) goto L110;
-                for (is1 = 2; is1 <= 7; is1++)
-                {
+                if (rfnu2 < tol)
+                    goto L110;
+                for (is1 = 2; is1 <= 7; is1++) {
                     atol /= rfnu2;
                     pp *= rfnu2;
-                    if (ias == 1) goto L60;
+                    if (ias == 1)
+                        goto L60;
                     sumar = zeror;
                     sumai = zeroi;
-                    for (k = 1; k <= kmax; k++)
-                    {
+                    for (k = 1; k <= kmax; k++) {
                         m = l1 + k;
                         sumar += pr[k - 1] * alfa[m - 1];
                         sumai += pi[k - 1] * alfa[m - 1];
-                        if (ap[k - 1] < atol) goto L50;
+                        if (ap[k - 1] < atol)
+                            goto L50;
                     }
-            L50:
+                    L50:
                     asumr += sumar * pp;
                     asumi += sumai * pp;
-                    if (pp < tol) ias = 1;
-            L60:
-                    if (ibs == 1) goto L90;
+                    if (pp < tol)
+                        ias = 1;
+                    L60:
+                    if (ibs == 1)
+                        goto L90;
                     sumbr = zeror;
                     sumbi = zeroi;
-                    for (k = 1; k <= kmax; k++)
-                    {
+                    for (k = 1; k <= kmax; k++) {
                         m = l2 + k;
                         sumbr += pr[k - 1] * beta[m - 1];
                         sumbi += pi[k - 1] * beta[m - 1];
-                        if (ap[k - 1] < atol) goto L80;
+                        if (ap[k - 1] < atol)
+                            goto L80;
                     }
-            L80:
+                    L80:
                     bsumr += sumbr * pp;
                     bsumi += sumbi * pp;
-                    if (pp < btol) ibs = 1;
-            L90:
-                    if (ias == 1 && ibs == 1) goto L110;
+                    if (pp < btol)
+                        ibs = 1;
+                    L90:
+                    if (ias == 1 && ibs == 1)
+                        goto L110;
                     l1 += 30;
                     l2 += 30;
                 }
-            L110:
+                L110:
                 asumr += coner;
                 pp = rfnu * rfn13;
                 bsumr *= pp;
                 bsumi *= pp;
-            L120:
+                L120:
                 return 0;
                 //-----------------------------------------------------------------------
                 //    ABS(W2).GT.0.25D0
                 //-----------------------------------------------------------------------
-            L130:
+                L130:
                 zsqrt(w2r, w2i, ref wr, ref wi);
-                if (wr < 0.0) wr = 0.0;
-                if (wi < 0.0) wi = 0.0;
+                if (wr < 0.0)
+                    wr = 0.0;
+                if (wi < 0.0)
+                    wi = 0.0;
                 str = coner + wr;
                 sti = wi;
                 zdiv(str, sti, zbr, zbi, ref zar, ref zai);
                 zlog(zar, zai, ref zcr, ref zci, ref idum);
-                if (zci < 0.0) zci = 0.0;
-                if (zci > hpi) zci = hpi;
-                if (zcr < 0.0) zcr = 0.0;
+                if (zci < 0.0)
+                    zci = 0.0;
+                if (zci > hpi)
+                    zci = hpi;
+                if (zcr < 0.0)
+                    zcr = 0.0;
                 zthr = (zcr - wr) * 1.5;
                 zthi = (zci - wi) * 1.5;
                 zeta1r = zcr * fnu;
@@ -5520,17 +5819,21 @@ namespace MathNet.Numerics
                 zeta2i = wi * fnu;
                 azth = zabs(zthr, zthi);
                 ang = thpi;
-                if (zthr >= 0.0 && zthi < 0.0) goto L140;
+                if (zthr >= 0.0 && zthi < 0.0)
+                    goto L140;
                 ang = hpi;
-                if (zthr == 0.0) goto L140;
+                if (zthr == 0.0)
+                    goto L140;
                 ang = Math.Atan(zthi / zthr);
-                if (zthr < 0.0) ang += gpi;
-            L140:
+                if (zthr < 0.0)
+                    ang += gpi;
+                L140:
                 pp = Math.Pow(azth, ex2);
                 ang *= ex2;
                 zetar = pp * Math.Cos(ang);
                 zetai = pp * Math.Sin(ang);
-                if (zetai < 0.0) zetai = 0.0;
+                if (zetai < 0.0)
+                    zetai = 0.0;
                 argr = zetar * fn23;
                 argi = zetai * fn23;
                 zdiv(zthr, zthi, zetar, zetai, ref rtztr, ref rtzti);
@@ -5540,7 +5843,8 @@ namespace MathNet.Numerics
                 zsqrt(tzar, tzai, ref str, ref sti);
                 phir = str * rfn13;
                 phii = sti * rfn13;
-                if (ipmtr == 1) goto L120;
+                if (ipmtr == 1)
+                    goto L120;
                 raw = 1.0 / Math.Sqrt(aw2);
                 str = wr * raw;
                 sti = -wi * raw;
@@ -5566,7 +5870,8 @@ namespace MathNet.Numerics
                 bsumi = upi[1] + zci;
                 asumr = zeror;
                 asumi = zeroi;
-                if (rfnu < tol) goto L220;
+                if (rfnu < tol)
+                    goto L220;
                 przthr = rzthr;
                 przthi = rzthi;
                 ptfnr = tfnr;
@@ -5580,22 +5885,19 @@ namespace MathNet.Numerics
                 l = 3;
                 ias = 0;
                 ibs = 0;
-                for (lr = 2; lr <= 12; lr += 2)
-                {
+                for (lr = 2; lr <= 12; lr += 2) {
                     lrp1 = lr + 1;
                     //-----------------------------------------------------------------------
                     //    COMPUTE TWO ADDITIONAL CR, DR, AND UP FOR TWO MORE TERMS IN
                     //    NEXT SUMA AND SUMB
                     //-----------------------------------------------------------------------
-                    for (k = lr; k <= lrp1; k++)
-                    {
+                    for (k = lr; k <= lrp1; k++) {
                         ks++;
                         kp1++;
                         l++;
                         zar = c[l - 1];
                         zai = zeroi;
-                        for (j = 2; j <= kp1; j++)
-                        {
+                        for (j = 2; j <= kp1; j++) {
                             l++;
                             str = zar * t2r - t2i * zai + c[l - 1];
                             zai = zar * t2i + zai * t2r;
@@ -5615,12 +5917,12 @@ namespace MathNet.Numerics
                         dri[ks - 1] = przthi * ar[ks + 1];
                     }
                     pp *= rfnu2;
-                    if (ias == 1) goto L180;
+                    if (ias == 1)
+                        goto L180;
                     sumar = upr[lrp1 - 1];
                     sumai = upi[lrp1 - 1];
                     ju = lrp1;
-                    for (jr = 1; jr <= lr; jr++)
-                    {
+                    for (jr = 1; jr <= lr; jr++) {
                         ju--;
                         sumar = sumar + crr[jr - 1] * upr[ju - 1] - cri[jr - 1] * upi[ju - 1];
                         sumai = sumai + crr[jr - 1] * upi[ju - 1] + cri[jr - 1] * upr[ju - 1];
@@ -5628,14 +5930,15 @@ namespace MathNet.Numerics
                     asumr += sumar;
                     asumi += sumai;
                     test = Math.Abs(sumar) + Math.Abs(sumai);
-                    if (pp < tol && test < tol) ias = 1;
-            L180:
-                    if (ibs == 1) goto L200;
+                    if (pp < tol && test < tol)
+                        ias = 1;
+                    L180:
+                    if (ibs == 1)
+                        goto L200;
                     sumbr = upr[lr + 1] + upr[lrp1 - 1] * zcr - upi[lrp1 - 1] * zci;
                     sumbi = upi[lr + 1] + upr[lrp1 - 1] * zci + upi[lrp1 - 1] * zcr;
                     ju = lrp1;
-                    for (jr = 1; jr <= lr; jr++)
-                    {
+                    for (jr = 1; jr <= lr; jr++) {
                         ju--;
                         sumbr = sumbr + drr[jr - 1] * upr[ju - 1] - dri[jr - 1] * upi[ju - 1];
                         sumbi = sumbi + drr[jr - 1] * upi[ju - 1] + dri[jr - 1] * upr[ju - 1];
@@ -5643,11 +5946,13 @@ namespace MathNet.Numerics
                     bsumr += sumbr;
                     bsumi += sumbi;
                     test = Math.Abs(sumbr) + Math.Abs(sumbi);
-                    if (pp < btol && test < btol) ibs = 1;
-            L200:
-                    if (ias == 1 && ibs == 1) goto L220;
+                    if (pp < btol && test < btol)
+                        ibs = 1;
+                    L200:
+                    if (ias == 1 && ibs == 1)
+                        goto L220;
                 }
-            L220:
+                L220:
                 asumr += coner;
                 str = -(bsumr) * rfn13;
                 sti = -(bsumi) * rfn13;
@@ -5655,8 +5960,7 @@ namespace MathNet.Numerics
                 goto L120;
             }
 
-            static int zuni1(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim)
-            {
+            static int zuni1(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUNI1
@@ -5718,7 +6022,8 @@ namespace MathNet.Numerics
                 fn = Math.Max(fnu, 1.0);
                 init = 0;
                 zunik(zr, zi, fn, 1, 1, tol, ref init, ref phir, ref phii, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref sumr, ref sumi, ref cwrkr, ref cwrki);
-                if (kode == 1) goto L10;
+                if (kode == 1)
+                    goto L10;
                 str = zr + zeta2r;
                 sti = zi + zeta2i;
                 rast = fn / zabs(str, sti);
@@ -5727,20 +6032,21 @@ namespace MathNet.Numerics
                 s1r = -zeta1r + str;
                 s1i = -zeta1i + sti;
                 goto L20;
-            L10:
+                L10:
                 s1r = -zeta1r + zeta2r;
                 s1i = -zeta1i + zeta2i;
-            L20:
+                L20:
                 rs1 = s1r;
-                if (Math.Abs(rs1) > elim) goto L130;
-            L30:
+                if (Math.Abs(rs1) > elim)
+                    goto L130;
+                L30:
                 nn = Math.Min(2, nd);
-                for (i = 1; i <= nn; i++)
-                {
+                for (i = 1; i <= nn; i++) {
                     fn = fnu + (nd - i);
                     init = 0;
                     zunik(zr, zi, fn, 1, 0, tol, ref init, ref phir, ref phii, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref sumr, ref sumi, ref cwrkr, ref cwrki);
-                    if (kode == 1) goto L40;
+                    if (kode == 1)
+                        goto L40;
                     str = zr + zeta2r;
                     sti = zi + zeta2i;
                     rast = fn / zabs(str, sti);
@@ -5749,27 +6055,34 @@ namespace MathNet.Numerics
                     s1r = -zeta1r + str;
                     s1i = -zeta1i + sti + zi;
                     goto L50;
-            L40:
+                    L40:
                     s1r = -zeta1r + zeta2r;
                     s1i = -zeta1i + zeta2i;
-            L50:
+                    L50:
                     //-----------------------------------------------------------------------
                     //    TEST FOR UNDERFLOW AND OVERFLOW
                     //-----------------------------------------------------------------------
                     rs1 = s1r;
-                    if (Math.Abs(rs1) > elim) goto L110;
-                    if (i == 1) iflag = 2;
-                    if (Math.Abs(rs1) < alim) goto L60;
+                    if (Math.Abs(rs1) > elim)
+                        goto L110;
+                    if (i == 1)
+                        iflag = 2;
+                    if (Math.Abs(rs1) < alim)
+                        goto L60;
                     //-----------------------------------------------------------------------
                     //    REFINE  TEST AND SCALE
                     //-----------------------------------------------------------------------
                     aphi = zabs(phir, phii);
                     rs1 += Math.Log(aphi);
-                    if (Math.Abs(rs1) > elim) goto L110;
-                    if (i == 1) iflag = 1;
-                    if (rs1 < 0.0) goto L60;
-                    if (i == 1) iflag = 3;
-            L60:
+                    if (Math.Abs(rs1) > elim)
+                        goto L110;
+                    if (i == 1)
+                        iflag = 1;
+                    if (rs1 < 0.0)
+                        goto L60;
+                    if (i == 1)
+                        iflag = 3;
+                    L60:
                     //-----------------------------------------------------------------------
                     //    SCALE S1 IF ABS(S1).LT.ASCLE
                     //-----------------------------------------------------------------------
@@ -5781,17 +6094,20 @@ namespace MathNet.Numerics
                     str = s2r * s1r - s2i * s1i;
                     s2i = s2r * s1i + s2i * s1r;
                     s2r = str;
-                    if (iflag != 1) goto L70;
+                    if (iflag != 1)
+                        goto L70;
                     zuchk(s2r, s2i, ref nw, bry[0], tol);
-                    if (nw != 0) goto L110;
-            L70:
+                    if (nw != 0)
+                        goto L110;
+                    L70:
                     cyr[i - 1] = s2r;
                     cyi[i - 1] = s2i;
                     m = nd - i + 1;
                     yr[m - 1] = s2r * csrr[iflag - 1];
                     yi[m - 1] = s2i * csrr[iflag - 1];
                 }
-                if (nd <= 2) goto L100;
+                if (nd <= 2)
+                    goto L100;
                 rast = 1.0 / zabs(zr, zi);
                 str = zr * rast;
                 sti = -zi * rast;
@@ -5807,8 +6123,7 @@ namespace MathNet.Numerics
                 ascle = bry[iflag - 1];
                 k = nd - 2;
                 fn = (double)k;
-                for (i = 3; i <= nd; i++)
-                {
+                for (i = 3; i <= nd; i++) {
                     c2r = s2r;
                     c2i = s2i;
                     s2r = s1r + (fnu + fn) * (rzr * c2r - rzi * c2i);
@@ -5821,11 +6136,13 @@ namespace MathNet.Numerics
                     yi[k - 1] = c2i;
                     k--;
                     fn += -1.0;
-                    if (iflag >= 3) goto L90;
+                    if (iflag >= 3)
+                        goto L90;
                     str = Math.Abs(c2r);
                     sti = Math.Abs(c2i);
                     c2m = Math.Max(str, sti);
-                    if (c2m <= ascle) goto L90;
+                    if (c2m <= ascle)
+                        goto L90;
                     iflag++;
                     ascle = bry[iflag - 1];
                     s1r *= c1r;
@@ -5837,64 +6154,56 @@ namespace MathNet.Numerics
                     s2r *= cssr[iflag - 1];
                     s2i *= cssr[iflag - 1];
                     c1r = csrr[iflag - 1];
-            L90:
+                    L90:
                     ;
                 }
-            L100:
+                L100:
                 return 0;
                 //-----------------------------------------------------------------------
                 //    SET UNDERFLOW AND UPDATE PARAMETERS
                 //-----------------------------------------------------------------------
-            L110:
-                if (rs1 > 0.0)
-                {
+                L110:
+                if (rs1 > 0.0) {
                     goto L120;
                 }
                 yr[nd - 1] = zeror;
                 yi[nd - 1] = zeroi;
                 nz++;
                 nd--;
-                if (nd == 0)
-                {
+                if (nd == 0) {
                     goto L100;
                 }
                 zuoik(zr, zi, fnu, kode, 1, nd, yr, yi, ref nuf, tol, elim, alim);
-                if (nuf < 0)
-                {
+                if (nuf < 0) {
                     goto L120;
                 }
                 nd -= nuf;
                 nz += nuf;
-                if (nd == 0)
-                {
+                if (nd == 0) {
                     goto L100;
                 }
                 fn = fnu + (nd - 1);
-                if (fn >= fnul)
-                {
+                if (fn >= fnul) {
                     goto L30;
                 }
                 nlast = nd;
                 return 0;
-            L120:
+                L120:
                 nz = -1;
                 return 0;
-            L130:
-                if (rs1 > 0.0)
-                {
+                L130:
+                if (rs1 > 0.0) {
                     goto L120;
                 }
                 nz = n;
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                 }
                 return 0;
             }
 
-            static int zuni2(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim)
-            {
+            static int zuni2(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUNI2
@@ -5975,18 +6284,20 @@ namespace MathNet.Numerics
                 str = c2r * cipr[ink - 1] - c2i * cipi[ink - 1];
                 c2i = c2r * cipi[ink - 1] + c2i * cipr[ink - 1];
                 c2r = str;
-                if (zi > 0.0) goto L10;
+                if (zi > 0.0)
+                    goto L10;
                 znr = -znr;
                 zbi = -zbi;
                 cidi = -cidi;
                 c2i = -c2i;
-            L10:
+                L10:
                 // -----------------------------------------------------------------------
                 //     CHECK FOR UNDERFLOW AND OVERFLOW ON FIRST MEMBER
                 // -----------------------------------------------------------------------
                 fn = Math.Max(fnu, 1.0);
                 zunhj(znr, zni, fn, 1, tol, ref phir, ref phii, ref argr, ref argi, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref asumr, ref asumi, ref bsumr, ref bsumi);
-                if (kode == 1) goto L20;
+                if (kode == 1)
+                    goto L20;
                 str = zbr + zeta2r;
                 sti = zbi + zeta2i;
                 rast = fn / zabs(str, sti);
@@ -5995,19 +6306,20 @@ namespace MathNet.Numerics
                 s1r = -zeta1r + str;
                 s1i = -zeta1i + sti;
                 goto L30;
-            L20:
+                L20:
                 s1r = -zeta1r + zeta2r;
                 s1i = -zeta1i + zeta2i;
-            L30:
+                L30:
                 rs1 = s1r;
-                if (Math.Abs(rs1) > elim) goto L150;
-            L40:
+                if (Math.Abs(rs1) > elim)
+                    goto L150;
+                L40:
                 nn = Math.Min(2, nd);
-                for (i = 1; i <= nn; i++)
-                {
+                for (i = 1; i <= nn; i++) {
                     fn = fnu + (nd - i);
                     zunhj(znr, zni, fn, 0, tol, ref phir, ref phii, ref argr, ref argi, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref asumr, ref asumi, ref bsumr, ref bsumi);
-                    if (kode == 1) goto L50;
+                    if (kode == 1)
+                        goto L50;
                     str = zbr + zeta2r;
                     sti = zbi + zeta2i;
                     rast = fn / zabs(str, sti);
@@ -6016,17 +6328,20 @@ namespace MathNet.Numerics
                     s1r = -zeta1r + str;
                     s1i = -zeta1i + sti + Math.Abs(zi);
                     goto L60;
-            L50:
+                    L50:
                     s1r = -zeta1r + zeta2r;
                     s1i = -zeta1i + zeta2i;
-            L60:
+                    L60:
                     // -----------------------------------------------------------------------
                     //     TEST FOR UNDERFLOW AND OVERFLOW
                     // -----------------------------------------------------------------------
                     rs1 = s1r;
-                    if (Math.Abs(rs1) > elim) goto L120;
-                    if (i == 1) iflag = 2;
-                    if (Math.Abs(rs1) < alim) goto L70;
+                    if (Math.Abs(rs1) > elim)
+                        goto L120;
+                    if (i == 1)
+                        iflag = 2;
+                    if (Math.Abs(rs1) < alim)
+                        goto L70;
                     // -----------------------------------------------------------------------
                     //     REFINE  TEST AND SCALE
                     // -----------------------------------------------------------------------
@@ -6034,11 +6349,15 @@ namespace MathNet.Numerics
                     aphi = zabs(phir, phii);
                     aarg = zabs(argr, argi);
                     rs1 = rs1 + Math.Log(aphi) - Math.Log(aarg) * 0.25 - aic;
-                    if (Math.Abs(rs1) > elim) goto L120;
-                    if (i == 1) iflag = 1;
-                    if (rs1 < 0.0) goto L70;
-                    if (i == 1) iflag = 3;
-            L70:
+                    if (Math.Abs(rs1) > elim)
+                        goto L120;
+                    if (i == 1)
+                        iflag = 1;
+                    if (rs1 < 0.0)
+                        goto L70;
+                    if (i == 1)
+                        iflag = 3;
+                    L70:
                     // -----------------------------------------------------------------------
                     //     SCALE S1 TO KEEP INTERMEDIATE ARITHMETIC ON SCALE NEAR
                     //     EXPONENT EXTREMES
@@ -6057,11 +6376,14 @@ namespace MathNet.Numerics
                     str = s2r * s1r - s2i * s1i;
                     s2i = s2r * s1i + s2i * s1r;
                     s2r = str;
-                    if (iflag != 1) goto L80;
+                    if (iflag != 1)
+                        goto L80;
                     zuchk(s2r, s2i, ref nw, bry[0], tol);
-                    if (nw != 0) goto L120;
-            L80:
-                    if (zi <= 0.0) s2i = -s2i;
+                    if (nw != 0)
+                        goto L120;
+                    L80:
+                    if (zi <= 0.0)
+                        s2i = -s2i;
                     str = s2r * c2r - s2i * c2i;
                     s2i = s2r * c2i + s2i * c2r;
                     s2r = str;
@@ -6074,7 +6396,8 @@ namespace MathNet.Numerics
                     c2i = c2r * cidi;
                     c2r = str;
                 }
-                if (nd <= 2) goto L110;
+                if (nd <= 2)
+                    goto L110;
                 raz = 1.0 / zabs(zr, zi);
                 str = zr * raz;
                 sti = -zi * raz;
@@ -6090,8 +6413,7 @@ namespace MathNet.Numerics
                 ascle = bry[iflag - 1];
                 k = nd - 2;
                 fn = (double)k;
-                for (i = 3; i <= nd; i++)
-                {
+                for (i = 3; i <= nd; i++) {
                     c2r = s2r;
                     c2i = s2i;
                     s2r = s1r + (fnu + fn) * (rzr * c2r - rzi * c2i);
@@ -6104,11 +6426,13 @@ namespace MathNet.Numerics
                     yi[k - 1] = c2i;
                     k--;
                     fn += -1.0;
-                    if (iflag >= 3) goto L100;
+                    if (iflag >= 3)
+                        goto L100;
                     str = Math.Abs(c2r);
                     sti = Math.Abs(c2i);
                     c2m = Math.Max(str, sti);
-                    if (c2m <= ascle) goto L100;
+                    if (c2m <= ascle)
+                        goto L100;
                     iflag++;
                     ascle = bry[iflag - 1];
                     s1r *= c1r;
@@ -6120,13 +6444,14 @@ namespace MathNet.Numerics
                     s2r *= cssr[iflag - 1];
                     s2i *= cssr[iflag - 1];
                     c1r = csrr[iflag - 1];
-            L100:
+                    L100:
                     ;
                 }
-            L110:
+                L110:
                 return 0;
-            L120:
-                if (rs1 > 0.0) goto L140;
+                L120:
+                if (rs1 > 0.0)
+                    goto L140;
                 // -----------------------------------------------------------------------
                 //     SET UNDERFLOW AND UPDATE PARAMETERS
                 // -----------------------------------------------------------------------
@@ -6134,14 +6459,18 @@ namespace MathNet.Numerics
                 yi[nd - 1] = zeroi;
                 nz++;
                 nd--;
-                if (nd == 0) goto L110;
+                if (nd == 0)
+                    goto L110;
                 zuoik(zr, zi, fnu, kode, 1, nd, yr, yi, ref nuf, tol, elim, alim);
-                if (nuf < 0) goto L140;
+                if (nuf < 0)
+                    goto L140;
                 nd -= nuf;
                 nz += nuf;
-                if (nd == 0) goto L110;
+                if (nd == 0)
+                    goto L110;
                 fn = fnu + (nd - 1);
-                if (fn < fnul) goto L130;
+                if (fn < fnul)
+                    goto L130;
                 //      FN = CIDI
                 //      J = NUF + 1
                 //      K = MOD(J,4) + 1
@@ -6155,27 +6484,27 @@ namespace MathNet.Numerics
                 ink = (ink % 4) + 1;
                 c2r = car * cipr[ink - 1] - sar * cipi[ink - 1];
                 c2i = car * cipi[ink - 1] + sar * cipr[ink - 1];
-                if (zi <= 0.0) c2i = -c2i;
+                if (zi <= 0.0)
+                    c2i = -c2i;
                 goto L40;
-            L130:
+                L130:
                 nlast = nd;
                 return 0;
-            L140:
+                L140:
                 nz = -1;
                 return 0;
-            L150:
-                if (rs1 > 0.0) goto L140;
+                L150:
+                if (rs1 > 0.0)
+                    goto L140;
                 nz = n;
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                 }
                 return 0;
             }
 
-            static int zunik(double zrr, double zri, double fnu, int ikflg, int ipmtr, double tol, ref int init, ref double phir, ref double phii, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double sumr, ref double sumi, ref double[] cwrkr, ref double[] cwrki)
-            {
+            static int zunik(double zrr, double zri, double fnu, int ikflg, int ipmtr, double tol, ref int init, ref double phir, ref double phii, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double sumr, ref double sumi, ref double[] cwrkr, ref double[] cwrki) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUNIK
@@ -6257,7 +6586,8 @@ namespace MathNet.Numerics
                 zeta1r = 0.0;
                 zeta1i = 0.0;
 
-                if (init != 0) goto L40;
+                if (init != 0)
+                    goto L40;
                 //-----------------------------------------------------------------------
                 //    INITIALIZE ALL VARIABLES
                 //-----------------------------------------------------------------------
@@ -6267,7 +6597,8 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 test = d1mach(1) * 1.0E3;
                 ac = fnu * test;
-                if (Math.Abs(zrr) > ac || Math.Abs(zri) > ac) goto L15;
+                if (Math.Abs(zrr) > ac || Math.Abs(zri) > ac)
+                    goto L15;
                 zeta1r = 2.0 * Math.Abs(Math.Log(test)) + fnu;
                 zeta1i = 0.0;
                 zeta2r = fnu;
@@ -6275,7 +6606,7 @@ namespace MathNet.Numerics
                 phir = 1.0;
                 phii = 0.0;
                 return 0;
-            L15:
+                L15:
                 tr = zrr * rfn;
                 ti = zri * rfn;
                 sr = coner + (tr * tr - ti * ti);
@@ -6295,7 +6626,8 @@ namespace MathNet.Numerics
                 zsqrt(srr, sri, ref cwrkr[15], ref cwrki[15]);
                 phir = cwrkr[15] * con[ikflg - 1];
                 phii = cwrki[15] * con[ikflg - 1];
-                if (ipmtr != 0) return 0;
+                if (ipmtr != 0)
+                    return 0;
                 zdiv(coner, conei, sr, si, ref t2r, ref t2i);
                 cwrkr[0] = coner;
                 cwrki[0] = conei;
@@ -6303,12 +6635,10 @@ namespace MathNet.Numerics
                 crfni = conei;
                 ac = 1.0;
                 l = 1;
-                for (k = 2; k <= 15; k++)
-                {
+                for (k = 2; k <= 15; k++) {
                     sr = zeror;
                     si = zeroi;
-                    for (j = 1; j <= k; j++)
-                    {
+                    for (j = 1; j <= k; j++) {
                         l++;
                         str = sr * t2r - si * t2i + c[l - 1];
                         si = sr * t2i + si * t2r;
@@ -6321,20 +6651,21 @@ namespace MathNet.Numerics
                     cwrki[k - 1] = crfnr * si + crfni * sr;
                     ac *= rfn;
                     test = Math.Abs(cwrkr[k - 1]) + Math.Abs(cwrki[k - 1]);
-                    if (ac < tol && test < tol) goto L30;
+                    if (ac < tol && test < tol)
+                        goto L30;
                 }
                 k = 15;
-            L30:
+                L30:
                 init = k;
-            L40:
-                if (ikflg == 2) goto L60;
+                L40:
+                if (ikflg == 2)
+                    goto L60;
                 //-----------------------------------------------------------------------
                 //    COMPUTE SUM FOR THE I FUNCTION
                 //-----------------------------------------------------------------------
                 sr = zeror;
                 si = zeroi;
-                for (i = 1; i <= init; i++)
-                {
+                for (i = 1; i <= init; i++) {
                     sr += cwrkr[i - 1];
                     si += cwrki[i - 1];
                 }
@@ -6343,15 +6674,14 @@ namespace MathNet.Numerics
                 phir = cwrkr[15] * con[0];
                 phii = cwrki[15] * con[0];
                 return 0;
-            L60:
+                L60:
                 //-----------------------------------------------------------------------
                 //    COMPUTE SUM FOR THE K FUNCTION
                 //-----------------------------------------------------------------------
                 sr = zeror;
                 si = zeroi;
                 tr = coner;
-                for (i = 1; i <= init; i++)
-                {
+                for (i = 1; i <= init; i++) {
                     sr += tr * cwrkr[i - 1];
                     si += tr * cwrki[i - 1];
                     tr = -tr;
@@ -6363,8 +6693,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            static int zunk1(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
-            {
+            static int zunk1(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUNK1
@@ -6439,13 +6768,13 @@ namespace MathNet.Numerics
                 bry[2] = d1mach(2);
                 zrr = zr;
                 zri = zi;
-                if (zr >= 0.0) goto L10;
+                if (zr >= 0.0)
+                    goto L10;
                 zrr = -zr;
                 zri = -zi;
-            L10:
+                L10:
                 j = 2;
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     //-----------------------------------------------------------------------
                     //    J FLIP FLOPS BETWEEN 1 AND 2 IN J = 3 - J
                     //-----------------------------------------------------------------------
@@ -6456,7 +6785,8 @@ namespace MathNet.Numerics
                         ref phii[j - 1], ref zeta1r[j - 1], ref zeta1i[j - 1], ref zeta2r[j - 1],
                         ref zeta2i[j - 1], ref sumr[j - 1], ref sumi[j - 1],
                         ref cwrkr[j - 1], ref cwrki[j - 1]);
-                    if (kode == 1) goto L20;
+                    if (kode == 1)
+                        goto L20;
                     str = zrr + zeta2r[j - 1];
                     sti = zri + zeta2i[j - 1];
                     rast = fn / zabs(str, sti);
@@ -6465,27 +6795,34 @@ namespace MathNet.Numerics
                     s1r = zeta1r[j - 1] - str;
                     s1i = zeta1i[j - 1] - sti;
                     goto L30;
-            L20:
+                    L20:
                     s1r = zeta1r[j - 1] - zeta2r[j - 1];
                     s1i = zeta1i[j - 1] - zeta2i[j - 1];
-            L30:
+                    L30:
                     rs1 = s1r;
                     //-----------------------------------------------------------------------
                     //    TEST FOR UNDERFLOW AND OVERFLOW
                     //-----------------------------------------------------------------------
-                    if (Math.Abs(rs1) > elim) goto L60;
-                    if (kdflg == 1) kflag = 2;
-                    if (Math.Abs(rs1) < alim) goto L40;
+                    if (Math.Abs(rs1) > elim)
+                        goto L60;
+                    if (kdflg == 1)
+                        kflag = 2;
+                    if (Math.Abs(rs1) < alim)
+                        goto L40;
                     //-----------------------------------------------------------------------
                     //    REFINE  TEST AND SCALE
                     //-----------------------------------------------------------------------
                     aphi = zabs(phir[j - 1], phii[j - 1]);
                     rs1 += Math.Log(aphi);
-                    if (Math.Abs(rs1) > elim) goto L60;
-                    if (kdflg == 1) kflag = 1;
-                    if (rs1 < 0.0) goto L40;
-                    if (kdflg == 1) kflag = 3;
-            L40:
+                    if (Math.Abs(rs1) > elim)
+                        goto L60;
+                    if (kdflg == 1)
+                        kflag = 1;
+                    if (rs1 < 0.0)
+                        goto L40;
+                    if (kdflg == 1)
+                        kflag = 3;
+                    L40:
                     //-----------------------------------------------------------------------
                     //    SCALE S1 TO KEEP INTERMEDIATE ARITHMETIC ON SCALE NEAR
                     //    EXPONENT EXTREMES
@@ -6498,37 +6835,44 @@ namespace MathNet.Numerics
                     str = s2r * s1r - s2i * s1i;
                     s2i = s1r * s2i + s2r * s1i;
                     s2r = str;
-                    if (kflag != 1) goto L50;
+                    if (kflag != 1)
+                        goto L50;
                     zuchk(s2r, s2i, ref nw, bry[0], tol);
-                    if (nw != 0) goto L60;
-            L50:
+                    if (nw != 0)
+                        goto L60;
+                    L50:
                     cyr[kdflg - 1] = s2r;
                     cyi[kdflg - 1] = s2i;
                     yr[i - 1] = s2r * csrr[kflag - 1];
                     yi[i - 1] = s2i * csrr[kflag - 1];
-                    if (kdflg == 2) goto L75;
+                    if (kdflg == 2)
+                        goto L75;
                     kdflg = 2;
                     goto L70;
-            L60:
-                    if (rs1 > 0.0) goto L300;
+                    L60:
+                    if (rs1 > 0.0)
+                        goto L300;
                     //-----------------------------------------------------------------------
                     //    FOR ZR.LT.0.0, THE I FUNCTION TO BE ADDED WILL OVERFLOW
                     //-----------------------------------------------------------------------
-                    if (zr < 0.0) goto L300;
+                    if (zr < 0.0)
+                        goto L300;
                     kdflg = 1;
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                     nz++;
-                    if (i == 1) goto L70;
-                    if (yr[i - 2] == zeror && yi[i - 2] == zeroi) goto L70;
+                    if (i == 1)
+                        goto L70;
+                    if (yr[i - 2] == zeror && yi[i - 2] == zeroi)
+                        goto L70;
                     yr[i - 2] = zeror;
                     yi[i - 2] = zeroi;
                     nz++;
-            L70:
+                    L70:
                     ;
                 }
                 i = n;
-            L75:
+                L75:
                 razr = 1.0 / zabs(zrr, zri);
                 str = zrr * razr;
                 sti = -zri * razr;
@@ -6537,18 +6881,21 @@ namespace MathNet.Numerics
                 ckr = fn * rzr;
                 cki = fn * rzi;
                 ib = i + 1;
-                if (n < ib) goto L160;
+                if (n < ib)
+                    goto L160;
                 //-----------------------------------------------------------------------
                 //    TEST LAST MEMBER FOR UNDERFLOW AND OVERFLOW. SET SEQUENCE TO ZERO
                 //    ON UNDERFLOW.
                 //-----------------------------------------------------------------------
                 fn = fnu + (double)(n - 1);
                 ipard = 1;
-                if (mr != 0) ipard = 0;
+                if (mr != 0)
+                    ipard = 0;
                 zunik(zrr, zri, fn, 2, ipard, tol, ref initd, ref phidr, ref phidi,
                     ref zet1dr, ref zet1di, ref zet2dr, ref zet2di, ref sumdr, ref sumdi, ref cwrkr[2],
                     ref cwrki[2]);
-                if (kode == 1) goto L80;
+                if (kode == 1)
+                    goto L80;
                 str = zrr + zet2dr;
                 sti = zri + zet2di;
                 rast = fn / zabs(str, sti);
@@ -6557,28 +6904,32 @@ namespace MathNet.Numerics
                 s1r = zet1dr - str;
                 s1i = zet1di - sti;
                 goto L90;
-            L80:
+                L80:
                 s1r = zet1dr - zet2dr;
                 s1i = zet1di - zet2di;
-            L90:
+                L90:
                 rs1 = s1r;
-                if (Math.Abs(rs1) > elim) goto L95;
-                if (Math.Abs(rs1) < alim) goto L100;
+                if (Math.Abs(rs1) > elim)
+                    goto L95;
+                if (Math.Abs(rs1) < alim)
+                    goto L100;
                 //-----------------------------------------------------------------------
                 //    REFINE ESTIMATE AND TEST
                 //-----------------------------------------------------------------------
                 aphi = zabs(phidr, phidi);
                 rs1 += Math.Log(aphi);
-                if (Math.Abs(rs1) < elim) goto L100;
-            L95:
-                if (Math.Abs(rs1) > 0.0) goto L300;
+                if (Math.Abs(rs1) < elim)
+                    goto L100;
+                L95:
+                if (Math.Abs(rs1) > 0.0)
+                    goto L300;
                 //-----------------------------------------------------------------------
                 //    FOR ZR.LT.0.0, THE I FUNCTION TO BE ADDED WILL OVERFLOW
                 //-----------------------------------------------------------------------
-                if (zr < 0.0) goto L300;
+                if (zr < 0.0)
+                    goto L300;
                 nz = n;
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                 }
@@ -6586,15 +6937,14 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 //    FORWARD RECUR FOR REMAINDER OF THE SEQUENCE
                 //-----------------------------------------------------------------------
-            L100:
+                L100:
                 s1r = cyr[0];
                 s1i = cyi[0];
                 s2r = cyr[1];
                 s2i = cyi[1];
                 c1r = csrr[kflag - 1];
                 ascle = bry[kflag - 1];
-                for (i = ib; i <= n; i++)
-                {
+                for (i = ib; i <= n; i++) {
                     c2r = s2r;
                     c2i = s2i;
                     s2r = ckr * c2r - cki * c2i + s1r;
@@ -6607,11 +6957,13 @@ namespace MathNet.Numerics
                     c2i = s2i * c1r;
                     yr[i - 1] = c2r;
                     yi[i - 1] = c2i;
-                    if (kflag >= 3) goto L120;
+                    if (kflag >= 3)
+                        goto L120;
                     str = Math.Abs(c2r);
                     sti = Math.Abs(c2i);
                     c2m = Math.Max(str, sti);
-                    if (c2m <= ascle) goto L120;
+                    if (c2m <= ascle)
+                        goto L120;
                     kflag++;
                     ascle = bry[kflag - 1];
                     s1r *= c1r;
@@ -6623,11 +6975,12 @@ namespace MathNet.Numerics
                     s2r *= cssr[kflag - 1];
                     s2i *= cssr[kflag - 1];
                     c1r = csrr[kflag - 1];
-            L120:
+                    L120:
                     ;
                 }
-            L160:
-                if (mr == 0) return 0;
+                L160:
+                if (mr == 0)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    ANALYTIC CONTINUATION FOR RE(Z).LT.0.0D0
                 //-----------------------------------------------------------------------
@@ -6644,26 +6997,27 @@ namespace MathNet.Numerics
                 ang = fnf * sgn;
                 cspnr = Math.Cos(ang);
                 cspni = Math.Sin(ang);
-                if (ifn % 2 == 0) goto L170;
+                if (ifn % 2 == 0)
+                    goto L170;
                 cspnr = -cspnr;
                 cspni = -cspni;
-            L170:
+                L170:
                 asc = bry[0];
                 iuf = 0;
                 kk = n;
                 kdflg = 1;
                 ib = ib - 1;
                 ic = ib - 1;
-                for (k = 1; k <= n; k++)
-                {
+                for (k = 1; k <= n; k++) {
                     fn = fnu + (double)(kk - 1);
                     //-----------------------------------------------------------------------
                     //    LOGIC TO SORT ref CASES WHOSE PARAMETERS WERE SET FOR THE K
                     //    FUNCTION ABOVE
                     //-----------------------------------------------------------------------
                     m = 3;
-                    if (n > 2) goto L175;
-            L172:
+                    if (n > 2)
+                        goto L175;
+                    L172:
                     initd = init[j - 1];
                     phidr = phir[j - 1];
                     phidi = phii[j - 1];
@@ -6676,15 +7030,18 @@ namespace MathNet.Numerics
                     m = j;
                     j = 3 - j;
                     goto L180;
-            L175:
-                    if (kk == n && ib < n) goto L180;
-                    if (kk == ib || kk == ic) goto L172;
+                    L175:
+                    if (kk == n && ib < n)
+                        goto L180;
+                    if (kk == ib || kk == ic)
+                        goto L172;
                     initd = 0;
-            L180:
+                    L180:
                     zunik(zrr, zri, fn, 1, 0, tol, ref initd, ref phidr, ref phidi,
                         ref zet1dr, ref zet1di, ref zet2dr, ref zet2di, ref sumdr, ref sumdi,
                         ref cwrkr[m - 1], ref cwrki[m - 1]);
-                    if (kode == 1) goto L200;
+                    if (kode == 1)
+                        goto L200;
                     str = zrr + zet2dr;
                     sti = zri + zet2di;
                     rast = fn / zabs(str, sti);
@@ -6693,27 +7050,34 @@ namespace MathNet.Numerics
                     s1r = -zet1dr + str;
                     s1i = -zet1di + sti;
                     goto L210;
-            L200:
+                    L200:
                     s1r = -zet1dr + zet2dr;
                     s1i = -zet1di + zet2di;
-            L210:
+                    L210:
                     //-----------------------------------------------------------------------
                     //    TEST FOR UNDERFLOW AND OVERFLOW
                     //-----------------------------------------------------------------------
                     rs1 = s1r;
-                    if (Math.Abs(rs1) > elim) goto L260;
-                    if (kdflg == 1) iflag = 2;
-                    if (Math.Abs(rs1) < alim) goto L220;
+                    if (Math.Abs(rs1) > elim)
+                        goto L260;
+                    if (kdflg == 1)
+                        iflag = 2;
+                    if (Math.Abs(rs1) < alim)
+                        goto L220;
                     //-----------------------------------------------------------------------
                     //    REFINE  TEST AND SCALE
                     //-----------------------------------------------------------------------
                     aphi = zabs(phidr, phidi);
                     rs1 += Math.Log(aphi);
-                    if (Math.Abs(rs1) > elim) goto L260;
-                    if (kdflg == 1) iflag = 1;
-                    if (rs1 < 0.0) goto L220;
-                    if (kdflg == 1) iflag = 3;
-            L220:
+                    if (Math.Abs(rs1) > elim)
+                        goto L260;
+                    if (kdflg == 1)
+                        iflag = 1;
+                    if (rs1 < 0.0)
+                        goto L220;
+                    if (kdflg == 1)
+                        iflag = 3;
+                    L220:
                     str = phidr * sumdr - phidi * sumdi;
                     sti = phidr * sumdi + phidi * sumdr;
                     s2r = -csgni * sti;
@@ -6724,12 +7088,14 @@ namespace MathNet.Numerics
                     str = s2r * s1r - s2i * s1i;
                     s2i = s2r * s1i + s2i * s1r;
                     s2r = str;
-                    if (iflag != 1) goto L230;
+                    if (iflag != 1)
+                        goto L230;
                     zuchk(s2r, s2i, ref nw, bry[0], tol);
-                    if (nw == 0) goto L230;
+                    if (nw == 0)
+                        goto L230;
                     s2r = zeror;
                     s2i = zeroi;
-            L230:
+                    L230:
                     cyr[kdflg - 1] = s2r;
                     cyi[kdflg - 1] = s2i;
                     c2r = s2r;
@@ -6741,34 +7107,39 @@ namespace MathNet.Numerics
                     //-----------------------------------------------------------------------
                     s1r = yr[kk - 1];
                     s1i = yi[kk - 1];
-                    if (kode == 1) goto L250;
+                    if (kode == 1)
+                        goto L250;
                     zs1s2(zrr, zri, ref s1r, ref s1i, ref s2r, ref s2i, ref nw, asc, alim, ref iuf);
                     nz += nw;
-            L250:
+                    L250:
                     yr[kk - 1] = s1r * cspnr - s1i * cspni + s2r;
                     yi[kk - 1] = cspnr * s1i + cspni * s1r + s2i;
                     kk--;
                     cspnr = -cspnr;
                     cspni = -cspni;
-                    if (c2r != 0.0 || c2i != 0.0) goto L255;
+                    if (c2r != 0.0 || c2i != 0.0)
+                        goto L255;
                     kdflg = 1;
                     goto L270;
-            L255:
-                    if (kdflg == 2) goto L275;
+                    L255:
+                    if (kdflg == 2)
+                        goto L275;
                     kdflg = 2;
                     goto L270;
-            L260:
-                    if (rs1 > 0.0) goto L300;
+                    L260:
+                    if (rs1 > 0.0)
+                        goto L300;
                     s2r = zeror;
                     s2i = zeroi;
                     goto L230;
-            L270:
+                    L270:
                     ;
                 }
                 k = n;
-            L275:
+                L275:
                 il = n - k;
-                if (il == 0) return 0;
+                if (il == 0)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    RECUR BACKWARD FOR REMAINDER OF I SEQUENCE AND ADD IN THE
                 //    K FUNCTIONS, SCALING THE I SEQUENCE DURING RECURRENCE TO KEEP
@@ -6781,8 +7152,7 @@ namespace MathNet.Numerics
                 csr = csrr[iflag - 1];
                 ascle = bry[iflag - 1];
                 fn = (double)(inu + il);
-                for (i = 1; i <= il; i++)
-                {
+                for (i = 1; i <= il; i++) {
                     c2r = s2r;
                     c2i = s2i;
                     s2r = s1r + (fn + fnf) * (rzr * c2r - rzi * c2i);
@@ -6796,26 +7166,25 @@ namespace MathNet.Numerics
                     cki = c2i;
                     c1r = yr[kk - 1];
                     c1i = yi[kk - 1];
-                    if (kode == 1)
-                    {
+                    if (kode == 1) {
                         goto L280;
                     }
                     zs1s2(zrr, zri, ref c1r, ref c1i, ref c2r, ref c2i, ref nw, asc, alim, ref iuf);
                     nz += nw;
-            L280:
+                    L280:
                     yr[kk - 1] = c1r * cspnr - c1i * cspni + c2r;
                     yi[kk - 1] = c1r * cspni + c1i * cspnr + c2i;
                     kk--;
                     cspnr = -cspnr;
                     cspni = -cspni;
-                    if (iflag >= 3)
-                    {
+                    if (iflag >= 3) {
                         goto L290;
                     }
                     c2r = Math.Abs(ckr);
                     c2i = Math.Abs(cki);
                     c2m = Math.Max(c2r, c2i);
-                    if (c2m <= ascle) goto L290;
+                    if (c2m <= ascle)
+                        goto L290;
                     iflag++;
                     ascle = bry[iflag - 1];
                     s1r *= csr;
@@ -6827,17 +7196,16 @@ namespace MathNet.Numerics
                     s2r *= cssr[iflag - 1];
                     s2i *= cssr[iflag - 1];
                     csr = csrr[iflag - 1];
-            L290:
+                    L290:
                     ;
                 }
                 return 0;
-            L300:
+                L300:
                 nz = -1;
                 return 0;
             }
 
-            static int zunk2(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
-            {
+            static int zunk2(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUNK2
@@ -6920,10 +7288,11 @@ namespace MathNet.Numerics
                 bry[2] = d1mach(2);
                 zrr = zr;
                 zri = zi;
-                if (zr >= 0.0) goto L10;
+                if (zr >= 0.0)
+                    goto L10;
                 zrr = -zr;
                 zri = -zi;
-            L10:
+                L10:
                 yy = zri;
                 znr = zri;
                 zni = -zrr;
@@ -6941,25 +7310,26 @@ namespace MathNet.Numerics
                 sti = c2r * cipi[kk - 1] + c2i * cipr[kk - 1];
                 csr = cr1r * str - cr1i * sti;
                 csi = cr1r * sti + cr1i * str;
-                if (yy > 0.0) goto L20;
+                if (yy > 0.0)
+                    goto L20;
                 znr = -znr;
                 zbi = -zbi;
-            L20:
+                L20:
                 //-----------------------------------------------------------------------
                 //    K(FNU,Z) IS COMPUTED FROM H(2,FNU,-I*Z) WHERE Z IS IN THE FIRST
                 //    QUADRANT. FOURTH QUADRANT VALUES (YY.LE.0.0E0) ARE COMPUTED BY
                 //    CONJUGATION SINCE THE K FUNCTION IS REAL ON THE POSITIVE REAL AXIS
                 //-----------------------------------------------------------------------
                 j = 2;
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     //-----------------------------------------------------------------------
                     //    J FLIP FLOPS BETWEEN 1 AND 2 IN J = 3 - J
                     //-----------------------------------------------------------------------
                     j = 3 - j;
                     fn = fnu + (double)(i - 1);
                     zunhj(znr, zni, fn, 0, tol, ref phir[j - 1], ref phii[j - 1], ref argr[j - 1], ref argi[j - 1], ref zeta1r[j - 1], ref zeta1i[j - 1], ref zeta2r[j - 1], ref zeta2i[j - 1], ref asumr[j - 1], ref asumi[j - 1], ref bsumr[j - 1], ref bsumi[j - 1]);
-                    if (kode == 1) goto L30;
+                    if (kode == 1)
+                        goto L30;
                     str = zbr + zeta2r[j - 1];
                     sti = zbi + zeta2i[j - 1];
                     rast = fn / zabs(str, sti);
@@ -6968,28 +7338,35 @@ namespace MathNet.Numerics
                     s1r = zeta1r[j - 1] - str;
                     s1i = zeta1i[j - 1] - sti;
                     goto L40;
-            L30:
+                    L30:
                     s1r = zeta1r[j - 1] - zeta2r[j - 1];
                     s1i = zeta1i[j - 1] - zeta2i[j - 1];
-            L40:
+                    L40:
                     //-----------------------------------------------------------------------
                     //    TEST FOR UNDERFLOW AND OVERFLOW
                     //-----------------------------------------------------------------------
                     rs1 = s1r;
-                    if (Math.Abs(rs1) > elim) goto L70;
-                    if (kdflg == 1) kflag = 2;
-                    if (Math.Abs(rs1) < alim) goto L50;
+                    if (Math.Abs(rs1) > elim)
+                        goto L70;
+                    if (kdflg == 1)
+                        kflag = 2;
+                    if (Math.Abs(rs1) < alim)
+                        goto L50;
                     //-----------------------------------------------------------------------
                     //    REFINE  TEST AND SCALE
                     //-----------------------------------------------------------------------
                     aphi = zabs(phir[j - 1], phii[j - 1]);
                     aarg = zabs(argr[j - 1], argi[j - 1]);
                     rs1 = rs1 + Math.Log(aphi) - Math.Log(aarg) * 0.25 - aic;
-                    if (Math.Abs(rs1) > elim) goto L70;
-                    if (kdflg == 1) kflag = 1;
-                    if (rs1 < 0.0) goto L50;
-                    if (kdflg == 1) kflag = 3;
-            L50:
+                    if (Math.Abs(rs1) > elim)
+                        goto L70;
+                    if (kdflg == 1)
+                        kflag = 1;
+                    if (rs1 < 0.0)
+                        goto L50;
+                    if (kdflg == 1)
+                        kflag = 3;
+                    L50:
                     //-----------------------------------------------------------------------
                     //    SCALE S1 TO KEEP INTERMEDIATE ARITHMETIC ON SCALE NEAR
                     //    EXPONENT EXTREMES
@@ -7014,11 +7391,14 @@ namespace MathNet.Numerics
                     str = s2r * s1r - s2i * s1i;
                     s2i = s1r * s2i + s2r * s1i;
                     s2r = str;
-                    if (kflag != 1) goto L60;
+                    if (kflag != 1)
+                        goto L60;
                     zuchk(s2r, s2i, ref nw, bry[0], tol);
-                    if (nw != 0) goto L70;
-            L60:
-                    if (yy <= 0.0) s2i = -s2i;
+                    if (nw != 0)
+                        goto L70;
+                    L60:
+                    if (yy <= 0.0)
+                        s2i = -s2i;
                     cyr[kdflg - 1] = s2r;
                     cyi[kdflg - 1] = s2i;
                     yr[i - 1] = s2r * csrr[kflag - 1];
@@ -7026,15 +7406,18 @@ namespace MathNet.Numerics
                     str = csi;
                     csi = -csr;
                     csr = str;
-                    if (kdflg == 2) goto L85;
+                    if (kdflg == 2)
+                        goto L85;
                     kdflg = 2;
                     goto L80;
-            L70:
-                    if (rs1 > 0.0) goto L320;
+                    L70:
+                    if (rs1 > 0.0)
+                        goto L320;
                     //-----------------------------------------------------------------------
                     //    FOR ZR.LT.0.0, THE I FUNCTION TO BE ADDED WILL OVERFLOW
                     //-----------------------------------------------------------------------
-                    if (zr < 0.0) goto L320;
+                    if (zr < 0.0)
+                        goto L320;
                     kdflg = 1;
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
@@ -7042,16 +7425,18 @@ namespace MathNet.Numerics
                     str = csi;
                     csi = -csr;
                     csr = str;
-                    if (i == 1) goto L80;
-                    if (yr[i - 1] == zeror && yi[i - 1] == zeroi) goto L80;
+                    if (i == 1)
+                        goto L80;
+                    if (yr[i - 1] == zeror && yi[i - 1] == zeroi)
+                        goto L80;
                     yr[i - 2] = zeror;
                     yi[i - 2] = zeroi;
                     nz++;
-            L80:
+                    L80:
                     ;
                 }
                 i = n;
-            L85:
+                L85:
                 razr = 1.0 / zabs(zrr, zri);
                 str = zrr * razr;
                 sti = -zri * razr;
@@ -7060,16 +7445,19 @@ namespace MathNet.Numerics
                 ckr = fn * rzr;
                 cki = fn * rzi;
                 ib = i + 1;
-                if (n < ib) goto L180;
+                if (n < ib)
+                    goto L180;
                 //-----------------------------------------------------------------------
                 //    TEST LAST MEMBER FOR UNDERFLOW AND OVERFLOW. SET SEQUENCE TO ZERO
                 //    ON UNDERFLOW.
                 //-----------------------------------------------------------------------
                 fn = fnu + (double)(n - 1);
                 ipard = 1;
-                if (mr != 0) ipard = 0;
+                if (mr != 0)
+                    ipard = 0;
                 zunhj(znr, zni, fn, ipard, tol, ref phidr, ref phidi, ref argdr, ref argdi, ref zet1dr, ref zet1di, ref zet2dr, ref zet2di, ref asumdr, ref asumdi, ref bsumdr, ref bsumdi);
-                if (kode == 1) goto L90;
+                if (kode == 1)
+                    goto L90;
                 str = zbr + zet2dr;
                 sti = zbi + zet2di;
                 rast = fn / zabs(str, sti);
@@ -7078,41 +7466,44 @@ namespace MathNet.Numerics
                 s1r = zet1dr - str;
                 s1i = zet1di - sti;
                 goto L100;
-            L90:
+                L90:
                 s1r = zet1dr - zet2dr;
                 s1i = zet1di - zet2di;
-            L100:
+                L100:
                 rs1 = s1r;
-                if (Math.Abs(rs1) > elim) goto L105;
-                if (Math.Abs(rs1) < alim) goto L120;
+                if (Math.Abs(rs1) > elim)
+                    goto L105;
+                if (Math.Abs(rs1) < alim)
+                    goto L120;
                 //-----------------------------------------------------------------------
                 //    REFINE ESTIMATE AND TEST
                 //-----------------------------------------------------------------------
                 aphi = zabs(phidr, phidi);
                 rs1 += Math.Log(aphi);
-                if (Math.Abs(rs1) < elim) goto L120;
-            L105:
-                if (rs1 > 0.0) goto L320;
+                if (Math.Abs(rs1) < elim)
+                    goto L120;
+                L105:
+                if (rs1 > 0.0)
+                    goto L320;
                 //-----------------------------------------------------------------------
                 //    FOR ZR.LT.0.0, THE I FUNCTION TO BE ADDED WILL OVERFLOW
                 //-----------------------------------------------------------------------
-                if (zr < 0.0) goto L320;
+                if (zr < 0.0)
+                    goto L320;
                 nz = n;
-                for (i = 1; i <= n; i++)
-                {
+                for (i = 1; i <= n; i++) {
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                 }
                 return 0;
-            L120:
+                L120:
                 s1r = cyr[0];
                 s1i = cyi[0];
                 s2r = cyr[1];
                 s2i = cyi[1];
                 c1r = csrr[kflag - 1];
                 ascle = bry[kflag - 1];
-                for (i = ib; i <= n; i++)
-                {
+                for (i = ib; i <= n; i++) {
                     c2r = s2r;
                     c2i = s2i;
                     s2r = ckr * c2r - cki * c2i + s1r;
@@ -7125,11 +7516,13 @@ namespace MathNet.Numerics
                     c2i = s2i * c1r;
                     yr[i - 1] = c2r;
                     yi[i - 1] = c2i;
-                    if (kflag >= 3) goto L130;
+                    if (kflag >= 3)
+                        goto L130;
                     str = Math.Abs(c2r);
                     sti = Math.Abs(c2i);
                     c2m = Math.Max(str, sti);
-                    if (c2m <= ascle) goto L130;
+                    if (c2m <= ascle)
+                        goto L130;
                     kflag++;
                     ascle = bry[kflag - 1];
                     s1r *= c1r;
@@ -7141,11 +7534,12 @@ namespace MathNet.Numerics
                     s2r *= cssr[kflag - 1];
                     s2i *= cssr[kflag - 1];
                     c1r = csrr[kflag - 1];
-            L130:
+                    L130:
                     ;
                 }
-            L180:
-                if (mr == 0) return 0;
+                L180:
+                if (mr == 0)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    ANALYTIC CONTINUATION FOR RE(Z).LT.0.0D0
                 //-----------------------------------------------------------------------
@@ -7156,15 +7550,17 @@ namespace MathNet.Numerics
                 //    CSPN AND CSGN ARE COEFF OF K AND I FUNCTIONS RESP.
                 //-----------------------------------------------------------------------
                 csgni = sgn;
-                if (yy <= 0.0) csgni = -csgni;
+                if (yy <= 0.0)
+                    csgni = -csgni;
                 ifn = inu + n - 1;
                 ang = fnf * sgn;
                 cspnr = Math.Cos(ang);
                 cspni = Math.Sin(ang);
-                if (ifn % 2 == 0) goto L190;
+                if (ifn % 2 == 0)
+                    goto L190;
                 cspnr = -cspnr;
                 cspni = -cspni;
-            L190:
+                L190:
                 //-----------------------------------------------------------------------
                 //    CS=COEFF OF THE J FUNCTION TO GET THE I FUNCTION. I(FNU,Z) IS
                 //    COMPUTED FROM EXP(I*FNU*HPI)*J(FNU,-I*Z) WHERE Z IS IN THE FIRST
@@ -7185,15 +7581,15 @@ namespace MathNet.Numerics
                 kdflg = 1;
                 ib--;
                 ic = ib - 1;
-                for (k = 1; k <= n; k++)
-                {
+                for (k = 1; k <= n; k++) {
                     fn = fnu + (kk - 1);
                     //-----------------------------------------------------------------------
                     //    LOGIC TO SORT ref CASES WHOSE PARAMETERS WERE SET FOR THE K
                     //    FUNCTION ABOVE
                     //-----------------------------------------------------------------------
-                    if (n > 2) goto L175;
-            L172:
+                    if (n > 2)
+                        goto L175;
+                    L172:
                     phidr = phir[j - 1];
                     phidi = phii[j - 1];
                     argdr = argr[j - 1];
@@ -7208,12 +7604,15 @@ namespace MathNet.Numerics
                     bsumdi = bsumi[j - 1];
                     j = 3 - j;
                     goto L210;
-            L175:
-                    if (kk == n && ib < n) goto L210;
-                    if (kk == ib || kk == ic) goto L172;
+                    L175:
+                    if (kk == n && ib < n)
+                        goto L210;
+                    if (kk == ib || kk == ic)
+                        goto L172;
                     zunhj(znr, zni, fn, 0, tol, ref phidr, ref phidi, ref argdr, ref argdi, ref zet1dr, ref zet1di, ref zet2dr, ref zet2di, ref asumdr, ref asumdi, ref bsumdr, ref bsumdi);
-            L210:
-                    if (kode == 1) goto L220;
+                    L210:
+                    if (kode == 1)
+                        goto L220;
                     str = zbr + zet2dr;
                     sti = zbi + zet2di;
                     rast = fn / zabs(str, sti);
@@ -7222,28 +7621,35 @@ namespace MathNet.Numerics
                     s1r = -zet1dr + str;
                     s1i = -zet1di + sti;
                     goto L230;
-            L220:
+                    L220:
                     s1r = -zet1dr + zet2dr;
                     s1i = -zet1di + zet2di;
-            L230:
+                    L230:
                     //-----------------------------------------------------------------------
                     //    TEST FOR UNDERFLOW AND OVERFLOW
                     //-----------------------------------------------------------------------
                     rs1 = s1r;
-                    if (Math.Abs(rs1) > elim) goto L280;
-                    if (kdflg == 1) iflag = 2;
-                    if (Math.Abs(rs1) < alim) goto L240;
+                    if (Math.Abs(rs1) > elim)
+                        goto L280;
+                    if (kdflg == 1)
+                        iflag = 2;
+                    if (Math.Abs(rs1) < alim)
+                        goto L240;
                     //-----------------------------------------------------------------------
                     //    REFINE  TEST AND SCALE
                     //-----------------------------------------------------------------------
                     aphi = zabs(phidr, phidi);
                     aarg = zabs(argdr, argdi);
                     rs1 = rs1 + Math.Log(aphi) - 0.25 * Math.Log(aarg) - aic;
-                    if (Math.Abs(rs1) > elim) goto L280;
-                    if (kdflg == 1) iflag = 1;
-                    if (rs1 < 0.0) goto L240;
-                    if (kdflg == 1) iflag = 3;
-            L240:
+                    if (Math.Abs(rs1) > elim)
+                        goto L280;
+                    if (kdflg == 1)
+                        iflag = 1;
+                    if (rs1 < 0.0)
+                        goto L240;
+                    if (kdflg == 1)
+                        iflag = 3;
+                    L240:
                     zairy(argdr, argdi, 0, 2, ref air, ref aii, ref nai, ref idum);
                     zairy(argdr, argdi, 1, 2, ref dair, ref daii, ref ndai, ref idum);
                     str = dair * bsumdr - daii * bsumdi;
@@ -7260,13 +7666,16 @@ namespace MathNet.Numerics
                     str = s2r * s1r - s2i * s1i;
                     s2i = s2r * s1i + s2i * s1r;
                     s2r = str;
-                    if (iflag != 1) goto L250;
+                    if (iflag != 1)
+                        goto L250;
                     zuchk(s2r, s2i, ref nw, bry[0], tol);
-                    if (nw == 0) goto L250;
+                    if (nw == 0)
+                        goto L250;
                     s2r = zeror;
                     s2i = zeroi;
-            L250:
-                    if (yy <= 0.0) s2i = -s2i;
+                    L250:
+                    if (yy <= 0.0)
+                        s2i = -s2i;
                     cyr[kdflg - 1] = s2r;
                     cyi[kdflg - 1] = s2i;
                     c2r = s2r;
@@ -7278,10 +7687,11 @@ namespace MathNet.Numerics
                     //-----------------------------------------------------------------------
                     s1r = yr[kk - 1];
                     s1i = yi[kk - 1];
-                    if (kode == 1) goto L270;
+                    if (kode == 1)
+                        goto L270;
                     zs1s2(zrr, zri, ref s1r, ref s1i, ref s2r, ref s2i, ref nw, asc, alim, ref iuf);
                     nz += nw;
-            L270:
+                    L270:
                     yr[kk - 1] = s1r * cspnr - s1i * cspni + s2r;
                     yi[kk - 1] = s1r * cspni + s1i * cspnr + s2i;
                     kk--;
@@ -7290,25 +7700,29 @@ namespace MathNet.Numerics
                     str = csi;
                     csi = -csr;
                     csr = str;
-                    if (c2r != 0.0 || c2i != 0.0) goto L255;
+                    if (c2r != 0.0 || c2i != 0.0)
+                        goto L255;
                     kdflg = 1;
                     goto L290;
-            L255:
-                    if (kdflg == 2) goto L295;
+                    L255:
+                    if (kdflg == 2)
+                        goto L295;
                     kdflg = 2;
                     goto L290;
-            L280:
-                    if (rs1 > 0.0) goto L320;
+                    L280:
+                    if (rs1 > 0.0)
+                        goto L320;
                     s2r = zeror;
                     s2i = zeroi;
                     goto L250;
-            L290:
+                    L290:
                     ;
                 }
                 k = n;
-            L295:
+                L295:
                 il = n - k;
-                if (il == 0) return 0;
+                if (il == 0)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    RECUR BACKWARD FOR REMAINDER OF I SEQUENCE AND ADD IN THE
                 //    K FUNCTIONS, SCALING THE I SEQUENCE DURING RECURRENCE TO KEEP
@@ -7321,8 +7735,7 @@ namespace MathNet.Numerics
                 csr = csrr[iflag - 1];
                 ascle = bry[iflag - 1];
                 fn = (double)(inu + il);
-                for (i = 1; i <= il; i++)
-                {
+                for (i = 1; i <= il; i++) {
                     c2r = s2r;
                     c2i = s2i;
                     s2r = s1r + (fn + fnf) * (rzr * c2r - rzi * c2i);
@@ -7336,20 +7749,23 @@ namespace MathNet.Numerics
                     cki = c2i;
                     c1r = yr[kk - 1];
                     c1i = yi[kk - 1];
-                    if (kode == 1) goto L300;
+                    if (kode == 1)
+                        goto L300;
                     zs1s2(zrr, zri, ref c1r, ref c1i, ref c2r, ref c2i, ref nw, asc, alim, ref iuf);
                     nz = nz + nw;
-            L300:
+                    L300:
                     yr[kk - 1] = c1r * cspnr - c1i * cspni + c2r;
                     yi[kk - 1] = c1r * cspni + c1i * cspnr + c2i;
                     kk--;
                     cspnr = -cspnr;
                     cspni = -cspni;
-                    if (iflag >= 3) goto L310;
+                    if (iflag >= 3)
+                        goto L310;
                     c2r = Math.Abs(ckr);
                     c2i = Math.Abs(cki);
                     c2m = Math.Max(c2r, c2i);
-                    if (c2m <= ascle) goto L310;
+                    if (c2m <= ascle)
+                        goto L310;
                     iflag++;
                     ascle = bry[iflag - 1];
                     s1r *= csr;
@@ -7361,17 +7777,16 @@ namespace MathNet.Numerics
                     s2r *= cssr[iflag - 1];
                     s2i *= cssr[iflag - 1];
                     csr = csrr[iflag - 1];
-            L310:
+                    L310:
                     ;
                 }
                 return 0;
-            L320:
+                L320:
                 nz = -1;
                 return 0;
             }
 
-            static int zuoik(double zr, double zi, double fnu, int kode, int ikflg, int n, double[] yr, double[] yi, ref int nuf, double tol, double elim, double alim)
-            {
+            static int zuoik(double zr, double zi, double fnu, int kode, int ikflg, int n, double[] yr, double[] yi, ref int nuf, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZUOIK
@@ -7420,158 +7835,184 @@ namespace MathNet.Numerics
                 nn = n;
                 zrr = zr;
                 zri = zi;
-                if (zr >= 0.0) goto L10;
+                if (zr >= 0.0)
+                    goto L10;
                 zrr = -zr;
                 zri = -zi;
-            L10:
+                L10:
                 zbr = zrr;
                 zbi = zri;
                 ax = Math.Abs(zr) * 1.7321;
                 ay = Math.Abs(zi);
                 iform = 1;
-                if (ay > ax) iform = 2;
+                if (ay > ax)
+                    iform = 2;
                 gnu = Math.Max(fnu, 1.0);
-                if (ikflg == 1) goto L20;
+                if (ikflg == 1)
+                    goto L20;
                 fnn = (double)nn;
                 gnn = fnu + fnn - 1.0;
                 gnu = Math.Max(gnn, fnn);
-            L20:
+                L20:
                 //-----------------------------------------------------------------------
                 //    ONLY THE MAGNITUDE OF ARG AND PHI ARE NEEDED ALONG WITH THE
                 //    REAL PARTS OF ZETA1, ZETA2 AND ZB. NO ATTEMPT IS MADE TO GET
                 //    THE SIGN OF THE IMAGINARY PART CORRECT.
                 //-----------------------------------------------------------------------
-                if (iform == 2) goto L30;
+                if (iform == 2)
+                    goto L30;
                 init = 0;
                 zunik(zrr, zri, gnu, ikflg, 1, tol, ref init, ref phir, ref phii, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref sumr, ref sumi, ref cwrkr, ref cwrki);
                 czr = -zeta1r + zeta2r;
                 czi = -zeta1i + zeta2i;
                 goto L50;
-            L30:
+                L30:
                 znr = zri;
                 zni = -zrr;
-                if (zi > 0.0) goto L40;
+                if (zi > 0.0)
+                    goto L40;
                 znr = -znr;
-            L40:
+                L40:
                 zunhj(znr, zni, gnu, 1, tol, ref phir, ref phii, ref argr, ref argi, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref asumr, ref asumi, ref bsumr, ref bsumi);
                 czr = -zeta1r + zeta2r;
                 czi = -zeta1i + zeta2i;
                 aarg = zabs(argr, argi);
-            L50:
-                if (kode == 1) goto L60;
+                L50:
+                if (kode == 1)
+                    goto L60;
                 czr -= zbr;
                 czi -= zbi;
-            L60:
-                if (ikflg == 1) goto L70;
+                L60:
+                if (ikflg == 1)
+                    goto L70;
                 czr = -czr;
                 czi = -czi;
-            L70:
+                L70:
                 aphi = zabs(phir, phii);
                 rcz = czr;
                 //-----------------------------------------------------------------------
                 //    OVERFLOW TEST
                 //-----------------------------------------------------------------------
-                if (rcz > elim) goto L210;
-                if (rcz < alim) goto L80;
+                if (rcz > elim)
+                    goto L210;
+                if (rcz < alim)
+                    goto L80;
                 rcz += Math.Log(aphi);
-                if (iform == 2) rcz = rcz - Math.Log(aarg) * 0.25 - aic;
-                if (rcz > elim) goto L210;
+                if (iform == 2)
+                    rcz = rcz - Math.Log(aarg) * 0.25 - aic;
+                if (rcz > elim)
+                    goto L210;
                 goto L130;
-            L80:
+                L80:
                 //-----------------------------------------------------------------------
                 //    UNDERFLOW TEST
                 //-----------------------------------------------------------------------
-                if (rcz < -elim) goto L90;
-                if (rcz > -alim) goto L130;
+                if (rcz < -elim)
+                    goto L90;
+                if (rcz > -alim)
+                    goto L130;
                 rcz += Math.Log(aphi);
-                if (iform == 2) rcz = rcz - Math.Log(aarg) * .25 - aic;
-                if (rcz > -elim) goto L110;
-            L90:
-                for (i = 1; i <= nn; i++)
-                {
+                if (iform == 2)
+                    rcz = rcz - Math.Log(aarg) * .25 - aic;
+                if (rcz > -elim)
+                    goto L110;
+                L90:
+                for (i = 1; i <= nn; i++) {
                     yr[i - 1] = zeror;
                     yi[i - 1] = zeroi;
                 }
                 nuf = nn;
                 return 0;
-            L110:
+                L110:
                 ascle = d1mach(1) * 1.0E3 / tol;
                 zlog(phir, phii, ref str, ref sti, ref idum);
                 czr += str;
                 czi += sti;
-                if (iform == 1) goto L120;
+                if (iform == 1)
+                    goto L120;
                 zlog(argr, argi, ref str, ref sti, ref idum);
                 czr = czr - str * 0.25 - aic;
                 czi -= sti * 0.25;
-            L120:
+                L120:
                 ax = Math.Exp(rcz) / tol;
                 ay = czi;
                 czr = ax * Math.Cos(ay);
                 czi = ax * Math.Sin(ay);
                 zuchk(czr, czi, ref nw, ascle, tol);
-                if (nw != 0) goto L90;
-            L130:
-                if (ikflg == 2) return 0;
-                if (n == 1) return 0;
+                if (nw != 0)
+                    goto L90;
+                L130:
+                if (ikflg == 2)
+                    return 0;
+                if (n == 1)
+                    return 0;
                 //-----------------------------------------------------------------------
                 //    SET UNDERFLOWS ON I SEQUENCE
                 //-----------------------------------------------------------------------
-            L140:
+                L140:
                 gnu = fnu + (nn - 1);
-                if (iform == 2) goto L150;
+                if (iform == 2)
+                    goto L150;
                 init = 0;
                 zunik(zrr, zri, gnu, ikflg, 1, tol, ref init, ref phir, ref phii, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref sumr, ref sumi, ref cwrkr, ref cwrki);
                 czr = -zeta1r + zeta2r;
                 czi = -zeta1i + zeta2i;
                 goto L160;
-            L150:
+                L150:
                 zunhj(znr, zni, gnu, 1, tol, ref phir, ref phii, ref argr, ref argi, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref asumr, ref asumi, ref bsumr, ref bsumi);
                 czr = -zeta1r + zeta2r;
                 czi = -zeta1i + zeta2i;
                 aarg = zabs(argr, argi);
-            L160:
-                if (kode == 1) goto L170;
+                L160:
+                if (kode == 1)
+                    goto L170;
                 czr -= zbr;
                 czi -= zbi;
-            L170:
+                L170:
                 aphi = zabs(phir, phii);
                 rcz = czr;
-                if (rcz < -elim) goto L180;
-                if (rcz > -alim) return 0;
+                if (rcz < -elim)
+                    goto L180;
+                if (rcz > -alim)
+                    return 0;
                 rcz += Math.Log(aphi);
-                if (iform == 2) rcz = rcz - Math.Log(aarg) * 0.25 - aic;
-                if (rcz > -elim) goto L190;
-            L180:
+                if (iform == 2)
+                    rcz = rcz - Math.Log(aarg) * 0.25 - aic;
+                if (rcz > -elim)
+                    goto L190;
+                L180:
                 yr[nn - 1] = zeror;
                 yi[nn - 1] = zeroi;
                 nn--;
                 nuf++;
-                if (nn == 0) return 0;
+                if (nn == 0)
+                    return 0;
                 goto L140;
-            L190:
+                L190:
                 ascle = d1mach(1) * 1.0E3 / tol;
                 zlog(phir, phii, ref str, ref sti, ref idum);
                 czr += str;
                 czi += sti;
-                if (iform == 1) goto L200;
+                if (iform == 1)
+                    goto L200;
                 zlog(argr, argi, ref str, ref sti, ref idum);
                 czr = czr - str * 0.25 - aic;
                 czi -= sti * 0.25;
-            L200:
+                L200:
                 ax = Math.Exp(rcz) / tol;
                 ay = czi;
                 czr = ax * Math.Cos(ay);
                 czi = ax * Math.Sin(ay);
                 zuchk(czr, czi, ref nw, ascle, tol);
-                if (nw != 0) goto L180;
+                if (nw != 0)
+                    goto L180;
                 return 0;
-            L210:
+                L210:
                 nuf = -1;
                 return 0;
             }
 
-            static int zwrsk(double zrr, double zri, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double[] cwr, double[] cwi, double tol, double elim, double alim)
-            {
+            static int zwrsk(double zrr, double zri, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double[] cwr, double[] cwi, double tol, double elim, double alim) {
                 #region Description
 
                 //***BEGIN PROLOGUE  ZWRSK
@@ -7597,7 +8038,8 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 nz = 0;
                 zbknu(zrr, zri, fnu, kode, 2, cwr, cwi, ref nw, tol, elim, alim);
-                if (nw != 0) goto L50;
+                if (nw != 0)
+                    goto L50;
                 zrati(zrr, zri, fnu, n, yr, yi, tol);
                 //-----------------------------------------------------------------------
                 //    RECUR FORWARD ON I(FNU+1,Z) = R(FNU,Z)*I(FNU,Z),
@@ -7605,10 +8047,11 @@ namespace MathNet.Numerics
                 //-----------------------------------------------------------------------
                 cinur = 1.0;
                 cinui = 0.0;
-                if (kode == 1) goto L10;
+                if (kode == 1)
+                    goto L10;
                 cinur = Math.Cos(zri);
                 cinui = Math.Sin(zri);
-            L10:
+                L10:
                 //-----------------------------------------------------------------------
                 //    ON LOW EXPONENT MACHINES THE K FUNCTIONS CAN BE CLOSE TO BOTH
                 //    THE UNDER AND OVERFLOW LIMITS AND THE NORMALIZATION MUST BE
@@ -7618,14 +8061,16 @@ namespace MathNet.Numerics
                 acw = zabs(cwr[1], cwi[1]);
                 ascle = d1mach(1) * 1.0E3 / tol;
                 csclr = 1.0;
-                if (acw > ascle) goto L20;
+                if (acw > ascle)
+                    goto L20;
                 csclr = 1.0 / tol;
                 goto L30;
-            L20:
+                L20:
                 ascle = 1.0 / ascle;
-                if (acw < ascle) goto L30;
+                if (acw < ascle)
+                    goto L30;
                 csclr = tol;
-            L30:
+                L30:
                 c1r = cwr[0] * csclr;
                 c1i = cwi[0] * csclr;
                 c2r = cwr[1] * csclr;
@@ -7652,9 +8097,9 @@ namespace MathNet.Numerics
                 cinui = ptr * cti + pti * ctr;
                 yr[0] = cinur * csclr;
                 yi[0] = cinui * csclr;
-                if (n == 1) return 0;
-                for (i = 2; i <= n; i++)
-                {
+                if (n == 1)
+                    return 0;
+                for (i = 2; i <= n; i++) {
                     ptr = str * cinur - sti * cinui;
                     cinui = str * cinui + sti * cinur;
                     cinur = ptr;
@@ -7664,9 +8109,10 @@ namespace MathNet.Numerics
                     yi[i - 1] = cinui * csclr;
                 }
                 return 0;
-            L50:
+                L50:
                 nz = -1;
-                if (nw == -2) nz = -2;
+                if (nw == -2)
+                    nz = -2;
                 return 0;
             }
 

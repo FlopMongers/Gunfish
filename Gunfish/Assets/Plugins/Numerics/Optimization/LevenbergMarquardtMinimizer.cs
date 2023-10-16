@@ -3,30 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.Optimization
-{
-    public class LevenbergMarquardtMinimizer : NonlinearMinimizerBase
-    {
+namespace MathNet.Numerics.Optimization {
+    public class LevenbergMarquardtMinimizer : NonlinearMinimizerBase {
         /// <summary>
         /// The scale factor for initial mu
         /// </summary>
         public double InitialMu { get; set; }
 
         public LevenbergMarquardtMinimizer(double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
-            : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations)
-        {
+            : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations) {
             InitialMu = initialMu;
         }
 
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess,
-            Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null)
-        {
+            Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null) {
             return Minimum(objective, initialGuess, lowerBound, upperBound, scales, isFixed, InitialMu, GradientTolerance, StepTolerance, FunctionTolerance, MaximumIterations);
         }
 
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess,
-            double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null)
-        {
+            double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null) {
             if (objective == null)
                 throw new ArgumentNullException(nameof(objective));
             if (initialGuess == null)
@@ -53,8 +48,7 @@ namespace MathNet.Numerics.Optimization
         /// <returns>The result of the Levenberg-Marquardt minimization</returns>
         public NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null,
-            double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
-        {
+            double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1) {
             // Non-linear least square fitting by the Levenberg-Marduardt algorithm.
             //
             // Levenberg-Marquardt is finding the minimum of a function F(p) that is a sum of squares of nonlinear functions.
@@ -104,27 +98,23 @@ namespace MathNet.Numerics.Optimization
             Vector<double> Pstep; // the change of parameters
             var RSS = EvaluateFunction(objective, P);  // Residual Sum of Squares = R'R
 
-            if (maximumIterations < 0)
-            {
+            if (maximumIterations < 0) {
                 maximumIterations = 200 * (initialGuess.Count + 1);
             }
 
             // if RSS == NaN, stop
-            if (double.IsNaN(RSS))
-            {
+            if (double.IsNaN(RSS)) {
                 exitCondition = ExitCondition.InvalidValues;
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
             // When only function evaluation is needed, set maximumIterations to zero,
-            if (maximumIterations == 0)
-            {
+            if (maximumIterations == 0) {
                 exitCondition = ExitCondition.ManuallyStopped;
             }
 
             // if RSS <= fTol, stop
-            if (RSS <= functionTolerance)
-            {
+            if (RSS <= functionTolerance) {
                 exitCondition = ExitCondition.Converged; // SmallRSS
             }
 
@@ -133,33 +123,28 @@ namespace MathNet.Numerics.Optimization
             var diagonalOfHessian = Hessian.Diagonal(); // diag(H)
 
             // if ||g||oo <= gtol, found and stop
-            if (Gradient.InfinityNorm() <= gradientTolerance)
-            {
+            if (Gradient.InfinityNorm() <= gradientTolerance) {
                 exitCondition = ExitCondition.RelativeGradient;
             }
 
-            if (exitCondition != ExitCondition.None)
-            {
+            if (exitCondition != ExitCondition.None) {
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
             double mu = initialMu * diagonalOfHessian.Max(); // μ
             double nu = 2; //  ν
             int iterations = 0;
-            while (iterations < maximumIterations && exitCondition == ExitCondition.None)
-            {
+            while (iterations < maximumIterations && exitCondition == ExitCondition.None) {
                 iterations++;
 
-                while (true)
-                {
+                while (true) {
                     Hessian.SetDiagonal(Hessian.Diagonal() + mu); // hessian[i, i] = hessian[i, i] + mu;
 
                     // solve normal equations
                     Pstep = Hessian.Solve(-Gradient);
 
                     // if ||ΔP|| <= xTol * (||P|| + xTol), found and stop
-                    if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.DotProduct(P)))
-                    {
+                    if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.DotProduct(P))) {
                         exitCondition = ExitCondition.RelativePoints;
                         break;
                     }
@@ -168,8 +153,7 @@ namespace MathNet.Numerics.Optimization
                     // evaluate function at Pnew
                     var RSSnew = EvaluateFunction(objective, Pnew);
 
-                    if (double.IsNaN(RSSnew))
-                    {
+                    if (double.IsNaN(RSSnew)) {
                         exitCondition = ExitCondition.InvalidValues;
                         break;
                     }
@@ -181,8 +165,7 @@ namespace MathNet.Numerics.Optimization
                             ? (RSS - RSSnew) / predictedReduction
                             : 0;
 
-                    if (rho > 0.0)
-                    {
+                    if (rho > 0.0) {
                         // accepted
                         Pnew.CopyTo(P);
                         RSS = RSSnew;
@@ -192,14 +175,12 @@ namespace MathNet.Numerics.Optimization
                         diagonalOfHessian = Hessian.Diagonal();
 
                         // if ||g||_oo <= gtol, found and stop
-                        if (Gradient.InfinityNorm() <= gradientTolerance)
-                        {
+                        if (Gradient.InfinityNorm() <= gradientTolerance) {
                             exitCondition = ExitCondition.RelativeGradient;
                         }
 
                         // if ||R||^2 < fTol, found and stop
-                        if (RSS <= functionTolerance)
-                        {
+                        if (RSS <= functionTolerance) {
                             exitCondition = ExitCondition.Converged; // SmallRSS
                         }
 
@@ -208,8 +189,7 @@ namespace MathNet.Numerics.Optimization
 
                         break;
                     }
-                    else
-                    {
+                    else {
                         // rejected, increased μ
                         mu = mu * nu;
                         nu = 2 * nu;
@@ -219,8 +199,7 @@ namespace MathNet.Numerics.Optimization
                 }
             }
 
-            if (iterations >= maximumIterations)
-            {
+            if (iterations >= maximumIterations) {
                 exitCondition = ExitCondition.ExceedIterations;
             }
 

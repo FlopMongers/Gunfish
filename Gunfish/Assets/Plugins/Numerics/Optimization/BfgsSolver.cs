@@ -27,20 +27,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization.LineSearch;
+using System;
 
-namespace MathNet.Numerics.Optimization
-{
+namespace MathNet.Numerics.Optimization {
     /// <summary>
     /// Broyden-Fletcher-Goldfarb-Shanno solver for finding function minima
     /// See http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
     /// Inspired by implementation: https://github.com/PatWie/CppNumericalSolvers/blob/master/src/BfgsSolver.cpp
     /// </summary>
-    public static class BfgsSolver
-    {
+    public static class BfgsSolver {
         const double GradientTolerance = 1e-5;
         const int MaxIterations = 100000;
 
@@ -52,8 +50,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="functionValue">Evaluates the function at a point</param>
         /// <param name="functionGradient">Evaluates the gradient of the function at a point</param>
         /// <returns>The minimum found</returns>
-        public static Vector<double> Solve(Vector initialGuess, Func<Vector<double>, double> functionValue, Func<Vector<double>, Vector<double>> functionGradient)
-        {
+        public static Vector<double> Solve(Vector initialGuess, Func<Vector<double>, double> functionValue, Func<Vector<double>, Vector<double>> functionGradient) {
             var objectiveFunction = ObjectiveFunction.Gradient(functionValue, functionGradient);
             objectiveFunction.EvaluateAt(initialGuess);
 
@@ -67,8 +64,7 @@ namespace MathNet.Numerics.Optimization
             Vector<double> x_old = x;
             Vector<double> grad;
             WolfeLineSearch wolfeLineSearch = new WeakWolfeLineSearch(1e-4, 0.9, 1e-5, 200);
-            do
-            {
+            do {
                 // search along the direction of the gradient
                 grad = objectiveFunction.Gradient;
                 Vector<double> p = -1 * H * grad;
@@ -85,8 +81,7 @@ namespace MathNet.Numerics.Optimization
                 Vector<double> y = grad - grad_old;
 
                 double rho = 1.0 / (y * s);
-                if (iter == 0)
-                {
+                if (iter == 0) {
                     // set up an initial hessian
                     H = (y * s) / (y * y) * DenseMatrix.CreateIdentity(dim);
                 }

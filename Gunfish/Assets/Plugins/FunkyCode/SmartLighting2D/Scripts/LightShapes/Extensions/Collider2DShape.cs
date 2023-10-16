@@ -1,118 +1,97 @@
-﻿using System.Collections.Generic;
+﻿using FunkyCode.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode.LightShape
-{		
-	public class Collider2DShape : Base
-	{
-		public bool edgeCollider2D = false;
-				
-		public override List<MeshObject> GetMeshes()
-		{
-			if (Meshes == null)
-			{
-				List<Polygon2> polygons = GetPolygonsLocal();
+namespace FunkyCode.LightShape {
+    public class Collider2DShape : Base {
+        public bool edgeCollider2D = false;
 
-				if (polygons.Count > 0)
-				{
-					Meshes = new List<MeshObject>();
-					
-					foreach(Polygon2 poly in polygons)
-					{
-						if (poly.points.Length < 3)
-						{
-							continue;
-						}
-						
-						Mesh mesh = PolygonTriangulator2.Triangulate (poly, Vector2.zero, Vector2.zero, PolygonTriangulator2.Triangulation.Advanced);
-						
-						if (mesh)
-						{							
-							MeshObject meshObject = MeshObject.Get(mesh);
+        public override List<MeshObject> GetMeshes() {
+            if (Meshes == null) {
+                List<Polygon2> polygons = GetPolygonsLocal();
 
-							if (meshObject != null)
-							{
-								Meshes.Add(meshObject);
-							}
-						}
-					}
-				}
-			}
+                if (polygons.Count > 0) {
+                    Meshes = new List<MeshObject>();
 
-			return(Meshes);
-		}
+                    foreach (Polygon2 poly in polygons) {
+                        if (poly.points.Length < 3) {
+                            continue;
+                        }
 
-		public override List<Polygon2> GetPolygonsLocal()
-		{
-			if (LocalPolygons != null)
-			{
-				return(LocalPolygons);
-			}
+                        Mesh mesh = PolygonTriangulator2.Triangulate(poly, Vector2.zero, Vector2.zero, PolygonTriangulator2.Triangulation.Advanced);
 
-			if (transform == null)
-			{
-				return(LocalPolygons);
-			}
+                        if (mesh) {
+                            MeshObject meshObject = MeshObject.Get(mesh);
 
-			// avoid GC if possible
-		
-			LocalPolygons = Polygon2ListCollider2D.CreateFromGameObject(transform.gameObject);
+                            if (meshObject != null) {
+                                Meshes.Add(meshObject);
+                            }
+                        }
+                    }
+                }
+            }
 
-			if (LocalPolygons.Count > 0)
-			{
-				edgeCollider2D = (transform.GetComponent<EdgeCollider2D>() != null);
-			}
-		
-			return(LocalPolygons);
-		}
+            return (Meshes);
+        }
 
-		public override List<Polygon2> GetPolygonsWorld()
-		{
-			if (WorldPolygons != null)
-			{
-				return(WorldPolygons);
-			}
+        public override List<Polygon2> GetPolygonsLocal() {
+            if (LocalPolygons != null) {
+                return (LocalPolygons);
+            }
 
-			if (WorldCache != null)
-			{
-				WorldPolygons = WorldCache;
+            if (transform == null) {
+                return (LocalPolygons);
+            }
 
-				Polygon2 poly;
-				Polygon2 wPoly;
-				
-				List<Polygon2> list = GetPolygonsLocal();
+            // avoid GC if possible
 
-				for(int i = 0; i < list.Count; i++)
-				{
-					poly = list[i];
-					wPoly = WorldPolygons[i];
+            LocalPolygons = Polygon2ListCollider2D.CreateFromGameObject(transform.gameObject);
 
-					for(int p = 0; p < poly.points.Length; p++)
-					{
-						wPoly.points[p] = poly.points[p];
-					}
+            if (LocalPolygons.Count > 0) {
+                edgeCollider2D = (transform.GetComponent<EdgeCollider2D>() != null);
+            }
 
-					wPoly.ToWorldSpaceSelfUNIVERSAL(transform);
-				}
+            return (LocalPolygons);
+        }
 
-			}
-				else
-			{
-				WorldPolygons = new List<Polygon2>();
+        public override List<Polygon2> GetPolygonsWorld() {
+            if (WorldPolygons != null) {
+                return (WorldPolygons);
+            }
 
-				if (GetPolygonsLocal() != null)
-				{
-					foreach(Polygon2 poly in GetPolygonsLocal())
-					{
-						WorldPolygons.Add(poly.ToWorldSpace(transform));
-					}
-				}
-		
-				WorldCache = WorldPolygons;
-			}
-		
-			return(WorldPolygons);
-		}
-	}
+            if (WorldCache != null) {
+                WorldPolygons = WorldCache;
+
+                Polygon2 poly;
+                Polygon2 wPoly;
+
+                List<Polygon2> list = GetPolygonsLocal();
+
+                for (int i = 0; i < list.Count; i++) {
+                    poly = list[i];
+                    wPoly = WorldPolygons[i];
+
+                    for (int p = 0; p < poly.points.Length; p++) {
+                        wPoly.points[p] = poly.points[p];
+                    }
+
+                    wPoly.ToWorldSpaceSelfUNIVERSAL(transform);
+                }
+
+            }
+            else {
+                WorldPolygons = new List<Polygon2>();
+
+                if (GetPolygonsLocal() != null) {
+                    foreach (Polygon2 poly in GetPolygonsLocal()) {
+                        WorldPolygons.Add(poly.ToWorldSpace(transform));
+                    }
+                }
+
+                WorldCache = WorldPolygons;
+            }
+
+            return (WorldPolygons);
+        }
+    }
 }

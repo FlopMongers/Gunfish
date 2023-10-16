@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode.Chunks
-{
-    public class TilemapManager
-    {
+namespace FunkyCode.Chunks {
+    public class TilemapManager {
         public LightTile[] display;
 
         static public int ChunkSize = 10;
@@ -17,10 +15,8 @@ namespace FunkyCode.Chunks
 
         private bool initialized = false;
 
-        void Initialize()
-        {
-            if (!initialized)
-            {
+        void Initialize() {
+            if (!initialized) {
                 initialized = true;
 
                 ChunkSize = Lighting2D.ProjectSettings.chunks.chunkSize;
@@ -30,24 +26,20 @@ namespace FunkyCode.Chunks
             }
         }
 
-        public int GetTiles(Rect worldRect)
-        {
+        public int GetTiles(Rect worldRect) {
             distplayCount = 0;
 
-            if (Lighting2D.ProjectSettings.chunks.enabled)
-            {
+            if (Lighting2D.ProjectSettings.chunks.enabled) {
                 GenerateChunks(worldRect);
             }
-            else
-            {
+            else {
                 GenerateSimple(worldRect);
             }
-        
-            return(distplayCount);
+
+            return (distplayCount);
         }
 
-        public void Update(List<LightTile> tiles, LightTilemapCollider.Base tilemapCollider)
-        {
+        public void Update(List<LightTile> tiles, LightTilemapCollider.Base tilemapCollider) {
             this.tiles = tiles;
 
             Initialize();
@@ -56,95 +48,80 @@ namespace FunkyCode.Chunks
 
             if (!Lighting2D.ProjectSettings.chunks.enabled)
                 return;
-    
-            for(int x = 0; x < 100; x++)
-                for(int y = 0; y < 100; y++)
+
+            for (int x = 0; x < 100; x++)
+                for (int y = 0; y < 100; y++)
                     maps[x, y] = new List<LightTile>();
 
-            foreach(var tile in tiles)
-            {
+            foreach (var tile in tiles) {
                 var tilePosition = tile.GetWorldPosition(tilemapCollider);
                 var chunkPosition = Transform(tilePosition);
 
                 maps[chunkPosition.x, chunkPosition.y].Add(tile);
-             }
+            }
         }
 
-        private void GenerateChunks(Rect worldRect)
-        {
+        private void GenerateChunks(Rect worldRect) {
             Initialize();
-            
+
             var p0 = new Vector2(worldRect.x, worldRect.y);
             var p1 = new Vector2(worldRect.x + worldRect.width, worldRect.y + worldRect.height);
 
             var tp0 = Transform(p0);
             var tp1 = Transform(p1);
 
-            if (tp0.x > tp1.x)
-            {
+            if (tp0.x > tp1.x) {
                 tp1.x += 100;
             }
 
-            if (tp0.y > tp1.y)
-            {
-               tp1.y += 100;
+            if (tp0.y > tp1.y) {
+                tp1.y += 100;
             }
-            
-            for(int x = tp0.x; x <= tp1.x; x++)
-            {
-                for(int y = tp0.y; y <= tp1.y; y++)
-                {
+
+            for (int x = tp0.x; x <= tp1.x; x++) {
+                for (int y = tp0.y; y <= tp1.y; y++) {
                     int tx = x % 100;
                     int ty = y % 100;
 
-                    if (maps[tx, ty] == null)
-                    {
+                    if (maps[tx, ty] == null) {
                         continue;
                     }
 
-                    foreach(var tile in maps[tx, ty])
-                    {
-                        if (distplayCount < 1000)
-                        {
+                    foreach (var tile in maps[tx, ty]) {
+                        if (distplayCount < 1000) {
                             display[distplayCount] = tile;
 
-                            distplayCount ++;
+                            distplayCount++;
                         }
                     }
                 }
             }
         }
 
-        private void GenerateSimple(Rect worldRect)
-        {
+        private void GenerateSimple(Rect worldRect) {
             if (tiles == null)
                 return;
 
             if (tilemapCollider == null)
                 return;
 
-            foreach(var tile in tiles)
-            {
-                if (distplayCount < 1000)
-                {
+            foreach (var tile in tiles) {
+                if (distplayCount < 1000) {
                     var tilePosition = tile.GetWorldPosition(tilemapCollider);
 
-                    if (worldRect.Contains(tilePosition))
-                    {
+                    if (worldRect.Contains(tilePosition)) {
                         display[distplayCount] = tile;
 
-                        distplayCount ++;
+                        distplayCount++;
                     }
                 }
-                else
-                {
+                else {
                     Debug.LogWarning("Smart Lighting 2D: Tiles cache overflow");
                 }
             }
         }
 
-        static public Vector2Int Transform(Vector2 position)
-        {
+        static public Vector2Int Transform(Vector2 position) {
             float tx = (position.x / ChunkSize);
             float ty = (position.y / ChunkSize);
 
@@ -160,16 +137,14 @@ namespace FunkyCode.Chunks
             txInt = txInt % 100;
             tyInt = tyInt % 100;
 
-            return(new Vector2Int(txInt, tyInt));
+            return (new Vector2Int(txInt, tyInt));
         }
 
-        static public Vector2Int TransformBounds(Vector2 position)
-        {
+        static public Vector2Int TransformBounds(Vector2 position) {
             float tx = (position.x / ChunkSize);
             float ty = (position.y / ChunkSize);
 
-            return(new Vector2Int(Mathf.FloorToInt(tx), Mathf.FloorToInt(ty)));
+            return (new Vector2Int(Mathf.FloorToInt(tx), Mathf.FloorToInt(ty)));
         }
     }
 }
-

@@ -29,8 +29,7 @@
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization {
     using Numerics;
 
     /// <summary>
@@ -42,25 +41,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    internal abstract class Cholesky : Cholesky<Complex32>
-    {
+    internal abstract class Cholesky : Cholesky<Complex32> {
         protected Cholesky(Matrix<Complex32> factor)
-            : base(factor)
-        {
+            : base(factor) {
         }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override Complex32 Determinant
-        {
-            get
-            {
+        public override Complex32 Determinant {
+            get {
                 var det = Complex32.One;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
+                for (var j = 0; j < Factor.RowCount; j++) {
                     var d = Factor.At(j, j);
-                    det *= d*d;
+                    det *= d * d;
                 }
 
                 return det;
@@ -70,14 +64,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override Complex32 DeterminantLn
-        {
-            get
-            {
+        public override Complex32 DeterminantLn {
+            get {
                 var det = Complex32.Zero;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
-                    det += 2.0f*Factor.At(j, j).NaturalLogarithm();
+                for (var j = 0; j < Factor.RowCount; j++) {
+                    det += 2.0f * Factor.At(j, j).NaturalLogarithm();
                 }
 
                 return det;

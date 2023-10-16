@@ -31,10 +31,8 @@ using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.Distributions
-{
-    public class Burr : IContinuousDistribution
-    {
+namespace MathNet.Numerics.Distributions {
+    public class Burr : IContinuousDistribution {
         System.Random _random;
 
         /// <summary>
@@ -59,10 +57,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="c">The first shape parameter c of the Burr distribution. Range: c > 0.</param>
         /// <param name="k">The second shape parameter k of the Burr distribution. Range: k > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
-        public Burr(double a, double c, double k, System.Random randomSource = null)
-        {
-            if (!IsValidParameterSet(a, c, k))
-            {
+        public Burr(double a, double c, double k, System.Random randomSource = null) {
+            if (!IsValidParameterSet(a, c, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             _random = randomSource ?? SystemRandomSource.Default;
@@ -75,8 +71,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Burr(a = {A}, c = {C}, k = {K})";
         }
 
@@ -86,8 +81,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The scale parameter a of the Burr distribution. Range: a > 0.</param>
         /// <param name="c">The first shape parameter c of the Burr distribution. Range: c > 0.</param>
         /// <param name="k">The second shape parameter k of the Burr distribution. Range: k > 0.</param>
-        public static bool IsValidParameterSet(double a, double c, double k)
-        {
+        public static bool IsValidParameterSet(double a, double c, double k) {
             var allFinite = a.IsFinite() && c.IsFinite() && k.IsFinite();
             return allFinite && a > 0.0 && c > 0.0 && k > 0.0;
         }
@@ -95,8 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -141,10 +134,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the Burr distribution.
         /// </summary>
-        public double Skewness
-        {
-            get
-            {
+        public double Skewness {
+            get {
                 var mean = Mean;
                 var variance = Variance;
                 var std = StdDev;
@@ -161,8 +152,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the Burr distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, A, C, K);
         }
 
@@ -170,8 +160,7 @@ namespace MathNet.Numerics.Distributions
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="values">The array to fill with the samples.</param>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, A, C, K);
         }
 
@@ -179,8 +168,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the Burr distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, A, C, K);
         }
 
@@ -192,10 +180,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="c">The first shape parameter c of the Burr distribution. Range: c > 0.</param>
         /// <param name="k">The second shape parameter k of the Burr distribution. Range: k > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double a, double c, double k)
-        {
-            if (!IsValidParameterSet(a, c, k))
-            {
+        public static double Sample(System.Random rnd, double a, double c, double k) {
+            if (!IsValidParameterSet(a, c, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, a, c, k);
@@ -209,10 +195,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The scale parameter a of the Burr distribution. Range: a > 0.</param>
         /// <param name="c">The first shape parameter c of the Burr distribution. Range: c > 0.</param>
         /// <param name="k">The second shape parameter k of the Burr distribution. Range: k > 0.</param>
-        public static void Samples(System.Random rnd, double[] values, double a, double c, double k)
-        {
-            if (!IsValidParameterSet(a, c, k))
-            {
+        public static void Samples(System.Random rnd, double[] values, double a, double c, double k) {
+            if (!IsValidParameterSet(a, c, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             SamplesUnchecked(rnd, values, a, c, k);
@@ -226,43 +210,35 @@ namespace MathNet.Numerics.Distributions
         /// <param name="c">The first shape parameter c of the Burr distribution. Range: c > 0.</param>
         /// <param name="k">The second shape parameter k of the Burr distribution. Range: k > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double a, double c, double k)
-        {
-            if (!IsValidParameterSet(a, c, k))
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double a, double c, double k) {
+            if (!IsValidParameterSet(a, c, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(rnd, a, c, k);
         }
 
-        static double SampleUnchecked(System.Random rnd, double a, double c, double k)
-        {
+        static double SampleUnchecked(System.Random rnd, double a, double c, double k) {
             var kInv = 1 / k;
             var cInv = 1 / c;
             double u = rnd.NextDouble();
             return a * Math.Pow(Math.Pow(1 - u, -kInv) - 1, cInv);
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double a, double c, double k)
-        {
-            if (values.Length == 0)
-            {
+        static void SamplesUnchecked(System.Random rnd, double[] values, double a, double c, double k) {
+            if (values.Length == 0) {
                 return;
             }
             var kInv = 1 / k;
             var cInv = 1 / c;
             double[] u = rnd.NextDoubles(values.Length);
 
-            for (var j = 0; j < values.Length; ++j)
-            {
+            for (var j = 0; j < values.Length; ++j) {
                 values[j] = a * Math.Pow(Math.Pow(1 - u[j], -kInv) - 1, cInv);
             }
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double a, double c, double k)
-        {
-            while (true)
-            {
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double a, double c, double k) {
+            while (true) {
                 yield return SampleUnchecked(rnd, a, c, k);
             }
         }
@@ -272,10 +248,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="n">The order (n) of the moment. Range: n ≥ 1.</param>
         /// <returns>the n-th moment of the distribution.</returns>
-        public double GetMoment(double n)
-        {
-            if (n > K * C)
-            {
+        public double GetMoment(double n) {
+            if (n > K * C) {
                 throw new ArgumentException("The chosen parameter set is invalid (probably some value is out of range).");
             }
             var lambdaN = (n / C) * SpecialFunctions.Gamma(n / C) * SpecialFunctions.Gamma(K - n / C);
@@ -288,8 +262,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
+        public double Density(double x) {
             return DensityImpl(A, C, K, x);
         }
 
@@ -299,8 +272,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
+        public double DensityLn(double x) {
             return DensityLnImpl(A, C, K, x);
         }
 
@@ -310,8 +282,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return CumulativeDistributionImpl(A, C, K, x);
         }
 
@@ -324,10 +295,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double a, double c, double k, double x)
-        {
-            if (!IsValidParameterSet(a, c, k))
-            {
+        public static double PDF(double a, double c, double k, double x) {
+            if (!IsValidParameterSet(a, c, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityImpl(a, c, k, x);
@@ -342,10 +311,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double a, double c, double k, double x)
-        {
-            if (!IsValidParameterSet(a, c, k))
-            {
+        public static double PDFLn(double a, double c, double k, double x) {
+            if (!IsValidParameterSet(a, c, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityLnImpl(a, c, k, x);
@@ -360,29 +327,24 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double a, double c, double k, double x)
-        {
-            if (!IsValidParameterSet(a, c, k))
-            {
+        public static double CDF(double a, double c, double k, double x) {
+            if (!IsValidParameterSet(a, c, k)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return CumulativeDistributionImpl(a, c, k, x);
         }
 
-        static double DensityImpl(double a, double c, double k, double x)
-        {
+        static double DensityImpl(double a, double c, double k, double x) {
             var numerator = (k * c / a) * Math.Pow(x / a, c - 1);
             var denominator = Math.Pow(1 + Math.Pow(x / a, c), k + 1);
             return numerator / denominator;
         }
 
-        static double DensityLnImpl(double a, double c, double k, double x)
-        {
+        static double DensityLnImpl(double a, double c, double k, double x) {
             return Math.Log(DensityImpl(a, c, k, x));
         }
 
-        static double CumulativeDistributionImpl(double a, double c, double k, double x)
-        {
+        static double CumulativeDistributionImpl(double a, double c, double k, double x) {
             var denominator = Math.Pow(1 + Math.Pow(x / a, c), k);
             return 1 - 1 / denominator;
         }

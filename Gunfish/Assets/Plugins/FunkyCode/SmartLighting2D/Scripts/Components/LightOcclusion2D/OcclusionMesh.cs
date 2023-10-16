@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode
-    {
-    public class OcclusionMesh
-    {
+namespace FunkyCode {
+    public class OcclusionMesh {
         OcclusionTileset tileset;
 
         Mesh mesh;
@@ -38,15 +36,15 @@ namespace FunkyCode
             Vector2 tempUV1 = uv1;
             Vector2 tempUV2 = uv2;
             Vector2 tempUV3 = uv3;
-            
-            switch(tileRotation) {
+
+            switch (tileRotation) {
                 case OcclusionTileset.TileRotation.right:
                     uv0 = tempUV1;
                     uv1 = tempUV2;
                     uv2 = tempUV3;
                     uv3 = tempUV0;
 
-                break;
+                    break;
 
                 case OcclusionTileset.TileRotation.down:
                     uv0 = tempUV2;
@@ -54,18 +52,18 @@ namespace FunkyCode
                     uv2 = tempUV0;
                     uv3 = tempUV1;
 
-                break;
+                    break;
 
                 case OcclusionTileset.TileRotation.left:
                     uv0 = tempUV3;
                     uv1 = tempUV0;
                     uv2 = tempUV1;
                     uv3 = tempUV2;
-                    
-                break;
+
+                    break;
             }
 
-            
+
             Vector2 flipUV0 = uv0;
             Vector2 flipUV1 = uv1;
             Vector2 flipUV2 = uv2;
@@ -87,20 +85,20 @@ namespace FunkyCode
 
             flipUV0 = uv0;
             flipUV1 = uv1;
-        flipUV2 = uv2;
-        flipUV3 = uv3;
+            flipUV2 = uv2;
+            flipUV3 = uv3;
 
-            
-            
-                uv0 = flipUV3;
-                uv1 = flipUV2;
-                uv2 = flipUV1;
-                uv3 = flipUV0;
-            
 
-            
 
-        
+            uv0 = flipUV3;
+            uv1 = flipUV2;
+            uv2 = flipUV1;
+            uv3 = flipUV0;
+
+
+
+
+
             vertices.Add(new Vector3(tilePosition.x, tilePosition.y));
             vertices.Add(new Vector3(tilePosition.x + 1, tilePosition.y));
             vertices.Add(new Vector3(tilePosition.x + 1, tilePosition.y + 1));
@@ -115,7 +113,7 @@ namespace FunkyCode
             colors.Add(color);
             colors.Add(color);
             colors.Add(color);
-            
+
             triangles.Add(0 + tileCount * 4);
             triangles.Add(1 + tileCount * 4);
             triangles.Add(2 + tileCount * 4);
@@ -135,9 +133,9 @@ namespace FunkyCode
             mesh.triangles = triangles.ToArray();
             mesh.colors = colors.ToArray();
 
-        // mesh.RecalculateNormals();
+            // mesh.RecalculateNormals();
 
-            return(mesh);
+            return (mesh);
         }
     }
 }

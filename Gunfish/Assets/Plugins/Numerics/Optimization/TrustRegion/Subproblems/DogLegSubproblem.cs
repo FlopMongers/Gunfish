@@ -1,15 +1,12 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
-{
-    internal class DogLegSubproblem : ITrustRegionSubproblem
-    {
+namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems {
+    internal class DogLegSubproblem : ITrustRegionSubproblem {
         public Vector<double> Pstep { get; private set; }
 
         public bool HitBoundary { get; private set; }
 
-        public void Solve(IObjectiveModel objective, double delta)
-        {
+        public void Solve(IObjectiveModel objective, double delta) {
             var Gradient = objective.Gradient;
             var Hessian = objective.Hessian;
 
@@ -21,20 +18,17 @@ namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
             var Psd = -alpha * Gradient;
 
             // update step and prectted reduction
-            if (Pgn.L2Norm() <= delta)
-            {
+            if (Pgn.L2Norm() <= delta) {
                 // Pgn is inside trust region radius
                 HitBoundary = false;
                 Pstep = Pgn;
             }
-            else if (alpha * Psd.L2Norm() >= delta)
-            {
+            else if (alpha * Psd.L2Norm() >= delta) {
                 // Psd is outside trust region radius
                 HitBoundary = true;
                 Pstep = delta / Psd.L2Norm() * Psd;
             }
-            else
-            {
+            else {
                 // Pstep is intersection of the trust region boundary
                 HitBoundary = true;
                 var beta = Util.FindBeta(alpha, Psd, Pgn, delta).Item2;

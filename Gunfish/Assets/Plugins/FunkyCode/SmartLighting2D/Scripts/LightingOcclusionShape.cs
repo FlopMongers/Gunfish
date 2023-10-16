@@ -1,84 +1,83 @@
-﻿using System.Collections;
+﻿using FunkyCode.LightShape;
+using FunkyCode.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.LightShape;
-using FunkyCode.Utilities;
 
-namespace FunkyCode
-{
+namespace FunkyCode {
 
-	[System.Serializable]
-	public class LightingOcclusionShape {
-		public LightOcclusion2D.ShadowType shadowType = LightOcclusion2D.ShadowType.Collider;
+    [System.Serializable]
+    public class LightingOcclusionShape {
+        public LightOcclusion2D.ShadowType shadowType = LightOcclusion2D.ShadowType.Collider;
 
-		public Collider2DShape colliderShape = new Collider2DShape();
-		public SpritePhysicsShape spritePhysicsShape = new SpritePhysicsShape();
+        public Collider2DShape colliderShape = new Collider2DShape();
+        public SpritePhysicsShape spritePhysicsShape = new SpritePhysicsShape();
 
-		public Transform transform;
-		
-		public void SetTransform(Transform t) {
-			transform = t.transform;
+        public Transform transform;
 
-			colliderShape.SetTransform(t);
+        public void SetTransform(Transform t) {
+            transform = t.transform;
 
-			spritePhysicsShape.SetTransform(t);
-		}
+            colliderShape.SetTransform(t);
 
-		public void ResetLocal() {
-			colliderShape.ResetLocal();
+            spritePhysicsShape.SetTransform(t);
+        }
 
-			spritePhysicsShape.ResetLocal();
+        public void ResetLocal() {
+            colliderShape.ResetLocal();
 
-			ResetWorld();
-		}
+            spritePhysicsShape.ResetLocal();
 
-		public void ResetWorld() {
-			colliderShape.ResetWorld();
+            ResetWorld();
+        }
 
-			spritePhysicsShape.ResetWorld();
-		}
+        public void ResetWorld() {
+            colliderShape.ResetWorld();
 
-		public bool IsEdgeCollider() {
-			switch(shadowType) {
-				case LightOcclusion2D.ShadowType.Collider:
-					return(colliderShape.edgeCollider2D);
-			}
-			
-			return(false);
-		}
+            spritePhysicsShape.ResetWorld();
+        }
 
-		public List<MeshObject> GetMeshes() {
-			switch(shadowType) {
-				case LightOcclusion2D.ShadowType.Collider:
-					return(colliderShape.GetMeshes());
+        public bool IsEdgeCollider() {
+            switch (shadowType) {
+                case LightOcclusion2D.ShadowType.Collider:
+                    return (colliderShape.edgeCollider2D);
+            }
 
-			case LightOcclusion2D.ShadowType.SpritePhysicsShape:
-					return(spritePhysicsShape.GetMeshes());
-			}
-		
-			return(null);
-		}
+            return (false);
+        }
 
-		public List<Polygon2> GetPolygonsLocal() {
-			switch(shadowType) {
-				case LightOcclusion2D.ShadowType.Collider:
-					return(colliderShape.GetPolygonsLocal());
+        public List<MeshObject> GetMeshes() {
+            switch (shadowType) {
+                case LightOcclusion2D.ShadowType.Collider:
+                    return (colliderShape.GetMeshes());
 
-				case LightOcclusion2D.ShadowType.SpritePhysicsShape:
-					return(spritePhysicsShape.GetPolygonsLocal());
-			}
-			return(null);
-		}
+                case LightOcclusion2D.ShadowType.SpritePhysicsShape:
+                    return (spritePhysicsShape.GetMeshes());
+            }
 
-		public List<Polygon2> GetPolygonsWorld() {
-			switch(shadowType) {
-				case LightOcclusion2D.ShadowType.Collider:
-					return(colliderShape.GetPolygonsWorld());
+            return (null);
+        }
 
-				case LightOcclusion2D.ShadowType.SpritePhysicsShape:
-					return(spritePhysicsShape.GetPolygonsWorld());
-			}
-			return(null);
-		}
-	}
+        public List<Polygon2> GetPolygonsLocal() {
+            switch (shadowType) {
+                case LightOcclusion2D.ShadowType.Collider:
+                    return (colliderShape.GetPolygonsLocal());
+
+                case LightOcclusion2D.ShadowType.SpritePhysicsShape:
+                    return (spritePhysicsShape.GetPolygonsLocal());
+            }
+            return (null);
+        }
+
+        public List<Polygon2> GetPolygonsWorld() {
+            switch (shadowType) {
+                case LightOcclusion2D.ShadowType.Collider:
+                    return (colliderShape.GetPolygonsWorld());
+
+                case LightOcclusion2D.ShadowType.SpritePhysicsShape:
+                    return (spritePhysicsShape.GetPolygonsWorld());
+            }
+            return (null);
+        }
+    }
 }

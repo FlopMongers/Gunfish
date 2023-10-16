@@ -13,7 +13,8 @@ namespace SplineMesh {
         private Spline spline;
         private Spline Spline {
             get {
-                if (spline == null) spline = GetComponent<Spline>();
+                if (spline == null)
+                    spline = GetComponent<Spline>();
                 return spline;
             }
         }
@@ -26,7 +27,7 @@ namespace SplineMesh {
 
         private void OnEnable() {
             Spline.NodeListChanged += Spline_NodeListChanged;
-            foreach(var node in Spline.nodes) {
+            foreach (var node in Spline.nodes) {
                 node.Changed += OnNodeChanged;
             }
             SmoothAll();
@@ -40,12 +41,12 @@ namespace SplineMesh {
         }
 
         private void Spline_NodeListChanged(object sender, ListChangedEventArgs<SplineNode> args) {
-            if(args.newItems != null) {
+            if (args.newItems != null) {
                 foreach (var node in args.newItems) {
                     node.Changed += OnNodeChanged;
                 }
             }
-            if(args.removedItems != null) {
+            if (args.removedItems != null) {
                 foreach (var node in args.removedItems) {
                     node.Changed -= OnNodeChanged;
                 }
@@ -56,10 +57,10 @@ namespace SplineMesh {
             var node = (SplineNode)sender;
             SmoothNode(node);
             var index = Spline.nodes.IndexOf(node);
-            if(index > 0) {
+            if (index > 0) {
                 SmoothNode(Spline.nodes[index - 1]);
             }
-            if(index < Spline.nodes.Count - 1) {
+            if (index < Spline.nodes.Count - 1) {
                 SmoothNode(Spline.nodes[index + 1]);
 
             }
@@ -99,7 +100,7 @@ namespace SplineMesh {
 
 
         private void SmoothAll() {
-            foreach(var node in Spline.nodes) {
+            foreach (var node in Spline.nodes) {
                 SmoothNode(node);
             }
         }

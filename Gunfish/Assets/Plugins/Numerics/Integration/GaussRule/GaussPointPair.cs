@@ -1,10 +1,8 @@
-﻿namespace MathNet.Numerics.Integration.GaussRule
-{
+﻿namespace MathNet.Numerics.Integration.GaussRule {
     /// <summary>
     /// Contains two GaussPoint.
     /// </summary>
-    internal class GaussPointPair
-    {
+    internal class GaussPointPair {
         internal int Order { get; }
 
         internal double[] Abscissas { get; }
@@ -21,8 +19,7 @@
 
         internal double IntervalEnd { get; }
 
-        internal GaussPointPair(double intervalBegin, double intervalEnd, int order, double[] abscissas, double[] weights, int secondOrder, double[] secondAbscissas, double[] secondWeights)
-        {
+        internal GaussPointPair(double intervalBegin, double intervalEnd, int order, double[] abscissas, double[] weights, int secondOrder, double[] secondAbscissas, double[] secondWeights) {
             IntervalBegin = intervalBegin;
             IntervalEnd = intervalEnd;
             Order = order;
@@ -34,7 +31,6 @@
         }
 
         internal GaussPointPair(int order, double[] abscissas, double[] weights, int secondOrder, double[] secondWeights)
-            : this(-1, 1, order, abscissas, weights, secondOrder, null, secondWeights)
-        { }
+            : this(-1, 1, order, abscissas, weights, secondOrder, null, secondWeights) { }
     }
 }

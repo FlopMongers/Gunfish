@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers {
     /// <summary>
     /// A Bi-Conjugate Gradient stabilized iterative matrix solver.
     /// </summary>
@@ -61,8 +60,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class BiCgStab : IIterativeSolver<Numerics.Complex32>
-    {
+    public sealed class BiCgStab : IIterativeSolver<Numerics.Complex32> {
         /// <summary>
         /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
         /// </summary>
@@ -70,8 +68,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> residual, Vector<Numerics.Complex32> x, Vector<Numerics.Complex32> b)
-        {
+        static void CalculateTrueResidual(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> residual, Vector<Numerics.Complex32> x, Vector<Numerics.Complex32> b) {
             // -Ax = residual
             matrix.Multiply(x, residual);
 
@@ -91,30 +88,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
         /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
         /// <param name="preconditioner">The preconditioner to use for approximations.</param>
-        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator, IPreconditioner<Numerics.Complex32> preconditioner)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator, IPreconditioner<Numerics.Complex32> preconditioner) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
-            if (result.Count != input.Count)
-            {
+            if (result.Count != input.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (input.Count != matrix.RowCount)
-            {
+            if (input.Count != matrix.RowCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix);
             }
 
-            if (iterator == null)
-            {
+            if (iterator == null) {
                 iterator = new Iterator<Numerics.Complex32>();
             }
 
-            if (preconditioner == null)
-            {
+            if (preconditioner == null) {
                 preconditioner = new UnitPreconditioner<Numerics.Complex32>();
             }
 
@@ -147,24 +138,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
             Numerics.Complex32 omega = 0;
 
             var iterationNumber = 0;
-            while (iterator.DetermineStatus(iterationNumber, result, input, residuals) == IterationStatus.Continue)
-            {
+            while (iterator.DetermineStatus(iterationNumber, result, input, residuals) == IterationStatus.Continue) {
                 // rho_(i-1) = r~^T r_(i-1) // dotproduct r~ and r_(i-1)
                 var oldRho = currentRho;
                 currentRho = tempResiduals.ConjugateDotProduct(residuals);
 
                 // if (rho_(i-1) == 0) // METHOD FAILS
                 // If rho is only 1 ULP from zero then we fail.
-                if (currentRho.Real.AlmostEqualNumbersBetween(0, 1) && currentRho.Imaginary.AlmostEqualNumbersBetween(0, 1))
-                {
+                if (currentRho.Real.AlmostEqualNumbersBetween(0, 1) && currentRho.Imaginary.AlmostEqualNumbersBetween(0, 1)) {
                     // Rho-type breakdown
                     throw new NumericalBreakdownException();
                 }
 
-                if (iterationNumber != 0)
-                {
+                if (iterationNumber != 0) {
                     // beta_(i-1) = (rho_(i-1)/rho_(i-2))(alpha_(i-1)/omega(i-1))
-                    var beta = (currentRho/oldRho)*(alpha/omega);
+                    var beta = (currentRho / oldRho) * (alpha / omega);
 
                     // p_i = r_(i-1) + beta_(i-1)(p_(i-1) - omega_(i-1) * nu_(i-1))
                     nu.Multiply(-omega, temp);
@@ -175,8 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     vecP.Add(residuals, temp2);
                     temp2.CopyTo(vecP);
                 }
-                else
-                {
+                else {
                     // p_i = r_(i-1)
                     residuals.CopyTo(vecP);
                 }
@@ -188,7 +175,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 matrix.Multiply(vecPdash, nu);
 
                 // alpha_i = rho_(i-1)/ (r~^T nu_i) = rho / dotproduct(r~ and nu_i)
-                alpha = currentRho*1/tempResiduals.ConjugateDotProduct(nu);
+                alpha = currentRho * 1 / tempResiduals.ConjugateDotProduct(nu);
 
                 // s = r_(i-1) - alpha_i nu_i
                 nu.Multiply(-alpha, temp);
@@ -206,16 +193,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 temp2.CopyTo(temp);
 
                 // Check convergence and stop if we are converged.
-                if (iterator.DetermineStatus(iterationNumber, temp, input, vecS) != IterationStatus.Continue)
-                {
+                if (iterator.DetermineStatus(iterationNumber, temp, input, vecS) != IterationStatus.Continue) {
                     temp.CopyTo(result);
 
                     // Calculate the true residual
                     CalculateTrueResidual(matrix, residuals, result, input);
 
                     // Now recheck the convergence
-                    if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)
-                    {
+                    if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue) {
                         // We're all good now.
                         return;
                     }
@@ -232,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 matrix.Multiply(vecSdash, temp);
 
                 // omega_i = temp^T s / temp^T temp
-                omega = temp.ConjugateDotProduct(vecS)/temp.ConjugateDotProduct(temp);
+                omega = temp.ConjugateDotProduct(vecS) / temp.ConjugateDotProduct(temp);
 
                 // x_i = x_(i-1) + alpha_i p^ + omega_i s^
                 temp.Multiply(-omega, residuals);
@@ -249,14 +234,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
                 // for continuation it is necessary that omega_i != 0.0f
                 // If omega is only 1 ULP from zero then we fail.
-                if (omega.Real.AlmostEqualNumbersBetween(0, 1) && omega.Imaginary.AlmostEqualNumbersBetween(0, 1))
-                {
+                if (omega.Real.AlmostEqualNumbersBetween(0, 1) && omega.Imaginary.AlmostEqualNumbersBetween(0, 1)) {
                     // Omega-type breakdown
                     throw new NumericalBreakdownException();
                 }
 
-                if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)
-                {
+                if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue) {
                     // Recalculate the residuals and go round again. This is done to ensure that
                     // we have the proper residuals.
                     // The residual calculation based on omega_i * s can be off by a factor 10. So here

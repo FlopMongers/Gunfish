@@ -15,13 +15,13 @@ public class GameParameters {
 public class GameManager : PersistentSingleton<GameManager> {
     public static readonly bool debug = true;
     public List<string> testLevelList = new List<string>();
-    
+
     public List<GameMode> GameModeList = new List<GameMode>();
     public List<GunfishData> GunfishList = new List<GunfishData>();
 
     private GameObject gameModeObject;
     private GameModeType selectedGameMode;
-    
+
     private Dictionary<GameModeType, GameMode> gameModeMap = new Dictionary<GameModeType, GameMode>();
     public MatchManager MatchManager { get; private set; }
 
@@ -38,7 +38,8 @@ public class GameManager : PersistentSingleton<GameManager> {
         if (selectedGameMode == GameModeType.DeathMatch) {
             gameModeObject = Instantiate(gameModeMap[selectedGameMode].matchManagerPrefab);
             MatchManager = gameModeObject.GetComponent<MatchManager>();
-        } else if (selectedGameMode == GameModeType.Race) {
+        }
+        else if (selectedGameMode == GameModeType.Race) {
             MatchManager = null;
         }
 

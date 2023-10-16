@@ -27,12 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using System;
 using System.Linq;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD).</para>
     /// <para>Suppose M is an m-by-n matrix whose entries are real numbers.
@@ -47,22 +46,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    internal abstract class Svd : Svd<double>
-    {
+    internal abstract class Svd : Svd<double> {
         protected Svd(Vector<double> s, Matrix<double> u, Matrix<double> vt, bool vectorsComputed)
-            : base(s, u, vt, vectorsComputed)
-        {
+            : base(s, u, vt, vectorsComputed) {
         }
 
         /// <summary>
         /// Gets the effective numerical matrix rank.
         /// </summary>
         /// <value>The number of non-negligible singular values.</value>
-        public override int Rank
-        {
-            get
-            {
-                double tolerance = Precision.EpsilonOf(S.Maximum())*Math.Max(U.RowCount, VT.RowCount);
+        public override int Rank {
+            get {
+                double tolerance = Precision.EpsilonOf(S.Maximum()) * Math.Max(U.RowCount, VT.RowCount);
                 return S.Count(t => Math.Abs(t) > tolerance);
             }
         }
@@ -77,10 +72,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Gets the condition number <b>max(S) / min(S)</b>
         /// </summary>
         /// <returns>The condition number.</returns>
-        public override double ConditionNumber
-        {
-            get
-            {
+        public override double ConditionNumber {
+            get {
                 var tmp = Math.Min(U.RowCount, VT.ColumnCount) - 1;
                 return Math.Abs(S[0]) / Math.Abs(S[tmp]);
             }
@@ -89,21 +82,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets the determinant of the square matrix for which the SVD was computed.
         /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                if (U.RowCount != VT.ColumnCount)
-                {
+        public override double Determinant {
+            get {
+                if (U.RowCount != VT.ColumnCount) {
                     throw new ArgumentException("Matrix must be square.");
                 }
 
                 var det = 1.0;
-                foreach (var value in S)
-                {
+                foreach (var value in S) {
                     det *= value;
-                    if (Math.Abs(value).AlmostEqual(0.0))
-                    {
+                    if (Math.Abs(value).AlmostEqual(0.0)) {
                         return 0;
                     }
                 }

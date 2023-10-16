@@ -29,14 +29,12 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Defines the interface for <see cref="IIterativeSolver{T}"/> classes that solve the matrix equation Ax = b in
     /// an iterative manner.
     /// </summary>
-    public interface IIterativeSolver<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public interface IIterativeSolver<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
         /// solution vector and x is the unknown vector.

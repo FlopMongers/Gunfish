@@ -27,30 +27,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.Optimization.ObjectiveFunctions
-{
-    internal class HessianObjectiveFunction : IObjectiveFunction
-    {
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions {
+    internal class HessianObjectiveFunction : IObjectiveFunction {
         readonly Func<Vector<double>, (double, Matrix<double>)> _function;
 
-        public HessianObjectiveFunction(Func<Vector<double>, (double, Matrix<double>)> function)
-        {
+        public HessianObjectiveFunction(Func<Vector<double>, (double, Matrix<double>)> function) {
             _function = function;
         }
 
-        public IObjectiveFunction CreateNew()
-        {
+        public IObjectiveFunction CreateNew() {
             return new HessianObjectiveFunction(_function);
         }
 
-        public IObjectiveFunction Fork()
-        {
+        public IObjectiveFunction Fork() {
             // no need to deep-clone values since they are replaced on evaluation
-            return new HessianObjectiveFunction(_function)
-            {
+            return new HessianObjectiveFunction(_function) {
                 Point = Point,
                 Value = Value,
                 Hessian = Hessian
@@ -61,8 +55,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public bool IsHessianSupported => true;
 
-        public void EvaluateAt(Vector<double> point)
-        {
+        public void EvaluateAt(Vector<double> point) {
             Point = point;
             (Value, Hessian) = _function(point);
         }

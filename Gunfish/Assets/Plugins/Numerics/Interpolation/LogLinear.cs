@@ -27,19 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.Interpolation
-{
+namespace MathNet.Numerics.Interpolation {
     /// <summary>
     /// Piece-wise Log-Linear Interpolation
     /// </summary>
     /// <remarks>This algorithm supports differentiation, not integration.</remarks>
-    public class LogLinear : IInterpolation
-    {
+    public class LogLinear : IInterpolation {
         /// <summary>
         /// Internal Spline Interpolation
         /// </summary>
@@ -47,26 +45,21 @@ namespace MathNet.Numerics.Interpolation
 
         /// <param name="x">Sample points (N), sorted ascending</param>
         /// <param name="logy">Natural logarithm of the sample values (N) at the corresponding points</param>
-        public LogLinear(double[] x, double[] logy)
-        {
+        public LogLinear(double[] x, double[] logy) {
             _spline = LinearSpline.InterpolateSorted(x, logy);
         }
 
         /// <summary>
         /// Create a piecewise log-linear interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
         /// </summary>
-        public static LogLinear InterpolateSorted(double[] x, double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+        public static LogLinear InterpolateSorted(double[] x, double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             var logy = new double[y.Length];
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, y.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     logy[i] = Math.Log(y[i]);
                 }
             });
@@ -78,18 +71,14 @@ namespace MathNet.Numerics.Interpolation
         /// Create a piecewise log-linear interpolation from an unsorted set of (x,y) value pairs.
         /// WARNING: Works in-place and can thus causes the data array to be reordered and modified.
         /// </summary>
-        public static LogLinear InterpolateInplace(double[] x, double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+        public static LogLinear InterpolateInplace(double[] x, double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, y.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     y[i] = Math.Log(y[i]);
                 }
             });
@@ -100,8 +89,7 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Create a piecewise log-linear interpolation from an unsorted set of (x,y) value pairs.
         /// </summary>
-        public static LogLinear Interpolate(IEnumerable<double> x, IEnumerable<double> y)
-        {
+        public static LogLinear Interpolate(IEnumerable<double> x, IEnumerable<double> y) {
             // note: we must make a copy, even if the input was arrays already
             return InterpolateInplace(x.ToArray(), y.ToArray());
         }
@@ -121,8 +109,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public double Interpolate(double t)
-        {
+        public double Interpolate(double t) {
             return Math.Exp(_spline.Interpolate(t));
         }
 
@@ -131,9 +118,8 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
-        public double Differentiate(double t)
-        {
-            return Interpolate(t)*_spline.Differentiate(t);
+        public double Differentiate(double t) {
+            return Interpolate(t) * _spline.Differentiate(t);
         }
 
         /// <summary>
@@ -141,13 +127,12 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated second derivative at point t.</returns>
-        public double Differentiate2(double t)
-        {
+        public double Differentiate2(double t) {
             var linearFirstDerivative = _spline.Differentiate(t);
             var linearSecondDerivative = _spline.Differentiate2(t);
 
-            var secondDerivative = Differentiate(t)*linearFirstDerivative +
-                                   Interpolate(t)*linearSecondDerivative;
+            var secondDerivative = Differentiate(t) * linearFirstDerivative +
+                                   Interpolate(t) * linearSecondDerivative;
 
             return secondDerivative;
         }

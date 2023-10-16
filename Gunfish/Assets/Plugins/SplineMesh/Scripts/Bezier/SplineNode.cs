@@ -18,11 +18,13 @@ namespace SplineMesh {
         public Vector3 Position {
             get { return position; }
             set {
-                if (position.Equals(value)) return;
+                if (position.Equals(value))
+                    return;
                 position.x = value.x;
                 position.y = value.y;
                 position.z = value.z;
-                if(Changed != null) Changed(this, EventArgs.Empty);
+                if (Changed != null)
+                    Changed(this, EventArgs.Empty);
             }
         }
         [SerializeField]
@@ -34,11 +36,13 @@ namespace SplineMesh {
         public Vector3 Direction {
             get { return direction; }
             set {
-                if (direction.Equals(value)) return;
+                if (direction.Equals(value))
+                    return;
                 direction.x = value.x;
                 direction.y = value.y;
                 direction.z = value.z;
-                if (Changed != null) Changed(this, EventArgs.Empty);
+                if (Changed != null)
+                    Changed(this, EventArgs.Empty);
             }
         }
         [SerializeField]
@@ -52,11 +56,13 @@ namespace SplineMesh {
         public Vector3 Up {
             get { return up; }
             set {
-                if (up.Equals(value)) return;
+                if (up.Equals(value))
+                    return;
                 up.x = value.x;
                 up.y = value.y;
                 up.z = value.z;
-                if (Changed != null) Changed(this, EventArgs.Empty);
+                if (Changed != null)
+                    Changed(this, EventArgs.Empty);
             }
         }
         [SerializeField]
@@ -69,10 +75,12 @@ namespace SplineMesh {
         public Vector2 Scale {
             get { return scale; }
             set {
-                if (scale.Equals(value)) return;
+                if (scale.Equals(value))
+                    return;
                 scale.x = value.x;
                 scale.y = value.y;
-                if (Changed != null) Changed(this, EventArgs.Empty);
+                if (Changed != null)
+                    Changed(this, EventArgs.Empty);
             }
         }
         [SerializeField]
@@ -85,9 +93,11 @@ namespace SplineMesh {
         public float Roll {
             get { return roll; }
             set {
-                if (roll == value) return;
+                if (roll == value)
+                    return;
                 roll = value;
-                if (Changed != null) Changed(this, EventArgs.Empty);
+                if (Changed != null)
+                    Changed(this, EventArgs.Empty);
             }
         }
         [SerializeField]

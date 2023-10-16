@@ -30,13 +30,11 @@
 using System;
 using System.Diagnostics;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterion{T}"/> that monitors residuals as stop criterion.
     /// </summary>
-    public sealed class ResidualStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public sealed class ResidualStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// The maximum value for the residual below which the calculation is considered converged.
         /// </summary>
@@ -74,15 +72,12 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// The minimum number of iterations for which the residual has to be below the maximum before
         /// the calculation is considered converged.
         /// </param>
-        public ResidualStopCriterion(double maximum, int minimumIterationsBelowMaximum = 0)
-        {
-            if (maximum < 0)
-            {
+        public ResidualStopCriterion(double maximum, int minimumIterationsBelowMaximum = 0) {
+            if (maximum < 0) {
                 throw new ArgumentOutOfRangeException(nameof(maximum));
             }
 
-            if (minimumIterationsBelowMaximum < 0)
-            {
+            if (minimumIterationsBelowMaximum < 0) {
                 throw new ArgumentOutOfRangeException(nameof(minimumIterationsBelowMaximum));
             }
 
@@ -95,16 +90,13 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// converged.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the <c>Maximum</c> is set to a negative value.</exception>
-        public double Maximum
-        {
+        public double Maximum {
             [DebuggerStepThrough]
             get => _maximum;
 
             [DebuggerStepThrough]
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -117,16 +109,13 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// below the maximum before the calculation is considered converged.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the <c>BelowMaximumFor</c> is set to a value less than 1.</exception>
-        public int MinimumIterationsBelowMaximum
-        {
+        public int MinimumIterationsBelowMaximum {
             [DebuggerStepThrough]
             get => _minimumIterationsBelowMaximum;
 
             [DebuggerStepThrough]
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -147,20 +136,16 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
-        {
-            if (iterationNumber < 0)
-            {
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector) {
+            if (iterationNumber < 0) {
                 throw new ArgumentOutOfRangeException(nameof(iterationNumber));
             }
 
-            if (solutionVector.Count != sourceVector.Count)
-            {
+            if (solutionVector.Count != sourceVector.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(sourceVector));
             }
 
-            if (solutionVector.Count != residualVector.Count)
-            {
+            if (solutionVector.Count != residualVector.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(residualVector));
             }
 
@@ -180,14 +165,13 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterion = _maximum*sourceVector.InfinityNorm();
+            var stopCriterion = _maximum * sourceVector.InfinityNorm();
 
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we
             // stop if that is the case.
-            if (double.IsNaN(stopCriterion) || double.IsNaN(residualNorm))
-            {
+            if (double.IsNaN(stopCriterion) || double.IsNaN(residualNorm)) {
                 _iterationCount = 0;
                 _status = IterationStatus.Diverged;
                 return _status;
@@ -195,16 +179,13 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
-            if (residualNorm <= stopCriterion)
-            {
-                if (_lastIteration <= iterationNumber)
-                {
+            if (residualNorm <= stopCriterion) {
+                if (_lastIteration <= iterationNumber) {
                     _iterationCount = iterationNumber - _lastIteration;
                     _status = _iterationCount >= _minimumIterationsBelowMaximum ? IterationStatus.Converged : IterationStatus.Continue;
                 }
             }
-            else
-            {
+            else {
                 _iterationCount = 0;
                 _status = IterationStatus.Continue;
             }
@@ -216,8 +197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public IterationStatus Status
-        {
+        public IterationStatus Status {
             [DebuggerStepThrough]
             get => _status;
         }
@@ -225,8 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Resets the <see cref="IIterationStopCriterion{T}"/> to the pre-calculation state.
         /// </summary>
-        public void Reset()
-        {
+        public void Reset() {
             _status = IterationStatus.Continue;
             _iterationCount = 0;
             _lastIteration = -1;
@@ -236,8 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Clones the current <see cref="ResidualStopCriterion{T}"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="ResidualStopCriterion{T}"/> class.</returns>
-        public IIterationStopCriterion<T> Clone()
-        {
+        public IIterationStopCriterion<T> Clone() {
             return new ResidualStopCriterion<T>(_maximum, _minimumIterationsBelowMaximum);
         }
     }

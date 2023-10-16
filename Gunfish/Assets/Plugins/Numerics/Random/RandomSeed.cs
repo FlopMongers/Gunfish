@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace MathNet.Numerics.Random
-{
-    public static class RandomSeed
-    {
+namespace MathNet.Numerics.Random {
+    public static class RandomSeed {
         static readonly object Lock = new object();
         static readonly System.Security.Cryptography.RandomNumberGenerator MasterRng = System.Security.Cryptography.RandomNumberGenerator.Create();
 
@@ -12,8 +10,7 @@ namespace MathNet.Numerics.Random
         /// WARNING: There is no randomness in this seed and quick repeated calls can cause
         /// the same seed value. Do not use for cryptography!
         /// </summary>
-        public static int Time()
-        {
+        public static int Time() {
             return Environment.TickCount;
         }
 
@@ -22,8 +19,7 @@ namespace MathNet.Numerics.Random
         /// WARNING: There is only low randomness in this seed, but at least quick repeated
         /// calls will result in different seed values. Do not use for cryptography!
         /// </summary>
-        public static int Guid()
-        {
+        public static int Guid() {
             return Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
         }
 
@@ -32,10 +28,8 @@ namespace MathNet.Numerics.Random
         /// WARNING: There is only medium randomness in this seed, but quick repeated
         /// calls will result in different seed values. Do not use for cryptography!
         /// </summary>
-        public static int Robust()
-        {
-            lock (Lock)
-            {
+        public static int Robust() {
+            lock (Lock) {
                 var bytes = new byte[4];
                 MasterRng.GetBytes(bytes);
                 return BitConverter.ToInt32(bytes, 0);

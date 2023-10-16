@@ -29,14 +29,12 @@
 
 using System;
 
-namespace MathNet.Numerics.IntegralTransforms
-{
+namespace MathNet.Numerics.IntegralTransforms {
     /// <summary>
     /// Fourier Transform Convention
     /// </summary>
     [Flags]
-    public enum FourierOptions
-    {
+    public enum FourierOptions {
         // FLAGS:
 
         /// <summary>

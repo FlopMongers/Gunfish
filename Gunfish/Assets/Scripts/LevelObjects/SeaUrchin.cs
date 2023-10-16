@@ -1,8 +1,8 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using System;
 
 [RequireComponent(typeof(WaterInteractor))]
 public class SeaUrchin : MonoBehaviour {
@@ -12,7 +12,7 @@ public class SeaUrchin : MonoBehaviour {
     [SerializeField]
     [Range(0f, 100f)]
     private float prickMagnitude = 10f;
-    
+
     [SerializeField]
     [Range(0f, 10f)]
     private float prickDamage = 10f;
@@ -68,7 +68,7 @@ public class SeaUrchin : MonoBehaviour {
         spriteTransform.DOScale(originalScale + punchScale, bounceDuration)
         .SetEase(Ease.OutBounce)
         .OnComplete(() => {
-             spriteTransform.DOScale(originalScale - punchScale, 0.1f);
-         });
+            spriteTransform.DOScale(originalScale - punchScale, 0.1f);
+        });
     }
 }

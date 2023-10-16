@@ -27,13 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// A collection of frequently used mathematical constants.
     /// </summary>
-    public static class Constants
-    {
+    public static class Constants {
         #region Mathematical Constants
 
         /// <summary>The number e</summary>

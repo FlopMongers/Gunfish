@@ -27,12 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using System;
 using System.Linq;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -49,22 +48,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    internal abstract class Svd : Svd<Complex>
-    {
+    internal abstract class Svd : Svd<Complex> {
         protected Svd(Vector<Complex> s, Matrix<Complex> u, Matrix<Complex> vt, bool vectorsComputed)
-            : base(s, u, vt, vectorsComputed)
-        {
+            : base(s, u, vt, vectorsComputed) {
         }
 
         /// <summary>
         /// Gets the effective numerical matrix rank.
         /// </summary>
         /// <value>The number of non-negligible singular values.</value>
-        public override int Rank
-        {
-            get
-            {
-                double tolerance = Precision.EpsilonOf(S.AbsoluteMaximum().Magnitude)*Math.Max(U.RowCount, VT.RowCount);
+        public override int Rank {
+            get {
+                double tolerance = Precision.EpsilonOf(S.AbsoluteMaximum().Magnitude) * Math.Max(U.RowCount, VT.RowCount);
                 return S.Count(t => t.Magnitude > tolerance);
             }
         }
@@ -79,10 +74,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// Gets the condition number <b>max(S) / min(S)</b>
         /// </summary>
         /// <returns>The condition number.</returns>
-        public override Complex ConditionNumber
-        {
-            get
-            {
+        public override Complex ConditionNumber {
+            get {
                 var tmp = Math.Min(U.RowCount, VT.ColumnCount) - 1;
                 return S[0].Magnitude / S[tmp].Magnitude;
             }
@@ -91,21 +84,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// <summary>
         /// Gets the determinant of the square matrix for which the SVD was computed.
         /// </summary>
-        public override Complex Determinant
-        {
-            get
-            {
-                if (U.RowCount != VT.ColumnCount)
-                {
+        public override Complex Determinant {
+            get {
+                if (U.RowCount != VT.ColumnCount) {
                     throw new ArgumentException("Matrix must be square.");
                 }
 
                 var det = Complex.One;
-                foreach (var value in S)
-                {
+                foreach (var value in S) {
                     det *= value;
-                    if (value.Magnitude.AlmostEqual(0.0))
-                    {
+                    if (value.Magnitude.AlmostEqual(0.0)) {
                         return 0;
                     }
                 }

@@ -1,101 +1,85 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.Rendering.Depth
-{
-	public static class Rendering
-	{
-		public static void Draw(Pass pass)
-		{
-			Depth.Shadow.Begin(); // quads
+namespace FunkyCode.Rendering.Depth {
+    public static class Rendering {
+        public static void Draw(Pass pass) {
+            Depth.Shadow.Begin(); // quads
 
-			DrawCollider(pass);
+            DrawCollider(pass);
 
-			Depth.Shadow.End();
+            Depth.Shadow.End();
 
-			DrawColliderFill(pass); // triangles
+            DrawColliderFill(pass); // triangles
 
-			DrawSprite(pass);
-			
-		}
+            DrawSprite(pass);
 
-		public static void DrawSprite(Pass pass)
-		{
-			SpriteRendererShadow.Begin(pass.offset);
+        }
 
-			for(int i = 0; i < pass.colliderCount; i++)
-			{
-				DayLightCollider2D id = pass.colliderList[i];
+        public static void DrawSprite(Pass pass) {
+            SpriteRendererShadow.Begin(pass.offset);
 
-				if (id.shadowLayer != pass.layerId)
-				{
-					continue;
-				}
+            for (int i = 0; i < pass.colliderCount; i++) {
+                DayLightCollider2D id = pass.colliderList[i];
 
-				switch(id.mainShape.shadowType)
-				{
-					case DayLightCollider2D.ShadowType.SpriteOffset:
+                if (id.shadowLayer != pass.layerId) {
+                    continue;
+                }
 
-						SpriteRendererShadow.DrawOffset(id);
+                switch (id.mainShape.shadowType) {
+                    case DayLightCollider2D.ShadowType.SpriteOffset:
 
-					break;
-				}
-			}
+                        SpriteRendererShadow.DrawOffset(id);
 
-			if (SpriteRendererShadow.currentTexture != null)
-			{
-				SpriteRendererShadow.End();
-			}
-		}
+                        break;
+                }
+            }
 
-		public static void DrawCollider(Pass pass)
-		{
-			for(int i = 0; i < pass.colliderCount; i++)
-			{
-				DayLightCollider2D id = pass.colliderList[i];
-				
-				if (id.shadowLayer != pass.layerId)
-				{
-					continue;
-				}
+            if (SpriteRendererShadow.currentTexture != null) {
+                SpriteRendererShadow.End();
+            }
+        }
 
-				switch(id.mainShape.shadowType)
-				{
-					case DayLightCollider2D.ShadowType.SpritePhysicsShape:
-					case DayLightCollider2D.ShadowType.Collider2D:
+        public static void DrawCollider(Pass pass) {
+            for (int i = 0; i < pass.colliderCount; i++) {
+                DayLightCollider2D id = pass.colliderList[i];
 
-						Depth.Shadow.Draw(id, pass.offset);  
+                if (id.shadowLayer != pass.layerId) {
+                    continue;
+                }
 
-					break;
-				}             
-			}
-		}
+                switch (id.mainShape.shadowType) {
+                    case DayLightCollider2D.ShadowType.SpritePhysicsShape:
+                    case DayLightCollider2D.ShadowType.Collider2D:
 
-		public static void DrawColliderFill(Pass pass)
-		{
-			Lighting2D.Materials.shadow.GetDepthDayShadow().SetPass(0);
-			GL.Begin(GL.TRIANGLES);
+                        Depth.Shadow.Draw(id, pass.offset);
 
-			for(int i = 0; i < pass.colliderCount; i++)
-			{
-				DayLightCollider2D id = pass.colliderList[i];
-				
-				if (id.shadowLayer != pass.layerId)
-				{
-					continue;
-				}
+                        break;
+                }
+            }
+        }
 
-				switch(id.mainShape.shadowType)
-				{
-					case DayLightCollider2D.ShadowType.FillCollider2D:
-					case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
+        public static void DrawColliderFill(Pass pass) {
+            Lighting2D.Materials.shadow.GetDepthDayShadow().SetPass(0);
+            GL.Begin(GL.TRIANGLES);
 
-						Depth.Shadow.DrawFill(id, pass.offset); 
+            for (int i = 0; i < pass.colliderCount; i++) {
+                DayLightCollider2D id = pass.colliderList[i];
 
-					break;
-				}             
-			}
+                if (id.shadowLayer != pass.layerId) {
+                    continue;
+                }
 
-			GL.End();
-		}
-	}
+                switch (id.mainShape.shadowType) {
+                    case DayLightCollider2D.ShadowType.FillCollider2D:
+                    case DayLightCollider2D.ShadowType.FillSpritePhysicsShape:
+
+                        Depth.Shadow.DrawFill(id, pass.offset);
+
+                        break;
+                }
+            }
+
+            GL.End();
+        }
+    }
 }

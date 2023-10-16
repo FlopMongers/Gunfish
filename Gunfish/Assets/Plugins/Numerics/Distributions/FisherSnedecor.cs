@@ -27,21 +27,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.RootFinding;
 using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Continuous Univariate F-distribution, also known as Fisher-Snedecor distribution.
     /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/F-distribution">Wikipedia - FisherSnedecor distribution</a>.
     /// </summary>
-    public class FisherSnedecor : IContinuousDistribution
-    {
+    public class FisherSnedecor : IContinuousDistribution {
         System.Random _random;
 
         readonly double _freedom1;
@@ -52,10 +50,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
-        public FisherSnedecor(double d1, double d2)
-        {
-            if (!IsValidParameterSet(d1, d2))
-            {
+        public FisherSnedecor(double d1, double d2) {
+            if (!IsValidParameterSet(d1, d2)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -70,10 +66,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public FisherSnedecor(double d1, double d2, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(d1, d2))
-            {
+        public FisherSnedecor(double d1, double d2, System.Random randomSource) {
+            if (!IsValidParameterSet(d1, d2)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -86,8 +80,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"FisherSnedecor(d1 = {_freedom1}, d2 = {_freedom2})";
         }
 
@@ -96,8 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
-        public static bool IsValidParameterSet(double d1, double d2)
-        {
+        public static bool IsValidParameterSet(double d1, double d2) {
             return d1 > 0.0 && d2 > 0.0;
         }
 
@@ -114,8 +106,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -123,32 +114,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get
-            {
-                if (_freedom2 <= 2)
-                {
+        public double Mean {
+            get {
+                if (_freedom2 <= 2) {
                     throw new NotSupportedException();
                 }
 
-                return _freedom2/(_freedom2 - 2.0);
+                return _freedom2 / (_freedom2 - 2.0);
             }
         }
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                if (_freedom2 <= 4)
-                {
+        public double Variance {
+            get {
+                if (_freedom2 <= 4) {
                     throw new NotSupportedException();
                 }
 
-                return (2.0*_freedom2*_freedom2*(_freedom1 + _freedom2 - 2.0))/(_freedom1*(_freedom2 - 2.0)*(_freedom2 - 2.0)*(_freedom2 - 4.0));
+                return (2.0 * _freedom2 * _freedom2 * (_freedom1 + _freedom2 - 2.0)) / (_freedom1 * (_freedom2 - 2.0) * (_freedom2 - 2.0) * (_freedom2 - 4.0));
             }
         }
 
@@ -165,32 +150,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get
-            {
-                if (_freedom2 <= 6)
-                {
+        public double Skewness {
+            get {
+                if (_freedom2 <= 6) {
                     throw new NotSupportedException();
                 }
 
-                return (((2.0*_freedom1) + _freedom2 - 2.0)*Math.Sqrt(8.0*(_freedom2 - 4.0)))/((_freedom2 - 6.0)*Math.Sqrt(_freedom1*(_freedom1 + _freedom2 - 2.0)));
+                return (((2.0 * _freedom1) + _freedom2 - 2.0) * Math.Sqrt(8.0 * (_freedom2 - 4.0))) / ((_freedom2 - 6.0) * Math.Sqrt(_freedom1 * (_freedom1 + _freedom2 - 2.0)));
             }
         }
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public double Mode
-        {
-            get
-            {
-                if (_freedom1 <= 2)
-                {
+        public double Mode {
+            get {
+                if (_freedom1 <= 2) {
                     throw new NotSupportedException();
                 }
 
-                return (_freedom2*(_freedom1 - 2.0))/(_freedom1*(_freedom2 + 2.0));
+                return (_freedom2 * (_freedom1 - 2.0)) / (_freedom1 * (_freedom2 + 2.0));
             }
         }
 
@@ -215,9 +194,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
-            return Math.Sqrt(Math.Pow(_freedom1*x, _freedom1)*Math.Pow(_freedom2, _freedom2)/Math.Pow((_freedom1*x) + _freedom2, _freedom1 + _freedom2))/(x*SpecialFunctions.Beta(_freedom1/2.0, _freedom2/2.0));
+        public double Density(double x) {
+            return Math.Sqrt(Math.Pow(_freedom1 * x, _freedom1) * Math.Pow(_freedom2, _freedom2) / Math.Pow((_freedom1 * x) + _freedom2, _freedom1 + _freedom2)) / (x * SpecialFunctions.Beta(_freedom1 / 2.0, _freedom2 / 2.0));
         }
 
         /// <summary>
@@ -226,8 +204,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
+        public double DensityLn(double x) {
             return Math.Log(Density(x));
         }
 
@@ -237,9 +214,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
-            return SpecialFunctions.BetaRegularized(_freedom1/2.0, _freedom2/2.0, _freedom1*x/((_freedom1*x) + _freedom2));
+        public double CumulativeDistribution(double x) {
+            return SpecialFunctions.BetaRegularized(_freedom1 / 2.0, _freedom2 / 2.0, _freedom1 * x / ((_freedom1 * x) + _freedom2));
         }
 
         /// <summary>
@@ -250,8 +226,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InvCDF"/>
         /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
-        public double InverseCumulativeDistribution(double p)
-        {
+        public double InverseCumulativeDistribution(double p) {
             return InvCDF(_freedom1, _freedom2, p);
         }
 
@@ -259,16 +234,14 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the <c>FisherSnedecor</c> distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, _freedom1, _freedom2);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, _freedom1, _freedom2);
         }
 
@@ -276,8 +249,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the <c>FisherSnedecor</c> distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, _freedom1, _freedom2);
         }
 
@@ -288,29 +260,23 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
-        static double SampleUnchecked(System.Random rnd, double d1, double d2)
-        {
-            return (ChiSquared.Sample(rnd, d1)*d2)/(ChiSquared.Sample(rnd, d2)*d1);
+        static double SampleUnchecked(System.Random rnd, double d1, double d2) {
+            return (ChiSquared.Sample(rnd, d1) * d2) / (ChiSquared.Sample(rnd, d2) * d1);
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double d1, double d2)
-        {
+        static void SamplesUnchecked(System.Random rnd, double[] values, double d1, double d2) {
             var values2 = new double[values.Length];
             ChiSquared.SamplesUnchecked(rnd, values, d1);
             ChiSquared.SamplesUnchecked(rnd, values2, d2);
-            CommonParallel.For(0, values.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
-                    values[i] = (values[i]*d2)/(values2[i]*d1);
+            CommonParallel.For(0, values.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
+                    values[i] = (values[i] * d2) / (values2[i] * d1);
                 }
             });
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double d1, double d2)
-        {
-            while (true)
-            {
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double d1, double d2) {
+            while (true) {
                 yield return SampleUnchecked(rnd, d1, d2);
             }
         }
@@ -323,14 +289,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double d1, double d2, double x)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static double PDF(double d1, double d2, double x) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return Math.Sqrt(Math.Pow(d1*x, d1)*Math.Pow(d2, d2)/Math.Pow((d1*x) + d2, d1 + d2))/(x*SpecialFunctions.Beta(d1/2.0, d2/2.0));
+            return Math.Sqrt(Math.Pow(d1 * x, d1) * Math.Pow(d2, d2) / Math.Pow((d1 * x) + d2, d1 + d2)) / (x * SpecialFunctions.Beta(d1 / 2.0, d2 / 2.0));
         }
 
         /// <summary>
@@ -341,8 +305,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double d1, double d2, double x)
-        {
+        public static double PDFLn(double d1, double d2, double x) {
             return Math.Log(PDF(d1, d2, x));
         }
 
@@ -354,14 +317,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double d1, double d2, double x)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static double CDF(double d1, double d2, double x) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2));
+            return SpecialFunctions.BetaRegularized(d1 / 2.0, d2 / 2.0, d1 * x / (d1 * x + d2));
         }
 
         /// <summary>
@@ -374,15 +335,13 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InverseCumulativeDistribution"/>
         /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
-        public static double InvCDF(double d1, double d2, double p)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static double InvCDF(double d1, double d2, double p) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return Brent.FindRoot(
-                x => SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2)) - p,
+                x => SpecialFunctions.BetaRegularized(d1 / 2.0, d2 / 2.0, d1 * x / (d1 * x + d2)) - p,
                 0, 1000, accuracy: 1e-12);
         }
 
@@ -393,10 +352,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double d1, double d2)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static double Sample(System.Random rnd, double d1, double d2) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -410,10 +367,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double d1, double d2)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double d1, double d2) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -428,10 +383,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(System.Random rnd, double[] values, double d1, double d2)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static void Samples(System.Random rnd, double[] values, double d1, double d2) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -444,10 +397,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(double d1, double d2)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static double Sample(double d1, double d2) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -460,10 +411,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double d1, double d2)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static IEnumerable<double> Samples(double d1, double d2) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -477,10 +426,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(double[] values, double d1, double d2)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0)
-            {
+        public static void Samples(double[] values, double d1, double d2) {
+            if (d1 <= 0.0 || d2 <= 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

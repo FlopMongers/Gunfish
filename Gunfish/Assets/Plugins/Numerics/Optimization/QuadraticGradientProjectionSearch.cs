@@ -27,28 +27,23 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization
-{
-    public static class QuadraticGradientProjectionSearch
-    {
-        public static GradientProjectionResult Search(Vector<double> x0, Vector<double> gradient, Matrix<double> hessian, Vector<double> lowerBound, Vector<double> upperBound)
-        {
+namespace MathNet.Numerics.Optimization {
+    public static class QuadraticGradientProjectionSearch {
+        public static GradientProjectionResult Search(Vector<double> x0, Vector<double> gradient, Matrix<double> hessian, Vector<double> lowerBound, Vector<double> upperBound) {
             List<bool> isFixed = new List<bool>(x0.Count);
             List<double> breakpoint = new List<double>(x0.Count);
-            for (int ii = 0; ii < x0.Count; ++ii)
-            {
+            for (int ii = 0; ii < x0.Count; ++ii) {
                 breakpoint.Add(0.0);
                 isFixed.Add(false);
                 if (gradient[ii] < 0)
                     breakpoint[ii] = (x0[ii] - upperBound[ii]) / gradient[ii];
                 else if (gradient[ii] > 0)
                     breakpoint[ii] = (x0[ii] - lowerBound[ii]) / gradient[ii];
-                else
-                {
+                else {
                     if (Math.Abs(x0[ii] - upperBound[ii]) < 100 * double.Epsilon || Math.Abs(x0[ii] - lowerBound[ii]) < 100 * double.Epsilon)
                         breakpoint[ii] = 0.0;
                     else
@@ -75,25 +70,22 @@ namespace MathNet.Numerics.Optimization
             var maxS = orderedBreakpoint[0];
 
             if (sMin < maxS)
-                return new GradientProjectionResult(x + sMin * d, 0,isFixed);
+                return new GradientProjectionResult(x + sMin * d, 0, isFixed);
 
             // while minimum of the last quadratic piece observed is beyond the interval searched
-            while (true)
-            {
-                if (jj + 1 >= orderedBreakpoint.Count - 1)
-                {
+            while (true) {
+                if (jj + 1 >= orderedBreakpoint.Count - 1) {
                     isFixed[isFixed.Count - 1] = true;
                     return new GradientProjectionResult(x + maxS * d, lowerBound.Count, isFixed);
                 }
                 // update data to the beginning of the interval we're searching
                 jj += 1;
                 x += d * maxS;
-                maxS = orderedBreakpoint[jj+1] - orderedBreakpoint[jj];
+                maxS = orderedBreakpoint[jj + 1] - orderedBreakpoint[jj];
 
                 int fixedCount = 0;
                 for (int ii = 0; ii < d.Count; ++ii)
-                    if (orderedBreakpoint[jj] >= breakpoint[ii])
-                    {
+                    if (orderedBreakpoint[jj] >= breakpoint[ii]) {
                         d[ii] *= 0.0;
                         isFixed[ii] = true;
                         fixedCount += 1;
@@ -112,10 +104,8 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        public readonly struct GradientProjectionResult
-        {
-            public GradientProjectionResult(Vector<double> cauchyPoint, int fixedCount, List<bool> isFixed)
-            {
+        public readonly struct GradientProjectionResult {
+            public GradientProjectionResult(Vector<double> cauchyPoint, int fixedCount, List<bool> isFixed) {
                 CauchyPoint = cauchyPoint;
                 FixedCount = fixedCount;
                 IsFixed = isFixed;

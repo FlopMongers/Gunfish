@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public struct MenuPageContext {
     public MainMenu menu;
@@ -47,7 +47,8 @@ public class MainMenu : Singleton<MainMenu> {
             context.document.visualTreeAsset = splash;
             page = new SplashMenuPage();
 
-        } else if (state == MenuState.GameModeSelect) {
+        }
+        else if (state == MenuState.GameModeSelect) {
             context.document.visualTreeAsset = gameModeSelect;
             page = new GameModeSelectMenuPage();
         }

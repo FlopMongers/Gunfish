@@ -27,18 +27,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using System;
 
-namespace MathNet.Numerics.RootFinding
-{
+namespace MathNet.Numerics.RootFinding {
     /// <summary>
     /// Algorithm by Broyden.
     /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
     /// </summary>
-    public static class Broyden
-    {
+    public static class Broyden {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
         /// <param name="initialGuess">Initial guess of the root.</param>
@@ -47,10 +45,8 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian matrix at first step. Default 1.0e-4</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double[] FindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy = 1e-8, int maxIterations = 100, double jacobianStepSize = 1.0e-4)
-        {
-            if (TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, jacobianStepSize, out var root))
-            {
+        public static double[] FindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy = 1e-8, int maxIterations = 100, double jacobianStepSize = 1.0e-4) {
+            if (TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, jacobianStepSize, out var root)) {
                 return root;
             }
 
@@ -65,10 +61,8 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian matrix at first step.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
-        public static bool TryFindRootWithJacobianStep(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, double jacobianStepSize, out double[] root)
-        {
-            if (accuracy <= 0)
-            {
+        public static bool TryFindRootWithJacobianStep(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, double jacobianStepSize, out double[] root) {
+            if (accuracy <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
             }
 
@@ -80,32 +74,27 @@ namespace MathNet.Numerics.RootFinding
 
             Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, y0, jacobianStepSize);
 
-            try
-            {
-                for (int i = 0; i <= maxIterations; i++)
-                {
-                    var dx = (DenseVector) (-B.LU().Solve(y));
+            try {
+                for (int i = 0; i <= maxIterations; i++) {
+                    var dx = (DenseVector)(-B.LU().Solve(y));
                     var xnew = x + dx;
                     var ynew = new DenseVector(f(xnew.Values));
                     double gnew = ynew.L2Norm();
 
-                    if (gnew > g)
-                    {
-                        double g2 = g*g;
-                        double scale = g2/(g2 + gnew*gnew);
-                        if (scale == 0.0)
-                        {
+                    if (gnew > g) {
+                        double g2 = g * g;
+                        double scale = g2 / (g2 + gnew * gnew);
+                        if (scale == 0.0) {
                             scale = 1.0e-4;
                         }
 
-                        dx = scale*dx;
+                        dx = scale * dx;
                         xnew = x + dx;
                         ynew = new DenseVector(f(xnew.Values));
                         gnew = ynew.L2Norm();
                     }
 
-                    if (gnew < accuracy)
-                    {
+                    if (gnew < accuracy) {
                         root = xnew.Values;
                         return true;
                     }
@@ -120,8 +109,7 @@ namespace MathNet.Numerics.RootFinding
                     g = gnew;
                 }
             }
-            catch (InvalidParameterException)
-            {
+            catch (InvalidParameterException) {
                 root = null;
                 return false;
             }
@@ -136,8 +124,7 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
-        public static bool TryFindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, out double[] root)
-        {
+        public static bool TryFindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, out double[] root) {
             return TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, 1.0e-4, out root);
         }
 
@@ -148,26 +135,23 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="x0">The argument (initial guess).</param>
         /// <param name="y0">The result (of initial guess).</param>
         /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian.</param>
-        static Matrix<double> CalculateApproximateJacobian(Func<double[], double[]> f, double[] x0, double[] y0, double jacobianStepSize)
-        {
+        static Matrix<double> CalculateApproximateJacobian(Func<double[], double[]> f, double[] x0, double[] y0, double jacobianStepSize) {
             int dim = x0.Length;
             var B = new DenseMatrix(dim);
 
             var x = new double[dim];
             Array.Copy(x0, 0, x, 0, dim);
 
-            for (int j = 0; j < dim; j++)
-            {
-                double h = (1.0+Math.Abs(x0[j]))*jacobianStepSize;
+            for (int j = 0; j < dim; j++) {
+                double h = (1.0 + Math.Abs(x0[j])) * jacobianStepSize;
 
                 var xj = x[j];
                 x[j] = xj + h;
                 double[] y = f(x);
                 x[j] = xj;
 
-                for (int i = 0; i < dim; i++)
-                {
-                    B.At(i, j, (y[i] - y0[i])/h);
+                for (int i = 0; i < dim; i++) {
+                    B.At(i, j, (y[i] - y0[i]) / h);
                 }
             }
 

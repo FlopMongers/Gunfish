@@ -27,22 +27,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Random;
-using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Discrete Univariate Geometric distribution.
     /// The Geometric distribution is a distribution over positive integers parameterized by one positive real number.
     /// This implementation of the Geometric distribution will never generate 0's.
     /// <a href="http://en.wikipedia.org/wiki/Geometric_distribution">Wikipedia - geometric distribution</a>.
     /// </summary>
-    public class Geometric : IDiscreteDistribution
-    {
+    public class Geometric : IDiscreteDistribution {
         System.Random _random;
 
         readonly double _p;
@@ -51,10 +49,8 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the Geometric class.
         /// </summary>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public Geometric(double p)
-        {
-            if (!IsValidParameterSet(p))
-            {
+        public Geometric(double p) {
+            if (!IsValidParameterSet(p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -67,10 +63,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Geometric(double p, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(p))
-            {
+        public Geometric(double p, System.Random randomSource) {
+            if (!IsValidParameterSet(p)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -82,8 +76,7 @@ namespace MathNet.Numerics.Distributions
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Geometric(p = {_p})";
         }
 
@@ -91,8 +84,7 @@ namespace MathNet.Numerics.Distributions
         /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public static bool IsValidParameterSet(double p)
-        {
+        public static bool IsValidParameterSet(double p) {
             return p >= 0.0 && p <= 1.0;
         }
 
@@ -104,8 +96,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -113,28 +104,28 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean => 1.0/_p;
+        public double Mean => 1.0 / _p;
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance => (1.0 - _p)/(_p*_p);
+        public double Variance => (1.0 - _p) / (_p * _p);
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev => Math.Sqrt(1.0 - _p)/_p;
+        public double StdDev => Math.Sqrt(1.0 - _p) / _p;
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy => ((-_p*Math.Log(_p, 2.0)) - ((1.0 - _p)*Math.Log(1.0 - _p, 2.0)))/_p;
+        public double Entropy => ((-_p * Math.Log(_p, 2.0)) - ((1.0 - _p) * Math.Log(1.0 - _p, 2.0))) / _p;
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
         /// <remarks>Throws a not supported exception.</remarks>
-        public double Skewness => (2.0 - _p)/Math.Sqrt(1.0 - _p);
+        public double Skewness => (2.0 - _p) / Math.Sqrt(1.0 - _p);
 
         /// <summary>
         /// Gets the mode of the distribution.
@@ -144,7 +135,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median => _p == 0.0 ? double.PositiveInfinity : _p == 1.0 ? 1.0 : Math.Ceiling(-Constants.Ln2/Math.Log(1 - _p));
+        public double Median => _p == 0.0 ? double.PositiveInfinity : _p == 1.0 ? 1.0 : Math.Ceiling(-Constants.Ln2 / Math.Log(1 - _p));
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
@@ -161,14 +152,12 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public double Probability(int k)
-        {
-            if (k <= 0)
-            {
+        public double Probability(int k) {
+            if (k <= 0) {
                 return 0.0;
             }
 
-            return Math.Pow(1.0 - _p, k - 1)*_p;
+            return Math.Pow(1.0 - _p, k - 1) * _p;
         }
 
         /// <summary>
@@ -176,14 +165,12 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public double ProbabilityLn(int k)
-        {
-            if (k <= 0)
-            {
+        public double ProbabilityLn(int k) {
+            if (k <= 0) {
                 return double.NegativeInfinity;
             }
 
-            return ((k - 1)*Math.Log(1.0 - _p)) + Math.Log(_p);
+            return ((k - 1) * Math.Log(1.0 - _p)) + Math.Log(_p);
         }
 
         /// <summary>
@@ -191,8 +178,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return 1.0 - Math.Pow(1.0 - _p, x);
         }
 
@@ -202,19 +188,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public static double PMF(double p, int k)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static double PMF(double p, int k) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (k <= 0)
-            {
+            if (k <= 0) {
                 return 0.0;
             }
 
-            return Math.Pow(1.0 - p, k - 1)*p;
+            return Math.Pow(1.0 - p, k - 1) * p;
         }
 
         /// <summary>
@@ -223,19 +206,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public static double PMFLn(double p, int k)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static double PMFLn(double p, int k) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (k <= 0)
-            {
+            if (k <= 0) {
                 return double.NegativeInfinity;
             }
 
-            return ((k - 1)*Math.Log(1.0 - p)) + Math.Log(p);
+            return ((k - 1) * Math.Log(1.0 - p)) + Math.Log(p);
         }
 
         /// <summary>
@@ -245,10 +225,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double p, double x)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static double CDF(double p, double x) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -261,19 +239,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>One sample from the distribution implied by <paramref name="p"/>.</returns>
-        static int SampleUnchecked(System.Random rnd, double p)
-        {
+        static int SampleUnchecked(System.Random rnd, double p) {
             return p == 1.0 ? 1 : (int)Math.Ceiling(Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
         }
 
-        static void SamplesUnchecked(System.Random rnd, int[] values, double p)
-        {
-            if (p == 1.0)
-            {
-                CommonParallel.For(0, values.Length, 4096, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
+        static void SamplesUnchecked(System.Random rnd, int[] values, double p) {
+            if (p == 1.0) {
+                CommonParallel.For(0, values.Length, 4096, (a, b) => {
+                    for (int i = a; i < b; i++) {
                         values[i] = 1;
                     }
                 });
@@ -282,19 +255,15 @@ namespace MathNet.Numerics.Distributions
 
             var uniform = rnd.NextDoubles(values.Length);
             double rp = 1.0 - p;
-            CommonParallel.For(0, values.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, values.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     values[i] = (int)Math.Ceiling(Math.Log(1.0 - uniform[i], rp));
                 }
             });
         }
 
-        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double p)
-        {
-            if (p == 1.0)
-            {
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double p) {
+            if (p == 1.0) {
                 return Generate.RepeatSequence(1);
             }
 
@@ -306,16 +275,14 @@ namespace MathNet.Numerics.Distributions
         /// Samples a Geometric distributed random variable.
         /// </summary>
         /// <returns>A sample from the Geometric distribution.</returns>
-        public int Sample()
-        {
+        public int Sample() {
             return SampleUnchecked(_random, _p);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(int[] values)
-        {
+        public void Samples(int[] values) {
             SamplesUnchecked(_random, values, _p);
         }
 
@@ -323,8 +290,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples an array of Geometric distributed random variables.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<int> Samples()
-        {
+        public IEnumerable<int> Samples() {
             return SamplesUnchecked(_random, _p);
         }
 
@@ -333,10 +299,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public static int Sample(System.Random rnd, double p)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static int Sample(System.Random rnd, double p) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -348,10 +312,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public static IEnumerable<int> Samples(System.Random rnd, double p)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static IEnumerable<int> Samples(System.Random rnd, double p) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -364,10 +326,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public static void Samples(System.Random rnd, int[] values, double p)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static void Samples(System.Random rnd, int[] values, double p) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -378,10 +338,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a random variable.
         /// </summary>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public static int Sample(double p)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static int Sample(double p) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -392,10 +350,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public static IEnumerable<int> Samples(double p)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static IEnumerable<int> Samples(double p) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -407,10 +363,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        public static void Samples(int[] values, double p)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
+        public static void Samples(int[] values, double p) {
+            if (!(p >= 0.0 && p <= 1.0)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

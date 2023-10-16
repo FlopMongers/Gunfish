@@ -1,13 +1,13 @@
-using System.Collections.Generic;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
 using static UnityEngine.Application;
 
 [System.Serializable]
-public class LevelManager: PersistentSingleton<LevelManager> {
+public class LevelManager : PersistentSingleton<LevelManager> {
     public GameEvent FinishLoadLevel_Event;
     public GameEvent StartPlay_Event;
     public string skyboxScene;
@@ -26,42 +26,35 @@ public class LevelManager: PersistentSingleton<LevelManager> {
     PlayerManager.InputMode nextInputMode;
     Animator anim;
 
-    private void Start() 
-    {
+    private void Start() {
         anim = GetComponent<Animator>();
     }
 
-    public void LoadMainMenu() 
-    {
+    public void LoadMainMenu() {
         LoadScene("MainMenu", PlayerManager.InputMode.UI);
     }
 
-    public void LoadStats() 
-    {
+    public void LoadStats() {
         LoadScene("Stats", PlayerManager.InputMode.EndLevel, MatchManager.instance.ShowStats);
     }
 
-    public void LoadLevel(string levelName) 
-    {
+    public void LoadLevel(string levelName) {
         LoadScene(levelName, PlayerManager.InputMode.Player, FinishLoadLevel);
 
     }
 
-    void FinishLoadLevel() 
-    {
+    void FinishLoadLevel() {
         // set new input mode here?
         FinishLoadLevel_Event?.Invoke();
         anim.SetTrigger("countdown");
     }
 
     // countdown anim invokes this
-    public void StartPlay() 
-    {
+    public void StartPlay() {
         StartPlay_Event?.Invoke();
     }
 
-    void LoadScene(string sceneName, PlayerManager.InputMode inputMode, Action callback = null) 
-    {
+    void LoadScene(string sceneName, PlayerManager.InputMode inputMode, Action callback = null) {
         nextSceneName = sceneName;
         nextCallback = callback;
         nextInputMode = inputMode;
@@ -71,8 +64,7 @@ public class LevelManager: PersistentSingleton<LevelManager> {
     }
 
     // veil anim invokes this
-    public void LoadNextScene() 
-    {
+    public void LoadNextScene() {
         StartCoroutine(CoLoadScene(nextSceneName));
     }
 
@@ -89,8 +81,7 @@ public class LevelManager: PersistentSingleton<LevelManager> {
     }
 
     // unveil anim invokes this
-    public void InvokeCallback() 
-    {
+    public void InvokeCallback() {
         PlayerManager.instance.SetInputMode(nextInputMode);
         nextCallback?.Invoke();
     }

@@ -5,7 +5,7 @@ public class GunfishStatusData {
     private bool canMove = true;
     public bool CanMove { get => alive && canMove; set => canMove = value; }
 
-    private bool canFire=true;
+    private bool canFire = true;
     public bool CanFire { get => CanMove && canFire == true; set => canFire = value; }
 
     public float flopTimer = 0f;

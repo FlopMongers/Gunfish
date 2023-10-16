@@ -27,22 +27,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Continuous Univariate Log-Normal distribution.
     /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Log-normal_distribution">Wikipedia - Log-Normal distribution</a>.
     /// </summary>
-    public class LogNormal : IContinuousDistribution
-    {
+    public class LogNormal : IContinuousDistribution {
         System.Random _random;
 
         readonly double _mu;
@@ -55,10 +53,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="mu">The log-scale (μ) of the logarithm of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the logarithm of the distribution. Range: σ ≥ 0.</param>
-        public LogNormal(double mu, double sigma)
-        {
-            if (!IsValidParameterSet(mu, sigma))
-            {
+        public LogNormal(double mu, double sigma) {
+            if (!IsValidParameterSet(mu, sigma)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -75,10 +71,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public LogNormal(double mu, double sigma, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(mu, sigma))
-            {
+        public LogNormal(double mu, double sigma, System.Random randomSource) {
+            if (!IsValidParameterSet(mu, sigma)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -94,8 +88,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>A log-normal distribution.</returns>
-        public static LogNormal WithMuSigma(double mu, double sigma, System.Random randomSource = null)
-        {
+        public static LogNormal WithMuSigma(double mu, double sigma, System.Random randomSource = null) {
             return new LogNormal(mu, sigma, randomSource);
         }
 
@@ -106,10 +99,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="var">The variance of the log-normal distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>A log-normal distribution.</returns>
-        public static LogNormal WithMeanVariance(double mean, double var, System.Random randomSource = null)
-        {
-            var sigma2 = Math.Log(var/(mean*mean) + 1.0);
-            return new LogNormal(Math.Log(mean) - sigma2/2.0, Math.Sqrt(sigma2), randomSource);
+        public static LogNormal WithMeanVariance(double mean, double var, System.Random randomSource = null) {
+            var sigma2 = Math.Log(var / (mean * mean) + 1.0);
+            return new LogNormal(Math.Log(mean) - sigma2 / 2.0, Math.Sqrt(sigma2), randomSource);
         }
 
         /// <summary>
@@ -119,8 +111,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>A log-normal distribution.</returns>
         /// <remarks>MATLAB: lognfit</remarks>
-        public static LogNormal Estimate(IEnumerable<double> samples, System.Random randomSource = null)
-        {
+        public static LogNormal Estimate(IEnumerable<double> samples, System.Random randomSource = null) {
             var muSigma = samples.Select(s => Math.Log(s)).MeanStandardDeviation();
             return new LogNormal(muSigma.Item1, muSigma.Item2, randomSource);
         }
@@ -129,8 +120,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"LogNormal(μ = {_mu}, σ = {_sigma})";
         }
 
@@ -139,8 +129,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
-        public static bool IsValidParameterSet(double mu, double sigma)
-        {
+        public static bool IsValidParameterSet(double mu, double sigma) {
             return sigma >= 0.0 && !double.IsNaN(mu);
         }
 
@@ -157,8 +146,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -166,29 +154,25 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mu of the log-normal distribution.
         /// </summary>
-        public double Mean => Math.Exp(_mu + (_sigma*_sigma/2.0));
+        public double Mean => Math.Exp(_mu + (_sigma * _sigma / 2.0));
 
         /// <summary>
         /// Gets the variance of the log-normal distribution.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                var sigma2 = _sigma*_sigma;
-                return (Math.Exp(sigma2) - 1.0)*Math.Exp(_mu + _mu + sigma2);
+        public double Variance {
+            get {
+                var sigma2 = _sigma * _sigma;
+                return (Math.Exp(sigma2) - 1.0) * Math.Exp(_mu + _mu + sigma2);
             }
         }
 
         /// <summary>
         /// Gets the standard deviation of the log-normal distribution.
         /// </summary>
-        public double StdDev
-        {
-            get
-            {
-                var sigma2 = _sigma*_sigma;
-                return Math.Sqrt((Math.Exp(sigma2) - 1.0)*Math.Exp(_mu + _mu + sigma2));
+        public double StdDev {
+            get {
+                var sigma2 = _sigma * _sigma;
+                return Math.Sqrt((Math.Exp(sigma2) - 1.0) * Math.Exp(_mu + _mu + sigma2));
             }
         }
 
@@ -200,19 +184,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the log-normal distribution.
         /// </summary>
-        public double Skewness
-        {
-            get
-            {
-                var expsigma2 = Math.Exp(_sigma*_sigma);
-                return (expsigma2 + 2.0)*Math.Sqrt(expsigma2 - 1);
+        public double Skewness {
+            get {
+                var expsigma2 = Math.Exp(_sigma * _sigma);
+                return (expsigma2 + 2.0) * Math.Sqrt(expsigma2 - 1);
             }
         }
 
         /// <summary>
         /// Gets the mode of the log-normal distribution.
         /// </summary>
-        public double Mode => Math.Exp(_mu - (_sigma*_sigma));
+        public double Mode => Math.Exp(_mu - (_sigma * _sigma));
 
         /// <summary>
         /// Gets the median of the log-normal distribution.
@@ -235,15 +217,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
-            if (x < 0.0)
-            {
+        public double Density(double x) {
+            if (x < 0.0) {
                 return 0.0;
             }
 
-            var a = (Math.Log(x) - _mu)/_sigma;
-            return Math.Exp(-0.5*a*a)/(x*_sigma*Constants.Sqrt2Pi);
+            var a = (Math.Log(x) - _mu) / _sigma;
+            return Math.Exp(-0.5 * a * a) / (x * _sigma * Constants.Sqrt2Pi);
         }
 
         /// <summary>
@@ -252,15 +232,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
-            if (x < 0.0)
-            {
+        public double DensityLn(double x) {
+            if (x < 0.0) {
                 return double.NegativeInfinity;
             }
 
-            var a = (Math.Log(x) - _mu)/_sigma;
-            return (-0.5*a*a) - Math.Log(x*_sigma) - Constants.LogSqrt2Pi;
+            var a = (Math.Log(x) - _mu) / _sigma;
+            return (-0.5 * a * a) - Math.Log(x * _sigma) - Constants.LogSqrt2Pi;
         }
 
         /// <summary>
@@ -269,10 +247,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return x < 0.0 ? 0.0
-                : 0.5*SpecialFunctions.Erfc((_mu - Math.Log(x))/(_sigma*Constants.Sqrt2));
+                : 0.5 * SpecialFunctions.Erfc((_mu - Math.Log(x)) / (_sigma * Constants.Sqrt2));
         }
 
         /// <summary>
@@ -282,26 +259,23 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InvCDF"/>
-        public double InverseCumulativeDistribution(double p)
-        {
+        public double InverseCumulativeDistribution(double p) {
             return p <= 0.0 ? 0.0 : p >= 1.0 ? double.PositiveInfinity
-                : Math.Exp(_mu - _sigma*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
+                : Math.Exp(_mu - _sigma * Constants.Sqrt2 * SpecialFunctions.ErfcInv(2.0 * p));
         }
 
         /// <summary>
         /// Generates a sample from the log-normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, _mu, _sigma);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, _mu, _sigma);
         }
 
@@ -309,28 +283,22 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the log-normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, _mu, _sigma);
         }
 
-        static double SampleUnchecked(System.Random rnd, double mu, double sigma)
-        {
+        static double SampleUnchecked(System.Random rnd, double mu, double sigma) {
             return Math.Exp(Normal.SampleUnchecked(rnd, mu, sigma));
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mu, double sigma)
-        {
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mu, double sigma) {
             return Normal.SamplesUnchecked(rnd, mu, sigma).Select(Math.Exp);
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double mu, double sigma)
-        {
+        static void SamplesUnchecked(System.Random rnd, double[] values, double mu, double sigma) {
             Normal.SamplesUnchecked(rnd, values, mu, sigma);
-            CommonParallel.For(0, values.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, values.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     values[i] = Math.Exp(values[i]);
                 }
             });
@@ -345,20 +313,17 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
         /// <remarks>MATLAB: lognpdf</remarks>
-        public static double PDF(double mu, double sigma, double x)
-        {
-            if (sigma < 0.0)
-            {
+        public static double PDF(double mu, double sigma, double x) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 return 0.0;
             }
 
-            var a = (Math.Log(x) - mu)/sigma;
-            return Math.Exp(-0.5*a*a)/(x*sigma*Constants.Sqrt2Pi);
+            var a = (Math.Log(x) - mu) / sigma;
+            return Math.Exp(-0.5 * a * a) / (x * sigma * Constants.Sqrt2Pi);
         }
 
         /// <summary>
@@ -369,20 +334,17 @@ namespace MathNet.Numerics.Distributions
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double mu, double sigma, double x)
-        {
-            if (sigma < 0.0)
-            {
+        public static double PDFLn(double mu, double sigma, double x) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 return double.NegativeInfinity;
             }
 
-            var a = (Math.Log(x) - mu)/sigma;
-            return (-0.5*a*a) - Math.Log(x*sigma) - Constants.LogSqrt2Pi;
+            var a = (Math.Log(x) - mu) / sigma;
+            return (-0.5 * a * a) - Math.Log(x * sigma) - Constants.LogSqrt2Pi;
         }
 
         /// <summary>
@@ -394,15 +356,13 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
         /// <remarks>MATLAB: logncdf</remarks>
-        public static double CDF(double mu, double sigma, double x)
-        {
-            if (sigma < 0.0)
-            {
+        public static double CDF(double mu, double sigma, double x) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return x < 0.0 ? 0.0
-                : 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - mu)/(sigma*Constants.Sqrt2)));
+                : 0.5 * (1.0 + SpecialFunctions.Erf((Math.Log(x) - mu) / (sigma * Constants.Sqrt2)));
         }
 
         /// <summary>
@@ -415,15 +375,13 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InverseCumulativeDistribution"/>
         /// <remarks>MATLAB: logninv</remarks>
-        public static double InvCDF(double mu, double sigma, double p)
-        {
-            if (sigma < 0.0)
-            {
+        public static double InvCDF(double mu, double sigma, double p) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return p <= 0.0 ? 0.0 : p >= 1.0 ? double.PositiveInfinity
-                : Math.Exp(mu - sigma*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
+                : Math.Exp(mu - sigma * Constants.Sqrt2 * SpecialFunctions.ErfcInv(2.0 * p));
         }
 
         /// <summary>
@@ -433,10 +391,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double mu, double sigma)
-        {
-            if (sigma < 0.0)
-            {
+        public static double Sample(System.Random rnd, double mu, double sigma) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -450,10 +406,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double mu, double sigma)
-        {
-            if (sigma < 0.0)
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double mu, double sigma) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -468,10 +422,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(System.Random rnd, double[] values, double mu, double sigma)
-        {
-            if (sigma < 0.0)
-            {
+        public static void Samples(System.Random rnd, double[] values, double mu, double sigma) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -484,10 +436,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(double mu, double sigma)
-        {
-            if (sigma < 0.0)
-            {
+        public static double Sample(double mu, double sigma) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -500,10 +450,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double mu, double sigma)
-        {
-            if (sigma < 0.0)
-            {
+        public static IEnumerable<double> Samples(double mu, double sigma) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -517,10 +465,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static void Samples(double[] values, double mu, double sigma)
-        {
-            if (sigma < 0.0)
-            {
+        public static void Samples(double[] values, double mu, double sigma) {
+            if (sigma < 0.0) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

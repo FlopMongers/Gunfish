@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.IO.Ports;
+using UnityEngine;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
 
@@ -21,14 +21,15 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         try {
             serialPort?.Open();
             Debug.Log("Connected Arduino!");
-        } catch {
+        }
+        catch {
             Debug.LogWarning("Could not open serial port. Is the Arduino connected?");
         }
     }
 
     private void Start() {
         serialPort.ReadTimeout = 100;
-        
+
         source = GetComponent<AudioSource>();
         clip = source.clip;
     }
@@ -50,7 +51,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         if (serialPort.IsOpen) {
             float loudness = SampleLoudness();
             byte volume = (byte)Mathf.RoundToInt(loudness);
-            byte[] buffer = new byte[] {volume};
+            byte[] buffer = new byte[] { volume };
             serialPort.Write(buffer, 0, 1);
         }
 

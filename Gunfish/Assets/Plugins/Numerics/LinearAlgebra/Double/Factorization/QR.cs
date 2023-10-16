@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
     /// <para>Any real square matrix A (m x n) may be decomposed as A = QR where Q is an orthogonal matrix
@@ -44,31 +43,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the
     /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.
     /// </remarks>
-    internal abstract class QR : QR<double>
-    {
+    internal abstract class QR : QR<double> {
         protected QR(Matrix<double> q, Matrix<double> rFull, QRMethod method)
-            : base(q, rFull, method)
-        {
+            : base(q, rFull, method) {
         }
 
         /// <summary>
         /// Gets the absolute determinant value of the matrix for which the QR matrix was computed.
         /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                if (FullR.RowCount != FullR.ColumnCount)
-                {
+        public override double Determinant {
+            get {
+                if (FullR.RowCount != FullR.ColumnCount) {
                     throw new ArgumentException("Matrix must be square.");
                 }
 
                 var det = 1.0;
-                for (var i = 0; i < FullR.ColumnCount; i++)
-                {
+                for (var i = 0; i < FullR.ColumnCount; i++) {
                     det *= FullR.At(i, i);
-                    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0))
-                    {
+                    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0)) {
                         return 0;
                     }
                 }
@@ -81,14 +73,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Gets a value indicating whether the matrix is full rank or not.
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public override bool IsFullRank
-        {
-            get
-            {
-                for (var i = 0; i < FullR.ColumnCount; i++)
-                {
-                    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0))
-                    {
+        public override bool IsFullRank {
+            get {
+                for (var i = 0; i < FullR.ColumnCount; i++) {
+                    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0)) {
                         return false;
                     }
                 }

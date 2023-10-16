@@ -1,7 +1,7 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using System;
 
 [Serializable]
 public class TransformTuple {

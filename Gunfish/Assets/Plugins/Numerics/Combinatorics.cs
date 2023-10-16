@@ -27,19 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Random;
 using System.Numerics;
 
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// Enumerative Combinatorics and Counting.
     /// </summary>
-    public static class Combinatorics
-    {
+    public static class Combinatorics {
         /// <summary>
         /// Count the number of possible variations without repetition.
         /// The order matters and each object can be chosen only once.
@@ -47,10 +45,8 @@ namespace MathNet.Numerics
         /// <param name="n">Number of elements in the set.</param>
         /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
         /// <returns>Maximum number of distinct variations.</returns>
-        public static double Variations(int n, int k)
-        {
-            if (k < 0 || n < 0 || k > n)
-            {
+        public static double Variations(int n, int k) {
+            if (k < 0 || n < 0 || k > n) {
                 return 0;
             }
 
@@ -67,10 +63,8 @@ namespace MathNet.Numerics
         /// <param name="n">Number of elements in the set.</param>
         /// <param name="k">Number of elements to choose from the set. Each element is chosen 0, 1 or multiple times.</param>
         /// <returns>Maximum number of distinct variations with repetition.</returns>
-        public static double VariationsWithRepetition(int n, int k)
-        {
-            if (k < 0 || n < 0)
-            {
+        public static double VariationsWithRepetition(int n, int k) {
+            if (k < 0 || n < 0) {
                 return 0;
             }
 
@@ -84,8 +78,7 @@ namespace MathNet.Numerics
         /// <param name="n">Number of elements in the set.</param>
         /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
         /// <returns>Maximum number of combinations.</returns>
-        public static double Combinations(int n, int k)
-        {
+        public static double Combinations(int n, int k) {
             return SpecialFunctions.Binomial(n, k);
         }
 
@@ -96,15 +89,12 @@ namespace MathNet.Numerics
         /// <param name="n">Number of elements in the set.</param>
         /// <param name="k">Number of elements to choose from the set. Each element is chosen 0, 1 or multiple times.</param>
         /// <returns>Maximum number of combinations with repetition.</returns>
-        public static double CombinationsWithRepetition(int n, int k)
-        {
-            if (k < 0 || n < 0 || (n == 0 && k > 0))
-            {
+        public static double CombinationsWithRepetition(int n, int k) {
+            if (k < 0 || n < 0 || (n == 0 && k > 0)) {
                 return 0;
             }
 
-            if (n == 0 && k == 0)
-            {
+            if (n == 0 && k == 0) {
                 return 1;
             }
 
@@ -120,8 +110,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="n">Number of (distinguishable) elements in the set.</param>
         /// <returns>Maximum number of permutations without repetition.</returns>
-        public static double Permutations(int n)
-        {
+        public static double Permutations(int n) {
             return SpecialFunctions.Factorial(n);
         }
 
@@ -132,13 +121,12 @@ namespace MathNet.Numerics
         /// <returns>An array of length <c>N</c> that contains (in any order) the integers of the interval <c>[0, N)</c>.</returns>
         /// <param name="n">Number of (distinguishable) elements in the set.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
-        public static int[] GeneratePermutation(int n, System.Random randomSource = null)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+        public static int[] GeneratePermutation(int n, System.Random randomSource = null) {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
 
             int[] indices = new int[n];
-            for (int i = 0; i < indices.Length; i++)
-            {
+            for (int i = 0; i < indices.Length; i++) {
                 indices[i] = i;
             }
 
@@ -152,13 +140,11 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="data">The data array to be reordered. The array will be modified by this routine.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
-        public static void SelectPermutationInplace<T>(T[] data, System.Random randomSource = null)
-        {
+        public static void SelectPermutationInplace<T>(T[] data, System.Random randomSource = null) {
             var random = randomSource ?? SystemRandomSource.Default;
 
             // Fisher-Yates Shuffling
-            for (int i = data.Length - 1; i > 0; i--)
-            {
+            for (int i = data.Length - 1; i > 0; i--) {
                 int swapIndex = random.Next(i + 1);
                 (data[i], data[swapIndex]) = (data[swapIndex], data[i]);
             }
@@ -170,14 +156,12 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="data">The data elements to be reordered.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
-        public static IEnumerable<T> SelectPermutation<T>(this IEnumerable<T> data, System.Random randomSource = null)
-        {
+        public static IEnumerable<T> SelectPermutation<T>(this IEnumerable<T> data, System.Random randomSource = null) {
             var random = randomSource ?? SystemRandomSource.Default;
             T[] array = data.ToArray();
 
             // Fisher-Yates Shuffling
-            for (int i = array.Length - 1; i >= 0; i--)
-            {
+            for (int i = array.Length - 1; i >= 0; i--) {
                 int k = random.Next(i + 1);
                 yield return array[k];
                 array[k] = array[i];
@@ -190,15 +174,14 @@ namespace MathNet.Numerics
         /// <param name="n">Number of elements in the set.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>Boolean mask array of length <c>N</c>, for each item true if it is selected.</returns>
-        public static bool[] GenerateCombination(int n, System.Random randomSource = null)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+        public static bool[] GenerateCombination(int n, System.Random randomSource = null) {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
             bool[] mask = new bool[n];
-            for (int i = 0; i < mask.Length; i++)
-            {
+            for (int i = 0; i < mask.Length; i++) {
                 mask[i] = random.NextBoolean();
             }
 
@@ -212,24 +195,23 @@ namespace MathNet.Numerics
         /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>Boolean mask array of length <c>N</c>, for each item true if it is selected.</returns>
-        public static bool[] GenerateCombination(int n, int k, System.Random randomSource = null)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
-            if (k > n) throw new ArgumentOutOfRangeException(nameof(k), $"{"k"} must be smaller than or equal to {"n"}.");
+        public static bool[] GenerateCombination(int n, int k, System.Random randomSource = null) {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0)
+                throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
+            if (k > n)
+                throw new ArgumentOutOfRangeException(nameof(k), $"{"k"} must be smaller than or equal to {"n"}.");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
             bool[] mask = new bool[n];
-            if (k*3 < n)
-            {
+            if (k * 3 < n) {
                 // just pick and try
                 int selectionCount = 0;
-                while (selectionCount < k)
-                {
+                while (selectionCount < k) {
                     int index = random.Next(n);
-                    if (!mask[index])
-                    {
+                    if (!mask[index]) {
                         mask[index] = true;
                         selectionCount++;
                     }
@@ -240,8 +222,7 @@ namespace MathNet.Numerics
 
             // based on permutation
             int[] permutation = GeneratePermutation(n, random);
-            for (int i = 0; i < k; i++)
-            {
+            for (int i = 0; i < k; i++) {
                 mask[permutation[i]] = true;
             }
 
@@ -255,19 +236,18 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen combination, in the original order.</returns>
-        public static IEnumerable<T> SelectCombination<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null)
-        {
+        public static IEnumerable<T> SelectCombination<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null) {
             T[] array = data as T[] ?? data.ToArray();
 
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
-            if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), $"elementsToChoose must be smaller than or equal to data.Count.");
+            if (elementsToChoose < 0)
+                throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+            if (elementsToChoose > array.Length)
+                throw new ArgumentOutOfRangeException(nameof(elementsToChoose), $"elementsToChoose must be smaller than or equal to data.Count.");
 
             bool[] mask = GenerateCombination(array.Length, elementsToChoose, randomSource);
 
-            for (int i = 0; i < mask.Length; i++)
-            {
-                if (mask[i])
-                {
+            for (int i = 0; i < mask.Length; i++) {
+                if (mask[i]) {
                     yield return array[i];
                 }
             }
@@ -280,16 +260,16 @@ namespace MathNet.Numerics
         /// <param name="k">Number of elements to choose from the set. Elements can be chosen more than once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>Integer mask array of length <c>N</c>, for each item the number of times it was selected.</returns>
-        public static int[] GenerateCombinationWithRepetition(int n, int k, System.Random randomSource = null)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
+        public static int[] GenerateCombinationWithRepetition(int n, int k, System.Random randomSource = null) {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0)
+                throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
             int[] mask = new int[n];
-            for (int i = 0; i < k; i++)
-            {
+            for (int i = 0; i < k; i++) {
                 mask[random.Next(n)]++;
             }
 
@@ -303,17 +283,15 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Elements can be chosen more than once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen combination with repetition, in the original order.</returns>
-        public static IEnumerable<T> SelectCombinationWithRepetition<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null)
-        {
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+        public static IEnumerable<T> SelectCombinationWithRepetition<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null) {
+            if (elementsToChoose < 0)
+                throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
 
             T[] array = data as T[] ?? data.ToArray();
             int[] mask = GenerateCombinationWithRepetition(array.Length, elementsToChoose, randomSource);
 
-            for (int i = 0; i < mask.Length; i++)
-            {
-                for (int j = 0; j < mask[i]; j++)
-                {
+            for (int i = 0; i < mask.Length; i++) {
+                for (int j = 0; j < mask[i]; j++) {
                     yield return array[i];
                 }
             }
@@ -327,24 +305,24 @@ namespace MathNet.Numerics
         /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>An array of length <c>K</c> that contains the indices of the selections as integers of the interval <c>[0, N)</c>.</returns>
-        public static int[] GenerateVariation(int n, int k, System.Random randomSource = null)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
-            if (k > n) throw new ArgumentOutOfRangeException(nameof(k), $"k must be smaller than or equal to n.");
+        public static int[] GenerateVariation(int n, int k, System.Random randomSource = null) {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0)
+                throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
+            if (k > n)
+                throw new ArgumentOutOfRangeException(nameof(k), $"k must be smaller than or equal to n.");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
             int[] indices = new int[n];
-            for (int i = 0; i < indices.Length; i++)
-            {
+            for (int i = 0; i < indices.Length; i++) {
                 indices[i] = i;
             }
 
             // Partial Fisher-Yates Shuffling
             int[] selection = new int[k];
-            for (int i = 0, j = indices.Length - 1; i < selection.Length; i++, j--)
-            {
+            for (int i = 0, j = indices.Length - 1; i < selection.Length; i++, j--) {
                 int swapIndex = random.Next(j + 1);
                 selection[i] = indices[swapIndex];
                 indices[swapIndex] = indices[j];
@@ -363,17 +341,18 @@ namespace MathNet.Numerics
         /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>An array of length <c>K</c> that contains the indices of the selections as integers of the interval <c>[0, N)</c>.</returns>
-        public static BigInteger[] GenerateVariation(BigInteger n, int k, System.Random randomSource = null)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
-            if (k > n) throw new ArgumentOutOfRangeException(nameof(k), $"k must be smaller than or equal to n.");
+        public static BigInteger[] GenerateVariation(BigInteger n, int k, System.Random randomSource = null) {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0)
+                throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
+            if (k > n)
+                throw new ArgumentOutOfRangeException(nameof(k), $"k must be smaller than or equal to n.");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
             BigInteger[] selection = new BigInteger[k];
-            if (n == 0 || k == 0)
-            {
+            if (n == 0 || k == 0) {
                 return selection;
             }
 
@@ -382,16 +361,13 @@ namespace MathNet.Numerics
             bool keepLooping;
             BigInteger randomNumber;
 
-            for (int a = 1; a < k; a++)
-            {
+            for (int a = 1; a < k; a++) {
                 randomNumber = random.NextBigIntegerSequence(BigInteger.Zero, n - a).First();
                 compareCache = Generate.Repeat(a, true);
-                do
-                {
+                do {
                     keepLooping = false;
                     for (int b = 0; b < a; ++b)
-                        if (compareCache[b] && randomNumber >= selection[b])
-                        {
+                        if (compareCache[b] && randomNumber >= selection[b]) {
                             compareCache[b] = false;
                             keepLooping = true;
                             randomNumber++;
@@ -411,17 +387,17 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen variation, in random order.</returns>
-        public static IEnumerable<T> SelectVariation<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null)
-        {
+        public static IEnumerable<T> SelectVariation<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null) {
             var random = randomSource ?? SystemRandomSource.Default;
             T[] array = data.ToArray();
 
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
-            if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
+            if (elementsToChoose < 0)
+                throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+            if (elementsToChoose > array.Length)
+                throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
 
             // Partial Fisher-Yates Shuffling
-            for (int i = array.Length - 1; i >= array.Length - elementsToChoose; i--)
-            {
+            for (int i = array.Length - 1; i >= array.Length - elementsToChoose; i--) {
                 int swapIndex = random.Next(i + 1);
                 yield return array[swapIndex];
                 array[swapIndex] = array[i];
@@ -435,10 +411,11 @@ namespace MathNet.Numerics
         /// <param name="k">Number of elements to choose from the set. Elements can be chosen more than once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>An array of length <c>K</c> that contains the indices of the selections as integers of the interval <c>[0, N)</c>.</returns>
-        public static int[] GenerateVariationWithRepetition(int n, int k, System.Random randomSource = null)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
+        public static int[] GenerateVariationWithRepetition(int n, int k, System.Random randomSource = null) {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0)
+                throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
@@ -454,15 +431,14 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Elements can be chosen more than once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen variation with repetition, in random order.</returns>
-        public static IEnumerable<T> SelectVariationWithRepetition<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null)
-        {
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+        public static IEnumerable<T> SelectVariationWithRepetition<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null) {
+            if (elementsToChoose < 0)
+                throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
 
             T[] array = data as T[] ?? data.ToArray();
             int[] indices = GenerateVariationWithRepetition(array.Length, elementsToChoose, randomSource);
 
-            for (int i = 0; i < indices.Length; i++)
-            {
+            for (int i = 0; i < indices.Length; i++) {
                 yield return array[indices[i]];
             }
         }

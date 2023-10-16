@@ -1,166 +1,154 @@
-﻿using UnityEngine;
-using FunkyCode.Utilities;
+﻿using FunkyCode.Utilities;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Lightmap
-{	
-    public static class LightSprite
-	{
-		public static class Script
-		{	
-			static public void DrawScriptable(Scriptable.LightSprite2D id, Camera camera)
-			{
-				if (!id.Sprite)
-					return;
+namespace FunkyCode.Rendering.Lightmap {
+    public static class LightSprite {
+        public static class Script {
+            static public void DrawScriptable(Scriptable.LightSprite2D id, Camera camera) {
+                if (!id.Sprite)
+                    return;
 
-				if (!id.InCamera(camera))
-					return;
+                if (!id.InCamera(camera))
+                    return;
 
-				Vector2 position = id.Position;
-				position.x -= camera.transform.position.x;
-				position.y -= camera.transform.position.y;
+                Vector2 position = id.Position;
+                position.x -= camera.transform.position.x;
+                position.y -= camera.transform.position.y;
 
-				Vector2 scale = id.Scale;
-				float rot = id.Rotation;
+                Vector2 scale = id.Scale;
+                float rot = id.Rotation;
 
-				Material material = Lighting2D.Materials.GetAdditive(); // get light sprite material?
-				material.mainTexture = id.Sprite.texture;
+                Material material = Lighting2D.Materials.GetAdditive(); // get light sprite material?
+                material.mainTexture = id.Sprite.texture;
 
-				VirtualSpriteRenderer virtualSprite = new VirtualSpriteRenderer();
-				virtualSprite.sprite = id.Sprite;
+                VirtualSpriteRenderer virtualSprite = new VirtualSpriteRenderer();
+                virtualSprite.sprite = id.Sprite;
 
-				GLExtended.color = new Color(id.Color.r * 0.5f, id.Color.g * 0.5f, id.Color.b * 0.5f, id.Color.a);
+                GLExtended.color = new Color(id.Color.r * 0.5f, id.Color.g * 0.5f, id.Color.b * 0.5f, id.Color.a);
 
-				material.SetPass(0);
+                material.SetPass(0);
 
-				GL.Begin (GL.QUADS);
+                GL.Begin(GL.QUADS);
 
-				Universal.Sprite.Pass.Draw(id.spriteMeshObject, virtualSprite, position, scale, rot);
+                Universal.Sprite.Pass.Draw(id.spriteMeshObject, virtualSprite, position, scale, rot);
 
-				GL.End ();
-				
-				material.mainTexture = null;
-			}
-		}
+                GL.End();
 
-		static public class Pass
-		{
-			public static Texture2D currentTexture;
+                material.mainTexture = null;
+            }
+        }
 
-			static public void Draw(LightSprite2D id, Camera camera)
-			{
-				if (!id.GetSprite())
-					return;
+        static public class Pass {
+            public static Texture2D currentTexture;
 
-				if (!id.InCamera(camera))
-					return;
+            static public void Draw(LightSprite2D id, Camera camera) {
+                if (!id.GetSprite())
+                    return;
 
-				var material = Lighting2D.Materials.GetLightSprite();
-				if (!material)
-					return;
+                if (!id.InCamera(camera))
+                    return;
 
-				var sprite = id.GetSprite();
-				if (!sprite)
-					return;
+                var material = Lighting2D.Materials.GetLightSprite();
+                if (!material)
+                    return;
 
-				var texture = sprite.texture;
-				if (!texture)
-					return;
+                var sprite = id.GetSprite();
+                if (!sprite)
+                    return;
 
-				if (texture != currentTexture)
-				{
-					if (currentTexture != null)
-					{
-						GL.End();
-					}
+                var texture = sprite.texture;
+                if (!texture)
+                    return;
 
-					currentTexture = texture;
+                if (texture != currentTexture) {
+                    if (currentTexture != null) {
+                        GL.End();
+                    }
+
+                    currentTexture = texture;
                     material.mainTexture = currentTexture;
 
                     material.SetPass(0);
                     GL.Begin(GL.QUADS);
-				}
-				
-				Vector2 position = LightingPosition.GetPosition2D(id.transform.position);
-				position -= LightingPosition.GetPosition2D(camera.transform.position);
+                }
 
-				Vector2 scale = LightingPosition.GetPosition2D(id.transform.lossyScale);
-				scale.x *= id.lightSpriteTransform.scale.x;
-				scale.y *= id.lightSpriteTransform.scale.y;
+                Vector2 position = LightingPosition.GetPosition2D(id.transform.position);
+                position -= LightingPosition.GetPosition2D(camera.transform.position);
 
-				float rot = id.lightSpriteTransform.rotation;
-				
-				if (id.lightSpriteTransform.applyRotation)
-				{
-					rot += id.transform.rotation.eulerAngles.z;
-				}
-	
-				float ratio = (float)texture.width / (float)texture.height;
-				float type = id.type == LightSprite2D.Type.Mask ? 1 : 0;
-				float glow = id.glowMode.enable ? id.glowMode.glowRadius : 0;
+                Vector2 scale = LightingPosition.GetPosition2D(id.transform.lossyScale);
+                scale.x *= id.lightSpriteTransform.scale.x;
+                scale.y *= id.lightSpriteTransform.scale.y;
 
-				GLExtended.color = id.color;
+                float rot = id.lightSpriteTransform.rotation;
 
-				GL.MultiTexCoord3(1, glow, ratio, type);
-	
-				Universal.Sprite.MultiPass.Draw(id.spriteMeshObject, id.spriteRenderer, position + id.lightSpriteTransform.position, scale, rot);
-			}
-		}
+                if (id.lightSpriteTransform.applyRotation) {
+                    rot += id.transform.rotation.eulerAngles.z;
+                }
 
-		static public class Simple
-		{	
-			static public void Draw(LightSprite2D id, Camera camera)
-			{
-				if (!id.GetSprite())
-					return;
+                float ratio = (float)texture.width / (float)texture.height;
+                float type = id.type == LightSprite2D.Type.Mask ? 1 : 0;
+                float glow = id.glowMode.enable ? id.glowMode.glowRadius : 0;
 
-				if (!id.InCamera(camera))
-					return;
+                GLExtended.color = id.color;
 
-				var material = Lighting2D.Materials.GetLightSprite();
-				if (!material)
-					return;
+                GL.MultiTexCoord3(1, glow, ratio, type);
 
-				Vector2 position = LightingPosition.GetPosition2D(id.transform.position);
-				position -= LightingPosition.GetPosition2D(camera.transform.position);
+                Universal.Sprite.MultiPass.Draw(id.spriteMeshObject, id.spriteRenderer, position + id.lightSpriteTransform.position, scale, rot);
+            }
+        }
 
-				Vector2 scale = LightingPosition.GetPosition2D(id.transform.lossyScale);
-				scale.x *= id.lightSpriteTransform.scale.x;
-				scale.y *= id.lightSpriteTransform.scale.y;
+        static public class Simple {
+            static public void Draw(LightSprite2D id, Camera camera) {
+                if (!id.GetSprite())
+                    return;
 
-				float rot = id.lightSpriteTransform.rotation;
+                if (!id.InCamera(camera))
+                    return;
 
-				if (id.lightSpriteTransform.applyRotation)
-				{
-					rot += id.transform.rotation.eulerAngles.z;
-				}
+                var material = Lighting2D.Materials.GetLightSprite();
+                if (!material)
+                    return;
 
-				var sprite = id.GetSprite();
-				if (sprite == null)
-					return;
+                Vector2 position = LightingPosition.GetPosition2D(id.transform.position);
+                position -= LightingPosition.GetPosition2D(camera.transform.position);
 
-				var texture = sprite.texture;
-				if (texture == null)
-					return;
+                Vector2 scale = LightingPosition.GetPosition2D(id.transform.lossyScale);
+                scale.x *= id.lightSpriteTransform.scale.x;
+                scale.y *= id.lightSpriteTransform.scale.y;
 
-				float ratio = (float)texture.width / (float)texture.height;
-				float type = id.type == LightSprite2D.Type.Mask ? 1 : 0;
-				float glow = id.glowMode.enable ? id.glowMode.glowRadius : 0;
+                float rot = id.lightSpriteTransform.rotation;
 
-				material.mainTexture = texture;
-				material.SetPass(0);
+                if (id.lightSpriteTransform.applyRotation) {
+                    rot += id.transform.rotation.eulerAngles.z;
+                }
 
-				GL.Begin (GL.QUADS);
+                var sprite = id.GetSprite();
+                if (sprite == null)
+                    return;
 
-				GLExtended.color = id.color;
+                var texture = sprite.texture;
+                if (texture == null)
+                    return;
 
-				GL.MultiTexCoord3(1, glow, ratio, type);
-	
-				Universal.Sprite.MultiPass.Draw(id.spriteMeshObject, id.spriteRenderer, position + id.lightSpriteTransform.position, scale, rot);
+                float ratio = (float)texture.width / (float)texture.height;
+                float type = id.type == LightSprite2D.Type.Mask ? 1 : 0;
+                float glow = id.glowMode.enable ? id.glowMode.glowRadius : 0;
 
-				GL.End ();
-				
-				material.mainTexture = null;
-			}
-		}
-	}
+                material.mainTexture = texture;
+                material.SetPass(0);
+
+                GL.Begin(GL.QUADS);
+
+                GLExtended.color = id.color;
+
+                GL.MultiTexCoord3(1, glow, ratio, type);
+
+                Universal.Sprite.MultiPass.Draw(id.spriteMeshObject, id.spriteRenderer, position + id.lightSpriteTransform.position, scale, rot);
+
+                GL.End();
+
+                material.mainTexture = null;
+            }
+        }
+    }
 }

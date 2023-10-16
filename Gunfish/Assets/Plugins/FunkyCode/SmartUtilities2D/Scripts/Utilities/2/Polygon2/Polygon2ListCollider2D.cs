@@ -1,142 +1,121 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode.Utilities
-{
-	public class Polygon2ListCollider2D : Polygon2Collider2D
-	{
-		public static List<Polygon2> CreateFromGameObject(GameObject gameObject)
-		{
-			List<Polygon2> result = new List<Polygon2>();
-			
-			foreach(Collider2D c in gameObject.GetComponents<Collider2D> ())
-			{
-				System.Type type = c.GetType();
+namespace FunkyCode.Utilities {
+    public class Polygon2ListCollider2D : Polygon2Collider2D {
+        public static List<Polygon2> CreateFromGameObject(GameObject gameObject) {
+            List<Polygon2> result = new List<Polygon2>();
 
-				if (type == typeof(BoxCollider2D))
-				{
-					BoxCollider2D boxCollider2D = (BoxCollider2D)c;
-					
-					result.Add(CreateFromBoxCollider(boxCollider2D));
-				}
+            foreach (Collider2D c in gameObject.GetComponents<Collider2D>()) {
+                System.Type type = c.GetType();
 
-				if (type == typeof(CircleCollider2D))
-				{
-					CircleCollider2D circleCollider2D = (CircleCollider2D)c;
+                if (type == typeof(BoxCollider2D)) {
+                    BoxCollider2D boxCollider2D = (BoxCollider2D)c;
 
-					result.Add(CreateFromCircleCollider(circleCollider2D));
-				}
+                    result.Add(CreateFromBoxCollider(boxCollider2D));
+                }
 
-				if (type == typeof(CapsuleCollider2D))
-				{
-					CapsuleCollider2D capsuleCollider2D = (CapsuleCollider2D)c;
+                if (type == typeof(CircleCollider2D)) {
+                    CircleCollider2D circleCollider2D = (CircleCollider2D)c;
 
-					result.Add(CreateFromCapsuleCollider(capsuleCollider2D));
-				}
+                    result.Add(CreateFromCircleCollider(circleCollider2D));
+                }
 
-				if (type == typeof(EdgeCollider2D))
-				{
-					EdgeCollider2D edgeCollider2D = (EdgeCollider2D)c;
+                if (type == typeof(CapsuleCollider2D)) {
+                    CapsuleCollider2D capsuleCollider2D = (CapsuleCollider2D)c;
 
-					result.Add(CreateFromEdgeCollider(edgeCollider2D));
-				}
+                    result.Add(CreateFromCapsuleCollider(capsuleCollider2D));
+                }
 
-				if (type == typeof(PolygonCollider2D))
-				{
-					PolygonCollider2D polygonCollider2D = (PolygonCollider2D)c;
+                if (type == typeof(EdgeCollider2D)) {
+                    EdgeCollider2D edgeCollider2D = (EdgeCollider2D)c;
 
-					List<Polygon2> polygonColliders = CreateFromPolygonColliderToLocalSpace(polygonCollider2D);
+                    result.Add(CreateFromEdgeCollider(edgeCollider2D));
+                }
 
-					foreach(Polygon2 poly in polygonColliders)
-					{
-						result.Add(poly);
-					}
-				}
-			}
+                if (type == typeof(PolygonCollider2D)) {
+                    PolygonCollider2D polygonCollider2D = (PolygonCollider2D)c;
 
-			foreach(Polygon2 poly in result)
-			{
-				poly.Normalize();
-			}
+                    List<Polygon2> polygonColliders = CreateFromPolygonColliderToLocalSpace(polygonCollider2D);
 
-			return(result);
-		}
-		
-		// Get List Of Polygons from Collider (Usually Used Before Creating Slicer2D Object)
-		static public List<Polygon2> CreateFromPolygonColliderToWorldSpace(PolygonCollider2D collider)
-		{
-			List<Polygon2> result = new List<Polygon2> ();
+                    foreach (Polygon2 poly in polygonColliders) {
+                        result.Add(poly);
+                    }
+                }
+            }
 
-			if (collider != null && collider.pathCount > 0)
-			{
-				Vector2[] array = collider.GetPath (0);
+            foreach (Polygon2 poly in result) {
+                poly.Normalize();
+            }
 
-				Polygon2 newPolygon = new Polygon2 (array.Length);
+            return (result);
+        }
 
-				for(int i = 0; i < array.Length; i++)
-				{
-					Vector2 p = array[i];
-					
-					newPolygon.points[i] = p + collider.offset;
-				}
-				
-				newPolygon = newPolygon.ToWorldSpace(collider.transform);
+        // Get List Of Polygons from Collider (Usually Used Before Creating Slicer2D Object)
+        static public List<Polygon2> CreateFromPolygonColliderToWorldSpace(PolygonCollider2D collider) {
+            List<Polygon2> result = new List<Polygon2>();
 
-				result.Add (newPolygon);
+            if (collider != null && collider.pathCount > 0) {
+                Vector2[] array = collider.GetPath(0);
 
-				for (int i = 1; i < collider.pathCount; i++)
-				{
-					Vector2[] arrayHole = collider.GetPath (i);
+                Polygon2 newPolygon = new Polygon2(array.Length);
 
-					Polygon2 hole = new Polygon2 (arrayHole.Length);
+                for (int i = 0; i < array.Length; i++) {
+                    Vector2 p = array[i];
 
-					for(int x = 0; x < arrayHole.Length; x++)
-					{
-						hole.points[x] = arrayHole[x] + collider.offset;
-					}
+                    newPolygon.points[i] = p + collider.offset;
+                }
 
-					hole = hole.ToWorldSpace(collider.transform);
+                newPolygon = newPolygon.ToWorldSpace(collider.transform);
 
-					result.Add(hole);
-				}
-			}
-			return(result);
-		}
+                result.Add(newPolygon);
 
-		static public List<Polygon2> CreateFromPolygonColliderToLocalSpace(PolygonCollider2D collider)
-		{
-			List<Polygon2> result = new List<Polygon2>();
+                for (int i = 1; i < collider.pathCount; i++) {
+                    Vector2[] arrayHole = collider.GetPath(i);
 
-			if (collider != null && collider.pathCount > 0)
-			{
-				Vector2[] array = collider.GetPath (0);
+                    Polygon2 hole = new Polygon2(arrayHole.Length);
 
-				Polygon2 newPolygon = new Polygon2 (array.Length);
+                    for (int x = 0; x < arrayHole.Length; x++) {
+                        hole.points[x] = arrayHole[x] + collider.offset;
+                    }
 
-				for(int i = 0; i < array.Length; i++)
-				{
-					Vector2 p = array[i];
-					
-					newPolygon.points[i] = (p + collider.offset);
-				}
+                    hole = hole.ToWorldSpace(collider.transform);
 
-				result.Add(newPolygon);
+                    result.Add(hole);
+                }
+            }
+            return (result);
+        }
 
-				for (int i = 1; i < collider.pathCount; i++)
-				{
-					Vector2[] arrayHole = collider.GetPath (i);
+        static public List<Polygon2> CreateFromPolygonColliderToLocalSpace(PolygonCollider2D collider) {
+            List<Polygon2> result = new List<Polygon2>();
 
-					Polygon2 hole = new Polygon2 (arrayHole.Length);
+            if (collider != null && collider.pathCount > 0) {
+                Vector2[] array = collider.GetPath(0);
 
-					for(int x = 0; x < arrayHole.Length; x++)
-					{
-						hole.points[x] = arrayHole[x] + collider.offset;
-					}
+                Polygon2 newPolygon = new Polygon2(array.Length);
 
-					result.Add(hole);
-				}
-			}
-			return(result);
-		}
-	}
+                for (int i = 0; i < array.Length; i++) {
+                    Vector2 p = array[i];
+
+                    newPolygon.points[i] = (p + collider.offset);
+                }
+
+                result.Add(newPolygon);
+
+                for (int i = 1; i < collider.pathCount; i++) {
+                    Vector2[] arrayHole = collider.GetPath(i);
+
+                    Polygon2 hole = new Polygon2(arrayHole.Length);
+
+                    for (int x = 0; x < arrayHole.Length; x++) {
+                        hole.points[x] = arrayHole[x] + collider.offset;
+                    }
+
+                    result.Add(hole);
+                }
+            }
+            return (result);
+        }
+    }
 }

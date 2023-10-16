@@ -27,19 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Threading;
+using System;
+using static System.FormattableString;
 using Complex = System.Numerics.Complex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
-using static System.FormattableString;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
-{
+namespace MathNet.Numerics.Providers.LinearAlgebra {
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    public partial class ManagedLinearAlgebraProvider
-    {
+    public partial class ManagedLinearAlgebraProvider {
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
@@ -48,38 +46,29 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
-        public void AddVectorToScaledVector(Complex[] y, Complex alpha, Complex[] x, Complex[] result)
-        {
-            if (y == null)
-            {
+        public void AddVectorToScaledVector(Complex[] y, Complex alpha, Complex[] x, Complex[] result) {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (y.Length != x.Length)
-            {
+            if (y.Length != x.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (alpha.IsZero())
-            {
+            if (alpha.IsZero()) {
                 y.Copy(result);
             }
-            else if (alpha.IsOne())
-            {
-                for (int i = 0; i < result.Length; i++)
-                {
+            else if (alpha.IsOne()) {
+                for (int i = 0; i < result.Length; i++) {
                     result[i] = y[i] + x[i];
                 }
             }
-            else
-            {
-                for (int i = 0; i < result.Length; i++)
-                {
+            else {
+                for (int i = 0; i < result.Length; i++) {
                     result[i] = y[i] + (alpha * x[i]);
                 }
             }
@@ -92,25 +81,19 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">The values to scale.</param>
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
-        public void ScaleArray(Complex alpha, Complex[] x, Complex[] result)
-        {
-            if (x == null)
-            {
+        public void ScaleArray(Complex alpha, Complex[] x, Complex[] result) {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (alpha.IsZero())
-            {
+            if (alpha.IsZero()) {
                 Array.Clear(result, 0, result.Length);
             }
-            else if (alpha.IsOne())
-            {
+            else if (alpha.IsOne()) {
                 x.Copy(result);
             }
-            else
-            {
-                for (int i = 0; i < result.Length; i++)
-                {
+            else {
+                for (int i = 0; i < result.Length; i++) {
                     result[i] = alpha * x[i];
                 }
             }
@@ -121,15 +104,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// </summary>
         /// <param name="x">The values to conjugate.</param>
         /// <param name="result">This result of the conjugation.</param>
-        public void ConjugateArray(Complex[] x, Complex[] result)
-        {
-            if (x == null)
-            {
+        public void ConjugateArray(Complex[] x, Complex[] result) {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            for (int i = 0; i < result.Length; i++)
-            {
+            for (int i = 0; i < result.Length; i++) {
                 result[i] = x[i].Conjugate();
             }
         }
@@ -141,27 +121,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="y">The vector y.</param>
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
-        public Complex DotProduct(Complex[] x, Complex[] y)
-        {
-            if (y == null)
-            {
+        public Complex DotProduct(Complex[] x, Complex[] y) {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (y.Length != x.Length)
-            {
+            if (y.Length != x.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Complex dot = Complex.Zero;
-            for (var index = 0; index < y.Length; index++)
-            {
-                dot += y[index]*x[index];
+            for (var index = 0; index < y.Length; index++) {
+                dot += y[index] * x[index];
             }
 
             return dot;
@@ -177,30 +152,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public void AddArrays(Complex[] x, Complex[] y, Complex[] result)
-        {
-            if (y == null)
-            {
+        public void AddArrays(Complex[] x, Complex[] y, Complex[] result) {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (result == null)
-            {
+            if (result == null) {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            if (y.Length != x.Length || y.Length != result.Length)
-            {
+            if (y.Length != x.Length || y.Length != result.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            for (int i = 0; i < result.Length; i++)
-            {
+            for (int i = 0; i < result.Length; i++) {
                 result[i] = x[i] + y[i];
             }
         }
@@ -215,30 +184,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public void SubtractArrays(Complex[] x, Complex[] y, Complex[] result)
-        {
-            if (y == null)
-            {
+        public void SubtractArrays(Complex[] x, Complex[] y, Complex[] result) {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (result == null)
-            {
+            if (result == null) {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            if (y.Length != x.Length || y.Length != result.Length)
-            {
+            if (y.Length != x.Length || y.Length != result.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            for (int i = 0; i < result.Length; i++)
-            {
+            for (int i = 0; i < result.Length; i++) {
                 result[i] = x[i] - y[i];
             }
         }
@@ -253,30 +216,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public void PointWiseMultiplyArrays(Complex[] x, Complex[] y, Complex[] result)
-        {
-            if (y == null)
-            {
+        public void PointWiseMultiplyArrays(Complex[] x, Complex[] y, Complex[] result) {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (result == null)
-            {
+            if (result == null) {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            if (y.Length != x.Length || y.Length != result.Length)
-            {
+            if (y.Length != x.Length || y.Length != result.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            for (int i = 0; i < result.Length; i++)
-            {
+            for (int i = 0; i < result.Length; i++) {
                 result[i] = x[i] * y[i];
             }
         }
@@ -291,32 +248,25 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public void PointWiseDivideArrays(Complex[] x, Complex[] y, Complex[] result)
-        {
-            if (y == null)
-            {
+        public void PointWiseDivideArrays(Complex[] x, Complex[] y, Complex[] result) {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (result == null)
-            {
+            if (result == null) {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            if (y.Length != x.Length || y.Length != result.Length)
-            {
+            if (y.Length != x.Length || y.Length != result.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, y.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     result[i] = x[i] / y[i];
                 }
             });
@@ -332,32 +282,25 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public void PointWisePowerArrays(Complex[] x, Complex[] y, Complex[] result)
-        {
-            if (y == null)
-            {
+        public void PointWisePowerArrays(Complex[] x, Complex[] y, Complex[] result) {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (result == null)
-            {
+            if (result == null) {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            if (y.Length != x.Length || y.Length != result.Length)
-            {
+            if (y.Length != x.Length || y.Length != result.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
+            CommonParallel.For(0, y.Length, 4096, (a, b) => {
+                for (int i = a; i < b; i++) {
                     result[i] = Complex.Pow(x[i], y[i]);
                 }
             });
@@ -373,57 +316,46 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public double MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
-        {
-            switch (norm)
-            {
+        public double MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix) {
+            switch (norm) {
                 case Norm.OneNorm:
                     var norm1 = 0d;
-                    for (var j = 0; j < columns; j++)
-                    {
+                    for (var j = 0; j < columns; j++) {
                         var s = 0.0;
-                        for (var i = 0; i < rows; i++)
-                        {
-                            s += matrix[(j*rows) + i].Magnitude;
+                        for (var i = 0; i < rows; i++) {
+                            s += matrix[(j * rows) + i].Magnitude;
                         }
                         norm1 = Math.Max(norm1, s);
                     }
                     return norm1;
                 case Norm.LargestAbsoluteValue:
                     var normMax = 0d;
-                    for (var j = 0; j < columns; j++)
-                    {
-                        for (var i = 0; i < rows; i++)
-                        {
+                    for (var j = 0; j < columns; j++) {
+                        for (var i = 0; i < rows; i++) {
                             normMax = Math.Max(matrix[(j * rows) + i].Magnitude, normMax);
                         }
                     }
                     return normMax;
                 case Norm.InfinityNorm:
                     var r = new double[rows];
-                    for (var j = 0; j < columns; j++)
-                    {
-                        for (var i = 0; i < rows; i++)
-                        {
+                    for (var j = 0; j < columns; j++) {
+                        for (var i = 0; i < rows; i++) {
                             r[i] += matrix[(j * rows) + i].Magnitude;
                         }
                     }
                     // TODO: reuse
                     var max = r[0];
-                    for (int i = 0; i < r.Length; i++)
-                    {
-                        if (r[i] > max)
-                        {
+                    for (int i = 0; i < r.Length; i++) {
+                        if (r[i] > max) {
                             max = r[i];
                         }
                     }
                     return max;
                 case Norm.FrobeniusNorm:
-                    var aat = new Complex[rows*rows];
+                    var aat = new Complex[rows * rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.ConjugateTranspose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
                     var normF = 0d;
-                    for (var i = 0; i < rows; i++)
-                    {
+                    for (var i = 0; i < rows; i++) {
                         normF += aat[(i * rows) + i].Magnitude;
                     }
                     return Math.Sqrt(normF);
@@ -444,40 +376,32 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        public void MatrixMultiply(Complex[] x, int rowsX, int columnsX, Complex[] y, int rowsY, int columnsY, Complex[] result)
-        {
-            if (x == null)
-            {
+        public void MatrixMultiply(Complex[] x, int rowsX, int columnsX, Complex[] y, int rowsY, int columnsY, Complex[] result) {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (y == null)
-            {
+            if (y == null) {
                 throw new ArgumentNullException(nameof(y));
             }
 
-            if (result == null)
-            {
+            if (result == null) {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            if (columnsX != rowsY)
-            {
+            if (columnsX != rowsY) {
                 throw new ArgumentOutOfRangeException(Invariant($"columnsA ({columnsX}) != rowsB ({rowsY})"));
             }
 
-            if (rowsX * columnsX != x.Length)
-            {
+            if (rowsX * columnsX != x.Length) {
                 throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsX}) * columnsA ({columnsX}) != a.Length ({x.Length})"));
             }
 
-            if (rowsY * columnsY != y.Length)
-            {
+            if (rowsY * columnsY != y.Length) {
                 throw new ArgumentOutOfRangeException(Invariant($"rowsB ({rowsY}) * columnsB ({columnsY}) != b.Length ({y.Length})"));
             }
 
-            if (rowsX * columnsY != result.Length)
-            {
+            if (rowsX * columnsY != result.Length) {
                 throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsX}) * columnsB ({columnsY}) != c.Length ({result.Length})"));
             }
 
@@ -486,26 +410,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             // Extract column arrays
             var columnDataB = new Complex[columnsY][];
-            for (int i = 0; i < columnDataB.Length; i++)
-            {
+            for (int i = 0; i < columnDataB.Length; i++) {
                 var column = new Complex[rowsY];
                 GetColumn(Transpose.DontTranspose, i, rowsY, columnsY, y, column);
                 columnDataB[i] = column;
             }
 
             var shouldNotParallelize = rowsX + columnsY + columnsX < Control.ParallelizeOrder || Control.MaxDegreeOfParallelism < 2;
-            if (shouldNotParallelize)
-            {
+            if (shouldNotParallelize) {
                 var row = new Complex[columnsX];
-                for (int i = 0; i < rowsX; i++)
-                {
+                for (int i = 0; i < rowsX; i++) {
                     GetRow(Transpose.DontTranspose, i, rowsX, columnsX, x, row);
-                    for (int j = 0; j < columnsY; j++)
-                    {
+                    for (int j = 0; j < columnsY; j++) {
                         var col = columnDataB[j];
                         Complex sum = Complex.Zero;
-                        for (int ii = 0; ii < row.Length; ii++)
-                        {
+                        for (int ii = 0; ii < row.Length; ii++) {
                             sum += row[ii] * col[ii];
                         }
 
@@ -513,20 +432,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     }
                 }
             }
-            else
-            {
-                CommonParallel.For(0, rowsX, 1, (u, v) =>
-                {
+            else {
+                CommonParallel.For(0, rowsX, 1, (u, v) => {
                     var row = new Complex[columnsX];
-                    for (int i = u; i < v; i++)
-                    {
+                    for (int i = u; i < v; i++) {
                         GetRow(Transpose.DontTranspose, i, rowsX, columnsX, x, row);
-                        for (int j = 0; j < columnsY; j++)
-                        {
+                        for (int j = 0; j < columnsY; j++) {
                             var column = columnDataB[j];
                             Complex sum = Complex.Zero;
-                            for (int ii = 0; ii < row.Length; ii++)
-                            {
+                            for (int ii = 0; ii < row.Length; ii++) {
                                 sum += row[ii] * column[ii];
                             }
 
@@ -551,90 +465,72 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="columnsB">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
-        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, int rowsA, int columnsA, Complex[] b, int rowsB, int columnsB, Complex beta, Complex[] c)
-        {
-            if (a == null)
-            {
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, int rowsA, int columnsA, Complex[] b, int rowsB, int columnsB, Complex beta, Complex[] c) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (c == null)
-            {
+            if (c == null) {
                 throw new ArgumentNullException(nameof(c));
             }
 
-            if (transposeA != Transpose.DontTranspose)
-            {
+            if (transposeA != Transpose.DontTranspose) {
                 (rowsA, columnsA) = (columnsA, rowsA);
             }
 
-            if (transposeB != Transpose.DontTranspose)
-            {
+            if (transposeB != Transpose.DontTranspose) {
                 (rowsB, columnsB) = (columnsB, rowsB);
             }
 
-            if (columnsA != rowsB)
-            {
+            if (columnsA != rowsB) {
                 throw new ArgumentOutOfRangeException(Invariant($"columnsA ({columnsA}) != rowsB ({rowsB})"));
             }
 
-            if (rowsA * columnsA != a.Length)
-            {
+            if (rowsA * columnsA != a.Length) {
                 throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsA}) * columnsA ({columnsA}) != a.Length ({a.Length})"));
             }
 
-            if (rowsB * columnsB != b.Length)
-            {
+            if (rowsB * columnsB != b.Length) {
                 throw new ArgumentOutOfRangeException(Invariant($"rowsB ({rowsB}) * columnsB ({columnsB}) != b.Length ({b.Length})"));
             }
 
-            if (rowsA * columnsB != c.Length)
-            {
+            if (rowsA * columnsB != c.Length) {
                 throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsA}) * columnsB ({columnsB}) != c.Length ({c.Length})"));
             }
 
             // handle degenerate cases
-            if (beta == Complex.Zero)
-            {
+            if (beta == Complex.Zero) {
                 Array.Clear(c, 0, c.Length);
             }
-            else if (beta != Complex.One)
-            {
+            else if (beta != Complex.One) {
                 ScaleArray(beta, c, c);
             }
 
-            if (alpha == Complex.Zero)
-            {
+            if (alpha == Complex.Zero) {
                 return;
             }
 
             // Extract column arrays
             var columnDataB = new Complex[columnsB][];
-            for (int i = 0; i < columnDataB.Length; i++)
-            {
+            for (int i = 0; i < columnDataB.Length; i++) {
                 var column = new Complex[rowsB];
                 GetColumn(transposeB, i, rowsB, columnsB, b, column);
                 columnDataB[i] = column;
             }
 
             var shouldNotParallelize = rowsA + columnsB + columnsA < Control.ParallelizeOrder || Control.MaxDegreeOfParallelism < 2;
-            if (shouldNotParallelize)
-            {
+            if (shouldNotParallelize) {
                 var row = new Complex[columnsA];
-                for (int i = 0; i < rowsA; i++)
-                {
+                for (int i = 0; i < rowsA; i++) {
                     GetRow(transposeA, i, rowsA, columnsA, a, row);
-                    for (int j = 0; j < columnsB; j++)
-                    {
+                    for (int j = 0; j < columnsB; j++) {
                         var col = columnDataB[j];
                         Complex sum = Complex.Zero;
-                        for (int ii = 0; ii < row.Length; ii++)
-                        {
+                        for (int ii = 0; ii < row.Length; ii++) {
                             sum += row[ii] * col[ii];
                         }
 
@@ -642,20 +538,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     }
                 }
             }
-            else
-            {
-                CommonParallel.For(0, rowsA, 1, (u, v) =>
-                {
+            else {
+                CommonParallel.For(0, rowsA, 1, (u, v) => {
                     var row = new Complex[columnsA];
-                    for (int i = u; i < v; i++)
-                    {
+                    for (int i = u; i < v; i++) {
                         GetRow(transposeA, i, rowsA, columnsA, a, row);
-                        for (int j = 0; j < columnsB; j++)
-                        {
+                        for (int j = 0; j < columnsB; j++) {
                             var column = columnDataB[j];
                             Complex sum = Complex.Zero;
-                            for (int ii = 0; ii < row.Length; ii++)
-                            {
+                            for (int ii = 0; ii < row.Length; ii++) {
                                 sum += row[ii] * column[ii];
                             }
 
@@ -675,57 +566,47 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
-        public void LUFactor(Complex[] data, int order, int[] ipiv)
-        {
-            if (data == null)
-            {
+        public void LUFactor(Complex[] data, int order, int[] ipiv) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
-            if (ipiv == null)
-            {
+            if (ipiv == null) {
                 throw new ArgumentNullException(nameof(ipiv));
             }
 
-            if (data.Length != order*order)
-            {
+            if (data.Length != order * order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(data));
             }
 
-            if (ipiv.Length != order)
-            {
+            if (ipiv.Length != order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             // Initialize the pivot matrix to the identity permutation.
-            for (var i = 0; i < order; i++)
-            {
+            for (var i = 0; i < order; i++) {
                 ipiv[i] = i;
             }
 
             var vecLUcolj = new Complex[order];
 
             // Outer loop.
-            for (var j = 0; j < order; j++)
-            {
-                var indexj = j*order;
+            for (var j = 0; j < order; j++) {
+                var indexj = j * order;
                 var indexjj = indexj + j;
 
                 // Make a copy of the j-th column to localize references.
-                for (var i = 0; i < order; i++)
-                {
+                for (var i = 0; i < order; i++) {
                     vecLUcolj[i] = data[indexj + i];
                 }
 
                 // Apply previous transformations.
-                for (var i = 0; i < order; i++)
-                {
+                for (var i = 0; i < order; i++) {
                     // Most of the time is spent in the following dot product.
                     var kmax = Math.Min(i, j);
                     var s = Complex.Zero;
-                    for (var k = 0; k < kmax; k++)
-                    {
-                        s += data[(k*order) + i]*vecLUcolj[k];
+                    for (var k = 0; k < kmax; k++) {
+                        s += data[(k * order) + i] * vecLUcolj[k];
                     }
 
                     data[indexj + i] = vecLUcolj[i] -= s;
@@ -733,19 +614,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 // Find pivot and exchange if necessary.
                 var p = j;
-                for (var i = j + 1; i < order; i++)
-                {
-                    if (vecLUcolj[i].Magnitude > vecLUcolj[p].Magnitude)
-                    {
+                for (var i = j + 1; i < order; i++) {
+                    if (vecLUcolj[i].Magnitude > vecLUcolj[p].Magnitude) {
                         p = i;
                     }
                 }
 
-                if (p != j)
-                {
-                    for (var k = 0; k < order; k++)
-                    {
-                        var indexk = k*order;
+                if (p != j) {
+                    for (var k = 0; k < order; k++) {
+                        var indexk = k * order;
                         var indexkp = indexk + p;
                         var indexkj = indexk + j;
                         (data[indexkp], data[indexkj]) = (data[indexkj], data[indexkp]);
@@ -755,10 +632,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 }
 
                 // Compute multipliers.
-                if (j < order & data[indexjj] != 0.0)
-                {
-                    for (var i = j + 1; i < order; i++)
-                    {
+                if (j < order & data[indexjj] != 0.0) {
+                    for (var i = j + 1; i < order; i++) {
                         data[indexj + i] /= data[indexjj];
                     }
                 }
@@ -771,15 +646,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(Complex[] a, int order)
-        {
-            if (a == null)
-            {
+        public void LUInverse(Complex[] a, int order) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (a.Length != order*order)
-            {
+            if (a.Length != order * order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
@@ -795,32 +667,26 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(Complex[] a, int order, int[] ipiv)
-        {
-            if (a == null)
-            {
+        public void LUInverseFactored(Complex[] a, int order, int[] ipiv) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (ipiv == null)
-            {
+            if (ipiv == null) {
                 throw new ArgumentNullException(nameof(ipiv));
             }
 
-            if (a.Length != order*order)
-            {
+            if (a.Length != order * order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
-            if (ipiv.Length != order)
-            {
+            if (ipiv.Length != order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             var inverse = new Complex[a.Length];
-            for (var i = 0; i < order; i++)
-            {
-                inverse[i + (order*i)] = Complex.One;
+            for (var i = 0; i < order; i++) {
+                inverse[i + (order * i)] = Complex.One;
             }
 
             LUSolveFactored(order, a, order, ipiv, inverse);
@@ -835,30 +701,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(int columnsOfB, Complex[] a, int order, Complex[] b)
-        {
-            if (a == null)
-            {
+        public void LUSolve(int columnsOfB, Complex[] a, int order, Complex[] b) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (a.Length != order*order)
-            {
+            if (a.Length != order * order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
-            if (b.Length != order*columnsOfB)
-            {
+            if (b.Length != order * columnsOfB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
-            if (ReferenceEquals(a, b))
-            {
+            if (ReferenceEquals(a, b)) {
                 throw new ArgumentException("Arguments must be different objects.");
             }
 
@@ -878,55 +738,44 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
-        {
-            if (a == null)
-            {
+        public void LUSolveFactored(int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (ipiv == null)
-            {
+            if (ipiv == null) {
                 throw new ArgumentNullException(nameof(ipiv));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (a.Length != order*order)
-            {
+            if (a.Length != order * order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
-            if (ipiv.Length != order)
-            {
+            if (ipiv.Length != order) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
-            if (b.Length != order*columnsOfB)
-            {
+            if (b.Length != order * columnsOfB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
-            if (ReferenceEquals(a, b))
-            {
+            if (ReferenceEquals(a, b)) {
                 throw new ArgumentException("Arguments must be different objects.");
             }
 
             // Compute the column vector  P*B
-            for (var i = 0; i < ipiv.Length; i++)
-            {
-                if (ipiv[i] == i)
-                {
+            for (var i = 0; i < ipiv.Length; i++) {
+                if (ipiv[i] == i) {
                     continue;
                 }
 
                 var p = ipiv[i];
-                for (var j = 0; j < columnsOfB; j++)
-                {
-                    var indexk = j*order;
+                for (var j = 0; j < columnsOfB; j++) {
+                    var indexk = j * order;
                     var indexkp = indexk + p;
                     var indexkj = indexk + i;
                     (b[indexkp], b[indexkj]) = (b[indexkj], b[indexkp]);
@@ -934,35 +783,28 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             // Solve L*Y = P*B
-            for (var k = 0; k < order; k++)
-            {
-                var korder = k*order;
-                for (var i = k + 1; i < order; i++)
-                {
-                    for (var j = 0; j < columnsOfB; j++)
-                    {
-                        var index = j*order;
-                        b[i + index] -= b[k + index]*a[i + korder];
+            for (var k = 0; k < order; k++) {
+                var korder = k * order;
+                for (var i = k + 1; i < order; i++) {
+                    for (var j = 0; j < columnsOfB; j++) {
+                        var index = j * order;
+                        b[i + index] -= b[k + index] * a[i + korder];
                     }
                 }
             }
 
             // Solve U*X = Y;
-            for (var k = order - 1; k >= 0; k--)
-            {
-                var korder = k + (k*order);
-                for (var j = 0; j < columnsOfB; j++)
-                {
-                    b[k + (j*order)] /= a[korder];
+            for (var k = order - 1; k >= 0; k--) {
+                var korder = k + (k * order);
+                for (var j = 0; j < columnsOfB; j++) {
+                    b[k + (j * order)] /= a[korder];
                 }
 
-                korder = k*order;
-                for (var i = 0; i < k; i++)
-                {
-                    for (var j = 0; j < columnsOfB; j++)
-                    {
-                        var index = j*order;
-                        b[i + index] -= b[k + index]*a[i + korder];
+                korder = k * order;
+                for (var i = 0; i < k; i++) {
+                    for (var j = 0; j < columnsOfB; j++) {
+                        var index = j * order;
+                        b[i + index] -= b[k + index] * a[i + korder];
                     }
                 }
             }
@@ -975,46 +817,39 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// the Cholesky factorization.</param>
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        public void CholeskyFactor(Complex[] a, int order)
-        {
-            if (a == null)
-            {
+        public void CholeskyFactor(Complex[] a, int order) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
             var tmpColumn = new Complex[order];
 
             // Main loop - along the diagonal
-            for (var ij = 0; ij < order; ij++)
-            {
+            for (var ij = 0; ij < order; ij++) {
                 // "Pivot" element
-                var tmpVal = a[(ij*order) + ij];
+                var tmpVal = a[(ij * order) + ij];
 
-                if (tmpVal.Real > 0.0)
-                {
+                if (tmpVal.Real > 0.0) {
                     tmpVal = tmpVal.SquareRoot();
-                    a[(ij*order) + ij] = tmpVal;
+                    a[(ij * order) + ij] = tmpVal;
                     tmpColumn[ij] = tmpVal;
 
                     // Calculate multipliers and copy to local column
                     // Current column, below the diagonal
-                    for (var i = ij + 1; i < order; i++)
-                    {
-                        a[(ij*order) + i] /= tmpVal;
-                        tmpColumn[i] = a[(ij*order) + i];
+                    for (var i = ij + 1; i < order; i++) {
+                        a[(ij * order) + i] /= tmpVal;
+                        tmpColumn[i] = a[(ij * order) + i];
                     }
 
                     // Remaining columns, below the diagonal
                     DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.MaxDegreeOfParallelism);
                 }
-                else
-                {
+                else {
                     throw new ArgumentException("Matrix must be positive definite.");
                 }
 
-                for (var i = ij + 1; i < order; i++)
-                {
-                    a[(i*order) + ij] = 0.0;
+                for (var i = ij + 1; i < order; i++) {
+                    a[(i * order) + ij] = 0.0;
                 }
             }
         }
@@ -1028,27 +863,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="colLimit">Total columns</param>
         /// <param name="multipliers">Multipliers calculated previously</param>
         /// <param name="availableCores">Number of available processors</param>
-        static void DoCholeskyStep(Complex[] data, int rowDim, int firstCol, int colLimit, Complex[] multipliers, int availableCores)
-        {
+        static void DoCholeskyStep(Complex[] data, int rowDim, int firstCol, int colLimit, Complex[] multipliers, int availableCores) {
             var tmpColCount = colLimit - firstCol;
 
-            if ((availableCores > 1) && (tmpColCount > Control.ParallelizeElements))
-            {
-                var tmpSplit = firstCol + (tmpColCount/3);
-                var tmpCores = availableCores/2;
+            if ((availableCores > 1) && (tmpColCount > Control.ParallelizeElements)) {
+                var tmpSplit = firstCol + (tmpColCount / 3);
+                var tmpCores = availableCores / 2;
 
                 CommonParallel.Invoke(
                     () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
                     () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
             }
-            else
-            {
-                for (var j = firstCol; j < colLimit; j++)
-                {
+            else {
+                for (var j = firstCol; j < colLimit; j++) {
                     var tmpVal = multipliers[j];
-                    for (var i = j; i < rowDim; i++)
-                    {
-                        data[(j*rowDim) + i] -= multipliers[i]*tmpVal.Conjugate();
+                    for (var i = j; i < rowDim; i++) {
+                        data[(j * rowDim) + i] -= multipliers[i] * tmpVal.Conjugate();
                     }
                 }
             }
@@ -1062,25 +892,20 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
-        public void CholeskySolve(Complex[] a, int orderA, Complex[] b, int columnsB)
-        {
-            if (a == null)
-            {
+        public void CholeskySolve(Complex[] a, int orderA, Complex[] b, int columnsB) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (b.Length != orderA*columnsB)
-            {
+            if (b.Length != orderA * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
-            if (ReferenceEquals(a, b))
-            {
+            if (ReferenceEquals(a, b)) {
                 throw new ArgumentException("Arguments must be different objects.");
             }
 
@@ -1098,35 +923,28 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
-        public void CholeskySolveFactored(Complex[] a, int orderA, Complex[] b, int columnsB)
-        {
-            if (a == null)
-            {
+        public void CholeskySolveFactored(Complex[] a, int orderA, Complex[] b, int columnsB) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (b.Length != orderA*columnsB)
-            {
+            if (b.Length != orderA * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
-            if (ReferenceEquals(a, b))
-            {
+            if (ReferenceEquals(a, b)) {
                 throw new ArgumentException("Arguments must be different objects.");
             }
 
-            CommonParallel.For(0, columnsB, (u, v) =>
-                {
-                    for (int i = u; i < v; i++)
-                    {
-                        DoCholeskySolve(a, orderA, b, i);
-                    }
-                });
+            CommonParallel.For(0, columnsB, (u, v) => {
+                for (int i = u; i < v; i++) {
+                    DoCholeskySolve(a, orderA, b, i);
+                }
+            });
         }
 
         /// <summary>
@@ -1136,34 +954,29 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="orderA">The number of rows and columns in A.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="index">The column to solve for.</param>
-        static void DoCholeskySolve(Complex[] a, int orderA, Complex[] b, int index)
-        {
-            var cindex = index*orderA;
+        static void DoCholeskySolve(Complex[] a, int orderA, Complex[] b, int index) {
+            var cindex = index * orderA;
 
             // Solve L*Y = B;
             Complex sum;
-            for (var i = 0; i < orderA; i++)
-            {
+            for (var i = 0; i < orderA; i++) {
                 sum = b[cindex + i];
-                for (var k = i - 1; k >= 0; k--)
-                {
-                    sum -= a[(k*orderA) + i]*b[cindex + k];
+                for (var k = i - 1; k >= 0; k--) {
+                    sum -= a[(k * orderA) + i] * b[cindex + k];
                 }
 
-                b[cindex + i] = sum/a[(i*orderA) + i];
+                b[cindex + i] = sum / a[(i * orderA) + i];
             }
 
             // Solve L'*X = Y;
-            for (var i = orderA - 1; i >= 0; i--)
-            {
+            for (var i = orderA - 1; i >= 0; i--) {
                 sum = b[cindex + i];
-                var iindex = i*orderA;
-                for (var k = i + 1; k < orderA; k++)
-                {
-                    sum -= a[iindex + k].Conjugate()*b[cindex + k];
+                var iindex = i * orderA;
+                for (var k = i + 1; k < orderA; k++) {
+                    sum -= a[iindex + k].Conjugate() * b[cindex + k];
                 }
 
-                b[cindex + i] = sum/a[iindex + i];
+                b[cindex + i] = sum / a[iindex + i];
             }
         }
 
@@ -1179,52 +992,42 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public void QRFactor(Complex[] r, int rowsR, int columnsR, Complex[] q, Complex[] tau)
-        {
-            if (r == null)
-            {
+        public void QRFactor(Complex[] r, int rowsR, int columnsR, Complex[] q, Complex[] tau) {
+            if (r == null) {
                 throw new ArgumentNullException(nameof(r));
             }
 
-            if (q == null)
-            {
+            if (q == null) {
                 throw new ArgumentNullException(nameof(q));
             }
 
-            if (r.Length != rowsR*columnsR)
-            {
+            if (r.Length != rowsR * columnsR) {
                 throw new ArgumentException("The given array has the wrong length. Should be rowsR * columnsR.", nameof(r));
             }
 
-            if (tau.Length < Math.Min(rowsR, columnsR))
-            {
+            if (tau.Length < Math.Min(rowsR, columnsR)) {
                 throw new ArgumentException("The given array is too small. It must be at least min(m,n) long.", nameof(tau));
             }
 
-            if (q.Length != rowsR*rowsR)
-            {
+            if (q.Length != rowsR * rowsR) {
                 throw new ArgumentException("The given array has the wrong length. Should be rowsR * rowsR.", nameof(q));
             }
 
-            var work = columnsR > rowsR ? new Complex[rowsR*rowsR] : new Complex[rowsR*columnsR];
+            var work = columnsR > rowsR ? new Complex[rowsR * rowsR] : new Complex[rowsR * columnsR];
 
-            CommonParallel.For(0, rowsR, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
-                        q[(i*rowsR) + i] = Complex.One;
-                    }
-                });
+            CommonParallel.For(0, rowsR, (a, b) => {
+                for (int i = a; i < b; i++) {
+                    q[(i * rowsR) + i] = Complex.One;
+                }
+            });
 
             var minmn = Math.Min(rowsR, columnsR);
-            for (var i = 0; i < minmn; i++)
-            {
+            for (var i = 0; i < minmn; i++) {
                 GenerateColumn(work, r, rowsR, i, i);
                 ComputeQR(work, i, r, i, rowsR, i + 1, columnsR, Control.MaxDegreeOfParallelism);
             }
 
-            for (var i = minmn - 1; i >= 0; i--)
-            {
+            for (var i = minmn - 1; i >= 0; i--) {
                 ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.MaxDegreeOfParallelism);
             }
         }
@@ -1241,62 +1044,51 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public void ThinQRFactor(Complex[] a, int rowsA, int columnsA, Complex[] r, Complex[] tau)
-        {
-            if (r == null)
-            {
+        public void ThinQRFactor(Complex[] a, int rowsA, int columnsA, Complex[] r, Complex[] tau) {
+            if (r == null) {
                 throw new ArgumentNullException(nameof(r));
             }
 
-            if (a == null)
-            {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (a.Length != rowsA*columnsA)
-            {
+            if (a.Length != rowsA * columnsA) {
                 throw new ArgumentException("The given array has the wrong length. Should be rowsR * columnsR.", nameof(a));
             }
 
-            if (tau.Length < Math.Min(rowsA, columnsA))
-            {
+            if (tau.Length < Math.Min(rowsA, columnsA)) {
                 throw new ArgumentException("The given array is too small. It must be at least min(m,n) long.", nameof(tau));
             }
 
-            if (r.Length != columnsA*columnsA)
-            {
+            if (r.Length != columnsA * columnsA) {
                 throw new ArgumentException("The given array has the wrong length. Should be columnsA * columnsA.", nameof(r));
             }
 
-            var work = new Complex[rowsA*columnsA];
+            var work = new Complex[rowsA * columnsA];
 
             var minmn = Math.Min(rowsA, columnsA);
-            for (var i = 0; i < minmn; i++)
-            {
+            for (var i = 0; i < minmn; i++) {
                 GenerateColumn(work, a, rowsA, i, i);
                 ComputeQR(work, i, a, i, rowsA, i + 1, columnsA, Control.MaxDegreeOfParallelism);
             }
 
             //copy R
-            for (var j = 0; j < columnsA; j++)
-            {
-                var rIndex = j*columnsA;
-                var aIndex = j*rowsA;
-                for (var i = 0; i < columnsA; i++)
-                {
+            for (var j = 0; j < columnsA; j++) {
+                var rIndex = j * columnsA;
+                var aIndex = j * rowsA;
+                for (var i = 0; i < columnsA; i++) {
                     r[rIndex + i] = a[aIndex + i];
                 }
             }
 
             //clear A and set diagonals to 1
             Array.Clear(a, 0, a.Length);
-            for (var i = 0; i < columnsA; i++)
-            {
-                a[i*rowsA + i] = Complex.One;
+            for (var i = 0; i < columnsA; i++) {
+                a[i * rowsA + i] = Complex.One;
             }
 
-            for (var i = minmn - 1; i >= 0; i--)
-            {
+            for (var i = minmn - 1; i >= 0; i--) {
                 ComputeQR(work, i, a, i, rowsA, i, columnsA, Control.MaxDegreeOfParallelism);
             }
         }
@@ -1315,37 +1107,30 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="columnStart">The first column</param>
         /// <param name="columnCount">The last column</param>
         /// <param name="availableCores">Number of available CPUs</param>
-        static void ComputeQR(Complex[] work, int workIndex, Complex[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
-        {
-            if (rowStart > rowCount || columnStart > columnCount)
-            {
+        static void ComputeQR(Complex[] work, int workIndex, Complex[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores) {
+            if (rowStart > rowCount || columnStart > columnCount) {
                 return;
             }
 
             var tmpColCount = columnCount - columnStart;
 
-            if ((availableCores > 1) && (tmpColCount > 200))
-            {
-                var tmpSplit = columnStart + (tmpColCount/2);
-                var tmpCores = availableCores/2;
+            if ((availableCores > 1) && (tmpColCount > 200)) {
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
 
                 CommonParallel.Invoke(
                     () => ComputeQR(work, workIndex, a, rowStart, rowCount, columnStart, tmpSplit, tmpCores),
                     () => ComputeQR(work, workIndex, a, rowStart, rowCount, tmpSplit, columnCount, tmpCores));
             }
-            else
-            {
-                for (var j = columnStart; j < columnCount; j++)
-                {
+            else {
+                for (var j = columnStart; j < columnCount; j++) {
                     var scale = Complex.Zero;
-                    for (var i = rowStart; i < rowCount; i++)
-                    {
-                        scale += work[(workIndex*rowCount) + i - rowStart]*a[(j*rowCount) + i];
+                    for (var i = rowStart; i < rowCount; i++) {
+                        scale += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
                     }
 
-                    for (var i = rowStart; i < rowCount; i++)
-                    {
-                        a[(j*rowCount) + i] -= work[(workIndex*rowCount) + i - rowStart].Conjugate()*scale;
+                    for (var i = rowStart; i < rowCount; i++) {
+                        a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart].Conjugate() * scale;
                     }
                 }
             }
@@ -1359,59 +1144,49 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="rowCount">The number of rows in matrix</param>
         /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
-        static void GenerateColumn(Complex[] work, Complex[] a, int rowCount, int row, int column)
-        {
-            var tmp = column*rowCount;
+        static void GenerateColumn(Complex[] work, Complex[] a, int rowCount, int row, int column) {
+            var tmp = column * rowCount;
             var index = tmp + row;
 
-            CommonParallel.For(row, rowCount, (u, v) =>
-                {
-                    for (int i = u; i < v; i++)
-                    {
-                        var iIndex = tmp + i;
-                        work[iIndex - row] = a[iIndex];
-                        a[iIndex] = Complex.Zero;
-                    }
-                });
+            CommonParallel.For(row, rowCount, (u, v) => {
+                for (int i = u; i < v; i++) {
+                    var iIndex = tmp + i;
+                    work[iIndex - row] = a[iIndex];
+                    a[iIndex] = Complex.Zero;
+                }
+            });
 
             var norm = Complex.Zero;
-            for (var i = 0; i < rowCount - row; ++i)
-            {
+            for (var i = 0; i < rowCount - row; ++i) {
                 var index1 = tmp + i;
-                norm += work[index1].Magnitude*work[index1].Magnitude;
+                norm += work[index1].Magnitude * work[index1].Magnitude;
             }
 
             norm = norm.SquareRoot();
-            if (row == rowCount - 1 || norm.Magnitude == 0)
-            {
+            if (row == rowCount - 1 || norm.Magnitude == 0) {
                 a[index] = -work[tmp];
                 work[tmp] = new Complex(2.0, 0).SquareRoot();
                 return;
             }
 
-            if (work[tmp].Magnitude != 0.0)
-            {
-                norm = norm.Magnitude*(work[tmp]/work[tmp].Magnitude);
+            if (work[tmp].Magnitude != 0.0) {
+                norm = norm.Magnitude * (work[tmp] / work[tmp].Magnitude);
             }
 
             a[index] = -norm;
-            CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
-                {
-                    for (int i = u; i < v; i++)
-                    {
-                        work[tmp + i] /= norm;
-                    }
-                });
+            CommonParallel.For(0, rowCount - row, 4096, (u, v) => {
+                for (int i = u; i < v; i++) {
+                    work[tmp + i] /= norm;
+                }
+            });
             work[tmp] += 1.0;
 
-            var s = (1.0/work[tmp]).SquareRoot();
-            CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
-                {
-                    for (int i = u; i < v; i++)
-                    {
-                        work[tmp + i] = work[tmp + i].Conjugate()*s;
-                    }
-                });
+            var s = (1.0 / work[tmp]).SquareRoot();
+            CommonParallel.For(0, rowCount - row, 4096, (u, v) => {
+                for (int i = u; i < v; i++) {
+                    work[tmp + i] = work[tmp + i].Conjugate() * s;
+                }
+            });
         }
 
         #endregion
@@ -1427,42 +1202,34 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public void QRSolve(Complex[] a, int rows, int columns, Complex[] b, int columnsB, Complex[] x, QRMethod method = QRMethod.Full)
-        {
-            if (a == null)
-            {
+        public void QRSolve(Complex[] a, int rows, int columns, Complex[] b, int columnsB, Complex[] x, QRMethod method = QRMethod.Full) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
 
 
-            if (a.Length != rows*columns)
-            {
+            if (a.Length != rows * columns) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
-            if (b.Length != rows*columnsB)
-            {
+            if (b.Length != rows * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
-            if (rows < columns)
-            {
+            if (rows < columns) {
                 throw new ArgumentException("The number of rows must greater than or equal to the number of columns.");
             }
 
-            if (x.Length != columns*columnsB)
-            {
+            if (x.Length != columns * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(x));
             }
 
@@ -1471,15 +1238,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var clone = new Complex[a.Length];
             a.Copy(clone);
 
-            if (method == QRMethod.Full)
-            {
-                var q = new Complex[rows*rows];
+            if (method == QRMethod.Full) {
+                var q = new Complex[rows * rows];
                 QRFactor(clone, rows, columns, q, work);
                 QRSolveFactored(q, clone, rows, columns, null, b, columnsB, x, method);
             }
-            else
-            {
-                var r = new Complex[columns*columns];
+            else {
+                var r = new Complex[columns * columns];
                 ThinQRFactor(clone, rows, columns, r, work);
                 QRSolveFactored(clone, r, rows, columns, null, b, columnsB, x, method);
             }
@@ -1499,62 +1264,50 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public void QRSolveFactored(Complex[] q, Complex[] r, int rowsA, int columnsA, Complex[] tau, Complex[] b, int columnsB, Complex[] x, QRMethod method = QRMethod.Full)
-        {
-            if (r == null)
-            {
+        public void QRSolveFactored(Complex[] q, Complex[] r, int rowsA, int columnsA, Complex[] tau, Complex[] b, int columnsB, Complex[] x, QRMethod method = QRMethod.Full) {
+            if (r == null) {
                 throw new ArgumentNullException(nameof(r));
             }
 
-            if (q == null)
-            {
+            if (q == null) {
                 throw new ArgumentNullException(nameof(q));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (rowsA < columnsA)
-            {
+            if (rowsA < columnsA) {
                 throw new ArgumentException("The number of rows must greater than or equal to the number of columns.");
             }
 
             int rowsQ, columnsQ, rowsR, columnsR;
-            if (method == QRMethod.Full)
-            {
+            if (method == QRMethod.Full) {
                 rowsQ = columnsQ = rowsR = rowsA;
                 columnsR = columnsA;
             }
-            else
-            {
+            else {
                 rowsQ = rowsA;
                 columnsQ = rowsR = columnsR = columnsA;
             }
 
-            if (r.Length != rowsR*columnsR)
-            {
+            if (r.Length != rowsR * columnsR) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {rowsR * columnsR}.", nameof(r));
             }
 
-            if (q.Length != rowsQ*columnsQ)
-            {
+            if (q.Length != rowsQ * columnsQ) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {rowsQ * columnsQ}.", nameof(q));
             }
 
-            if (b.Length != rowsA*columnsB)
-            {
+            if (b.Length != rowsA * columnsB) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {rowsA * columnsB}.", nameof(b));
             }
 
-            if (x.Length != columnsA*columnsB)
-            {
+            if (x.Length != columnsA * columnsB) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {columnsA * columnsB}.", nameof(x));
             }
 
@@ -1565,50 +1318,41 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             // Compute Y = transpose(Q)*B
             var column = new Complex[rowsA];
-            for (var j = 0; j < columnsB; j++)
-            {
-                var jm = j*rowsA;
+            for (var j = 0; j < columnsB; j++) {
+                var jm = j * rowsA;
                 Array.Copy(sol, jm, column, 0, rowsA);
-                CommonParallel.For(0, columnsA, (u, v) =>
-                    {
-                        for (int i = u; i < v; i++)
-                        {
-                            var im = i*rowsA;
+                CommonParallel.For(0, columnsA, (u, v) => {
+                    for (int i = u; i < v; i++) {
+                        var im = i * rowsA;
 
-                            var sum = Complex.Zero;
-                            for (var k = 0; k < rowsA; k++)
-                            {
-                                sum += q[im + k].Conjugate()*column[k];
-                            }
-
-                            sol[jm + i] = sum;
+                        var sum = Complex.Zero;
+                        for (var k = 0; k < rowsA; k++) {
+                            sum += q[im + k].Conjugate() * column[k];
                         }
-                    });
+
+                        sol[jm + i] = sum;
+                    }
+                });
             }
 
             // Solve R*X = Y;
-            for (var k = columnsA - 1; k >= 0; k--)
-            {
-                var km = k*rowsR;
-                for (var j = 0; j < columnsB; j++)
-                {
-                    sol[(j*rowsA) + k] /= r[km + k];
+            for (var k = columnsA - 1; k >= 0; k--) {
+                var km = k * rowsR;
+                for (var j = 0; j < columnsB; j++) {
+                    sol[(j * rowsA) + k] /= r[km + k];
                 }
 
-                for (var i = 0; i < k; i++)
-                {
-                    for (var j = 0; j < columnsB; j++)
-                    {
-                        var jm = j*rowsA;
-                        sol[jm + i] -= sol[jm + k]*r[km + i];
+                for (var i = 0; i < k; i++) {
+                    for (var j = 0; j < columnsB; j++) {
+                        var jm = j * rowsA;
+                        sol[jm + i] -= sol[jm + k] * r[km + i];
                     }
                 }
             }
 
             // Fill result matrix
-            for (var col = 0; col < columnsB; col++)
-            {
-                Array.Copy(sol, col*rowsA, x, col*columnsA, columnsR);
+            for (var col = 0; col < columnsB; col++) {
+                Array.Copy(sol, col * rowsA, x, col * columnsA, columnsR);
             }
         }
 
@@ -1625,40 +1369,32 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, Complex[] a, int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt)
-        {
-            if (a == null)
-            {
+        public void SingularValueDecomposition(bool computeVectors, Complex[] a, int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (s == null)
-            {
+            if (s == null) {
                 throw new ArgumentNullException(nameof(s));
             }
 
-            if (u == null)
-            {
+            if (u == null) {
                 throw new ArgumentNullException(nameof(u));
             }
 
-            if (vt == null)
-            {
+            if (vt == null) {
                 throw new ArgumentNullException(nameof(vt));
             }
 
-            if (u.Length != rowsA*rowsA)
-            {
+            if (u.Length != rowsA * rowsA) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(u));
             }
 
-            if (vt.Length != columnsA*columnsA)
-            {
+            if (vt.Length != columnsA * columnsA) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(vt));
             }
 
-            if (s.Length != Math.Min(rowsA, columnsA))
-            {
+            if (s.Length != Math.Min(rowsA, columnsA)) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(s));
             }
 
@@ -1682,99 +1418,81 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var nrt = Math.Max(0, Math.Min(columnsA - 2, rowsA));
             var lu = Math.Max(nct, nrt);
 
-            for (l = 0; l < lu; l++)
-            {
+            for (l = 0; l < lu; l++) {
                 lp1 = l + 1;
-                if (l < nct)
-                {
+                if (l < nct) {
                     // Compute the transformation for the l-th column and
                     // place the l-th diagonal in vector s[l].
                     var sum = 0.0;
-                    for (i = l; i < rowsA; i++)
-                    {
-                        sum += a[(l*rowsA) + i].Magnitude*a[(l*rowsA) + i].Magnitude;
+                    for (i = l; i < rowsA; i++) {
+                        sum += a[(l * rowsA) + i].Magnitude * a[(l * rowsA) + i].Magnitude;
                     }
 
                     stemp[l] = Math.Sqrt(sum);
-                    if (stemp[l] != 0.0)
-                    {
-                        if (a[(l*rowsA) + l] != 0.0)
-                        {
-                            stemp[l] = stemp[l].Magnitude*(a[(l*rowsA) + l]/a[(l*rowsA) + l].Magnitude);
+                    if (stemp[l] != 0.0) {
+                        if (a[(l * rowsA) + l] != 0.0) {
+                            stemp[l] = stemp[l].Magnitude * (a[(l * rowsA) + l] / a[(l * rowsA) + l].Magnitude);
                         }
 
                         // A part of column "l" of Matrix A from row "l" to end multiply by 1.0 / s[l]
-                        for (i = l; i < rowsA; i++)
-                        {
-                            a[(l*rowsA) + i] = a[(l*rowsA) + i]*(1.0/stemp[l]);
+                        for (i = l; i < rowsA; i++) {
+                            a[(l * rowsA) + i] = a[(l * rowsA) + i] * (1.0 / stemp[l]);
                         }
 
-                        a[(l*rowsA) + l] = 1.0 + a[(l*rowsA) + l];
+                        a[(l * rowsA) + l] = 1.0 + a[(l * rowsA) + l];
                     }
 
                     stemp[l] = -stemp[l];
                 }
 
-                for (j = lp1; j < columnsA; j++)
-                {
-                    if (l < nct)
-                    {
-                        if (stemp[l] != 0.0)
-                        {
+                for (j = lp1; j < columnsA; j++) {
+                    if (l < nct) {
+                        if (stemp[l] != 0.0) {
                             // Apply the transformation.
                             t = 0.0;
-                            for (i = l; i < rowsA; i++)
-                            {
-                                t += a[(l*rowsA) + i].Conjugate()*a[(j*rowsA) + i];
+                            for (i = l; i < rowsA; i++) {
+                                t += a[(l * rowsA) + i].Conjugate() * a[(j * rowsA) + i];
                             }
 
-                            t = -t/a[(l*rowsA) + l];
+                            t = -t / a[(l * rowsA) + l];
 
-                            for (var ii = l; ii < rowsA; ii++)
-                            {
-                                a[(j*rowsA) + ii] += t*a[(l*rowsA) + ii];
+                            for (var ii = l; ii < rowsA; ii++) {
+                                a[(j * rowsA) + ii] += t * a[(l * rowsA) + ii];
                             }
                         }
                     }
 
                     // Place the l-th row of matrix into "e" for the
                     // subsequent calculation of the row transformation.
-                    e[j] = a[(j*rowsA) + l].Conjugate();
+                    e[j] = a[(j * rowsA) + l].Conjugate();
                 }
 
-                if (computeVectors && l < nct)
-                {
+                if (computeVectors && l < nct) {
                     // Place the transformation in "u" for subsequent back multiplication.
-                    for (i = l; i < rowsA; i++)
-                    {
-                        u[(l*rowsA) + i] = a[(l*rowsA) + i];
+                    for (i = l; i < rowsA; i++) {
+                        u[(l * rowsA) + i] = a[(l * rowsA) + i];
                     }
                 }
 
-                if (l >= nrt)
-                {
+                if (l >= nrt) {
                     continue;
                 }
 
                 // Compute the l-th row transformation and place the l-th super-diagonal in e(l).
                 var enorm = 0.0;
-                for (i = lp1; i < e.Length; i++)
-                {
-                    enorm += e[i].Magnitude*e[i].Magnitude;
+                for (i = lp1; i < e.Length; i++) {
+                    enorm += e[i].Magnitude * e[i].Magnitude;
                 }
 
                 e[l] = Math.Sqrt(enorm);
-                if (e[l] != 0.0)
-                {
-                    if (e[lp1] != 0.0)
-                    {
-                        e[l] = e[l].Magnitude*(e[lp1]/e[lp1].Magnitude);
+                if (e[l] != 0.0) {
+                    if (e[lp1] != 0.0) {
+                        e[l] = e[l].Magnitude * (e[lp1] / e[lp1].Magnitude);
                     }
 
                     // Scale vector "e" from "lp1" by 1.0 / e[l]
-                    for (i = lp1; i < e.Length; i++)
-                    {
-                        e[i] = e[i]*(1.0/e[l]);
+                    for (i = lp1; i < e.Length; i++) {
+                        e[i] = e[i] * (1.0 / e[l]);
                     }
 
                     e[lp1] = 1.0 + e[lp1];
@@ -1782,41 +1500,33 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 e[l] = -e[l].Conjugate();
 
-                if (lp1 < rowsA && e[l] != 0.0)
-                {
+                if (lp1 < rowsA && e[l] != 0.0) {
                     // Apply the transformation.
-                    for (i = lp1; i < rowsA; i++)
-                    {
+                    for (i = lp1; i < rowsA; i++) {
                         work[i] = 0.0;
                     }
 
-                    for (j = lp1; j < columnsA; j++)
-                    {
-                        for (var ii = lp1; ii < rowsA; ii++)
-                        {
-                            work[ii] += e[j]*a[(j*rowsA) + ii];
+                    for (j = lp1; j < columnsA; j++) {
+                        for (var ii = lp1; ii < rowsA; ii++) {
+                            work[ii] += e[j] * a[(j * rowsA) + ii];
                         }
                     }
 
-                    for (j = lp1; j < columnsA; j++)
-                    {
-                        var ww = (-e[j]/e[lp1]).Conjugate();
-                        for (var ii = lp1; ii < rowsA; ii++)
-                        {
-                            a[(j*rowsA) + ii] += ww*work[ii];
+                    for (j = lp1; j < columnsA; j++) {
+                        var ww = (-e[j] / e[lp1]).Conjugate();
+                        for (var ii = lp1; ii < rowsA; ii++) {
+                            a[(j * rowsA) + ii] += ww * work[ii];
                         }
                     }
                 }
 
-                if (!computeVectors)
-                {
+                if (!computeVectors) {
                     continue;
                 }
 
                 // Place the transformation in v for subsequent back multiplication.
-                for (i = lp1; i < columnsA; i++)
-                {
-                    v[(l*columnsA) + i] = e[i];
+                for (i = lp1; i < columnsA; i++) {
+                    v[(l * columnsA) + i] = e[i];
                 }
             }
 
@@ -1824,163 +1534,131 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var m = Math.Min(columnsA, rowsA + 1);
             var nctp1 = nct + 1;
             var nrtp1 = nrt + 1;
-            if (nct < columnsA)
-            {
-                stemp[nctp1 - 1] = a[((nctp1 - 1)*rowsA) + (nctp1 - 1)];
+            if (nct < columnsA) {
+                stemp[nctp1 - 1] = a[((nctp1 - 1) * rowsA) + (nctp1 - 1)];
             }
 
-            if (rowsA < m)
-            {
+            if (rowsA < m) {
                 stemp[m - 1] = 0.0;
             }
 
-            if (nrtp1 < m)
-            {
-                e[nrtp1 - 1] = a[((m - 1)*rowsA) + (nrtp1 - 1)];
+            if (nrtp1 < m) {
+                e[nrtp1 - 1] = a[((m - 1) * rowsA) + (nrtp1 - 1)];
             }
 
             e[m - 1] = 0.0;
 
             // If required, generate "u".
-            if (computeVectors)
-            {
-                for (j = nctp1 - 1; j < ncu; j++)
-                {
-                    for (i = 0; i < rowsA; i++)
-                    {
-                        u[(j*rowsA) + i] = 0.0;
+            if (computeVectors) {
+                for (j = nctp1 - 1; j < ncu; j++) {
+                    for (i = 0; i < rowsA; i++) {
+                        u[(j * rowsA) + i] = 0.0;
                     }
 
-                    u[(j*rowsA) + j] = 1.0;
+                    u[(j * rowsA) + j] = 1.0;
                 }
 
-                for (l = nct - 1; l >= 0; l--)
-                {
-                    if (stemp[l] != 0.0)
-                    {
-                        for (j = l + 1; j < ncu; j++)
-                        {
+                for (l = nct - 1; l >= 0; l--) {
+                    if (stemp[l] != 0.0) {
+                        for (j = l + 1; j < ncu; j++) {
                             t = 0.0;
-                            for (i = l; i < rowsA; i++)
-                            {
-                                t += u[(l*rowsA) + i].Conjugate()*u[(j*rowsA) + i];
+                            for (i = l; i < rowsA; i++) {
+                                t += u[(l * rowsA) + i].Conjugate() * u[(j * rowsA) + i];
                             }
 
-                            t = -t/u[(l*rowsA) + l];
-                            for (var ii = l; ii < rowsA; ii++)
-                            {
-                                u[(j*rowsA) + ii] += t*u[(l*rowsA) + ii];
+                            t = -t / u[(l * rowsA) + l];
+                            for (var ii = l; ii < rowsA; ii++) {
+                                u[(j * rowsA) + ii] += t * u[(l * rowsA) + ii];
                             }
                         }
 
                         // A part of column "l" of matrix A from row "l" to end multiply by -1.0
-                        for (i = l; i < rowsA; i++)
-                        {
-                            u[(l*rowsA) + i] = u[(l*rowsA) + i]*-1.0;
+                        for (i = l; i < rowsA; i++) {
+                            u[(l * rowsA) + i] = u[(l * rowsA) + i] * -1.0;
                         }
 
-                        u[(l*rowsA) + l] = 1.0 + u[(l*rowsA) + l];
-                        for (i = 0; i < l; i++)
-                        {
-                            u[(l*rowsA) + i] = 0.0;
+                        u[(l * rowsA) + l] = 1.0 + u[(l * rowsA) + l];
+                        for (i = 0; i < l; i++) {
+                            u[(l * rowsA) + i] = 0.0;
                         }
                     }
-                    else
-                    {
-                        for (i = 0; i < rowsA; i++)
-                        {
-                            u[(l*rowsA) + i] = 0.0;
+                    else {
+                        for (i = 0; i < rowsA; i++) {
+                            u[(l * rowsA) + i] = 0.0;
                         }
 
-                        u[(l*rowsA) + l] = 1.0;
+                        u[(l * rowsA) + l] = 1.0;
                     }
                 }
             }
 
             // If it is required, generate v.
-            if (computeVectors)
-            {
-                for (l = columnsA - 1; l >= 0; l--)
-                {
+            if (computeVectors) {
+                for (l = columnsA - 1; l >= 0; l--) {
                     lp1 = l + 1;
-                    if (l < nrt)
-                    {
-                        if (e[l] != 0.0)
-                        {
-                            for (j = lp1; j < columnsA; j++)
-                            {
+                    if (l < nrt) {
+                        if (e[l] != 0.0) {
+                            for (j = lp1; j < columnsA; j++) {
                                 t = 0.0;
-                                for (i = lp1; i < columnsA; i++)
-                                {
-                                    t += v[(l*columnsA) + i].Conjugate()*v[(j*columnsA) + i];
+                                for (i = lp1; i < columnsA; i++) {
+                                    t += v[(l * columnsA) + i].Conjugate() * v[(j * columnsA) + i];
                                 }
 
-                                t = -t/v[(l*columnsA) + lp1];
-                                for (var ii = l; ii < columnsA; ii++)
-                                {
-                                    v[(j*columnsA) + ii] += t*v[(l*columnsA) + ii];
+                                t = -t / v[(l * columnsA) + lp1];
+                                for (var ii = l; ii < columnsA; ii++) {
+                                    v[(j * columnsA) + ii] += t * v[(l * columnsA) + ii];
                                 }
                             }
                         }
                     }
 
-                    for (i = 0; i < columnsA; i++)
-                    {
-                        v[(l*columnsA) + i] = 0.0;
+                    for (i = 0; i < columnsA; i++) {
+                        v[(l * columnsA) + i] = 0.0;
                     }
 
-                    v[(l*columnsA) + l] = 1.0;
+                    v[(l * columnsA) + l] = 1.0;
                 }
             }
 
             // Transform "s" and "e" so that they are double
-            for (i = 0; i < m; i++)
-            {
+            for (i = 0; i < m; i++) {
                 Complex r;
-                if (stemp[i] != 0.0)
-                {
+                if (stemp[i] != 0.0) {
                     t = stemp[i].Magnitude;
-                    r = stemp[i]/t;
+                    r = stemp[i] / t;
                     stemp[i] = t;
-                    if (i < m - 1)
-                    {
-                        e[i] = e[i]/r;
+                    if (i < m - 1) {
+                        e[i] = e[i] / r;
                     }
 
-                    if (computeVectors)
-                    {
+                    if (computeVectors) {
                         // A part of column "i" of matrix U from row 0 to end multiply by r
-                        for (j = 0; j < rowsA; j++)
-                        {
-                            u[(i*rowsA) + j] = u[(i*rowsA) + j]*r;
+                        for (j = 0; j < rowsA; j++) {
+                            u[(i * rowsA) + j] = u[(i * rowsA) + j] * r;
                         }
                     }
                 }
 
                 // Exit
-                if (i == m - 1)
-                {
+                if (i == m - 1) {
                     break;
                 }
 
-                if (e[i] == 0.0)
-                {
+                if (e[i] == 0.0) {
                     continue;
                 }
 
                 t = e[i].Magnitude;
-                r = t/e[i];
+                r = t / e[i];
                 e[i] = t;
-                stemp[i + 1] = stemp[i + 1]*r;
-                if (!computeVectors)
-                {
+                stemp[i + 1] = stemp[i + 1] * r;
+                if (!computeVectors) {
                     continue;
                 }
 
                 // A part of column "i+1" of matrix VT from row 0 to end multiply by r
-                for (j = 0; j < columnsA; j++)
-                {
-                    v[((i + 1)*columnsA) + j] = v[((i + 1)*columnsA) + j]*r;
+                for (j = 0; j < columnsA; j++) {
+                    v[((i + 1) * columnsA) + j] = v[((i + 1) * columnsA) + j] * r;
                 }
             }
 
@@ -1988,12 +1666,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var mn = m;
             var iter = 0;
 
-            while (m > 0)
-            {
+            while (m > 0) {
                 // Quit if all the singular values have been found.
                 // If too many iterations have been performed throw exception.
-                if (iter >= maxiter)
-                {
+                if (iter >= maxiter) {
                     throw new NonConvergenceException();
                 }
 
@@ -2005,56 +1681,45 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 // case = 4: if e[m-1] is negligible (convergence).
                 double ztest;
                 double test;
-                for (l = m - 2; l >= 0; l--)
-                {
+                for (l = m - 2; l >= 0; l--) {
                     test = stemp[l].Magnitude + stemp[l + 1].Magnitude;
                     ztest = test + e[l].Magnitude;
-                    if (ztest.AlmostEqualRelative(test, 15))
-                    {
+                    if (ztest.AlmostEqualRelative(test, 15)) {
                         e[l] = 0.0;
                         break;
                     }
                 }
 
                 int kase;
-                if (l == m - 2)
-                {
+                if (l == m - 2) {
                     kase = 4;
                 }
-                else
-                {
+                else {
                     int ls;
-                    for (ls = m - 1; ls > l; ls--)
-                    {
+                    for (ls = m - 1; ls > l; ls--) {
                         test = 0.0;
-                        if (ls != m - 1)
-                        {
+                        if (ls != m - 1) {
                             test = test + e[ls].Magnitude;
                         }
 
-                        if (ls != l + 1)
-                        {
+                        if (ls != l + 1) {
                             test = test + e[ls - 1].Magnitude;
                         }
 
                         ztest = test + stemp[ls].Magnitude;
-                        if (ztest.AlmostEqualRelative(test, 15))
-                        {
+                        if (ztest.AlmostEqualRelative(test, 15)) {
                             stemp[ls] = 0.0;
                             break;
                         }
                     }
 
-                    if (ls == l)
-                    {
+                    if (ls == l) {
                         kase = 3;
                     }
-                    else if (ls == m - 1)
-                    {
+                    else if (ls == m - 1) {
                         kase = 1;
                     }
-                    else
-                    {
+                    else {
                         kase = 2;
                         l = ls;
                     }
@@ -2067,65 +1732,57 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 double f;
                 double cs;
                 double sn;
-                switch (kase)
-                {
-                        // Deflate negligible s[m].
+                switch (kase) {
+                    // Deflate negligible s[m].
                     case 1:
                         f = e[m - 2].Real;
                         e[m - 2] = 0.0;
                         double t1;
-                        for (var kk = l; kk < m - 1; kk++)
-                        {
+                        for (var kk = l; kk < m - 1; kk++) {
                             k = m - 2 - kk + l;
                             t1 = stemp[k].Real;
                             Drotg(ref t1, ref f, out cs, out sn);
                             stemp[k] = t1;
-                            if (k != l)
-                            {
-                                f = -sn*e[k - 1].Real;
-                                e[k - 1] = cs*e[k - 1];
+                            if (k != l) {
+                                f = -sn * e[k - 1].Real;
+                                e[k - 1] = cs * e[k - 1];
                             }
 
-                            if (computeVectors)
-                            {
+                            if (computeVectors) {
                                 // Rotate
-                                for (i = 0; i < columnsA; i++)
-                                {
-                                    var z = (cs*v[(k*columnsA) + i]) + (sn*v[((m - 1)*columnsA) + i]);
-                                    v[((m - 1)*columnsA) + i] = (cs*v[((m - 1)*columnsA) + i]) - (sn*v[(k*columnsA) + i]);
-                                    v[(k*columnsA) + i] = z;
+                                for (i = 0; i < columnsA; i++) {
+                                    var z = (cs * v[(k * columnsA) + i]) + (sn * v[((m - 1) * columnsA) + i]);
+                                    v[((m - 1) * columnsA) + i] = (cs * v[((m - 1) * columnsA) + i]) - (sn * v[(k * columnsA) + i]);
+                                    v[(k * columnsA) + i] = z;
                                 }
                             }
                         }
 
                         break;
 
-                        // Split at negligible s[l].
+                    // Split at negligible s[l].
                     case 2:
                         f = e[l - 1].Real;
                         e[l - 1] = 0.0;
-                        for (k = l; k < m; k++)
-                        {
+                        for (k = l; k < m; k++) {
                             t1 = stemp[k].Real;
                             Drotg(ref t1, ref f, out cs, out sn);
                             stemp[k] = t1;
-                            f = -sn*e[k].Real;
-                            e[k] = cs*e[k];
-                            if (computeVectors)
-                            {
+                            f = -sn * e[k].Real;
+                            e[k] = cs * e[k];
+                            if (computeVectors) {
                                 // Rotate
-                                for (i = 0; i < rowsA; i++)
-                                {
-                                    var z = (cs*u[(k*rowsA) + i]) + (sn*u[((l - 1)*rowsA) + i]);
-                                    u[((l - 1)*rowsA) + i] = (cs*u[((l - 1)*rowsA) + i]) - (sn*u[(k*rowsA) + i]);
-                                    u[(k*rowsA) + i] = z;
+                                for (i = 0; i < rowsA; i++) {
+                                    var z = (cs * u[(k * rowsA) + i]) + (sn * u[((l - 1) * rowsA) + i]);
+                                    u[((l - 1) * rowsA) + i] = (cs * u[((l - 1) * rowsA) + i]) - (sn * u[(k * rowsA) + i]);
+                                    u[(k * rowsA) + i] = z;
                                 }
                             }
                         }
 
                         break;
 
-                        // Perform one qr step.
+                    // Perform one qr step.
                     case 3:
                         // calculate the shift.
                         var scale = 0.0;
@@ -2134,64 +1791,56 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         scale = Math.Max(scale, e[m - 2].Magnitude);
                         scale = Math.Max(scale, stemp[l].Magnitude);
                         scale = Math.Max(scale, e[l].Magnitude);
-                        var sm = stemp[m - 1].Real/scale;
-                        var smm1 = stemp[m - 2].Real/scale;
-                        var emm1 = e[m - 2].Real/scale;
-                        var sl = stemp[l].Real/scale;
-                        var el = e[l].Real/scale;
-                        var b = (((smm1 + sm)*(smm1 - sm)) + (emm1*emm1))/2.0;
-                        var c = (sm*emm1)*(sm*emm1);
+                        var sm = stemp[m - 1].Real / scale;
+                        var smm1 = stemp[m - 2].Real / scale;
+                        var emm1 = e[m - 2].Real / scale;
+                        var sl = stemp[l].Real / scale;
+                        var el = e[l].Real / scale;
+                        var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0;
+                        var c = (sm * emm1) * (sm * emm1);
                         var shift = 0.0;
-                        if (b != 0.0 || c != 0.0)
-                        {
-                            shift = Math.Sqrt((b*b) + c);
-                            if (b < 0.0)
-                            {
+                        if (b != 0.0 || c != 0.0) {
+                            shift = Math.Sqrt((b * b) + c);
+                            if (b < 0.0) {
                                 shift = -shift;
                             }
 
-                            shift = c/(b + shift);
+                            shift = c / (b + shift);
                         }
 
-                        f = ((sl + sm)*(sl - sm)) + shift;
-                        var g = sl*el;
+                        f = ((sl + sm) * (sl - sm)) + shift;
+                        var g = sl * el;
 
                         // Chase zeros
-                        for (k = l; k < m - 1; k++)
-                        {
+                        for (k = l; k < m - 1; k++) {
                             Drotg(ref f, ref g, out cs, out sn);
-                            if (k != l)
-                            {
+                            if (k != l) {
                                 e[k - 1] = f;
                             }
 
-                            f = (cs*stemp[k].Real) + (sn*e[k].Real);
-                            e[k] = (cs*e[k]) - (sn*stemp[k]);
-                            g = sn*stemp[k + 1].Real;
-                            stemp[k + 1] = cs*stemp[k + 1];
-                            if (computeVectors)
-                            {
-                                for (i = 0; i < columnsA; i++)
-                                {
-                                    var z = (cs*v[(k*columnsA) + i]) + (sn*v[((k + 1)*columnsA) + i]);
-                                    v[((k + 1)*columnsA) + i] = (cs*v[((k + 1)*columnsA) + i]) - (sn*v[(k*columnsA) + i]);
-                                    v[(k*columnsA) + i] = z;
+                            f = (cs * stemp[k].Real) + (sn * e[k].Real);
+                            e[k] = (cs * e[k]) - (sn * stemp[k]);
+                            g = sn * stemp[k + 1].Real;
+                            stemp[k + 1] = cs * stemp[k + 1];
+                            if (computeVectors) {
+                                for (i = 0; i < columnsA; i++) {
+                                    var z = (cs * v[(k * columnsA) + i]) + (sn * v[((k + 1) * columnsA) + i]);
+                                    v[((k + 1) * columnsA) + i] = (cs * v[((k + 1) * columnsA) + i]) - (sn * v[(k * columnsA) + i]);
+                                    v[(k * columnsA) + i] = z;
                                 }
                             }
 
                             Drotg(ref f, ref g, out cs, out sn);
                             stemp[k] = f;
-                            f = (cs*e[k].Real) + (sn*stemp[k + 1].Real);
-                            stemp[k + 1] = -(sn*e[k]) + (cs*stemp[k + 1]);
-                            g = sn*e[k + 1].Real;
-                            e[k + 1] = cs*e[k + 1];
-                            if (computeVectors && k < rowsA)
-                            {
-                                for (i = 0; i < rowsA; i++)
-                                {
-                                    var z = (cs*u[(k*rowsA) + i]) + (sn*u[((k + 1)*rowsA) + i]);
-                                    u[((k + 1)*rowsA) + i] = (cs*u[((k + 1)*rowsA) + i]) - (sn*u[(k*rowsA) + i]);
-                                    u[(k*rowsA) + i] = z;
+                            f = (cs * e[k].Real) + (sn * stemp[k + 1].Real);
+                            stemp[k + 1] = -(sn * e[k]) + (cs * stemp[k + 1]);
+                            g = sn * e[k + 1].Real;
+                            e[k + 1] = cs * e[k + 1];
+                            if (computeVectors && k < rowsA) {
+                                for (i = 0; i < rowsA; i++) {
+                                    var z = (cs * u[(k * rowsA) + i]) + (sn * u[((k + 1) * rowsA) + i]);
+                                    u[((k + 1) * rowsA) + i] = (cs * u[((k + 1) * rowsA) + i]) - (sn * u[(k * rowsA) + i]);
+                                    u[(k * rowsA) + i] = z;
                                 }
                             }
                         }
@@ -2200,49 +1849,40 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         iter = iter + 1;
                         break;
 
-                        // Convergence
+                    // Convergence
                     case 4:
 
                         // Make the singular value  positive
-                        if (stemp[l].Real < 0.0)
-                        {
+                        if (stemp[l].Real < 0.0) {
                             stemp[l] = -stemp[l];
-                            if (computeVectors)
-                            {
+                            if (computeVectors) {
                                 // A part of column "l" of matrix VT from row 0 to end multiply by -1
-                                for (i = 0; i < columnsA; i++)
-                                {
-                                    v[(l*columnsA) + i] = v[(l*columnsA) + i]*-1.0;
+                                for (i = 0; i < columnsA; i++) {
+                                    v[(l * columnsA) + i] = v[(l * columnsA) + i] * -1.0;
                                 }
                             }
                         }
 
                         // Order the singular value.
-                        while (l != mn - 1)
-                        {
-                            if (stemp[l].Real >= stemp[l + 1].Real)
-                            {
+                        while (l != mn - 1) {
+                            if (stemp[l].Real >= stemp[l + 1].Real) {
                                 break;
                             }
 
                             t = stemp[l];
                             stemp[l] = stemp[l + 1];
                             stemp[l + 1] = t;
-                            if (computeVectors && l < columnsA)
-                            {
+                            if (computeVectors && l < columnsA) {
                                 // Swap columns l, l + 1
-                                for (i = 0; i < columnsA; i++)
-                                {
-                                    (v[(l*columnsA) + i], v[((l + 1)*columnsA) + i]) = (v[((l + 1)*columnsA) + i], v[(l*columnsA) + i]);
+                                for (i = 0; i < columnsA; i++) {
+                                    (v[(l * columnsA) + i], v[((l + 1) * columnsA) + i]) = (v[((l + 1) * columnsA) + i], v[(l * columnsA) + i]);
                                 }
                             }
 
-                            if (computeVectors && l < rowsA)
-                            {
+                            if (computeVectors && l < rowsA) {
                                 // Swap columns l, l + 1
-                                for (i = 0; i < rowsA; i++)
-                                {
-                                    (u[(l*rowsA) + i], u[((l + 1)*rowsA) + i]) = (u[((l + 1)*rowsA) + i], u[(l*rowsA) + i]);
+                                for (i = 0; i < rowsA; i++) {
+                                    (u[(l * rowsA) + i], u[((l + 1) * rowsA) + i]) = (u[((l + 1) * rowsA) + i], u[(l * rowsA) + i]);
                                 }
                             }
 
@@ -2255,14 +1895,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 }
             }
 
-            if (computeVectors)
-            {
+            if (computeVectors) {
                 // Finally transpose "v" to get "vt" matrix
-                for (i = 0; i < columnsA; i++)
-                {
-                    for (j = 0; j < columnsA; j++)
-                    {
-                        vt[(j*columnsA) + i] = v[(i*columnsA) + j].Conjugate();
+                for (i = 0; i < columnsA; i++) {
+                    for (j = 0; j < columnsA; j++) {
+                        vt[(j * columnsA) + i] = v[(i * columnsA) + j].Conjugate();
                     }
                 }
             }
@@ -2282,36 +1919,30 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolve(Complex[] a, int rowsA, int columnsA, Complex[] b, int columnsB, Complex[] x)
-        {
-            if (a == null)
-            {
+        public void SvdSolve(Complex[] a, int rowsA, int columnsA, Complex[] b, int columnsB, Complex[] x) {
+            if (a == null) {
                 throw new ArgumentNullException(nameof(a));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (b.Length != rowsA*columnsB)
-            {
+            if (b.Length != rowsA * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
-            if (x.Length != columnsA*columnsB)
-            {
+            if (x.Length != columnsA * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             var s = new Complex[Math.Min(rowsA, columnsA)];
-            var u = new Complex[rowsA*rowsA];
-            var vt = new Complex[columnsA*columnsA];
+            var u = new Complex[rowsA * rowsA];
+            var vt = new Complex[columnsA * columnsA];
 
             var clone = new Complex[a.Length];
             a.Copy(clone);
@@ -2330,71 +1961,56 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolveFactored(int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int columnsB, Complex[] x)
-        {
-            if (s == null)
-            {
+        public void SvdSolveFactored(int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int columnsB, Complex[] x) {
+            if (s == null) {
                 throw new ArgumentNullException(nameof(s));
             }
 
-            if (u == null)
-            {
+            if (u == null) {
                 throw new ArgumentNullException(nameof(u));
             }
 
-            if (vt == null)
-            {
+            if (vt == null) {
                 throw new ArgumentNullException(nameof(vt));
             }
 
-            if (b == null)
-            {
+            if (b == null) {
                 throw new ArgumentNullException(nameof(b));
             }
 
-            if (x == null)
-            {
+            if (x == null) {
                 throw new ArgumentNullException(nameof(x));
             }
 
-            if (u.Length != rowsA*rowsA)
-            {
+            if (u.Length != rowsA * rowsA) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(u));
             }
 
-            if (vt.Length != columnsA*columnsA)
-            {
+            if (vt.Length != columnsA * columnsA) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(vt));
             }
 
-            if (s.Length != Math.Min(rowsA, columnsA))
-            {
+            if (s.Length != Math.Min(rowsA, columnsA)) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(s));
             }
 
-            if (b.Length != rowsA*columnsB)
-            {
+            if (b.Length != rowsA * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
-            if (x.Length != columnsA*columnsB)
-            {
+            if (x.Length != columnsA * columnsB) {
                 throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             var mn = Math.Min(rowsA, columnsA);
             var tmp = new Complex[columnsA];
 
-            for (var k = 0; k < columnsB; k++)
-            {
-                for (var j = 0; j < columnsA; j++)
-                {
+            for (var k = 0; k < columnsB; k++) {
+                for (var j = 0; j < columnsA; j++) {
                     var value = Complex.Zero;
-                    if (j < mn)
-                    {
-                        for (var i = 0; i < rowsA; i++)
-                        {
-                            value += u[(j*rowsA) + i].Conjugate()*b[(k*rowsA) + i];
+                    if (j < mn) {
+                        for (var i = 0; i < rowsA; i++) {
+                            value += u[(j * rowsA) + i].Conjugate() * b[(k * rowsA) + i];
                         }
 
                         value /= s[j];
@@ -2403,15 +2019,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     tmp[j] = value;
                 }
 
-                for (var j = 0; j < columnsA; j++)
-                {
+                for (var j = 0; j < columnsA; j++) {
                     var value = Complex.Zero;
-                    for (var i = 0; i < columnsA; i++)
-                    {
-                        value += vt[(j*columnsA) + i].Conjugate()*tmp[i];
+                    for (var i = 0; i < columnsA; i++) {
+                        value += vt[(j * columnsA) + i].Conjugate() * tmp[i];
                     }
 
-                    x[(k*columnsA) + j] = value;
+                    x[(k * columnsA) + j] = value;
                 }
             }
         }
@@ -2425,52 +2039,42 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
-        public void EigenDecomp(bool isSymmetric, int order, Complex[] matrix, Complex[] matrixEv, Complex[] vectorEv, Complex[] matrixD)
-        {
-            if (matrix == null)
-            {
+        public void EigenDecomp(bool isSymmetric, int order, Complex[] matrix, Complex[] matrixEv, Complex[] vectorEv, Complex[] matrixD) {
+            if (matrix == null) {
                 throw new ArgumentNullException(nameof(matrix));
             }
 
-            if (matrix.Length != order*order)
-            {
+            if (matrix.Length != order * order) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {order * order}.", nameof(matrix));
             }
 
-            if (matrixEv == null)
-            {
+            if (matrixEv == null) {
                 throw new ArgumentNullException(nameof(matrixEv));
             }
 
-            if (matrixEv.Length != order*order)
-            {
+            if (matrixEv.Length != order * order) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {order * order}.", nameof(matrixEv));
             }
 
-            if (vectorEv == null)
-            {
+            if (vectorEv == null) {
                 throw new ArgumentNullException(nameof(vectorEv));
             }
 
-            if (vectorEv.Length != order)
-            {
+            if (vectorEv.Length != order) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {order}.", nameof(vectorEv));
             }
 
-            if (matrixD == null)
-            {
+            if (matrixD == null) {
                 throw new ArgumentNullException(nameof(matrixD));
             }
 
-            if (matrixD.Length != order*order)
-            {
+            if (matrixD.Length != order * order) {
                 throw new ArgumentException($"The given array has the wrong length. Should be {order * order}.", nameof(matrixD));
             }
             var matrixCopy = new Complex[matrix.Length];
             Array.Copy(matrix, 0, matrixCopy, 0, matrix.Length);
 
-            if (isSymmetric)
-            {
+            if (isSymmetric) {
                 var tau = new Complex[order];
                 var d = new double[order];
                 var e = new double[order];
@@ -2479,20 +2083,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 SymmetricDiagonalize(matrixEv, d, e, order);
                 SymmetricUntridiagonalize(matrixEv, matrixCopy, tau, order);
 
-                for (var i = 0; i < order; i++)
-                {
+                for (var i = 0; i < order; i++) {
                     vectorEv[i] = new Complex(d[i], e[i]);
                 }
             }
-            else
-            {
+            else {
                 NonsymmetricReduceToHessenberg(matrixEv, matrixCopy, order);
                 NonsymmetricReduceHessenberToRealSchur(vectorEv, matrixEv, matrixCopy, order);
             }
 
-            for (var i = 0; i < order; i++)
-            {
-                matrixD[i*order + i] = vectorEv[i];
+            for (var i = 0; i < order; i++) {
+                matrixD[i * order + i] = vectorEv[i];
             }
         }
 
@@ -2508,110 +2109,94 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void SymmetricTridiagonalize(Complex[] matrixA, double[] d, double[] e, Complex[] tau, int order)
-        {
+        internal static void SymmetricTridiagonalize(Complex[] matrixA, double[] d, double[] e, Complex[] tau, int order) {
             double hh;
             tau[order - 1] = Complex.One;
 
-            for (var i = 0; i < order; i++)
-            {
-                d[i] = matrixA[i*order + i].Real;
+            for (var i = 0; i < order; i++) {
+                d[i] = matrixA[i * order + i].Real;
             }
 
             // Householder reduction to tridiagonal form.
-            for (var i = order - 1; i > 0; i--)
-            {
+            for (var i = order - 1; i > 0; i--) {
                 // Scale to avoid under/overflow.
                 var scale = 0.0;
                 var h = 0.0;
 
-                for (var k = 0; k < i; k++)
-                {
-                    scale = scale + Math.Abs(matrixA[k*order + i].Real) + Math.Abs(matrixA[k*order + i].Imaginary);
+                for (var k = 0; k < i; k++) {
+                    scale = scale + Math.Abs(matrixA[k * order + i].Real) + Math.Abs(matrixA[k * order + i].Imaginary);
                 }
 
-                if (scale == 0.0)
-                {
+                if (scale == 0.0) {
                     tau[i - 1] = Complex.One;
                     e[i] = 0.0;
                 }
-                else
-                {
-                    for (var k = 0; k < i; k++)
-                    {
-                        matrixA[k*order + i] /= scale;
-                        h += matrixA[k*order + i].MagnitudeSquared();
+                else {
+                    for (var k = 0; k < i; k++) {
+                        matrixA[k * order + i] /= scale;
+                        h += matrixA[k * order + i].MagnitudeSquared();
                     }
 
                     Complex g = Math.Sqrt(h);
-                    e[i] = scale*g.Real;
+                    e[i] = scale * g.Real;
 
                     Complex temp;
-                    var im1Oi = (i - 1)*order + i;
+                    var im1Oi = (i - 1) * order + i;
                     var f = matrixA[im1Oi];
-                    if (f.Magnitude != 0)
-                    {
-                        temp = -(matrixA[im1Oi].Conjugate()*tau[i].Conjugate())/f.Magnitude;
-                        h += f.Magnitude*g.Real;
-                        g = 1.0 + (g/f.Magnitude);
+                    if (f.Magnitude != 0) {
+                        temp = -(matrixA[im1Oi].Conjugate() * tau[i].Conjugate()) / f.Magnitude;
+                        h += f.Magnitude * g.Real;
+                        g = 1.0 + (g / f.Magnitude);
                         matrixA[im1Oi] *= g;
                     }
-                    else
-                    {
+                    else {
                         temp = -tau[i].Conjugate();
                         matrixA[im1Oi] = g;
                     }
 
-                    if ((f.Magnitude == 0) || (i != 1))
-                    {
+                    if ((f.Magnitude == 0) || (i != 1)) {
                         f = Complex.Zero;
-                        for (var j = 0; j < i; j++)
-                        {
+                        for (var j = 0; j < i; j++) {
                             var tmp = Complex.Zero;
-                            var jO = j*order;
+                            var jO = j * order;
                             // Form element of A*U.
-                            for (var k = 0; k <= j; k++)
-                            {
-                                tmp += matrixA[k*order + j]*matrixA[k*order + i].Conjugate();
+                            for (var k = 0; k <= j; k++) {
+                                tmp += matrixA[k * order + j] * matrixA[k * order + i].Conjugate();
                             }
 
-                            for (var k = j + 1; k <= i - 1; k++)
-                            {
-                                tmp += matrixA[jO + k].Conjugate()*matrixA[k*order + i].Conjugate();
+                            for (var k = j + 1; k <= i - 1; k++) {
+                                tmp += matrixA[jO + k].Conjugate() * matrixA[k * order + i].Conjugate();
                             }
 
                             // Form element of P
-                            tau[j] = tmp/h;
-                            f += (tmp/h)*matrixA[jO + i];
+                            tau[j] = tmp / h;
+                            f += (tmp / h) * matrixA[jO + i];
                         }
 
-                        hh = f.Real/(h + h);
+                        hh = f.Real / (h + h);
 
                         // Form the reduced A.
-                        for (var j = 0; j < i; j++)
-                        {
-                            f = matrixA[j*order + i].Conjugate();
-                            g = tau[j] - (hh*f);
+                        for (var j = 0; j < i; j++) {
+                            f = matrixA[j * order + i].Conjugate();
+                            g = tau[j] - (hh * f);
                             tau[j] = g.Conjugate();
 
-                            for (var k = 0; k <= j; k++)
-                            {
-                                matrixA[k*order + j] -= (f*tau[k]) + (g*matrixA[k*order + i]);
+                            for (var k = 0; k <= j; k++) {
+                                matrixA[k * order + j] -= (f * tau[k]) + (g * matrixA[k * order + i]);
                             }
                         }
                     }
 
-                    for (var k = 0; k < i; k++)
-                    {
-                        matrixA[k*order + i] *= scale;
+                    for (var k = 0; k < i; k++) {
+                        matrixA[k * order + i] *= scale;
                     }
 
                     tau[i - 1] = temp.Conjugate();
                 }
 
                 hh = d[i];
-                d[i] = matrixA[i*order + i].Real;
-                matrixA[i*order + i] = new Complex(hh, scale*Math.Sqrt(h));
+                d[i] = matrixA[i * order + i].Real;
+                matrixA[i * order + i] = new Complex(hh, scale * Math.Sqrt(h));
             }
 
             hh = d[0];
@@ -2632,12 +2217,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
         /// <exception cref="NonConvergenceException"></exception>
-        internal static void SymmetricDiagonalize(Complex[] dataEv, double[] d, double[] e, int order)
-        {
+        internal static void SymmetricDiagonalize(Complex[] dataEv, double[] d, double[] e, int order) {
             const int maxiter = 1000;
 
-            for (var i = 1; i < order; i++)
-            {
+            for (var i = 1; i < order; i++) {
                 e[i - 1] = e[i];
             }
 
@@ -2646,15 +2229,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var f = 0.0;
             var tst1 = 0.0;
             var eps = Precision.DoublePrecision;
-            for (var l = 0; l < order; l++)
-            {
+            for (var l = 0; l < order; l++) {
                 // Find small subdiagonal element
                 tst1 = Math.Max(tst1, Math.Abs(d[l]) + Math.Abs(e[l]));
                 var m = l;
-                while (m < order)
-                {
-                    if (Math.Abs(e[m]) <= eps*tst1)
-                    {
+                while (m < order) {
+                    if (Math.Abs(e[m]) <= eps * tst1) {
                         break;
                     }
 
@@ -2663,29 +2243,25 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 // If m == l, d[l] is an eigenvalue,
                 // otherwise, iterate.
-                if (m > l)
-                {
+                if (m > l) {
                     var iter = 0;
-                    do
-                    {
+                    do {
                         iter = iter + 1; // (Could check iteration count here.)
 
                         // Compute implicit shift
                         var g = d[l];
-                        var p = (d[l + 1] - g)/(2.0*e[l]);
+                        var p = (d[l + 1] - g) / (2.0 * e[l]);
                         var r = SpecialFunctions.Hypotenuse(p, 1.0);
-                        if (p < 0)
-                        {
+                        if (p < 0) {
                             r = -r;
                         }
 
-                        d[l] = e[l]/(p + r);
-                        d[l + 1] = e[l]*(p + r);
+                        d[l] = e[l] / (p + r);
+                        d[l + 1] = e[l] * (p + r);
 
                         var dl1 = d[l + 1];
                         var h = g - d[l];
-                        for (var i = l + 2; i < order; i++)
-                        {
+                        for (var i = l + 2; i < order; i++) {
                             d[i] -= h;
                         }
 
@@ -2699,40 +2275,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var el1 = e[l + 1];
                         var s = 0.0;
                         var s2 = 0.0;
-                        for (var i = m - 1; i >= l; i--)
-                        {
+                        for (var i = m - 1; i >= l; i--) {
                             c3 = c2;
                             c2 = c;
                             s2 = s;
-                            g = c*e[i];
-                            h = c*p;
+                            g = c * e[i];
+                            h = c * p;
                             r = SpecialFunctions.Hypotenuse(p, e[i]);
-                            e[i + 1] = s*r;
-                            s = e[i]/r;
-                            c = p/r;
-                            p = (c*d[i]) - (s*g);
-                            d[i + 1] = h + (s*((c*g) + (s*d[i])));
+                            e[i + 1] = s * r;
+                            s = e[i] / r;
+                            c = p / r;
+                            p = (c * d[i]) - (s * g);
+                            d[i + 1] = h + (s * ((c * g) + (s * d[i])));
 
                             // Accumulate transformation.
-                            for (var k = 0; k < order; k++)
-                            {
-                                h = dataEv[((i + 1)*order) + k].Real;
-                                dataEv[((i + 1)*order) + k] = (s*dataEv[(i*order) + k].Real) + (c*h);
-                                dataEv[(i*order) + k] = (c*dataEv[(i*order) + k].Real) - (s*h);
+                            for (var k = 0; k < order; k++) {
+                                h = dataEv[((i + 1) * order) + k].Real;
+                                dataEv[((i + 1) * order) + k] = (s * dataEv[(i * order) + k].Real) + (c * h);
+                                dataEv[(i * order) + k] = (c * dataEv[(i * order) + k].Real) - (s * h);
                             }
                         }
 
-                        p = (-s)*s2*c3*el1*e[l]/dl1;
-                        e[l] = s*p;
-                        d[l] = c*p;
+                        p = (-s) * s2 * c3 * el1 * e[l] / dl1;
+                        e[l] = s * p;
+                        d[l] = c * p;
 
                         // Check for convergence. If too many iterations have been performed,
                         // throw exception that Convergence Failed
-                        if (iter >= maxiter)
-                        {
+                        if (iter >= maxiter) {
                             throw new NonConvergenceException();
                         }
-                    } while (Math.Abs(e[l]) > eps*tst1);
+                    } while (Math.Abs(e[l]) > eps * tst1);
                 }
 
                 d[l] = d[l] + f;
@@ -2740,28 +2313,23 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             // Sort eigenvalues and corresponding vectors.
-            for (var i = 0; i < order - 1; i++)
-            {
+            for (var i = 0; i < order - 1; i++) {
                 var k = i;
                 var p = d[i];
-                for (var j = i + 1; j < order; j++)
-                {
-                    if (d[j] < p)
-                    {
+                for (var j = i + 1; j < order; j++) {
+                    if (d[j] < p) {
                         k = j;
                         p = d[j];
                     }
                 }
 
-                if (k != i)
-                {
+                if (k != i) {
                     d[k] = d[i];
                     d[i] = p;
-                    for (var j = 0; j < order; j++)
-                    {
-                        p = dataEv[(i*order) + j].Real;
-                        dataEv[(i*order) + j] = dataEv[(k*order) + j];
-                        dataEv[(k*order) + j] = p;
+                    for (var j = 0; j < order; j++) {
+                        p = dataEv[(i * order) + j].Real;
+                        dataEv[(i * order) + j] = dataEv[(k * order) + j];
+                        dataEv[(k * order) + j] = p;
                     }
                 }
             }
@@ -2778,35 +2346,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// by Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void SymmetricUntridiagonalize(Complex[] dataEv, Complex[] matrixA, Complex[] tau, int order)
-        {
-            for (var i = 0; i < order; i++)
-            {
-                for (var j = 0; j < order; j++)
-                {
-                    dataEv[(j*order) + i] = dataEv[(j*order) + i].Real*tau[i].Conjugate();
+        internal static void SymmetricUntridiagonalize(Complex[] dataEv, Complex[] matrixA, Complex[] tau, int order) {
+            for (var i = 0; i < order; i++) {
+                for (var j = 0; j < order; j++) {
+                    dataEv[(j * order) + i] = dataEv[(j * order) + i].Real * tau[i].Conjugate();
                 }
             }
 
             // Recover and apply the Householder matrices.
-            for (var i = 1; i < order; i++)
-            {
-                var h = matrixA[i*order + i].Imaginary;
-                if (h != 0)
-                {
-                    for (var j = 0; j < order; j++)
-                    {
+            for (var i = 1; i < order; i++) {
+                var h = matrixA[i * order + i].Imaginary;
+                if (h != 0) {
+                    for (var j = 0; j < order; j++) {
                         var s = Complex.Zero;
-                        for (var k = 0; k < i; k++)
-                        {
-                            s += dataEv[(j*order) + k]*matrixA[k*order + i];
+                        for (var k = 0; k < i; k++) {
+                            s += dataEv[(j * order) + k] * matrixA[k * order + i];
                         }
 
-                        s = (s/h)/h;
+                        s = (s / h) / h;
 
-                        for (var k = 0; k < i; k++)
-                        {
-                            dataEv[(j*order) + k] -= s*matrixA[k*order + i].Conjugate();
+                        for (var k = 0; k < i; k++) {
+                            dataEv[(j * order) + k] -= s * matrixA[k * order + i].Conjugate();
                         }
                     }
                 }
@@ -2823,145 +2383,119 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutines in EISPACK.</remarks>
-        internal static void NonsymmetricReduceToHessenberg(Complex[] dataEv, Complex[] matrixH, int order)
-        {
+        internal static void NonsymmetricReduceToHessenberg(Complex[] dataEv, Complex[] matrixH, int order) {
             var ort = new Complex[order];
 
-            for (var m = 1; m < order - 1; m++)
-            {
+            for (var m = 1; m < order - 1; m++) {
                 // Scale column.
                 var scale = 0.0;
-                var mm1O = (m - 1)*order;
-                for (var i = m; i < order; i++)
-                {
+                var mm1O = (m - 1) * order;
+                for (var i = m; i < order; i++) {
                     scale += Math.Abs(matrixH[mm1O + i].Real) + Math.Abs(matrixH[mm1O + i].Imaginary);
                 }
 
-                if (scale != 0.0)
-                {
+                if (scale != 0.0) {
                     // Compute Householder transformation.
                     var h = 0.0;
-                    for (var i = order - 1; i >= m; i--)
-                    {
-                        ort[i] = matrixH[mm1O + i]/scale;
+                    for (var i = order - 1; i >= m; i--) {
+                        ort[i] = matrixH[mm1O + i] / scale;
                         h += ort[i].MagnitudeSquared();
                     }
 
                     var g = Math.Sqrt(h);
-                    if (ort[m].Magnitude != 0)
-                    {
-                        h = h + (ort[m].Magnitude*g);
+                    if (ort[m].Magnitude != 0) {
+                        h = h + (ort[m].Magnitude * g);
                         g /= ort[m].Magnitude;
-                        ort[m] = (1.0 + g)*ort[m];
+                        ort[m] = (1.0 + g) * ort[m];
                     }
-                    else
-                    {
+                    else {
                         ort[m] = g;
                         matrixH[mm1O + m] = scale;
                     }
 
                     // Apply Householder similarity transformation
                     // H = (I-u*u'/h)*H*(I-u*u')/h)
-                    for (var j = m; j < order; j++)
-                    {
+                    for (var j = m; j < order; j++) {
                         var f = Complex.Zero;
-                        var jO = j*order;
-                        for (var i = order - 1; i >= m; i--)
-                        {
-                            f += ort[i].Conjugate()*matrixH[jO + i];
+                        var jO = j * order;
+                        for (var i = order - 1; i >= m; i--) {
+                            f += ort[i].Conjugate() * matrixH[jO + i];
                         }
 
-                        f = f/h;
-                        for (var i = m; i < order; i++)
-                        {
-                            matrixH[jO + i] -= f*ort[i];
+                        f = f / h;
+                        for (var i = m; i < order; i++) {
+                            matrixH[jO + i] -= f * ort[i];
                         }
                     }
 
-                    for (var i = 0; i < order; i++)
-                    {
+                    for (var i = 0; i < order; i++) {
                         var f = Complex.Zero;
-                        for (var j = order - 1; j >= m; j--)
-                        {
-                            f += ort[j]*matrixH[j*order + i];
+                        for (var j = order - 1; j >= m; j--) {
+                            f += ort[j] * matrixH[j * order + i];
                         }
 
-                        f = f/h;
-                        for (var j = m; j < order; j++)
-                        {
-                            matrixH[j*order + i] -= f*ort[j].Conjugate();
+                        f = f / h;
+                        for (var j = m; j < order; j++) {
+                            matrixH[j * order + i] -= f * ort[j].Conjugate();
                         }
                     }
 
-                    ort[m] = scale*ort[m];
+                    ort[m] = scale * ort[m];
                     matrixH[mm1O + m] *= -g;
                 }
             }
 
             // Accumulate transformations (Algol's ortran).
-            for (var i = 0; i < order; i++)
-            {
-                for (var j = 0; j < order; j++)
-                {
-                    dataEv[(j*order) + i] = i == j ? Complex.One : Complex.Zero;
+            for (var i = 0; i < order; i++) {
+                for (var j = 0; j < order; j++) {
+                    dataEv[(j * order) + i] = i == j ? Complex.One : Complex.Zero;
                 }
             }
 
-            for (var m = order - 2; m >= 1; m--)
-            {
-                var mm1O = (m - 1)*order;
+            for (var m = order - 2; m >= 1; m--) {
+                var mm1O = (m - 1) * order;
                 var mm1Om = mm1O + m;
-                if (matrixH[mm1Om] != Complex.Zero && ort[m] != Complex.Zero)
-                {
-                    var norm = (matrixH[mm1Om].Real*ort[m].Real) + (matrixH[mm1Om].Imaginary*ort[m].Imaginary);
+                if (matrixH[mm1Om] != Complex.Zero && ort[m] != Complex.Zero) {
+                    var norm = (matrixH[mm1Om].Real * ort[m].Real) + (matrixH[mm1Om].Imaginary * ort[m].Imaginary);
 
-                    for (var i = m + 1; i < order; i++)
-                    {
+                    for (var i = m + 1; i < order; i++) {
                         ort[i] = matrixH[mm1O + i];
                     }
 
-                    for (var j = m; j < order; j++)
-                    {
+                    for (var j = m; j < order; j++) {
                         var g = Complex.Zero;
-                        for (var i = m; i < order; i++)
-                        {
-                            g += ort[i].Conjugate()*dataEv[(j*order) + i];
+                        for (var i = m; i < order; i++) {
+                            g += ort[i].Conjugate() * dataEv[(j * order) + i];
                         }
 
                         // Double division avoids possible underflow
                         g /= norm;
-                        for (var i = m; i < order; i++)
-                        {
-                            dataEv[(j*order) + i] += g*ort[i];
+                        for (var i = m; i < order; i++) {
+                            dataEv[(j * order) + i] += g * ort[i];
                         }
                     }
                 }
             }
 
             // Create real subdiagonal elements.
-            for (var i = 1; i < order; i++)
-            {
+            for (var i = 1; i < order; i++) {
                 var im1 = i - 1;
-                var im1O = im1*order;
+                var im1O = im1 * order;
                 var im1Oi = im1O + i;
-                var iO = i*order;
-                if (matrixH[im1Oi].Imaginary != 0.0)
-                {
-                    var y = matrixH[im1Oi]/matrixH[im1Oi].Magnitude;
+                var iO = i * order;
+                if (matrixH[im1Oi].Imaginary != 0.0) {
+                    var y = matrixH[im1Oi] / matrixH[im1Oi].Magnitude;
                     matrixH[im1Oi] = matrixH[im1Oi].Magnitude;
-                    for (var j = i; j < order; j++)
-                    {
-                        matrixH[j*order + i] *= y.Conjugate();
+                    for (var j = i; j < order; j++) {
+                        matrixH[j * order + i] *= y.Conjugate();
                     }
 
-                    for (var j = 0; j <= Math.Min(i + 1, order - 1); j++)
-                    {
+                    for (var j = 0; j <= Math.Min(i + 1, order - 1); j++) {
                         matrixH[iO + j] *= y;
                     }
 
-                    for (var j = 0; j < order; j++)
-                    {
-                        dataEv[(i*order) + j] *= y;
+                    for (var j = 0; j < order; j++) {
+                        dataEv[(i * order) + j] *= y;
                     }
                 }
             }
@@ -2978,8 +2512,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void NonsymmetricReduceHessenberToRealSchur(Complex[] vectorV, Complex[] dataEv, Complex[] matrixH, int order)
-        {
+        internal static void NonsymmetricReduceHessenberToRealSchur(Complex[] vectorV, Complex[] dataEv, Complex[] matrixH, int order) {
             // Initialize
             var n = order - 1;
             var eps = Precision.DoublePrecision;
@@ -2989,18 +2522,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             // Outer loop over eigenvalue index
             var iter = 0;
-            while (n >= 0)
-            {
+            while (n >= 0) {
                 // Look for single small sub-diagonal element
                 var l = n;
-                while (l > 0)
-                {
+                while (l > 0) {
                     var lm1 = l - 1;
-                    var lm1O = lm1*order;
-                    var lO = l*order;
+                    var lm1O = lm1 * order;
+                    var lO = l * order;
                     var tst1 = Math.Abs(matrixH[lm1O + lm1].Real) + Math.Abs(matrixH[lm1O + lm1].Imaginary) + Math.Abs(matrixH[lO + l].Real) + Math.Abs(matrixH[lO + l].Imaginary);
-                    if (Math.Abs(matrixH[lm1O + l].Real) < eps*tst1)
-                    {
+                    if (Math.Abs(matrixH[lm1O + l].Real) < eps * tst1) {
                         break;
                     }
 
@@ -3008,33 +2538,28 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 }
 
                 var nm1 = n - 1;
-                var nm1O = nm1*order;
-                var nO = n*order;
+                var nm1O = nm1 * order;
+                var nO = n * order;
                 var nOn = nO + n;
                 // Check for convergence
                 // One root found
-                if (l == n)
-                {
+                if (l == n) {
                     matrixH[nOn] += exshift;
                     vectorV[n] = matrixH[nOn];
                     n--;
                     iter = 0;
                 }
-                else
-                {
+                else {
                     // Form shift
                     Complex s;
-                    if (iter != 10 && iter != 20)
-                    {
+                    if (iter != 10 && iter != 20) {
                         s = matrixH[nOn];
-                        x = matrixH[nO + nm1]*matrixH[nm1O + n].Real;
+                        x = matrixH[nO + nm1] * matrixH[nm1O + n].Real;
 
-                        if (x.Real != 0.0 || x.Imaginary != 0.0)
-                        {
-                            y = (matrixH[nm1O + nm1] - s)/2.0;
-                            z = ((y*y) + x).SquareRoot();
-                            if ((y.Real*z.Real) + (y.Imaginary*z.Imaginary) < 0.0)
-                            {
+                        if (x.Real != 0.0 || x.Imaginary != 0.0) {
+                            y = (matrixH[nm1O + nm1] - s) / 2.0;
+                            z = ((y * y) + x).SquareRoot();
+                            if ((y.Real * z.Real) + (y.Imaginary * z.Imaginary) < 0.0) {
                                 z *= -1.0;
                             }
 
@@ -3042,99 +2567,85 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             s = s - x;
                         }
                     }
-                    else
-                    {
+                    else {
                         // Form exceptional shift
-                        s = Math.Abs(matrixH[nm1O + n].Real) + Math.Abs(matrixH[(n - 2)*order + nm1].Real);
+                        s = Math.Abs(matrixH[nm1O + n].Real) + Math.Abs(matrixH[(n - 2) * order + nm1].Real);
                     }
 
-                    for (var i = 0; i <= n; i++)
-                    {
-                        matrixH[i*order + i] -= s;
+                    for (var i = 0; i <= n; i++) {
+                        matrixH[i * order + i] -= s;
                     }
 
                     exshift += s;
                     iter++;
 
                     // Reduce to triangle (rows)
-                    for (var i = l + 1; i <= n; i++)
-                    {
+                    for (var i = l + 1; i <= n; i++) {
                         var im1 = i - 1;
-                        var im1O = im1*order;
+                        var im1O = im1 * order;
                         var im1Oim1 = im1O + im1;
                         s = matrixH[im1O + i].Real;
                         norm = SpecialFunctions.Hypotenuse(matrixH[im1Oim1].Magnitude, s.Real);
-                        x = matrixH[im1Oim1]/norm;
+                        x = matrixH[im1Oim1] / norm;
                         vectorV[i - 1] = x;
                         matrixH[im1Oim1] = norm;
-                        matrixH[im1O + i] = new Complex(0.0, s.Real/norm);
+                        matrixH[im1O + i] = new Complex(0.0, s.Real / norm);
 
-                        for (var j = i; j < order; j++)
-                        {
-                            var jO = j*order;
+                        for (var j = i; j < order; j++) {
+                            var jO = j * order;
                             y = matrixH[jO + im1];
                             z = matrixH[jO + i];
-                            matrixH[jO + im1] = (x.Conjugate()*y) + (matrixH[im1O + i].Imaginary*z);
-                            matrixH[jO + i] = (x*z) - (matrixH[im1O + i].Imaginary*y);
+                            matrixH[jO + im1] = (x.Conjugate() * y) + (matrixH[im1O + i].Imaginary * z);
+                            matrixH[jO + i] = (x * z) - (matrixH[im1O + i].Imaginary * y);
                         }
                     }
 
                     s = matrixH[nOn];
-                    if (s.Imaginary != 0.0)
-                    {
+                    if (s.Imaginary != 0.0) {
                         s /= matrixH[nOn].Magnitude;
                         matrixH[nOn] = matrixH[nOn].Magnitude;
 
-                        for (var j = n + 1; j < order; j++)
-                        {
-                            matrixH[j*order + n] *= s.Conjugate();
+                        for (var j = n + 1; j < order; j++) {
+                            matrixH[j * order + n] *= s.Conjugate();
                         }
                     }
 
                     // Inverse operation (columns).
-                    for (var j = l + 1; j <= n; j++)
-                    {
+                    for (var j = l + 1; j <= n; j++) {
                         x = vectorV[j - 1];
-                        var jO = j*order;
+                        var jO = j * order;
                         var jm1 = j - 1;
-                        var jm1O = jm1*order;
+                        var jm1O = jm1 * order;
                         var jm1Oj = jm1O + j;
-                        for (var i = 0; i <= j; i++)
-                        {
+                        for (var i = 0; i <= j; i++) {
                             var jm1Oi = jm1O + i;
                             z = matrixH[jO + i];
-                            if (i != j)
-                            {
+                            if (i != j) {
                                 y = matrixH[jm1Oi];
-                                matrixH[jm1Oi] = (x*y) + (matrixH[jm1O + j].Imaginary*z);
+                                matrixH[jm1Oi] = (x * y) + (matrixH[jm1O + j].Imaginary * z);
                             }
-                            else
-                            {
+                            else {
                                 y = matrixH[jm1Oi].Real;
-                                matrixH[jm1Oi] = new Complex((x.Real*y.Real) - (x.Imaginary*y.Imaginary) + (matrixH[jm1O + j].Imaginary*z.Real), matrixH[jm1Oi].Imaginary);
+                                matrixH[jm1Oi] = new Complex((x.Real * y.Real) - (x.Imaginary * y.Imaginary) + (matrixH[jm1O + j].Imaginary * z.Real), matrixH[jm1Oi].Imaginary);
                             }
 
-                            matrixH[jO + i] = (x.Conjugate()*z) - (matrixH[jm1O + j].Imaginary*y);
+                            matrixH[jO + i] = (x.Conjugate() * z) - (matrixH[jm1O + j].Imaginary * y);
                         }
 
-                        for (var i = 0; i < order; i++)
-                        {
-                            y = dataEv[((j - 1)*order) + i];
-                            z = dataEv[(j*order) + i];
-                            dataEv[jm1O + i] = (x*y) + (matrixH[jm1Oj].Imaginary*z);
-                            dataEv[jO + i] = (x.Conjugate()*z) - (matrixH[jm1Oj].Imaginary*y);
+                        for (var i = 0; i < order; i++) {
+                            y = dataEv[((j - 1) * order) + i];
+                            z = dataEv[(j * order) + i];
+                            dataEv[jm1O + i] = (x * y) + (matrixH[jm1Oj].Imaginary * z);
+                            dataEv[jO + i] = (x.Conjugate() * z) - (matrixH[jm1Oj].Imaginary * y);
                         }
                     }
 
-                    if (s.Imaginary != 0.0)
-                    {
-                        for (var i = 0; i <= n; i++)
-                        {
+                    if (s.Imaginary != 0.0) {
+                        for (var i = 0; i <= n; i++) {
                             matrixH[nO + i] *= s;
                         }
 
-                        for (var i = 0; i < order; i++)
-                        {
+                        for (var i = 0; i < order; i++) {
                             dataEv[nO + i] *= s;
                         }
                     }
@@ -3144,69 +2655,56 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // All roots found.
             // Backsubstitute to find vectors of upper triangular form
             norm = 0.0;
-            for (var i = 0; i < order; i++)
-            {
-                for (var j = i; j < order; j++)
-                {
-                    norm = Math.Max(norm, Math.Abs(matrixH[j*order + i].Real) + Math.Abs(matrixH[j*order + i].Imaginary));
+            for (var i = 0; i < order; i++) {
+                for (var j = i; j < order; j++) {
+                    norm = Math.Max(norm, Math.Abs(matrixH[j * order + i].Real) + Math.Abs(matrixH[j * order + i].Imaginary));
                 }
             }
 
-            if (order == 1)
-            {
+            if (order == 1) {
                 return;
             }
 
-            if (norm == 0.0)
-            {
+            if (norm == 0.0) {
                 return;
             }
 
-            for (n = order - 1; n > 0; n--)
-            {
-                var nO = n*order;
+            for (n = order - 1; n > 0; n--) {
+                var nO = n * order;
                 var nOn = nO + n;
                 x = vectorV[n];
                 matrixH[nOn] = 1.0;
 
-                for (var i = n - 1; i >= 0; i--)
-                {
+                for (var i = n - 1; i >= 0; i--) {
                     z = 0.0;
-                    for (var j = i + 1; j <= n; j++)
-                    {
-                        z += matrixH[j*order + i]*matrixH[nO + j];
+                    for (var j = i + 1; j <= n; j++) {
+                        z += matrixH[j * order + i] * matrixH[nO + j];
                     }
 
                     y = x - vectorV[i];
-                    if (y.Real == 0.0 && y.Imaginary == 0.0)
-                    {
-                        y = eps*norm;
+                    if (y.Real == 0.0 && y.Imaginary == 0.0) {
+                        y = eps * norm;
                     }
 
-                    matrixH[nO + i] = z/y;
+                    matrixH[nO + i] = z / y;
 
                     // Overflow control
                     var tr = Math.Abs(matrixH[nO + i].Real) + Math.Abs(matrixH[nO + i].Imaginary);
-                    if ((eps*tr)*tr > 1)
-                    {
-                        for (var j = i; j <= n; j++)
-                        {
-                            matrixH[nO + j] = matrixH[nO + j]/tr;
+                    if ((eps * tr) * tr > 1) {
+                        for (var j = i; j <= n; j++) {
+                            matrixH[nO + j] = matrixH[nO + j] / tr;
                         }
                     }
                 }
             }
 
             // Back transformation to get eigenvectors of original matrix
-            for (var j = order - 1; j > 0; j--)
-            {
-                var jO = j*order;
-                for (var i = 0; i < order; i++)
-                {
+            for (var j = order - 1; j > 0; j--) {
+                var jO = j * order;
+                for (var i = 0; i < order; i++) {
                     z = Complex.Zero;
-                    for (var k = 0; k <= j; k++)
-                    {
-                        z += dataEv[(k*order) + i]*matrixH[jO + k];
+                    for (var k = 0; k <= j; k++) {
+                        z += dataEv[(k * order) + i] * matrixH[jO + k];
                     }
 
                     dataEv[jO + i] = z;
@@ -3217,25 +2715,19 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <summary>
         /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
         /// </summary>
-        static void GetRow(Transpose transpose, int rowindx, int numRows, int numCols, Complex[] matrix, Complex[] row)
-        {
-            if (transpose == Transpose.DontTranspose)
-            {
-                for (int i = 0; i < numCols; i++)
-                {
+        static void GetRow(Transpose transpose, int rowindx, int numRows, int numCols, Complex[] matrix, Complex[] row) {
+            if (transpose == Transpose.DontTranspose) {
+                for (int i = 0; i < numCols; i++) {
                     row[i] = matrix[(i * numRows) + rowindx];
                 }
             }
-            else if (transpose == Transpose.ConjugateTranspose)
-            {
+            else if (transpose == Transpose.ConjugateTranspose) {
                 int offset = rowindx * numCols;
-                for (int i = 0; i < row.Length; i++)
-                {
+                for (int i = 0; i < row.Length; i++) {
                     row[i] = matrix[i + offset].Conjugate();
                 }
             }
-            else
-            {
+            else {
                 Array.Copy(matrix, rowindx * numCols, row, 0, numCols);
             }
         }
@@ -3243,23 +2735,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <summary>
         /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
         /// </summary>
-        static void GetColumn(Transpose transpose, int colindx, int numRows, int numCols, Complex[] matrix, Complex[] column)
-        {
-            if (transpose == Transpose.DontTranspose)
-            {
+        static void GetColumn(Transpose transpose, int colindx, int numRows, int numCols, Complex[] matrix, Complex[] column) {
+            if (transpose == Transpose.DontTranspose) {
                 Array.Copy(matrix, colindx * numRows, column, 0, numRows);
             }
-            else if (transpose == Transpose.ConjugateTranspose)
-            {
-                for (int i = 0; i < numRows; i++)
-                {
+            else if (transpose == Transpose.ConjugateTranspose) {
+                for (int i = 0; i < numRows; i++) {
                     column[i] = matrix[(i * numCols) + colindx].Conjugate();
                 }
             }
-            else
-            {
-                for (int i = 0; i < numRows; i++)
-                {
+            else {
+                for (int i = 0; i < numRows; i++) {
                     column[i] = matrix[(i * numCols) + colindx];
                 }
             }

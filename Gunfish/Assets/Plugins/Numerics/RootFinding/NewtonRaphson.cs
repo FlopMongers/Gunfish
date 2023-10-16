@@ -29,15 +29,13 @@
 
 using System;
 
-namespace MathNet.Numerics.RootFinding
-{
+namespace MathNet.Numerics.RootFinding {
     /// <summary>
     /// Pure Newton-Raphson root-finding algorithm without any recovery measures in cases it behaves badly.
     /// The algorithm aborts immediately if the root leaves the bound interval.
     /// </summary>
     /// <seealso cref="RobustNewtonRaphson"/>
-    public static class NewtonRaphson
-    {
+    public static class NewtonRaphson {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
         /// <param name="df">The first derivative of the function to find roots from.</param>
@@ -47,10 +45,8 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Default 100.</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double FindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
-        {
-            if (TryFindRoot(f, df, 0.5 * (lowerBound + upperBound), lowerBound, upperBound, accuracy, maxIterations, out var root))
-            {
+        public static double FindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100) {
+            if (TryFindRoot(f, df, 0.5 * (lowerBound + upperBound), lowerBound, upperBound, accuracy, maxIterations, out var root)) {
                 return root;
             }
 
@@ -67,10 +63,8 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Default 100.</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double FindRootNearGuess(Func<double, double> f, Func<double, double> df, double initialGuess, double lowerBound = double.MinValue, double upperBound = double.MaxValue, double accuracy = 1e-8, int maxIterations = 100)
-        {
-            if (TryFindRoot(f, df, initialGuess, lowerBound, upperBound, accuracy, maxIterations, out var root))
-            {
+        public static double FindRootNearGuess(Func<double, double> f, Func<double, double> df, double initialGuess, double lowerBound = double.MinValue, double upperBound = double.MaxValue, double accuracy = 1e-8, int maxIterations = 100) {
+            if (TryFindRoot(f, df, initialGuess, lowerBound, upperBound, accuracy, maxIterations, out var root)) {
                 return root;
             }
 
@@ -87,31 +81,26 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
-        public static bool TryFindRoot(Func<double, double> f, Func<double, double> df, double initialGuess, double lowerBound, double upperBound, double accuracy, int maxIterations, out double root)
-        {
-            if (accuracy <= 0)
-            {
+        public static bool TryFindRoot(Func<double, double> f, Func<double, double> df, double initialGuess, double lowerBound, double upperBound, double accuracy, int maxIterations, out double root) {
+            if (accuracy <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
             }
 
             root = initialGuess;
-            for (int i = 0; i < maxIterations && root >= lowerBound && root <= upperBound; i++)
-            {
+            for (int i = 0; i < maxIterations && root >= lowerBound && root <= upperBound; i++) {
                 // Evaluation
                 double fx = f(root);
-                if (fx == 0.0)
-                {
+                if (fx == 0.0) {
                     return true;
                 }
 
                 double dfx = df(root);
 
                 // Netwon-Raphson step
-                double step = fx/dfx;
+                double step = fx / dfx;
                 root -= step;
 
-                if (Math.Abs(step) < accuracy && Math.Abs(fx) < accuracy)
-                {
+                if (Math.Abs(step) < accuracy && Math.Abs(fx) < accuracy) {
                     return true;
                 }
             }

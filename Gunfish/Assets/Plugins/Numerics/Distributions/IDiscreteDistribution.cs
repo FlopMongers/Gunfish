@@ -27,16 +27,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     using System.Collections.Generic;
 
     /// <summary>
     /// Discrete Univariate Probability Distribution.
     /// </summary>
     /// <seealso cref="IContinuousDistribution"/>
-    public interface IDiscreteDistribution : IUnivariateDistribution
-    {
+    public interface IDiscreteDistribution : IUnivariateDistribution {
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>

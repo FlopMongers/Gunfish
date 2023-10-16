@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.Rendering.Lightmap
-{
-	public class LightSource
-    {
-       static public void Draw(Light2D light, Camera camera)
-       {
+namespace FunkyCode.Rendering.Lightmap {
+    public class LightSource {
+        static public void Draw(Light2D light, Camera camera) {
             if (light.Buffer == null)
                 return;
 
@@ -21,23 +18,20 @@ namespace FunkyCode.Rendering.Lightmap
             var pos = LightingPosition.GetPosition2D(-camera.transform.position);
             var size = new Vector2(light.size, light.size);
 
-            if (light.IsPixelPerfect())
-            {
+            if (light.IsPixelPerfect()) {
                 size = LightingRender2D.GetSize(camera);
                 pos = Vector2.zero;
             }
-            else
-            {
+            else {
                 pos += light.transform2D.position;
             }
-         
+
             Color lightColor = light.color;
             lightColor.a = light.color.a / 2;
 
             Material material = null;
 
-            switch(light.lightType)
-            {
+            switch (light.lightType) {
                 case Light2D.LightType.Sprite:
 
                     material = Lighting2D.Materials.lights.GetSpriteLight();
@@ -83,8 +77,7 @@ namespace FunkyCode.Rendering.Lightmap
             Rendering.Universal.Texture.Quad.Draw(material, pos, size, 0, 0);
         }
 
-        static public void DrawOcclusion(Light2D light, Camera camera)
-        {
+        static public void DrawOcclusion(Light2D light, Camera camera) {
             if (light.Buffer == null)
                 return;
 
@@ -101,16 +94,15 @@ namespace FunkyCode.Rendering.Lightmap
             var size = new Vector2(light.size, light.size);
 
             pos += light.transform2D.position;
-         
+
             Color lightColor = light.color;
             lightColor.a = light.color.a / 2;
 
             Material material = null;
 
-            switch(light.lightType)
-            {
+            switch (light.lightType) {
                 case Light2D.LightType.Sprite:
-                
+
                     float flipX = light.spriteFlipX ? 1 : 0;
                     float flipY = light.spriteFlipY ? 1 : 0;
 
@@ -141,14 +133,13 @@ namespace FunkyCode.Rendering.Lightmap
 
                     break;
             }
-            
+
             GLExtended.color = lightColor;
 
             Rendering.Universal.Texture.Quad.Draw(material, pos, size, light.transform2D.rotation, 0);
         }
 
-        static public void DrawTranslucent(Light2D light, Camera camera)
-        {
+        static public void DrawTranslucent(Light2D light, Camera camera) {
             if (light.Buffer == null)
                 return;
 
@@ -167,23 +158,20 @@ namespace FunkyCode.Rendering.Lightmap
             var pos = LightingPosition.GetPosition2D(-camera.transform.position);
             var size = new Vector2(light.size, light.size);
 
-            if (light.IsPixelPerfect())
-            {
+            if (light.IsPixelPerfect()) {
                 size = LightingRender2D.GetSize(camera);
                 pos = Vector2.zero;
             }
-            else
-            {
+            else {
                 pos += light.transform2D.position;
             }
-         
+
             Color lightColor = light.color;
             lightColor.a = light.color.a / 2;
 
             Material material = null;
 
-            switch(light.lightType)
-            {
+            switch (light.lightType) {
                 case Light2D.LightType.Sprite:
 
                     material = Lighting2D.Materials.lights.GetSpriteLight();

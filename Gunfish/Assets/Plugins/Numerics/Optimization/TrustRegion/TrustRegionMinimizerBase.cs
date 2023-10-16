@@ -1,12 +1,10 @@
-﻿using System;
+﻿using MathNet.Numerics.LinearAlgebra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization.TrustRegion
-{
-    public abstract class TrustRegionMinimizerBase : NonlinearMinimizerBase
-    {
+namespace MathNet.Numerics.Optimization.TrustRegion {
+    public abstract class TrustRegionMinimizerBase : NonlinearMinimizerBase {
         /// <summary>
         /// The trust region subproblem.
         /// </summary>
@@ -19,22 +17,19 @@ namespace MathNet.Numerics.Optimization.TrustRegion
 
         public TrustRegionMinimizerBase(ITrustRegionSubproblem subproblem,
             double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-8, int maximumIterations = -1)
-            : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations)
-        {
+            : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations) {
             Subproblem = subproblem ?? throw new ArgumentNullException(nameof(subproblem));
             RadiusTolerance = radiusTolerance;
         }
 
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess,
-            Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null)
-        {
+            Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null) {
             return Minimum(Subproblem, objective, initialGuess, lowerBound, upperBound, scales, isFixed,
                 GradientTolerance, StepTolerance, FunctionTolerance, RadiusTolerance, MaximumIterations);
         }
 
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess,
-            double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null)
-        {
+            double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null) {
             var lb = (lowerBound == null) ? null : CreateVector.Dense(lowerBound);
             var ub = (upperBound == null) ? null : CreateVector.Dense(upperBound);
             var sc = (scales == null) ? null : CreateVector.Dense(scales);
@@ -58,8 +53,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
         /// <returns></returns>
         public NonlinearMinimizationResult Minimum(ITrustRegionSubproblem subproblem, IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null,
-            double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-18, int maximumIterations = -1)
-        {
+            double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-18, int maximumIterations = -1) {
             // Non-linear least square fitting by the trust-region algorithm.
             //
             // For given datum pair (x, y), uncertainties σ (or weighting W  =  1 / σ^2) and model function f = f(x; p),
@@ -112,27 +106,23 @@ namespace MathNet.Numerics.Optimization.TrustRegion
             Vector<double> Pstep; // the change of parameters
             var RSS = EvaluateFunction(objective, initialGuess); // Residual Sum of Squares
 
-            if (maximumIterations < 0)
-            {
+            if (maximumIterations < 0) {
                 maximumIterations = 200 * (initialGuess.Count + 1);
             }
 
             // if RSS == NaN, stop
-            if (double.IsNaN(RSS))
-            {
+            if (double.IsNaN(RSS)) {
                 exitCondition = ExitCondition.InvalidValues;
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
             // When only function evaluation is needed, set maximumIterations to zero,
-            if (maximumIterations == 0)
-            {
+            if (maximumIterations == 0) {
                 exitCondition = ExitCondition.ManuallyStopped;
             }
 
             // if ||R||^2 <= fTol, stop
-            if (RSS <= functionTolerance)
-            {
+            if (RSS <= functionTolerance) {
                 exitCondition = ExitCondition.Converged; // SmallRSS
             }
 
@@ -140,13 +130,11 @@ namespace MathNet.Numerics.Optimization.TrustRegion
             var (Gradient, Hessian) = EvaluateJacobian(objective, P);
 
             // if ||g||_oo <= gtol, found and stop
-            if (Gradient.InfinityNorm() <= gradientTolerance)
-            {
+            if (Gradient.InfinityNorm() <= gradientTolerance) {
                 exitCondition = ExitCondition.RelativeGradient; // SmallGradient
             }
 
-            if (exitCondition != ExitCondition.None)
-            {
+            if (exitCondition != ExitCondition.None) {
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
@@ -156,8 +144,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
 
             int iterations = 0;
             bool hitBoundary;
-            while (iterations < maximumIterations && exitCondition == ExitCondition.None)
-            {
+            while (iterations < maximumIterations && exitCondition == ExitCondition.None) {
                 iterations++;
 
                 // solve the subproblem
@@ -168,8 +155,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
                 // predicted reduction = L(0) - L(Δp) = -Δp'g - 1/2 * Δp'HΔp
                 var predictedReduction = -Gradient.DotProduct(Pstep) - 0.5 * Pstep.DotProduct(Hessian * Pstep);
 
-                if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.L2Norm()))
-                {
+                if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.L2Norm())) {
                     exitCondition = ExitCondition.RelativePoints; // SmallRelativeParameters
                     break;
                 }
@@ -179,8 +165,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
                 var RSSnew = EvaluateFunction(objective, Pnew);
 
                 // if RSS == NaN, stop
-                if (double.IsNaN(RSSnew))
-                {
+                if (double.IsNaN(RSSnew)) {
                     exitCondition = ExitCondition.InvalidValues;
                     break;
                 }
@@ -190,22 +175,18 @@ namespace MathNet.Numerics.Optimization.TrustRegion
                         ? (RSS - RSSnew) / predictedReduction
                         : 0.0;
 
-                if (rho > 0.75 && hitBoundary)
-                {
+                if (rho > 0.75 && hitBoundary) {
                     delta = Math.Min(2.0 * delta, maxDelta);
                 }
-                else if (rho < 0.25)
-                {
+                else if (rho < 0.25) {
                     delta = delta * 0.25;
-                    if (delta <= radiusTolerance * (radiusTolerance + P.DotProduct(P)))
-                    {
+                    if (delta <= radiusTolerance * (radiusTolerance + P.DotProduct(P))) {
                         exitCondition = ExitCondition.LackOfProgress;
                         break;
                     }
                 }
 
-                if (rho > eta)
-                {
+                if (rho > eta) {
                     // accepted
                     Pnew.CopyTo(P);
                     RSS = RSSnew;
@@ -214,21 +195,18 @@ namespace MathNet.Numerics.Optimization.TrustRegion
                     (Gradient, Hessian) = EvaluateJacobian(objective, P);
 
                     // if ||g||_oo <= gtol, found and stop
-                    if (Gradient.InfinityNorm() <= gradientTolerance)
-                    {
+                    if (Gradient.InfinityNorm() <= gradientTolerance) {
                         exitCondition = ExitCondition.RelativeGradient;
                     }
 
                     // if ||R||^2 < fTol, found and stop
-                    if (RSS <= functionTolerance)
-                    {
+                    if (RSS <= functionTolerance) {
                         exitCondition = ExitCondition.Converged; // SmallRSS
                     }
                 }
             }
 
-            if (iterations >= maximumIterations)
-            {
+            if (iterations >= maximumIterations) {
                 exitCondition = ExitCondition.ExceedIterations;
             }
 

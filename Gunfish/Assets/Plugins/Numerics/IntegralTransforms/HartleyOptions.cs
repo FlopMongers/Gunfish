@@ -27,16 +27,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.IntegralTransforms
-{
+namespace MathNet.Numerics.IntegralTransforms {
     using System;
 
     /// <summary>
     /// Hartley Transform Convention
     /// </summary>
     [Flags]
-    public enum HartleyOptions
-    {
+    public enum HartleyOptions {
         // FLAGS:
 
         /// <summary>

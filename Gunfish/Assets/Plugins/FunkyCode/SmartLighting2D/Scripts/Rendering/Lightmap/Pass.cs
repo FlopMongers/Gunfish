@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightSettings;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Lightmap
-{
-    public class Pass
-    {    
+namespace FunkyCode.Rendering.Lightmap {
+    public class Pass {
         public Sorting.SortList sortList = new Sorting.SortList();
         public Sorting.SortObject sortObject;
         public int layerId;
@@ -14,20 +12,17 @@ namespace FunkyCode.Rendering.Lightmap
         public Camera camera;
         public Vector2 offset;
 
-        public void SortObjects()
-        {
+        public void SortObjects() {
             sortList.Reset();
 
             var lightList = Light2D.List;
 
-            for(int id = 0; id < lightList.Count; id++)
-            {
+            for (int id = 0; id < lightList.Count; id++) {
                 var light = lightList[id];
                 if (light.lightLayer != layerId)
                     continue;
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.ZAxisLower:
                         sortList.Add(light, -light.transform.position.z);
                         break;
@@ -39,14 +34,12 @@ namespace FunkyCode.Rendering.Lightmap
             }
 
             var roomList = LightRoom2D.List;
-            for(int id = 0; id < roomList.Count; id++)
-            {
+            for (int id = 0; id < roomList.Count; id++) {
                 var room = roomList[id];
                 if (room.lightLayer != layerId)
                     continue;
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.ZAxisLower:
                         sortList.Add(room, -room.transform.position.z);
                         break;
@@ -58,14 +51,12 @@ namespace FunkyCode.Rendering.Lightmap
             }
 
             var roomTilemapList = LightTilemapRoom2D.List;
-            for(int id = 0; id < roomTilemapList.Count; id++)
-            {
+            for (int id = 0; id < roomTilemapList.Count; id++) {
                 var tilemapRoom = roomTilemapList[id];
                 if (tilemapRoom.lightLayer != layerId)
                     continue;
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.ZAxisLower:
                         sortList.Add(tilemapRoom, -tilemapRoom.transform.position.z);
                         break;
@@ -77,16 +68,14 @@ namespace FunkyCode.Rendering.Lightmap
             }
 
             var spriteList = LightSprite2D.List;
-            for(int id = 0; id < spriteList.Count; id++)
-            {
+            for (int id = 0; id < spriteList.Count; id++) {
                 var lightSprite = spriteList[id];
                 if (lightSprite.lightLayer != layerId)
                     continue;
 
-                switch(layer.sorting)
-                {
+                switch (layer.sorting) {
                     case LayerSorting.ZAxisLower:
-                        sortList.Add(lightSprite, - lightSprite.transform.position.z);
+                        sortList.Add(lightSprite, -lightSprite.transform.position.z);
                         break;
 
                     case LayerSorting.ZAxisHigher:
@@ -98,8 +87,7 @@ namespace FunkyCode.Rendering.Lightmap
             sortList.Sort();
         }
 
-        public bool Setup(LightmapLayer slayer, Camera camera)
-        {
+        public bool Setup(LightmapLayer slayer, Camera camera) {
             if (slayer.id < 0)
                 return false;
 

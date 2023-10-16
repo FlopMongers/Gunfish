@@ -1,161 +1,140 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode
-{
-	[System.Serializable]
-	public class Lighting2DMaterials
-	{
-		private LightingMaterial occlusionEdge = null;
-		private LightingMaterial occlusionBlur = null;
+namespace FunkyCode {
+    [System.Serializable]
+    public class Lighting2DMaterials {
+        private LightingMaterial occlusionEdge = null;
+        private LightingMaterial occlusionBlur = null;
 
-		private LightingMaterial additive = null;
+        private LightingMaterial additive = null;
 
-		private LightingMaterial maskBlurVertical = null;
-		private LightingMaterial maskBlurHorizontal = null;
+        private LightingMaterial maskBlurVertical = null;
+        private LightingMaterial maskBlurHorizontal = null;
 
-		private LightingMaterial multiplyHDR = null;
-		private LightingMaterial alphablend = null;
-		private LightingMaterial lightSprite = null;
+        private LightingMaterial multiplyHDR = null;
+        private LightingMaterial alphablend = null;
+        private LightingMaterial lightSprite = null;
 
-		public Lighting2DMaterial.Mask mask = new Lighting2DMaterial.Mask();
-		public Lighting2DMaterial.BumpMask bumpMask = new Lighting2DMaterial.BumpMask();
-		public Lighting2DMaterial.Shadow shadow = new Lighting2DMaterial.Shadow();
-		public Lighting2DMaterial.Room room = new Lighting2DMaterial.Room();
-		public Lighting2DMaterial.Lights lights = new Lighting2DMaterial.Lights();
+        public Lighting2DMaterial.Mask mask = new Lighting2DMaterial.Mask();
+        public Lighting2DMaterial.BumpMask bumpMask = new Lighting2DMaterial.BumpMask();
+        public Lighting2DMaterial.Shadow shadow = new Lighting2DMaterial.Shadow();
+        public Lighting2DMaterial.Room room = new Lighting2DMaterial.Room();
+        public Lighting2DMaterial.Lights lights = new Lighting2DMaterial.Lights();
 
-		private bool initialized = false;
+        private bool initialized = false;
 
-		public bool Initialize()
-		{
-			if (initialized)
-			{
-				return(false);
-			}
+        public bool Initialize() {
+            if (initialized) {
+                return (false);
+            }
 
-			Reset();
+            Reset();
 
-			mask.Reset();
-			shadow.Reset();
-			room.Reset();
-			bumpMask.Reset();
-			lights.Reset();
+            mask.Reset();
+            shadow.Reset();
+            room.Reset();
+            bumpMask.Reset();
+            lights.Reset();
 
-			initialized = true;
+            initialized = true;
 
-			mask.Initialize();
-			shadow.Initialize();
-			room.Initialize();
-			bumpMask.Initialize();
-			lights.Initialize();
+            mask.Initialize();
+            shadow.Initialize();
+            room.Initialize();
+            bumpMask.Initialize();
+            lights.Initialize();
 
-			GetAdditive();
-			
-			GetOcclusionBlur();
-			GetOcclusionEdge();
+            GetAdditive();
 
-			return(true);
-		}
+            GetOcclusionBlur();
+            GetOcclusionEdge();
 
-		public void Reset()
-		{
-			// is it the best way?
-			initialized = false;
+            return (true);
+        }
 
-			maskBlurVertical = null;
-			maskBlurHorizontal = null;
+        public void Reset() {
+            // is it the best way?
+            initialized = false;
 
-			occlusionEdge = null;
-			occlusionBlur = null;
+            maskBlurVertical = null;
+            maskBlurHorizontal = null;
 
-			additive = null;
-			multiplyHDR = null;
-			alphablend = null;
+            occlusionEdge = null;
+            occlusionBlur = null;
 
-			lightSprite = null;
-		}
-		
-		public Material GetLightSprite()
-		{
-			if (lightSprite == null || lightSprite.Get() == null)
-			{
-				lightSprite = LightingMaterial.Load("Light2D/Internal/LightSprite/Light");
-			}
+            additive = null;
+            multiplyHDR = null;
+            alphablend = null;
 
-			return(lightSprite.Get());
-		}
+            lightSprite = null;
+        }
 
-		public Material GetMaskBlurVertical()
-		{
-			if (maskBlurVertical == null || maskBlurVertical.Get() == null)
-			{
-				maskBlurVertical = LightingMaterial.Load("Light2D/Internal/BlurVertical");
-			}
+        public Material GetLightSprite() {
+            if (lightSprite == null || lightSprite.Get() == null) {
+                lightSprite = LightingMaterial.Load("Light2D/Internal/LightSprite/Light");
+            }
 
-			return(maskBlurVertical.Get());
-		}
+            return (lightSprite.Get());
+        }
 
-		public Material GetMaskBlurHorizontal()
-		{
-			if (maskBlurHorizontal == null || maskBlurHorizontal.Get() == null)
-			{
-				maskBlurHorizontal = LightingMaterial.Load("Light2D/Internal/BlurHorizontal");
-			}
+        public Material GetMaskBlurVertical() {
+            if (maskBlurVertical == null || maskBlurVertical.Get() == null) {
+                maskBlurVertical = LightingMaterial.Load("Light2D/Internal/BlurVertical");
+            }
 
-			return(maskBlurHorizontal.Get());
-		}
-	
-		public Material GetAdditive()
-		{
-			if (additive == null || additive.Get() == null)
-			{
-				additive = LightingMaterial.Load("Light2D/Internal/Additive");
-			}
+            return (maskBlurVertical.Get());
+        }
 
-			return(additive.Get());
-		}
+        public Material GetMaskBlurHorizontal() {
+            if (maskBlurHorizontal == null || maskBlurHorizontal.Get() == null) {
+                maskBlurHorizontal = LightingMaterial.Load("Light2D/Internal/BlurHorizontal");
+            }
 
-		public Material GetMultiplyHDR()
-		{
-			if (multiplyHDR == null || multiplyHDR.Get() == null)
-			{
-				multiplyHDR = LightingMaterial.Load("Light2D/Internal/Multiply HDR");
-			}
+            return (maskBlurHorizontal.Get());
+        }
 
-			return(multiplyHDR.Get());
-		}
+        public Material GetAdditive() {
+            if (additive == null || additive.Get() == null) {
+                additive = LightingMaterial.Load("Light2D/Internal/Additive");
+            }
 
-		public Material GetAlphaColor()
-		{
-			if (alphablend == null || alphablend.Get() == null)
-			{
-				alphablend = LightingMaterial.Load("Light2D/Internal/AlphaColor");
-			}
+            return (additive.Get());
+        }
 
-			return(alphablend.Get());
-		}
+        public Material GetMultiplyHDR() {
+            if (multiplyHDR == null || multiplyHDR.Get() == null) {
+                multiplyHDR = LightingMaterial.Load("Light2D/Internal/Multiply HDR");
+            }
 
-		public Material GetOcclusionEdge()
-		{
-			if (occlusionEdge == null || occlusionEdge.Get() == null)
-			{
-				occlusionEdge = LightingMaterial.Load("Light2D/Internal/Multiply HDR");
+            return (multiplyHDR.Get());
+        }
 
-				occlusionEdge.SetTexture("textures/occlusionedge");
-			}
+        public Material GetAlphaColor() {
+            if (alphablend == null || alphablend.Get() == null) {
+                alphablend = LightingMaterial.Load("Light2D/Internal/AlphaColor");
+            }
 
-			return(occlusionEdge.Get());
-		}
+            return (alphablend.Get());
+        }
 
-		public Material GetOcclusionBlur()
-		{
-			if (occlusionBlur == null || occlusionBlur.Get() == null)
-			{
-				occlusionBlur = LightingMaterial.Load("Light2D/Internal/Multiply HDR");
+        public Material GetOcclusionEdge() {
+            if (occlusionEdge == null || occlusionEdge.Get() == null) {
+                occlusionEdge = LightingMaterial.Load("Light2D/Internal/Multiply HDR");
 
-				occlusionBlur.SetTexture("textures/occlussionblur");
-			}
-			
-			return(occlusionBlur.Get());
-		}
-	}
+                occlusionEdge.SetTexture("textures/occlusionedge");
+            }
+
+            return (occlusionEdge.Get());
+        }
+
+        public Material GetOcclusionBlur() {
+            if (occlusionBlur == null || occlusionBlur.Get() == null) {
+                occlusionBlur = LightingMaterial.Load("Light2D/Internal/Multiply HDR");
+
+                occlusionBlur.SetTexture("textures/occlussionblur");
+            }
+
+            return (occlusionBlur.Get());
+        }
+    }
 }

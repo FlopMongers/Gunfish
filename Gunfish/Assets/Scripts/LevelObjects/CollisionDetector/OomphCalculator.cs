@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OomphCalculator : MonoBehaviour
-{
+public class OomphCalculator : MonoBehaviour {
     public Rigidbody2D rb;
 
     [HideInInspector]
@@ -16,8 +15,7 @@ public class OomphCalculator : MonoBehaviour
     float collisionAngleThreshold = 30f;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         if (rb == null)
             rb = GetComponent<Rigidbody2D>();
     }

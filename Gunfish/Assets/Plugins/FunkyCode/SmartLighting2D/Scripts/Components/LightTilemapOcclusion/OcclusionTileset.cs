@@ -4,8 +4,7 @@ using UnityEngine;
 
 //public Sprite[] tiles = new Sprite[100];
 //tiles[id] = Sprite.Create(tilemapTexture, new Rect(x * 32, tilemapTexture.height - y * 32 - 32, 32, 32), new Vector2(0.5f, 0.5f));
-namespace FunkyCode
-{
+namespace FunkyCode {
     public class OcclusionTileset {
         public TileUV[] uv = new TileUV[100];
         public Texture2D texture = null;
@@ -14,24 +13,24 @@ namespace FunkyCode
         public class TileUV {
             public Vector2 uv0 = Vector2.zero;
             public Vector2 uv1 = Vector2.zero;
-            
-            
-            
+
+
+
             public Vector2 uv2 = Vector2.zero;
             public Vector2 uv3 = Vector2.zero;
         }
 
         public enum TileRotation {
-            up, 
-            right, 
-            down, 
+            up,
+            right,
+            down,
             left
         };
 
         public static OcclusionTileset Load(string path) {
             OcclusionTileset tilemap = new OcclusionTileset();
             tilemap.LoadSelf(path);
-            return(tilemap);
+            return (tilemap);
         }
 
         void LoadSelf(string path) {
@@ -48,9 +47,9 @@ namespace FunkyCode
 
             float precisionX = 1f / texture.width;
             float precisionY = 1f / texture.height;
-                
-            for(int y = 0; y < sizeY; y ++) {
-                for(int x = 0; x < sizeX; x ++) {
+
+            for (int y = 0; y < sizeY; y++) {
+                for (int x = 0; x < sizeX; x++) {
                     uv[id] = new TileUV();
 
                     uv[id].uv0.x = x * tileSize;
@@ -66,35 +65,35 @@ namespace FunkyCode
                     uv[id].uv3.y = uv[id].uv0.y + tileSize;
 
                     sprites[id] = Sprite.Create(texture, new Rect(uv[id].uv0.x, uv[id].uv0.y, tileSize, tileSize), new Vector2(0.5f, 0.5f));
-                
+
 
                     uv[id].uv0.x /= texture.width;
-                    uv[id].uv0.y /= texture.height; 
+                    uv[id].uv0.y /= texture.height;
 
                     uv[id].uv1.x /= texture.width;
-                    uv[id].uv1.y /= texture.height; 
+                    uv[id].uv1.y /= texture.height;
 
                     uv[id].uv2.x /= texture.width;
-                    uv[id].uv2.y /= texture.height; 
+                    uv[id].uv2.y /= texture.height;
 
                     uv[id].uv3.x /= texture.width;
-                    uv[id].uv3.y /= texture.height; 
+                    uv[id].uv3.y /= texture.height;
 
                     uv[id].uv0.x += precisionX;
-                    uv[id].uv0.y += precisionY; 
-        
+                    uv[id].uv0.y += precisionY;
+
                     uv[id].uv1.x -= precisionX;
-                    uv[id].uv1.y += precisionY; 
+                    uv[id].uv1.y += precisionY;
 
                     uv[id].uv2.x -= precisionX;
-                    uv[id].uv2.y -= precisionY; 
+                    uv[id].uv2.y -= precisionY;
 
                     uv[id].uv3.x += precisionX;
-                    uv[id].uv3.y -= precisionY; 
+                    uv[id].uv3.y -= precisionY;
 
-                
+
                     id += 1;
-                }  
+                }
             }
         }
     }

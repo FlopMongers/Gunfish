@@ -33,10 +33,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.Distributions
-{
-    public class InverseGaussian : IContinuousDistribution
-    {
+namespace MathNet.Numerics.Distributions {
+    public class InverseGaussian : IContinuousDistribution {
         System.Random _random;
 
         /// <summary>
@@ -55,10 +53,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The mean (μ) of the distribution. Range: μ > 0.</param>
         /// <param name="lambda">The shape (λ) of the distribution. Range: λ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public InverseGaussian(double mu, double lambda, System.Random randomSource = null)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public InverseGaussian(double mu, double lambda, System.Random randomSource = null) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             _random = randomSource ?? SystemRandomSource.Default;
@@ -70,8 +66,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"InverseGaussian(μ = {Mu}, λ = {Lambda})";
         }
 
@@ -80,8 +75,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="mu">The mean (μ) of the distribution. Range: μ > 0.</param>
         /// <param name="lambda">The shape (λ) of the distribution. Range: λ > 0.</param>
-        public static bool IsValidParameterSet(double mu, double lambda)
-        {
+        public static bool IsValidParameterSet(double mu, double lambda) {
             var allFinite = mu.IsFinite() && lambda.IsFinite();
             return allFinite && mu > 0.0 && lambda > 0.0;
         }
@@ -89,8 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -150,8 +143,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the inverse Gaussian distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
+        public double Sample() {
             return SampleUnchecked(_random, Mu, Lambda);
         }
 
@@ -159,8 +151,7 @@ namespace MathNet.Numerics.Distributions
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="values">The array to fill with the samples.</param>
-        public void Samples(double[] values)
-        {
+        public void Samples(double[] values) {
             SamplesUnchecked(_random, values, Mu, Lambda);
         }
 
@@ -168,8 +159,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the inverse Gaussian distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
+        public IEnumerable<double> Samples() {
             return SamplesUnchecked(_random, Mu, Lambda);
         }
 
@@ -180,10 +170,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The mean (μ) of the distribution. Range: μ > 0.</param>
         /// <param name="lambda">The shape (λ) of the distribution. Range: λ > 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double mu, double lambda)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public static double Sample(System.Random rnd, double mu, double lambda) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, mu, lambda);
@@ -196,10 +184,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="mu">The mean (μ) of the distribution. Range: μ > 0.</param>
         /// <param name="lambda">The shape (λ) of the distribution. Range: λ > 0.</param>
-        public static void Samples(System.Random rnd, double[] values, double mu, double lambda)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public static void Samples(System.Random rnd, double[] values, double mu, double lambda) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             SamplesUnchecked(rnd, values, mu, lambda);
@@ -212,47 +198,38 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The mean (μ) of the distribution. Range: μ > 0.</param>
         /// <param name="lambda">The shape (λ) of the distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double mu, double lambda)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public static IEnumerable<double> Samples(System.Random rnd, double mu, double lambda) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(rnd, mu, lambda);
         }
 
-        static double SampleUnchecked(System.Random rnd, double mu, double lambda)
-        {
+        static double SampleUnchecked(System.Random rnd, double mu, double lambda) {
             double v = Normal.Sample(rnd, 0, 1);
             double test = rnd.NextDouble();
             return InverseGaussianSampleImpl(mu, lambda, v, test);
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double mu, double lambda)
-        {
-            if (values.Length == 0)
-            {
+        static void SamplesUnchecked(System.Random rnd, double[] values, double mu, double lambda) {
+            if (values.Length == 0) {
                 return;
             }
             double[] v = new double[values.Length];
             Normal.Samples(rnd, v, 0, 1);
             double[] test = rnd.NextDoubles(values.Length);
-            for (var j = 0; j < values.Length; ++j)
-            {
+            for (var j = 0; j < values.Length; ++j) {
                 values[j] = InverseGaussianSampleImpl(mu, lambda, v[j], test[j]);
             }
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mu, double lambda)
-        {
-            while (true)
-            {
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mu, double lambda) {
+            while (true) {
                 yield return SampleUnchecked(rnd, mu, lambda);
             }
         }
 
-        static double InverseGaussianSampleImpl(double mu, double lambda, double normalSample, double uniformSample)
-        {
+        static double InverseGaussianSampleImpl(double mu, double lambda, double normalSample, double uniformSample) {
             double y = normalSample * normalSample;
             double x = mu + (mu * mu * y) / (2 * lambda) - (mu / (2 * lambda)) * Math.Sqrt(4 * mu * lambda * y + mu * mu * y * y);
             if (uniformSample <= mu / (mu + x))
@@ -267,8 +244,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDF"/>
-        public double Density(double x)
-        {
+        public double Density(double x) {
             return DensityImpl(Mu, Lambda, x);
         }
 
@@ -278,8 +254,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="PDFLn"/>
-        public double DensityLn(double x)
-        {
+        public double DensityLn(double x) {
             return DensityLnImpl(Mu, Lambda, x);
         }
 
@@ -289,8 +264,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CDF"/>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return CumulativeDistributionImpl(Mu, Lambda, x);
         }
 
@@ -299,8 +273,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative distribution function.</param>
         /// <returns>the inverse cumulative distribution at location <paramref name="p"/>.</returns>
-        public double InvCDF(double p)
-        {
+        public double InvCDF(double p) {
             double EquationToSolve(double x) => CumulativeDistribution(x) - p;
             if (!RootFinding.NewtonRaphson.TryFindRoot(EquationToSolve, Density, Mode, 0, double.PositiveInfinity, 1e-8, 100, out double quantile))
                 throw new NonConvergenceException("Numerical estimation of the statistic has failed. The used solver did not succeed in finding a root.");
@@ -315,10 +288,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double mu, double lambda, double x)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public static double PDF(double mu, double lambda, double x) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityImpl(mu, lambda, x);
@@ -332,10 +303,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double mu, double lambda, double x)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public static double PDFLn(double mu, double lambda, double x) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityLnImpl(mu, lambda, x);
@@ -349,10 +318,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double mu, double lambda, double x)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public static double CDF(double mu, double lambda, double x) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return CumulativeDistributionImpl(mu, lambda, x);
@@ -366,10 +333,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The location at which to compute the inverse cumulative distribution function.</param>
         ///  <returns>the inverse cumulative distribution at location <paramref name="p"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double InvCDF(double mu, double lambda, double p)
-        {
-            if (!IsValidParameterSet(mu, lambda))
-            {
+        public static double InvCDF(double mu, double lambda, double p) {
+            if (!IsValidParameterSet(mu, lambda)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             var igDist = new InverseGaussian(mu, lambda);
@@ -382,26 +347,22 @@ namespace MathNet.Numerics.Distributions
         /// <param name="samples">The samples to estimate the distribution parameters from.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>An Inverse Gaussian distribution.</returns>
-        public static InverseGaussian Estimate(IEnumerable<double> samples, System.Random randomSource = null)
-        {
+        public static InverseGaussian Estimate(IEnumerable<double> samples, System.Random randomSource = null) {
             var samplesArray = samples.ToArray();
             var muHat = samplesArray.Mean();
             var lambdaHat = 1 / (1 / samplesArray.HarmonicMean() - 1 / muHat);
             return new InverseGaussian(muHat, lambdaHat, randomSource);
         }
 
-        static double DensityImpl(double mu, double lambda, double x)
-        {
+        static double DensityImpl(double mu, double lambda, double x) {
             return Math.Sqrt(lambda / (2 * Math.PI * Math.Pow(x, 3))) * Math.Exp(-((lambda * Math.Pow(x - mu, 2)) / (2 * mu * mu * x)));
         }
 
-        static double DensityLnImpl(double mu, double lambda, double x)
-        {
+        static double DensityLnImpl(double mu, double lambda, double x) {
             return Math.Log(Math.Sqrt(lambda / (2 * Math.PI * Math.Pow(x, 3)))) - ((lambda * Math.Pow(x - mu, 2)) / (2 * mu * mu * x));
         }
 
-        static double CumulativeDistributionImpl(double mu, double lambda, double x)
-        {
+        static double CumulativeDistributionImpl(double mu, double lambda, double x) {
             return Normal.CDF(0, 1, Math.Sqrt(lambda / x) * (x / mu - 1)) + Math.Exp(2 * lambda / mu) * Normal.CDF(0, 1, -Math.Sqrt(lambda / x) * (x / mu + 1));
         }
     }

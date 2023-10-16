@@ -27,18 +27,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
+using System;
+using System.Linq;
 
-namespace MathNet.Numerics.Statistics.Mcmc
-{
+namespace MathNet.Numerics.Statistics.Mcmc {
     /// <summary>
     /// A hybrid Monte Carlo sampler for multivariate distributions.
     /// </summary>
-    public class HybridMC : HybridMCGeneric<double[]>
-    {
+    public class HybridMC : HybridMCGeneric<double[]> {
         /// <summary>
         /// Number of parameters in the density function.
         /// </summary>
@@ -60,11 +58,9 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// momentum.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When the length of pSdv is not the same as Length.</exception>
-        public double[] MomentumStdDev
-        {
+        public double[] MomentumStdDev {
             get => (double[])_mpSdv.Clone();
-            set
-            {
+            set {
                 CheckVariance(value);
                 _mpSdv = (double[])value.Clone();
             }
@@ -84,10 +80,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Length], SystemRandomSource.Default, Grad)
-        {
-            for (int i = 0; i < _length; i++)
-            {
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Length], SystemRandomSource.Default, Grad) {
+            for (int i = 0; i < _length; i++) {
                 _mpSdv[i] = 1;
             }
         }
@@ -108,8 +102,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the components of the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, SystemRandomSource.Default)
-        {
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, SystemRandomSource.Default) {
         }
 
         /// <summary>
@@ -129,8 +122,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, System.Random randomSource)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, Grad)
-        {
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, Grad) {
         }
 
         /// <summary>
@@ -151,8 +143,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentOutOfRangeException">When the length of pSdv is not the same as x0.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, System.Random randomSource, DiffMethod diff)
-            : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff)
-        {
+            : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff) {
             _length = x0.Length;
             MomentumStdDev = pSdv;
 
@@ -165,8 +156,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Initialize parameters.
         /// </summary>
         /// <param name="x0">The current location of the sampler.</param>
-        void Initialize(double[] x0)
-        {
+        void Initialize(double[] x0) {
             Current = (double[])x0.Clone();
             _pDistribution = new Normal(0.0, 1.0, RandomSource);
         }
@@ -178,18 +168,14 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When the length of pSdv is not the same as Length or if any
         /// component is negative.</exception>
         /// <exception cref="ArgumentNullException">When pSdv is null.</exception>
-        void CheckVariance(double[] pSdv)
-        {
-            if (pSdv == null)
-            {
+        void CheckVariance(double[] pSdv) {
+            if (pSdv == null) {
                 throw new ArgumentNullException(nameof(pSdv), "Standard deviation cannot be null.");
             }
-            if (pSdv.Length != _length)
-            {
+            if (pSdv.Length != _length) {
                 throw new ArgumentOutOfRangeException(nameof(pSdv), "Standard deviation of momentum must have same length as sample.");
             }
-            if (pSdv.Any(sdv => sdv < 0))
-            {
+            if (pSdv.Any(sdv => sdv < 0)) {
                 throw new ArgumentOutOfRangeException(nameof(pSdv), "Standard deviation must be positive.");
             }
         }
@@ -199,8 +185,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="source">The source of copying.</param>
         /// <returns>A copy of the source object.</returns>
-        protected override double[] Copy(double[] source)
-        {
+        protected override double[] Copy(double[] source) {
             var destination = new double[_length];
             Array.Copy(source, 0, destination, 0, _length);
             return destination;
@@ -210,35 +195,28 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Use for creating temporary objects in the Burn method.
         /// </summary>
         /// <returns>An object of type T.</returns>
-        protected override double[] Create()
-        {
+        protected override double[] Create() {
             return new double[_length];
         }
 
         ///<inheritdoc/>
-        protected override void DoAdd(ref double[] first, double factor, double[] second)
-        {
-            for (int i = 0; i < _length; i++)
-            {
+        protected override void DoAdd(ref double[] first, double factor, double[] second) {
+            for (int i = 0; i < _length; i++) {
                 first[i] += factor * second[i];
             }
         }
 
         /// <inheritdoc/>
-        protected override void DoSubtract(ref double[] first, double factor, double[] second)
-        {
-            for (int i = 0; i < _length; i++)
-            {
+        protected override void DoSubtract(ref double[] first, double factor, double[] second) {
+            for (int i = 0; i < _length; i++) {
                 first[i] -= factor * second[i];
             }
         }
 
         /// <inheritdoc/>
-        protected override double DoProduct(double[] first, double[] second)
-        {
+        protected override double DoProduct(double[] first, double[] second) {
             double prod = 0;
-            for (int i = 0; i < _length; i++)
-            {
+            for (int i = 0; i < _length; i++) {
                 prod += first[i] * second[i];
             }
             return prod;
@@ -248,10 +226,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Samples the momentum from a normal distribution.
         /// </summary>
         /// <param name="p">The momentum to be randomized.</param>
-        protected override void RandomizeMomentum(ref double[] p)
-        {
-            for (int j = 0; j < _length; j++)
-            {
+        protected override void RandomizeMomentum(ref double[] p) {
+            for (int j = 0; j < _length; j++) {
                 p[j] = _mpSdv[j] * _pDistribution.Sample();
             }
         }
@@ -262,8 +238,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="function">Function which the gradient is to be evaluated.</param>
         /// <param name="x">The location where the gradient is to be evaluated.</param>
         /// <returns>The gradient of the function at the point x.</returns>
-        static double[] Grad(DensityLn<double[]> function, double[] x)
-        {
+        static double[] Grad(DensityLn<double[]> function, double[] x) {
             int length = x.Length;
             var returnValue = new double[length];
             var increment = new double[length];
@@ -272,8 +247,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             Array.Copy(x, 0, increment, 0, length);
             Array.Copy(x, 0, decrement, 0, length);
 
-            for (int i = 0; i < length; i++)
-            {
+            for (int i = 0; i < length; i++) {
                 double y = x[i];
                 double h = Math.Max(10e-4, (10e-7) * y);
                 increment[i] += h;

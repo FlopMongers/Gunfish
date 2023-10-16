@@ -27,13 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Runtime;
+using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// Wichmann-Hill’s 2006 combined multiplicative congruential generator.
     /// </summary>
@@ -42,16 +41,15 @@ namespace MathNet.Numerics.Random
     /// </remarks>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
-    public class WH2006 : RandomSource
-    {
+    public class WH2006 : RandomSource {
         const uint Modw = 2147483123;
-        const double ModwRecip = 1.0/Modw;
+        const double ModwRecip = 1.0 / Modw;
         const uint Modx = 2147483579;
-        const double ModxRecip = 1.0/Modx;
+        const double ModxRecip = 1.0 / Modx;
         const uint Mody = 2147483543;
-        const double ModyRecip = 1.0/Mody;
+        const double ModyRecip = 1.0 / Mody;
         const uint Modz = 2147483423;
-        const double ModzRecip = 1.0/Modz;
+        const double ModzRecip = 1.0 / Modz;
 
         [DataMember(Order = 1)]
         ulong _wn = 1;
@@ -66,8 +64,7 @@ namespace MathNet.Numerics.Random
         /// Initializes a new instance of the <see cref="WH2006"/> class using
         /// a seed based on time and unique GUIDs.
         /// </summary>
-        public WH2006() : this(RandomSeed.Robust())
-        {
+        public WH2006() : this(RandomSeed.Robust()) {
         }
 
         /// <summary>
@@ -75,8 +72,7 @@ namespace MathNet.Numerics.Random
         /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public WH2006(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
-        {
+        public WH2006(bool threadSafe) : this(RandomSeed.Robust(), threadSafe) {
         }
 
         /// <summary>
@@ -86,14 +82,12 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public WH2006(int seed)
-        {
-            if (seed == 0)
-            {
+        public WH2006(int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
-            _xn = (uint)seed%Modx;
+            _xn = (uint)seed % Modx;
         }
 
         /// <summary>
@@ -102,27 +96,24 @@ namespace MathNet.Numerics.Random
         /// <param name="seed">The seed value.</param>
         /// <remarks>The seed is set to 1, if the zero is used as the seed.</remarks>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public WH2006(int seed, bool threadSafe) : base(threadSafe)
-        {
-            if (seed == 0)
-            {
+        public WH2006(int seed, bool threadSafe) : base(threadSafe) {
+            if (seed == 0) {
                 seed = 1;
             }
 
-            _xn = (uint)seed%Modx;
+            _xn = (uint)seed % Modx;
         }
 
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
-        {
-            _xn = 11600*_xn%Modx;
-            _yn = 47003*_yn%Mody;
-            _zn = 23000*_zn%Modz;
-            _wn = 33000*_wn%Modw;
+        protected sealed override double DoSample() {
+            _xn = 11600 * _xn % Modx;
+            _yn = 47003 * _yn % Mody;
+            _zn = 23000 * _zn % Modz;
+            _wn = 33000 * _wn % Modw;
 
-            double u = _xn*ModxRecip + _yn*ModyRecip + _zn*ModzRecip + _wn*ModwRecip;
+            double u = _xn * ModxRecip + _yn * ModyRecip + _zn * ModzRecip + _wn * ModwRecip;
             u -= (int)u;
             return u;
         }
@@ -131,26 +122,23 @@ namespace MathNet.Numerics.Random
         /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static void Doubles(double[] values, int seed)
-        {
-            if (seed == 0)
-            {
+        public static void Doubles(double[] values, int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
             ulong wn = 1;
-            ulong xn = (uint)seed%Modx;
+            ulong xn = (uint)seed % Modx;
             ulong yn = 1;
             ulong zn = 1;
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                xn = 11600*xn%Modx;
-                yn = 47003*yn%Mody;
-                zn = 23000*zn%Modz;
-                wn = 33000*wn%Modw;
+            for (int i = 0; i < values.Length; i++) {
+                xn = 11600 * xn % Modx;
+                yn = 47003 * yn % Mody;
+                zn = 23000 * zn % Modz;
+                wn = 33000 * wn % Modw;
 
-                double u = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip + wn*ModwRecip;
+                double u = xn * ModxRecip + yn * ModyRecip + zn * ModzRecip + wn * ModwRecip;
                 values[i] = u - (int)u;
             }
         }
@@ -160,8 +148,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length, int seed)
-        {
+        public static double[] Doubles(int length, int seed) {
             var data = new double[length];
             Doubles(data, seed);
             return data;
@@ -171,26 +158,23 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> DoubleSequence(int seed)
-        {
-            if (seed == 0)
-            {
+        public static IEnumerable<double> DoubleSequence(int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
             ulong wn = 1;
-            ulong xn = (uint)seed%Modx;
+            ulong xn = (uint)seed % Modx;
             ulong yn = 1;
             ulong zn = 1;
 
-            while (true)
-            {
-                xn = 11600*xn%Modx;
-                yn = 47003*yn%Mody;
-                zn = 23000*zn%Modz;
-                wn = 33000*wn%Modw;
+            while (true) {
+                xn = 11600 * xn % Modx;
+                yn = 47003 * yn % Mody;
+                zn = 23000 * zn % Modz;
+                wn = 33000 * wn % Modw;
 
-                double u = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip + wn*ModwRecip;
+                double u = xn * ModxRecip + yn * ModyRecip + zn * ModzRecip + wn * ModwRecip;
                 yield return u - (int)u;
             }
         }

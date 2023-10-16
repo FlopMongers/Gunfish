@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using FunkyCode.LightTilemapCollider;
+﻿using FunkyCode.LightTilemapCollider;
 using FunkyCode.Utilities;
+using System.Collections.Generic;
+using UnityEngine;
 
 #if (SUPER_TILEMAP_EDITOR)
 
@@ -265,4 +265,4 @@ using CreativeSpore.SuperTilemapEditor;
         }
     }
 
- #endif
+#endif

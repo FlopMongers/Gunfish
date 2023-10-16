@@ -1,167 +1,142 @@
-﻿using UnityEngine;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	public class LightingRender2D
-	{
-		public static Mesh preRenderMesh = null;
+namespace FunkyCode {
+    public class LightingRender2D {
+        public static Mesh preRenderMesh = null;
 
-		public static Mesh GetMesh()
-		{
-			if (preRenderMesh == null)
-			{
-				Mesh mesh = new Mesh();
+        public static Mesh GetMesh() {
+            if (preRenderMesh == null) {
+                Mesh mesh = new Mesh();
 
-				mesh.vertices = new Vector3[]{new Vector3(-1, -1), new Vector3(1, -1), new Vector3(1, 1), new Vector3(-1, 1)};
-				mesh.triangles = new int[]{2, 1, 0, 0, 3, 2};
-				mesh.uv = new Vector2[]{new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1)};
+                mesh.vertices = new Vector3[] { new Vector3(-1, -1), new Vector3(1, -1), new Vector3(1, 1), new Vector3(-1, 1) };
+                mesh.triangles = new int[] { 2, 1, 0, 0, 3, 2 };
+                mesh.uv = new Vector2[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1) };
 
-				preRenderMesh = mesh;
-			}
-			return(preRenderMesh);
-		}
+                preRenderMesh = mesh;
+            }
+            return (preRenderMesh);
+        }
 
-		static public Vector2Int GetTextureSize(LightingSourceTextureSize textureSize)
-		{
-			switch(textureSize)
-			{
-				case LightingSourceTextureSize.PixelPerfect:
-					return(new Vector2Int(Screen.width, Screen.height));
+        static public Vector2Int GetTextureSize(LightingSourceTextureSize textureSize) {
+            switch (textureSize) {
+                case LightingSourceTextureSize.PixelPerfect:
+                    return (new Vector2Int(Screen.width, Screen.height));
 
-				case LightingSourceTextureSize.px2048:
-					return(new Vector2Int(2048, 2048));
+                case LightingSourceTextureSize.px2048:
+                    return (new Vector2Int(2048, 2048));
 
-				case LightingSourceTextureSize.px1024:
-					return(new Vector2Int(1024, 1024));
+                case LightingSourceTextureSize.px1024:
+                    return (new Vector2Int(1024, 1024));
 
-				case LightingSourceTextureSize.px512:
-					return(new Vector2Int(512, 512));
+                case LightingSourceTextureSize.px512:
+                    return (new Vector2Int(512, 512));
 
-				case LightingSourceTextureSize.px256:
-					return(new Vector2Int(256, 256));
-				
-				default:
-					return(new Vector2Int(128, 128));
-			}
-		}
+                case LightingSourceTextureSize.px256:
+                    return (new Vector2Int(256, 256));
 
-		public static Vector3 GetSize(Camera camera)
-		{
-			float sizeY = camera.orthographicSize;
+                default:
+                    return (new Vector2Int(128, 128));
+            }
+        }
 
-			Vector3 size = new Vector2(sizeY, sizeY);
-			
-			size.x *= ((float)camera.pixelRect.width / (float)camera.pixelRect.height);
-			size.x *= (((float)camera.pixelRect.width + 1f) / camera.pixelRect.width);
+        public static Vector3 GetSize(Camera camera) {
+            float sizeY = camera.orthographicSize;
 
-			size.y *= (((float)camera.pixelRect.height + 1f) / camera.pixelRect.height);
-			
-			size.z = 1;
+            Vector3 size = new Vector2(sizeY, sizeY);
 
-			return(size);
-		}
+            size.x *= ((float)camera.pixelRect.width / (float)camera.pixelRect.height);
+            size.x *= (((float)camera.pixelRect.width + 1f) / camera.pixelRect.width);
 
-		// post-render mode drawing
-		public static void PostRender(LightMainBuffer2D mainBuffer)
-		{
-			Camera camera = mainBuffer.cameraSettings.GetCamera();
+            size.y *= (((float)camera.pixelRect.height + 1f) / camera.pixelRect.height);
 
-			if (camera == null)
-			{
-				return;
-			}
+            size.z = 1;
 
-			if (mainBuffer.cameraLightmap.rendering == CameraLightmap.Rendering.Disabled)
-			{
-				return;
-			}
+            return (size);
+        }
 
-			if (Lighting2D.RenderingMode != RenderingMode.OnPostRender)
-			{
-				return;
-			}
+        // post-render mode drawing
+        public static void PostRender(LightMainBuffer2D mainBuffer) {
+            Camera camera = mainBuffer.cameraSettings.GetCamera();
 
-			if (Camera.current != camera)
-			{
-				return;
-			}
+            if (camera == null) {
+                return;
+            }
 
-			Rendering.Universal.Texture.Quad.Draw(mainBuffer.GetMaterial(), LightingPosition.GetCameraPlanePosition(camera), GetSize(camera), camera.transform.eulerAngles.z, LightingPosition.GetCameraPlanePosition(camera).z);
-		}
+            if (mainBuffer.cameraLightmap.rendering == CameraLightmap.Rendering.Disabled) {
+                return;
+            }
 
-		// mesh-render mode drawing
-		static public void OnRender(LightMainBuffer2D mainBuffer)
-		{
-			Camera camera = mainBuffer.cameraSettings.GetCamera();
+            if (Lighting2D.RenderingMode != RenderingMode.OnPostRender) {
+                return;
+            }
 
-			if (camera == null)
-			{
-				return;
-			}
+            if (Camera.current != camera) {
+                return;
+            }
 
-			if (mainBuffer.cameraLightmap.rendering == CameraLightmap.Rendering.Disabled)
-			{
-				return;
-			}
+            Rendering.Universal.Texture.Quad.Draw(mainBuffer.GetMaterial(), LightingPosition.GetCameraPlanePosition(camera), GetSize(camera), camera.transform.eulerAngles.z, LightingPosition.GetCameraPlanePosition(camera).z);
+        }
 
-			if (Lighting2D.RenderingMode != RenderingMode.OnRender)
-			{
-				return;
-			}
-			
-			OnRenderMode onRenderMode = OnRenderMode.Get(mainBuffer);
+        // mesh-render mode drawing
+        static public void OnRender(LightMainBuffer2D mainBuffer) {
+            Camera camera = mainBuffer.cameraSettings.GetCamera();
 
-			if (onRenderMode == null)
-			{
-				return;
-			}
-			
-			onRenderMode.UpdatePosition();
+            if (camera == null) {
+                return;
+            }
 
-			if (onRenderMode.meshRenderer != null)
-			{
-				if (mainBuffer.cameraLightmap.rendering!= CameraLightmap.Rendering.Enabled)
-				{
-					onRenderMode.meshRenderer.enabled = false;
-					return;
-				}
+            if (mainBuffer.cameraLightmap.rendering == CameraLightmap.Rendering.Disabled) {
+                return;
+            }
 
-				onRenderMode.meshRenderer.enabled = true;
-				
-				if (onRenderMode.meshRenderer.sharedMaterial != mainBuffer.GetMaterial())
-				{
-					onRenderMode.meshRenderer.sharedMaterial = mainBuffer.GetMaterial();
-				}
-				
-				if (onRenderMode.meshRenderer.sharedMaterial == null)
-				{
-					onRenderMode.meshRenderer.sharedMaterial = mainBuffer.GetMaterial();
-				}
-			}
-		}
+            if (Lighting2D.RenderingMode != RenderingMode.OnRender) {
+                return;
+            }
 
-		// graphics.draw() mode drawing
-		static public void PreRender(LightMainBuffer2D mainBuffer)
-		{
-			Camera camera = mainBuffer.cameraSettings.GetCamera();
+            OnRenderMode onRenderMode = OnRenderMode.Get(mainBuffer);
 
-			if (camera == null)
-			{
-				return;
-			}
+            if (onRenderMode == null) {
+                return;
+            }
 
-			if (mainBuffer.cameraLightmap.rendering == CameraLightmap.Rendering.Disabled)
-			{
-				return;
-			}
+            onRenderMode.UpdatePosition();
 
-			if (Lighting2D.RenderingMode != RenderingMode.OnPreRender)
-			{
-				return;
-			}
+            if (onRenderMode.meshRenderer != null) {
+                if (mainBuffer.cameraLightmap.rendering != CameraLightmap.Rendering.Enabled) {
+                    onRenderMode.meshRenderer.enabled = false;
+                    return;
+                }
 
-			Graphics.DrawMesh(LightingRender2D.GetMesh(), Matrix4x4.TRS(LightingPosition.GetCameraPlanePosition(camera), camera.transform.rotation, GetSize(camera)), mainBuffer.GetMaterial(), 0, camera);
-		}
-	}
+                onRenderMode.meshRenderer.enabled = true;
+
+                if (onRenderMode.meshRenderer.sharedMaterial != mainBuffer.GetMaterial()) {
+                    onRenderMode.meshRenderer.sharedMaterial = mainBuffer.GetMaterial();
+                }
+
+                if (onRenderMode.meshRenderer.sharedMaterial == null) {
+                    onRenderMode.meshRenderer.sharedMaterial = mainBuffer.GetMaterial();
+                }
+            }
+        }
+
+        // graphics.draw() mode drawing
+        static public void PreRender(LightMainBuffer2D mainBuffer) {
+            Camera camera = mainBuffer.cameraSettings.GetCamera();
+
+            if (camera == null) {
+                return;
+            }
+
+            if (mainBuffer.cameraLightmap.rendering == CameraLightmap.Rendering.Disabled) {
+                return;
+            }
+
+            if (Lighting2D.RenderingMode != RenderingMode.OnPreRender) {
+                return;
+            }
+
+            Graphics.DrawMesh(LightingRender2D.GetMesh(), Matrix4x4.TRS(LightingPosition.GetCameraPlanePosition(camera), camera.transform.rotation, GetSize(camera)), mainBuffer.GetMaterial(), 0, camera);
+        }
+    }
 }

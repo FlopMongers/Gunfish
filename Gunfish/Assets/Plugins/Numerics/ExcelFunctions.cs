@@ -27,52 +27,44 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
+using System;
 using System.Runtime;
 
 // ReSharper disable InconsistentNaming
 
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// Collection of functions equivalent to those provided by Microsoft Excel
     /// but backed instead by Math.NET Numerics.
     /// We do not recommend to use them except in an intermediate phase when
     /// porting over solutions previously implemented in Excel.
     /// </summary>
-    public static class ExcelFunctions
-    {
+    public static class ExcelFunctions {
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double NormSDist(double z)
-        {
+        public static double NormSDist(double z) {
             return Normal.CDF(0d, 1d, z);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double NormSInv(double probability)
-        {
+        public static double NormSInv(double probability) {
             return Normal.InvCDF(0d, 1d, probability);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double NormDist(double x, double mean, double standardDev, bool cumulative)
-        {
+        public static double NormDist(double x, double mean, double standardDev, bool cumulative) {
             return cumulative ? Normal.CDF(mean, standardDev, x) : Normal.PDF(mean, standardDev, x);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double NormInv(double probability, double mean, double standardDev)
-        {
+        public static double NormInv(double probability, double mean, double standardDev) {
             return Normal.InvCDF(mean, standardDev, probability);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double TDist(double x, int degreesFreedom, int tails)
-        {
-            switch (tails)
-            {
+        public static double TDist(double x, int degreesFreedom, int tails) {
+            switch (tails) {
                 case 1:
                     return 1d - StudentT.CDF(0d, 1d, degreesFreedom, x);
                 case 2:
@@ -83,52 +75,43 @@ namespace MathNet.Numerics
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double TInv(double probability, int degreesFreedom)
-        {
-            return -StudentT.InvCDF(0d, 1d, degreesFreedom, probability/2);
+        public static double TInv(double probability, int degreesFreedom) {
+            return -StudentT.InvCDF(0d, 1d, degreesFreedom, probability / 2);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double FDist(double x, int degreesFreedom1, int degreesFreedom2)
-        {
+        public static double FDist(double x, int degreesFreedom1, int degreesFreedom2) {
             return 1d - FisherSnedecor.CDF(degreesFreedom1, degreesFreedom2, x);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double FInv(double probability, int degreesFreedom1, int degreesFreedom2)
-        {
+        public static double FInv(double probability, int degreesFreedom1, int degreesFreedom2) {
             return FisherSnedecor.InvCDF(degreesFreedom1, degreesFreedom2, 1d - probability);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double BetaDist(double x, double alpha, double beta)
-        {
+        public static double BetaDist(double x, double alpha, double beta) {
             return Beta.CDF(alpha, beta, x);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double BetaInv(double probability, double alpha, double beta)
-        {
+        public static double BetaInv(double probability, double alpha, double beta) {
             return Beta.InvCDF(alpha, beta, probability);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double GammaDist(double x, double alpha, double beta, bool cumulative)
-        {
-            return cumulative ? Gamma.CDF(alpha, 1/beta, x) : Gamma.PDF(alpha, 1/beta, x);
+        public static double GammaDist(double x, double alpha, double beta, bool cumulative) {
+            return cumulative ? Gamma.CDF(alpha, 1 / beta, x) : Gamma.PDF(alpha, 1 / beta, x);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double GammaInv(double probability, double alpha, double beta)
-        {
-            return Gamma.InvCDF(alpha, 1/beta, probability);
+        public static double GammaInv(double probability, double alpha, double beta) {
+            return Gamma.InvCDF(alpha, 1 / beta, probability);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double Quartile(double[] array, int quant)
-        {
-            switch (quant)
-            {
+        public static double Quartile(double[] array, int quant) {
+            switch (quant) {
                 case 0:
                     return ArrayStatistics.Minimum(array);
                 case 1:
@@ -145,14 +128,12 @@ namespace MathNet.Numerics
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double Percentile(double[] array, double k)
-        {
+        public static double Percentile(double[] array, double k) {
             return array.QuantileCustom(k, QuantileDefinition.Excel);
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double PercentRank(double[] array, double x)
-        {
+        public static double PercentRank(double[] array, double x) {
             return array.QuantileRank(x, RankDefinition.Min);
         }
     }

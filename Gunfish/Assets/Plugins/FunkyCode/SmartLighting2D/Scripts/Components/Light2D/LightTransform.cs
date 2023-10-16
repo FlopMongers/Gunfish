@@ -1,162 +1,142 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode
-{
-	public class LightTransform
-	{
-		private bool update = true;
-		
-		public bool UpdateNeeded => update;
+namespace FunkyCode {
+    public class LightTransform {
+        private bool update = true;
 
-		public Vector2 position = Vector2.zero;
-		public float rotation = 0f;
-		private float size = 0f;
-		private float spotAngleInner = 360;
-		private float spotAngleOuter = 360;
+        public bool UpdateNeeded => update;
+
+        public Vector2 position = Vector2.zero;
+        public float rotation = 0f;
+        private float size = 0f;
+        private float spotAngleInner = 360;
+        private float spotAngleOuter = 360;
 
 
-		private float outerAngle = 15;
+        private float outerAngle = 15;
 
-		private Color color = Color.white;
+        private Color color = Color.white;
 
-		private Sprite sprite;
-		private bool flipX = false;
-		private bool flipY = false;
+        private Sprite sprite;
+        private bool flipX = false;
+        private bool flipY = false;
 
-		private float normalIntensity = 1;
-		private float normalDepth = 1;
+        private float normalIntensity = 1;
+        private float normalDepth = 1;
 
-		public Rect WorldRect = new Rect();
+        public Rect WorldRect = new Rect();
 
-		public void ForceUpdate()
-		{
-			update = true;
-		}
+        public void ForceUpdate() {
+            update = true;
+        }
 
-		public void ClearUpdate() {
-			update = false;
-		}
+        public void ClearUpdate() {
+            update = false;
+        }
 
-		public void Update(Light2D light)
-		{
-			if (light.gameObject == null)
-			{
-				return;
-			}
+        public void Update(Light2D light) {
+            if (light.gameObject == null) {
+                return;
+            }
 
-			if (light.transform == null)
-			{
-				return;
-			}
-			
-			Transform transform = light.transform;
+            if (light.transform == null) {
+                return;
+            }
 
-			Vector2 position2D = LightingPosition.GetPosition2D(transform.position);
+            Transform transform = light.transform;
 
-			float rotation2D = 0;
+            Vector2 position2D = LightingPosition.GetPosition2D(transform.position);
 
-			switch(light.applyRotation)
-			{
-				case Light2D.Rotation.Local:
+            float rotation2D = 0;
 
-					rotation2D = transform.localRotation.eulerAngles.z;
-			
-				break;
+            switch (light.applyRotation) {
+                case Light2D.Rotation.Local:
 
-				case Light2D.Rotation.World:
-			
-					rotation2D = transform.rotation.eulerAngles.z;
-			
-				break;
-			}
-			
-			if (position != position2D)
-			{
-				position = position2D;
+                    rotation2D = transform.localRotation.eulerAngles.z;
 
-				update = true;
-			}
+                    break;
 
-			if (rotation != rotation2D)
-			{
-				rotation = rotation2D;
+                case Light2D.Rotation.World:
 
-				update = true;
-			}
+                    rotation2D = transform.rotation.eulerAngles.z;
 
-			if (size != light.size)
-			{
-				size = light.size;
+                    break;
+            }
 
-				update = true;
-			}
+            if (position != position2D) {
+                position = position2D;
 
-			if (sprite != light.sprite)
-			{
-				sprite = light.sprite;
+                update = true;
+            }
 
-				update = true;
-			}
+            if (rotation != rotation2D) {
+                rotation = rotation2D;
 
-			if (flipX != light.spriteFlipX)
-			{
-				flipX = light.spriteFlipX;
+                update = true;
+            }
 
-				update = true;
-			}
+            if (size != light.size) {
+                size = light.size;
 
-			if (flipY != light.spriteFlipY)
-			{
-				flipY = light.spriteFlipY;
+                update = true;
+            }
 
-				update = true;
-			}
+            if (sprite != light.sprite) {
+                sprite = light.sprite;
 
-			if (spotAngleInner != light.spotAngleInner)
-			{
-				spotAngleInner = light.spotAngleInner;
+                update = true;
+            }
 
-				update = true;
-			}
+            if (flipX != light.spriteFlipX) {
+                flipX = light.spriteFlipX;
 
-			if (spotAngleOuter != light.spotAngleOuter)
-			{
-				spotAngleOuter = light.spotAngleOuter;
+                update = true;
+            }
 
-				update = true;
-			}
-			
-			if (outerAngle != light.outerAngle)
-			{
-				outerAngle = light.outerAngle;
+            if (flipY != light.spriteFlipY) {
+                flipY = light.spriteFlipY;
 
-				update = true;
-			}
-			
-			if (normalIntensity != light.bumpMap.intensity)
-			{
-				normalIntensity = light.bumpMap.intensity;
+                update = true;
+            }
 
-				update = true;
-			}
+            if (spotAngleInner != light.spotAngleInner) {
+                spotAngleInner = light.spotAngleInner;
 
-			if (normalDepth != light.bumpMap.depth)
-			{
-				normalDepth = light.bumpMap.depth;
+                update = true;
+            }
 
-				update = true;
-			}
+            if (spotAngleOuter != light.spotAngleOuter) {
+                spotAngleOuter = light.spotAngleOuter;
 
-			if (update)
-			{
-				WorldRect = new Rect(position.x - size, position.y - size, size * 2, size * 2);
-			}
-			
-			// no need to update for color and alpha
-			if (color != light.color)
-			{
-				color = light.color;
-			}
-		}
-	}
+                update = true;
+            }
+
+            if (outerAngle != light.outerAngle) {
+                outerAngle = light.outerAngle;
+
+                update = true;
+            }
+
+            if (normalIntensity != light.bumpMap.intensity) {
+                normalIntensity = light.bumpMap.intensity;
+
+                update = true;
+            }
+
+            if (normalDepth != light.bumpMap.depth) {
+                normalDepth = light.bumpMap.depth;
+
+                update = true;
+            }
+
+            if (update) {
+                WorldRect = new Rect(position.x - size, position.y - size, size * 2, size * 2);
+            }
+
+            // no need to update for color and alpha
+            if (color != light.color) {
+                color = light.color;
+            }
+        }
+    }
 }

@@ -6,182 +6,162 @@
 
 //#endif
 
-namespace FunkyCode
-{
-	[System.Serializable]
-	public struct CameraSettings
-	{
-		public enum CameraType
-		{
-			MainCamera,
-			Custom,
-			SceneView
-		};
+namespace FunkyCode {
+    [System.Serializable]
+    public struct CameraSettings {
+        public enum CameraType {
+            MainCamera,
+            Custom,
+            SceneView
+        };
 
-		public static int initCount = 0;
+        public static int initCount = 0;
 
-		public int id;
+        public int id;
 
-		[SerializeField]
-		private CameraLightmap[] lightmaps;
+        [SerializeField]
+        private CameraLightmap[] lightmaps;
 
-		public CameraLightmap[] Lightmaps
-		{
-			get
-			{
-				if (lightmaps == null)
-				{
-					lightmaps = new CameraLightmap[1];
+        public CameraLightmap[] Lightmaps {
+            get {
+                if (lightmaps == null) {
+                    lightmaps = new CameraLightmap[1];
 
-					var manager = LightingManager2D.Get();
-					var cameras = manager.cameras;
+                    var manager = LightingManager2D.Get();
+                    var cameras = manager.cameras;
 
-					cameras.Set(id, this);
-				}
+                    cameras.Set(id, this);
+                }
 
-				return(lightmaps);
-			}
+                return (lightmaps);
+            }
 
-			set => lightmaps = value;
-		}
+            set => lightmaps = value;
+        }
 
-		public CameraLightmap GetLightmap(int index)
-		{
-			var buffer = lightmaps[index];
-			buffer.id = index;
-			return(buffer);
-		}
+        public CameraLightmap GetLightmap(int index) {
+            var buffer = lightmaps[index];
+            buffer.id = index;
+            return (buffer);
+        }
 
-		public CameraType cameraType;
-		public Camera customCamera;
+        public CameraType cameraType;
+        public Camera customCamera;
 
-		public string GetTypeName()
-		{
-			switch(cameraType)
-			{
-				case CameraType.SceneView:
+        public string GetTypeName() {
+            switch (cameraType) {
+                case CameraType.SceneView:
 
-					return("Scene View");
+                    return ("Scene View");
 
-				case CameraType.MainCamera:
+                case CameraType.MainCamera:
 
-					return("Main Camera Tag");
+                    return ("Main Camera Tag");
 
-				case CameraType.Custom:
+                case CameraType.Custom:
 
-					return("Custom");
+                    return ("Custom");
 
-				default:
+                default:
 
-					return("Unknown");
-			}
-		}
+                    return ("Unknown");
+            }
+        }
 
-		public int GetLayerId(int bufferId)
-		{
-			var lightmap = GetLightmap(bufferId);
+        public int GetLayerId(int bufferId) {
+            var lightmap = GetLightmap(bufferId);
 
-			if (lightmap.overlayLayerType == CameraLightmap.OverlayLayerType.UnityLayer)
-			{
-				return lightmap.renderLayerId;
-			}
-			else
-			{
-				var camera = GetCamera();
+            if (lightmap.overlayLayerType == CameraLightmap.OverlayLayerType.UnityLayer) {
+                return lightmap.renderLayerId;
+            }
+            else {
+                var camera = GetCamera();
 
-				if (camera != null && cameraType == CameraType.SceneView)
-				{
-					return Lighting2D.ProjectSettings.editorView.sceneViewLayer;
-				}
-				else
-				{
-					return Lighting2D.ProjectSettings.editorView.gameViewLayer;
-				}
-			}
-		}
+                if (camera != null && cameraType == CameraType.SceneView) {
+                    return Lighting2D.ProjectSettings.editorView.sceneViewLayer;
+                }
+                else {
+                    return Lighting2D.ProjectSettings.editorView.gameViewLayer;
+                }
+            }
+        }
 
-		public CameraSettings(int id)
-		{
-			this.id = id;
+        public CameraSettings(int id) {
+            this.id = id;
 
-			cameraType = CameraType.MainCamera;
+            cameraType = CameraType.MainCamera;
 
-			customCamera = null;
-			
-			lightmaps = new CameraLightmap[1];
+            customCamera = null;
 
-			lightmaps[0] = new CameraLightmap(0);
+            lightmaps = new CameraLightmap[1];
 
-			initCount ++;
-		}
+            lightmaps[0] = new CameraLightmap(0);
 
-		public Camera GetCamera()
-		{
-			Camera camera = null;
+            initCount++;
+        }
 
-			switch(cameraType)
-			{
-				case CameraType.MainCamera:
+        public Camera GetCamera() {
+            Camera camera = null;
 
-					camera = Camera.main;
-					if (camera && !camera.orthographic)
-							return null;
+            switch (cameraType) {
+                case CameraType.MainCamera:
 
-					return(camera);
+                    camera = Camera.main;
+                    if (camera && !camera.orthographic)
+                        return null;
 
-				case CameraType.Custom:
-					camera = customCamera;
-					if (camera && !camera.orthographic)
-						return null;
-				
-					return(customCamera);
+                    return (camera);
 
-				case CameraType.SceneView:
-				
-					#if UNITY_EDITOR
+                case CameraType.Custom:
+                    camera = customCamera;
+                    if (camera && !camera.orthographic)
+                        return null;
 
-						var sceneView = UnityEditor.SceneView.lastActiveSceneView;
+                    return (customCamera);
 
-						if (sceneView != null)
-						{
-							camera = sceneView.camera; // .GetComponent<Camera>();
+                case CameraType.SceneView:
 
-							#if UNITY_2019_1_OR_NEWER
-							
-								if (!UnityEditor.SceneView.lastActiveSceneView.sceneLighting)
-								{
-									camera = null;
-								}
+#if UNITY_EDITOR
 
-							#else
+                    var sceneView = UnityEditor.SceneView.lastActiveSceneView;
+
+                    if (sceneView != null) {
+                        camera = sceneView.camera; // .GetComponent<Camera>();
+
+#if UNITY_2019_1_OR_NEWER
+
+                        if (!UnityEditor.SceneView.lastActiveSceneView.sceneLighting) {
+                            camera = null;
+                        }
+
+#else
 							
 								if (!UnityEditor.SceneView.lastActiveSceneView.m_SceneLighting)
 								{
 									camera = null;
 								}
 
-							#endif
-						}
-		
-						if (camera != null && !camera.orthographic)
-							camera = null;
+#endif
+                    }
 
-						return camera;
+                    if (camera != null && !camera.orthographic)
+                        camera = null;
 
-					#else
+                    return camera;
+
+#else
 					
 						return null;
 
-					#endif
-					
-			}
+#endif
 
-			return null;
-		}
+            }
 
-		public override int GetHashCode()
-		{
-			return this.GetHashCode();
-		}
-	}
+            return null;
+        }
+
+        public override int GetHashCode() {
+            return this.GetHashCode();
+        }
+    }
 }

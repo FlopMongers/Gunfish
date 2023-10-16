@@ -27,13 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation
-{
+namespace MathNet.Numerics.Interpolation {
     /// <summary>
     /// Interpolation within the range of a discrete set of known data points.
     /// </summary>
-    public interface IInterpolation
-    {
+    public interface IInterpolation {
         /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>

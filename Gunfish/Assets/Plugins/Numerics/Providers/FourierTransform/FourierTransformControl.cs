@@ -29,10 +29,8 @@
 
 using System;
 
-namespace MathNet.Numerics.Providers.FourierTransform
-{
-    public static class FourierTransformControl
-    {
+namespace MathNet.Numerics.Providers.FourierTransform {
+    public static class FourierTransformControl {
         const string EnvVarFFTProvider = "MathNetNumericsFFTProvider";
 
         static IFourierTransformProvider _fourierTransformProvider;
@@ -53,16 +51,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Gets or sets the Fourier transform provider. Consider to use UseNativeMKL or UseManaged instead.
         /// </summary>
         /// <value>The linear algebra provider.</value>
-        public static IFourierTransformProvider Provider
-        {
-            get
-            {
-                if (_fourierTransformProvider == null)
-                {
-                    lock (StaticLock)
-                    {
-                        if (_fourierTransformProvider == null)
-                        {
+        public static IFourierTransformProvider Provider {
+            get {
+                if (_fourierTransformProvider == null) {
+                    lock (StaticLock) {
+                        if (_fourierTransformProvider == null) {
                             UseDefault();
                         }
                     }
@@ -70,8 +63,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
                 return _fourierTransformProvider;
             }
-            set
-            {
+            set {
                 value.InitializeVerify();
 
                 // only actually set if verification did not throw
@@ -88,30 +80,24 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Try to use a native provider, if available.
         /// </summary>
-        public static bool TryUseNative()
-        {
-            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
-            {
+        public static bool TryUseNative() {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing) {
                 return false;
             }
 
             return TryUseNativeMKL();
         }
 
-        public static bool TryUse(IFourierTransformProvider provider)
-        {
-            try
-            {
-                if (provider == null || !provider.IsAvailable())
-                {
+        public static bool TryUse(IFourierTransformProvider provider) {
+            try {
+                if (provider == null || !provider.IsAvailable()) {
                     return false;
                 }
 
                 Provider = provider;
                 return true;
             }
-            catch
-            {
+            catch {
                 // intentionally swallow exceptions here - use the explicit variants if you're interested in why
                 return false;
             }
@@ -120,16 +106,13 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Use the best provider available.
         /// </summary>
-        public static void UseBest()
-        {
-            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
-            {
+        public static void UseBest() {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing) {
                 UseManaged();
                 return;
             }
 
-            if (!TryUseNative())
-            {
+            if (!TryUseNative()) {
                 UseManaged();
             }
         }
@@ -139,17 +122,14 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// "MathNetNumericsFFTProvider" environment variable,
         /// or fall back to the best provider.
         /// </summary>
-        public static void UseDefault()
-        {
-            if (AppSwitches.DisableNativeProviders)
-            {
+        public static void UseDefault() {
+            if (AppSwitches.DisableNativeProviders) {
                 UseManaged();
                 return;
             }
 
             var value = Environment.GetEnvironmentVariable(EnvVarFFTProvider);
-            switch (value != null ? value.ToUpperInvariant() : string.Empty)
-            {
+            switch (value != null ? value.ToUpperInvariant() : string.Empty) {
 
                 case "MKL":
                     UseNativeMKL();

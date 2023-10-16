@@ -27,17 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.LineSearch;
+using System;
 
-namespace MathNet.Numerics.Optimization
-{
+namespace MathNet.Numerics.Optimization {
     /// <summary>
     /// Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm is an iterative method for solving unconstrained nonlinear optimization problems
     /// </summary>
-    public class BfgsMinimizer : BfgsMinimizerBase, IUnconstrainedMinimizer
-    {
+    public class BfgsMinimizer : BfgsMinimizerBase, IUnconstrainedMinimizer {
         /// <summary>
         /// Creates BFGS minimizer
         /// </summary>
@@ -45,9 +43,8 @@ namespace MathNet.Numerics.Optimization
         /// <param name="parameterTolerance">The parameter tolerance</param>
         /// <param name="functionProgressTolerance">The function progress tolerance</param>
         /// <param name="maximumIterations">The maximum number of iterations</param>
-        public BfgsMinimizer(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations=1000)
-            :base(gradientTolerance,parameterTolerance,functionProgressTolerance,maximumIterations)
-        {
+        public BfgsMinimizer(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations = 1000)
+            : base(gradientTolerance, parameterTolerance, functionProgressTolerance, maximumIterations) {
         }
 
         /// <summary>
@@ -56,8 +53,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="objective">The objective function, must support a gradient</param>
         /// <param name="initialGuess">The initial guess</param>
         /// <returns>The MinimizationResult which contains the minimum and the ExitCondition</returns>
-        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
-        {
+        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess) {
             if (!objective.IsGradientSupported)
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for BFGS minimization.");
 
@@ -80,16 +76,13 @@ namespace MathNet.Numerics.Optimization
             var previousPoint = objective;
 
             LineSearchResult lineSearchResult;
-            try
-            {
+            try {
                 lineSearchResult = lineSearcher.FindConformingStep(objective, lineSearchDirection, stepSize);
             }
-            catch (OptimizationException e)
-            {
+            catch (OptimizationException e) {
                 throw new InnerOptimizationException("Line search failed.", e);
             }
-            catch (ArgumentException e)
-            {
+            catch (ArgumentException e) {
                 throw new InnerOptimizationException("Line search failed.", e);
             }
 
@@ -103,8 +96,7 @@ namespace MathNet.Numerics.Optimization
             int iterationsWithNontrivialLineSearch = lineSearchResult.Iterations > 0 ? 0 : 1;
             var iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref inversePseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidate, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
 
-            if (iterations == MaximumIterations && currentExitCondition == ExitCondition.None)
-            {
+            if (iterations == MaximumIterations && currentExitCondition == ExitCondition.None) {
                 throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({MaximumIterations}) reached."));
             }
 
@@ -116,8 +108,7 @@ namespace MathNet.Numerics.Optimization
             out double startingStepSize,
             IObjectiveFunction previousPoint,
             IObjectiveFunction candidate,
-            Vector<double> step)
-        {
+            Vector<double> step) {
             startingStepSize = 1.0;
             maxLineSearchStep = double.PositiveInfinity;
 
@@ -127,8 +118,7 @@ namespace MathNet.Numerics.Optimization
             inversePseudoHessian = inversePseudoHessian + ((sy + y * inversePseudoHessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ((inversePseudoHessian * y.ToColumnMatrix()) * step.ToRowMatrix() + step.ToColumnMatrix() * (y.ToRowMatrix() * inversePseudoHessian)) * (1.0 / sy);
             var lineSearchDirection = -inversePseudoHessian * candidate.Gradient;
 
-            if (lineSearchDirection * candidate.Gradient >= 0.0)
-            {
+            if (lineSearchDirection * candidate.Gradient >= 0.0) {
                 lineSearchDirection = -candidate.Gradient;
                 inversePseudoHessian = CreateMatrix.DenseIdentity<double>(candidate.Point.Count);
             }

@@ -37,7 +37,8 @@ public class BSpline {
         if (degree == 1) {
             if (i <= t && t < i + 1) {
                 return 1.0f;
-            } else {
+            }
+            else {
                 return 0.0f;
             }
         }
@@ -51,12 +52,15 @@ public class BSpline {
         if (degree == 2) {
             if (i == 0 && t >= 0 && t < 1) {
                 blend = (1 - t) * (1 - t);
-            } else if (i == 1 && t >= 0 && t < 1) {
+            }
+            else if (i == 1 && t >= 0 && t < 1) {
                 blend = 2 * t * (1 - t);
-            } else if (i == 2 && t >= 0 && t < 1) {
+            }
+            else if (i == 2 && t >= 0 && t < 1) {
                 blend = t * t;
             }
-        } else {
+        }
+        else {
             blend = ((t - i) / (degree)) * CalculateBSplineBlend(i, degree - 1, t, m)
                 + ((i + degree + 1 - t) / (degree)) * CalculateBSplineBlend(i + 1, degree - 1, t, m);
         }

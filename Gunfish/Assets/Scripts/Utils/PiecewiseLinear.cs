@@ -26,7 +26,7 @@ public class PiecewiseLinear {
         }
         return beforeIndex;
     }
-    public static float Evaluate(List<Vector2> points, float x, bool sorted=false) {
+    public static float Evaluate(List<Vector2> points, float x, bool sorted = false) {
         if (x < points[0].x || x >= points[points.Count - 1].x) {
             return 0f;
         }
@@ -35,7 +35,7 @@ public class PiecewiseLinear {
         return Mathf.Lerp(points[beforeIndex].y, points[beforeIndex + 1].y, t);
     }
     public static float DistanceToFunction(List<Vector2> points, Vector2 p, bool sorted = false) {
-        float y = Evaluate(points,p.x, sorted);
+        float y = Evaluate(points, p.x, sorted);
         return y - p.y;
     }
 }

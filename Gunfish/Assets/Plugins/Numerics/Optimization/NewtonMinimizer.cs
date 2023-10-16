@@ -27,47 +27,39 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.LineSearch;
+using System;
 
-namespace MathNet.Numerics.Optimization
-{
-    public sealed class NewtonMinimizer : IUnconstrainedMinimizer
-    {
+namespace MathNet.Numerics.Optimization {
+    public sealed class NewtonMinimizer : IUnconstrainedMinimizer {
         public double GradientTolerance { get; set; }
         public int MaximumIterations { get; set; }
         public bool UseLineSearch { get; set; }
 
-        public NewtonMinimizer(double gradientTolerance, int maximumIterations, bool useLineSearch = false)
-        {
+        public NewtonMinimizer(double gradientTolerance, int maximumIterations, bool useLineSearch = false) {
             GradientTolerance = gradientTolerance;
             MaximumIterations = maximumIterations;
             UseLineSearch = useLineSearch;
         }
 
-        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
-        {
+        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess) {
             return Minimum(objective, initialGuess, GradientTolerance, MaximumIterations, UseLineSearch);
         }
 
-        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000, bool useLineSearch=false)
-        {
-            if (!objective.IsGradientSupported)
-            {
+        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance = 1e-8, int maxIterations = 1000, bool useLineSearch = false) {
+            if (!objective.IsGradientSupported) {
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for Newton minimization.");
             }
 
-            if (!objective.IsHessianSupported)
-            {
+            if (!objective.IsHessianSupported) {
                 throw new IncompatibleObjectiveException("Hessian not supported in objective function, but required for Newton minimization.");
             }
 
             // Check that we're not already done
             objective.EvaluateAt(initialGuess);
             ValidateGradient(objective);
-            if (objective.Gradient.Norm(2.0) < gradientTolerance)
-            {
+            if (objective.Gradient.Norm(2.0) < gradientTolerance) {
                 return new MinimizationResult(objective, 0, ExitCondition.AbsoluteGradient);
             }
 
@@ -79,26 +71,21 @@ namespace MathNet.Numerics.Optimization
             int totalLineSearchSteps = 0;
             int iterationsWithNontrivialLineSearch = 0;
             bool tmpLineSearch = false;
-            while (objective.Gradient.Norm(2.0) >= gradientTolerance && iterations < maxIterations)
-            {
+            while (objective.Gradient.Norm(2.0) >= gradientTolerance && iterations < maxIterations) {
                 ValidateHessian(objective);
 
                 var searchDirection = objective.Hessian.LU().Solve(-objective.Gradient);
-                if (searchDirection * objective.Gradient >= 0)
-                {
+                if (searchDirection * objective.Gradient >= 0) {
                     searchDirection = -objective.Gradient;
                     tmpLineSearch = true;
                 }
 
-                if (useLineSearch || tmpLineSearch)
-                {
+                if (useLineSearch || tmpLineSearch) {
                     LineSearchResult result;
-                    try
-                    {
+                    try {
                         result = lineSearcher.FindConformingStep(objective, searchDirection, 1.0);
                     }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         throw new InnerOptimizationException("Line search failed.", e);
                     }
 
@@ -106,8 +93,7 @@ namespace MathNet.Numerics.Optimization
                     totalLineSearchSteps += result.Iterations;
                     objective = result.FunctionInfoAtMinimum;
                 }
-                else
-                {
+                else {
                     objective.EvaluateAt(objective.Point + searchDirection);
                 }
 
@@ -117,34 +103,26 @@ namespace MathNet.Numerics.Optimization
                 iterations += 1;
             }
 
-            if (iterations == maxIterations)
-            {
+            if (iterations == maxIterations) {
                 throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({maxIterations}) reached."));
             }
 
             return new MinimizationWithLineSearchResult(objective, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
-        static void ValidateGradient(IObjectiveFunctionEvaluation eval)
-        {
-            foreach (var x in eval.Gradient)
-            {
-                if (double.IsNaN(x) || double.IsInfinity(x))
-                {
+        static void ValidateGradient(IObjectiveFunctionEvaluation eval) {
+            foreach (var x in eval.Gradient) {
+                if (double.IsNaN(x) || double.IsInfinity(x)) {
                     throw new EvaluationException("Non-finite gradient returned.", eval);
                 }
             }
         }
 
-        static void ValidateHessian(IObjectiveFunctionEvaluation eval)
-        {
+        static void ValidateHessian(IObjectiveFunctionEvaluation eval) {
             var hessian = eval.Hessian;
-            for (int ii = 0; ii < hessian.RowCount; ++ii)
-            {
-                for (int jj = 0; jj < hessian.ColumnCount; ++jj)
-                {
-                    if (double.IsNaN(hessian[ii, jj]) || double.IsInfinity(hessian[ii, jj]))
-                    {
+            for (int ii = 0; ii < hessian.RowCount; ++ii) {
+                for (int jj = 0; jj < hessian.ColumnCount; ++jj) {
+                    if (double.IsNaN(hessian[ii, jj]) || double.IsInfinity(hessian[ii, jj])) {
                         throw new EvaluationException("Non-finite Hessian returned.", eval);
                     }
                 }

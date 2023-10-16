@@ -29,11 +29,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Runtime;
+using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// Represents a Parallel Additive Lagged Fibonacci pseudo-random number generator.
     /// </summary>
@@ -45,8 +44,7 @@ namespace MathNet.Numerics.Random
     /// </remarks>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
-    public class Palf : RandomSource
-    {
+    public class Palf : RandomSource {
         /// <summary>
         /// Default value for the ShortLag
         /// </summary>
@@ -60,7 +58,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// The multiplier to compute a double-precision floating point number [0, 1)
         /// </summary>
-        const double Reciprocal = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
+        const double Reciprocal = 1.0 / 4294967296.0; // 1.0/(uint.MaxValue + 1.0)
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Palf"/> class using
@@ -69,8 +67,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Palf() : this(RandomSeed.Robust(), Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag)
-        {
+        public Palf() : this(RandomSeed.Robust(), Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag) {
         }
 
         /// <summary>
@@ -78,8 +75,7 @@ namespace MathNet.Numerics.Random
         /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Palf(bool threadSafe) : this(RandomSeed.Robust(), threadSafe, DefaultShortLag, DefaultLongLag)
-        {
+        public Palf(bool threadSafe) : this(RandomSeed.Robust(), threadSafe, DefaultShortLag, DefaultLongLag) {
         }
 
         /// <summary>
@@ -89,8 +85,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Palf(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag)
-        {
+        public Palf(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag) {
         }
 
         /// <summary>
@@ -98,8 +93,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="seed">The seed value.</param>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Palf(int seed, bool threadSafe) : this(seed, threadSafe, DefaultShortLag, DefaultLongLag)
-        {
+        public Palf(int seed, bool threadSafe) : this(seed, threadSafe, DefaultShortLag, DefaultLongLag) {
         }
 
         /// <summary>
@@ -109,20 +103,16 @@ namespace MathNet.Numerics.Random
         /// <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
         /// <param name="shortLag">The ShortLag value</param>
         /// <param name="longLag">TheLongLag value</param>
-        public Palf(int seed, bool threadSafe, int shortLag, int longLag) : base(threadSafe)
-        {
-            if (shortLag < 1)
-            {
+        public Palf(int seed, bool threadSafe, int shortLag, int longLag) : base(threadSafe) {
+            if (shortLag < 1) {
                 throw new ArgumentException("Value must be positive.", nameof(shortLag));
             }
 
-            if (longLag <= shortLag)
-            {
+            if (longLag <= shortLag) {
                 throw new ArgumentException("The upper bound must be strictly larger than the lower bound.", nameof(longLag));
             }
 
-            if (seed == 0)
-            {
+            if (seed == 0) {
                 seed = 1;
             }
 
@@ -130,16 +120,14 @@ namespace MathNet.Numerics.Random
             ShortLag = shortLag;
 
             // Align LongLag to number of worker threads.
-            if (longLag%_threads == 0)
-            {
+            if (longLag % _threads == 0) {
                 LongLag = longLag;
             }
-            else
-            {
-                LongLag = ((longLag/_threads) + 1)*_threads;
+            else {
+                LongLag = ((longLag / _threads) + 1) * _threads;
             }
 
-            _x = Generate.Map(MersenneTwister.Doubles(LongLag, seed), uniform => (uint)(uniform*uint.MaxValue));
+            _x = Generate.Map(MersenneTwister.Doubles(LongLag, seed), uniform => (uint)(uniform * uint.MaxValue));
             _k = LongLag;
         }
 
@@ -177,8 +165,7 @@ namespace MathNet.Numerics.Random
         /// Generated random numbers are 32-bit unsigned integers greater than or equal to 0
         /// and less than or equal to <see cref="Int32.MaxValue"/>.
         /// </remarks>
-        void Fill()
-        {
+        void Fill() {
             //CommonParallel.For(0, Control.NumberOfParallelWorkerThreads, (u, v) =>
             //{
             //    for (int index = u; index < v; index++)
@@ -196,16 +183,13 @@ namespace MathNet.Numerics.Random
             //    }
             //});
 
-            for (int index = 0; index < _threads; index++)
-            {
+            for (int index = 0; index < _threads; index++) {
                 // Two loops to avoid costly modulo operations
-                for (var j = index; j < ShortLag; j = j + _threads)
-                {
+                for (var j = index; j < ShortLag; j = j + _threads) {
                     _x[j] += _x[j + (LongLag - ShortLag)];
                 }
 
-                for (var j = ShortLag + index; j < LongLag; j = j + _threads)
-                {
+                for (var j = ShortLag + index; j < LongLag; j = j + _threads) {
                     _x[j] += _x[j - ShortLag - index];
                 }
             }
@@ -216,10 +200,8 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
-        {
-            if (_k >= LongLag)
-            {
+        protected sealed override double DoSample() {
+            if (_k >= LongLag) {
                 Fill();
             }
 
@@ -229,17 +211,14 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
         /// </summary>
-        protected override int DoSampleInteger()
-        {
-            if (_k >= LongLag)
-            {
+        protected override int DoSampleInteger() {
+            if (_k >= LongLag) {
                 Fill();
             }
 
             uint uint32 = _x[_k++];
             int int31 = (int)(uint32 >> 1);
-            if (int31 == int.MaxValue)
-            {
+            if (int31 == int.MaxValue) {
                 return DoSampleInteger();
             }
 
@@ -250,10 +229,8 @@ namespace MathNet.Numerics.Random
         /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static void Doubles(double[] values, int seed)
-        {
-            if (seed == 0)
-            {
+        public static void Doubles(double[] values, int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
@@ -262,28 +239,22 @@ namespace MathNet.Numerics.Random
             var longLag = DefaultLongLag;
 
             // Align LongLag to number of worker threads.
-            if (longLag%threads != 0)
-            {
-                longLag = ((longLag/threads) + 1)*threads;
+            if (longLag % threads != 0) {
+                longLag = ((longLag / threads) + 1) * threads;
             }
 
-            var x = Generate.Map(MersenneTwister.Doubles(longLag, seed), uniform => (uint)(uniform*uint.MaxValue));
+            var x = Generate.Map(MersenneTwister.Doubles(longLag, seed), uniform => (uint)(uniform * uint.MaxValue));
             var k = longLag;
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                if (k >= longLag)
-                {
-                    for (int index = 0; index < threads; index++)
-                    {
+            for (int i = 0; i < values.Length; i++) {
+                if (k >= longLag) {
+                    for (int index = 0; index < threads; index++) {
                         // Two loops to avoid costly modulo operations
-                        for (var j = index; j < shortLag; j = j + threads)
-                        {
+                        for (var j = index; j < shortLag; j = j + threads) {
                             x[j] += x[j + (longLag - shortLag)];
                         }
 
-                        for (var j = shortLag + index; j < longLag; j = j + threads)
-                        {
+                        for (var j = shortLag + index; j < longLag; j = j + threads) {
                             x[j] += x[j - shortLag - index];
                         }
                     }
@@ -291,7 +262,7 @@ namespace MathNet.Numerics.Random
                     k = 0;
                 }
 
-                values[i] = x[k++]*Reciprocal;
+                values[i] = x[k++] * Reciprocal;
             }
         }
 
@@ -300,8 +271,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length, int seed)
-        {
+        public static double[] Doubles(int length, int seed) {
             var data = new double[length];
             Doubles(data, seed);
             return data;
@@ -311,10 +281,8 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> DoubleSequence(int seed)
-        {
-            if (seed == 0)
-            {
+        public static IEnumerable<double> DoubleSequence(int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
@@ -323,28 +291,22 @@ namespace MathNet.Numerics.Random
             var longLag = DefaultLongLag;
 
             // Align LongLag to number of worker threads.
-            if (longLag%threads != 0)
-            {
-                longLag = ((longLag/threads) + 1)*threads;
+            if (longLag % threads != 0) {
+                longLag = ((longLag / threads) + 1) * threads;
             }
 
-            var x = Generate.Map(MersenneTwister.Doubles(longLag, seed), uniform => (uint)(uniform*uint.MaxValue));
+            var x = Generate.Map(MersenneTwister.Doubles(longLag, seed), uniform => (uint)(uniform * uint.MaxValue));
             var k = longLag;
 
-            while (true)
-            {
-                if (k >= longLag)
-                {
-                    for (int index = 0; index < threads; index++)
-                    {
+            while (true) {
+                if (k >= longLag) {
+                    for (int index = 0; index < threads; index++) {
                         // Two loops to avoid costly modulo operations
-                        for (var j = index; j < shortLag; j = j + threads)
-                        {
+                        for (var j = index; j < shortLag; j = j + threads) {
                             x[j] += x[j + (longLag - shortLag)];
                         }
 
-                        for (var j = shortLag + index; j < longLag; j = j + threads)
-                        {
+                        for (var j = shortLag + index; j < longLag; j = j + threads) {
                             x[j] += x[j - shortLag - index];
                         }
                     }
@@ -352,7 +314,7 @@ namespace MathNet.Numerics.Random
                     k = 0;
                 }
 
-                yield return x[k++]*Reciprocal;
+                yield return x[k++] * Reciprocal;
             }
         }
     }

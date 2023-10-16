@@ -29,26 +29,21 @@
 
 using System;
 
-namespace MathNet.Numerics.Statistics
-{
-    public static partial class ArrayStatistics
-    {
+namespace MathNet.Numerics.Statistics {
+    public static partial class ArrayStatistics {
         /// <summary>
         /// Estimates the arithmetic sample mean from the unsorted data array.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double Mean(int[] data)
-        {
-            if (data.Length == 0)
-            {
+        public static double Mean(int[] data) {
+            if (data.Length == 0) {
                 return double.NaN;
             }
 
             double mean = 0;
             ulong m = 0;
-            for (int i = 0; i < data.Length; i++)
-            {
+            for (int i = 0; i < data.Length; i++) {
                 mean += (data[i] - mean) / ++m;
             }
 
@@ -60,16 +55,13 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double GeometricMean(int[] data)
-        {
-            if (data.Length == 0)
-            {
+        public static double GeometricMean(int[] data) {
+            if (data.Length == 0) {
                 return double.NaN;
             }
 
             double sum = 0;
-            for (int i = 0; i < data.Length; i++)
-            {
+            for (int i = 0; i < data.Length; i++) {
                 sum += Math.Log(data[i]);
             }
 
@@ -81,16 +73,13 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double HarmonicMean(int[] data)
-        {
-            if (data.Length == 0)
-            {
+        public static double HarmonicMean(int[] data) {
+            if (data.Length == 0) {
                 return double.NaN;
             }
 
             double sum = 0;
-            for (int i = 0; i < data.Length; i++)
-            {
+            for (int i = 0; i < data.Length; i++) {
                 sum += 1.0 / data[i];
             }
 
@@ -103,17 +92,14 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample array, no sorting is assumed.</param>
-        public static double Variance(int[] samples)
-        {
-            if (samples.Length <= 1)
-            {
+        public static double Variance(int[] samples) {
+            if (samples.Length <= 1) {
                 return double.NaN;
             }
 
             double variance = 0;
             double t = samples[0];
-            for (int i = 1; i < samples.Length; i++)
-            {
+            for (int i = 1; i < samples.Length; i++) {
                 t += samples[i];
                 double diff = ((i + 1) * samples[i]) - t;
                 variance += (diff * diff) / ((i + 1.0) * i);
@@ -128,17 +114,14 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">Sample array, no sorting is assumed.</param>
-        public static double PopulationVariance(int[] population)
-        {
-            if (population.Length == 0)
-            {
+        public static double PopulationVariance(int[] population) {
+            if (population.Length == 0) {
                 return double.NaN;
             }
 
             double variance = 0;
             double t = population[0];
-            for (int i = 1; i < population.Length; i++)
-            {
+            for (int i = 1; i < population.Length; i++) {
                 t += population[i];
                 double diff = ((i + 1) * population[i]) - t;
                 variance += (diff * diff) / ((i + 1.0) * i);
@@ -153,8 +136,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample array, no sorting is assumed.</param>
-        public static double StandardDeviation(int[] samples)
-        {
+        public static double StandardDeviation(int[] samples) {
             return Math.Sqrt(Variance(samples));
         }
 
@@ -164,8 +146,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">Sample array, no sorting is assumed.</param>
-        public static double PopulationStandardDeviation(int[] population)
-        {
+        public static double PopulationStandardDeviation(int[] population) {
             return Math.Sqrt(PopulationVariance(population));
         }
 
@@ -175,8 +156,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN and NaN for variance if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample array, no sorting is assumed.</param>
-        public static (double Mean, double Variance) MeanVariance(int[] samples)
-        {
+        public static (double Mean, double Variance) MeanVariance(int[] samples) {
             return (Mean(samples), Variance(samples));
         }
 
@@ -186,8 +166,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN and NaN for standard deviation if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample array, no sorting is assumed.</param>
-        public static (double Mean, double StandardDeviation) MeanStandardDeviation(int[] samples)
-        {
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(int[] samples) {
             return (Mean(samples), StandardDeviation(samples));
         }
 
@@ -198,23 +177,19 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="samples1">First sample array.</param>
         /// <param name="samples2">Second sample array.</param>
-        public static double Covariance(int[] samples1, int[] samples2)
-        {
-            if (samples1.Length != samples2.Length)
-            {
+        public static double Covariance(int[] samples1, int[] samples2) {
+            if (samples1.Length != samples2.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (samples1.Length <= 1)
-            {
+            if (samples1.Length <= 1) {
                 return double.NaN;
             }
 
             double mean1 = Mean(samples1);
             double mean2 = Mean(samples2);
             double covariance = 0.0;
-            for (int i = 0; i < samples1.Length; i++)
-            {
+            for (int i = 0; i < samples1.Length; i++) {
                 covariance += (samples1[i] - mean1) * (samples2[i] - mean2);
             }
 
@@ -228,23 +203,19 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="population1">First population array.</param>
         /// <param name="population2">Second population array.</param>
-        public static double PopulationCovariance(int[] population1, int[] population2)
-        {
-            if (population1.Length != population2.Length)
-            {
+        public static double PopulationCovariance(int[] population1, int[] population2) {
+            if (population1.Length != population2.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (population1.Length == 0)
-            {
+            if (population1.Length == 0) {
                 return double.NaN;
             }
 
             double mean1 = Mean(population1);
             double mean2 = Mean(population2);
             double covariance = 0.0;
-            for (int i = 0; i < population1.Length; i++)
-            {
+            for (int i = 0; i < population1.Length; i++) {
                 covariance += (population1[i] - mean1) * (population2[i] - mean2);
             }
 
@@ -256,17 +227,14 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double RootMeanSquare(int[] data)
-        {
-            if (data.Length == 0)
-            {
+        public static double RootMeanSquare(int[] data) {
+            if (data.Length == 0) {
                 return double.NaN;
             }
 
             double mean = 0;
             ulong m = 0;
-            for (int i = 0; i < data.Length; i++)
-            {
+            for (int i = 0; i < data.Length; i++) {
                 mean += (data[i] * data[i] - mean) / ++m;
             }
 

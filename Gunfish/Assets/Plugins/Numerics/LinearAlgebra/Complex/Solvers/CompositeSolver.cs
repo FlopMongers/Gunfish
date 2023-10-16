@@ -27,13 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.LinearAlgebra.Solvers;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -51,15 +50,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     /// Note that if an iterator is passed to this solver it will be used for all the sub-solvers.
     /// </para>
     /// </remarks>
-    public sealed class CompositeSolver : IIterativeSolver<Complex>
-    {
+    public sealed class CompositeSolver : IIterativeSolver<Complex> {
         /// <summary>
         /// The collection of solvers that will be used
         /// </summary>
         readonly List<Tuple<IIterativeSolver<Complex>, IPreconditioner<Complex>>> _solvers;
 
-        public CompositeSolver(IEnumerable<IIterativeSolverSetup<Complex>> solvers)
-        {
+        public CompositeSolver(IEnumerable<IIterativeSolverSetup<Complex>> solvers) {
             _solvers = solvers.Select(setup => new Tuple<IIterativeSolver<Complex>, IPreconditioner<Complex>>(setup.CreateSolver(), setup.CreatePreconditioner() ?? new UnitPreconditioner<Complex>())).ToList();
         }
 
@@ -72,25 +69,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="result">The result vector, <c>x</c></param>
         /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
         /// <param name="preconditioner">The preconditioner to use for approximations.</param>
-        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator, IPreconditioner<Complex> preconditioner)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator, IPreconditioner<Complex> preconditioner) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
-            if (result.Count != input.Count)
-            {
+            if (result.Count != input.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (iterator == null)
-            {
+            if (iterator == null) {
                 iterator = new Iterator<Complex>();
             }
 
-            if (preconditioner == null)
-            {
+            if (preconditioner == null) {
                 preconditioner = new UnitPreconditioner<Complex>();
             }
 
@@ -99,13 +91,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             var internalInput = input.Clone();
             var internalResult = result.Clone();
 
-            foreach (var solver in _solvers)
-            {
+            foreach (var solver in _solvers) {
                 // Store a reference to the solver so we can stop it.
 
                 IterationStatus status;
-                try
-                {
+                try {
                     // Reset the iterator and pass it to the solver
                     iterator.Reset();
 
@@ -113,8 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     solver.Item1.Solve(matrix, internalInput, internalResult, iterator, solver.Item2 ?? preconditioner);
                     status = iterator.Status;
                 }
-                catch (Exception)
-                {
+                catch (Exception) {
                     // The solver broke down.
                     // Log a message about this
                     // Switch to the next preconditioner.
@@ -124,8 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 }
 
                 // There was no fatal breakdown so check the status
-                if (status == IterationStatus.Converged)
-                {
+                if (status == IterationStatus.Converged) {
                     // We're done
                     internalResult.CopyTo(result);
                     break;
@@ -134,14 +122,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 // We're not done
                 // Either:
                 // - calculation finished without convergence
-                if (status == IterationStatus.StoppedWithoutConvergence)
-                {
+                if (status == IterationStatus.StoppedWithoutConvergence) {
                     // Copy the internal result to the result vector and
                     // continue with the calculation.
                     internalResult.CopyTo(result);
                 }
-                else
-                {
+                else {
                     // - calculation failed --> restart with the original vector
                     // - calculation diverged --> restart with the original vector
                     // - Some unknown status occurred --> To be safe restart.

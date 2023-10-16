@@ -1,66 +1,59 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace FunkyCode
-{
-	public class Light2DWindow : EditorWindow
-	{
-		private int tab = 0;
-		private Vector2 scrollPosition;
+namespace FunkyCode {
+    public class Light2DWindow : EditorWindow {
+        private int tab = 0;
+        private Vector2 scrollPosition;
 
-		private string[] toolbarString = new string[] { "Profile", "Project", "Debugging"};
+        private string[] toolbarString = new string[] { "Profile", "Project", "Debugging" };
 
-		static public Light2DWindow GetWindow()
-		{ 
-			Light2DWindow editorWindow = GetWindow<Light2DWindow>(false, "Lighting 2D", true);
+        static public Light2DWindow GetWindow() {
+            Light2DWindow editorWindow = GetWindow<Light2DWindow>(false, "Lighting 2D", true);
 
-			return(editorWindow);
-		}
+            return (editorWindow);
+        }
 
-		[MenuItem("Tools/Lighting 2D")]
-		public static void ShowWindow()
-		{
-			UpdateWindow();
-		}
+        [MenuItem("Tools/Lighting 2D")]
+        public static void ShowWindow() {
+            UpdateWindow();
+        }
 
-		public static void UpdateWindow()
-		{
-			Light2DWindow editorWindow = GetWindow();
+        public static void UpdateWindow() {
+            Light2DWindow editorWindow = GetWindow();
 
-			editorWindow.minSize = new Vector2(350, 350);
-			editorWindow.maxSize = new Vector2(4000, 4000);
-		}
+            editorWindow.minSize = new Vector2(350, 350);
+            editorWindow.maxSize = new Vector2(4000, 4000);
+        }
 
-		void OnGUI()
-		{
-			tab = GUILayout.Toolbar(tab, toolbarString);
+        void OnGUI() {
+            tab = GUILayout.Toolbar(tab, toolbarString);
 
-			scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true); 
-			
-			EditorGUILayout.Space();
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true);
 
-			switch (tab)
-			{
-				case 0:
+            EditorGUILayout.Space();
 
-					ProfileEditor.Draw();
+            switch (tab) {
+                case 0:
 
-				break;
+                    ProfileEditor.Draw();
 
-				case 1:
+                    break;
 
-					ProjectSettingsEditor.Draw();
+                case 1:
 
-				break;
+                    ProjectSettingsEditor.Draw();
 
-				case 2:
+                    break;
 
-					DebuggingEditor.Debugging();
+                case 2:
 
-				break;
-			}
+                    DebuggingEditor.Debugging();
 
-			GUILayout.EndScrollView();
-		}
-	}
+                    break;
+            }
+
+            GUILayout.EndScrollView();
+        }
+    }
 }

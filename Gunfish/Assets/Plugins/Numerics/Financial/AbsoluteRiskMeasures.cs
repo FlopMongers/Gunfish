@@ -27,15 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Statistics;
 
-namespace MathNet.Numerics.Financial
-{
-    public static class AbsoluteRiskMeasures
-    {
+namespace MathNet.Numerics.Financial {
+    public static class AbsoluteRiskMeasures {
         // Note: The following statistics would be considered an absolute risk statistic in the finance realm as well.
         // Standard Deviation
         // Annualized Standard Deviation = Math.Sqrt(Monthly Standard Deviation x ( 12 ))
@@ -47,10 +45,8 @@ namespace MathNet.Numerics.Financial
         /// and measures the variation of only the gain periods around the gain mean. Measures the volatility of upside performance.
         /// © Copyright 1996, 1999 Gary L.Gastineau. First Edition. © 1992 Swiss Bank Corporation.
         /// </summary>
-        public static double GainStandardDeviation(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
+        public static double GainStandardDeviation(this IEnumerable<double> data) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
@@ -62,10 +58,8 @@ namespace MathNet.Numerics.Financial
         /// measures the variation of only the losing periods around this loss mean. This statistic measures the volatility of downside performance.
         /// </summary>
         /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
-        public static double LossStandardDeviation(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
+        public static double LossStandardDeviation(this IEnumerable<double> data) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
@@ -79,10 +73,8 @@ namespace MathNet.Numerics.Financial
         /// 7%. (The loss standard deviation, on the other hand, would take only losing periods, calculate an average return for
         /// the losing periods, and then measure the variation between each losing return and the losing return average).
         /// </summary>
-        public static double DownsideDeviation(this IEnumerable<double> data, double minimalAcceptableReturn)
-        {
-            if (data == null)
-            {
+        public static double DownsideDeviation(this IEnumerable<double> data, double minimalAcceptableReturn) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
@@ -93,10 +85,8 @@ namespace MathNet.Numerics.Financial
         /// A measure of volatility in returns below the mean. It's similar to standard deviation, but it only
         /// looks at periods where the investment return was less than average return.
         /// </summary>
-        public static double SemiDeviation(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
+        public static double SemiDeviation(this IEnumerable<double> data) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
@@ -109,10 +99,8 @@ namespace MathNet.Numerics.Financial
         /// Measures a fund’s average gain in a gain period divided by the fund’s average loss in a losing
         /// period. Periods can be monthly or quarterly depending on the data frequency.
         /// </summary>
-        public static double GainLossRatio(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
+        public static double GainLossRatio(this IEnumerable<double> data) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 

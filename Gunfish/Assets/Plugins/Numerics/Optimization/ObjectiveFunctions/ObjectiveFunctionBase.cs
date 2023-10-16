@@ -29,20 +29,16 @@
 
 using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization.ObjectiveFunctions
-{
-    public abstract class ObjectiveFunctionBase : IObjectiveFunction
-    {
-        protected ObjectiveFunctionBase(bool isGradientSupported, bool isHessianSupported)
-        {
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions {
+    public abstract class ObjectiveFunctionBase : IObjectiveFunction {
+        protected ObjectiveFunctionBase(bool isGradientSupported, bool isHessianSupported) {
             IsGradientSupported = isGradientSupported;
             IsHessianSupported = isHessianSupported;
         }
 
         public abstract IObjectiveFunction CreateNew();
 
-        public virtual IObjectiveFunction Fork()
-        {
+        public virtual IObjectiveFunction Fork() {
             // we need to deep-clone values since they may be updated inplace on evaluation
             ObjectiveFunctionBase objective = (ObjectiveFunctionBase)CreateNew();
             objective.Point = Point == null ? null : Point.Clone();
@@ -55,8 +51,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public bool IsGradientSupported { get; }
         public bool IsHessianSupported { get; }
 
-        public void EvaluateAt(Vector<double> point)
-        {
+        public void EvaluateAt(Vector<double> point) {
             Point = point;
             Evaluate();
         }

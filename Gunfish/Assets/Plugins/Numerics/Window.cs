@@ -29,25 +29,21 @@
 
 using System;
 
-namespace MathNet.Numerics
-{
-    public static class Window
-    {
+namespace MathNet.Numerics {
+    public static class Window {
         /// <summary>
         /// Hamming window. Named after Richard Hamming.
         /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
-        public static double[] Hamming(int width)
-        {
+        public static double[] Hamming(int width) {
             const double a = 0.53836;
             const double b = -0.46164;
 
-            double phaseStep = (2.0*Math.PI)/(width - 1.0);
+            double phaseStep = (2.0 * Math.PI) / (width - 1.0);
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = a + b*Math.Cos(i*phaseStep);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = a + b * Math.Cos(i * phaseStep);
             }
             return w;
         }
@@ -56,17 +52,15 @@ namespace MathNet.Numerics
         /// Hamming window. Named after Richard Hamming.
         /// Periodic version, useful e.g. for FFT purposes.
         /// </summary>
-        public static double[] HammingPeriodic(int width)
-        {
+        public static double[] HammingPeriodic(int width) {
             const double a = 0.53836;
             const double b = -0.46164;
 
-            double phaseStep = (2.0*Math.PI)/width;
+            double phaseStep = (2.0 * Math.PI) / width;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = a + b*Math.Cos(i*phaseStep);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = a + b * Math.Cos(i * phaseStep);
             }
             return w;
         }
@@ -75,14 +69,12 @@ namespace MathNet.Numerics
         /// Hann window. Named after Julius von Hann.
         /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
-        public static double[] Hann(int width)
-        {
-            double phaseStep = (2.0*Math.PI)/(width - 1.0);
+        public static double[] Hann(int width) {
+            double phaseStep = (2.0 * Math.PI) / (width - 1.0);
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = 0.5 - 0.5*Math.Cos(i*phaseStep);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = 0.5 - 0.5 * Math.Cos(i * phaseStep);
             }
             return w;
         }
@@ -91,14 +83,12 @@ namespace MathNet.Numerics
         /// Hann window. Named after Julius von Hann.
         /// Periodic version, useful e.g. for FFT purposes.
         /// </summary>
-        public static double[] HannPeriodic(int width)
-        {
-            double phaseStep = (2.0*Math.PI)/width;
+        public static double[] HannPeriodic(int width) {
+            double phaseStep = (2.0 * Math.PI) / width;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = 0.5 - 0.5*Math.Cos(i*phaseStep);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = 0.5 - 0.5 * Math.Cos(i * phaseStep);
             }
             return w;
         }
@@ -107,14 +97,12 @@ namespace MathNet.Numerics
         /// Cosine window.
         /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
-        public static double[] Cosine(int width)
-        {
-            double phaseStep = Math.PI/(width - 1.0);
+        public static double[] Cosine(int width) {
+            double phaseStep = Math.PI / (width - 1.0);
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = Math.Sin(i*phaseStep);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = Math.Sin(i * phaseStep);
             }
             return w;
         }
@@ -123,14 +111,12 @@ namespace MathNet.Numerics
         /// Cosine window.
         /// Periodic version, useful e.g. for FFT purposes.
         /// </summary>
-        public static double[] CosinePeriodic(int width)
-        {
-            double phaseStep = Math.PI/width;
+        public static double[] CosinePeriodic(int width) {
+            double phaseStep = Math.PI / width;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = Math.Sin(i*phaseStep);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = Math.Sin(i * phaseStep);
             }
             return w;
         }
@@ -139,14 +125,12 @@ namespace MathNet.Numerics
         /// Lanczos window.
         /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
-        public static double[] Lanczos(int width)
-        {
-            double phaseStep = 2.0/(width - 1.0);
+        public static double[] Lanczos(int width) {
+            double phaseStep = 2.0 / (width - 1.0);
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = Trig.Sinc(i*phaseStep - 1.0);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = Trig.Sinc(i * phaseStep - 1.0);
             }
             return w;
         }
@@ -155,14 +139,12 @@ namespace MathNet.Numerics
         /// Lanczos window.
         /// Periodic version, useful e.g. for FFT purposes.
         /// </summary>
-        public static double[] LanczosPeriodic(int width)
-        {
-            double phaseStep = 2.0/width;
+        public static double[] LanczosPeriodic(int width) {
+            double phaseStep = 2.0 / width;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = Trig.Sinc(i*phaseStep - 1.0);
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = Trig.Sinc(i * phaseStep - 1.0);
             }
             return w;
         }
@@ -170,15 +152,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gauss window.
         /// </summary>
-        public static double[] Gauss(int width, double sigma)
-        {
-            double a = (width - 1)/2.0;
+        public static double[] Gauss(int width, double sigma) {
+            double a = (width - 1) / 2.0;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                double exponent = (i - a)/(sigma*a);
-                w[i] = Math.Exp(-0.5*exponent*exponent);
+            for (int i = 0; i < w.Length; i++) {
+                double exponent = (i - a) / (sigma * a);
+                w[i] = Math.Exp(-0.5 * exponent * exponent);
             }
             return w;
         }
@@ -186,22 +166,20 @@ namespace MathNet.Numerics
         /// <summary>
         /// Blackman window.
         /// </summary>
-        public static double[] Blackman(int width)
-        {
+        public static double[] Blackman(int width) {
             const double alpha = 0.16;
-            const double a = 0.5 - 0.5*alpha;
-            const double b = 0.5*alpha;
+            const double a = 0.5 - 0.5 * alpha;
+            const double b = 0.5 * alpha;
 
             int last = width - 1;
-            double c = 2.0*Math.PI/last;
-            double d = 2.0*c;
+            double c = 2.0 * Math.PI / last;
+            double d = 2.0 * c;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
+            for (int i = 0; i < w.Length; i++) {
                 w[i] = a
-                       - 0.5*Math.Cos(i*c)
-                       + b*Math.Cos(i*d);
+                       - 0.5 * Math.Cos(i * c)
+                       + b * Math.Cos(i * d);
             }
             return w;
         }
@@ -209,25 +187,23 @@ namespace MathNet.Numerics
         /// <summary>
         /// Blackman-Harris window.
         /// </summary>
-        public static double[] BlackmanHarris(int width)
-        {
+        public static double[] BlackmanHarris(int width) {
             const double a = 0.35875;
             const double b = -0.48829;
             const double c = 0.14128;
             const double d = -0.01168;
 
             int last = width - 1;
-            double e = 2.0*Math.PI/last;
-            double f = 2.0*e;
-            double g = 3.0*e;
+            double e = 2.0 * Math.PI / last;
+            double f = 2.0 * e;
+            double g = 3.0 * e;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
+            for (int i = 0; i < w.Length; i++) {
                 w[i] = a
-                       + b*Math.Cos(e*i)
-                       + c*Math.Cos(f*i)
-                       + d*Math.Cos(g*i);
+                       + b * Math.Cos(e * i)
+                       + c * Math.Cos(f * i)
+                       + d * Math.Cos(g * i);
             }
             return w;
         }
@@ -235,25 +211,23 @@ namespace MathNet.Numerics
         /// <summary>
         /// Blackman-Nuttall window.
         /// </summary>
-        public static double[] BlackmanNuttall(int width)
-        {
+        public static double[] BlackmanNuttall(int width) {
             const double a = 0.3635819;
             const double b = -0.4891775;
             const double c = 0.1365995;
             const double d = -0.0106411;
 
             int last = width - 1;
-            double e = 2.0*Math.PI/last;
-            double f = 2.0*e;
-            double g = 3.0*e;
+            double e = 2.0 * Math.PI / last;
+            double f = 2.0 * e;
+            double g = 3.0 * e;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
+            for (int i = 0; i < w.Length; i++) {
                 w[i] = a
-                       + b*Math.Cos(e*i)
-                       + c*Math.Cos(f*i)
-                       + d*Math.Cos(g*i);
+                       + b * Math.Cos(e * i)
+                       + c * Math.Cos(f * i)
+                       + d * Math.Cos(g * i);
             }
             return w;
         }
@@ -261,16 +235,14 @@ namespace MathNet.Numerics
         /// <summary>
         /// Bartlett window.
         /// </summary>
-        public static double[] Bartlett(int width)
-        {
+        public static double[] Bartlett(int width) {
             int last = width - 1;
-            double a = 2.0/last;
-            double b = last/2.0;
+            double a = 2.0 / last;
+            double b = last / 2.0;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = a*(b - Math.Abs(i - b));
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = a * (b - Math.Abs(i - b));
             }
             return w;
         }
@@ -278,22 +250,20 @@ namespace MathNet.Numerics
         /// <summary>
         /// Bartlett-Hann window.
         /// </summary>
-        public static double[] BartlettHann(int width)
-        {
+        public static double[] BartlettHann(int width) {
             const double a = 0.62;
             const double b = -0.48;
             const double c = -0.38;
 
             int last = width - 1;
-            double d = 1.0/last;
-            double e = 2.0*Math.PI/last;
+            double d = 1.0 / last;
+            double e = 2.0 * Math.PI / last;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
+            for (int i = 0; i < w.Length; i++) {
                 w[i] = a
-                       + b*Math.Abs(i*d - 0.5)
-                       + c*Math.Cos(i*e);
+                       + b * Math.Abs(i * d - 0.5)
+                       + c * Math.Cos(i * e);
             }
             return w;
         }
@@ -301,25 +271,23 @@ namespace MathNet.Numerics
         /// <summary>
         /// Nuttall window.
         /// </summary>
-        public static double[] Nuttall(int width)
-        {
+        public static double[] Nuttall(int width) {
             const double a = 0.355768;
             const double b = -0.487396;
             const double c = 0.144232;
             const double d = -0.012604;
 
             int last = width - 1;
-            double e = 2.0*Math.PI/last;
-            double f = 2.0*e;
-            double g = 3.0*e;
+            double e = 2.0 * Math.PI / last;
+            double f = 2.0 * e;
+            double g = 3.0 * e;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
+            for (int i = 0; i < w.Length; i++) {
                 w[i] = a
-                       + b*Math.Cos(e*i)
-                       + c*Math.Cos(f*i)
-                       + d*Math.Cos(g*i);
+                       + b * Math.Cos(e * i)
+                       + c * Math.Cos(f * i)
+                       + d * Math.Cos(g * i);
             }
             return w;
         }
@@ -327,8 +295,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Flat top window.
         /// </summary>
-        public static double[] FlatTop(int width)
-        {
+        public static double[] FlatTop(int width) {
             const double a = 1.0;
             const double b = -1.93;
             const double c = 1.29;
@@ -336,19 +303,18 @@ namespace MathNet.Numerics
             const double e = 0.032;
 
             int last = width - 1;
-            double f = 2.0*Math.PI/last;
-            double g = 2.0*f;
-            double h = 3.0*f;
-            double k = 4.0*f;
+            double f = 2.0 * Math.PI / last;
+            double g = 2.0 * f;
+            double h = 3.0 * f;
+            double k = 4.0 * f;
 
             double[] w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
+            for (int i = 0; i < w.Length; i++) {
                 w[i] = a
-                       + b*Math.Cos(f*i)
-                       + c*Math.Cos(g*i)
-                       + d*Math.Cos(h*i)
-                       + e*Math.Cos(k*i);
+                       + b * Math.Cos(f * i)
+                       + c * Math.Cos(g * i)
+                       + d * Math.Cos(h * i)
+                       + e * Math.Cos(k * i);
             }
             return w;
         }
@@ -356,11 +322,9 @@ namespace MathNet.Numerics
         /// <summary>
         /// Uniform rectangular (Dirichlet) window.
         /// </summary>
-        public static double[] Dirichlet(int width)
-        {
+        public static double[] Dirichlet(int width) {
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
+            for (int i = 0; i < w.Length; i++) {
                 w[i] = 1.0;
             }
             return w;
@@ -369,16 +333,14 @@ namespace MathNet.Numerics
         /// <summary>
         /// Triangular window.
         /// </summary>
-        public static double[] Triangular(int width)
-        {
-            double a = 2.0/width;
-            double b = width/2.0;
-            double c = (width - 1)/2.0;
+        public static double[] Triangular(int width) {
+            double a = 2.0 / width;
+            double b = width / 2.0;
+            double c = (width - 1) / 2.0;
 
             var w = new double[width];
-            for (int i = 0; i < w.Length; i++)
-            {
-                w[i] = a*(b - Math.Abs(i - c));
+            for (int i = 0; i < w.Length; i++) {
+                w[i] = a * (b - Math.Abs(i - c));
             }
             return w;
         }
@@ -389,34 +351,28 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="width">Width of the window</param>
         /// <param name="r">Fraction of the window occupied by the cosine parts</param>
-        public static double[] Tukey(int width, double r = 0.5)
-        {
+        public static double[] Tukey(int width, double r = 0.5) {
 
-            if (r <= 0)
-            {
+            if (r <= 0) {
                 return Generate.Repeat(width, 1.0);
             }
-            else if (r >= 1)
-            {
+            else if (r >= 1) {
                 return Hann(width);
             }
 
             var w = new double[width];
             var period = (width - 1) * r;
-            var step =  2* Math.PI / period;
+            var step = 2 * Math.PI / period;
             var b1 = (int)Math.Floor((width - 1) * r * 0.5 + 1);
             var b2 = width - b1;
-            for (var i = 0; i < b1; i++)
-            {
+            for (var i = 0; i < b1; i++) {
                 w[i] = (1 - Math.Cos(i * step)) * 0.5;
             }
-            for (var i = b1; i < b2; i++)
-            {
+            for (var i = b1; i < b2; i++) {
                 w[i] = 1;
             }
-            for (var i = b2; i < width; i++)
-            {
-                w[i] = w[width-i-1];
+            for (var i = b2; i < width; i++) {
+                w[i] = w[width - i - 1];
             }
             return w;
         }

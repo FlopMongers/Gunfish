@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FishDetector))]
-public class HurtBox : MonoBehaviour
-{
+public class HurtBox : MonoBehaviour {
     [SerializeField]
     float damage;
 
@@ -36,7 +35,7 @@ public class HurtBox : MonoBehaviour
     }
 
     protected void HandleFishTriggerEnter(GunfishSegment segment, Collider2D collider) {
-        hurtFish.Add(segment.gunfish);        
+        hurtFish.Add(segment.gunfish);
     }
 
     protected void HandleFishTriggerExit(GunfishSegment segment, Collider2D collider) {

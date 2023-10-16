@@ -1,12 +1,9 @@
-﻿using System;
-using MathNet.Numerics.LinearAlgebra;
+﻿using MathNet.Numerics.LinearAlgebra;
+using System;
 
-namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
-{
-    internal static class Util
-    {
-        public static (double, double) FindBeta(double alpha, Vector<double> sd, Vector<double> gn, double delta)
-        {
+namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems {
+    internal static class Util {
+        public static (double, double) FindBeta(double alpha, Vector<double> sd, Vector<double> gn, double delta) {
             // Pstep is intersection of the trust region boundary
             // Pstep = α*Psd + β*(Pgn - α*Psd)
             // find r so that ||Pstep|| = Δ

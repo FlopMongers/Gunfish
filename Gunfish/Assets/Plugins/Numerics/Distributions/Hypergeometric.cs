@@ -27,12 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Random;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Discrete Univariate Hypergeometric distribution.
     /// This distribution is a discrete probability distribution that describes the number of successes in a sequence
@@ -40,8 +39,7 @@ namespace MathNet.Numerics.Distributions
     /// describes the number of successes for draws with replacement
     /// <a href="http://en.wikipedia.org/wiki/Hypergeometric_distribution">Wikipedia - Hypergeometric distribution</a>.
     /// </summary>
-    public class Hypergeometric : IDiscreteDistribution
-    {
+    public class Hypergeometric : IDiscreteDistribution {
         System.Random _random;
 
         readonly int _population;
@@ -54,10 +52,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public Hypergeometric(int population, int success, int draws)
-        {
-            if (!IsValidParameterSet(population, success, draws))
-            {
+        public Hypergeometric(int population, int success, int draws) {
+            if (!IsValidParameterSet(population, success, draws)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -74,10 +70,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Hypergeometric(int population, int success, int draws, System.Random randomSource)
-        {
-            if (!IsValidParameterSet(population, success, draws))
-            {
+        public Hypergeometric(int population, int success, int draws, System.Random randomSource) {
+            if (!IsValidParameterSet(population, success, draws)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -93,8 +87,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Hypergeometric(N = {_population}, M = {_success}, n = {_draws})";
         }
 
@@ -104,16 +97,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public static bool IsValidParameterSet(int population, int success, int draws)
-        {
+        public static bool IsValidParameterSet(int population, int success, int draws) {
             return population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population;
         }
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -136,12 +127,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean => (double)_success*_draws/_population;
+        public double Mean => (double)_success * _draws / _population;
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance => _draws*_success*(_population - _draws)*(_population - _success)/(_population*_population*(_population - 1.0));
+        public double Variance => _draws * _success * (_population - _draws) * (_population - _success) / (_population * _population * (_population - 1.0));
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
@@ -156,12 +147,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness => (Math.Sqrt(_population - 1.0)*(_population - (2*_draws))*(_population - (2*_success)))/(Math.Sqrt(_draws*_success*(_population - _success)*(_population - _draws))*(_population - 2.0));
+        public double Skewness => (Math.Sqrt(_population - 1.0) * (_population - (2 * _draws)) * (_population - (2 * _success))) / (Math.Sqrt(_draws * _success * (_population - _success) * (_population - _draws)) * (_population - 2.0));
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public int Mode => (_draws + 1)*(_success + 1)/(_population + 2);
+        public int Mode => (_draws + 1) * (_success + 1) / (_population + 2);
 
         /// <summary>
         /// Gets the median of the distribution.
@@ -183,9 +174,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public double Probability(int k)
-        {
-            return SpecialFunctions.Binomial(_success, k)*SpecialFunctions.Binomial(_population - _success, _draws - k)/SpecialFunctions.Binomial(_population, _draws);
+        public double Probability(int k) {
+            return SpecialFunctions.Binomial(_success, k) * SpecialFunctions.Binomial(_population - _success, _draws - k) / SpecialFunctions.Binomial(_population, _draws);
         }
 
         /// <summary>
@@ -193,8 +183,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public double ProbabilityLn(int k)
-        {
+        public double ProbabilityLn(int k) {
             return SpecialFunctions.BinomialLn(_success, k) + SpecialFunctions.BinomialLn(_population - _success, _draws - k) - SpecialFunctions.BinomialLn(_population, _draws);
         }
 
@@ -203,8 +192,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
-        public double CumulativeDistribution(double x)
-        {
+        public double CumulativeDistribution(double x) {
             return CDF(_population, _success, _draws, x);
         }
 
@@ -216,14 +204,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
-        public static double PMF(int population, int success, int draws, int k)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static double PMF(int population, int success, int draws, int k) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return SpecialFunctions.Binomial(success, k)*SpecialFunctions.Binomial(population - success, draws - k)/SpecialFunctions.Binomial(population, draws);
+            return SpecialFunctions.Binomial(success, k) * SpecialFunctions.Binomial(population - success, draws - k) / SpecialFunctions.Binomial(population, draws);
         }
 
         /// <summary>
@@ -234,10 +220,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
-        public static double PMFLn(int population, int success, int draws, int k)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static double PMFLn(int population, int success, int draws, int k) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -253,28 +237,23 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(int population, int success, int draws, double x)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static double CDF(int population, int success, int draws, double x) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            if (x < Math.Max(0, draws + success - population))
-            {
+            if (x < Math.Max(0, draws + success - population)) {
                 return 0.0;
             }
 
-            if (x >= Math.Min(success, draws))
-            {
+            if (x >= Math.Min(success, draws)) {
                 return 1.0;
             }
 
             var k = (int)Math.Floor(x);
             var denominatorLn = SpecialFunctions.BinomialLn(population, draws);
             var sum = 0.0;
-            for (var i = 0; i <= k; i++)
-            {
+            for (var i = 0; i <= k; i++) {
                 sum += Math.Exp(SpecialFunctions.BinomialLn(success, i) + SpecialFunctions.BinomialLn(population - success, draws - i) - denominatorLn);
             }
 
@@ -289,16 +268,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The n parameter of the distribution.</param>
         /// <returns>a random number from the Hypergeometric distribution.</returns>
-        static int SampleUnchecked(System.Random rnd, int population, int success, int draws)
-        {
+        static int SampleUnchecked(System.Random rnd, int population, int success, int draws) {
             var x = 0;
 
-            do
-            {
-                var p = (double)success/population;
+            do {
+                var p = (double)success / population;
                 var r = rnd.NextDouble();
-                if (r < p)
-                {
+                if (r < p) {
                     x++;
                     success--;
                 }
@@ -311,18 +287,14 @@ namespace MathNet.Numerics.Distributions
             return x;
         }
 
-        static void SamplesUnchecked(System.Random rnd, int[] values, int population, int success, int draws)
-        {
-            for (int i = 0; i < values.Length; i++)
-            {
+        static void SamplesUnchecked(System.Random rnd, int[] values, int population, int success, int draws) {
+            for (int i = 0; i < values.Length; i++) {
                 values[i] = SampleUnchecked(rnd, population, success, draws);
             }
         }
 
-        static IEnumerable<int> SamplesUnchecked(System.Random rnd, int population, int success, int draws)
-        {
-            while (true)
-            {
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, int population, int success, int draws) {
+            while (true) {
                 yield return SampleUnchecked(rnd, population, success, draws);
             }
         }
@@ -331,16 +303,14 @@ namespace MathNet.Numerics.Distributions
         /// Samples a Hypergeometric distributed random variable.
         /// </summary>
         /// <returns>The number of successes in n trials.</returns>
-        public int Sample()
-        {
+        public int Sample() {
             return SampleUnchecked(_random, _population, _success, _draws);
         }
 
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        public void Samples(int[] values)
-        {
+        public void Samples(int[] values) {
             SamplesUnchecked(_random, values, _population, _success, _draws);
         }
 
@@ -348,8 +318,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples an array of Hypergeometric distributed random variables.
         /// </summary>
         /// <returns>a sequence of successes in n trials.</returns>
-        public IEnumerable<int> Samples()
-        {
+        public IEnumerable<int> Samples() {
             return SamplesUnchecked(_random, _population, _success, _draws);
         }
 
@@ -360,10 +329,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public static int Sample(System.Random rnd, int population, int success, int draws)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static int Sample(System.Random rnd, int population, int success, int draws) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -377,10 +344,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public static IEnumerable<int> Samples(System.Random rnd, int population, int success, int draws)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static IEnumerable<int> Samples(System.Random rnd, int population, int success, int draws) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -395,10 +360,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public static void Samples(System.Random rnd, int[] values, int population, int success, int draws)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static void Samples(System.Random rnd, int[] values, int population, int success, int draws) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -411,10 +374,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public static int Sample(int population, int success, int draws)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static int Sample(int population, int success, int draws) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -427,10 +388,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public static IEnumerable<int> Samples(int population, int success, int draws)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static IEnumerable<int> Samples(int population, int success, int draws) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -444,10 +403,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
-        public static void Samples(int[] values, int population, int success, int draws)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
+        public static void Samples(int[] values, int population, int success, int draws) {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

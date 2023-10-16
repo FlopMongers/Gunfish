@@ -1,6 +1,6 @@
-using UnityEngine.UIElements;
-using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class SplashMenuPage : IMenuPage {
     private MenuPageContext menuContext;
@@ -24,7 +24,7 @@ public class SplashMenuPage : IMenuPage {
     }
 
     public void OnUpdate(MenuPageContext context) {
-        
+
     }
 
     private void OnAnyKey(InputAction.CallbackContext context) {

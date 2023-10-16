@@ -35,20 +35,17 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the harmonic function.
     /// </summary>
-    public static partial class SpecialFunctions
-    {
+    public static partial class SpecialFunctions {
         /// <summary>
         /// Computes the <paramref name="t"/>'th Harmonic number.
         /// </summary>
         /// <param name="t">The Harmonic number which needs to be computed.</param>
         /// <returns>The t'th Harmonic number.</returns>
-        public static double Harmonic(int t)
-        {
+        public static double Harmonic(int t) {
             return Constants.EulerMascheroni + DiGamma(t + 1.0);
         }
 
@@ -58,11 +55,9 @@ namespace MathNet.Numerics
         /// <param name="n">The order parameter.</param>
         /// <param name="m">The power parameter.</param>
         /// <returns>General Harmonic number.</returns>
-        public static double GeneralHarmonic(int n, double m)
-        {
+        public static double GeneralHarmonic(int n, double m) {
             double sum = 0;
-            for (int i = 0; i < n; i++)
-            {
+            for (int i = 0; i < n; i++) {
                 sum += Math.Pow(i + 1, -m);
             }
 

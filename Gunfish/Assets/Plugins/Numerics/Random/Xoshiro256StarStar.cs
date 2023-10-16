@@ -38,13 +38,12 @@
    See <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Runtime;
+using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// Xoshiro256** pseudo random number generator.
     /// A random number generator based on the <see cref="System.Random"/> class in the .NET library.
@@ -66,8 +65,7 @@ namespace MathNet.Numerics.Random
     /// </remarks>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
-    public class Xoshiro256StarStar : RandomSource
-    {
+    public class Xoshiro256StarStar : RandomSource {
         // Constants.
         const double REAL_UNIT_UINT = 1.0 / (1UL << 53);
 
@@ -84,24 +82,21 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Construct a new random number generator with a random seed.
         /// </summary>
-        public Xoshiro256StarStar() : this(RandomSeed.Robust())
-        {
+        public Xoshiro256StarStar() : this(RandomSeed.Robust()) {
         }
 
         /// <summary>
         /// Construct a new random number generator with random seed.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Xoshiro256StarStar(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
-        {
+        public Xoshiro256StarStar(bool threadSafe) : this(RandomSeed.Robust(), threadSafe) {
         }
 
         /// <summary>
         /// Construct a new random number generator with random seed.
         /// </summary>
         /// <param name="seed">The seed value.</param>
-        public Xoshiro256StarStar(int seed)
-        {
+        public Xoshiro256StarStar(int seed) {
             Initialise(seed);
         }
 
@@ -110,16 +105,14 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="seed">The seed value.</param>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Xoshiro256StarStar(int seed, bool threadSafe) : base(threadSafe)
-        {
+        public Xoshiro256StarStar(int seed, bool threadSafe) : base(threadSafe) {
             Initialise(seed);
         }
 
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
-        {
+        protected sealed override double DoSample() {
             // Note. Here we generate a random integer between 0 and 2^53-1 (i.e. 53 binary 1s) and multiply
             // by the fractional unit value 1.0 / 2^53, thus the result has a max value of
             // 1.0 - (1.0 / 2^53), or 0.99999999999999989 in decimal.
@@ -129,14 +122,12 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
         /// </summary>
-        protected override int DoSampleInteger()
-        {
+        protected override int DoSampleInteger() {
             retry:
             // Handle the special case where the value int.MaxValue is generated; this is outside
             // the range of permitted return values for this method.
             ulong rtn = NextInnerULong() & 0x7fff_ffffUL;
-            if (rtn == 0x7fff_ffffUL)
-            {
+            if (rtn == 0x7fff_ffffUL) {
                 goto retry;
             }
             return (int)rtn;
@@ -145,8 +136,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
         /// </summary>
-        protected override void DoSampleBytes(byte[] buffer)
-        {
+        protected override void DoSampleBytes(byte[] buffer) {
             // For improved performance the below loop operates on these stack allocated copies of the heap variables.
             // Notes. doing this means that these heavily used variables are located near to other local/stack variables,
             // thus they will very likely be cached in the same CPU cache line.
@@ -159,8 +149,7 @@ namespace MathNet.Numerics.Random
 
             // Fill up the bulk of the buffer in chunks of 8 bytes at a time.
             int bound = buffer.Length - (buffer.Length % 8);
-            while (i < bound)
-            {
+            while (i < bound) {
                 // Generate 64 random bits.
                 ulong x = RotateLeft(s1 * 5, 7) * 9;
 
@@ -185,8 +174,7 @@ namespace MathNet.Numerics.Random
             }
 
             // Fill up any remaining bytes in the buffer.
-            if (i < buffer.Length)
-            {
+            if (i < buffer.Length) {
                 // Generate 64 random bits.
                 ulong x = RotateLeft(s1 * 5, 7) * 9;
 
@@ -200,8 +188,7 @@ namespace MathNet.Numerics.Random
                 s3 = RotateLeft(s3, 45);
 
                 // Allocate one byte at a time until we reach the end of the buffer.
-                while (i < buffer.Length)
-                {
+                while (i < buffer.Length) {
                     buffer[i++] = (byte)x;
                     x >>= 8;
                 }
@@ -218,8 +205,7 @@ namespace MathNet.Numerics.Random
         /// Returns a random N-bit signed integer greater than or equal to zero and less than 2^N.
         /// N (bit count) is expected to be greater than zero and less than 32 (not verified).
         /// </summary>
-        protected override int DoSampleInt32WithNBits(int bitCount)
-        {
+        protected override int DoSampleInt32WithNBits(int bitCount) {
             return (int)(NextInnerULong() >> (64 - bitCount));
         }
 
@@ -227,13 +213,11 @@ namespace MathNet.Numerics.Random
         /// Returns a random N-bit signed long integer greater than or equal to zero and less than 2^N.
         /// N (bit count) is expected to be greater than zero and less than 64 (not verified).
         /// </summary>
-        protected override long DoSampleInt64WithNBits(int bitCount)
-        {
+        protected override long DoSampleInt64WithNBits(int bitCount) {
             return (long)(NextInnerULong() >> (64 - bitCount));
         }
 
-        void Initialise(int seed)
-        {
+        void Initialise(int seed) {
             // Notes.
             // xoroshiro256** requires that at least one of the state variable be non-zero, use of splitmix64
             // satisfies that requirement because its outputs are equidistributed, i.e. if a zero is output
@@ -249,8 +233,7 @@ namespace MathNet.Numerics.Random
             _s3 = Splitmix64(ref longSeed);
         }
 
-        ulong NextInnerULong()
-        {
+        ulong NextInnerULong() {
             ulong s0 = _s0;
             ulong s1 = _s1;
             ulong s2 = _s2;
@@ -278,8 +261,7 @@ namespace MathNet.Numerics.Random
         /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static void Doubles(double[] values, int seed)
-        {
+        public static void Doubles(double[] values, int seed) {
             // Init state.
             ulong longSeed = (ulong)seed;
             ulong s0 = Splitmix64(ref longSeed);
@@ -287,8 +269,7 @@ namespace MathNet.Numerics.Random
             ulong s2 = Splitmix64(ref longSeed);
             ulong s3 = Splitmix64(ref longSeed);
 
-            for (int i = 0; i < values.Length; i++)
-            {
+            for (int i = 0; i < values.Length; i++) {
                 // Generate sample.
                 values[i] = ((RotateLeft(s1 * 5, 7) * 9) >> 11) * REAL_UNIT_UINT;
 
@@ -308,8 +289,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length, int seed)
-        {
+        public static double[] Doubles(int length, int seed) {
             var data = new double[length];
             Doubles(data, seed);
             return data;
@@ -319,8 +299,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> DoubleSequence(int seed)
-        {
+        public static IEnumerable<double> DoubleSequence(int seed) {
             // Init state.
             ulong longSeed = (ulong)seed;
             ulong s0 = Splitmix64(ref longSeed);
@@ -328,8 +307,7 @@ namespace MathNet.Numerics.Random
             ulong s2 = Splitmix64(ref longSeed);
             ulong s3 = Splitmix64(ref longSeed);
 
-            while (true)
-            {
+            while (true) {
                 // Generate sample.
                 double x = ((RotateLeft(s1 * 5, 7) * 9) >> 11) * REAL_UNIT_UINT;
 
@@ -356,16 +334,14 @@ namespace MathNet.Numerics.Random
         /// Splitmix64 produces equidistributed outputs, thus if a zero is generated then the
         /// next zero will be after a further 2^64 outputs.
         /// </remarks>
-        static ulong Splitmix64(ref ulong x)
-        {
+        static ulong Splitmix64(ref ulong x) {
             ulong z = (x += 0x9E3779B97F4A7C15UL);
             z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9UL;
             z = (z ^ (z >> 27)) * 0x94D049BB133111EBUL;
             return z ^ (z >> 31);
         }
 
-        static ulong RotateLeft(ulong x, int k)
-        {
+        static ulong RotateLeft(ulong x, int k) {
             // Note. RyuJIT will compile this to a single rotate CPU instruction (as of about .NET 4.6.1 and dotnet core 2.0).
             return (x << k) | (x >> (64 - k));
         }

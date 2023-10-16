@@ -30,21 +30,18 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace MathNet.Numerics.LinearAlgebra
-{
+namespace MathNet.Numerics.LinearAlgebra {
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    public abstract partial class Matrix<T>
-    {
+    public abstract partial class Matrix<T> {
         /// <summary>
         /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator +(Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator +(Matrix<T> rightSide) {
             return rightSide.Clone();
         }
 
@@ -54,8 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The matrix to negate.</param>
         /// <returns>A matrix containing the negated values.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator -(Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator -(Matrix<T> rightSide) {
             return rightSide.Negate();
         }
 
@@ -70,8 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator +(Matrix<T> leftSide, Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator +(Matrix<T> leftSide, Matrix<T> rightSide) {
             return leftSide.Add(rightSide);
         }
 
@@ -84,8 +79,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The scalar value to add.</param>
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator +(Matrix<T> leftSide, T rightSide)
-        {
+        public static Matrix<T> operator +(Matrix<T> leftSide, T rightSide) {
             return leftSide.Add(rightSide);
         }
 
@@ -98,8 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The right matrix to add.</param>
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator +(T leftSide, Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator +(T leftSide, Matrix<T> rightSide) {
             return rightSide.Add(leftSide);
         }
 
@@ -114,8 +107,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator -(Matrix<T> leftSide, Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator -(Matrix<T> leftSide, Matrix<T> rightSide) {
             return leftSide.Subtract(rightSide);
         }
 
@@ -129,8 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator -(Matrix<T> leftSide, T rightSide)
-        {
+        public static Matrix<T> operator -(Matrix<T> leftSide, T rightSide) {
             return leftSide.Subtract(rightSide);
         }
 
@@ -144,8 +135,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator -(T leftSide, Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator -(T leftSide, Matrix<T> rightSide) {
             return rightSide.SubtractFrom(leftSide);
         }
 
@@ -156,8 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The constant to multiply the matrix by.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator *(Matrix<T> leftSide, T rightSide)
-        {
+        public static Matrix<T> operator *(Matrix<T> leftSide, T rightSide) {
             return leftSide.Multiply(rightSide);
         }
 
@@ -168,8 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The constant to multiply the matrix by.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator *(T leftSide, Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator *(T leftSide, Matrix<T> rightSide) {
             return rightSide.Multiply(leftSide);
         }
 
@@ -184,8 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static Matrix<T> operator *(Matrix<T> leftSide, Matrix<T> rightSide)
-        {
+        public static Matrix<T> operator *(Matrix<T> leftSide, Matrix<T> rightSide) {
             return leftSide.Multiply(rightSide);
         }
 
@@ -196,8 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The vector to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator *(Matrix<T> leftSide, Vector<T> rightSide)
-        {
+        public static Vector<T> operator *(Matrix<T> leftSide, Vector<T> rightSide) {
             return leftSide.Multiply(rightSide);
         }
 
@@ -208,8 +194,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="rightSide">The matrix to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator *(Vector<T> leftSide, Matrix<T> rightSide)
-        {
+        public static Vector<T> operator *(Vector<T> leftSide, Matrix<T> rightSide) {
             return rightSide.LeftMultiply(leftSide);
         }
 
@@ -220,8 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The matrix.</param>
         /// <returns>The result of the division.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator /(T dividend, Matrix<T> divisor)
-        {
+        public static Matrix<T> operator /(T dividend, Matrix<T> divisor) {
             return divisor.DivideByThis(dividend);
         }
 
@@ -232,8 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The scalar value.</param>
         /// <returns>The result of the division.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator /(Matrix<T> dividend, T divisor)
-        {
+        public static Matrix<T> operator /(Matrix<T> dividend, T divisor) {
             return dividend.Divide(divisor);
         }
 
@@ -245,8 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The divisor to use.</param>
         /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator %(Matrix<T> dividend, T divisor)
-        {
+        public static Matrix<T> operator %(Matrix<T> dividend, T divisor) {
             return dividend.Remainder(divisor);
         }
 
@@ -258,8 +240,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The matrix whose elements we want to use as divisor.</param>
         /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator %(T dividend, Matrix<T> divisor)
-        {
+        public static Matrix<T> operator %(T dividend, Matrix<T> divisor) {
             return divisor.RemainderByThis(dividend);
         }
 
@@ -271,38 +252,32 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The divisor to use.</param>
         /// <exception cref="ArgumentException">If <paramref name="dividend"/> and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator %(Matrix<T> dividend, Matrix<T> divisor)
-        {
+        public static Matrix<T> operator %(Matrix<T> dividend, Matrix<T> divisor) {
             return dividend.PointwiseRemainder(divisor);
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotMultiply(Matrix<T> x, Matrix<T> y)
-        {
+        public static Matrix<T> op_DotMultiply(Matrix<T> x, Matrix<T> y) {
             return x.PointwiseMultiply(y);
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotDivide(Matrix<T> dividend, Matrix<T> divisor)
-        {
+        public static Matrix<T> op_DotDivide(Matrix<T> dividend, Matrix<T> divisor) {
             return dividend.PointwiseDivide(divisor);
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotPercent(Matrix<T> dividend, Matrix<T> divisor)
-        {
+        public static Matrix<T> op_DotPercent(Matrix<T> dividend, Matrix<T> divisor) {
             return dividend.PointwiseRemainder(divisor);
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotHat(Matrix<T> matrix, Matrix<T> exponent)
-        {
+        public static Matrix<T> op_DotHat(Matrix<T> matrix, Matrix<T> exponent) {
             return matrix.PointwisePower(exponent);
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotHat(Matrix<T> matrix, T exponent)
-        {
+        public static Matrix<T> op_DotHat(Matrix<T> matrix, T exponent) {
             return matrix.PointwisePower(exponent);
         }
 
@@ -311,8 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Sqrt(Matrix<T> x)
-        {
+        public static Matrix<T> Sqrt(Matrix<T> x) {
             return x.PointwiseSqrt();
         }
 
@@ -321,8 +295,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Exp(Matrix<T> x)
-        {
+        public static Matrix<T> Exp(Matrix<T> x) {
             return x.PointwiseExp();
         }
 
@@ -331,8 +304,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Log(Matrix<T> x)
-        {
+        public static Matrix<T> Log(Matrix<T> x) {
             return x.PointwiseLog();
         }
 
@@ -341,8 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Log10(Matrix<T> x)
-        {
+        public static Matrix<T> Log10(Matrix<T> x) {
             return x.PointwiseLog10();
         }
 
@@ -351,8 +322,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Sin(Matrix<T> x)
-        {
+        public static Matrix<T> Sin(Matrix<T> x) {
             return x.PointwiseSin();
         }
 
@@ -361,8 +331,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Cos(Matrix<T> x)
-        {
+        public static Matrix<T> Cos(Matrix<T> x) {
             return x.PointwiseCos();
         }
 
@@ -371,8 +340,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Tan(Matrix<T> x)
-        {
+        public static Matrix<T> Tan(Matrix<T> x) {
             return x.PointwiseTan();
         }
 
@@ -381,8 +349,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Asin(Matrix<T> x)
-        {
+        public static Matrix<T> Asin(Matrix<T> x) {
             return x.PointwiseAsin();
         }
 
@@ -391,8 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Acos(Matrix<T> x)
-        {
+        public static Matrix<T> Acos(Matrix<T> x) {
             return x.PointwiseAcos();
         }
 
@@ -401,8 +367,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Atan(Matrix<T> x)
-        {
+        public static Matrix<T> Atan(Matrix<T> x) {
             return x.PointwiseAtan();
         }
 
@@ -411,8 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Sinh(Matrix<T> x)
-        {
+        public static Matrix<T> Sinh(Matrix<T> x) {
             return x.PointwiseSinh();
         }
 
@@ -421,8 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Cosh(Matrix<T> x)
-        {
+        public static Matrix<T> Cosh(Matrix<T> x) {
             return x.PointwiseCosh();
         }
 
@@ -431,8 +394,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Tanh(Matrix<T> x)
-        {
+        public static Matrix<T> Tanh(Matrix<T> x) {
             return x.PointwiseTanh();
         }
 
@@ -441,8 +403,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Abs(Matrix<T> x)
-        {
+        public static Matrix<T> Abs(Matrix<T> x) {
             return x.PointwiseAbs();
         }
 
@@ -451,8 +412,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Floor(Matrix<T> x)
-        {
+        public static Matrix<T> Floor(Matrix<T> x) {
             return x.PointwiseFloor();
         }
 
@@ -461,8 +421,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Ceiling(Matrix<T> x)
-        {
+        public static Matrix<T> Ceiling(Matrix<T> x) {
             return x.PointwiseCeiling();
         }
 
@@ -471,8 +430,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Round(Matrix<T> x)
-        {
+        public static Matrix<T> Round(Matrix<T> x) {
             return x.PointwiseRound();
         }
     }

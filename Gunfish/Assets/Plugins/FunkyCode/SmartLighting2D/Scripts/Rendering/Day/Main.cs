@@ -1,66 +1,55 @@
-﻿using UnityEngine;
-using FunkyCode.LightingSettings;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightSettings;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Day
-{	
-	public static class Main
-	{
-		static Pass pass = new Pass();
+namespace FunkyCode.Rendering.Day {
+    public static class Main {
+        static Pass pass = new Pass();
 
-		public static void Draw(Camera camera, LightmapPreset lightmapPreset)
-		{
-			if (!IsDrawing(camera, lightmapPreset))
-			{
-				return;
-			}
+        public static void Draw(Camera camera, LightmapPreset lightmapPreset) {
+            if (!IsDrawing(camera, lightmapPreset)) {
+                return;
+            }
 
-			LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
-		
-			for(int i = 0; i < layerSettings.Length; i++)
-			{
-				LightmapLayer dayLayer = layerSettings[i];
+            LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
 
-				LayerSorting sorting = dayLayer.sorting;
+            for (int i = 0; i < layerSettings.Length; i++) {
+                LightmapLayer dayLayer = layerSettings[i];
 
-				if (!pass.Setup(dayLayer, camera))
-				{
-					continue;
-				}
+                LayerSorting sorting = dayLayer.sorting;
 
-				if (sorting == LayerSorting.None)
-				{
-					NoSort.Draw(pass);
-				}
-					else
-				{
-					pass.SortObjects();
+                if (!pass.Setup(dayLayer, camera)) {
+                    continue;
+                }
 
-					Sorted.Draw(pass);
-				}
-			}
-		}
+                if (sorting == LayerSorting.None) {
+                    NoSort.Draw(pass);
+                }
+                else {
+                    pass.SortObjects();
 
-		public static bool IsDrawing(Camera camera, LightmapPreset lightmapPreset)
-		{
-			if (Lighting2D.DayLightingSettings.ShadowColor.a == 0) // <=
-			{
-				return(false);
-			}
+                    Sorted.Draw(pass);
+                }
+            }
+        }
 
-			if (lightmapPreset == null)
-			{
-				return(false);
-			}
+        public static bool IsDrawing(Camera camera, LightmapPreset lightmapPreset) {
+            if (Lighting2D.DayLightingSettings.ShadowColor.a == 0) // <=
+            {
+                return (false);
+            }
 
-			LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
+            if (lightmapPreset == null) {
+                return (false);
+            }
 
-			if (layerSettings.Length < 1)
-			{
-				return(false);
-			}
+            LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
 
-			return(true);
-		}
-	}
+            if (layerSettings.Length < 1) {
+                return (false);
+            }
+
+            return (true);
+        }
+    }
 }

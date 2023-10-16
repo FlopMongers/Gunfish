@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Threading;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Single.Factorization {
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization for user matrices.</para>
     /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
@@ -41,8 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    internal sealed class UserCholesky : Cholesky
-    {
+    internal sealed class UserCholesky : Cholesky {
         /// <summary>
         /// Computes the Cholesky factorization in-place.
         /// </summary>
@@ -50,45 +48,38 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <exception cref="ArgumentNullException">If <paramref name="factor"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="factor"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="factor"/> is not positive definite.</exception>
-        static void DoCholesky(Matrix<float> factor)
-        {
-            if (factor.RowCount != factor.ColumnCount)
-            {
+        static void DoCholesky(Matrix<float> factor) {
+            if (factor.RowCount != factor.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.");
             }
 
             var tmpColumn = new float[factor.RowCount];
 
             // Main loop - along the diagonal
-            for (var ij = 0; ij < factor.RowCount; ij++)
-            {
+            for (var ij = 0; ij < factor.RowCount; ij++) {
                 // "Pivot" element
                 var tmpVal = factor.At(ij, ij);
 
-                if (tmpVal > 0.0)
-                {
-                    tmpVal = (float) Math.Sqrt(tmpVal);
+                if (tmpVal > 0.0) {
+                    tmpVal = (float)Math.Sqrt(tmpVal);
                     factor.At(ij, ij, tmpVal);
                     tmpColumn[ij] = tmpVal;
 
                     // Calculate multipliers and copy to local column
                     // Current column, below the diagonal
-                    for (var i = ij + 1; i < factor.RowCount; i++)
-                    {
-                        factor.At(i, ij, factor.At(i, ij)/tmpVal);
+                    for (var i = ij + 1; i < factor.RowCount; i++) {
+                        factor.At(i, ij, factor.At(i, ij) / tmpVal);
                         tmpColumn[i] = factor.At(i, ij);
                     }
 
                     // Remaining columns, below the diagonal
                     DoCholeskyStep(factor, factor.RowCount, ij + 1, factor.RowCount, tmpColumn, Control.MaxDegreeOfParallelism);
                 }
-                else
-                {
+                else {
                     throw new ArgumentException("Matrix must be positive definite.");
                 }
 
-                for (var i = ij + 1; i < factor.RowCount; i++)
-                {
+                for (var i = ij + 1; i < factor.RowCount; i++) {
                     factor.At(ij, i, 0.0f);
                 }
             }
@@ -102,8 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
-        public static UserCholesky Create(Matrix<float> matrix)
-        {
+        public static UserCholesky Create(Matrix<float> matrix) {
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
             var factor = matrix.Clone();
             DoCholesky(factor);
@@ -118,10 +108,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="matrix"/> does not have the same dimensions as the existing factor.</exception>
-        public override void Factorize(Matrix<float> matrix)
-        {
-            if (matrix.RowCount != Factor.RowCount || matrix.ColumnCount != Factor.ColumnCount)
-            {
+        public override void Factorize(Matrix<float> matrix) {
+            if (matrix.RowCount != Factor.RowCount || matrix.ColumnCount != Factor.ColumnCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, Factor);
             }
 
@@ -130,8 +118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         }
 
         UserCholesky(Matrix<float> factor)
-            : base(factor)
-        {
+            : base(factor) {
         }
 
         /// <summary>
@@ -143,27 +130,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <param name="colLimit">Total columns</param>
         /// <param name="multipliers">Multipliers calculated previously</param>
         /// <param name="availableCores">Number of available processors</param>
-        static void DoCholeskyStep(Matrix<float> data, int rowDim, int firstCol, int colLimit, float[] multipliers, int availableCores)
-        {
+        static void DoCholeskyStep(Matrix<float> data, int rowDim, int firstCol, int colLimit, float[] multipliers, int availableCores) {
             var tmpColCount = colLimit - firstCol;
 
-            if ((availableCores > 1) && (tmpColCount > 200))
-            {
-                var tmpSplit = firstCol + (tmpColCount/3);
-                var tmpCores = availableCores/2;
+            if ((availableCores > 1) && (tmpColCount > 200)) {
+                var tmpSplit = firstCol + (tmpColCount / 3);
+                var tmpCores = availableCores / 2;
 
                 CommonParallel.Invoke(
                     () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
                     () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
             }
-            else
-            {
-                for (var j = firstCol; j < colLimit; j++)
-                {
+            else {
+                for (var j = firstCol; j < colLimit; j++) {
                     var tmpVal = multipliers[j];
-                    for (var i = j; i < rowDim; i++)
-                    {
-                        data.At(i, j, data.At(i, j) - (multipliers[i]*tmpVal));
+                    for (var i = j; i < rowDim; i++) {
+                        data.At(i, j, data.At(i, j) - (multipliers[i] * tmpVal));
                     }
                 }
             }
@@ -174,51 +156,42 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<float> input, Matrix<float> result)
-        {
-            if (result.RowCount != input.RowCount)
-            {
+        public override void Solve(Matrix<float> input, Matrix<float> result) {
+            if (result.RowCount != input.RowCount) {
                 throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
-            if (result.ColumnCount != input.ColumnCount)
-            {
+            if (result.ColumnCount != input.ColumnCount) {
                 throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
-            if (input.RowCount != Factor.RowCount)
-            {
+            if (input.RowCount != Factor.RowCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
             input.CopyTo(result);
             var order = Factor.RowCount;
 
-            for (var c = 0; c < result.ColumnCount; c++)
-            {
+            for (var c = 0; c < result.ColumnCount; c++) {
                 // Solve L*Y = B;
                 float sum;
-                for (var i = 0; i < order; i++)
-                {
+                for (var i = 0; i < order; i++) {
                     sum = result.At(i, c);
-                    for (var k = i - 1; k >= 0; k--)
-                    {
-                        sum -= Factor.At(i, k)*result.At(k, c);
+                    for (var k = i - 1; k >= 0; k--) {
+                        sum -= Factor.At(i, k) * result.At(k, c);
                     }
 
-                    result.At(i, c, sum/Factor.At(i, i));
+                    result.At(i, c, sum / Factor.At(i, i));
                 }
 
                 // Solve L'*X = Y;
-                for (var i = order - 1; i >= 0; i--)
-                {
+                for (var i = order - 1; i >= 0; i--) {
                     sum = result.At(i, c);
-                    for (var k = i + 1; k < order; k++)
-                    {
-                        sum -= Factor.At(k, i)*result.At(k, c);
+                    for (var k = i + 1; k < order; k++) {
+                        sum -= Factor.At(k, i) * result.At(k, c);
                     }
 
-                    result.At(i, c, sum/Factor.At(i, i));
+                    result.At(i, c, sum / Factor.At(i, i));
                 }
             }
         }
@@ -228,15 +201,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<float> input, Vector<float> result)
-        {
-            if (input.Count != result.Count)
-            {
+        public override void Solve(Vector<float> input, Vector<float> result) {
+            if (input.Count != result.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (input.Count != Factor.RowCount)
-            {
+            if (input.Count != Factor.RowCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
@@ -245,27 +215,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // Solve L*Y = B;
             float sum;
-            for (var i = 0; i < order; i++)
-            {
+            for (var i = 0; i < order; i++) {
                 sum = result[i];
-                for (var k = i - 1; k >= 0; k--)
-                {
-                    sum -= Factor.At(i, k)*result[k];
+                for (var k = i - 1; k >= 0; k--) {
+                    sum -= Factor.At(i, k) * result[k];
                 }
 
-                result[i] = sum/Factor.At(i, i);
+                result[i] = sum / Factor.At(i, i);
             }
 
             // Solve L'*X = Y;
-            for (var i = order - 1; i >= 0; i--)
-            {
+            for (var i = order - 1; i >= 0; i--) {
                 sum = result[i];
-                for (var k = i + 1; k < order; k++)
-                {
-                    sum -= Factor.At(k, i)*result[k];
+                for (var k = i + 1; k < order; k++) {
+                    sum -= Factor.At(k, i) * result[k];
                 }
 
-                result[i] = sum/Factor.At(i, i);
+                result[i] = sum / Factor.At(i, i);
             }
         }
     }

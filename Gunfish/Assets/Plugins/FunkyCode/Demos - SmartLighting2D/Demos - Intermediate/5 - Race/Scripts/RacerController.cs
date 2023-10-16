@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RacerController : MonoBehaviour
-{
+public class RacerController : MonoBehaviour {
     public static RacerController instance;
     public AudioSource audioSource;
     public float speed = 0;
@@ -12,23 +11,24 @@ public class RacerController : MonoBehaviour
         instance = this;
     }
 
-    public void Updates()
-    {
+    public void Updates() {
         if (Input.GetKey(KeyCode.W) || Input.GetMouseButton(0)) {
             speed = speed * 0.98f + 100 * 0.02f;
-        } else if (Input.GetKey(KeyCode.Space)) {
+        }
+        else if (Input.GetKey(KeyCode.Space)) {
             speed = speed * 0.98f + 150 * 0.02f;
-        } else {
+        }
+        else {
             speed = speed * 0.98f;
         }
 
         if (Input.GetKey(KeyCode.D)) {
-            transform.Rotate(0, 0, - Time.deltaTime * 45);
+            transform.Rotate(0, 0, -Time.deltaTime * 45);
 
         }
 
-         if (Input.GetKey(KeyCode.A)) {
-            transform.Rotate(0, 0, Time.deltaTime* 45);
+        if (Input.GetKey(KeyCode.A)) {
+            transform.Rotate(0, 0, Time.deltaTime * 45);
 
         }
 

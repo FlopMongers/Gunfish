@@ -7,8 +7,7 @@ public struct FishSegment {
     public Rigidbody2D body;
     public CircleCollider2D collider;
 
-    public FishSegment(GameObject obj, Rigidbody2D body, CircleCollider2D collider)
-    {
+    public FishSegment(GameObject obj, Rigidbody2D body, CircleCollider2D collider) {
         this.obj = obj;
         this.body = body;
         this.collider = collider;
@@ -25,7 +24,8 @@ public class GunfishRigidbody {
         get {
             foreach (var segment in segments) {
                 var collider = Physics2D.Raycast(segment.body.position, Vector2.down, segment.collider.radius * 1.1f, groundMask);
-                if (collider) return true;
+                if (collider)
+                    return true;
             }
             return false;
         }
@@ -59,11 +59,11 @@ public class GunfishRigidbody {
         });
     }
 
-    public void ApplyForceToSegment(int index, Vector2 force, ForceMode2D forceMode=ForceMode2D.Force) {
+    public void ApplyForceToSegment(int index, Vector2 force, ForceMode2D forceMode = ForceMode2D.Force) {
         segments[index].body.AddForce(force, forceMode);
     }
 
-    public void ApplyTorqueToSegment(int index, float torque, ForceMode2D forceMode=ForceMode2D.Force) {
+    public void ApplyTorqueToSegment(int index, float torque, ForceMode2D forceMode = ForceMode2D.Force) {
         segments[index].body.AddTorque(torque, forceMode);
     }
 }

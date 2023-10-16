@@ -27,12 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.LinearAlgebra.Solvers;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -52,8 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class ILUTPPreconditioner : IPreconditioner<Complex>
-    {
+    public sealed class ILUTPPreconditioner : IPreconditioner<Complex> {
         /// <summary>
         /// The default fill level.
         /// </summary>
@@ -97,8 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <summary>
         /// Initializes a new instance of the <see cref="ILUTPPreconditioner"/> class with the default settings.
         /// </summary>
-        public ILUTPPreconditioner()
-        {
+        public ILUTPPreconditioner() {
         }
 
         /// <summary>
@@ -117,20 +114,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// The pivot tolerance which indicates at what level pivoting will take place. A
         /// value of 0.0 means that no pivoting will take place.
         /// </param>
-        public ILUTPPreconditioner(double fillLevel, double dropTolerance, double pivotTolerance)
-        {
-            if (fillLevel < 0)
-            {
+        public ILUTPPreconditioner(double fillLevel, double dropTolerance, double pivotTolerance) {
+            if (fillLevel < 0) {
                 throw new ArgumentOutOfRangeException(nameof(fillLevel));
             }
 
-            if (dropTolerance < 0)
-            {
+            if (dropTolerance < 0) {
                 throw new ArgumentOutOfRangeException(nameof(dropTolerance));
             }
 
-            if (pivotTolerance < 0)
-            {
+            if (pivotTolerance < 0) {
                 throw new ArgumentOutOfRangeException(nameof(pivotTolerance));
             }
 
@@ -159,13 +152,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </para>
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
-        public double FillLevel
-        {
+        public double FillLevel {
             get => _fillLevel;
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -190,13 +180,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </para>
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
-        public double DropTolerance
-        {
+        public double DropTolerance {
             get => _dropTolerance;
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -223,13 +210,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </para>
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
-        public double PivotTolerance
-        {
+        public double PivotTolerance {
             get => _pivotTolerance;
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -244,8 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// This method is used for debugging purposes only and should normally not be used.
         /// </remarks>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix<Complex> UpperTriangle()
-        {
+        internal Matrix<Complex> UpperTriangle() {
             return _upper.Clone();
         }
 
@@ -256,8 +239,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// This method is used for debugging purposes only and should normally not be used.
         /// </remarks>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix<Complex> LowerTriangle()
-        {
+        internal Matrix<Complex> LowerTriangle() {
             return _lower.Clone();
         }
 
@@ -269,11 +251,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// This method is used for debugging purposes only and should normally not be used.
         /// </remarks>
         /// <returns>The pivot array.</returns>
-        internal int[] Pivots()
-        {
+        internal int[] Pivots() {
             var result = new int[_pivots.Length];
-            for (var i = 0; i < _pivots.Length; i++)
-            {
+            for (var i = 0; i < _pivots.Length; i++) {
                 result[i] = _pivots[i];
             }
 
@@ -290,15 +270,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </param>
         /// <exception cref="ArgumentNullException"> If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex> matrix)
-        {
-            if (matrix == null)
-            {
+        public void Initialize(Matrix<Complex> matrix) {
+            if (matrix == null) {
                 throw new ArgumentNullException(nameof(matrix));
             }
 
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
@@ -357,8 +334,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             // Create the pivot array
             _pivots = new int[sparseMatrix.RowCount];
-            for (var i = 0; i < _pivots.Length; i++)
-            {
+            for (var i = 0; i < _pivots.Length; i++) {
                 _pivots[i] = i;
             }
 
@@ -367,11 +343,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             var indexSorting = new int[sparseMatrix.RowCount];
 
             // spaceLeft = lfilNnz * nnz(A)
-            var spaceLeft = (int) _fillLevel*sparseMatrix.NonZerosCount;
+            var spaceLeft = (int)_fillLevel * sparseMatrix.NonZerosCount;
 
             // for i = 1, .. , n
-            for (var i = 0; i < sparseMatrix.RowCount; i++)
-            {
+            for (var i = 0; i < sparseMatrix.RowCount; i++) {
                 // w = a(i,*)
                 sparseMatrix.Row(i, workVector);
 
@@ -380,8 +355,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 var vectorNorm = workVector.InfinityNorm();
 
                 // for j = 1, .. , i - 1)
-                for (var j = 0; j < i; j++)
-                {
+                for (var j = 0; j < i; j++) {
                     // if (w(j) != 0)
                     // {
                     //     w(j) = w(j) / a(j,j)
@@ -393,25 +367,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     //     {
                     //         w = w - w(j) * U(j,*)
                     //     }
-                    if (workVector[j] != 0.0)
-                    {
+                    if (workVector[j] != 0.0) {
                         // Calculate the multiplication factors that go into the L matrix
-                        workVector[j] = workVector[j]/_upper[j, j];
-                        if (workVector[j].Magnitude < _dropTolerance)
-                        {
+                        workVector[j] = workVector[j] / _upper[j, j];
+                        if (workVector[j].Magnitude < _dropTolerance) {
                             workVector[j] = 0.0;
                         }
 
                         // Calculate the addition factor
-                        if (workVector[j] != 0.0)
-                        {
+                        if (workVector[j] != 0.0) {
                             // vector update all in one go
                             _upper.Row(j, rowVector);
 
                             // zero out columnVector[k] because we don't need that
                             // one anymore for k = 0 to k = j
-                            for (var k = 0; k <= j; k++)
-                            {
+                            for (var k = 0; k <= j; k++) {
                                 rowVector[k] = 0.0;
                             }
 
@@ -422,32 +392,28 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 }
 
                 // for j = i, .. ,n
-                for (var j = i; j < sparseMatrix.RowCount; j++)
-                {
+                for (var j = i; j < sparseMatrix.RowCount; j++) {
                     // if w(j) <= dropTol * ||A(i,*)||
                     // {
                     //     w(j) = 0
                     // }
-                    if (workVector[j].Magnitude <= _dropTolerance*vectorNorm)
-                    {
+                    if (workVector[j].Magnitude <= _dropTolerance * vectorNorm) {
                         workVector[j] = 0.0;
                     }
                 }
 
                 // spaceRow = spaceLeft / (n - i + 1) // Determine the space for this row
-                var spaceRow = spaceLeft/(sparseMatrix.RowCount - i + 1);
+                var spaceRow = spaceLeft / (sparseMatrix.RowCount - i + 1);
 
                 // lfil = spaceRow / 2  // space for this row of L
-                var fillLevel = spaceRow/2;
+                var fillLevel = spaceRow / 2;
                 FindLargestItems(0, i - 1, indexSorting, workVector);
 
                 // l(i,j) = w(j) for j = 1, .. , i -1 // only the largest lfil elements
                 var lowerNonZeroCount = 0;
                 var count = 0;
-                for (var j = 0; j < i; j++)
-                {
-                    if ((count > fillLevel) || (indexSorting[j] == -1))
-                    {
+                for (var j = 0; j < i; j++) {
+                    if ((count > fillLevel) || (indexSorting[j] == -1)) {
                         break;
                     }
 
@@ -464,10 +430,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 // u(i,j) = w(j) for j = i + 1, .. , n // only the largest lfil - 1 elements
                 var upperNonZeroCount = 0;
                 count = 0;
-                for (var j = 0; j < sparseMatrix.RowCount - i; j++)
-                {
-                    if ((count > fillLevel - 1) || (indexSorting[j] == -1))
-                    {
+                for (var j = 0; j < sparseMatrix.RowCount - i; j++) {
+                    if ((count > fillLevel - 1) || (indexSorting[j] == -1)) {
                         break;
                     }
 
@@ -490,10 +454,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 // we are working on the last row. That means that there is only one number
                 // And pivoting is useless. Also the indexSorting array will only contain
                 // -1 values.
-                if ((i + 1) < (sparseMatrix.RowCount - 1))
-                {
-                    if (workVector[i].Magnitude < _pivotTolerance*workVector[indexSorting[0]].Magnitude)
-                    {
+                if ((i + 1) < (sparseMatrix.RowCount - 1)) {
+                    if (workVector[i].Magnitude < _pivotTolerance * workVector[indexSorting[0]].Magnitude) {
                         // swap columns of u (which holds the values of A in the
                         // sections that haven't been partitioned yet.
                         SwapColumns(_upper, i, indexSorting[0]);
@@ -507,8 +469,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 spaceLeft -= lowerNonZeroCount + upperNonZeroCount;
             }
 
-            for (var i = 0; i < _lower.RowCount; i++)
-            {
+            for (var i = 0; i < _lower.RowCount; i++) {
                 _lower[i, i] = 1.0;
             }
         }
@@ -517,15 +478,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Pivot elements in the <paramref name="row"/> according to internal pivot array
         /// </summary>
         /// <param name="row">Row <see cref="Vector"/> to pivot in</param>
-        void PivotRow(Vector<Complex> row)
-        {
+        void PivotRow(Vector<Complex> row) {
             var knownPivots = new Dictionary<int, int>();
 
             // pivot the row
-            for (var i = 0; i < row.Count; i++)
-            {
-                if ((_pivots[i] != i) && (!PivotMapFound(knownPivots, i)))
-                {
+            for (var i = 0; i < row.Count; i++) {
+                if ((_pivots[i] != i) && (!PivotMapFound(knownPivots, i))) {
                     // store the pivots in the hashtable
                     knownPivots.Add(_pivots[i], i);
 
@@ -540,15 +498,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="knownPivots">Pivots already done</param>
         /// <param name="currentItem">Current item to pivot</param>
         /// <returns><c>true</c> if performed, otherwise <c>false</c></returns>
-        bool PivotMapFound(Dictionary<int, int> knownPivots, int currentItem)
-        {
-            if (knownPivots.TryGetValue(_pivots[currentItem], out var knownPivot) && knownPivot.Equals(currentItem))
-            {
+        bool PivotMapFound(Dictionary<int, int> knownPivots, int currentItem) {
+            if (knownPivots.TryGetValue(_pivots[currentItem], out var knownPivot) && knownPivot.Equals(currentItem)) {
                 return true;
             }
 
-            if (knownPivots.TryGetValue(currentItem, out var pivot) && pivot.Equals(_pivots[currentItem]))
-            {
+            if (knownPivots.TryGetValue(currentItem, out var pivot) && pivot.Equals(_pivots[currentItem])) {
                 return true;
             }
 
@@ -561,10 +516,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">Source <see cref="Matrix"/>.</param>
         /// <param name="firstColumn">First column index to swap</param>
         /// <param name="secondColumn">Second column index to swap</param>
-        static void SwapColumns(Matrix<Complex> matrix, int firstColumn, int secondColumn)
-        {
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
+        static void SwapColumns(Matrix<Complex> matrix, int firstColumn, int secondColumn) {
+            for (var i = 0; i < matrix.RowCount; i++) {
                 (matrix[i, firstColumn], matrix[i, secondColumn]) = (matrix[i, secondColumn], matrix[i, firstColumn]);
             }
         }
@@ -576,16 +529,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="upperBound">Sort till upper bound</param>
         /// <param name="sortedIndices">Array with sorted vector indices</param>
         /// <param name="values">Source <see cref="Vector"/></param>
-        static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex> values)
-        {
+        static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex> values) {
             // Copy the indices for the values into the array
-            for (var i = 0; i < upperBound + 1 - lowerBound; i++)
-            {
+            for (var i = 0; i < upperBound + 1 - lowerBound; i++) {
                 sortedIndices[i] = lowerBound + i;
             }
 
-            for (var i = upperBound + 1 - lowerBound; i < sortedIndices.Length; i++)
-            {
+            for (var i = upperBound + 1 - lowerBound; i < sortedIndices.Length; i++) {
                 sortedIndices[i] = -1;
             }
 
@@ -601,15 +551,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
-        {
-            if (_upper == null)
-            {
+        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs) {
+            if (_upper == null) {
                 throw new ArgumentException("The requested matrix does not exist.");
             }
 
-            if ((lhs.Count != rhs.Count) || (lhs.Count != _upper.RowCount))
-            {
+            if ((lhs.Count != rhs.Count) || (lhs.Count != _upper.RowCount)) {
                 throw new ArgumentException("All vectors must have the same dimensionality.", nameof(rhs));
             }
 
@@ -617,31 +564,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             // Pivot(vector, result);
             // Solve L*Y = B(piv,:)
             var rowValues = new DenseVector(_lower.RowCount);
-            for (var i = 0; i < _lower.RowCount; i++)
-            {
+            for (var i = 0; i < _lower.RowCount; i++) {
                 _lower.Row(i, rowValues);
 
                 var sum = Complex.Zero;
-                for (var j = 0; j < i; j++)
-                {
-                    sum += rowValues[j]*lhs[j];
+                for (var j = 0; j < i; j++) {
+                    sum += rowValues[j] * lhs[j];
                 }
 
                 lhs[i] = rhs[i] - sum;
             }
 
             // Solve U*X = Y;
-            for (var i = _upper.RowCount - 1; i > -1; i--)
-            {
+            for (var i = _upper.RowCount - 1; i > -1; i--) {
                 _upper.Row(i, rowValues);
 
                 var sum = Complex.Zero;
-                for (var j = _upper.RowCount - 1; j > i; j--)
-                {
-                    sum += rowValues[j]*lhs[j];
+                for (var j = _upper.RowCount - 1; j > i; j--) {
+                    sum += rowValues[j] * lhs[j];
                 }
 
-                lhs[i] = 1/rowValues[i]*(lhs[i] - sum);
+                lhs[i] = 1 / rowValues[i] * (lhs[i] - sum);
             }
 
             // We have a column pivot so we only need to pivot the
@@ -656,10 +599,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </summary>
         /// <param name="vector">Source <see cref="Vector"/>.</param>
         /// <param name="result">Result <see cref="Vector"/> after pivoting.</param>
-        void Pivot(Vector<Complex> vector, Vector<Complex> result)
-        {
-            for (var i = 0; i < _pivots.Length; i++)
-            {
+        void Pivot(Vector<Complex> vector, Vector<Complex> result) {
+            for (var i = 0; i < _pivots.Length; i++) {
                 result[i] = vector[_pivots[i]];
             }
         }
@@ -672,8 +613,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     /// This sort algorithm is used to sort the columns in a sparse matrix based on
     /// the value of the element on the diagonal of the matrix.
     /// </remarks>
-    internal static class ILUTPElementSorter
-    {
+    internal static class ILUTPElementSorter {
         /// <summary>
         /// Sorts the elements of the <paramref name="values"/> vector in decreasing
         /// fashion. The vector itself is not affected.
@@ -682,14 +622,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="upperBound">The stopping index.</param>
         /// <param name="sortedIndices">An array that will contain the sorted indices once the algorithm finishes.</param>
         /// <param name="values">The <see cref="Vector{T}"/> that contains the values that need to be sorted.</param>
-        public static void SortDoubleIndicesDecreasing(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex> values)
-        {
+        public static void SortDoubleIndicesDecreasing(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex> values) {
             // Move all the indices that we're interested in to the beginning of the
             // array. Ignore the rest of the indices.
-            if (lowerBound > 0)
-            {
-                for (var i = 0; i < (upperBound - lowerBound + 1); i++)
-                {
+            if (lowerBound > 0) {
+                for (var i = 0; i < (upperBound - lowerBound + 1); i++) {
                     Exchange(sortedIndices, i, i + lowerBound);
                 }
 
@@ -708,15 +645,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="upperBound">The stopping index.</param>
         /// <param name="sortedIndices">An array that will contain the sorted indices once the algorithm finishes.</param>
         /// <param name="values">The <see cref="Vector{T}"/> that contains the values that need to be sorted.</param>
-        static void HeapSortDoublesIndices(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex> values)
-        {
+        static void HeapSortDoublesIndices(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex> values) {
             var start = ((upperBound - lowerBound + 1) / 2) - 1 + lowerBound;
             var end = (upperBound - lowerBound + 1) - 1 + lowerBound;
 
             BuildDoubleIndexHeap(start, upperBound - lowerBound + 1, sortedIndices, values);
 
-            while (end >= lowerBound)
-            {
+            while (end >= lowerBound) {
                 Exchange(sortedIndices, end, lowerBound);
                 SiftDoubleIndices(sortedIndices, values, lowerBound, end);
                 end -= 1;
@@ -730,10 +665,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="count">Length of <paramref name="values"/></param>
         /// <param name="sortedIndices">Indices of <paramref name="values"/></param>
         /// <param name="values">Target <see cref="Vector{T}"/></param>
-        static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector<Complex> values)
-        {
-            while (start >= 0)
-            {
+        static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector<Complex> values) {
+            while (start >= 0) {
                 SiftDoubleIndices(sortedIndices, values, start, count);
                 start -= 1;
             }
@@ -746,20 +679,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="values">Target <see cref="Vector{T}"/></param>
         /// <param name="begin">Root position</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        static void SiftDoubleIndices(int[] sortedIndices, Vector<Complex> values, int begin, int count)
-        {
+        static void SiftDoubleIndices(int[] sortedIndices, Vector<Complex> values, int begin, int count) {
             var root = begin;
 
-            while (root * 2 < count)
-            {
+            while (root * 2 < count) {
                 var child = root * 2;
-                if ((child < count - 1) && (values[sortedIndices[child]].Magnitude > values[sortedIndices[child + 1]].Magnitude))
-                {
+                if ((child < count - 1) && (values[sortedIndices[child]].Magnitude > values[sortedIndices[child + 1]].Magnitude)) {
                     child += 1;
                 }
 
-                if (values[sortedIndices[root]].Magnitude <= values[sortedIndices[child]].Magnitude)
-                {
+                if (values[sortedIndices[root]].Magnitude <= values[sortedIndices[child]].Magnitude) {
                     return;
                 }
 
@@ -772,8 +701,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Sorts the given integers in a decreasing fashion.
         /// </summary>
         /// <param name="values">The values.</param>
-        public static void SortIntegersDecreasing(int[] values)
-        {
+        public static void SortIntegersDecreasing(int[] values) {
             HeapSortIntegers(values, values.Length);
         }
 
@@ -782,15 +710,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </summary>
         /// <param name="values">Array of values to sort</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        static void HeapSortIntegers(int[] values, int count)
-        {
+        static void HeapSortIntegers(int[] values, int count) {
             var start = (count / 2) - 1;
             var end = count - 1;
 
             BuildHeap(values, start, count);
 
-            while (end >= 0)
-            {
+            while (end >= 0) {
                 Exchange(values, end, 0);
                 Sift(values, 0, end);
                 end -= 1;
@@ -803,10 +729,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="values">Target values array</param>
         /// <param name="start">Root position</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        static void BuildHeap(int[] values, int start, int count)
-        {
-            while (start >= 0)
-            {
+        static void BuildHeap(int[] values, int start, int count) {
+            while (start >= 0) {
                 Sift(values, start, count);
                 start -= 1;
             }
@@ -818,25 +742,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="values">Target value array</param>
         /// <param name="start">Root position</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        static void Sift(int[] values, int start, int count)
-        {
+        static void Sift(int[] values, int start, int count) {
             var root = start;
 
-            while (root * 2 < count)
-            {
+            while (root * 2 < count) {
                 var child = root * 2;
-                if ((child < count - 1) && (values[child] > values[child + 1]))
-                {
+                if ((child < count - 1) && (values[child] > values[child + 1])) {
                     child += 1;
                 }
 
-                if (values[root] > values[child])
-                {
+                if (values[root] > values[child]) {
                     Exchange(values, root, child);
                     root = child;
                 }
-                else
-                {
+                else {
                     return;
                 }
             }
@@ -848,8 +767,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="values">Target values array</param>
         /// <param name="first">First value to exchange</param>
         /// <param name="second">Second value to exchange</param>
-        static void Exchange(int[] values, int first, int second)
-        {
+        static void Exchange(int[] values, int first, int second) {
             (values[first], values[second]) = (values[second], values[first]);
         }
     }

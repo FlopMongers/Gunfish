@@ -1,14 +1,14 @@
+using MathNet.Numerics;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using MathNet.Numerics;
 using System.Linq;
+using UnityEngine;
 using static FunkyCode.Rendering.Universal.Sprite;
 
 public class WaterMaterialInterface : MonoBehaviour {
     [HideInInspector]
     public List<Transform> waterSurfaceNodes;
-    
+
     private double[] positionsX;
     private double[] positionsY;
 
@@ -66,14 +66,14 @@ public class WaterMaterialInterface : MonoBehaviour {
             if (i == waterSurfaceNodes.Count - 1) {
                 continue;
             }
-            
+
             var colliders = waterSurfaceNodes[i].GetComponents<BoxCollider2D>();
             var effector = waterSurfaceNodes[i].GetComponent<BuoyancyEffector2D>();
             var waterDimensions = GetComponentInParent<WaterSurfaceGenerator>().dimensions;
 
             Vector2 offset = (waterSurfaceNodes[i + 1].position - waterSurfaceNodes[i].position);
             var surfaceMidpoint = (Vector2)waterSurfaceNodes[i].position + offset / 2;
-            
+
             var width = offset.x;
             var height = surfaceMidpoint.y - transform.parent.position.y + waterDimensions.y / 2;
 

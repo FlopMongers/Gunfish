@@ -46,13 +46,11 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the modified Bessel function.
     /// </summary>
-    public static partial class SpecialFunctions
-    {
+    public static partial class SpecialFunctions {
         /// <summary>
         /// **************************************
         /// COEFFICIENTS FOR METHODS bessi0      *
@@ -140,15 +138,12 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Bessel function of.
         /// </param>
-        public static double BesselI0(double x)
-        {
-            if (x < 0)
-            {
+        public static double BesselI0(double x) {
+            if (x < 0) {
                 x = -x;
             }
 
-            if (x <= 8.0)
-            {
+            if (x <= 8.0) {
                 double y = (x / 2.0) - 2.0;
                 return Math.Exp(x) * Evaluate.ChebyshevA(BesselI0A, y);
             }
@@ -168,22 +163,18 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Bessel function of.
         /// </param>
-        public static double BesselI1(double x)
-        {
+        public static double BesselI1(double x) {
             double z = Math.Abs(x);
-            if (z <= 8.0)
-            {
+            if (z <= 8.0) {
                 double y = (z / 2.0) - 2.0;
                 z = Evaluate.ChebyshevA(BesselI1A, y) * z * Math.Exp(z);
             }
-            else
-            {
+            else {
                 double x1 = 32.0 / z - 2.0;
                 z = Math.Exp(z) * Evaluate.ChebyshevA(BesselI1B, x1) / Math.Sqrt(z);
             }
 
-            if (x < 0.0)
-            {
+            if (x < 0.0) {
                 z = -z;
             }
 
@@ -199,15 +190,12 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Bessel function of.
         /// </param>
-        public static double BesselK0(double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double BesselK0(double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
-            if (x <= 2.0)
-            {
+            if (x <= 2.0) {
                 double y = x * x - 2.0;
                 return Evaluate.ChebyshevA(BesselK0A, y) - Math.Log(0.5 * x) * BesselI0(x);
             }
@@ -221,15 +209,12 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Bessel function of.
         /// </param>
-        public static double BesselK0e(double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double BesselK0e(double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
-            if (x <= 2.0)
-            {
+            if (x <= 2.0) {
                 double y = x * x - 2.0;
                 return Evaluate.ChebyshevA(BesselK0A, y) - Math.Log(0.5 * x) * BesselI0(x) * Math.Exp(x);
             }
@@ -247,16 +232,13 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Bessel function of.
         /// </param>
-        public static double BesselK1(double x)
-        {
+        public static double BesselK1(double x) {
             double z = 0.5 * x;
-            if (z <= 0.0)
-            {
+            if (z <= 0.0) {
                 throw new ArithmeticException();
             }
 
-            if (x <= 2.0)
-            {
+            if (x <= 2.0) {
                 double y = x * x - 2.0;
                 return Math.Log(z) * BesselI1(x) + Evaluate.ChebyshevA(BesselK1A, y) / x;
             }
@@ -272,15 +254,12 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The value to compute the Bessel function of.
         /// </param>
-        public static double BesselK1e(double x)
-        {
-            if (x <= 0.0)
-            {
+        public static double BesselK1e(double x) {
+            if (x <= 0.0) {
                 throw new ArithmeticException();
             }
 
-            if (x <= 2.0)
-            {
+            if (x <= 2.0) {
                 double y = x * x - 2.0;
                 return Math.Log(0.5 * x) * BesselI1(x) + Evaluate.ChebyshevA(BesselK1A, y) / x * Math.Exp(x);
             }

@@ -29,14 +29,12 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Factorization {
     /// <summary>
     /// Classes that solves a system of linear equations, <c>AX = B</c>.
     /// </summary>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
-    public interface ISolver<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public interface ISolver<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// Solves a system of linear equations, <c>AX = B</c>.
         /// </summary>

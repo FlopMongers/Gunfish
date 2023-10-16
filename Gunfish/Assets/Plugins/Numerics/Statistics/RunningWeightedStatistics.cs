@@ -34,8 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Statistics
-{
+namespace MathNet.Numerics.Statistics {
     /// <summary>
     /// Running weighted statistics accumulator, allows updating by adding values
     /// or by combining two accumulators. Weights are reliability weights, not frequency weights.
@@ -47,8 +46,7 @@ namespace MathNet.Numerics.Statistics
     /// It is not recommended to rely on this mechanism for durable persistence.
     /// </remarks>
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public class RunningWeightedStatistics
-    {
+    public class RunningWeightedStatistics {
         [DataMember(Order = 1)]
         long _n;
 
@@ -110,12 +108,10 @@ namespace MathNet.Numerics.Statistics
         [DataMember(Order = 12)]
         double _den;
 
-        public RunningWeightedStatistics()
-        {
+        public RunningWeightedStatistics() {
         }
 
-        public RunningWeightedStatistics(IEnumerable<System.Tuple<double, double>> values)
-        {
+        public RunningWeightedStatistics(IEnumerable<System.Tuple<double, double>> values) {
             PushRange(values);
         }
 
@@ -175,14 +171,11 @@ namespace MathNet.Numerics.Statistics
         /// Will use the Bessel correction for reliability weighting.
         /// Returns NaN if data has less than three entries or if any entry is NaN.
         /// </summary>
-        public double Skewness
-        {
-            get
-            {
+        public double Skewness {
+            get {
                 if (_n < 3)
                     return double.NaN;
-                else
-                {
+                else {
                     var skewDen = (_w1 * (_w1 * _w1 - 3.0 * _w2) + 2.0 * _w3) / (_w1 * _w1);
                     return _m3 / (skewDen * Math.Pow(_m2 / _den, 1.5));
                 }
@@ -202,14 +195,11 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data has less than four entries or if any entry is NaN.
         /// Equivalent formula for this for weighted distributions are unknown.
         /// </summary>
-        public double Kurtosis
-        {
-            get
-            {
+        public double Kurtosis {
+            get {
                 if (_n < 4)
                     return double.NaN;
-                else
-                {
+                else {
                     double p2 = _w1 * _w1;
                     double p4 = p2 * p2;
                     double w2p2 = _w2 * _w2;
@@ -241,8 +231,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Update the running statistics by adding another observed sample (in-place).
         /// </summary>
-        public void Push(double weight, double value)
-        {
+        public void Push(double weight, double value) {
             if (weight == 0.0)
                 return;
             if (weight < 0.0)
@@ -258,26 +247,24 @@ namespace MathNet.Numerics.Statistics
             _w3 += pow;
             pow *= weight;
             _w4 += pow;
-            _den += weight * ( 2.0 * prevW - _den) / _w1;
+            _den += weight * (2.0 * prevW - _den) / _w1;
 
             double d = value - _m1;
             double s = d * weight / _w1;
-            double s2 = s*s;
-            double t = d*s*prevW;
+            double s2 = s * s;
+            double t = d * s * prevW;
 
             _m1 += s;
             double r = prevW / weight;
-            _m4 += t*s2*(r*r + 1.0 - r) + 6*s2*_m2 - 4*s*_m3;
-            _m3 += t*s*(r - 1.0) - 3*s*_m2;
+            _m4 += t * s2 * (r * r + 1.0 - r) + 6 * s2 * _m2 - 4 * s * _m3;
+            _m3 += t * s * (r - 1.0) - 3 * s * _m2;
             _m2 += t;
 
-            if (value < _min || double.IsNaN(value))
-            {
+            if (value < _min || double.IsNaN(value)) {
                 _min = value;
             }
 
-            if (value > _max || double.IsNaN(value))
-            {
+            if (value > _max || double.IsNaN(value)) {
                 _max = value;
             }
         }
@@ -285,10 +272,8 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Update the running statistics by adding a sequence of weighted observatopms (in-place).
         /// </summary>
-        public void PushRange(IEnumerable<System.Tuple<double,double>> values)
-        {
-            foreach (var v in values)
-            {
+        public void PushRange(IEnumerable<System.Tuple<double, double>> values) {
+            foreach (var v in values) {
                 Push(v.Item1, v.Item2);
             }
         }
@@ -296,16 +281,12 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Update the running statistics by adding a sequence of weighted observatopms (in-place).
         /// </summary>
-        public void PushRange(IEnumerable<double> weights, IEnumerable<double> values)
-        {
-            using (var itW = weights.GetEnumerator())
-            {
-                using (var itV = values.GetEnumerator())
-                {
+        public void PushRange(IEnumerable<double> weights, IEnumerable<double> values) {
+            using (var itW = weights.GetEnumerator()) {
+                using (var itV = values.GetEnumerator()) {
                     var w = itW.MoveNext();
                     var v = itV.MoveNext();
-                    while (v & w)
-                    {
+                    while (v & w) {
                         if (v != w)
                             throw new ArgumentException("Weights and values need to be same length", nameof(values));
                         Push(itW.Current, itV.Current);
@@ -318,14 +299,11 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Create a new running statistics over the combined samples of two existing running statistics.
         /// </summary>
-        public static RunningWeightedStatistics Combine(RunningWeightedStatistics a, RunningWeightedStatistics b)
-        {
-            if (a._n == 0)
-            {
+        public static RunningWeightedStatistics Combine(RunningWeightedStatistics a, RunningWeightedStatistics b) {
+            if (a._n == 0) {
                 return b;
             }
-            else if (b._n == 0)
-            {
+            else if (b._n == 0) {
                 return a;
             }
 
@@ -336,16 +314,16 @@ namespace MathNet.Numerics.Statistics
             double w4 = a._w4 + b._w4;
 
             double d = b._m1 - a._m1;
-            double d2 = d*d;
-            double d3 = d2*d;
-            double d4 = d2*d2;
+            double d2 = d * d;
+            double d3 = d2 * d;
+            double d4 = d2 * d2;
 
             double m1 = (a._w1 * a._m1 + b._w1 * b._m1) / w1;
-            double m2 = a._m2 + b._m2 + d2 * a._w1 *b._w1 / w1;
-            double m3 = a._m3 + b._m3 + d3 * a._w1 * b._w1 * (a._w1 - b._w1 ) / (w1 * w1)
-                        + 3 * d *(a._w1 * b._m2 - b._w1 * a._m2) / w1;
+            double m2 = a._m2 + b._m2 + d2 * a._w1 * b._w1 / w1;
+            double m3 = a._m3 + b._m3 + d3 * a._w1 * b._w1 * (a._w1 - b._w1) / (w1 * w1)
+                        + 3 * d * (a._w1 * b._m2 - b._w1 * a._m2) / w1;
             double m4 = a._m4 + b._m4 + d4 * a._w1 * b._w1 * (a._w1 * a._w1 - a._w1 * b._w1 + b._w1 * b._w1) / (w1 * w1 * w1)
-                        + 6 * d2 * (a._w1 * a._w1 * b._m2 + b._w1 * b._w1 * a._m2)/(w1 * w1) + 4 * d * (a._w1 * b._m3 - b._w1 * a._m3) / w1;
+                        + 6 * d2 * (a._w1 * a._w1 * b._m2 + b._w1 * b._w1 * a._m2) / (w1 * w1) + 4 * d * (a._w1 * b._m3 - b._w1 * a._m3) / w1;
             double min = Math.Min(a._min, b._min);
             double max = Math.Max(a._max, b._max);
             double den = w1 - ((a._w1 - a._den) * a._w1 + (b._w1 - b._den) * b._w1) / w1;
@@ -353,8 +331,7 @@ namespace MathNet.Numerics.Statistics
             return new RunningWeightedStatistics { _n = n, _m1 = m1, _m2 = m2, _m3 = m3, _m4 = m4, _min = min, _max = max, _w1 = w1, _den = den, _w2 = w2, _w3 = w3, _w4 = w4 };
         }
 
-        public static RunningWeightedStatistics operator +(RunningWeightedStatistics a, RunningWeightedStatistics b)
-        {
+        public static RunningWeightedStatistics operator +(RunningWeightedStatistics a, RunningWeightedStatistics b) {
             return Combine(a, b);
         }
     }

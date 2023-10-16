@@ -1,41 +1,33 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
-namespace FunkyCode.Rendering.Day.Sorting
-{
-    public class SortList
-    {
-        public int Count {private set; get;}
+namespace FunkyCode.Rendering.Day.Sorting {
+    public class SortList {
+        public int Count { private set; get; }
         public SortObject[] List = new SortObject[1024];
 
-        public SortList()
-        {
+        public SortList() {
             Count = 0;
 
-            for(int i = 0; i < List.Length; i++)
+            for (int i = 0; i < List.Length; i++)
                 List[i] = new SortObject();
         }
 
-        public void Add(object lightObject, float dist)
-        {
-            if (Count < List.Length)
-            {
+        public void Add(object lightObject, float dist) {
+            if (Count < List.Length) {
                 List[Count] = new SortObject(dist, lightObject);
                 Count++;
             }
-            else
-            {
+            else {
                 Debug.LogError("Collider Depth Overhead!");
             }
         }
 
-        public void Reset()
-        {
+        public void Reset() {
             Count = 0;
         }
 
-        public void Sort()
-        {
+        public void Sort() {
             Array.Sort<SortObject>(List, 0, Count, SortObject.Sort());
         }
     }

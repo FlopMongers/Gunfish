@@ -12,14 +12,12 @@
         }
     }
 
-#else 
+#else
 
-    namespace FunkyCode.SuperTilemapEditorSupport.Light.Shadow
-    {
-        public class Collider
-        { 
-            static public void Draw(Light2D light, LightTilemapCollider2D id) {}
-        }
+namespace FunkyCode.SuperTilemapEditorSupport.Light.Shadow {
+    public class Collider {
+        static public void Draw(Light2D light, LightTilemapCollider2D id) { }
     }
+}
 
 #endif

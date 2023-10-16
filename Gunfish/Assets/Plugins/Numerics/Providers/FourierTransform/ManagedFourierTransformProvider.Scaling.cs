@@ -29,19 +29,15 @@
 using System;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.Providers.FourierTransform
-{
-    public partial class ManagedFourierTransformProvider
-    {
+namespace MathNet.Numerics.Providers.FourierTransform {
+    public partial class ManagedFourierTransformProvider {
         /// <summary>
         /// Fully rescale the FFT result.
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void FullRescale(Complex32[] samples)
-        {
+        static void FullRescale(Complex32[] samples) {
             var scalingFactor = (float)1.0 / samples.Length;
-            for (int i = 0; i < samples.Length; i++)
-            {
+            for (int i = 0; i < samples.Length; i++) {
                 samples[i] *= scalingFactor;
             }
         }
@@ -50,11 +46,9 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Fully rescale the FFT result.
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void FullRescale(Complex[] samples)
-        {
+        static void FullRescale(Complex[] samples) {
             var scalingFactor = 1.0 / samples.Length;
-            for (int i = 0; i < samples.Length; i++)
-            {
+            for (int i = 0; i < samples.Length; i++) {
                 samples[i] *= scalingFactor;
             }
         }
@@ -63,11 +57,9 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Half rescale the FFT result (e.g. for symmetric transforms).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void HalfRescale(Complex32[] samples)
-        {
+        static void HalfRescale(Complex32[] samples) {
             var scalingFactor = (float)Math.Sqrt(1.0 / samples.Length);
-            for (int i = 0; i < samples.Length; i++)
-            {
+            for (int i = 0; i < samples.Length; i++) {
                 samples[i] *= scalingFactor;
             }
         }
@@ -76,11 +68,9 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Fully rescale the FFT result (e.g. for symmetric transforms).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void HalfRescale(Complex[] samples)
-        {
+        static void HalfRescale(Complex[] samples) {
             var scalingFactor = Math.Sqrt(1.0 / samples.Length);
-            for (int i = 0; i < samples.Length; i++)
-            {
+            for (int i = 0; i < samples.Length; i++) {
                 samples[i] *= scalingFactor;
             }
         }

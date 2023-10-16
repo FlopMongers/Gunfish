@@ -34,8 +34,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 #endif
 
-namespace MathNet.Numerics.Statistics
-{
+namespace MathNet.Numerics.Statistics {
     /// <summary>
     /// Computes the basic statistics of data set. The class meets the
     /// NIST standard of accuracy for mean, variance, and standard deviation
@@ -50,8 +49,7 @@ namespace MathNet.Numerics.Statistics
     /// It is not recommended to rely on this mechanism for durable persistence.
     /// </remarks>
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public class DescriptiveStatistics
-    {
+    public class DescriptiveStatistics {
         /// <summary>
         /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
         /// </summary>
@@ -64,19 +62,15 @@ namespace MathNet.Numerics.Statistics
         /// Don't use increased accuracy for data sets containing large values (in absolute value).
         /// This may cause the calculations to overflow.
         /// </remarks>
-        public DescriptiveStatistics(IEnumerable<double> data, bool increasedAccuracy = false)
-        {
-            if (data == null)
-            {
+        public DescriptiveStatistics(IEnumerable<double> data, bool increasedAccuracy = false) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
-            if (increasedAccuracy)
-            {
+            if (increasedAccuracy) {
                 ComputeDecimal(data);
             }
-            else
-            {
+            else {
                 Compute(data);
             }
         }
@@ -93,19 +87,15 @@ namespace MathNet.Numerics.Statistics
         /// Don't use increased accuracy for data sets containing large values (in absolute value).
         /// This may cause the calculations to overflow.
         /// </remarks>
-        public DescriptiveStatistics(IEnumerable<double?> data, bool increasedAccuracy = false)
-        {
-            if (data == null)
-            {
+        public DescriptiveStatistics(IEnumerable<double?> data, bool increasedAccuracy = false) {
+            if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
 
-            if (increasedAccuracy)
-            {
+            if (increasedAccuracy) {
                 ComputeDecimal(data);
             }
-            else
-            {
+            else {
                 Compute(data);
             }
         }
@@ -208,8 +198,7 @@ namespace MathNet.Numerics.Statistics
         /// Computes descriptive statistics from a stream of data values.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
-        void Compute(IEnumerable<double> data)
-        {
+        void Compute(IEnumerable<double> data) {
             double mean = 0;
             double variance = 0;
             double skewness = 0;
@@ -218,8 +207,7 @@ namespace MathNet.Numerics.Statistics
             double maximum = double.NegativeInfinity;
             long n = 0;
 
-            foreach (var xi in data)
-            {
+            foreach (var xi in data) {
                 double delta = xi - mean;
                 double scaleDelta = delta / ++n;
                 double scaleDeltaSqr = scaleDelta * scaleDelta;
@@ -233,13 +221,11 @@ namespace MathNet.Numerics.Statistics
                 skewness += tmpDelta * scaleDeltaSqr * (n - 2) - 3 * scaleDelta * variance;
                 variance += tmpDelta * scaleDelta;
 
-                if (minimum > xi)
-                {
+                if (minimum > xi) {
                     minimum = xi;
                 }
 
-                if (maximum < xi)
-                {
+                if (maximum < xi) {
                     maximum = xi;
                 }
             }
@@ -251,8 +237,7 @@ namespace MathNet.Numerics.Statistics
         /// Computes descriptive statistics from a stream of nullable data values.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
-        void Compute(IEnumerable<double?> data)
-        {
+        void Compute(IEnumerable<double?> data) {
             double mean = 0;
             double variance = 0;
             double skewness = 0;
@@ -261,10 +246,8 @@ namespace MathNet.Numerics.Statistics
             double maximum = double.NegativeInfinity;
             long n = 0;
 
-            foreach (var xi in data)
-            {
-                if (xi.HasValue)
-                {
+            foreach (var xi in data) {
+                if (xi.HasValue) {
                     double delta = xi.Value - mean;
                     double scaleDelta = delta / ++n;
                     double scaleDeltaSqr = scaleDelta * scaleDelta;
@@ -278,13 +261,11 @@ namespace MathNet.Numerics.Statistics
                     skewness += tmpDelta * scaleDeltaSqr * (n - 2) - 3 * scaleDelta * variance;
                     variance += tmpDelta * scaleDelta;
 
-                    if (minimum > xi)
-                    {
+                    if (minimum > xi) {
                         minimum = xi.Value;
                     }
 
-                    if (maximum < xi)
-                    {
+                    if (maximum < xi) {
                         maximum = xi.Value;
                     }
                 }
@@ -297,8 +278,7 @@ namespace MathNet.Numerics.Statistics
         /// Computes descriptive statistics from a stream of data values.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
-        void ComputeDecimal(IEnumerable<double> data)
-        {
+        void ComputeDecimal(IEnumerable<double> data) {
             decimal mean = 0;
             decimal variance = 0;
             decimal skewness = 0;
@@ -307,8 +287,7 @@ namespace MathNet.Numerics.Statistics
             decimal maximum = decimal.MinValue;
             long n = 0;
 
-            foreach (double x in data)
-            {
+            foreach (double x in data) {
                 decimal xi = (decimal)x;
                 decimal delta = xi - mean;
                 decimal scaleDelta = delta / ++n;
@@ -323,13 +302,11 @@ namespace MathNet.Numerics.Statistics
                 skewness += tmpDelta * scaleDelta2 * (n - 2) - 3 * scaleDelta * variance;
                 variance += tmpDelta * scaleDelta;
 
-                if (minimum > xi)
-                {
+                if (minimum > xi) {
                     minimum = xi;
                 }
 
-                if (maximum < xi)
-                {
+                if (maximum < xi) {
                     maximum = xi;
                 }
             }
@@ -341,8 +318,7 @@ namespace MathNet.Numerics.Statistics
         /// Computes descriptive statistics from a stream of nullable data values.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
-        void ComputeDecimal(IEnumerable<double?> data)
-        {
+        void ComputeDecimal(IEnumerable<double?> data) {
             decimal mean = 0;
             decimal variance = 0;
             decimal skewness = 0;
@@ -351,10 +327,8 @@ namespace MathNet.Numerics.Statistics
             decimal maximum = decimal.MinValue;
             long n = 0;
 
-            foreach (double? x in data)
-            {
-                if (x.HasValue)
-                {
+            foreach (double? x in data) {
+                if (x.HasValue) {
                     decimal xi = (decimal)x.Value;
                     decimal delta = xi - mean;
                     decimal scaleDelta = delta / ++n;
@@ -369,13 +343,11 @@ namespace MathNet.Numerics.Statistics
                     skewness += tmpDelta * scaleDeltaSquared * (n - 2) - 3 * scaleDelta * variance;
                     variance += tmpDelta * scaleDelta;
 
-                    if (minimum > xi)
-                    {
+                    if (minimum > xi) {
                         minimum = xi;
                     }
 
-                    if (maximum < xi)
-                    {
+                    if (maximum < xi) {
                         maximum = xi;
                     }
                 }
@@ -394,8 +366,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="minimum">For setting Minimum.</param>
         /// <param name="maximum">For setting Maximum.</param>
         /// <param name="n">For setting Count.</param>
-        void SetStatistics(double mean, double variance, double skewness, double kurtosis, double minimum, double maximum, long n)
-        {
+        void SetStatistics(double mean, double variance, double skewness, double kurtosis, double minimum, double maximum, long n) {
             Mean = mean;
             Count = n;
 
@@ -406,26 +377,21 @@ namespace MathNet.Numerics.Statistics
             Skewness = double.NaN;
             Kurtosis = double.NaN;
 
-            if (n > 0)
-            {
+            if (n > 0) {
                 Minimum = minimum;
                 Maximum = maximum;
 
-                if (n > 1)
-                {
+                if (n > 1) {
                     Variance = variance / (n - 1);
                     StandardDeviation = Math.Sqrt(Variance);
                 }
 
-                if (Variance != 0)
-                {
-                    if (n > 2)
-                    {
+                if (Variance != 0) {
+                    if (n > 2) {
                         Skewness = (double)n / ((n - 1) * (n - 2)) * (skewness / (Variance * StandardDeviation));
                     }
 
-                    if (n > 3)
-                    {
+                    if (n > 3) {
                         Kurtosis = ((double)n * n - 1) / ((n - 2) * (n - 3))
                                    * (n * kurtosis / (variance * variance) - 3 + 6.0 / (n + 1));
                     }

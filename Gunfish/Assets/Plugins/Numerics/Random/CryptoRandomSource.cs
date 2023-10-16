@@ -29,17 +29,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Runtime;
+using System.Security.Cryptography;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// A random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library.
     /// </summary>
-    public sealed class CryptoRandomSource : RandomSource, IDisposable
-    {
-        const double Reciprocal = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
+    public sealed class CryptoRandomSource : RandomSource, IDisposable {
+        const double Reciprocal = 1.0 / 4294967296.0; // 1.0/(uint.MaxValue + 1.0)
         readonly RandomNumberGenerator _crypto;
 
         /// <summary>
@@ -47,8 +45,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Uses <see cref="System.Security.Cryptography.RandomNumberGenerator"/> and uses the value of
         /// <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether the instance is thread safe.</remarks>
-        public CryptoRandomSource()
-        {
+        public CryptoRandomSource() {
             _crypto = RandomNumberGenerator.Create();
         }
 
@@ -57,8 +54,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="rng">The <see cref="RandomNumberGenerator"/> to use.</param>
         /// <remarks>Uses the value of  <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether the instance is thread safe.</remarks>
-        public CryptoRandomSource(RandomNumberGenerator rng)
-        {
+        public CryptoRandomSource(RandomNumberGenerator rng) {
             _crypto = rng;
         }
 
@@ -67,8 +63,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Uses <see cref="System.Security.Cryptography.RandomNumberGenerator"/></remarks>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public CryptoRandomSource(bool threadSafe) : base(threadSafe)
-        {
+        public CryptoRandomSource(bool threadSafe) : base(threadSafe) {
             _crypto = RandomNumberGenerator.Create();
         }
 
@@ -77,48 +72,42 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="rng">The <see cref="RandomNumberGenerator"/> to use.</param>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public CryptoRandomSource(RandomNumberGenerator rng, bool threadSafe) : base(threadSafe)
-        {
+        public CryptoRandomSource(RandomNumberGenerator rng, bool threadSafe) : base(threadSafe) {
             _crypto = rng;
         }
 
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
         /// </summary>
-        protected override void DoSampleBytes(byte[] buffer)
-        {
+        protected override void DoSampleBytes(byte[] buffer) {
             _crypto.GetBytes(buffer);
         }
 
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected  override double DoSample()
-        {
+        protected override double DoSample() {
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);
-            return BitConverter.ToUInt32(bytes, 0)*Reciprocal;
+            return BitConverter.ToUInt32(bytes, 0) * Reciprocal;
         }
 
         /// <summary>
         /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
         /// </summary>
-        protected override int DoSampleInteger()
-        {
+        protected override int DoSampleInteger() {
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);
             uint uint32 = BitConverter.ToUInt32(bytes, 0);
             int int31 = (int)(uint32 >> 1);
-            if (int31 == int.MaxValue)
-            {
+            if (int31 == int.MaxValue) {
                 return DoSampleInteger();
             }
 
             return int31;
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             _crypto.Dispose();
         }
 
@@ -126,18 +115,15 @@ namespace MathNet.Numerics.Random
         /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static void Doubles(double[] values)
-        {
-            var bytes = new byte[values.Length*4];
+        public static void Doubles(double[] values) {
+            var bytes = new byte[values.Length * 4];
 
-            using (var rnd = RandomNumberGenerator.Create())
-            {
+            using (var rnd = RandomNumberGenerator.Create()) {
                 rnd.GetBytes(bytes);
             }
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = BitConverter.ToUInt32(bytes, i*4)*Reciprocal;
+            for (int i = 0; i < values.Length; i++) {
+                values[i] = BitConverter.ToUInt32(bytes, i * 4) * Reciprocal;
             }
         }
 
@@ -146,8 +132,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length)
-        {
+        public static double[] Doubles(int length) {
             var data = new double[length];
             Doubles(data);
             return data;
@@ -157,17 +142,14 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static IEnumerable<double> DoubleSequence()
-        {
+        public static IEnumerable<double> DoubleSequence() {
             var rnd = RandomNumberGenerator.Create();
-            var buffer = new byte[1024*4];
+            var buffer = new byte[1024 * 4];
 
-            while (true)
-            {
+            while (true) {
                 rnd.GetBytes(buffer);
-                for (int i = 0; i < buffer.Length; i += 4)
-                {
-                    yield return BitConverter.ToUInt32(buffer, i)*Reciprocal;
+                for (int i = 0; i < buffer.Length; i += 4) {
+                    yield return BitConverter.ToUInt32(buffer, i) * Reciprocal;
                 }
             }
         }

@@ -31,14 +31,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.Interpolation
-{
+namespace MathNet.Numerics.Interpolation {
     /// <summary>
     /// Barycentric Interpolation Algorithm.
     /// </summary>
     /// <remarks>Supports neither differentiation nor integration.</remarks>
-    public class Barycentric : IInterpolation
-    {
+    public class Barycentric : IInterpolation {
         readonly double[] _x;
         readonly double[] _y;
         readonly double[] _w;
@@ -46,15 +44,12 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="x">Sample points (N), sorted ascendingly.</param>
         /// <param name="y">Sample values (N), sorted ascendingly by x.</param>
         /// <param name="w">Barycentric weights (N), sorted ascendingly by x.</param>
-        public Barycentric(double[] x, double[] y, double[] w)
-        {
-            if (x.Length != y.Length || x.Length != w.Length)
-            {
+        public Barycentric(double[] x, double[] y, double[] w) {
+            if (x.Length != y.Length || x.Length != w.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (x.Length < 1)
-            {
+            if (x.Length < 1) {
                 throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
@@ -66,23 +61,19 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Create a barycentric polynomial interpolation from a set of (x,y) value pairs with equidistant x, sorted ascendingly by x.
         /// </summary>
-        public static Barycentric InterpolatePolynomialEquidistantSorted(double[] x, double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+        public static Barycentric InterpolatePolynomialEquidistantSorted(double[] x, double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (x.Length < 1)
-            {
+            if (x.Length < 1) {
                 throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
             var weights = new double[x.Length];
             weights[0] = 1.0;
-            for (int i = 1; i < weights.Length; i++)
-            {
-                weights[i] = -(weights[i - 1]*(weights.Length - i))/i;
+            for (int i = 1; i < weights.Length; i++) {
+                weights[i] = -(weights[i - 1] * (weights.Length - i)) / i;
             }
 
             return new Barycentric(x, y, weights);
@@ -92,10 +83,8 @@ namespace MathNet.Numerics.Interpolation
         /// Create a barycentric polynomial interpolation from an unordered set of (x,y) value pairs with equidistant x.
         /// WARNING: Works in-place and can thus causes the data array to be reordered.
         /// </summary>
-        public static Barycentric InterpolatePolynomialEquidistantInplace(double[] x, double[] y)
-        {
-            if (x.Length != y.Length)
-            {
+        public static Barycentric InterpolatePolynomialEquidistantInplace(double[] x, double[] y) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
@@ -106,8 +95,7 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Create a barycentric polynomial interpolation from an unsorted set of (x,y) value pairs with equidistant x.
         /// </summary>
-        public static Barycentric InterpolatePolynomialEquidistant(IEnumerable<double> x, IEnumerable<double> y)
-        {
+        public static Barycentric InterpolatePolynomialEquidistant(IEnumerable<double> x, IEnumerable<double> y) {
             // note: we must make a copy, even if the input was arrays already
             return InterpolatePolynomialEquidistantInplace(x.ToArray(), y.ToArray());
         }
@@ -115,8 +103,7 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Create a barycentric polynomial interpolation from a set of values related to linearly/equidistant spaced points within an interval.
         /// </summary>
-        public static Barycentric InterpolatePolynomialEquidistant(double leftBound, double rightBound, IEnumerable<double> y)
-        {
+        public static Barycentric InterpolatePolynomialEquidistant(double leftBound, double rightBound, IEnumerable<double> y) {
             var yy = (y as double[]) ?? y.ToArray();
             var xx = Generate.LinearSpaced(yy.Length, leftBound, rightBound);
             return InterpolatePolynomialEquidistantSorted(xx, yy);
@@ -132,20 +119,16 @@ namespace MathNet.Numerics.Interpolation
         /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
-        public static Barycentric InterpolateRationalFloaterHormannSorted(double[] x, double[] y, int order)
-        {
-            if (x.Length != y.Length)
-            {
+        public static Barycentric InterpolateRationalFloaterHormannSorted(double[] x, double[] y, int order) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (x.Length < 1)
-            {
+            if (x.Length < 1) {
                 throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
-            if (0 > order || x.Length <= order)
-            {
+            if (0 > order || x.Length <= order) {
                 throw new ArgumentOutOfRangeException(nameof(order));
             }
 
@@ -155,24 +138,20 @@ namespace MathNet.Numerics.Interpolation
             double sign = ((order & 0x1) == 0x1) ? -1.0 : 1.0;
 
             // compute barycentric weights
-            for (int k = 0; k < x.Length; k++)
-            {
+            for (int k = 0; k < x.Length; k++) {
                 double s = 0;
-                for (int i = Math.Max(k - order, 0); i <= Math.Min(k, weights.Length - 1 - order); i++)
-                {
+                for (int i = Math.Max(k - order, 0); i <= Math.Min(k, weights.Length - 1 - order); i++) {
                     double v = 1;
-                    for (int j = i; j <= i + order; j++)
-                    {
-                        if (j != k)
-                        {
-                            v = v/Math.Abs(x[k] - x[j]);
+                    for (int j = i; j <= i + order; j++) {
+                        if (j != k) {
+                            v = v / Math.Abs(x[k] - x[j]);
                         }
                     }
 
                     s = s + v;
                 }
 
-                weights[k] = sign*s;
+                weights[k] = sign * s;
                 sign = -sign;
             }
 
@@ -189,10 +168,8 @@ namespace MathNet.Numerics.Interpolation
         /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
-        public static Barycentric InterpolateRationalFloaterHormannInplace(double[] x, double[] y, int order)
-        {
-            if (x.Length != y.Length)
-            {
+        public static Barycentric InterpolateRationalFloaterHormannInplace(double[] x, double[] y, int order) {
+            if (x.Length != y.Length) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
@@ -209,8 +186,7 @@ namespace MathNet.Numerics.Interpolation
         /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
-        public static Barycentric InterpolateRationalFloaterHormann(IEnumerable<double> x, IEnumerable<double> y, int order)
-        {
+        public static Barycentric InterpolateRationalFloaterHormann(IEnumerable<double> x, IEnumerable<double> y, int order) {
             // note: we must make a copy, even if the input was arrays already
             return InterpolateRationalFloaterHormannInplace(x.ToArray(), y.ToArray(), order);
         }
@@ -221,8 +197,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="x">Sample points (N), sorted ascendingly.</param>
         /// <param name="y">Sample values (N), sorted ascendingly by x.</param>
-        public static Barycentric InterpolateRationalFloaterHormannSorted(double[] x, double[] y)
-        {
+        public static Barycentric InterpolateRationalFloaterHormannSorted(double[] x, double[] y) {
             return InterpolateRationalFloaterHormannSorted(x, y, Math.Min(3, x.Length - 1));
         }
 
@@ -232,8 +207,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="x">Sample points (N), no sorting assumed.</param>
         /// <param name="y">Sample values (N).</param>
-        public static Barycentric InterpolateRationalFloaterHormannInplace(double[] x, double[] y)
-        {
+        public static Barycentric InterpolateRationalFloaterHormannInplace(double[] x, double[] y) {
             return InterpolateRationalFloaterHormannInplace(x, y, Math.Min(3, x.Length - 1));
         }
 
@@ -242,8 +216,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="x">Sample points (N), no sorting assumed.</param>
         /// <param name="y">Sample values (N).</param>
-        public static Barycentric InterpolateRationalFloaterHormann(IEnumerable<double> x, IEnumerable<double> y)
-        {
+        public static Barycentric InterpolateRationalFloaterHormann(IEnumerable<double> x, IEnumerable<double> y) {
             // note: we must make a copy, even if the input was arrays already
             var xx = x.ToArray();
             var order = Math.Min(3, xx.Length - 1);
@@ -265,35 +238,29 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public double Interpolate(double t)
-        {
+        public double Interpolate(double t) {
             // trivial case: only one sample?
-            if (_x.Length == 1)
-            {
+            if (_x.Length == 1) {
                 return _y[0];
             }
 
             // evaluate closest point and offset from that point (no sorting assumed)
             int closestPoint = 0;
             double offset = t - _x[0];
-            for (int i = 1; i < _x.Length; i++)
-            {
-                if (Math.Abs(t - _x[i]) < Math.Abs(offset))
-                {
+            for (int i = 1; i < _x.Length; i++) {
+                if (Math.Abs(t - _x[i]) < Math.Abs(offset)) {
                     offset = t - _x[i];
                     closestPoint = i;
                 }
             }
 
             // trivial case: on a known sample point?
-            if (offset == 0.0)
-            {
+            if (offset == 0.0) {
                 // NOTE (cdrnet, 2009-08) not offset.AlmostZero() by design
                 return _y[closestPoint];
             }
 
-            if (Math.Abs(offset) > 1e-150)
-            {
+            if (Math.Abs(offset) > 1e-150) {
                 // no need to guard against overflow, so use fast formula
                 closestPoint = -1;
                 offset = 1.0;
@@ -301,23 +268,20 @@ namespace MathNet.Numerics.Interpolation
 
             double s1 = 0.0;
             double s2 = 0.0;
-            for (int i = 0; i < _x.Length; i++)
-            {
-                if (i != closestPoint)
-                {
-                    double v = offset*_w[i]/(t - _x[i]);
-                    s1 = s1 + (v*_y[i]);
+            for (int i = 0; i < _x.Length; i++) {
+                if (i != closestPoint) {
+                    double v = offset * _w[i] / (t - _x[i]);
+                    s1 = s1 + (v * _y[i]);
                     s2 = s2 + v;
                 }
-                else
-                {
+                else {
                     double v = _w[i];
-                    s1 = s1 + (v*_y[i]);
+                    s1 = s1 + (v * _y[i]);
                     s2 = s2 + v;
                 }
             }
 
-            return s1/s2;
+            return s1 / s2;
         }
 
         /// <summary>

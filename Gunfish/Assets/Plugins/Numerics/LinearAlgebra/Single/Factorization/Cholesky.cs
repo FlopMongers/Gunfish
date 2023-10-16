@@ -29,8 +29,7 @@
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Single.Factorization {
     using System;
 
     /// <summary>
@@ -42,25 +41,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    internal abstract class Cholesky : Cholesky<float>
-    {
+    internal abstract class Cholesky : Cholesky<float> {
         protected Cholesky(Matrix<float> factor)
-            : base(factor)
-        {
+            : base(factor) {
         }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override float Determinant
-        {
-            get
-            {
+        public override float Determinant {
+            get {
                 var det = 1.0f;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
+                for (var j = 0; j < Factor.RowCount; j++) {
                     var d = Factor.At(j, j);
-                    det *= d*d;
+                    det *= d * d;
                 }
 
                 return det;
@@ -70,14 +64,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <summary>
         /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override float DeterminantLn
-        {
-            get
-            {
+        public override float DeterminantLn {
+            get {
                 var det = 0.0f;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
-                    det += 2.0f*Convert.ToSingle(Math.Log(Factor.At(j, j)));
+                for (var j = 0; j < Factor.RowCount; j++) {
+                    det += 2.0f * Convert.ToSingle(Math.Log(Factor.At(j, j)));
                 }
 
                 return det;

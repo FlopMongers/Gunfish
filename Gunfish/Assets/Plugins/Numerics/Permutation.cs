@@ -29,14 +29,12 @@
 
 using System;
 
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// Class to represent a permutation for a subset of the natural numbers.
     /// </summary>
     [Serializable]
-    public class Permutation
-    {
+    public class Permutation {
         #region fields
 
         /// <summary>
@@ -53,10 +51,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="indices">An array which represents where each integer is permuted too: indices[i] represents that integer i
         /// is permuted to location indices[i].</param>
-        public Permutation(int[] indices)
-        {
-            if (!CheckForProperPermutation(indices))
-            {
+        public Permutation(int[] indices) {
+            if (!CheckForProperPermutation(indices)) {
                 throw new ArgumentException("The integer array does not represent a valid permutation.", nameof(indices));
             }
 
@@ -81,11 +77,9 @@ namespace MathNet.Numerics
         /// Computes the inverse of the permutation.
         /// </summary>
         /// <returns>The inverse of the permutation.</returns>
-        public Permutation Inverse()
-        {
+        public Permutation Inverse() {
             var invIdx = new int[Dimension];
-            for (int i = 0; i < invIdx.Length; i++)
-            {
+            for (int i = 0; i < invIdx.Length; i++) {
                 invIdx[_indices[i]] = i;
             }
 
@@ -101,18 +95,14 @@ namespace MathNet.Numerics
         /// </example>
         /// <param name="inv">The set of inversions to construct the permutation from.</param>
         /// <returns>A permutation generated from a sequence of inversions.</returns>
-        public static Permutation FromInversions(int[] inv)
-        {
+        public static Permutation FromInversions(int[] inv) {
             var idx = new int[inv.Length];
-            for (int i = 0; i < inv.Length; i++)
-            {
+            for (int i = 0; i < inv.Length; i++) {
                 idx[i] = i;
             }
 
-            for (int i = inv.Length - 1; i >= 0; i--)
-            {
-                if (idx[i] != inv[i])
-                {
+            for (int i = inv.Length - 1; i >= 0; i--) {
+                if (idx[i] != inv[i]) {
                     (idx[i], idx[inv[i]]) = (idx[inv[i]], idx[i]);
                 }
             }
@@ -128,14 +118,11 @@ namespace MathNet.Numerics
         /// encoded using the array [22244].
         /// </example>
         /// <returns>A sequence of inversions.</returns>
-        public int[] ToInversions()
-        {
+        public int[] ToInversions() {
             var idx = (int[])_indices.Clone();
 
-            for (int i = 0; i < idx.Length; i++)
-            {
-                if (idx[i] != i)
-                {
+            for (int i = 0; i < idx.Length; i++) {
+                if (idx[i] != i) {
                     int q = Array.FindIndex(idx, i + 1, x => x == i);
                     var t = idx[i];
                     idx[i] = q;
@@ -152,24 +139,19 @@ namespace MathNet.Numerics
         /// <param name="indices">An array which represents where each integer is permuted too: indices[i] represents that integer i
         /// is permuted to location indices[i].</param>
         /// <returns>True if <paramref name="indices"/> represents a proper permutation, <c>false</c> otherwise.</returns>
-        static bool CheckForProperPermutation(int[] indices)
-        {
+        static bool CheckForProperPermutation(int[] indices) {
             var idxCheck = new bool[indices.Length];
 
-            for (int i = 0; i < indices.Length; i++)
-            {
-                if (indices[i] >= indices.Length || indices[i] < 0)
-                {
+            for (int i = 0; i < indices.Length; i++) {
+                if (indices[i] >= indices.Length || indices[i] < 0) {
                     return false;
                 }
 
                 idxCheck[indices[i]] = true;
             }
 
-            for (int i = 0; i < indices.Length; i++)
-            {
-                if (idxCheck[i] == false)
-                {
+            for (int i = 0; i < indices.Length; i++) {
+                if (idxCheck[i] == false) {
                     return false;
                 }
             }

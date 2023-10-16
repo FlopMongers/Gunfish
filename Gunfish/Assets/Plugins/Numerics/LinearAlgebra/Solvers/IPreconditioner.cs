@@ -29,8 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Solvers {
     /// <summary>
     /// The base interface for preconditioner classes.
     /// </summary>
@@ -49,8 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
     /// if the changes occur after creating the preconditioner.
     /// </para>
     /// </remarks>
-    public interface IPreconditioner<T> where T : struct, IEquatable<T>, IFormattable
-    {
+    public interface IPreconditioner<T> where T : struct, IEquatable<T>, IFormattable {
         /// <summary>
         /// Initializes the preconditioner and loads the internal data structures.
         /// </summary>

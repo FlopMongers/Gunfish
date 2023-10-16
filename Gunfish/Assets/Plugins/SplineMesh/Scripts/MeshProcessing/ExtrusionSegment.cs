@@ -27,7 +27,8 @@ namespace SplineMesh {
         public List<Vertex> ShapeVertices {
             get { return shapeVertices; }
             set {
-                if (value == shapeVertices) return;
+                if (value == shapeVertices)
+                    return;
                 SetDirty();
                 shapeVertices = value;
             }
@@ -40,7 +41,8 @@ namespace SplineMesh {
         public float TextureScale {
             get { return textureScale; }
             set {
-                if (value == textureScale) return;
+                if (value == textureScale)
+                    return;
                 SetDirty();
                 textureScale = value;
             }
@@ -53,7 +55,8 @@ namespace SplineMesh {
         public float TextureOffset {
             get { return textureOffset; }
             set {
-                if (value == textureOffset) return;
+                if (value == textureOffset)
+                    return;
                 SetDirty();
                 textureOffset = value;
             }
@@ -66,8 +69,10 @@ namespace SplineMesh {
         public float SampleSpacing {
             get { return sampleSpacing; }
             set {
-                if (value == sampleSpacing) return;
-                if (value <= 0) throw new ArgumentOutOfRangeException("SampleSpacing", "Must be greater than 0");
+                if (value == sampleSpacing)
+                    return;
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("SampleSpacing", "Must be greater than 0");
                 SetDirty();
                 sampleSpacing = value;
             }
@@ -86,8 +91,10 @@ namespace SplineMesh {
         /// <param name="curve"></param>
         /// <param name="update">If let to true, update the resulting mesh immediatly.</param>
         public void SetInterval(CubicBezierCurve curve) {
-            if (this.curve == curve) return;
-            if (curve == null) throw new ArgumentNullException("curve");
+            if (this.curve == curve)
+                return;
+            if (curve == null)
+                throw new ArgumentNullException("curve");
 
             if (this.curve != null) {
                 this.curve.Changed.RemoveListener(SetDirty);
@@ -100,8 +107,10 @@ namespace SplineMesh {
         }
 
         public void SetInterval(Spline spline, float intervalStart, float intervalEnd = 0) {
-            if (this.spline == spline && this.intervalStart == intervalStart && this.intervalEnd == intervalEnd) return;
-            if (spline == null) throw new ArgumentNullException("spline");
+            if (this.spline == spline && this.intervalStart == intervalStart && this.intervalEnd == intervalEnd)
+                return;
+            if (spline == null)
+                throw new ArgumentNullException("spline");
             if (intervalStart < 0 || intervalStart >= spline.Length) {
                 throw new ArgumentOutOfRangeException("interval start must be 0 or greater and lesser than spline length (was " + intervalStart + ")");
             }
@@ -148,7 +157,8 @@ namespace SplineMesh {
                     d += sampleSpacing;
                 }
                 path.Add(spline.GetSampleAtDistance(intervalEnd));
-            } else {
+            }
+            else {
                 // calculate path in a curve
                 float d = 0;
                 while (d < curve.Length) {
@@ -202,7 +212,7 @@ namespace SplineMesh {
                 bentVertices.Select(b => b.normal),
                 bentVertices.Select(b => b.uv));
             var mc = GetComponent<MeshCollider>();
-            if(mc != null) {
+            if (mc != null) {
                 mc.sharedMesh = mf.sharedMesh;
             }
         }

@@ -29,8 +29,7 @@
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization {
     using Complex = System.Numerics.Complex;
 
     /// <summary>
@@ -43,29 +42,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    internal abstract class LU : LU<Complex>
-    {
+    internal abstract class LU : LU<Complex> {
         protected LU(Matrix<Complex> factors, int[] pivots)
-            : base(factors, pivots)
-        {
+            : base(factors, pivots) {
         }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the LU factorization was computed.
         /// </summary>
-        public override Complex Determinant
-        {
-            get
-            {
+        public override Complex Determinant {
+            get {
                 var det = Complex.One;
-                for (var j = 0; j < Factors.RowCount; j++)
-                {
-                    if (Pivots[j] != j)
-                    {
+                for (var j = 0; j < Factors.RowCount; j++) {
+                    if (Pivots[j] != j) {
                         det *= -Factors.At(j, j);
                     }
-                    else
-                    {
+                    else {
                         det *= Factors.At(j, j);
                     }
                 }

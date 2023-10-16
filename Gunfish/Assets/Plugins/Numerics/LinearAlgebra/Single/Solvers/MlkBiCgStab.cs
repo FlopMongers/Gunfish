@@ -27,14 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Solvers;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
-{
+namespace MathNet.Numerics.LinearAlgebra.Single.Solvers {
     /// <summary>
     /// A Multiple-Lanczos Bi-Conjugate Gradient stabilized iterative matrix solver.
     /// </summary>
@@ -58,8 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class MlkBiCgStab : IIterativeSolver<float>
-    {
+    public sealed class MlkBiCgStab : IIterativeSolver<float> {
         /// <summary>
         /// The default number of starting vectors.
         /// </summary>
@@ -82,16 +80,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Must be larger than 1 and smaller than the number of variables in the matrix that
         /// for which this solver will be used.
         /// </remarks>
-        public int NumberOfStartingVectors
-        {
+        public int NumberOfStartingVectors {
             [DebuggerStepThrough]
             get => _numberOfStartingVectors;
 
             [DebuggerStepThrough]
-            set
-            {
-                if (value <= 1)
-                {
+            set {
+                if (value <= 1) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
@@ -102,8 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// Resets the number of starting vectors to the default value.
         /// </summary>
-        public void ResetNumberOfStartingVectors()
-        {
+        public void ResetNumberOfStartingVectors() {
             _numberOfStartingVectors = DefaultNumberOfStartingVectors;
         }
 
@@ -111,20 +105,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Gets or sets a series of orthonormal vectors which will be used as basis for the
         /// Krylov sub-space.
         /// </summary>
-        public IList<Vector<float>> StartingVectors
-        {
+        public IList<Vector<float>> StartingVectors {
             [DebuggerStepThrough]
             get => _startingVectors;
 
             [DebuggerStepThrough]
-            set
-            {
-                if ((value == null) || (value.Count == 0))
-                {
+            set {
+                if ((value == null) || (value.Count == 0)) {
                     _startingVectors = null;
                 }
-                else
-                {
+                else {
                     _startingVectors = value;
                 }
             }
@@ -136,8 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="maximumNumberOfStartingVectors">Maximum number</param>
         /// <param name="numberOfVariables">Number of variables</param>
         /// <returns>Number of starting vectors to create</returns>
-        static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables)
-        {
+        static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables) {
             // Create no more starting vectors than the size of the problem - 1
             return Math.Min(maximumNumberOfStartingVectors, (numberOfVariables - 1));
         }
@@ -153,8 +142,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         ///  the <paramref name="numberOfVariables"/> is smaller than
         ///  the <paramref name="maximumNumberOfStartingVectors"/>.
         /// </returns>
-        static IList<Vector<float>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
-        {
+        static IList<Vector<float>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables) {
             // Create no more starting vectors than the size of the problem - 1
             // Get random values and then orthogonalize them with
             // modified Gramm - Schmidt
@@ -165,11 +153,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             var distribution = new Normal();
 
             var matrix = new DenseMatrix(numberOfVariables, count);
-            for (var i = 0; i < matrix.ColumnCount; i++)
-            {
+            for (var i = 0; i < matrix.ColumnCount; i++) {
                 var samples = new float[matrix.RowCount];
-                for (var j = 0; j < matrix.RowCount; j++)
-                {
+                for (var j = 0; j < matrix.RowCount; j++) {
                     samples[j] = (float)distribution.Sample();
                 }
 
@@ -183,12 +169,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             // Now transfer this to vectors
             var result = new List<Vector<float>>(orthogonalMatrix.ColumnCount);
-            for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
-            {
+            for (var i = 0; i < orthogonalMatrix.ColumnCount; i++) {
                 result.Add(orthogonalMatrix.Column(i));
 
                 // Normalize the result vector
-                result[i].Multiply(1/(float) result[i].L2Norm(), result[i]);
+                result[i].Multiply(1 / (float)result[i].L2Norm(), result[i]);
             }
 
             return result;
@@ -200,11 +185,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="arraySize">Number of vectors</param>
         /// <param name="vectorSize">Size of each vector</param>
         /// <returns>Array of random vectors</returns>
-        static Vector<float>[] CreateVectorArray(int arraySize, int vectorSize)
-        {
+        static Vector<float>[] CreateVectorArray(int arraySize, int vectorSize) {
             var result = new Vector<float>[arraySize];
-            for (var i = 0; i < result.Length; i++)
-            {
+            for (var i = 0; i < result.Length; i++) {
                 result[i] = new DenseVector(vectorSize);
             }
 
@@ -218,8 +201,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="residual">Residual <see cref="Vector"/> data.</param>
         /// <param name="x">x <see cref="Vector"/> data.</param>
         /// <param name="b">b <see cref="Vector"/> data.</param>
-        static void CalculateTrueResidual(Matrix<float> matrix, Vector<float> residual, Vector<float> x, Vector<float> b)
-        {
+        static void CalculateTrueResidual(Matrix<float> matrix, Vector<float> residual, Vector<float> x, Vector<float> b) {
             // -Ax = residual
             matrix.Multiply(x, residual);
             residual.Multiply(-1, residual);
@@ -237,30 +219,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="result">The result vector, <c>x</c></param>
         /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
         /// <param name="preconditioner">The preconditioner to use for approximations.</param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator, IPreconditioner<float> preconditioner)
-        {
-            if (matrix.RowCount != matrix.ColumnCount)
-            {
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator, IPreconditioner<float> preconditioner) {
+            if (matrix.RowCount != matrix.ColumnCount) {
                 throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
-            if (result.Count != input.Count)
-            {
+            if (result.Count != input.Count) {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
-            if (input.Count != matrix.RowCount)
-            {
+            if (input.Count != matrix.RowCount) {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix);
             }
 
-            if (iterator == null)
-            {
+            if (iterator == null) {
                 iterator = new Iterator<float>();
             }
 
-            if (preconditioner == null)
-            {
+            if (preconditioner == null) {
                 preconditioner = new UnitPreconditioner<float>();
             }
 
@@ -276,15 +252,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             // b) Is of an incorrect length (i.e. too long)
             // c) The vectors are of an incorrect length (i.e. too long or too short)
             var useOld = false;
-            if (_startingVectors != null)
-            {
+            if (_startingVectors != null) {
                 // We don't accept collections with zero starting vectors so ...
-                if (_startingVectors.Count <= NumberOfStartingVectorsToCreate(_numberOfStartingVectors, input.Count))
-                {
+                if (_startingVectors.Count <= NumberOfStartingVectorsToCreate(_numberOfStartingVectors, input.Count)) {
                     // Only check the first vector for sizing. If that matches we assume the
                     // other vectors match too. If they don't the process will crash
-                    if (_startingVectors[0].Count == input.Count)
-                    {
+                    if (_startingVectors[0].Count == input.Count) {
                         useOld = true;
                     }
                 }
@@ -326,8 +299,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             // FOR (j = 0, 1, 2 ....)
             var iterationNumber = 0;
-            while (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) == IterationStatus.Continue)
-            {
+            while (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) == IterationStatus.Continue) {
                 // SOLVE M g~_((j-1)k+k) = g_((j-1)k+k)
                 preconditioner.Approximate(g[k - 1], gtemp);
 
@@ -336,13 +308,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
                 // c_((j-1)k+k) = q^T_1 w_((j-1)k+k)
                 c[k - 1] = _startingVectors[0].DotProduct(w[k - 1]);
-                if (c[k - 1].AlmostEqualNumbersBetween(0, 1))
-                {
+                if (c[k - 1].AlmostEqualNumbersBetween(0, 1)) {
                     throw new NumericalBreakdownException();
                 }
 
                 // alpha_(jk+1) = q^T_1 r_((j-1)k+k) / c_((j-1)k+k)
-                var alpha = _startingVectors[0].DotProduct(residuals)/c[k - 1];
+                var alpha = _startingVectors[0].DotProduct(residuals) / c[k - 1];
 
                 // u_(jk+1) = r_((j-1)k+k) - alpha_(jk+1) w_((j-1)k+k)
                 w[k - 1].Multiply(-alpha, temp);
@@ -359,12 +330,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 // If rho is zero then temp is a zero vector and we're probably
                 // about to have zero residuals (i.e. an exact solution).
                 // So set rho to 1.0 because in the next step it will turn to zero.
-                if (rho.AlmostEqualNumbersBetween(0, 1))
-                {
+                if (rho.AlmostEqualNumbersBetween(0, 1)) {
                     rho = 1.0f;
                 }
 
-                rho = -u.DotProduct(temp)/rho;
+                rho = -u.DotProduct(temp) / rho;
 
                 // r_(jk+1) = rho_(j+1) A u~_(jk+1) + u_(jk+1)
                 u.CopyTo(residuals);
@@ -384,14 +354,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 temp2.CopyTo(xtemp);
 
                 // Check convergence and stop if we are converged.
-                if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
-                {
+                if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue) {
                     // Calculate the true residual
                     CalculateTrueResidual(matrix, residuals, xtemp, input);
 
                     // Now recheck the convergence
-                    if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
-                    {
+                    if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue) {
                         // We're all good now.
                         // Exit from the while loop.
                         break;
@@ -399,8 +367,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 }
 
                 // FOR (i = 1,2, ...., k)
-                for (var i = 0; i < k; i++)
-                {
+                for (var i = 0; i < k; i++) {
                     // z_d = u_(jk+1)
                     u.CopyTo(zd);
 
@@ -412,12 +379,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
                     // FOR (s = i, ...., k-1) AND j >= 1
                     float beta;
-                    if (iterationNumber >= 1)
-                    {
-                        for (var s = i; s < k - 1; s++)
-                        {
+                    if (iterationNumber >= 1) {
+                        for (var s = i; s < k - 1; s++) {
                             // beta^(jk+i)_((j-1)k+s) = -q^t_(s+1) z_d / c_((j-1)k+s)
-                            beta = -_startingVectors[s + 1].DotProduct(zd)/c[s];
+                            beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
 
                             // z_d = z_d + beta^(jk+i)_((j-1)k+s) d_((j-1)k+s)
                             d[s].Multiply(beta, temp);
@@ -436,16 +401,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                         }
                     }
 
-                    beta = rho*c[k - 1];
-                    if (beta.AlmostEqualNumbersBetween(0, 1))
-                    {
+                    beta = rho * c[k - 1];
+                    if (beta.AlmostEqualNumbersBetween(0, 1)) {
                         throw new NumericalBreakdownException();
                     }
 
                     // beta^(jk+i)_((j-1)k+k) = -(q^T_1 (r_(jk+1) + rho_(j+1) z_w)) / (rho_(j+1) c_((j-1)k+k))
                     zw.Multiply(rho, temp2);
                     residuals.Add(temp2, temp);
-                    beta = -_startingVectors[0].DotProduct(temp)/beta;
+                    beta = -_startingVectors[0].DotProduct(temp) / beta;
 
                     // z_g = z_g + beta^(jk+i)_((j-1)k+k) g_((j-1)k+k)
                     g[k - 1].Multiply(beta, temp);
@@ -462,10 +426,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                     residuals.Add(zw, zd);
 
                     // FOR (s = 1, ... i - 1)
-                    for (var s = 0; s < i - 1; s++)
-                    {
+                    for (var s = 0; s < i - 1; s++) {
                         // beta^(jk+i)_(jk+s) = -q^T_s+1 z_d / c_(jk+s)
-                        beta = -_startingVectors[s + 1].DotProduct(zd)/c[s];
+                        beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
 
                         // z_d = z_d + beta^(jk+i)_(jk+s) * d_(jk+s)
                         d[s].Multiply(beta, temp);
@@ -485,17 +448,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                     zg.Add(zw, g[i]);
 
                     // IF (i < k - 1)
-                    if (i < k - 1)
-                    {
+                    if (i < k - 1) {
                         // c_(jk+1) = q^T_i+1 d_(jk+i)
                         c[i] = _startingVectors[i + 1].DotProduct(d[i]);
-                        if (c[i].AlmostEqualNumbersBetween(0, 1))
-                        {
+                        if (c[i].AlmostEqualNumbersBetween(0, 1)) {
                             throw new NumericalBreakdownException();
                         }
 
                         // alpha_(jk+i+1) = q^T_(i+1) u_(jk+i) / c_(jk+i)
-                        alpha = _startingVectors[i + 1].DotProduct(u)/c[i];
+                        alpha = _startingVectors[i + 1].DotProduct(u) / c[i];
 
                         // u_(jk+i+1) = u_(jk+i) - alpha_(jk+i+1) d_(jk+i)
                         d[i].Multiply(-alpha, temp);
@@ -506,7 +467,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                         preconditioner.Approximate(g[i], gtemp);
 
                         // x_(jk+i+1) = x_(jk+i) + rho_(j+1) alpha_(jk+i+1) g~_(jk+i)
-                        gtemp.Multiply(rho*alpha, temp);
+                        gtemp.Multiply(rho * alpha, temp);
                         xtemp.Add(temp, temp2);
                         temp2.CopyTo(xtemp);
 
@@ -514,13 +475,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                         matrix.Multiply(gtemp, w[i]);
 
                         // r_(jk+i+1) = r_(jk+i) - rho_(j+1) alpha_(jk+i+1) w_(jk+i)
-                        w[i].Multiply(-rho*alpha, temp);
+                        w[i].Multiply(-rho * alpha, temp);
                         residuals.Add(temp, temp2);
                         temp2.CopyTo(residuals);
 
                         // We can check the residuals here if they're close
-                        if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
-                        {
+                        if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue) {
                             // Recalculate the residuals and go round again. This is done to ensure that
                             // we have the proper residuals.
                             CalculateTrueResidual(matrix, residuals, xtemp, input);

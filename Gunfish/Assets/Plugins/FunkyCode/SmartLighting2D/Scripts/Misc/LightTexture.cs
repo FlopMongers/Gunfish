@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FunkyCode
-{   
+namespace FunkyCode {
     public class LightTexture {
         public RenderTexture renderTexture;
 
@@ -14,23 +13,21 @@ namespace FunkyCode
         public int setHeight;
 
         public LightTexture(int width, int height, int depth, RenderTextureFormat format) {
-            renderTexture = new RenderTexture (width, height, depth, format);
+            renderTexture = new RenderTexture(width, height, depth, format);
 
             this.width = width;
             this.height = height;
         }
 
         public LightTexture(int width, int height, int depth) {
-            renderTexture = new RenderTexture (width, height, depth);
+            renderTexture = new RenderTexture(width, height, depth);
 
             this.width = width;
             this.height = height;
         }
 
-        public void Create()
-        {
-            if (renderTexture != null)
-            {
+        public void Create() {
+            if (renderTexture != null) {
                 renderTexture.Create();
             }
         }

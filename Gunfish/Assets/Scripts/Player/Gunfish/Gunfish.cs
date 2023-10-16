@@ -1,9 +1,9 @@
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.InputSystem;
-using TMPro;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum ButtonStatus { Pressed, Holding, Released, Up };
 public class Gunfish : MonoBehaviour {
@@ -126,14 +126,14 @@ public class Gunfish : MonoBehaviour {
     }
 
     public void AddEffect(Effect effect) {
-        foreach (var srcEffect in effectMap.Values) 
-        {
+        foreach (var srcEffect in effectMap.Values) {
             srcEffect.Check(effect);
         }
 
         if (effectMap.ContainsKey(effect.effectType)) {
             effectMap[effect.effectType].Merge(effect);
-        } else {
+        }
+        else {
             effectMap[effect.effectType] = effect;
             effect.OnAdd();
         }
@@ -148,7 +148,8 @@ public class Gunfish : MonoBehaviour {
     }
 
     private void Movement() {
-        if (statusData == null || !statusData.CanMove) return;
+        if (statusData == null || !statusData.CanMove)
+            return;
 
         // if underwater
 
@@ -156,7 +157,8 @@ public class Gunfish : MonoBehaviour {
             if (body.Grounded) {
                 if (statusData.CanFlop)
                     GroundedMovement(movement);
-            } else if (underwater) {
+            }
+            else if (underwater) {
                 RotateMovement(movement, data.underwaterTorque);
             }
             RotateMovement(movement);
@@ -175,7 +177,7 @@ public class Gunfish : MonoBehaviour {
         FX_Spawner.instance?.SpawnFX(FXType.Flop, segments[index].transform.position, Quaternion.identity);
     }
 
-    private void RotateMovement(Vector2 input, float? airTorque=null, ForceMode2D forceMode = ForceMode2D.Force) {
+    private void RotateMovement(Vector2 input, float? airTorque = null, ForceMode2D forceMode = ForceMode2D.Force) {
         var index = segments.Count / 2;
         var direction = Mathf.Sign(input.x);
         // rotation speed
@@ -243,7 +245,8 @@ public class Gunfish : MonoBehaviour {
         // if underwater, then zoom
         if (underwater == true) {
             Swim();
-        } else {
+        }
+        else {
             gun.Fire(firingStatus);
         }
     }
@@ -262,8 +265,10 @@ public class Gunfish : MonoBehaviour {
     }
 
     public Vector3? GetPosition() {
-        if (!killed && spawned) return segments[0].transform.position;
-        else return null;
+        if (!killed && spawned)
+            return segments[0].transform.position;
+        else
+            return null;
     }
 
     public void Spawn(GunfishData data, LayerMask layer, Vector3 position) {
@@ -281,8 +286,7 @@ public class Gunfish : MonoBehaviour {
 
         segments = generator.Generate(layer, position);
 
-        if (FX_Spawner.instance != null)
-        {
+        if (FX_Spawner.instance != null) {
             // TODO, init properly
             var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab).GetComponent<HealthUI>();
             healthUI.Init(this);
@@ -328,7 +332,8 @@ public class Gunfish : MonoBehaviour {
         if (animated) {
             // Todo: replace with cool animated fish guts or something
             Destroy(segment);
-        } else {
+        }
+        else {
             Destroy(segment);
         }
     }

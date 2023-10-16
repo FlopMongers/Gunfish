@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
 using UnityEditor;
-using System;
+using UnityEngine;
 
 namespace SplineMesh {
     [Serializable]
@@ -16,8 +16,7 @@ namespace SplineMesh {
         }
 
         public MeshVertex(Vector3 position, Vector3 normal)
-            : this(position, normal, Vector2.zero)
-        {
+            : this(position, normal, Vector2.zero) {
         }
     }
 }

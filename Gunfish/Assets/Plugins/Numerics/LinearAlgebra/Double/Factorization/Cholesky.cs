@@ -29,8 +29,7 @@
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
-{
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization {
     using System;
 
     /// <summary>
@@ -42,25 +41,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    internal abstract class Cholesky : Cholesky<double>
-    {
+    internal abstract class Cholesky : Cholesky<double> {
         protected Cholesky(Matrix<double> factor)
-            : base(factor)
-        {
+            : base(factor) {
         }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override double Determinant
-        {
-            get
-            {
+        public override double Determinant {
+            get {
                 var det = 1.0;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
+                for (var j = 0; j < Factor.RowCount; j++) {
                     var d = Factor.At(j, j);
-                    det *= d*d;
+                    det *= d * d;
                 }
 
                 return det;
@@ -70,14 +64,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public override double DeterminantLn
-        {
-            get
-            {
+        public override double DeterminantLn {
+            get {
                 var det = 0.0;
-                for (var j = 0; j < Factor.RowCount; j++)
-                {
-                    det += 2*Math.Log(Factor.At(j, j));
+                for (var j = 0; j < Factor.RowCount; j++) {
+                    det += 2 * Math.Log(Factor.At(j, j));
                 }
 
                 return det;

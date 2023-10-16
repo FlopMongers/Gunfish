@@ -1,131 +1,112 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightTilemapCollider;
-using FunkyCode.LightingSettings;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	[ExecuteInEditMode]
-	public class LightTilemapRoom2D : MonoBehaviour
-	{
-		public int lightLayer = 0;
-		public enum MaskType {Sprite}  // Separate For Each Map Type!
-		public enum ShaderType {ColorMask, MultiplyTexture};
-	
-		public MapType mapType = MapType.UnityRectangle;
-		public MaskType maskType = MaskType.Sprite;
-		public ShaderType shaderType = ShaderType.ColorMask;
-		public Color color = Color.black;
+namespace FunkyCode {
+    [ExecuteInEditMode]
+    public class LightTilemapRoom2D : MonoBehaviour {
+        public int lightLayer = 0;
+        public enum MaskType { Sprite }  // Separate For Each Map Type!
+        public enum ShaderType { ColorMask, MultiplyTexture };
 
-		public SuperTilemapEditorSupport.TilemapRoom2D superTilemapEditor = new SuperTilemapEditorSupport.TilemapRoom2D();
-		public Rectangle rectangle = new Rectangle();
+        public MapType mapType = MapType.UnityRectangle;
+        public MaskType maskType = MaskType.Sprite;
+        public ShaderType shaderType = ShaderType.ColorMask;
+        public Color color = Color.black;
 
-		public LightingTilemapRoomTransform lightingTransform = new LightingTilemapRoomTransform();
-	
-		public static List<LightTilemapRoom2D> List = new List<LightTilemapRoom2D>();
+        public SuperTilemapEditorSupport.TilemapRoom2D superTilemapEditor = new SuperTilemapEditorSupport.TilemapRoom2D();
+        public Rectangle rectangle = new Rectangle();
 
-		public void OnEnable()
-		{
-			List.Add(this);
+        public LightingTilemapRoomTransform lightingTransform = new LightingTilemapRoomTransform();
 
-			LightingManager2D.Get();
+        public static List<LightTilemapRoom2D> List = new List<LightTilemapRoom2D>();
 
-			rectangle.SetGameObject(gameObject);
-			superTilemapEditor.SetGameObject(gameObject);
+        public void OnEnable() {
+            List.Add(this);
 
-			Initialize();
-		}
+            LightingManager2D.Get();
 
-		public void OnDisable()
-		{
-			List.Remove(this);
-		}
+            rectangle.SetGameObject(gameObject);
+            superTilemapEditor.SetGameObject(gameObject);
 
-		public LightTilemapCollider.Base GetCurrentTilemap()
-		{
-			switch(mapType)
-			{
-				case MapType.SuperTilemapEditor:
-					return(superTilemapEditor);
-				case MapType.UnityRectangle:
-					return(rectangle);
-			}
-			return(null);
-		}
+            Initialize();
+        }
 
-		public void Initialize()
-		{
-			TilemapEvents.Initialize();
-			
-			GetCurrentTilemap().Initialize();
-		}
+        public void OnDisable() {
+            List.Remove(this);
+        }
 
-		public void Update()
-		{
-			lightingTransform.Update(this);
+        public LightTilemapCollider.Base GetCurrentTilemap() {
+            switch (mapType) {
+                case MapType.SuperTilemapEditor:
+                    return (superTilemapEditor);
+                case MapType.UnityRectangle:
+                    return (rectangle);
+            }
+            return (null);
+        }
 
-			if (lightingTransform.UpdateNeeded)
-			{
-				GetCurrentTilemap().ResetWorld();
+        public void Initialize() {
+            TilemapEvents.Initialize();
 
-				Light2D.ForceUpdateAll();
-			}
-		}
+            GetCurrentTilemap().Initialize();
+        }
 
-		public TilemapProperties GetTilemapProperties()
-		{
-			return(GetCurrentTilemap().Properties);
-		}
+        public void Update() {
+            lightingTransform.Update(this);
 
-		public List<LightTile> GetTileList()
-		{
-			return(GetCurrentTilemap().MapTiles);
-		}
+            if (lightingTransform.UpdateNeeded) {
+                GetCurrentTilemap().ResetWorld();
 
-		public float GetRadius()
-		{
-			return(GetCurrentTilemap().GetRadius());
-		}
+                Light2D.ForceUpdateAll();
+            }
+        }
 
-		void OnDrawGizmosSelected()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected)
-			{
-				return;
-			}
+        public TilemapProperties GetTilemapProperties() {
+            return (GetCurrentTilemap().Properties);
+        }
 
-			DrawGizmos();
-		}
+        public List<LightTile> GetTileList() {
+            return (GetCurrentTilemap().MapTiles);
+        }
 
-		private void OnDrawGizmos()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always)
-			{
-				return;
-			}
+        public float GetRadius() {
+            return (GetCurrentTilemap().GetRadius());
+        }
 
-			DrawGizmos();
-		}
+        void OnDrawGizmosSelected() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected) {
+                return;
+            }
 
-		private void DrawGizmos()
-		{
-			if (!isActiveAndEnabled)
-			{
-				return;
-			}
+            DrawGizmos();
+        }
 
-			// Gizmos.color = new Color(1f, 0.5f, 0.25f);
+        private void OnDrawGizmos() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always) {
+                return;
+            }
 
-			UnityEngine.Gizmos.color = new Color(0, 1f, 1f);
+            DrawGizmos();
+        }
 
-			switch(Lighting2D.ProjectSettings.gizmos.drawGizmosBounds)
-			{
-				case EditorGizmosBounds.Enabled:
+        private void DrawGizmos() {
+            if (!isActiveAndEnabled) {
+                return;
+            }
 
-					GizmosHelper.DrawRect(transform.position, GetCurrentTilemap().GetRect());
+            // Gizmos.color = new Color(1f, 0.5f, 0.25f);
 
-				break;
-			}
-		}
-	}
+            UnityEngine.Gizmos.color = new Color(0, 1f, 1f);
+
+            switch (Lighting2D.ProjectSettings.gizmos.drawGizmosBounds) {
+                case EditorGizmosBounds.Enabled:
+
+                    GizmosHelper.DrawRect(transform.position, GetCurrentTilemap().GetRect());
+
+                    break;
+            }
+        }
+    }
 }

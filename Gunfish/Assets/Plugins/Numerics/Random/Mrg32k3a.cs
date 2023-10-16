@@ -27,13 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Runtime;
+using System.Runtime.Serialization;
 
-namespace MathNet.Numerics.Random
-{
+namespace MathNet.Numerics.Random {
     /// <summary>
     /// A 32-bit combined multiple recursive generator with 2 components of order 3.
     /// </summary>
@@ -41,8 +40,7 @@ namespace MathNet.Numerics.Random
     ///
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
-    public class Mrg32k3a : RandomSource
-    {
+    public class Mrg32k3a : RandomSource {
         const double A12 = 1403580;
         const double A13 = 810728;
         const double A21 = 527612;
@@ -50,7 +48,7 @@ namespace MathNet.Numerics.Random
         const double Modulus1 = 4294967087;
         const double Modulus2 = 4294944443;
 
-        const double Reciprocal = 1.0/Modulus1;
+        const double Reciprocal = 1.0 / Modulus1;
 
         [DataMember(Order = 1)]
         double _xn1 = 1;
@@ -72,8 +70,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Mrg32k3a() : this(RandomSeed.Robust())
-        {
+        public Mrg32k3a() : this(RandomSeed.Robust()) {
         }
 
         /// <summary>
@@ -81,8 +78,7 @@ namespace MathNet.Numerics.Random
         /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Mrg32k3a(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
-        {
+        public Mrg32k3a(bool threadSafe) : this(RandomSeed.Robust(), threadSafe) {
         }
 
         /// <summary>
@@ -92,10 +88,8 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Mrg32k3a(int seed)
-        {
-            if (seed == 0)
-            {
+        public Mrg32k3a(int seed) {
+            if (seed == 0) {
                 seed = 1;
             }
 
@@ -107,10 +101,8 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="seed">The seed value.</param>
         /// <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
-        public Mrg32k3a(int seed, bool threadSafe) : base(threadSafe)
-        {
-            if (seed == 0)
-            {
+        public Mrg32k3a(int seed, bool threadSafe) : base(threadSafe) {
+            if (seed == 0) {
                 seed = 1;
             }
 
@@ -120,21 +112,18 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
-        {
-            double xn = A12*_xn2 - A13*_xn3;
-            double k = (long)(xn/Modulus1);
-            xn -= k*Modulus1;
-            if (xn < 0)
-            {
+        protected sealed override double DoSample() {
+            double xn = A12 * _xn2 - A13 * _xn3;
+            double k = (long)(xn / Modulus1);
+            xn -= k * Modulus1;
+            if (xn < 0) {
                 xn += Modulus1;
             }
 
-            double yn = A21*_yn1 - A23*_yn3;
-            k = (long)(yn/Modulus2);
-            yn -= k*Modulus2;
-            if (yn < 0)
-            {
+            double yn = A21 * _yn1 - A23 * _yn3;
+            k = (long)(yn / Modulus2);
+            yn -= k * Modulus2;
+            if (yn < 0) {
                 yn += Modulus2;
             }
 
@@ -145,20 +134,18 @@ namespace MathNet.Numerics.Random
             _yn2 = _yn1;
             _yn1 = yn;
 
-            if (xn <= yn)
-            {
-                return (xn - yn + Modulus1)*Reciprocal;
+            if (xn <= yn) {
+                return (xn - yn + Modulus1) * Reciprocal;
             }
 
-            return (xn - yn)*Reciprocal;
+            return (xn - yn) * Reciprocal;
         }
 
         /// <summary>
         /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static void Doubles(double[] values, int seed)
-        {
+        public static void Doubles(double[] values, int seed) {
             double x1 = 1;
             double x2 = 1;
             double x3 = (uint)seed;
@@ -166,21 +153,18 @@ namespace MathNet.Numerics.Random
             double y2 = 1;
             double y3 = 1;
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                double xn = A12*x2 - A13*x3;
-                double k = (long)(xn/Modulus1);
-                xn -= k*Modulus1;
-                if (xn < 0)
-                {
+            for (int i = 0; i < values.Length; i++) {
+                double xn = A12 * x2 - A13 * x3;
+                double k = (long)(xn / Modulus1);
+                xn -= k * Modulus1;
+                if (xn < 0) {
                     xn += Modulus1;
                 }
 
-                double yn = A21*y1 - A23*y3;
-                k = (long)(yn/Modulus2);
-                yn -= k*Modulus2;
-                if (yn < 0)
-                {
+                double yn = A21 * y1 - A23 * y3;
+                k = (long)(yn / Modulus2);
+                yn -= k * Modulus2;
+                if (yn < 0) {
                     yn += Modulus2;
                 }
 
@@ -191,7 +175,7 @@ namespace MathNet.Numerics.Random
                 y2 = y1;
                 y1 = yn;
 
-                values[i] = xn <= yn ? (xn - yn + Modulus1)*Reciprocal : (xn - yn)*Reciprocal;
+                values[i] = xn <= yn ? (xn - yn + Modulus1) * Reciprocal : (xn - yn) * Reciprocal;
             }
         }
 
@@ -200,8 +184,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length, int seed)
-        {
+        public static double[] Doubles(int length, int seed) {
             var data = new double[length];
             Doubles(data, seed);
             return data;
@@ -211,8 +194,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> DoubleSequence(int seed)
-        {
+        public static IEnumerable<double> DoubleSequence(int seed) {
             double x1 = 1;
             double x2 = 1;
             double x3 = (uint)seed;
@@ -220,21 +202,18 @@ namespace MathNet.Numerics.Random
             double y2 = 1;
             double y3 = 1;
 
-            while (true)
-            {
-                double xn = A12*x2 - A13*x3;
-                double k = (long)(xn/Modulus1);
-                xn -= k*Modulus1;
-                if (xn < 0)
-                {
+            while (true) {
+                double xn = A12 * x2 - A13 * x3;
+                double k = (long)(xn / Modulus1);
+                xn -= k * Modulus1;
+                if (xn < 0) {
                     xn += Modulus1;
                 }
 
-                double yn = A21*y1 - A23*y3;
-                k = (long)(yn/Modulus2);
-                yn -= k*Modulus2;
-                if (yn < 0)
-                {
+                double yn = A21 * y1 - A23 * y3;
+                k = (long)(yn / Modulus2);
+                yn -= k * Modulus2;
+                if (yn < 0) {
                     yn += Modulus2;
                 }
 
@@ -245,7 +224,7 @@ namespace MathNet.Numerics.Random
                 y2 = y1;
                 y1 = yn;
 
-                yield return xn <= yn ? (xn - yn + Modulus1)*Reciprocal : (xn - yn)*Reciprocal;
+                yield return xn <= yn ? (xn - yn + Modulus1) * Reciprocal : (xn - yn) * Reciprocal;
             }
         }
     }

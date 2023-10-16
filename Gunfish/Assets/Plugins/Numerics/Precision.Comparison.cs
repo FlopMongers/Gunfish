@@ -27,10 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics
-{
-    public static partial class Precision
-    {
+namespace MathNet.Numerics {
+    public static partial class Precision {
         /// <summary>
         /// Compares two doubles and determines which double is bigger.
         /// a &lt; b -> -1; a ~= b (almost equal according to parameter) -> 0; a &gt; b -> +1.
@@ -38,27 +36,23 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The absolute accuracy required for being almost equal.</param>
-        public static int CompareTo(this double a, double b, double maximumAbsoluteError)
-        {
+        public static int CompareTo(this double a, double b, double maximumAbsoluteError) {
             // NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return a.CompareTo(b);
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if first is smaller
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a.CompareTo(b);
             }
 
             // If the numbers are equal to within the number of decimal places
             // then there's technically no difference
-            if (AlmostEqual(a, b, maximumAbsoluteError))
-            {
+            if (AlmostEqual(a, b, maximumAbsoluteError)) {
                 return 0;
             }
 
@@ -75,27 +69,23 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places on which the values must be compared. Must be 1 or larger.</param>
-        public static int CompareTo(this double a, double b, int decimalPlaces)
-        {
+        public static int CompareTo(this double a, double b, int decimalPlaces) {
             // NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return a.CompareTo(b);
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if first is smaller
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a.CompareTo(b);
             }
 
             // If the numbers are equal to within the number of decimal places
             // then there's technically no difference
-            if (AlmostEqual(a, b, decimalPlaces))
-            {
+            if (AlmostEqual(a, b, decimalPlaces)) {
                 return 0;
             }
 
@@ -112,27 +102,23 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The relative accuracy required for being almost equal.</param>
-        public static int CompareToRelative(this double a, double b, double maximumError)
-        {
+        public static int CompareToRelative(this double a, double b, double maximumError) {
             // NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return a.CompareTo(b);
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if first is smaller
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a.CompareTo(b);
             }
 
             // If the numbers are equal to within the number of decimal places
             // then there's technically no difference
-            if (AlmostEqualRelative(a, b, maximumError))
-            {
+            if (AlmostEqualRelative(a, b, maximumError)) {
                 return 0;
             }
 
@@ -149,27 +135,23 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places on which the values must be compared. Must be 1 or larger.</param>
-        public static int CompareToRelative(this double a, double b, int decimalPlaces)
-        {
+        public static int CompareToRelative(this double a, double b, int decimalPlaces) {
             // NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return a.CompareTo(b);
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if first is smaller
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a.CompareTo(b);
             }
 
             // If the numbers are equal to within the number of decimal places
             // then there's technically no difference
-            if (AlmostEqualRelative(a, b, decimalPlaces))
-            {
+            if (AlmostEqualRelative(a, b, decimalPlaces)) {
                 return 0;
             }
 
@@ -186,27 +168,23 @@ namespace MathNet.Numerics
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum error in terms of Units in Last Place (<c>ulps</c>), i.e. the maximum number of decimals that may be different. Must be 1 or larger.</param>
-        public static int CompareToNumbersBetween(this double a, double b, long maxNumbersBetween)
-        {
+        public static int CompareToNumbersBetween(this double a, double b, long maxNumbersBetween) {
             // NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return a.CompareTo(b);
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if first is smaller
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
+            if (double.IsInfinity(a) || double.IsInfinity(b)) {
                 return a.CompareTo(b);
             }
 
             // If the numbers are equal to within the tolerance then
             // there's technically no difference
-            if (AlmostEqualNumbersBetween(a, b, maxNumbersBetween))
-            {
+            if (AlmostEqualNumbersBetween(a, b, maxNumbersBetween)) {
                 return 0;
             }
 
@@ -228,13 +206,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLarger(this double a, double b, int decimalPlaces)
-        {
+        public static bool IsLarger(this double a, double b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -256,13 +232,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLarger(this float a, float b, int decimalPlaces)
-        {
+        public static bool IsLarger(this float a, float b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -277,13 +251,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The absolute accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLarger(this double a, double b, double maximumAbsoluteError)
-        {
+        public static bool IsLarger(this double a, double b, double maximumAbsoluteError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -298,13 +270,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The absolute accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLarger(this float a, float b, double maximumAbsoluteError)
-        {
+        public static bool IsLarger(this float a, float b, double maximumAbsoluteError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -326,13 +296,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerRelative(this double a, double b, int decimalPlaces)
-        {
+        public static bool IsLargerRelative(this double a, double b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -354,13 +322,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerRelative(this float a, float b, int decimalPlaces)
-        {
+        public static bool IsLargerRelative(this float a, float b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -375,13 +341,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The relative accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerRelative(this double a, double b, double maximumError)
-        {
+        public static bool IsLargerRelative(this double a, double b, double maximumError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -396,13 +360,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The relative accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerRelative(this float a, float b, double maximumError)
-        {
+        public static bool IsLargerRelative(this float a, float b, double maximumError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -417,13 +379,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerNumbersBetween(this double a, double b, long maxNumbersBetween)
-        {
+        public static bool IsLargerNumbersBetween(this double a, double b, long maxNumbersBetween) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -438,13 +398,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerNumbersBetween(this float a, float b, long maxNumbersBetween)
-        {
+        public static bool IsLargerNumbersBetween(this float a, float b, long maxNumbersBetween) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -466,13 +424,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmaller(this double a, double b, int decimalPlaces)
-        {
+        public static bool IsSmaller(this double a, double b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -494,13 +450,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmaller(this float a, float b, int decimalPlaces)
-        {
+        public static bool IsSmaller(this float a, float b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -515,13 +469,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The absolute accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmaller(this double a, double b, double maximumAbsoluteError)
-        {
+        public static bool IsSmaller(this double a, double b, double maximumAbsoluteError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -536,13 +488,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumAbsoluteError">The absolute accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmaller(this float a, float b, double maximumAbsoluteError)
-        {
+        public static bool IsSmaller(this float a, float b, double maximumAbsoluteError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -557,13 +507,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerRelative(this double a, double b, int decimalPlaces)
-        {
+        public static bool IsSmallerRelative(this double a, double b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -578,13 +526,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerRelative(this float a, float b, int decimalPlaces)
-        {
+        public static bool IsSmallerRelative(this float a, float b, int decimalPlaces) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -599,13 +545,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The relative accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerRelative(this double a, double b, double maximumError)
-        {
+        public static bool IsSmallerRelative(this double a, double b, double maximumError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -620,13 +564,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maximumError">The relative accuracy required for being almost equal.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerRelative(this float a, float b, double maximumError)
-        {
+        public static bool IsSmallerRelative(this float a, float b, double maximumError) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -641,13 +583,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerNumbersBetween(this double a, double b, long maxNumbersBetween)
-        {
+        public static bool IsSmallerNumbersBetween(this double a, double b, long maxNumbersBetween) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
+            if (double.IsNaN(a) || double.IsNaN(b)) {
                 return false;
             }
 
@@ -662,13 +602,11 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerNumbersBetween(this float a, float b, long maxNumbersBetween)
-        {
+        public static bool IsSmallerNumbersBetween(this float a, float b, long maxNumbersBetween) {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
+            if (float.IsNaN(a) || float.IsNaN(b)) {
                 return false;
             }
 
@@ -679,8 +617,7 @@ namespace MathNet.Numerics
         /// Checks if a given double values is finite, i.e. neither NaN nor inifnity
         /// </summary>
         /// <param name="value">The value to be checked fo finitenes.</param>
-        public static bool IsFinite(this double value)
-        {
+        public static bool IsFinite(this double value) {
             return !double.IsNaN(value) && !double.IsInfinity(value);
         }
     }

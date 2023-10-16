@@ -27,36 +27,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.LineSearch;
+using System;
 
-namespace MathNet.Numerics.Optimization
-{
-    public abstract class BfgsMinimizerBase : MinimizerBase
-    {
+namespace MathNet.Numerics.Optimization {
+    public abstract class BfgsMinimizerBase : MinimizerBase {
         /// <inheritdoc />
         /// <summary>
         /// Creates a base class for BFGS minimization
         /// </summary>
-        protected BfgsMinimizerBase(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations) : base(gradientTolerance, parameterTolerance, functionProgressTolerance, maximumIterations)
-        {
+        protected BfgsMinimizerBase(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations) : base(gradientTolerance, parameterTolerance, functionProgressTolerance, maximumIterations) {
         }
 
 
-        protected int DoBfgsUpdate(ref ExitCondition currentExitCondition, WolfeLineSearch lineSearcher, ref Matrix<double> inversePseudoHessian, ref Vector<double> lineSearchDirection, ref IObjectiveFunction previousPoint, ref LineSearchResult lineSearchResult, ref IObjectiveFunction candidate, ref Vector<double> step, ref int totalLineSearchSteps, ref int iterationsWithNontrivialLineSearch)
-        {
+        protected int DoBfgsUpdate(ref ExitCondition currentExitCondition, WolfeLineSearch lineSearcher, ref Matrix<double> inversePseudoHessian, ref Vector<double> lineSearchDirection, ref IObjectiveFunction previousPoint, ref LineSearchResult lineSearchResult, ref IObjectiveFunction candidate, ref Vector<double> step, ref int totalLineSearchSteps, ref int iterationsWithNontrivialLineSearch) {
             int iterations;
-            for (iterations = 1; iterations < MaximumIterations; ++iterations)
-            {
+            for (iterations = 1; iterations < MaximumIterations; ++iterations) {
                 lineSearchDirection = CalculateSearchDirection(ref inversePseudoHessian, out var maxLineSearchStep, out var startingStepSize, previousPoint, candidate, step);
 
-                try
-                {
+                try {
                     lineSearchResult = lineSearcher.FindConformingStep(candidate, lineSearchDirection, startingStepSize, maxLineSearchStep);
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     throw new InnerOptimizationException("Line search failed.", e);
                 }
 

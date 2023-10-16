@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using FunkyCode.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.Utilities;
 
-namespace FunkyCode.Rendering.Light.Shadow
-{
-    public static class SpriteProjection
-    {
+namespace FunkyCode.Rendering.Light.Shadow {
+    public static class SpriteProjection {
         public static Pair2 pair = Pair2.Zero();
 
         public static void Draw(List<Polygon2> polygons, float shadowDistanceMin, float shadowDistanceMax, float translucency) {
@@ -28,7 +26,7 @@ namespace FunkyCode.Rendering.Light.Shadow
 
             GL.Begin(GL.QUADS);
 
-            GL.Color(new Color(translucency,0,0,0));
+            GL.Color(new Color(translucency, 0, 0, 0));
 
             Light2D light = ShadowEngine.light;
             Vector2 offset = ShadowEngine.lightOffset + ShadowEngine.objectOffset;
@@ -53,13 +51,13 @@ namespace FunkyCode.Rendering.Light.Shadow
 
             float outerAngle = light.outerAngle;
 
-    
+
             Vector2 vA, vB, vC, vD;
             float angleA, angleB, rotA, rotB;
 
             int PolygonCount = polygons.Count;
 
-            for(int i = 0; i < PolygonCount; i++) {
+            for (int i = 0; i < PolygonCount; i++) {
                 Vector2[] pointsList = polygons[i].points;
                 int pointsCount = pointsList.Length;
 
@@ -99,8 +97,8 @@ namespace FunkyCode.Rendering.Light.Shadow
                 if (lightDirection > 180) {
                     // continue;
                 }
-        
-                for(float s = 0; s <= 1; s += 0.1f) {
+
+                for (float s = 0; s <= 1; s += 0.1f) {
                     float step0 = s;
                     float step1 = s + 0.1f;
 
@@ -125,12 +123,12 @@ namespace FunkyCode.Rendering.Light.Shadow
                     edgeBWorldX = edgeBLocalX + offset.x;
                     edgeBWorldY = edgeBLocalY + offset.y;
 
-                    angleA = (float)System.Math.Atan2 (edgeAWorldY, edgeAWorldX);
-                    angleB = (float)System.Math.Atan2 (edgeBWorldY, edgeBWorldX);
+                    angleA = (float)System.Math.Atan2(edgeAWorldY, edgeAWorldX);
+                    angleB = (float)System.Math.Atan2(edgeBWorldY, edgeBWorldX);
 
                     rotA = angleA - Mathf.Deg2Rad * light.outerAngle;
                     rotB = angleB + Mathf.Deg2Rad * light.outerAngle;
-                                        
+
                     // Right Collision
                     vC.x = edgeAWorldX;
                     vC.y = edgeAWorldY;
@@ -168,7 +166,8 @@ namespace FunkyCode.Rendering.Light.Shadow
                     if (mode) {
                         x0 = Mathf.Lerp(uvRect.width, uvRect.x, step0);
                         x1 = Mathf.Lerp(uvRect.width, uvRect.x, step1);
-                    } else {
+                    }
+                    else {
                         x0 = Mathf.Lerp(uvRect.x, uvRect.width, step0);
                         x1 = Mathf.Lerp(uvRect.x, uvRect.width, step1);
                     }
@@ -208,7 +207,7 @@ namespace FunkyCode.Rendering.Light.Shadow
             float distance = 1000000000;
             Vector2? result = null;
 
-            for(int i = 0; i < poly.points.Length; i++) {
+            for (int i = 0; i < poly.points.Length; i++) {
                 Vector2 pa = poly.points[i];
                 Vector2 pb = poly.points[(i + 1) % poly.points.Length];
 
@@ -233,15 +232,16 @@ namespace FunkyCode.Rendering.Light.Shadow
                             result = intersection.Value;
                             d = distance;
                         }
-                    } else {
+                    }
+                    else {
                         result = intersection.Value;
                         distance = d;
                     }
-                    
+
                 }
             }
 
-            return(result);
+            return (result);
         }
 
 
@@ -249,12 +249,12 @@ namespace FunkyCode.Rendering.Light.Shadow
             Vector2? result = null;
             float distance = 1000000000;
 
-            foreach(List<Polygon2> polygons in ShadowEngine.effectPolygons) {
+            foreach (List<Polygon2> polygons in ShadowEngine.effectPolygons) {
                 if (originlPoly == polygons) {
                     continue;
                 }
 
-                foreach(Polygon2 polygon in polygons) {
+                foreach (Polygon2 polygon in polygons) {
                     Vector2? intersection = PolygonClosestIntersection(polygon, startPoint, endPoint);
 
                     if (intersection != null) {
@@ -264,16 +264,17 @@ namespace FunkyCode.Rendering.Light.Shadow
                                 result = intersection.Value;
                                 d = distance;
                             }
-                        } else {
+                        }
+                        else {
                             result = intersection.Value;
                             distance = d;
                         }
                     }
                 }
-                
+
             }
-            
-            return(result);
+
+            return (result);
         }
 
     }

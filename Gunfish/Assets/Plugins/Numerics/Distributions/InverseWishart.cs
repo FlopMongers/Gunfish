@@ -27,21 +27,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Random;
+using System;
 
-namespace MathNet.Numerics.Distributions
-{
+namespace MathNet.Numerics.Distributions {
     /// <summary>
     /// Multivariate Inverse Wishart distribution. This distribution is
     /// parameterized by the degrees of freedom nu and the scale matrix S. The inverse Wishart distribution
     /// is the conjugate prior for the covariance matrix of a multivariate normal distribution.
     /// <a href="http://en.wikipedia.org/wiki/Inverse-Wishart_distribution">Wikipedia - Inverse-Wishart distribution</a>.
     /// </summary>
-    public class InverseWishart : IDistribution
-    {
+    public class InverseWishart : IDistribution {
         System.Random _random;
 
         readonly double _freedom;
@@ -57,10 +55,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
-        public InverseWishart(double degreesOfFreedom, Matrix<double> scale)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
-            {
+        public InverseWishart(double degreesOfFreedom, Matrix<double> scale) {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -76,10 +72,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public InverseWishart(double degreesOfFreedom, Matrix<double> scale, System.Random randomSource)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
-            {
+        public InverseWishart(double degreesOfFreedom, Matrix<double> scale, System.Random randomSource) {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
@@ -93,8 +87,7 @@ namespace MathNet.Numerics.Distributions
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"InverseWishart(ν = {_freedom}, Rows = {_scale.RowCount}, Columns = {_scale.ColumnCount})";
         }
 
@@ -103,17 +96,13 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
-        public static bool IsValidParameterSet(double degreesOfFreedom, Matrix<double> scale)
-        {
-            if (scale.RowCount != scale.ColumnCount)
-            {
+        public static bool IsValidParameterSet(double degreesOfFreedom, Matrix<double> scale) {
+            if (scale.RowCount != scale.ColumnCount) {
                 return false;
             }
 
-            for (var i = 0; i < scale.RowCount; i++)
-            {
-                if (scale.At(i, i) <= 0.0)
-                {
+            for (var i = 0; i < scale.RowCount; i++) {
+                if (scale.At(i, i) <= 0.0) {
                     return false;
                 }
             }
@@ -134,8 +123,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public System.Random RandomSource
-        {
+        public System.Random RandomSource {
             get => _random;
             set => _random = value ?? SystemRandomSource.Default;
         }
@@ -144,29 +132,26 @@ namespace MathNet.Numerics.Distributions
         /// Gets the mean.
         /// </summary>
         /// <value>The mean of the distribution.</value>
-        public Matrix<double> Mean => _scale*(1.0/(_freedom - _scale.RowCount - 1.0));
+        public Matrix<double> Mean => _scale * (1.0 / (_freedom - _scale.RowCount - 1.0));
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
         /// <value>The mode of the distribution.</value>
         /// <remarks>A. O'Hagan, and J. J. Forster (2004). Kendall's Advanced Theory of Statistics: Bayesian Inference. 2B (2 ed.). Arnold. ISBN 0-340-80752-0.</remarks>
-        public Matrix<double> Mode => _scale*(1.0/(_freedom + _scale.RowCount + 1.0));
+        public Matrix<double> Mode => _scale * (1.0 / (_freedom + _scale.RowCount + 1.0));
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
         /// <value>The variance  of the distribution.</value>
         /// <remarks>Kanti V. Mardia, J. T. Kent and J. M. Bibby (1979). Multivariate Analysis.</remarks>
-        public Matrix<double> Variance
-        {
-            get
-            {
-                return Matrix<double>.Build.Dense(_scale.RowCount, _scale.ColumnCount, (i, j) =>
-                {
-                    var num1 = ((_freedom - _scale.RowCount + 1)*_scale.At(i, j)*_scale.At(i, j)) + ((_freedom - _scale.RowCount - 1)*_scale.At(i, i)*_scale.At(j, j));
-                    var num2 = (_freedom - _scale.RowCount)*(_freedom - _scale.RowCount - 1)*(_freedom - _scale.RowCount - 1)*(_freedom - _scale.RowCount - 3);
-                    return num1/num2;
+        public Matrix<double> Variance {
+            get {
+                return Matrix<double>.Build.Dense(_scale.RowCount, _scale.ColumnCount, (i, j) => {
+                    var num1 = ((_freedom - _scale.RowCount + 1) * _scale.At(i, j) * _scale.At(i, j)) + ((_freedom - _scale.RowCount - 1) * _scale.At(i, i) * _scale.At(j, j));
+                    var num2 = (_freedom - _scale.RowCount) * (_freedom - _scale.RowCount - 1) * (_freedom - _scale.RowCount - 1) * (_freedom - _scale.RowCount - 3);
+                    return num1 / num2;
                 });
             }
         }
@@ -177,12 +162,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The matrix at which to evaluate the density at.</param>
         /// <exception cref="ArgumentOutOfRangeException">If the argument does not have the same dimensions as the scale matrix.</exception>
         /// <returns>the density at <paramref name="x"/>.</returns>
-        public double Density(Matrix<double> x)
-        {
+        public double Density(Matrix<double> x) {
             var p = _scale.RowCount;
 
-            if (x.RowCount != p || x.ColumnCount != p)
-            {
+            if (x.RowCount != p || x.ColumnCount != p) {
                 throw new ArgumentOutOfRangeException(nameof(x), "Matrix dimensions must agree.");
             }
 
@@ -191,17 +174,16 @@ namespace MathNet.Numerics.Distributions
             var sXi = chol.Solve(Scale);
 
             // Compute the multivariate Gamma function.
-            var gp = Math.Pow(Constants.Pi, p*(p - 1.0)/4.0);
-            for (var j = 1; j <= p; j++)
-            {
-                gp *= SpecialFunctions.Gamma((_freedom + 1.0 - j)/2.0);
+            var gp = Math.Pow(Constants.Pi, p * (p - 1.0) / 4.0);
+            for (var j = 1; j <= p; j++) {
+                gp *= SpecialFunctions.Gamma((_freedom + 1.0 - j) / 2.0);
             }
 
-            return Math.Pow(dX, -(_freedom + p + 1.0)/2.0)
-                   *Math.Exp(-0.5*sXi.Trace())
-                   *Math.Pow(_chol.Determinant, _freedom/2.0)
-                   /Math.Pow(2.0, _freedom*p/2.0)
-                   /gp;
+            return Math.Pow(dX, -(_freedom + p + 1.0) / 2.0)
+                   * Math.Exp(-0.5 * sXi.Trace())
+                   * Math.Pow(_chol.Determinant, _freedom / 2.0)
+                   / Math.Pow(2.0, _freedom * p / 2.0)
+                   / gp;
         }
 
         /// <summary>
@@ -209,8 +191,7 @@ namespace MathNet.Numerics.Distributions
         /// a Wishart random variable and inverting the matrix.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
-        public Matrix<double> Sample()
-        {
+        public Matrix<double> Sample() {
             return Sample(_random, _freedom, _scale);
         }
 
@@ -222,10 +203,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static Matrix<double> Sample(System.Random rnd, double degreesOfFreedom, Matrix<double> scale)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
-            {
+        public static Matrix<double> Sample(System.Random rnd, double degreesOfFreedom, Matrix<double> scale) {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale)) {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 

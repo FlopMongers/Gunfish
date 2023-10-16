@@ -28,7 +28,7 @@ public class GunfishGenerator {
 
         for (int i = 0; i < data.segmentCount; i++) {
             var segmentPos = position + new Vector3(i * segmentProps.length, 0f, 0f);
-            var parent = i == 0 ? null : segments[i-1].transform;
+            var parent = i == 0 ? null : segments[i - 1].transform;
             var diameter = data.width.Evaluate((float)i / data.segmentCount);
             var radius = diameter / 2f;
             var area = Mathf.PI * radius * radius;
@@ -64,7 +64,8 @@ public class GunfishGenerator {
         collider.radius = data.width.Evaluate(0f) / 2f;
 
         // The root fish piece will not have a parent, thus will not need a hinge joint since # hinge joints = # nodes - 1
-        if (parent == null || parent.GetComponent<Rigidbody2D>() == null) return obj;
+        if (parent == null || parent.GetComponent<Rigidbody2D>() == null)
+            return obj;
 
         var connectedBody = parent.GetComponent<Rigidbody2D>();
 

@@ -29,10 +29,8 @@
 
 using System;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
-{
-    public static class LinearAlgebraControl
-    {
+namespace MathNet.Numerics.Providers.LinearAlgebra {
+    public static class LinearAlgebraControl {
         const string EnvVarLAProvider = "MathNetNumericsLAProvider";
 
         static ILinearAlgebraProvider _linearAlgebraProvider;
@@ -60,16 +58,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// Consider to use UseNativeMKL or UseManaged instead.
         /// </summary>
         /// <value>The linear algebra provider.</value>
-        public static ILinearAlgebraProvider Provider
-        {
-            get
-            {
-                if (_linearAlgebraProvider == null)
-                {
-                    lock (StaticLock)
-                    {
-                        if (_linearAlgebraProvider == null)
-                        {
+        public static ILinearAlgebraProvider Provider {
+            get {
+                if (_linearAlgebraProvider == null) {
+                    lock (StaticLock) {
+                        if (_linearAlgebraProvider == null) {
                             UseDefault();
                         }
                     }
@@ -77,8 +70,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 return _linearAlgebraProvider;
             }
-            set
-            {
+            set {
                 value.InitializeVerify();
 
                 // only actually set if verification did not throw
@@ -100,30 +92,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <summary>
         /// Try to use a native provider, if available.
         /// </summary>
-        public static bool TryUseNative()
-        {
-            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
-            {
+        public static bool TryUseNative() {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing) {
                 return false;
             }
 
             return TryUseNativeMKL() || TryUseNativeOpenBLAS() || TryUseNativeCUDA();
         }
 
-        public static bool TryUse(ILinearAlgebraProvider provider)
-        {
-            try
-            {
-                if (provider == null || !provider.IsAvailable())
-                {
+        public static bool TryUse(ILinearAlgebraProvider provider) {
+            try {
+                if (provider == null || !provider.IsAvailable()) {
                     return false;
                 }
 
                 Provider = provider;
                 return true;
             }
-            catch
-            {
+            catch {
                 // intentionally swallow exceptions here - use the explicit variants if you're interested in why
                 return false;
             }
@@ -132,16 +118,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <summary>
         /// Use the best provider available.
         /// </summary>
-        public static void UseBest()
-        {
-            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
-            {
+        public static void UseBest() {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing) {
                 UseManaged();
                 return;
             }
 
-            if (!TryUseNative())
-            {
+            if (!TryUseNative()) {
                 UseManaged();
             }
         }
@@ -151,17 +134,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// "MathNetNumericsLAProvider" environment variable,
         /// or fall back to the best provider.
         /// </summary>
-        public static void UseDefault()
-        {
-            if (AppSwitches.DisableNativeProviders)
-            {
+        public static void UseDefault() {
+            if (AppSwitches.DisableNativeProviders) {
                 UseManaged();
                 return;
             }
 
             var value = Environment.GetEnvironmentVariable(EnvVarLAProvider);
-            switch (value != null ? value.ToUpperInvariant() : string.Empty)
-            {
+            switch (value != null ? value.ToUpperInvariant() : string.Empty) {
                 case "MKL":
                     UseNativeMKL();
                     break;

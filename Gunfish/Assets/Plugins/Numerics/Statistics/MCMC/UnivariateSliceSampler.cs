@@ -29,8 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.Statistics.Mcmc
-{
+namespace MathNet.Numerics.Statistics.Mcmc {
     /// <summary>
     /// Slice sampling produces samples from distribution P by uniformly sampling from under the pdf of P using
     /// a technique described in "Slice Sampling", R. Neal, 2003. All densities are required to be in log space.
@@ -38,8 +37,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// The slice sampler is a stateful sampler. It keeps track of where it currently is in the domain
     /// of the distribution P.
     /// </summary>
-    public class UnivariateSliceSampler : McmcSampler<double>
-    {
+    public class UnivariateSliceSampler : McmcSampler<double> {
         /// <summary>
         /// Evaluates the log density function of the target distribution.
         /// </summary>
@@ -74,8 +72,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="scale">The scale factor of the slice sampler.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the scale of the slice sampler is not positive.</exception>
         public UnivariateSliceSampler(double x0, DensityLn<double> pdfLnP, double scale)
-            : this(x0, pdfLnP, 0, scale)
-        {
+            : this(x0, pdfLnP, 0, scale) {
         }
 
         /// <summary>
@@ -88,8 +85,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="scale">The scale factor of the slice sampler.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentOutOfRangeException">When the scale of the slice sampler is not positive.</exception>
-        public UnivariateSliceSampler(double x0, DensityLn<double> pdfLnP, int burnInterval, double scale)
-        {
+        public UnivariateSliceSampler(double x0, DensityLn<double> pdfLnP, int burnInterval, double scale) {
             _current = x0;
             _currentDensityLn = pdfLnP(x0);
             _pdfLnP = pdfLnP;
@@ -103,13 +99,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Gets or sets the number of iterations in between returning samples.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When burn interval is negative.</exception>
-        public int BurnInterval
-        {
+        public int BurnInterval {
             get => _burnInterval;
-            set
-            {
-                if (value < 0)
-                {
+            set {
+                if (value < 0) {
                     throw new ArgumentException("Value must not be negative (zero is ok).");
                 }
                 _burnInterval = value;
@@ -119,13 +112,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Gets or sets the scale of the slice sampler.
         /// </summary>
-        public double Scale
-        {
+        public double Scale {
             get => _scale;
-            set
-            {
-                if (value <= 0.0)
-                {
+            set {
+                if (value <= 0.0) {
                     throw new ArgumentException("Value must be positive (and not zero).");
                 }
                 _scale = value;
@@ -135,10 +125,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// This method runs the sampler for a number of iterations without returning a sample
         /// </summary>
-        void Burn(int n)
-        {
-            for (int i = 0; i < n; i++)
-            {
+        void Burn(int n) {
+            for (int i = 0; i < n; i++) {
                 // The logarithm of the slice height.
                 double lu = Math.Log(RandomSource.NextDouble()) + _currentDensityLn;
 
@@ -152,23 +140,19 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 while (_pdfLnP(xR) > lu) { xR += Scale; }
 
                 // Shrinking: propose new x and shrink interval until good one found.
-                while (true)
-                {
+                while (true) {
                     double xnew = RandomSource.NextDouble() * (xR - xL) + xL;
                     _currentDensityLn = _pdfLnP(xnew);
-                    if (_currentDensityLn > lu)
-                    {
+                    if (_currentDensityLn > lu) {
                         _current = xnew;
                         Accepts++;
                         Samples++;
                         break;
                     }
-                    if (xnew > _current)
-                    {
+                    if (xnew > _current) {
                         xR = xnew;
                     }
-                    else
-                    {
+                    else {
                         xL = xnew;
                     }
                 }
@@ -178,8 +162,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Returns a sample from the distribution P.
         /// </summary>
-        public override double Sample()
-        {
+        public override double Sample() {
             Burn(BurnInterval + 1);
 
             return _current;

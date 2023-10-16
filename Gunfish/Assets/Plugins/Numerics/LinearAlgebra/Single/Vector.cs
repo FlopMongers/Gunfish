@@ -27,31 +27,27 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Threading;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Single
-{
+namespace MathNet.Numerics.LinearAlgebra.Single {
     /// <summary>
     /// <c>float</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>
     [Serializable]
-    public abstract class Vector : Vector<float>
-    {
+    public abstract class Vector : Vector<float> {
         /// <summary>
         /// Initializes a new instance of the Vector class.
         /// </summary>
         protected Vector(VectorStorage<float> storage)
-            : base(storage)
-        {
+            : base(storage) {
         }
 
         /// <summary>
         /// Set all values whose absolute value is smaller than the threshold to zero.
         /// </summary>
-        public override void CoerceZero(double threshold)
-        {
+        public override void CoerceZero(double threshold) {
             MapInplace(x => Math.Abs(x) < threshold ? 0f : x, Zeros.AllowSkip);
         }
 
@@ -59,10 +55,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        protected sealed override void DoConjugate(Vector<float> result)
-        {
-            if (ReferenceEquals(this, result))
-            {
+        protected sealed override void DoConjugate(Vector<float> result) {
+            if (ReferenceEquals(this, result)) {
                 return;
             }
 
@@ -73,8 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        protected override void DoNegate(Vector<float> result)
-        {
+        protected override void DoNegate(Vector<float> result) {
             Map(x => -x, result, Zeros.AllowSkip);
         }
 
@@ -87,8 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">
         /// The vector to store the result of the addition.
         /// </param>
-        protected override void DoAdd(float scalar, Vector<float> result)
-        {
+        protected override void DoAdd(float scalar, Vector<float> result) {
             Map(x => x + scalar, result, Zeros.Include);
         }
 
@@ -101,8 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">
         /// The vector to store the result of the addition.
         /// </param>
-        protected override void DoAdd(Vector<float> other, Vector<float> result)
-        {
+        protected override void DoAdd(Vector<float> other, Vector<float> result) {
             Map2((x, y) => x + y, other, result, Zeros.AllowSkip);
         }
 
@@ -115,8 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">
         /// The vector to store the result of the subtraction.
         /// </param>
-        protected override void DoSubtract(float scalar, Vector<float> result)
-        {
+        protected override void DoSubtract(float scalar, Vector<float> result) {
             Map(x => x - scalar, result, Zeros.Include);
         }
 
@@ -129,8 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">
         /// The vector to store the result of the subtraction.
         /// </param>
-        protected override void DoSubtract(Vector<float> other, Vector<float> result)
-        {
+        protected override void DoSubtract(Vector<float> other, Vector<float> result) {
             Map2((x, y) => x - y, other, result, Zeros.AllowSkip);
         }
 
@@ -143,9 +132,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">
         /// The vector to store the result of the multiplication.
         /// </param>
-        protected override void DoMultiply(float scalar, Vector<float> result)
-        {
-            Map(x => x*scalar, result, Zeros.AllowSkip);
+        protected override void DoMultiply(float scalar, Vector<float> result) {
+            Map(x => x * scalar, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -157,9 +145,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">
         /// The vector to store the result of the division.
         /// </param>
-        protected override void DoDivide(float divisor, Vector<float> result)
-        {
-            Map(x => x/divisor, result, divisor == 0.0f ? Zeros.Include : Zeros.AllowSkip);
+        protected override void DoDivide(float divisor, Vector<float> result) {
+            Map(x => x / divisor, result, divisor == 0.0f ? Zeros.Include : Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -167,9 +154,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="dividend">The scalar to divide.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        protected override void DoDivideByThis(float dividend, Vector<float> result)
-        {
-            Map(x => dividend/x, result, Zeros.Include);
+        protected override void DoDivideByThis(float dividend, Vector<float> result) {
+            Map(x => dividend / x, result, Zeros.Include);
         }
 
         /// <summary>
@@ -177,9 +163,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result)
-        {
-            Map2((x, y) => x*y, other, result, Zeros.AllowSkip);
+        protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result) {
+            Map2((x, y) => x * y, other, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -187,9 +172,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="divisor">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Vector<float> divisor, Vector<float> result)
-        {
-            Map2((x, y) => x/y, divisor, result, Zeros.Include);
+        protected override void DoPointwiseDivide(Vector<float> divisor, Vector<float> result) {
+            Map2((x, y) => x / y, divisor, result, Zeros.Include);
         }
 
         /// <summary>
@@ -197,8 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="exponent">The exponent to raise this vector values to.</param>
         /// <param name="result">The vector to store the result of the pointwise power.</param>
-        protected override void DoPointwisePower(float exponent, Vector<float> result)
-        {
+        protected override void DoPointwisePower(float exponent, Vector<float> result) {
             Map(x => (float)Math.Pow(x, exponent), result, exponent > 0.0f ? Zeros.AllowSkip : Zeros.Include);
         }
 
@@ -207,8 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="exponent">The exponent vector to raise this vector values to.</param>
         /// <param name="result">The vector to store the result of the pointwise power.</param>
-        protected override void DoPointwisePower(Vector<float> exponent, Vector<float> result)
-        {
+        protected override void DoPointwisePower(Vector<float> exponent, Vector<float> result) {
             Map2((x, y) => (float)Math.Pow(x, y), exponent, result, Zeros.Include);
         }
 
@@ -218,8 +200,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override void DoPointwiseModulus(Vector<float> divisor, Vector<float> result)
-        {
+        protected override void DoPointwiseModulus(Vector<float> divisor, Vector<float> result) {
             Map2(Euclid.Modulus, divisor, result, Zeros.Include);
         }
 
@@ -229,8 +210,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override void DoPointwiseRemainder(Vector<float> divisor, Vector<float> result)
-        {
+        protected override void DoPointwiseRemainder(Vector<float> divisor, Vector<float> result) {
             Map2(Euclid.Remainder, divisor, result, Zeros.Include);
         }
 
@@ -238,8 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Pointwise applies the exponential function to each value and stores the result into the result vector.
         /// </summary>
         /// <param name="result">The vector to store the result.</param>
-        protected override void DoPointwiseExp(Vector<float> result)
-        {
+        protected override void DoPointwiseExp(Vector<float> result) {
             Map(x => (float)Math.Exp(x), result, Zeros.Include);
         }
 
@@ -247,81 +226,62 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Pointwise applies the natural logarithm function to each value and stores the result into the result vector.
         /// </summary>
         /// <param name="result">The vector to store the result.</param>
-        protected override void DoPointwiseLog(Vector<float> result)
-        {
+        protected override void DoPointwiseLog(Vector<float> result) {
             Map(x => (float)Math.Log(x), result, Zeros.Include);
         }
 
-        protected override void DoPointwiseAbs(Vector<float> result)
-        {
+        protected override void DoPointwiseAbs(Vector<float> result) {
             Map(x => Math.Abs(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseAcos(Vector<float> result)
-        {
+        protected override void DoPointwiseAcos(Vector<float> result) {
             Map(x => (float)Math.Acos(x), result, Zeros.Include);
         }
-        protected override void DoPointwiseAsin(Vector<float> result)
-        {
+        protected override void DoPointwiseAsin(Vector<float> result) {
             Map(x => (float)Math.Asin(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseAtan(Vector<float> result)
-        {
+        protected override void DoPointwiseAtan(Vector<float> result) {
             Map(x => (float)Math.Atan(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseAtan2(Vector<float> other, Vector<float> result)
-        {
+        protected override void DoPointwiseAtan2(Vector<float> other, Vector<float> result) {
             Map2((x, y) => (float)Math.Atan2(x, y), other, result, Zeros.Include);
         }
-        protected override void DoPointwiseAtan2(float scalar, Vector<float> result)
-        {
+        protected override void DoPointwiseAtan2(float scalar, Vector<float> result) {
             Map(x => (float)Math.Atan2(x, scalar), result, Zeros.Include);
         }
-        protected override void DoPointwiseCeiling(Vector<float> result)
-        {
+        protected override void DoPointwiseCeiling(Vector<float> result) {
             Map(x => (float)Math.Ceiling(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseCos(Vector<float> result)
-        {
+        protected override void DoPointwiseCos(Vector<float> result) {
             Map(x => (float)Math.Cos(x), result, Zeros.Include);
         }
-        protected override void DoPointwiseCosh(Vector<float> result)
-        {
+        protected override void DoPointwiseCosh(Vector<float> result) {
             Map(x => (float)Math.Cosh(x), result, Zeros.Include);
         }
-        protected override void DoPointwiseFloor(Vector<float> result)
-        {
+        protected override void DoPointwiseFloor(Vector<float> result) {
             Map(x => (float)Math.Floor(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseLog10(Vector<float> result)
-        {
+        protected override void DoPointwiseLog10(Vector<float> result) {
             Map(x => (float)Math.Log10(x), result, Zeros.Include);
         }
-        protected override void DoPointwiseRound(Vector<float> result)
-        {
+        protected override void DoPointwiseRound(Vector<float> result) {
             Map(x => (float)Math.Round(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseSign(Vector<float> result)
-        {
+        protected override void DoPointwiseSign(Vector<float> result) {
             Map(x => Math.Sign(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseSin(Vector<float> result)
-        {
+        protected override void DoPointwiseSin(Vector<float> result) {
             Map(x => (float)Math.Sin(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseSinh(Vector<float> result)
-        {
+        protected override void DoPointwiseSinh(Vector<float> result) {
             Map(x => (float)Math.Sinh(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseSqrt(Vector<float> result)
-        {
+        protected override void DoPointwiseSqrt(Vector<float> result) {
             Map(x => (float)Math.Sqrt(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseTan(Vector<float> result)
-        {
+        protected override void DoPointwiseTan(Vector<float> result) {
             Map(x => (float)Math.Tan(x), result, Zeros.AllowSkip);
         }
-        protected override void DoPointwiseTanh(Vector<float> result)
-        {
+        protected override void DoPointwiseTanh(Vector<float> result) {
             Map(x => (float)Math.Tanh(x), result, Zeros.AllowSkip);
         }
 
@@ -330,11 +290,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The other vector.</param>
         /// <returns>The sum of a[i]*b[i] for all i.</returns>
-        protected override float DoDotProduct(Vector<float> other)
-        {
+        protected override float DoDotProduct(Vector<float> other) {
             var dot = 0.0f;
-            for (var i = 0; i < Count; i++)
-            {
+            for (var i = 0; i < Count; i++) {
                 dot += At(i) * other.At(i);
             }
             return dot;
@@ -345,8 +303,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The other vector.</param>
         /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
-        protected sealed override float DoConjugateDotProduct(Vector<float> other)
-        {
+        protected sealed override float DoConjugateDotProduct(Vector<float> other) {
             return DoDotProduct(other);
         }
 
@@ -356,8 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoModulus(float divisor, Vector<float> result)
-        {
+        protected override void DoModulus(float divisor, Vector<float> result) {
             Map(x => Euclid.Modulus(x, divisor), result, Zeros.Include);
         }
 
@@ -367,8 +323,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoModulusByThis(float dividend, Vector<float> result)
-        {
+        protected override void DoModulusByThis(float dividend, Vector<float> result) {
             Map(x => Euclid.Modulus(dividend, x), result, Zeros.Include);
         }
 
@@ -378,8 +333,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoRemainder(float divisor, Vector<float> result)
-        {
+        protected override void DoRemainder(float divisor, Vector<float> result) {
             Map(x => Euclid.Remainder(x, divisor), result, Zeros.Include);
         }
 
@@ -389,50 +343,41 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoRemainderByThis(float dividend, Vector<float> result)
-        {
+        protected override void DoRemainderByThis(float dividend, Vector<float> result) {
             Map(x => Euclid.Remainder(dividend, x), result, Zeros.Include);
         }
 
-        protected override void DoPointwiseMinimum(float scalar, Vector<float> result)
-        {
+        protected override void DoPointwiseMinimum(float scalar, Vector<float> result) {
             Map(x => Math.Min(scalar, x), result, scalar >= 0d ? Zeros.AllowSkip : Zeros.Include);
         }
 
-        protected override void DoPointwiseMaximum(float scalar, Vector<float> result)
-        {
+        protected override void DoPointwiseMaximum(float scalar, Vector<float> result) {
             Map(x => Math.Max(scalar, x), result, scalar <= 0d ? Zeros.AllowSkip : Zeros.Include);
         }
 
-        protected override void DoPointwiseAbsoluteMinimum(float scalar, Vector<float> result)
-        {
+        protected override void DoPointwiseAbsoluteMinimum(float scalar, Vector<float> result) {
             float absolute = Math.Abs(scalar);
             Map(x => Math.Min(absolute, Math.Abs(x)), result, Zeros.AllowSkip);
         }
 
-        protected override void DoPointwiseAbsoluteMaximum(float scalar, Vector<float> result)
-        {
+        protected override void DoPointwiseAbsoluteMaximum(float scalar, Vector<float> result) {
             float absolute = Math.Abs(scalar);
             Map(x => Math.Max(absolute, Math.Abs(x)), result, Zeros.Include);
         }
 
-        protected override void DoPointwiseMinimum(Vector<float> other, Vector<float> result)
-        {
+        protected override void DoPointwiseMinimum(Vector<float> other, Vector<float> result) {
             Map2(Math.Min, other, result, Zeros.AllowSkip);
         }
 
-        protected override void DoPointwiseMaximum(Vector<float> other, Vector<float> result)
-        {
+        protected override void DoPointwiseMaximum(Vector<float> other, Vector<float> result) {
             Map2(Math.Max, other, result, Zeros.AllowSkip);
         }
 
-        protected override void DoPointwiseAbsoluteMinimum(Vector<float> other, Vector<float> result)
-        {
+        protected override void DoPointwiseAbsoluteMinimum(Vector<float> other, Vector<float> result) {
             Map2((x, y) => Math.Min(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
         }
 
-        protected override void DoPointwiseAbsoluteMaximum(Vector<float> other, Vector<float> result)
-        {
+        protected override void DoPointwiseAbsoluteMaximum(Vector<float> other, Vector<float> result) {
             Map2((x, y) => Math.Max(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
         }
 
@@ -440,8 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public override float AbsoluteMinimum()
-        {
+        public override float AbsoluteMinimum() {
             return Math.Abs(At(AbsoluteMinimumIndex()));
         }
 
@@ -449,15 +393,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the index of the absolute minimum element.
         /// </summary>
         /// <returns>The index of absolute minimum element.</returns>
-        public override int AbsoluteMinimumIndex()
-        {
+        public override int AbsoluteMinimumIndex() {
             var index = 0;
             var min = Math.Abs(At(index));
-            for (var i = 1; i < Count; i++)
-            {
+            for (var i = 1; i < Count; i++) {
                 var test = Math.Abs(At(i));
-                if (test < min)
-                {
+                if (test < min) {
                     index = i;
                     min = test;
                 }
@@ -470,8 +411,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the value of the absolute maximum element.
         /// </summary>
         /// <returns>The value of the absolute maximum element.</returns>
-        public override float AbsoluteMaximum()
-        {
+        public override float AbsoluteMaximum() {
             return Math.Abs(At(AbsoluteMaximumIndex()));
         }
 
@@ -479,15 +419,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>
-        public override int AbsoluteMaximumIndex()
-        {
+        public override int AbsoluteMaximumIndex() {
             var index = 0;
             var max = Math.Abs(At(index));
-            for (var i = 1; i < Count; i++)
-            {
+            for (var i = 1; i < Count; i++) {
                 var test = Math.Abs(At(i));
-                if (test > max)
-                {
+                if (test > max) {
                     index = i;
                     max = test;
                 }
@@ -500,11 +437,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Computes the sum of the vector's elements.
         /// </summary>
         /// <returns>The sum of the vector's elements.</returns>
-        public override float Sum()
-        {
+        public override float Sum() {
             var sum = 0.0f;
-            for (var i = 0; i < Count; i++)
-            {
+            for (var i = 0; i < Count; i++) {
                 sum += At(i);
             }
             return sum;
@@ -514,11 +449,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public override double L1Norm()
-        {
+        public override double L1Norm() {
             double sum = 0d;
-            for (var i = 0; i < Count; i++)
-            {
+            for (var i = 0; i < Count; i++) {
                 sum += Math.Abs(At(i));
             }
             return sum;
@@ -528,8 +461,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the L2 norm of the vector, also known as Euclidean norm.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override double L2Norm()
-        {
+        public override double L2Norm() {
             return Math.Sqrt(DoDotProduct(this));
         }
 
@@ -537,8 +469,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The maximum absolute value.</returns>
-        public override double InfinityNorm()
-        {
+        public override double InfinityNorm() {
             return CommonParallel.Aggregate(0, Count, i => Math.Abs(At(i)), Math.Max, 0f);
         }
 
@@ -551,35 +482,34 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>
         /// <c>Scalar ret = ( ∑|At(i)|^p )^(1/p)</c>
         /// </returns>
-        public override double Norm(double p)
-        {
-            if (p < 0d) throw new ArgumentOutOfRangeException(nameof(p));
+        public override double Norm(double p) {
+            if (p < 0d)
+                throw new ArgumentOutOfRangeException(nameof(p));
 
-            if (p == 1d) return L1Norm();
-            if (p == 2d) return L2Norm();
-            if (double.IsPositiveInfinity(p)) return InfinityNorm();
+            if (p == 1d)
+                return L1Norm();
+            if (p == 2d)
+                return L2Norm();
+            if (double.IsPositiveInfinity(p))
+                return InfinityNorm();
 
             double sum = 0d;
-            for (var index = 0; index < Count; index++)
-            {
+            for (var index = 0; index < Count; index++) {
                 sum += Math.Pow(Math.Abs(At(index)), p);
             }
-            return Math.Pow(sum, 1.0/p);
+            return Math.Pow(sum, 1.0 / p);
         }
 
         /// <summary>
         /// Returns the index of the maximum element.
         /// </summary>
         /// <returns>The index of maximum element.</returns>
-        public override int MaximumIndex()
-        {
+        public override int MaximumIndex() {
             var index = 0;
             var max = At(index);
-            for (var i = 1; i < Count; i++)
-            {
+            for (var i = 1; i < Count; i++) {
                 var test = At(i);
-                if (test > max)
-                {
+                if (test > max) {
                     index = i;
                     max = test;
                 }
@@ -592,15 +522,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the index of the minimum element.
         /// </summary>
         /// <returns>The index of minimum element.</returns>
-        public override int MinimumIndex()
-        {
+        public override int MinimumIndex() {
             var index = 0;
             var min = At(index);
-            for (var i = 1; i < Count; i++)
-            {
+            for (var i = 1; i < Count; i++) {
                 var test = At(i);
-                if (test < min)
-                {
+                if (test < min) {
                     index = i;
                     min = test;
                 }
@@ -618,17 +545,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>
         /// This vector normalized to a unit vector with respect to the p-norm.
         /// </returns>
-        public override Vector<float> Normalize(double p)
-        {
-            if (p < 0d)
-            {
+        public override Vector<float> Normalize(double p) {
+            if (p < 0d) {
                 throw new ArgumentOutOfRangeException(nameof(p));
             }
 
             double norm = Norm(p);
             var clone = Clone();
-            if (norm == 0d)
-            {
+            if (norm == 0d) {
                 return clone;
             }
 

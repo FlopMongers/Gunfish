@@ -1,163 +1,147 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using FunkyCode.LightingSettings;
 using FunkyCode.LightTilemapCollider;
-using FunkyCode.LightingSettings;
 using FunkyCode.Utilities;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace FunkyCode
-{
-	public class DayLightingTile
-	{
-		public List<Polygon2> polygons;
-		public float height = 1;
+namespace FunkyCode {
+    public class DayLightingTile {
+        public List<Polygon2> polygons;
+        public float height = 1;
 
-		public Rect rect = new Rect();
+        public Rect rect = new Rect();
 
-		public Rect GetDayRect()
-		{
-			if (rect.width <= 0) {
-				rect = Polygon2Helper.GetDayRect(polygons, height);
-			}
+        public Rect GetDayRect() {
+            if (rect.width <= 0) {
+                rect = Polygon2Helper.GetDayRect(polygons, height);
+            }
 
-			return(rect);
-		}
+            return (rect);
+        }
 
-		public bool InCamera(Camera camera)
-		{
-			Rect cameraRect = CameraTransform.GetWorldRect(camera);
-			Rect tileRect = GetDayRect();
+        public bool InCamera(Camera camera) {
+            Rect cameraRect = CameraTransform.GetWorldRect(camera);
+            Rect tileRect = GetDayRect();
 
-			if (cameraRect.Overlaps(tileRect))
-			{
-				return(true);
-			}
-	
-			return(false);
-		}
+            if (cameraRect.Overlaps(tileRect)) {
+                return (true);
+            }
 
-	}
+            return (false);
+        }
 
-	[ExecuteInEditMode]
-	public class DayLightTilemapCollider2D : MonoBehaviour
-	{
-		public enum MaskLit {Lit, Unlit};
-		public MapType tilemapType = MapType.UnityRectangle;
+    }
 
-		public int shadowLayer = 0;
+    [ExecuteInEditMode]
+    public class DayLightTilemapCollider2D : MonoBehaviour {
+        public enum MaskLit { Lit, Unlit };
+        public MapType tilemapType = MapType.UnityRectangle;
 
-		public float shadowTranslucency = 0;
+        public int shadowLayer = 0;
 
-		public float shadowSoftness = 0;
+        public float shadowTranslucency = 0;
 
-		public ShadowTileType shadowTileType = ShadowTileType.AllTiles;
+        public float shadowSoftness = 0;
 
-		public float height = 1;
+        public ShadowTileType shadowTileType = ShadowTileType.AllTiles;
 
-		public int maskLayer = 0;
+        public float height = 1;
 
-		public MaskLit maskLit = MaskLit.Lit;
+        public int maskLayer = 0;
 
-		public DayLightTilemapColliderTransform transform2D = new DayLightTilemapColliderTransform();
+        public MaskLit maskLit = MaskLit.Lit;
 
-		public Rectangle rectangle = new Rectangle();
-		public Isometric isometric = new Isometric();
-		public Hexagon hexagon = new Hexagon();
+        public DayLightTilemapColliderTransform transform2D = new DayLightTilemapColliderTransform();
 
-		public SuperTilemapEditorSupport.TilemapCollider2D superTilemapEditor = new SuperTilemapEditorSupport.TilemapCollider2D();
+        public Rectangle rectangle = new Rectangle();
+        public Isometric isometric = new Isometric();
+        public Hexagon hexagon = new Hexagon();
 
-		public List<DayLightingTile> dayTiles = new List<DayLightingTile>();
-	
-		private static List<DayLightTilemapCollider2D> list = new List<DayLightTilemapCollider2D>();
-		public static List<DayLightTilemapCollider2D> List => list;
+        public SuperTilemapEditorSupport.TilemapCollider2D superTilemapEditor = new SuperTilemapEditorSupport.TilemapCollider2D();
 
-		public bool ShadowsDisabled()
-		{
-			return(GetCurrentTilemap().ShadowsDisabled());
-		}
+        public List<DayLightingTile> dayTiles = new List<DayLightingTile>();
 
-		public bool MasksDisabled()
-		{
-			return(GetCurrentTilemap().MasksDisabled());
-		}
+        private static List<DayLightTilemapCollider2D> list = new List<DayLightTilemapCollider2D>();
+        public static List<DayLightTilemapCollider2D> List => list;
 
-		public void OnEnable()
-		{
-			list.Add(this);
+        public bool ShadowsDisabled() {
+            return (GetCurrentTilemap().ShadowsDisabled());
+        }
 
-			rectangle.SetGameObject(gameObject);
-			isometric.SetGameObject(gameObject);
-			hexagon.SetGameObject(gameObject);
+        public bool MasksDisabled() {
+            return (GetCurrentTilemap().MasksDisabled());
+        }
 
-			superTilemapEditor.eventsInit = false;
-			superTilemapEditor.SetGameObject(gameObject);
+        public void OnEnable() {
+            list.Add(this);
 
-			LightingManager2D.Get();
+            rectangle.SetGameObject(gameObject);
+            isometric.SetGameObject(gameObject);
+            hexagon.SetGameObject(gameObject);
 
-			Initialize();
-		}
+            superTilemapEditor.eventsInit = false;
+            superTilemapEditor.SetGameObject(gameObject);
 
-		public void OnDisable() {
-			list.Remove(this);
-		}
+            LightingManager2D.Get();
 
-		void Update()
-		{
-			transform2D.Update(this);
+            Initialize();
+        }
 
-			if (transform2D.moved)
-			{
-				transform2D.moved = false;
+        public void OnDisable() {
+            list.Remove(this);
+        }
 
-				foreach(DayLightingTile dayTile in dayTiles)
-				{
-					dayTile.height = height;
-				}
-			}
-		}
+        void Update() {
+            transform2D.Update(this);
 
-		public LightTilemapCollider.Base GetCurrentTilemap()
-		{
-			switch(tilemapType) {
-				case MapType.SuperTilemapEditor:
-					return(superTilemapEditor);
-				case MapType.UnityRectangle:
-					return(rectangle);
-				case MapType.UnityIsometric:
-					return(isometric);
-				case MapType.UnityHexagon:
-					return(hexagon);
-			}
-			return(null);
-		}
+            if (transform2D.moved) {
+                transform2D.moved = false;
 
-		public void Initialize()
-		{
-			TilemapEvents.Initialize();
+                foreach (DayLightingTile dayTile in dayTiles) {
+                    dayTile.height = height;
+                }
+            }
+        }
 
-			GetCurrentTilemap().Initialize();
+        public LightTilemapCollider.Base GetCurrentTilemap() {
+            switch (tilemapType) {
+                case MapType.SuperTilemapEditor:
+                    return (superTilemapEditor);
+                case MapType.UnityRectangle:
+                    return (rectangle);
+                case MapType.UnityIsometric:
+                    return (isometric);
+                case MapType.UnityHexagon:
+                    return (hexagon);
+            }
+            return (null);
+        }
 
-			dayTiles.Clear();
+        public void Initialize() {
+            TilemapEvents.Initialize();
 
-			switch(tilemapType) {
-				case MapType.SuperTilemapEditor:
+            GetCurrentTilemap().Initialize();
 
-					switch(superTilemapEditor.shadowTypeSTE)
-					{
-						case SuperTilemapEditorSupport.TilemapCollider.ShadowType.Grid:
-						case SuperTilemapEditorSupport.TilemapCollider.ShadowType.TileCollider:
-							foreach(LightTile tile in GetTileList())
-							{
-							DayLightingTile dayTile = new DayLightingTile();
-							dayTile.height = height;
+            dayTiles.Clear();
 
-							dayTile.polygons = tile.GetWorldPolygons(GetCurrentTilemap());
+            switch (tilemapType) {
+                case MapType.SuperTilemapEditor:
 
-							dayTiles.Add(dayTile);
-						}
+                    switch (superTilemapEditor.shadowTypeSTE) {
+                        case SuperTilemapEditorSupport.TilemapCollider.ShadowType.Grid:
+                        case SuperTilemapEditorSupport.TilemapCollider.ShadowType.TileCollider:
+                            foreach (LightTile tile in GetTileList()) {
+                                DayLightingTile dayTile = new DayLightingTile();
+                                dayTile.height = height;
 
-						break;
+                                dayTile.polygons = tile.GetWorldPolygons(GetCurrentTilemap());
 
-						#if (SUPER_TILEMAP_EDITOR)
+                                dayTiles.Add(dayTile);
+                            }
+
+                            break;
+
+#if (SUPER_TILEMAP_EDITOR)
 
 						case SuperTilemapEditorSupport.TilemapCollider.ShadowType.Collider:
 						
@@ -180,117 +164,104 @@ namespace FunkyCode
 							
 						break;
 
-						#endif
-					}
+#endif
+                    }
 
-					
-				break;
 
-				case MapType.UnityRectangle:
+                    break;
 
-					switch(rectangle.shadowType)
-					{
-						case LightTilemapCollider.ShadowType.Grid:
-						case LightTilemapCollider.ShadowType.SpritePhysicsShape:
+                case MapType.UnityRectangle:
 
-							foreach(LightTile tile in GetTileList()) {
-								DayLightingTile dayTile = new DayLightingTile();
-								dayTile.height = height;
+                    switch (rectangle.shadowType) {
+                        case LightTilemapCollider.ShadowType.Grid:
+                        case LightTilemapCollider.ShadowType.SpritePhysicsShape:
 
-								dayTile.polygons = tile.GetWorldPolygons(GetCurrentTilemap());
+                            foreach (LightTile tile in GetTileList()) {
+                                DayLightingTile dayTile = new DayLightingTile();
+                                dayTile.height = height;
 
-								dayTiles.Add(dayTile);
-							}
+                                dayTile.polygons = tile.GetWorldPolygons(GetCurrentTilemap());
 
-						break;
+                                dayTiles.Add(dayTile);
+                            }
 
-						case LightTilemapCollider.ShadowType.CompositeCollider:
+                            break;
 
-							foreach(Polygon2 polygon in rectangle.compositeColliders)
-							{
-								DayLightingTile dayTile = new DayLightingTile();
-								dayTile.height = height;
+                        case LightTilemapCollider.ShadowType.CompositeCollider:
 
-								dayTile.polygons = new List<Polygon2>();
-								
-								Polygon2 poly = polygon.Copy();
-								poly.ToOffsetSelf(transform.position);
+                            foreach (Polygon2 polygon in rectangle.compositeColliders) {
+                                DayLightingTile dayTile = new DayLightingTile();
+                                dayTile.height = height;
 
-								dayTile.polygons.Add(poly);
-							
-								dayTiles.Add(dayTile);
-							}
+                                dayTile.polygons = new List<Polygon2>();
 
-						break;
-					}
-					
-				break;
-			}
-		}
+                                Polygon2 poly = polygon.Copy();
+                                poly.ToOffsetSelf(transform.position);
 
-		public List<LightTile> GetTileList()
-		{
-			return(GetCurrentTilemap().MapTiles);
-		}
+                                dayTile.polygons.Add(poly);
 
-		public TilemapProperties GetTilemapProperties()
-		{
-			return(GetCurrentTilemap().Properties);
-		}
+                                dayTiles.Add(dayTile);
+                            }
 
-		void OnDrawGizmosSelected()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected)
-			{
-				return;
-			}
-			
-			DrawGizmos();
-		}
+                            break;
+                    }
 
-		private void OnDrawGizmos()
-		{
-			if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always)
-			{
-				return;
-			}
+                    break;
+            }
+        }
 
-			DrawGizmos();
-		}
+        public List<LightTile> GetTileList() {
+            return (GetCurrentTilemap().MapTiles);
+        }
 
-		private void DrawGizmos()
-		{
-			if (!isActiveAndEnabled)
-			{
-				return;
-			}
+        public TilemapProperties GetTilemapProperties() {
+            return (GetCurrentTilemap().Properties);
+        }
 
-			UnityEngine.Gizmos.color = new Color(1f, 0.5f, 0.25f);
+        void OnDrawGizmosSelected() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Selected) {
+                return;
+            }
 
-			LightTilemapCollider.Base tilemap = GetCurrentTilemap();
+            DrawGizmos();
+        }
 
-			foreach(DayLightingTile dayTile in dayTiles)
-			{
-				GizmosHelper.DrawPolygons(dayTile.polygons, transform.position);
-			}
-			
-			switch(Lighting2D.ProjectSettings.gizmos.drawGizmosBounds)
-			{
-				case EditorGizmosBounds.Enabled:
-				
-					UnityEngine.Gizmos.color = new Color(0, 1f, 1f, 0.25f);
+        private void OnDrawGizmos() {
+            if (Lighting2D.ProjectSettings.gizmos.drawGizmos != EditorDrawGizmos.Always) {
+                return;
+            }
 
-					foreach(DayLightingTile dayTile in dayTiles)
-					{
-						GizmosHelper.DrawRect(Vector2.zero, dayTile.GetDayRect());
-					}
+            DrawGizmos();
+        }
 
-					UnityEngine.Gizmos.color = new Color(0, 1f, 1f, 0.5f);
+        private void DrawGizmos() {
+            if (!isActiveAndEnabled) {
+                return;
+            }
 
-					GizmosHelper.DrawRect(transform.position, tilemap.GetRect());
+            UnityEngine.Gizmos.color = new Color(1f, 0.5f, 0.25f);
 
-				break;
-			}
-		}
-	}
+            LightTilemapCollider.Base tilemap = GetCurrentTilemap();
+
+            foreach (DayLightingTile dayTile in dayTiles) {
+                GizmosHelper.DrawPolygons(dayTile.polygons, transform.position);
+            }
+
+            switch (Lighting2D.ProjectSettings.gizmos.drawGizmosBounds) {
+                case EditorGizmosBounds.Enabled:
+
+                    UnityEngine.Gizmos.color = new Color(0, 1f, 1f, 0.25f);
+
+                    foreach (DayLightingTile dayTile in dayTiles) {
+                        GizmosHelper.DrawRect(Vector2.zero, dayTile.GetDayRect());
+                    }
+
+                    UnityEngine.Gizmos.color = new Color(0, 1f, 1f, 0.5f);
+
+                    GizmosHelper.DrawRect(transform.position, tilemap.GetRect());
+
+                    break;
+            }
+        }
+    }
 }

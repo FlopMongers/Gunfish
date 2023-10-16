@@ -1,41 +1,40 @@
-﻿using System.Collections;
+﻿using FunkyCode.LightSettings;
+using FunkyCode.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FunkyCode.LightSettings;
-using FunkyCode.Utilities;
 
-namespace FunkyCode.Rendering.Light
-{
+namespace FunkyCode.Rendering.Light {
     public class Tile {
-		public static VirtualSpriteRenderer virtualSpriteRenderer = new VirtualSpriteRenderer();
+        public static VirtualSpriteRenderer virtualSpriteRenderer = new VirtualSpriteRenderer();
 
-       	static public void MaskSprite(LightTile tile, LayerSetting layerSetting, Material material, LightTilemapCollider2D tilemap, float lightSizeSquared) {
-			virtualSpriteRenderer.sprite = tile.GetSprite();
+        static public void MaskSprite(LightTile tile, LayerSetting layerSetting, Material material, LightTilemapCollider2D tilemap, float lightSizeSquared) {
+            virtualSpriteRenderer.sprite = tile.GetSprite();
 
-			if (virtualSpriteRenderer.sprite == null) {
-				return;
-			}
+            if (virtualSpriteRenderer.sprite == null) {
+                return;
+            }
 
-			LightTilemapCollider.Base tilemapBase = tilemap.GetCurrentTilemap();
+            LightTilemapCollider.Base tilemapBase = tilemap.GetCurrentTilemap();
 
-			Vector2 tilePosition = tile.GetWorldPosition(tilemapBase) - ShadowEngine.light.transform2D.position;
+            Vector2 tilePosition = tile.GetWorldPosition(tilemapBase) - ShadowEngine.light.transform2D.position;
 
-			GLExtended.color = LayerSettingColor.Get(tilePosition, layerSetting, MaskLit.Lit, 1, 1); // 1?
+            GLExtended.color = LayerSettingColor.Get(tilePosition, layerSetting, MaskLit.Lit, 1, 1); // 1?
 
-			material.mainTexture = virtualSpriteRenderer.sprite.texture;
+            material.mainTexture = virtualSpriteRenderer.sprite.texture;
 
-			Vector2 scale = tile.worldScale * tile.scale;
+            Vector2 scale = tile.worldScale * tile.scale;
 
-			GLExtended.color = Color.white;
+            GLExtended.color = Color.white;
 
-			tilePosition.x += ShadowEngine.drawOffset.x;
-			tilePosition.y += ShadowEngine.drawOffset.y;
+            tilePosition.x += ShadowEngine.drawOffset.x;
+            tilePosition.y += ShadowEngine.drawOffset.y;
 
-			material.SetPass(0);
+            material.SetPass(0);
 
-			Universal.Sprite.Pass.Draw(tile.spriteMeshObject, virtualSpriteRenderer, tilePosition, scale, tile.worldRotation);
-			
-			material.mainTexture = null;
-		}
+            Universal.Sprite.Pass.Draw(tile.spriteMeshObject, virtualSpriteRenderer, tilePosition, scale, tile.worldRotation);
+
+            material.mainTexture = null;
+        }
     }
 }

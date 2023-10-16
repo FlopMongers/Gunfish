@@ -27,10 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearRegression
-{
-    public enum DirectRegressionMethod
-    {
+namespace MathNet.Numerics.LinearRegression {
+    public enum DirectRegressionMethod {
         NormalEquations = 0,
         QR,
         Svd

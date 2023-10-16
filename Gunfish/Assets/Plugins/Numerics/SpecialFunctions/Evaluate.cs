@@ -46,13 +46,11 @@
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MathNet.Numerics
-{
+namespace MathNet.Numerics {
     /// <summary>
     /// Evaluation functions, useful for function approximation.
     /// </summary>
-    internal static class Evaluate
-    {
+    internal static class Evaluate {
         /// <summary> Evaluates the series of Chebyshev polynomials Ti at argument x/2.
         /// The series is given by
         /// <pre>
@@ -91,8 +89,7 @@ namespace MathNet.Numerics
         /// Marked as Deprecated in
         /// http://people.apache.org/~isabel/mahout_site/mahout-matrix/apidocs/org/apache/mahout/jet/math/Arithmetic.html
         /// </remarks>
-        internal static double ChebyshevA(double[] coefficients, double x)
-        {
+        internal static double ChebyshevA(double[] coefficients, double x) {
             // TODO: Unify, normalize, then make public
             double b2;
 
@@ -102,15 +99,14 @@ namespace MathNet.Numerics
             double b1 = 0.0;
             int i = coefficients.Length - 1;
 
-            do
-            {
+            do {
                 b2 = b1;
                 b1 = b0;
-                b0 = x*b1 - b2 + coefficients[p++];
+                b0 = x * b1 - b2 + coefficients[p++];
             }
             while (--i > 0);
 
-            return 0.5*(b0 - b2);
+            return 0.5 * (b0 - b2);
         }
 
         /// <summary>
@@ -126,50 +122,44 @@ namespace MathNet.Numerics
         ///    "An error analysis of the modified Clenshaw method for evaluating Chebyshev and Fourier series"
         ///    J. Oliver, J.I.M.A., vol. 20, 1977, pp379-391
         /// </remarks>
-        internal static double ChebyshevSum(int n, double[] coefficients, double x)
-        {
+        internal static double ChebyshevSum(int n, double[] coefficients, double x) {
             // TODO: Unify, normalize, then make public
 
             // If |x|  < 0.6 use the standard Clenshaw method
-            if (Math.Abs(x) < 0.6)
-            {
+            if (Math.Abs(x) < 0.6) {
                 double u0 = 0.0;
                 double u1 = 0.0;
                 double u2 = 0.0;
                 double xx = x + x;
 
-                for (int i = n; i >= 0; i--)
-                {
+                for (int i = n; i >= 0; i--) {
                     u2 = u1;
                     u1 = u0;
-                    u0 = xx*u1 + coefficients[i] - u2;
+                    u0 = xx * u1 + coefficients[i] - u2;
                 }
 
-                return (u0 - u2)/2.0;
+                return (u0 - u2) / 2.0;
             }
 
             // If ABS ( T )  > =  0.6 use the Reinsch modification
             // T > =  0.6 code
-            if (x > 0.0)
-            {
+            if (x > 0.0) {
                 double u1 = 0.0;
                 double d1 = 0.0;
                 double d2 = 0.0;
                 double xx = (x - 0.5) - 0.5;
                 xx = xx + xx;
 
-                for (int i = n; i >= 0; i--)
-                {
+                for (int i = n; i >= 0; i--) {
                     d2 = d1;
                     double u2 = u1;
-                    d1 = xx*u2 + coefficients[i] + d2;
+                    d1 = xx * u2 + coefficients[i] + d2;
                     u1 = d1 + u2;
                 }
 
-                return (d1 + d2)/2.0;
+                return (d1 + d2) / 2.0;
             }
-            else
-            {
+            else {
                 // T < =  -0.6 code
                 double u1 = 0.0;
                 double d1 = 0.0;
@@ -177,15 +167,14 @@ namespace MathNet.Numerics
                 double xx = (x + 0.5) + 0.5;
                 xx = xx + xx;
 
-                for (int i = n; i >= 0; i--)
-                {
+                for (int i = n; i >= 0; i--) {
                     d2 = d1;
                     double u2 = u1;
-                    d1 = xx*u2 + coefficients[i] - d2;
+                    d1 = xx * u2 + coefficients[i] - d2;
                     u1 = d1 - u2;
                 }
 
-                return (d1 - d2)/2.0;
+                return (d1 - d2) / 2.0;
             }
         }
     }

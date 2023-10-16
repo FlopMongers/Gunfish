@@ -1,126 +1,116 @@
 using UnityEngine;
 
-namespace FunkyCode
-{
-	[System.Serializable]
-	public struct CameraLightmap
-	{
-		public enum Rendering
-		{
-			Enabled,
-			Disabled
-		}
+namespace FunkyCode {
+    [System.Serializable]
+    public struct CameraLightmap {
+        public enum Rendering {
+            Enabled,
+            Disabled
+        }
 
-		public enum Overlay
-		{
-			Enabled,
-			Disabled
-		}
+        public enum Overlay {
+            Enabled,
+            Disabled
+        }
 
-		public enum OverlayMaterial
-		{
-			Multiply,
-			Additive,
-			Custom,
-			Reference
-		};
+        public enum OverlayMaterial {
+            Multiply,
+            Additive,
+            Custom,
+            Reference
+        };
 
-		public enum OverlayPosition
-		{
-			Camera, 
-			Custom
-		};
+        public enum OverlayPosition {
+            Camera,
+            Custom
+        };
 
-		public enum OverlayLayerType { LightingLayer, UnityLayer };
+        public enum OverlayLayerType { LightingLayer, UnityLayer };
 
-		public enum SceneView
-		{
-			Disabled,
-			Enabled
-		}
-		
-		public enum Output {None, Shaders, Materials, Pass1, Pass2, Pass3, Pass4, Pass5, Pass6, Pass7, Pass8}
+        public enum SceneView {
+            Disabled,
+            Enabled
+        }
 
-		public enum MaterialType {Incremental, Pass1, Pass2, Pass3, Pass4, Pass5, Pass6, Pass7, Pass8}
+        public enum Output { None, Shaders, Materials, Pass1, Pass2, Pass3, Pass4, Pass5, Pass6, Pass7, Pass8 }
 
-		public Rendering rendering;
+        public enum MaterialType { Incremental, Pass1, Pass2, Pass3, Pass4, Pass5, Pass6, Pass7, Pass8 }
 
-		public SceneView sceneView;
+        public Rendering rendering;
 
-		public Overlay overlay;
-		public OverlayLayerType overlayLayerType;
-		public OverlayMaterial overlayMaterial;
-		public OverlayPosition overlayPosition;
-	
-		public Output output;
-		
-		public LightingSettings.SortingLayer sortingLayer;
+        public SceneView sceneView;
 
-		public Material customMaterial;
-		public Material customMaterialInstance;
+        public Overlay overlay;
+        public OverlayLayerType overlayLayerType;
+        public OverlayMaterial overlayMaterial;
+        public OverlayPosition overlayPosition;
+
+        public Output output;
+
+        public LightingSettings.SortingLayer sortingLayer;
+
+        public Material customMaterial;
+        public Material customMaterialInstance;
 
 
-		// Output Materials
-		public MaterialType materialsType;
-		public LightmapMaterials materials;
+        // Output Materials
+        public MaterialType materialsType;
+        public LightmapMaterials materials;
 
-		public int renderLayerId;
+        public int renderLayerId;
 
-		public int id;
+        public int id;
 
-		public int presetId;
+        public int presetId;
 
-		public float customPosition;
+        public float customPosition;
 
-		public CameraLightmap(int id = 0)
-		{
-			this.id = id;
+        public CameraLightmap(int id = 0) {
+            this.id = id;
 
-			this.presetId = 0;
+            this.presetId = 0;
 
-			this.rendering = Rendering.Enabled;
+            this.rendering = Rendering.Enabled;
 
-			this.overlay = Overlay.Enabled;
+            this.overlay = Overlay.Enabled;
 
-			this.overlayMaterial = OverlayMaterial.Multiply;
+            this.overlayMaterial = OverlayMaterial.Multiply;
 
-			this.overlayLayerType = OverlayLayerType.LightingLayer;
+            this.overlayLayerType = OverlayLayerType.LightingLayer;
 
-			this.customMaterial = null;
+            this.customMaterial = null;
 
-			this.customMaterialInstance = null;
+            this.customMaterialInstance = null;
 
-			this.renderLayerId = 0;
+            this.renderLayerId = 0;
 
-			this.output = Output.None;
+            this.output = Output.None;
 
-			this.overlayPosition = OverlayPosition.Camera;
-			
-			this.materials = new LightmapMaterials();
+            this.overlayPosition = OverlayPosition.Camera;
 
-			this.sortingLayer = new LightingSettings.SortingLayer();
+            this.materials = new LightmapMaterials();
 
-			this.materialsType = MaterialType.Incremental;
+            this.sortingLayer = new LightingSettings.SortingLayer();
 
-			this.sceneView = SceneView.Enabled;
+            this.materialsType = MaterialType.Incremental;
 
-			this.customPosition = 0;
-		}
+            this.sceneView = SceneView.Enabled;
 
-		public LightmapMaterials GetMaterials()
-		{
-			if (materials == null)
-				materials = new LightmapMaterials();
-	
-			return materials;
-		}
+            this.customPosition = 0;
+        }
 
-		public Material GetMaterial()
-		{
-			if (!customMaterialInstance && customMaterial)
-				customMaterialInstance = new Material(customMaterial);
+        public LightmapMaterials GetMaterials() {
+            if (materials == null)
+                materials = new LightmapMaterials();
 
-			return customMaterialInstance;
-		}
-	}
+            return materials;
+        }
+
+        public Material GetMaterial() {
+            if (!customMaterialInstance && customMaterial)
+                customMaterialInstance = new Material(customMaterial);
+
+            return customMaterialInstance;
+        }
+    }
 }
