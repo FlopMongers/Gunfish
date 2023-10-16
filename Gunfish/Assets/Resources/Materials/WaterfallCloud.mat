@@ -80,11 +80,11 @@ Material:
     - _EmissionEnabled: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0.058
     - _GlossyReflections: 1
     - _InvFade: 1.43
     - _LightingEnabled: 1
-    - _Metallic: 0
+    - _Metallic: 0.965
     - _Mode: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02

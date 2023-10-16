@@ -77,12 +77,12 @@ public class LevelManager: PersistentSingleton<LevelManager> {
     }
 
     IEnumerator CoLoadScene(string sceneName) {
-        var op = SceneManager.LoadSceneAsync(sceneName);
-        while (op.isDone == false) {
+        var op2 = SceneManager.LoadSceneAsync(skyboxScene);
+        while (op2.isDone == false) {
             yield return null;
         }
-        var op2 = SceneManager.LoadSceneAsync(skyboxScene, LoadSceneMode.Additive);
-        while (op2.isDone == false) {
+        var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        while (op.isDone == false) {
             yield return null;
         }
         anim.SetBool("veil", false);
