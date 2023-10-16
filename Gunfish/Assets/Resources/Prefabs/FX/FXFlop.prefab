@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5188890719006348423}
   - component: {fileID: 5188890719006348422}
   m_Layer: 0
-  m_Name: flop_fx
+  m_Name: FXFlop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

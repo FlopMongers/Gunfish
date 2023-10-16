@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4472519224901759273}
   - component: {fileID: 5063042218386083386}
   m_Layer: 0
-  m_Name: FX_Spawner
+  m_Name: FXSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 534546817594487515}
   - component: {fileID: 534546817594487524}
   m_Layer: 0
-  m_Name: default_fx
+  m_Name: FXDefault
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

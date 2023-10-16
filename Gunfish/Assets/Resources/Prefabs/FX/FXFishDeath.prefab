@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5248544424780650820}
   - component: {fileID: 5248544424780650819}
   m_Layer: 0
-  m_Name: fish_death_fx
+  m_Name: FXFishDeath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
