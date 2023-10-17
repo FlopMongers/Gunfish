@@ -1,12 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Application;
 
-[System.Serializable]
+[Serializable]
 public class LevelManager : PersistentSingleton<LevelManager> {
     public GameEvent FinishLoadLevel_Event;
     public GameEvent StartPlay_Event;
@@ -77,6 +74,8 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         while (op.isDone == false) {
             yield return null;
         }
+        SkyboxCamera.instance.RegisterCamera(GameCamera.instance.GetComponentInChildren<Camera>());
+
         anim.SetBool("veil", false);
     }
 
