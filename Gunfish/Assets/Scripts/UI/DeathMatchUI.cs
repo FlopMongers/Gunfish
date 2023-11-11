@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,8 +26,8 @@ public class PlayerPanel {
 public class DeathMatchUI : MonoBehaviour {
     [SerializeField]
     private List<DeathMatchUIPlayerWidget> playerWidgets = new List<DeathMatchUIPlayerWidget>();
-    //[SerializeField]
-    //private LoadingCountdownUI loadingScreen;
+    [SerializeField] private List<Color> playerColors;
+    [SerializeField] private Color eliminatedColor;
 
     TextMeshProUGUI winnerText;
     List<PlayerPanel> playerPanels = new List<PlayerPanel>();
@@ -67,13 +68,18 @@ public class DeathMatchUI : MonoBehaviour {
         for (int i = 0; i < playerWidgets.Count; i++) {
             if (players.Count > i && players[i] != null) {
                 playerWidgets[i].gameObject.SetActive(true);
+                playerWidgets[i].SetColor(playerColors[i]);
                 playerWidgets[i].InitializeLevel(initialStockCount, players[i]);
             }
         }
     }
 
     public void OnStockChange(Player player, int newStockValue) {
-        playerWidgets.Find((pwidget) => pwidget.player == player)?.OnStockChange(newStockValue);
+        DeathMatchUIPlayerWidget playerWidget = playerWidgets.Find((pwidget) => pwidget.player == player);
+        playerWidget.OnStockChange(newStockValue);
+        if (newStockValue == 0) {
+            playerWidget.SetColor(eliminatedColor);
+        }
     }
 
     public void OnScoreChange(Player player, int newScoreValue) {

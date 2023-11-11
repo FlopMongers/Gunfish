@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
@@ -16,6 +17,7 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
     private TMP_Text scoreText;
     [SerializeField]
     private Image playerPortrait;
+    public UnityEvent<Color> OnPlayerColorChange;
 
     // Start is called before the first frame update
     void Start() {
@@ -65,5 +67,9 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
 
     private void OnPlayerEliminated() {
         // TODO gray out widget color
+    }
+
+    public void SetColor(Color newColor) {
+        OnPlayerColorChange.Invoke(newColor);
     }
 }
