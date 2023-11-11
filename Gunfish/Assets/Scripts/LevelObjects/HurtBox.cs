@@ -16,14 +16,17 @@ public class HurtBox : MonoBehaviour {
         detector.OnFishTriggerExit += HandleFishTriggerExit;
     }
 
-    public void Update() {
+    public void FixedUpdate() {
 
         // can't? remove dead fish while iterating collection
         List<Gunfish> fishesToRemove = new List<Gunfish>();
         foreach (Gunfish fish in hurtFish) {
-            fish.UpdateHealth(-damage);
+            float frameDamage = damage * Time.deltaTime;
+            print("Hurting " + fish.name + " for " + frameDamage);
+            fish.UpdateHealth(-frameDamage);
 
             if (!fish.statusData.alive) {
+                print("They dead");
                 fishesToRemove.Add(fish);
             }
         }
