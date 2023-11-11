@@ -17,7 +17,7 @@ public class FishHook : MonoBehaviour {
 
     public Transform roofPosition;
 
-    Vector3 lineStartPosition, lineTargetPosition;
+    Vector3 lineStartPosition, lineTargetPosition, detectorStartPosition, detectorTargetPosition;
 
     public float jiggle_timer;
     float jiggleDuration = 10f, jiggleThreshold = 4f, turboMode = 2f;
@@ -33,6 +33,12 @@ public class FishHook : MonoBehaviour {
         jiggle_timer = jiggleDuration;
         lineStartPosition = line.transform.position;
         lineTargetPosition = roofPosition.position;
+
+        // the detector is offset from the line and so must be lerped independently between equivalent positions
+        detectorStartPosition = detector.transform.position;
+        detectorTargetPosition = roofPosition.position + (detector.transform.position - line.transform.position);
+        
+        line.SetPosition(1, line.transform.InverseTransformPoint(lineStartPosition));
         line.SetPosition(0, line.transform.InverseTransformPoint(roofPosition.position));
     }
 
@@ -87,7 +93,7 @@ public class FishHook : MonoBehaviour {
         while (zoomTimer > 0) {
             percentage = 1 - (zoomTimer / zoomDuration);
             line.SetPosition(1, line.transform.InverseTransformPoint(Vector3.Lerp(lineStartPosition, lineTargetPosition, percentage)));
-            detector.transform.position = Vector3.Lerp(lineStartPosition, lineTargetPosition, percentage);
+            detector.transform.position = Vector3.Lerp(detectorStartPosition, detectorTargetPosition, percentage);
             zoomTimer -= Time.deltaTime;
             yield return null;
         }
@@ -98,7 +104,7 @@ public class FishHook : MonoBehaviour {
         while (zoomTimer > 0) {
             percentage = 1 - (zoomTimer / returnDuration);
             line.SetPosition(1, line.transform.InverseTransformPoint(Vector3.Lerp(lineTargetPosition, lineStartPosition, percentage)));
-            detector.transform.position = Vector3.Lerp(lineTargetPosition, lineStartPosition, percentage);
+            detector.transform.position = Vector3.Lerp(detectorTargetPosition, detectorStartPosition, percentage);
             zoomTimer -= Time.deltaTime;
             yield return null;
         }
