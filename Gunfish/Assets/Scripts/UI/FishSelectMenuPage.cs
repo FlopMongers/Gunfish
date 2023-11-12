@@ -18,8 +18,8 @@ public class FishSelectMenuPage : IMenuPage {
 
         fishImages = new List<VisualElement>();
 
-        for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
-            var playerInput = PlayerManager.instance.PlayerInputs[i];
+        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
+            var playerInput = PlayerManager.Instance.PlayerInputs[i];
             if (!playerInput)
                 continue;
             int playerIndex = i;
@@ -39,13 +39,13 @@ public class FishSelectMenuPage : IMenuPage {
         displayedFishes = new List<GunfishData>();
         displayedFishIndices = new List<int>();
 
-        fishes = GameManager.instance.GunfishList;
+        fishes = GameManager.Instance.GunfishList;
 
         if (fishes.Count < 1) {
             throw new UnityException("GameManager.Gunfish_List must contain at least one fish for the game to function.");
         }
 
-        for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
+        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
             displayedFishes.Add(fishes[0]);
             displayedFishIndices.Add(0);
             SetFish(i, fishes[0]);
@@ -53,8 +53,8 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     public void OnDisable(MenuPageContext context) {
-        for (int i = 0; i < PlayerManager.instance.PlayerInputs.Count; i++) {
-            var playerInput = PlayerManager.instance.PlayerInputs[i];
+        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
+            var playerInput = PlayerManager.Instance.PlayerInputs[i];
             if (!playerInput)
                 continue;
             int playerIndex = i;
@@ -86,7 +86,7 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context, int deviceIndex) {
-        GameManager.instance.InitializeGame();
+        GameManager.Instance.InitializeGame();
     }
 
     private void IncrementFish(int deviceIndex) {
@@ -109,6 +109,6 @@ public class FishSelectMenuPage : IMenuPage {
 
         fishImages[deviceIndex].style.backgroundImage = texture;
 
-        PlayerManager.instance.SetPlayerFish(deviceIndex, fish);
+        PlayerManager.Instance.SetPlayerFish(deviceIndex, fish);
     }
 }

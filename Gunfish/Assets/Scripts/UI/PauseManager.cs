@@ -22,7 +22,7 @@ public class PauseManager : Singleton<PauseManager> {
 
     public void MainMenu() {
         PauseTime(1, 1);
-        LevelManager.instance?.LoadMainMenu();
+        LevelManager.Instance?.LoadMainMenu();
     }
 
 

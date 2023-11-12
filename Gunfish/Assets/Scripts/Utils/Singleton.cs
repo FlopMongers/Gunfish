@@ -1,27 +1,35 @@
 using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T> {
-    public static T instance { get; protected set; }
+    public static T Instance { get; protected set; }
 
     public static bool InstanceExists {
-        get { return instance != null; }
+        get { return Instance != null; }
     }
 
-    protected bool destroyed;
+    public bool Initialized { get; protected set; }
+    public bool Destroyed { get; protected set; }
 
     protected virtual void Awake() {
         if (InstanceExists) {
             Destroy(gameObject);
-            destroyed = true;
+            Destroyed = true;
         }
         else {
-            instance = (T)this;
+            Instance = (T)this;
         }
     }
 
     protected virtual void OnDestroy() {
-        if (instance == this) {
-            instance = null;
+        if (Instance == this) {
+            Instance = null;
         }
+    }
+
+    public virtual void Initialize() {
+        if (!InstanceExists) {
+            throw new UnityException($"{typeof(T).Name} is a singleton but has not been Instantiated. Has a GameObject with this component been added to the scene?");
+        }
+        Initialized = true;
     }
 }

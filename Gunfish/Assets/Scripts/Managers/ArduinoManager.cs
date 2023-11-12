@@ -66,5 +66,6 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
     private void OnDisable() {
         serialPort?.Close();
+        Debug.Log("Disconnected Arduino!");
     }
 }

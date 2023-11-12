@@ -12,14 +12,14 @@ public class MatchManager : PersistentSingleton<MatchManager> {
 
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
-        LevelManager.instance.FinishLoadLevel_Event += StartLevel;
-        LevelManager.instance.StartPlay_Event += StartPlay;
+        LevelManager.Instance.OnFinishLoadLevel += StartLevel;
+        LevelManager.Instance.OnStartPlay += StartPlay;
         NextLevel();
     }
 
     public virtual void SpawnPlayer(Player player) {
         // add player's fish to camera group
-        GameCamera.instance?.targetGroup.AddMember(player.Gunfish.MiddleSegment.transform, 1, 1);
+        GameCamera.Instance?.targetGroup.AddMember(player.Gunfish.MiddleSegment.transform, 1, 1);
     }
 
     public virtual void StartLevel() {
@@ -48,7 +48,7 @@ public class MatchManager : PersistentSingleton<MatchManager> {
     public virtual void OnPlayerDeath(Player player) {
         // remove the fishy from the camera group
         // will this work? I don't know...
-        GameCamera.instance?.targetGroup.RemoveMember(null);
+        GameCamera.Instance?.targetGroup.RemoveMember(null);
     }
 
     public virtual void ShowStats() {
@@ -57,17 +57,17 @@ public class MatchManager : PersistentSingleton<MatchManager> {
 
     public virtual void NextLevel() {
         if (nextLevelIndex < parameters.scenes.Count) {
-            LevelManager.instance.LoadLevel(parameters.scenes[nextLevelIndex]);
+            LevelManager.Instance.LoadLevel(parameters.scenes[nextLevelIndex]);
             nextLevelIndex++;
         }
         else if (done == true) {
             // NOTE destroy all players
-            LevelManager.instance.LoadMainMenu();
+            LevelManager.Instance.LoadMainMenu();
             Destroy(gameObject);
         }
         else {
             done = true;
-            LevelManager.instance.LoadStats();
+            LevelManager.Instance.LoadStats();
         }
     }
 

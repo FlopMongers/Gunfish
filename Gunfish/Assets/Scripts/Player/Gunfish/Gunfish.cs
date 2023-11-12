@@ -62,16 +62,16 @@ public class Gunfish : MonoBehaviour {
         spawned = false;
 
         // Marquee manager does not currently care about player. Encapsulating in anonymous delegate for now.
-        OnDeath += (Player player) => { MarqueeManager.instance.EnqueueRandomQuip(); };
+        OnDeath += (Player player) => { MarqueeManager.Instance.EnqueueRandomQuip(); };
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
         inputHandler = playerInput.actions.FindActionMap("Player");
         //inputHandler.FindAction("Fire").performed += ctx => { gun?.Fire(); };
-        playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { MatchManager.instance?.NextLevel(); };
+        playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { MatchManager.Instance?.NextLevel(); };
     }
 
     private void OnDestroy() {
-        OnDeath -= (Player player) => { MarqueeManager.instance.EnqueueRandomQuip(); };
+        OnDeath -= (Player player) => { MarqueeManager.Instance.EnqueueRandomQuip(); };
     }
 
     private void Update() {
@@ -100,7 +100,7 @@ public class Gunfish : MonoBehaviour {
             foreach (var effect in EffectRemoveList)
                 effectMap.Remove(effect);
             EffectRemoveList.Clear();
-            FX_Spawner.instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);
+            FX_Spawner.Instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);
             Despawn(true);
             killed = true;
             OnDeath?.Invoke(player);
@@ -174,7 +174,7 @@ public class Gunfish : MonoBehaviour {
         body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
         RotateMovement(input, data.groundTorque, ForceMode2D.Impulse);
         // play flop
-        FX_Spawner.instance?.SpawnFX(FXType.Flop, segments[index].transform.position, Quaternion.identity);
+        FX_Spawner.Instance?.SpawnFX(FXType.Flop, segments[index].transform.position, Quaternion.identity);
     }
 
     private void RotateMovement(Vector2 input, float? airTorque = null, ForceMode2D forceMode = ForceMode2D.Force) {
@@ -254,7 +254,7 @@ public class Gunfish : MonoBehaviour {
     public void Hit(FishHitObject hit) {
         // tell match manager about this for possible scoring
         // TODO: replace with generalized FX_CollisionHandler?
-        FX_Spawner.instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
+        FX_Spawner.Instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
     }
@@ -286,11 +286,11 @@ public class Gunfish : MonoBehaviour {
 
         segments = generator.Generate(layer, position);
 
-        if (FX_Spawner.instance != null) {
+        if (FX_Spawner.Instance != null) {
             // TODO, init properly
-            var healthUI = Instantiate(FX_Spawner.instance.fishHealthUIPrefab).GetComponent<HealthUI>();
+            var healthUI = Instantiate(FX_Spawner.Instance.fishHealthUIPrefab).GetComponent<HealthUI>();
             healthUI.Init(this);
-            FX_Spawner.instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
+            FX_Spawner.Instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }
 
         renderer = new GunfishRenderer(data.spriteMat, segments);

@@ -33,6 +33,21 @@ public class GameManager : PersistentSingleton<GameManager> {
         }
     }
 
+    protected void Start() {
+        Initialize();
+    }
+
+    public override void Initialize() {
+        PlayerManager.Instance.Initialize();
+        LevelManager.Instance.Initialize();
+        MusicManager.Instance.Initialize();
+        ArduinoManager.Instance.Initialize();
+        FX_Spawner.Instance.Initialize();
+        MarqueeManager.Instance.Initialize();
+        PauseManager.Instance.Initialize();
+        MainMenu.Instance.Initialize();
+    }
+
     public void InitializeGame() {
         // Spawn match manager
         if (selectedGameMode == GameModeType.DeathMatch) {
@@ -46,7 +61,7 @@ public class GameManager : PersistentSingleton<GameManager> {
         var scenes = testLevelList; //new List<string>() { "Sea Urchin Testing" };
 
         // Get all active players
-        GameParameters parameters = new GameParameters(PlayerManager.instance.Players, scenes);
+        GameParameters parameters = new GameParameters(PlayerManager.Instance.Players, scenes);
         MatchManager?.Initialize(parameters);
     }
 

@@ -17,7 +17,7 @@ public class GameModeSelectMenuPage : IMenuPage {
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
 
-        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
             if (!playerInput)
                 continue;
             playerInput.currentActionMap.FindAction("Navigate").performed += OnNavigate;
@@ -30,14 +30,14 @@ public class GameModeSelectMenuPage : IMenuPage {
         nextButton = menuContext.document.rootVisualElement.Q<Button>("next-button");
 
         displayedGameModeIndex = 0;
-        gameModes = GameManager.instance.GameModeList;
+        gameModes = GameManager.Instance.GameModeList;
         if (gameModes.Count > 0) {
             DisplayGameMode(gameModes[displayedGameModeIndex]);
         }
     }
 
     public void OnDisable(MenuPageContext context) {
-        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
             if (!playerInput)
                 continue;
             playerInput.currentActionMap.FindAction("Navigate").performed -= OnNavigate;
@@ -68,7 +68,7 @@ public class GameModeSelectMenuPage : IMenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {
-        GameManager.instance.SetSelectedGameMode(displayedGameMode.gameModeType);
+        GameManager.Instance.SetSelectedGameMode(displayedGameMode.gameModeType);
         menuContext.menu.SetState(MenuState.GunfishSelect);
     }
 

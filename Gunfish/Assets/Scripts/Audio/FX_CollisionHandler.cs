@@ -76,7 +76,7 @@ public class FX_CollisionHandler : Singleton<FX_CollisionHandler> {
         if ((collision.contacts[0].normalImpulse > impactThreshold && !softLimit) || softLimit) {
             float vol = Mathf.Clamp01(collision.contacts[0].normalImpulse / maxThreshold);
 
-            FX_Spawner.instance.SpawnFX(fxType, collision.contacts[0].point, collision.contacts[0].normal, vol);
+            FX_Spawner.Instance.SpawnFX(fxType, collision.contacts[0].point, collision.contacts[0].normal, vol);
         }
     }
 }

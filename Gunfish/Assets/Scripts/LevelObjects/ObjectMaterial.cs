@@ -8,12 +8,12 @@ public class ObjectMaterial : MonoBehaviour {
 
     protected void HandleMaterialCollision(ObjectMaterial mat, Collision2D collision) {
         if (mat == null) {
-            FX_CollisionHandler.instance?.HandleDefaultCollision(this, collision);
+            FX_CollisionHandler.Instance?.HandleDefaultCollision(this, collision);
             return;
         }
         // if other skip collision, send the collision to the fx handler
         if (mat.skipCollision == true || materialType > mat.materialType || (materialType == mat.materialType && GetInstanceID() > mat.gameObject.GetInstanceID())) {
-            FX_CollisionHandler.instance?.HandleCollision(this, mat, collision);
+            FX_CollisionHandler.Instance?.HandleCollision(this, mat, collision);
         }
     }
 

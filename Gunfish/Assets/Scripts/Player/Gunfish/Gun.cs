@@ -75,7 +75,7 @@ public class Gun : MonoBehaviour {
         Kickback(gunfish.data.gun.kickback);
         Vector3 endPoint;
 
-        FX_Spawner.instance?.SpawnFX(
+        FX_Spawner.Instance?.SpawnFX(
             FXType.Bang, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
 
         foreach (GunBarrel barrel in barrels) {
@@ -87,8 +87,8 @@ public class Gun : MonoBehaviour {
                 GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponent<Shootable>();
                 if (fishSegment != null) {
-                    bool fishHit = (GameManager.instance != null)
-                        ? GameManager.instance.MatchManager.ResolveHit(this, fishSegment)
+                    bool fishHit = (GameManager.Instance != null)
+                        ? GameManager.Instance.MatchManager.ResolveHit(this, fishSegment)
                         : ResolveHit(this, fishSegment);
                     if (fishHit) {
                         fishSegment.gunfish.Hit(
@@ -96,7 +96,7 @@ public class Gun : MonoBehaviour {
                                 fishSegment.index, hit.point, barrel.transform.right, gameObject, gunfish.data.gun.damage, gunfish.data.gun.knockback));
                         // this is temporary, but if it works let's just leave it
                         if (fishSegment.gunfish.statusData.health <= 0)
-                            FX_Spawner.instance?.BAM();
+                            FX_Spawner.Instance?.BAM();
                         endPoint = hit.point;
                         break;
                     }
@@ -108,7 +108,7 @@ public class Gun : MonoBehaviour {
                 }
                 else {
                     // TODO: replace with generalized FX_CollisionHandler code
-                    FX_Spawner.instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
+                    FX_Spawner.Instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
                     endPoint = hit.point;
                     break;
                 }

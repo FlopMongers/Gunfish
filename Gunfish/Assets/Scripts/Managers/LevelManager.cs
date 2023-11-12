@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 [Serializable]
 public class LevelManager : PersistentSingleton<LevelManager> {
-    public GameEvent FinishLoadLevel_Event;
-    public GameEvent StartPlay_Event;
+    public GameEvent OnFinishLoadLevel;
+    public GameEvent OnStartPlay;
     public string skyboxScene;
 
 
@@ -23,7 +23,8 @@ public class LevelManager : PersistentSingleton<LevelManager> {
     PlayerManager.InputMode nextInputMode;
     Animator anim;
 
-    private void Start() {
+    public override void Initialize() {
+        base.Initialize();
         anim = GetComponent<Animator>();
     }
 
@@ -32,7 +33,7 @@ public class LevelManager : PersistentSingleton<LevelManager> {
     }
 
     public void LoadStats() {
-        LoadScene("Stats", PlayerManager.InputMode.EndLevel, MatchManager.instance.ShowStats);
+        LoadScene("Stats", PlayerManager.InputMode.EndLevel, MatchManager.Instance.ShowStats);
     }
 
     public void LoadLevel(string levelName) {
@@ -42,13 +43,13 @@ public class LevelManager : PersistentSingleton<LevelManager> {
 
     void FinishLoadLevel() {
         // set new input mode here?
-        FinishLoadLevel_Event?.Invoke();
+        OnFinishLoadLevel?.Invoke();
         anim.SetTrigger("countdown");
     }
 
     // countdown anim invokes this
     public void StartPlay() {
-        StartPlay_Event?.Invoke();
+        OnStartPlay?.Invoke();
     }
 
     void LoadScene(string sceneName, PlayerManager.InputMode inputMode, Action callback = null) {
@@ -56,7 +57,7 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         nextCallback = callback;
         nextInputMode = inputMode;
         // disable controller
-        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.Null);
+        PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.Null);
         anim.SetBool("veil", true);
     }
 
@@ -74,14 +75,14 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         while (op.isDone == false) {
             yield return null;
         }
-        SkyboxCamera.instance.RegisterCamera(GameCamera.instance.GetComponentInChildren<Camera>());
+        SkyboxCamera.Instance.RegisterCamera(GameCamera.Instance.GetComponentInChildren<Camera>());
 
         anim.SetBool("veil", false);
     }
 
     // unveil anim invokes this
     public void InvokeCallback() {
-        PlayerManager.instance.SetInputMode(nextInputMode);
+        PlayerManager.Instance.SetInputMode(nextInputMode);
         nextCallback?.Invoke();
     }
 }

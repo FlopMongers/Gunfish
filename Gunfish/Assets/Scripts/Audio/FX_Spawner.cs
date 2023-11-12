@@ -18,7 +18,7 @@ public enum FXType {
     Spawn,
 }
 
-public class FX_Spawner : MonoBehaviour {
+public class FX_Spawner : PersistentSingleton<FX_Spawner> {
     [System.Serializable]
     public class FX_Tuple {
         public FXType key;
@@ -58,19 +58,8 @@ public class FX_Spawner : MonoBehaviour {
 
     CinemachineImpulseSource impulseSource;
 
-    // Singleton code
-    public static FX_Spawner instance;
-    private void Awake() {
-        if (null == instance) {
-            instance = this;
-            transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
-        }
-        else {
-            Destroy(gameObject);
-            return;
-        }
-
+    public override void Initialize() {
+        base.Initialize();
         foreach (var entry in Serialized_FX_Dict) {
             FX_Dict[entry.key] = entry;
         }
@@ -93,13 +82,13 @@ public class FX_Spawner : MonoBehaviour {
         if (freezeTime > 0) {
             if (paused == false) {
                 paused = true;
-                PauseManager.instance?.PauseTime(0, 0);
+                PauseManager.Instance?.PauseTime(0, 0);
             }
             freezeTime -= Time.unscaledDeltaTime;
         }
         else if (paused == true) {
             paused = false;
-            PauseManager.instance?.PauseTime(1, 0);
+            PauseManager.Instance?.PauseTime(1, 0);
         }
     }
 

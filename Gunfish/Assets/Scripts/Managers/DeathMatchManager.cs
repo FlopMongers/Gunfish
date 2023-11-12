@@ -95,7 +95,7 @@ public class DeathMatchManager : MatchManager {
         }
 
         ui.ShowLevelStats(player, playerScores); // if player is null, no one wins
-        PlayerManager.instance.SetInputMode(PlayerManager.InputMode.EndLevel);
+        PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
     }
 
     public override void ShowStats() {

@@ -35,7 +35,8 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private bool transitioning = false;
     private int activeSourceIndex = 0;
 
-    private void Start() {
+    public override void Initialize() {
+        base.Initialize();
         InitializeAudioSources();
         InitializeMusicTrackDictionary();
 

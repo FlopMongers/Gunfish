@@ -8,7 +8,7 @@ public class SplashMenuPage : IMenuPage {
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
 
-        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
             if (playerInput) {
                 playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
             }
@@ -16,7 +16,7 @@ public class SplashMenuPage : IMenuPage {
     }
 
     public void OnDisable(MenuPageContext context) {
-        foreach (var playerInput in PlayerManager.instance.PlayerInputs) {
+        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
             if (playerInput) {
                 playerInput.currentActionMap.FindAction("Any").performed -= OnAnyKey;
             }

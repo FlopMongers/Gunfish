@@ -28,8 +28,8 @@ public class Shootable : MonoBehaviour {
 
         // TODO init properly
         var healthBar = GetComponent<HealthUI>();
-        if (healthBar == null && FX_Spawner.instance != null) {
-            healthBar = Instantiate(FX_Spawner.instance.healthUIPrefab, transform).GetComponent<HealthUI>();
+        if (healthBar == null && FX_Spawner.Instance != null) {
+            healthBar = Instantiate(FX_Spawner.Instance.healthUIPrefab, transform).GetComponent<HealthUI>();
         }
         if (healthBar != null) {
             healthBar.transform.parent = null;
@@ -50,7 +50,7 @@ public class Shootable : MonoBehaviour {
     void Update() {
         if (health <= 0) {
             OnDead?.Invoke();
-            FX_Spawner.instance?.SpawnFX(destroyFX, transform.position, transform.up);
+            FX_Spawner.Instance?.SpawnFX(destroyFX, transform.position, transform.up);
             Destroy(gameObject);
         }
     }
@@ -60,7 +60,7 @@ public class Shootable : MonoBehaviour {
         if (rb != null) {
             rb.AddForceAtPosition(hit.direction * hit.knockback, hit.position);
         }
-        FX_Spawner.instance?.SpawnFX(hitFX, hit.position, -hit.direction);
+        FX_Spawner.Instance?.SpawnFX(hitFX, hit.position, -hit.direction);
         UpdateHealth(-hit.damage);
     }
 
@@ -71,7 +71,7 @@ public class Shootable : MonoBehaviour {
                 var r = GetComponent<SpriteRenderer>();
                 if (r != null)
                     r.sprite = damagedSprite;
-                FX_Spawner.instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
+                FX_Spawner.Instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
                 damaged = true;
             }
         }

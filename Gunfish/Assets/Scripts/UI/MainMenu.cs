@@ -20,6 +20,11 @@ public class MainMenu : Singleton<MainMenu> {
     [SerializeField] private VisualTreeAsset gameModeSelect;
     [SerializeField] private VisualTreeAsset gunfishSelect;
 
+    public override void Initialize() {
+        base.Initialize();
+        InitializeMenu();
+    }
+
     public void InitializeMenu() {
         context = new MenuPageContext();
 

@@ -3,15 +3,15 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class PlayerManager : Singleton<PlayerManager> {
+public class PlayerManager : PersistentSingleton<PlayerManager> {
     public List<Player> Players { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
     public List<PlayerInput> PlayerInputs { get; private set; }
 
-    private void Start() {
+    public override void Initialize() {
+        base.Initialize();
         JoinPlayers();
         SetInputMode(InputMode.UI);
-        MainMenu.instance.InitializeMenu();
     }
 
     private void JoinPlayers() {
@@ -31,27 +31,9 @@ public class PlayerManager : Singleton<PlayerManager> {
             var player = playerInput.GetComponent<Player>();
             PlayerInputs.Add(playerInput);
             Players.Add(player);
-            PlayerFish.Add(GameManager.instance.GunfishList[0]);
+            PlayerFish.Add(GameManager.Instance.GunfishList[0]);
         });
     }
-
-    private void Update() {
-        // if (Input.GetKeyDown(KeyCode.Space)) {
-        //     LoadPlayers();
-        // }
-    }
-
-    // public void LoadPlayers() {
-    //     foreach (var playerInput in PlayerInputs) {
-    //         if (!playerInput) continue;
-    //         var index = PlayerInputs.IndexOf(playerInput);
-    //         var layer = LayerMask.NameToLayer($"Player{index + 1}");
-    //         var gunfish = playerInput.GetComponent<Gunfish>();
-    //         gunfish.playerNum = index + 1;
-    //         gunfish.data = PlayerFish[index];
-    //         gunfish.Spawn(gunfish.data, layer);
-    //     }
-    // }
 
     public void SetPlayerFish(int playerIndex, GunfishData data) {
         if (playerIndex < 0 || playerIndex >= PlayerFish.Count) {

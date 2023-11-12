@@ -99,7 +99,7 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
 
             print($"Contents clip: {contents.clip}");
             if (contents.clip != null) {
-                ArduinoManager.instance.PlayClip(contents.clip);
+                ArduinoManager.Instance.PlayClip(contents.clip);
             }
 
             float t = 0f;
