@@ -19,21 +19,13 @@ public class GunfishGenerator {
         segmentProps.length = data.length / data.segmentCount;
         segmentProps.segmentCount = 1;
 
-        var totalArea = 0f;
-        for (int i = 0; i < data.segmentCount; i++) {
-            var radius = data.width.Evaluate((float)i / data.segmentCount) / 2f;
-            var area = Mathf.PI * radius * radius;
-            totalArea += area;
-        }
-
         for (int i = 0; i < data.segmentCount; i++) {
             var segmentPos = position + new Vector3(i * segmentProps.length, 0f, 0f);
             var parent = i == 0 ? null : segments[i - 1].transform;
-            var diameter = data.width.Evaluate((float)i / data.segmentCount);
-            var radius = diameter / 2f;
-            var area = Mathf.PI * radius * radius;
-            segmentProps.mass = area / totalArea * data.mass;
-            segmentProps.width = AnimationCurve.Constant(0f, 1f, diameter);
+            var minDiameter = i == 0 || i == data.segmentCount -1 ? 0.04f : segmentProps.length;
+            var diameter = Mathf.Max(data.width.Evaluate((float)i / (data.segmentCount-1)), minDiameter);
+            segmentProps.mass = data.mass / data.segmentCount;
+            segmentProps.width = AnimationCurve.Constant(-1f, 1f, diameter);
             var node = InstantiateNode(i, segmentPos, segmentProps, layer, parent);
             segments.Add(node);
         }
