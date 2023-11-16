@@ -31,7 +31,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
             var player = playerInput.GetComponent<Player>();
             PlayerInputs.Add(playerInput);
             Players.Add(player);
-            PlayerFish.Add(GameManager.Instance.GunfishList[0]);
+            PlayerFish.Add(GameManager.Instance.GunfishDataList.gunfishes[0]);
         });
     }
 

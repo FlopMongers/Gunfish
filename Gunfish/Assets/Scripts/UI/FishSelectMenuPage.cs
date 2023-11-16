@@ -39,7 +39,7 @@ public class FishSelectMenuPage : IMenuPage {
         displayedFishes = new List<GunfishData>();
         displayedFishIndices = new List<int>();
 
-        fishes = GameManager.Instance.GunfishList;
+        fishes = GameManager.Instance.GunfishDataList.gunfishes;
 
         if (fishes.Count < 1) {
             throw new UnityException("GameManager.Gunfish_List must contain at least one fish for the game to function.");
