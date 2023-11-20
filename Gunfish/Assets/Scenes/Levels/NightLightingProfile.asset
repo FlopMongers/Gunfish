@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b19cefa3bf552f94390d1c272b19ea6e, type: 3}
-  m_Name: StageProtoLightingProfile
+  m_Name: NightLightingProfile
   m_EditorClassIdentifier: 
   lightmapPresets:
     list:
     - name: Default
       type: 0
       hdr: 2
-      darknessColor: {r: 0.72781515, g: 0.72196513, b: 0.9056604, a: 1}
+      darknessColor: {r: 0.028301895, g: 0.028301895, b: 0.028301895, a: 1}
       depth: -100
       resolution: 1
       dayLayers:

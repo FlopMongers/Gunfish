@@ -46,15 +46,6 @@ TagManager:
   - name: Background
     uniqueID: 2657639841
     locked: 0
-  - name: Default
-    uniqueID: 0
-    locked: 0
-  - name: Foreground
-    uniqueID: 679465299
-    locked: 0
-  - name: Water
-    uniqueID: 1755224593
-    locked: 0
   - name: Walls and Floors
     uniqueID: 118637949
     locked: 0
@@ -63,4 +54,19 @@ TagManager:
     locked: 0
   - name: Fish
     uniqueID: 3362372529
+    locked: 0
+  - name: Foreground
+    uniqueID: 679465299
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Water
+    uniqueID: 1755224593
+    locked: 0
+  - name: FrontOfWater
+    uniqueID: 995820659
+    locked: 0
+  - name: Lighting
+    uniqueID: 1855662837
     locked: 0

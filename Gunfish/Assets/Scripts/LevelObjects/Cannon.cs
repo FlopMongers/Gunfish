@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour {
     public FishDetector detector;
+    [SerializeField] private float power;
     bool gottemSpottem;
     float coolDown_timer, coolDown = 2f;
     float shoost_timer, shoostDuration = 2f;
-
-    public Transform barrel;
 
     // Start is called before the first frame update
     void Start() {
@@ -37,7 +36,7 @@ public class Cannon : MonoBehaviour {
         gottemSpottem = false;
         foreach (var fish in detector.fishes.Keys) {
             // launch the fuckers
-            fish.Hit(new FishHitObject(fish.MiddleSegmentIndex, barrel.position, barrel.up, gameObject, 0, 20f));
+            fish.Hit(new FishHitObject(fish.MiddleSegmentIndex, detector.transform.position, detector.transform.up, gameObject, 0, power));
         }
     }
 
