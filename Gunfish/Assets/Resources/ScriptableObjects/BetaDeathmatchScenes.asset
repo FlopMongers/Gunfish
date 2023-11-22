@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BetaDeathmatchScenes
   m_EditorClassIdentifier: 
   sceneNames:
-  - 1 - Lit Material
-  - Basic 11  - Occlussion
+  - crags
+  - barrel
   scenes:
-  - {fileID: 102900000, guid: b24cda55ea829b341bd847834a45b444, type: 3}
-  - {fileID: 102900000, guid: bede77b82e3e73842bd394db8cae6ef2, type: 3}
+  - {fileID: 102900000, guid: c6b20b12ee72972469b888b58c3512ed, type: 3}
+  - {fileID: 102900000, guid: d97c2aca0b082b343a7577eb252c9e5f, type: 3}
