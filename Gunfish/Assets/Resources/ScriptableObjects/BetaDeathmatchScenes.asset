@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: BetaDeathmatchScenes
   m_EditorClassIdentifier: 
   sceneNames:
+  - firing_range
   - crags
   - barrel
+  - cargo_hold
   scenes:
+  - {fileID: 102900000, guid: 36412ad38a1154e55b18053cce8ce6fe, type: 3}
   - {fileID: 102900000, guid: c6b20b12ee72972469b888b58c3512ed, type: 3}
   - {fileID: 102900000, guid: d97c2aca0b082b343a7577eb252c9e5f, type: 3}
+  - {fileID: 102900000, guid: 87d88e86ad73b1440932c43b0ecd1ba3, type: 3}
