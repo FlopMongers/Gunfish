@@ -18,6 +18,10 @@ public class GunfishGenerator {
         segmentProps.physicsMaterial = data.physicsMaterial;
         segmentProps.length = data.length / data.segmentCount;
         segmentProps.segmentCount = 1;
+        segmentProps.fixedJointDamping = data.fixedJointDamping;
+        segmentProps.fixedJointFrequency = data.fixedJointFrequency;
+        segmentProps.springJointDamping = data.springJointDamping;
+        segmentProps.springJointFrequency = data.springJointFrequency;
 
         for (int i = 0; i < data.segmentCount; i++) {
             var segmentPos = position + new Vector3(i * segmentProps.length, 0f, 0f);

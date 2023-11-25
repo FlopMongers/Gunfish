@@ -40,4 +40,55 @@ public class GunfishSegment : ObjectMaterial {
             rb.drag += (isUnderwater == 1) ? 1f : -1f;
         }
     }
+
+    public Scrunglifactor.Scrunglifacts Scrunglify() {
+        Scrunglifactor.Scrunglifacts facts = new() {
+            facted = false
+        };
+
+        if (TryGetComponent<FixedJoint2D>(out var fixedJoint)
+            && TryGetComponent<SpringJoint2D>(out var springJoint)
+            && TryGetComponent<CircleCollider2D>(out var circleCollider)
+        ) {
+            // these will always be the same but whatever
+            facts.facted = true;
+            facts.originalColliderRadius = circleCollider.radius;
+
+            facts.originalFixedDampening = fixedJoint.dampingRatio;
+            facts.originalFixedFrequency = fixedJoint.frequency;
+
+            facts.originalSpringAutoDistance = springJoint.autoConfigureDistance;
+            facts.originalSpringDistance = springJoint.distance;
+            facts.originalSpringDampening = springJoint.dampingRatio;
+            facts.originalSpringFrequency = springJoint.frequency;
+
+            circleCollider.radius = 0.01f;
+
+            fixedJoint.dampingRatio = 0f;
+            fixedJoint.frequency = 1;
+
+            springJoint.autoConfigureDistance = false;
+            springJoint.distance = 0.01f;
+            springJoint.dampingRatio = 0f;
+            springJoint.frequency = 1;
+        }
+        return facts;
+    }
+
+    public void UnScrunglify(Scrunglifactor.Scrunglifacts facts) {
+        if (TryGetComponent<FixedJoint2D>(out var fixedJoint)
+            && TryGetComponent<SpringJoint2D>(out var springJoint)
+            && TryGetComponent<CircleCollider2D>(out var circleCollider)
+        ) {
+            circleCollider.radius = facts.originalColliderRadius;
+
+            fixedJoint.dampingRatio = facts.originalFixedDampening;
+            fixedJoint.frequency = facts.originalFixedFrequency;
+
+            springJoint.autoConfigureDistance = facts.originalSpringAutoDistance;
+            springJoint.distance = facts.originalSpringDistance;
+            springJoint.dampingRatio = facts.originalSpringDampening;
+            springJoint.frequency = facts.originalSpringFrequency;
+        }
+    }
 }
