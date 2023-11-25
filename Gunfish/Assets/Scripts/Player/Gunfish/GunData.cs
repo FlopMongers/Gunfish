@@ -10,7 +10,7 @@ public class TransformTuple {
 }
 
 
-[CreateAssetMenu(menuName = "Gunfish/Gun Data", fileName = "New Gun Data")]
+[CreateAssetMenu(fileName = "New Gun Data", menuName = "Scriptable Objects/Gun Data")]
 public class GunData : ScriptableObject {
     [Header("Gun")]
     public List<TransformTuple> gunBarrels = new List<TransformTuple>();

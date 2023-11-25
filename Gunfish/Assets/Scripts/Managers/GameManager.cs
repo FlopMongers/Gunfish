@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameParameters {
     public List<Player> activePlayers;
@@ -14,10 +13,14 @@ public class GameParameters {
 
 public class GameManager : PersistentSingleton<GameManager> {
     public static readonly bool debug = true;
-    public List<string> testLevelList = new List<string>();
+    
+    [SerializeField]
+    public GameModeList _gameModeList;
+    public GameModeList GameModeList { get => _gameModeList; }
 
-    public List<GameMode> GameModeList = new List<GameMode>();
-    public List<GunfishData> GunfishList = new List<GunfishData>();
+    [SerializeField]
+    public GunfishDataList _gunfishDataList;
+    public GunfishDataList GunfishDataList { get => _gunfishDataList; }
 
     private GameObject gameModeObject;
     private GameModeType selectedGameMode;
@@ -28,7 +31,7 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     protected override void Awake() {
         base.Awake();
-        foreach (GameMode gameMode in GameModeList) {
+        foreach (GameMode gameMode in GameModeList.gameModes) {
             gameModeMap[gameMode.gameModeType] = gameMode;
         }
     }
@@ -50,15 +53,10 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     public void InitializeGame() {
         // Spawn match manager
-        if (selectedGameMode == GameModeType.DeathMatch) {
-            gameModeObject = Instantiate(gameModeMap[selectedGameMode].matchManagerPrefab);
-            MatchManager = gameModeObject.GetComponent<MatchManager>();
-        }
-        else if (selectedGameMode == GameModeType.Race) {
-            MatchManager = null;
-        }
+        gameModeObject = Instantiate(gameModeMap[selectedGameMode].matchManagerPrefab);
+        MatchManager = gameModeObject.GetComponent<MatchManager>();
 
-        var scenes = testLevelList; //new List<string>() { "Sea Urchin Testing" };
+        var scenes = gameModeMap[selectedGameMode].levels.sceneNames;
 
         // Get all active players
         GameParameters parameters = new GameParameters(PlayerManager.Instance.Players, scenes);
