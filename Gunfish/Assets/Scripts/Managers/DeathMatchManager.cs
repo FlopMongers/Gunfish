@@ -7,12 +7,14 @@ public class DeathMatchManager : MatchManager {
     private Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
     private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
     private int remainingPlayers;
+    private List<Player> eliminatedPlayers;
     private DeathMatchUI ui;
 
     public override void Initialize(GameParameters parameters) {
         foreach (var player in parameters.activePlayers) {
             playerScores[player] = 0;
         }
+        eliminatedPlayers = new List<Player>();
         ui = gameObject.GetComponentInChildren<DeathMatchUI>();
         // ui.OnLoadingStart();
         ui.InitializeMatch(parameters.activePlayers);
@@ -61,6 +63,7 @@ public class DeathMatchManager : MatchManager {
         }
         else {
             remainingPlayers--;
+            eliminatedPlayers.Add(player);
             if (remainingPlayers <= 1) {
                 EndLevel();
             }
@@ -69,8 +72,12 @@ public class DeathMatchManager : MatchManager {
 
     private Player GetLastPlayerStanding() {
         foreach (var kvp in playerStocks) {
-            if (kvp.Value > 0)
+            if (kvp.Value > 0) {
                 return kvp.Key;
+            }
+        }
+        if (eliminatedPlayers.Count > 0) {
+            return eliminatedPlayers[eliminatedPlayers.Count - 1];
         }
         return null;
     }
@@ -88,9 +95,14 @@ public class DeathMatchManager : MatchManager {
             activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
         }
 
+        // Player score = which place they were eliminated at
+        for (int i = 0; i < eliminatedPlayers.Count; i++) {
+            playerScores[eliminatedPlayers[i]] += i;
+        }
+
         var player = GetLastPlayerStanding();
         if (player != null) {
-            playerScores[player] += 1;
+            playerScores[player] += playerScores.Count;
             ui.OnScoreChange(player, playerScores[player]);
         }
 
