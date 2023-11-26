@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Policy;
+using UnityEditor;
 using UnityEngine;
 
 public class Shootable : MonoBehaviour {
@@ -8,8 +9,9 @@ public class Shootable : MonoBehaviour {
     [Range(0f, 1f)]
     public float damagedThreshold;
     public Sprite damagedSprite;
-    bool damaged;
+    protected bool damaged;
 
+    public bool indestructible = false;
 
     public float health;
     public FloatGameEvent OnHealthUpdated;
@@ -22,7 +24,8 @@ public class Shootable : MonoBehaviour {
     public bool handleCollisionDamage = true;
 
     // Start is called before the first frame update
-    void Start() {
+    protected virtual void Start()
+    {
         rb = GetComponent<Rigidbody2D>();
         health = maxHealth;
 
@@ -47,8 +50,10 @@ public class Shootable : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
-        if (health <= 0) {
+    protected virtual void Update()
+    {
+        if (health <= 0 && !indestructible)
+        {
             OnDead?.Invoke();
             FX_Spawner.Instance?.SpawnFX(destroyFX, transform.position, transform.up);
             Destroy(gameObject);
@@ -66,15 +71,20 @@ public class Shootable : MonoBehaviour {
 
     public void UpdateHealth(float amount) {
         health += amount;
-        if (!damaged && health > 0 && health < maxHealth * damagedThreshold) {
-            if (damagedSprite != null) {
-                var r = GetComponent<SpriteRenderer>();
-                if (r != null)
-                    r.sprite = damagedSprite;
-                FX_Spawner.Instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
-                damaged = true;
-            }
+        if (!damaged && (health > 0 || indestructible) && health <= maxHealth * damagedThreshold)
+        {
+            Damage();
         }
         OnHealthUpdated?.Invoke(health);
+    }
+
+    protected virtual void Damage() {
+        if (damagedSprite != null) {
+            var r = GetComponentInChildren<SpriteRenderer>();
+            if (r != null)
+                r.sprite = damagedSprite;
+            FX_Spawner.instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
+            damaged = true;
+        }
     }
 }
