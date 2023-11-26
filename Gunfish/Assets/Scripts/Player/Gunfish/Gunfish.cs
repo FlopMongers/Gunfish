@@ -313,6 +313,10 @@ public class Gunfish : MonoBehaviour {
             data.gun.gunSpritePrefab,
             segments[0].transform
         ).transform;
+        gunSprite.transform.localPosition = new Vector3(
+            data.gunOffset.position.x,
+            data.gunOffset.position.y
+        );
 
         float gun_length = gunSprite.gameObject.GetComponentInChildren<SpriteRenderer>().sprite.texture.width;
         float desired_world_length = gun_length * (data.length / data.spriteMat.mainTexture.width);
