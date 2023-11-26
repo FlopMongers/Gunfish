@@ -19,9 +19,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 092b5f07a8340c84e9fc07643296fb3d, type: 3}
   mass: 1
   fixedJointDamping: 0.219
-  fixedJointFrequency: 16
-  springJointDamping: 0.224
-  springJointFrequency: 16
+  fixedJointFrequency: 32
   flopForce: 5
   groundTorque: 5
   airTorque: 20

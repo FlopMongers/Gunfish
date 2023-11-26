@@ -20,8 +20,6 @@ public class GunfishGenerator {
         segmentProps.segmentCount = 1;
         segmentProps.fixedJointDamping = data.fixedJointDamping;
         segmentProps.fixedJointFrequency = data.fixedJointFrequency;
-        segmentProps.springJointDamping = data.springJointDamping;
-        segmentProps.springJointFrequency = data.springJointFrequency;
 
         for (int i = 0; i < data.segmentCount; i++) {
             var segmentPos = position + new Vector3(i * segmentProps.length, 0f, 0f);
@@ -70,10 +68,8 @@ public class GunfishGenerator {
         fixedJoint.dampingRatio = data.fixedJointDamping;
         fixedJoint.frequency = data.fixedJointFrequency;
 
-        var springJoint = obj.AddComponent<SpringJoint2D>();
-        springJoint.connectedBody = connectedBody;
-        springJoint.dampingRatio = data.springJointDamping;
-        springJoint.frequency = data.springJointFrequency;
+        var distranceJoint = obj.AddComponent<DistanceJoint2D>();
+        distranceJoint.connectedBody = connectedBody;
 
         return obj;
     }
