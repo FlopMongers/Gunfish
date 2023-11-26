@@ -51,6 +51,9 @@ public class WaterZone : MonoBehaviour {
         // if fish segment, tell the segment to be underwater
         var fishSegment = other.gameObject.GetComponent<GunfishSegment>();
         if (fishSegment != null) {
+            if (fishSegment.isGun && fishSegment.isUnderwater <= 0) {
+                FX_Spawner.Instance.SpawnFX(FXType.Bubbles, fishSegment.transform.position, Quaternion.identity, 0.1f, fishSegment.transform);
+            }
             fishSegment.SetUnderwater(1);
         }
         var waterInteractor = other.gameObject.GetComponent<WaterInteractor>();
