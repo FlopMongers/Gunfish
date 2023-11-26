@@ -23,7 +23,7 @@ MonoBehaviour:
     rotation: 195
   kickback: 15
   range: 10
-  damage: 3
+  damage: 1
   knockback: 15
   maxAmmo: 2
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
