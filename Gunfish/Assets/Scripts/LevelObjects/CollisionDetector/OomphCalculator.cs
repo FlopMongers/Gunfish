@@ -31,7 +31,6 @@ public class OomphCalculator : MonoBehaviour {
     }
 
     public float Oomph(Collision2D collision) {
-        print($"I am {gameObject.name}");
 
         var other = collision.gameObject.GetComponent<OomphCalculator>();
 
@@ -49,7 +48,6 @@ public class OomphCalculator : MonoBehaviour {
         if (other.OnTarget(collision.contacts[0].point) && other.lastVelocity.magnitude > 0) {
             oomph = Momentum * Mathf.Min(1f, Momentum / other.Momentum);
         }
-        print($"OOMPH: {oomph}");
         return oomph;
     }
 }
