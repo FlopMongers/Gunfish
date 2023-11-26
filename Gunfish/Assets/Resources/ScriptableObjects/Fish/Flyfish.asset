@@ -32,7 +32,7 @@ MonoBehaviour:
   waterZoomAngleThreshold: 30
   waterZoomForce: 4
   maxHealth: 10
-  length: 2
+  length: 1.3333334
   width:
     serializedVersion: 2
     m_Curve:

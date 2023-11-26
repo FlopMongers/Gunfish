@@ -309,6 +309,16 @@ public class Gunfish : MonoBehaviour {
         spawned = true;
         killed = false;
 
+        var gunSprite = Instantiate(
+            data.gun.gunSpritePrefab,
+            segments[0].transform
+        ).transform;
+
+        float gun_length = gunSprite.gameObject.GetComponentInChildren<SpriteRenderer>().sprite.texture.width;
+        float desired_world_length = gun_length * (data.length / data.spriteMat.mainTexture.width);
+        float current_world_length = gunSprite.gameObject.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;
+        gunSprite.localScale *= desired_world_length / current_world_length;
+
         foreach (TransformTuple tuple in data.gun.gunBarrels) {
             // spawn
             var barrel = Instantiate(data.gun.gunBarrelPrefab).transform; // new GameObject("barrel").transform;
