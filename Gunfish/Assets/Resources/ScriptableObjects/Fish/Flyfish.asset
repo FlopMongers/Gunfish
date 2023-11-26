@@ -18,10 +18,8 @@ MonoBehaviour:
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
   sprite: {fileID: 21300000, guid: 2f4e5eca07fbfb4498e746fe5bbe6e7e, type: 3}
   mass: 1
-  fixedJointDamping: 0.219
-  fixedJointFrequency: 16
-  springJointDamping: 0.224
-  springJointFrequency: 16
+  fixedJointDamping: 1
+  fixedJointFrequency: 32
   flopForce: 5
   groundTorque: 5
   airTorque: 20
@@ -38,8 +36,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.024822235
-      value: 0.4885559
+      time: -0.011962891
+      value: 0.18849564
       inSlope: 0.09048438
       outSlope: 0.09048438
       tangentMode: 0
@@ -47,8 +45,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 0.04238984
-      value: 0.49684328
+      time: 0.4710779
+      value: 0.23222536
       inSlope: -0.030833902
       outSlope: -0.030833902
       tangentMode: 0
@@ -56,8 +54,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.11499996
     - serializedVersion: 3
-      time: 0.93716687
-      value: 0.48653144
+      time: 0.8900172
+      value: 0.26443976
       inSlope: 0.010325795
       outSlope: 0.010325795
       tangentMode: 0
