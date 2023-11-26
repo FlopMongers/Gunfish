@@ -294,7 +294,12 @@ public class Gunfish : MonoBehaviour {
             FX_Spawner.Instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }
 
-        renderer = new GunfishRenderer(data.spriteMat, segments);
+        // width in sprite mat units means the width in pixels - i.e. tail-to-tip of fish
+        // whereas width here refers to line renderer width - i.e. back-to-belly of fish
+        float width = (
+            (float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width
+        ) * data.length;
+        renderer = new GunfishRenderer(width, data.spriteMat, segments);
         body = new GunfishRigidbody(segments, layer);
         // add composite detection handler and Init
         // add damage receiver

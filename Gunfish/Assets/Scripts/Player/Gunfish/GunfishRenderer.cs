@@ -7,12 +7,14 @@ public class GunfishRenderer {
     private List<GameObject> segments;
     private LineRenderer line;
 
-    public GunfishRenderer(Material material, List<GameObject> segments) {
+    public GunfishRenderer(float widthMultiplier, Material material, List<GameObject> segments) {
         this.segments = segments;
 
         line = segments[0].AddComponent<LineRenderer>();
         line.positionCount = segments.Count;
         line.material = material;
+
+        line.widthMultiplier = widthMultiplier;
     }
 
     public void Render() {
