@@ -275,6 +275,7 @@ public class Gunfish : MonoBehaviour {
         if (data.segmentCount < 3) {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
+        this.underwater = false;
         this.data = data;
         gun.ammo = data.gun.maxAmmo;
 
