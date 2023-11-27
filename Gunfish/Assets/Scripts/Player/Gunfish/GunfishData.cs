@@ -11,6 +11,7 @@ public class GunfishData : ScriptableObject {
 
     [Header("Materials")]
     public Material spriteMat;
+    public Material fullMat;
     public PhysicsMaterial2D physicsMaterial;
     public Sprite sprite;
 
@@ -41,6 +42,7 @@ public class GunfishData : ScriptableObject {
     [Header("Cooldowns")]
     [Range(0f, 1f)] public float flopCooldown;
 
+    public TransformTuple gunOffset;
     public GunData gun;
     public int gunSegmentIndex = 0;
 }

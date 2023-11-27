@@ -20,6 +20,7 @@ public class GunData : ScriptableObject {
     public float knockback;
     public int maxAmmo;
 
+    public GameObject gunSpritePrefab;
     public GameObject gunBarrelPrefab;
     public float fireCooldown;
     public float reload;

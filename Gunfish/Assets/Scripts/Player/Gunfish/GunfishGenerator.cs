@@ -4,7 +4,6 @@ using UnityEngine;
 public class GunfishGenerator {
     private Gunfish gunfish;
     private List<GameObject> segments;
-    private LineRenderer line;
 
     public GunfishGenerator(Gunfish gunfish) {
         this.gunfish = gunfish;
