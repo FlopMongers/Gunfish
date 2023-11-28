@@ -11,7 +11,6 @@ public class GunfishData : ScriptableObject {
 
     [Header("Materials")]
     public Material spriteMat;
-    public Material fullMat;
     public PhysicsMaterial2D physicsMaterial;
     public Sprite sprite;
 

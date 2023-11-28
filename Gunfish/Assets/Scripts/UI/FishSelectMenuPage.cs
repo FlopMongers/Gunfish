@@ -104,8 +104,7 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void SetFish(int deviceIndex, GunfishData fish) {
-        var material = fish.fullMat;
-        var texture = material.mainTexture as Texture2D;
+        var texture = fish.sprite.texture as Texture2D;
 
         fishImages[deviceIndex].style.backgroundImage = texture;
 

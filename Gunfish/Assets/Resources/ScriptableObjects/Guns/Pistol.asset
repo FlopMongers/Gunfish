@@ -20,6 +20,8 @@ MonoBehaviour:
   damage: 2
   knockback: 5
   maxAmmo: 12
+  gunSpritePrefab: {fileID: 8519334242837557634, guid: 6dcc3f363db99b149b92264542ed3397,
+    type: 3}
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
   fireCooldown: 0.1
