@@ -83,7 +83,7 @@ public class Shootable : MonoBehaviour {
             var r = GetComponentInChildren<SpriteRenderer>();
             if (r != null)
                 r.sprite = damagedSprite;
-            FX_Spawner.instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
+            FX_Spawner.Instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
             damaged = true;
         }
     }
