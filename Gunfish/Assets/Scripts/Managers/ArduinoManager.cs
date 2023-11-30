@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
 
-    private SerialPort serialPort = new SerialPort("COM3", 9600);
+    private SerialPort serialPort;
 
     private AudioClip clip;
     private AudioSource source;
@@ -17,7 +17,19 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         source?.Play();
     }
 
-    private void OnEnable() {
+    public override void Initialize() {
+        serialPort = new SerialPort("COM3", 9600) {
+            ReadTimeout = 100
+        };
+
+        source = GetComponent<AudioSource>();
+        clip = source.clip;
+        ConnectArduino();
+
+        base.Initialize();
+    }
+
+    private void ConnectArduino() {
         try {
             serialPort?.Open();
             Debug.Log("Connected Arduino!");
@@ -27,11 +39,9 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         }
     }
 
-    private void Start() {
-        serialPort.ReadTimeout = 100;
-
-        source = GetComponent<AudioSource>();
-        clip = source.clip;
+    private void DisconnectArduino() {
+        serialPort?.Close();
+        Debug.Log("Disconnected Arduino!");
     }
 
     private float SampleLoudness() {
@@ -42,7 +52,6 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         var index = source.timeSamples;
         var amplitude = data[index];
         float loudness = amplitude * 255;
-        var debug = $"Amplitude at {index}/{data.Length}: {amplitude} ({loudness})";
         Debug.Log(loudness);
         return loudness;
     }
@@ -64,8 +73,8 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         }
     }
 
-    private void OnDisable() {
-        serialPort?.Close();
-        Debug.Log("Disconnected Arduino!");
+    protected override void OnDestroy() {
+        DisconnectArduino();
+        base.OnDestroy();
     }
 }
