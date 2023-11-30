@@ -20,7 +20,7 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     [SerializeField]
     public GunfishDataList _gunfishDataList;
-    public GunfishDataList GunfishDataList { get => _gunfishDataList; }
+    public GunfishDataList  GunfishDataList { get => _gunfishDataList; }
 
     private GameObject gameModeObject;
     private GameModeType selectedGameMode;

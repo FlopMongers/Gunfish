@@ -75,7 +75,8 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         while (op.isDone == false) {
             yield return null;
         }
-        SkyboxCamera.Instance.RegisterCamera(GameCamera.Instance.GetComponentInChildren<Camera>());
+
+        SkyboxCamera.Instance.RegisterCamera(Camera.main);
 
         anim.SetBool("veil", false);
     }
