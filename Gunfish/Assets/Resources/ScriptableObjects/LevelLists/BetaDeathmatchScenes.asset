@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: BetaDeathmatchScenes
   m_EditorClassIdentifier: 
   sceneNames:
-  - crags
-  - Level_Well
+  - Assets/Scenes/Levels/crags.unity
   scenes:
   - {fileID: 102900000, guid: c6b20b12ee72972469b888b58c3512ed, type: 3}
-  - {fileID: 102900000, guid: db43be96da9216b4bb154d08fb479255, type: 3}
