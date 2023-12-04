@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 551017966723444938}
   - component: {fileID: 4975948495102867627}
   - component: {fileID: 5147319892487723340}
+  - component: {fileID: 2829996465203396155}
   m_Layer: 0
   m_Name: cannon_body
   m_TagString: Untagged
@@ -25,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482050552727051452}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.67, z: 0}
-  m_LocalScale: {x: 0.33132315, y: 0.25191984, z: 0.30466497}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3217269, y: 0.3217269, z: 0.3217269}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4666504878458503174}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &4975948495102867627
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -25
-  m_Sprite: {fileID: 21300000, guid: 6fd54ae34457f474dbe393b024724a47, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 401a739d8f953ef4a9ef7f75224223a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +103,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 20.48, y: 20.48}
+    oldSize: {x: 8.55, y: 11.92}
     newSize: {x: 20.48, y: 20.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -110,24 +111,66 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -1.2044195, y: 1.7114086}
-      - {x: -1.3568807, y: -5.015037}
-      - {x: 1.3211682, y: -5.0085144}
-      - {x: 1.1935512, y: 1.7194655}
-      - {x: 2.2138562, y: 7.5410495}
-      - {x: 2.5114245, y: 7.332203}
-      - {x: 2.5418866, y: 3.8921537}
-      - {x: 3.3570127, y: -0.47296435}
-      - {x: 3.402289, y: -3.3602943}
-      - {x: 2.2755032, y: -5.6928964}
-      - {x: 0.577248, y: -6.8817277}
-      - {x: -0.51099217, y: -6.8948383}
-      - {x: -2.4082825, y: -5.645954}
-      - {x: -3.3153732, y: -3.289388}
-      - {x: -3.297867, y: -0.61319923}
-      - {x: -2.6058133, y: 3.8479686}
-      - {x: -2.477171, y: 7.303927}
-      - {x: -2.1878057, y: 7.6109023}
+    - - {x: 3.553186, y: 4.244035}
+      - {x: -1.4895935, y: 3.6570551}
+      - {x: -2.822958, y: 2.7071514}
+      - {x: -2.861176, y: -2.6255715}
+      - {x: -1.5790162, y: -3.6914475}
+      - {x: 3.5724037, y: -4.2082067}
+      - {x: 3.7005885, y: -4.8942723}
+      - {x: 2.1555243, y: -4.90392}
+      - {x: 1.0271691, y: -4.869837}
+      - {x: -0.31778246, y: -4.8172665}
+      - {x: -1.1132392, y: -4.660097}
+      - {x: -2.102487, y: -4.133226}
+      - {x: -3.387258, y: -2.5163472}
+      - {x: -3.954998, y: -0.7771019}
+      - {x: -3.9808545, y: 0.7237931}
+      - {x: -3.3396807, y: 2.6381357}
+      - {x: -2.025059, y: 4.2309136}
+      - {x: -1.0311553, y: 4.7359834}
+      - {x: -0.030867964, y: 4.8422055}
+      - {x: 0.59891605, y: 5.6818037}
+      - {x: 1.4670336, y: 5.710583}
+      - {x: 1.6388123, y: 4.896799}
+      - {x: 3.696703, y: 4.959212}
+--- !u!114 &2829996465203396155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482050552727051452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5783dbbad6a59184fa58aa75d79bcc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowType: 1
+  shadowLayer: 0
+  shadowDistance: 0
+  shadowDistanceMin: 0.5
+  shadowDistanceMax: 1
+  shadowTranslucency: 0
+  maskType: 0
+  maskLit: 0
+  maskPivot: 0
+  maskLayer: 0
+  maskLitCustom: 1
+  bumpMapMode:
+    type: 0
+    textureType: 0
+    texture: {fileID: 0}
+    sprite: {fileID: 0}
+    invertX: 0
+    invertY: 0
+    depth: 1
+    spriteRenderer: {fileID: 4975948495102867627}
+  mainShape:
+    shadowType: 1
+    maskType: 0
+    maskPivot: 0
+    transform: {fileID: 551017966723444938}
 --- !u!1 &1695614947907346398
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,7 +196,7 @@ Transform:
   m_GameObject: {fileID: 1695614947907346398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.78829646, y: 0.78829646, z: 0.78829646}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5954083500079311060}
@@ -270,7 +313,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.3197828}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -281,7 +324,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.01, y: 1}
+  m_Size: {x: 2.6623769, y: 1.9154564}
   m_EdgeRadius: 0
 --- !u!1 &6685932957771102843
 GameObject:
@@ -293,6 +336,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2585800870495686289}
   - component: {fileID: 2031720249043712274}
+  - component: {fileID: 8631213231684434598}
+  - component: {fileID: 6993372240221931489}
   m_Layer: 0
   m_Name: cannon_mount
   m_TagString: Untagged
@@ -308,8 +353,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6685932957771102843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.55, z: 0}
-  m_LocalScale: {x: 0.32172695, y: 0.32172695, z: 0.32172692}
+  m_LocalPosition: {x: 0.811, y: -0.59, z: 0}
+  m_LocalScale: {x: -0.2536162, y: 0.2536162, z: 0.25361618}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5954083499531933884}
@@ -356,7 +401,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -24
-  m_Sprite: {fileID: 21300000, guid: 825e2d9e8e22e934aa0a84d9473e0073, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ccefb823f33e83e4f9d796235e844c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -367,3 +412,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &8631213231684434598
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6685932957771102843}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 16.42, y: 8.24}
+    newSize: {x: 20.48, y: 20.48}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 5.400977, y: -3.742818}
+      - {x: 8.321165, y: -3.6787837}
+      - {x: 7.340584, y: -1.1968753}
+      - {x: 3.0351746, y: -1.2007449}
+      - {x: -5.3818026, y: -0.9966816}
+      - {x: -6.8152113, y: -2.345886}
+      - {x: -7.9742312, y: -2.5743313}
+      - {x: -9.541241, y: -3.8029864}
+      - {x: -7.229743, y: -3.7062047}
+      - {x: -5.98, y: -3.8}
+--- !u!114 &6993372240221931489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6685932957771102843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5783dbbad6a59184fa58aa75d79bcc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowType: 1
+  shadowLayer: 0
+  shadowDistance: 0
+  shadowDistanceMin: 0.5
+  shadowDistanceMax: 1
+  shadowTranslucency: 0
+  maskType: 0
+  maskLit: 0
+  maskPivot: 0
+  maskLayer: 0
+  maskLitCustom: 1
+  bumpMapMode:
+    type: 0
+    textureType: 0
+    texture: {fileID: 0}
+    sprite: {fileID: 0}
+    invertX: 0
+    invertY: 0
+    depth: 1
+    spriteRenderer: {fileID: 2031720249043712274}
+  mainShape:
+    shadowType: 1
+    maskType: 0
+    maskPivot: 0
+    transform: {fileID: 2585800870495686289}
