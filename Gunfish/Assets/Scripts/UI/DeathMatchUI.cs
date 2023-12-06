@@ -2,55 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerPanel {
-    public GameObject panel;
-    public TextMeshProUGUI playerName;
-    public Image playerImg;
-    public TextMeshProUGUI playerScore;
-    public Image highlight;
-
-    public PlayerPanel(GameObject panel, TextMeshProUGUI playerName, Image playerImg, TextMeshProUGUI playerScore, Image highlight) {
-        this.panel = panel;
-        this.playerName = playerName;
-        this.playerImg = playerImg;
-        this.playerScore = playerScore;
-        this.highlight = highlight;
-    }
-}
-
 public class DeathMatchUI : MonoBehaviour {
-    [SerializeField]
-    private List<DeathMatchUIPlayerWidget> playerWidgets = new List<DeathMatchUIPlayerWidget>();
+    [Header("UI References")]
+    
+    [SerializeField] private List<DeathMatchUIPlayerWidget> playerWidgets;
     [SerializeField] private List<Color> playerColors;
-    [SerializeField] private Color eliminatedColor;
+    [SerializeField] private CanvasGroup playerPanelsGroup;
+    [SerializeField] private List<PlayerPanel> playerPanels;
 
-    TextMeshProUGUI winnerText;
-    List<PlayerPanel> playerPanels = new List<PlayerPanel>();
-    CanvasGroup playerPanelsGroup;
+    [Header("Preferences")]
+    [SerializeField] private Color eliminatedColor;
+    [SerializeField] private TextMeshProUGUI winnerText;
 
     // Start is called before the first frame update
     void Awake() {
         foreach (var playerWidget in playerWidgets) {
             playerWidget.gameObject.SetActive(false);
-        }
-
-        winnerText = transform.FindDeepChild("WinnerText").GetComponent<TextMeshProUGUI>();
-        playerPanelsGroup = transform.FindDeepChild("LevelStats").GetComponent<CanvasGroup>();
-        for (int i = 0; i < 4; i++) {
-            var panel = transform.FindDeepChild($"PlayerPanel{i}");
-            playerPanels.Add(
-                new PlayerPanel(
-                    panel.gameObject,
-                    panel.FindDeepChild("PlayerName").GetComponent<TextMeshProUGUI>(),
-                    panel.FindDeepChild("PlayerImg").GetComponent<Image>(),
-                    panel.FindDeepChild("PlayerWins").GetComponent<TextMeshProUGUI>(),
-                    panel.FindDeepChild("Highlight").GetComponent<Image>()
-                    ));
         }
     }
 

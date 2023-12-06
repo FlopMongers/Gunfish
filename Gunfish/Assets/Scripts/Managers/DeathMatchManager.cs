@@ -8,6 +8,7 @@ public class DeathMatchManager : MatchManager {
     private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
     private int remainingPlayers;
     private List<Player> eliminatedPlayers;
+    
     private DeathMatchUI ui;
 
     public override void Initialize(GameParameters parameters) {

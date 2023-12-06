@@ -28,17 +28,16 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         anim = GetComponent<Animator>();
     }
 
-    public void LoadMainMenu() {
-        LoadScene("MainMenu", PlayerManager.InputMode.UI);
+    public void LoadMainMenu(Action callback = null) {
+        LoadScene("MainMenu", PlayerManager.InputMode.UI, callback);
     }
 
-    public void LoadStats() {
-        LoadScene("Stats", PlayerManager.InputMode.EndLevel, MatchManager.Instance.ShowStats);
+    public void LoadStats(Action callback = null) {
+        LoadScene("Stats", PlayerManager.InputMode.EndLevel, callback);
     }
 
     public void LoadLevel(string levelName) {
         LoadScene(levelName, PlayerManager.InputMode.Player, FinishLoadLevel);
-
     }
 
     void FinishLoadLevel() {

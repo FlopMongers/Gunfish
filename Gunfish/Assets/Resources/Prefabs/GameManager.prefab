@@ -36,6 +36,7 @@ Transform:
   - {fileID: 2915784695254075340}
   - {fileID: 615355709661621906}
   - {fileID: 4479670534428438838}
+  - {fileID: 7023840185185622473}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53,6 +54,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameModeList: {fileID: 11400000, guid: 7c2fb38946b14604eaa780fb2451339c, type: 2}
   _gunfishDataList: {fileID: 11400000, guid: 09eb2fcf654f97c44acd5f5a5e6fc030, type: 2}
+--- !u!1 &8494292450251231259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7023840185185622473}
+  m_Layer: 0
+  m_Name: GameModeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7023840185185622473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494292450251231259}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5673737387414419726}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3825341139143417285
 PrefabInstance:
   m_ObjectHideFlags: 0

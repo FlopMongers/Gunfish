@@ -88,7 +88,7 @@ public class Gun : MonoBehaviour {
                 Shootable shootable = hit.transform.GetComponent<Shootable>();
                 if (fishSegment != null) {
                     bool fishHit = (GameManager.Instance != null)
-                        ? GameManager.Instance.MatchManager.ResolveHit(this, fishSegment)
+                        ? GameModeManager.Instance.matchManagerInstance.ResolveHit(this, fishSegment)
                         : ResolveHit(this, fishSegment);
                     if (fishHit) {
                         fishSegment.gunfish.Hit(

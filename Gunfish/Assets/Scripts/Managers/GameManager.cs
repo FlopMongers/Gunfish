@@ -22,18 +22,13 @@ public class GameManager : PersistentSingleton<GameManager> {
     public GunfishDataList _gunfishDataList;
     public GunfishDataList  GunfishDataList { get => _gunfishDataList; }
 
-    private GameObject gameModeObject;
     private GameModeType selectedGameMode;
 
-    private Dictionary<GameModeType, GameMode> gameModeMap = new Dictionary<GameModeType, GameMode>();
     public MatchManager MatchManager { get; private set; }
 
 
     protected override void Awake() {
         base.Awake();
-        foreach (GameMode gameMode in GameModeList.gameModes) {
-            gameModeMap[gameMode.gameModeType] = gameMode;
-        }
     }
 
     protected void Start() {
@@ -48,19 +43,18 @@ public class GameManager : PersistentSingleton<GameManager> {
         FX_Spawner.Instance.Initialize();
         MarqueeManager.Instance.Initialize();
         PauseManager.Instance.Initialize();
+        GameModeManager.Instance.Initialize();
         MainMenu.Instance.Initialize();
     }
 
     public void InitializeGame() {
         // Spawn match manager
-        gameModeObject = Instantiate(gameModeMap[selectedGameMode].matchManagerPrefab);
-        MatchManager = gameModeObject.GetComponent<MatchManager>();
-
-        var scenes = gameModeMap[selectedGameMode].levels.sceneNames;
-
         // Get all active players
-        GameParameters parameters = new GameParameters(PlayerManager.Instance.Players, scenes);
-        MatchManager?.Initialize(parameters);
+        GameModeManager.Instance.InitializeGameMode(selectedGameMode, PlayerManager.Instance.Players);
+    }
+
+    public void ResetGame() {
+        GameModeManager.Instance.TeardownGameMode();
     }
 
     public void SetSelectedGameMode(GameModeType gameMode) {

@@ -1,17 +1,19 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatchManager : PersistentSingleton<MatchManager> {
+public class MatchManager : MonoBehaviour {
     protected GameParameters parameters;
     protected int currentLevel;
 
-    protected List<Transform> spawnPoints = new List<Transform>();
+    protected List<Transform> spawnPoints;
 
     private int nextLevelIndex;
-    bool done;
+    private bool done;
 
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
+        spawnPoints = new List<Transform>();
         LevelManager.Instance.OnFinishLoadLevel += StartLevel;
         LevelManager.Instance.OnStartPlay += StartPlay;
         NextLevel();
@@ -29,13 +31,10 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         }
 
         FreezeFish(true);
-        // move this to the level manager, maybe
-        // PlayerManager.instance.SetInputMode(PlayerManager.InputMode.Player);
     }
 
 
     public virtual void StartPlay() {
-        // unfreeze players
         FreezeFish(false);
     }
 
@@ -62,8 +61,7 @@ public class MatchManager : PersistentSingleton<MatchManager> {
         }
         else if (done == true) {
             // NOTE destroy all players
-            LevelManager.Instance.LoadMainMenu();
-            Destroy(gameObject);
+            LevelManager.Instance.LoadMainMenu(() => { GameManager.Instance.ResetGame(); MainMenu.Instance.Initialize(); });
         }
         else {
             done = true;
