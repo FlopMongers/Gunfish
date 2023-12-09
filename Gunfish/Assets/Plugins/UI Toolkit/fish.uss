@@ -1,0 +1,29 @@
+.fishSelectorPadder {
+    width: 100%;
+    height: 50%;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.leftSelectorButton {
+    transition-property: translate;
+    transition-duration: 200ms;
+    translate: 0px 0px;
+}
+
+.leftSelectorButton.ready {
+    translate: 200px 0px;
+}
+
+.rightSelectorButton {
+    transition-property: translate;
+    transition-duration: 200ms;
+    translate: 0px 0px;
+}
+
+.rightSelectorButton.ready {
+    translate: -200px 0px;
+}
+

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     public MatchManager MatchManager { get; private set; }
 
+    private Coroutine activeGameStartCountdown;
+
 
     protected override void Awake() {
         base.Awake();
@@ -51,6 +54,22 @@ public class GameManager : PersistentSingleton<GameManager> {
         // Spawn match manager
         // Get all active players
         GameModeManager.Instance.InitializeGameMode(selectedGameMode, PlayerManager.Instance.Players);
+    }
+
+    public void SignalGameStart() {
+        CancelGameStart();
+        activeGameStartCountdown = StartCoroutine(GameStartCountdown());
+    }
+
+    public void CancelGameStart() {
+        if (activeGameStartCountdown != null)
+            StopCoroutine(activeGameStartCountdown);
+    }
+
+    public IEnumerator GameStartCountdown() {
+        yield return new WaitForSeconds(2);
+        InitializeGame();
+        activeGameStartCountdown = null;
     }
 
     public void ResetGame() {
