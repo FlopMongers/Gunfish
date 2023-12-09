@@ -10,26 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96fcdc3eed3044b44a2e2354af873469, type: 3}
-  m_Name: Shotgun
+  m_Name: Fingergun
   m_EditorClassIdentifier: 
   gunBarrels:
   - position: {x: 0, y: 0}
-    rotation: 165
-  - position: {x: 0, y: 0}
-    rotation: 175
-  - position: {x: 0, y: 0}
-    rotation: 185
-  - position: {x: 0, y: 0}
-    rotation: 195
-  kickback: 15
-  range: 10
-  damage: 1
-  knockback: 15
-  maxAmmo: 2
-  gunSpritePrefab: {fileID: 8519334242837557634, guid: eb7d69f8880a1d641a3a3139b6495a60,
+    rotation: 180
+  kickback: 10
+  range: 20
+  damage: 4
+  knockback: 8
+  maxAmmo: 6
+  gunSpritePrefab: {fileID: 8519334242837557634, guid: f620701d9e54359409ae555c9a85e648,
     type: 3}
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
-  fireCooldown: 0.8
+  fireCooldown: 0.5
   reload: 0.75
   reloadWait: 1
