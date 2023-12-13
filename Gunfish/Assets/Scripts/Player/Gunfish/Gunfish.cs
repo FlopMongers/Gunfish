@@ -50,12 +50,15 @@ public class Gunfish : MonoBehaviour {
     [HideInInspector]
     public bool underwater;
 
+    [HideInInspector]
+    public int anySegmentUnderwater;
+
     ButtonStatus firingStatus = ButtonStatus.Up;
 
     private void Start() {
-        gun = GetComponent<Gun>();
-        gun.gunfish = this;
-
+        // spawn gun based on gunfish data
+        //gun = GetComponent<Gun>();
+        //gun.gunfish = this;
         player = GetComponent<Player>();
 
         killed = false;
@@ -246,7 +249,7 @@ public class Gunfish : MonoBehaviour {
             Swim();
         }
         else {
-            gun.Fire(firingStatus);
+            gun?.Fire(firingStatus);
         }
     }
 
@@ -276,6 +279,9 @@ public class Gunfish : MonoBehaviour {
         }
         this.underwater = false;
         this.data = data;
+        gun = Instantiate(data.gun.gunPrefab, transform).GetComponent<Gun>();
+        //gun = GetComponent<Gun>();
+        gun.gunfish = this;
         gun.ammo = data.gun.maxAmmo;
 
         this.statusData = new GunfishStatusData();
@@ -339,7 +345,8 @@ public class Gunfish : MonoBehaviour {
     public void Kill() { statusData.health = 0f; }
 
     public void Despawn(bool animated) {
-        gun.barrels = new List<GunBarrel>();
+        Destroy(gun.gameObject);
+        // gun.barrels = new List<GunBarrel>();
         DespawnSegments(animated);
     }
 

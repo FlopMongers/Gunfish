@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -21,7 +22,7 @@ public class Gun : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    protected virtual void Update() {
         if (gunfish == null || gunfish.statusData == null)
             return;
 
@@ -64,9 +65,15 @@ public class Gun : MonoBehaviour {
         return true;
     }
 
-    public void Fire(ButtonStatus firingStatus) {
+    protected virtual bool CheckButtonStatus(ButtonStatus firingStatus) {
+        return firingStatus == ButtonStatus.Pressed;
+    }
+
+    public virtual void Fire(ButtonStatus firingStatus) {
+        // print($"Firing Status: {firingStatus}");
+
         // if pressed, then fire
-        if (firingStatus != ButtonStatus.Pressed)
+        if (CheckButtonStatus(firingStatus) == false)
             return;
 
         if (!CheckFire())
@@ -83,7 +90,9 @@ public class Gun : MonoBehaviour {
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
 
             foreach (var hit in hits) {
-
+                if (hit.collider != null && hit.collider.isTrigger == true) {
+                    continue;
+                }
                 GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponent<Shootable>();
                 if (fishSegment != null) {

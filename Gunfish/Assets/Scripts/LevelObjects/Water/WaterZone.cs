@@ -49,6 +49,9 @@ public class WaterZone : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D other) {
         // if fish segment, tell the segment to be underwater
+        if (other.isTrigger == true)
+            return;
+
         var fishSegment = other.gameObject.GetComponent<GunfishSegment>();
         if (fishSegment != null) {
             if (fishSegment.isGun && fishSegment.isUnderwater <= 0) {
@@ -66,6 +69,8 @@ public class WaterZone : MonoBehaviour {
     }
 
     public void OnTriggerExit2D(Collider2D other) {
+        if (other.isTrigger)
+            return;
         // if fish, set not underwater
         var fishSegment = other.gameObject.GetComponent<GunfishSegment>();
         if (fishSegment != null) {

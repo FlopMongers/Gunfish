@@ -39,11 +39,12 @@ public class CollisionDamageHandler : MonoBehaviour {
 
         List<GameObject> removeList = new List<GameObject>();
         foreach (var target in collisionTracker) {
-            if ((Time.time - target.Value.timestamp) > collisionTimeThreshold) {
+            if ((Time.time - target.Value.timestamp) > collisionTimeThreshold || target.Key == null) {
                 removeList.Add(target.Key);
                 checkCollisions--;
                 // apply damage to the target
-                target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
+                if (target.Key != null)
+                    target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
             }
         }
 

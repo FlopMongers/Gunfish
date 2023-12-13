@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 3917959985928223952}
   - component: {fileID: 3917959985928223953}
   - component: {fileID: 3917959985928223967}
-  m_Layer: 0
+  - component: {fileID: 2484110735886472664}
+  - component: {fileID: 1797823456}
+  m_Layer: 11
   m_Name: Sea Urchin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,6 +54,8 @@ MonoBehaviour:
   prickMagnitude: 10
   prickDamage: 0.5
   spriteTransform: {fileID: 3917959986623236820}
+  rb: {fileID: 0}
+  waterInteractor: {fileID: 0}
 --- !u!114 &3917959985928223952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +108,39 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2484110735886472664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3917959985928223957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f32156960d7d494ba0b130d5f2f50b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnderwater: 0
+--- !u!231 &1797823456
+SpringJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3917959985928223957}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -0.16, y: -1.14}
+  m_AutoConfigureDistance: 1
+  m_Distance: 0.005
+  m_DampingRatio: 0
+  m_Frequency: 0.05
 --- !u!1 &3917959986623236821
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3917959986623236820}
   - component: {fileID: 3917959986623236819}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

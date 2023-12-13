@@ -190,6 +190,6 @@ public class FishSelectMenuPage : IMenuPage {
                 hasNoSelecting = false;
             }
         }
-        return hasNoSelecting && readyPlayerCount >= 2;
+        return hasNoSelecting && readyPlayerCount >= 1;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class WaterInteractor : MonoBehaviour {
 
-    int isUnderwater;
+    [HideInInspector] public int isUnderwater;
     public Action<bool> underwaterChangeEvent;
 
     public void SetUnderwater(int underwater) {
