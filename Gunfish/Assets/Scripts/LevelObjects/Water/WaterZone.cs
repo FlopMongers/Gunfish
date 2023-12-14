@@ -63,7 +63,7 @@ public class WaterZone : MonoBehaviour {
         if (waterInteractor != null) {
             waterInteractor.SetUnderwater(1);
         } // TODO: change gunfish segment to just use a water interactor!
-        else if (other.GetComponentInParent<Rigidbody2D>() != null) {
+        if (other.GetComponentInParent<Rigidbody2D>() != null) {
             Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, false);
         }
     }
