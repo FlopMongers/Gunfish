@@ -32,6 +32,7 @@ public class Gunfish : MonoBehaviour {
     private new GunfishRenderer renderer;
     [HideInInspector]
     public GunfishRigidbody body;
+    GroundDetector groundDetector;
     [HideInInspector]
     public Gun gun;
 
@@ -156,7 +157,7 @@ public class Gunfish : MonoBehaviour {
         // if underwater
 
         if (movement.sqrMagnitude > Mathf.Epsilon) {
-            if (body.Grounded) {
+            if (groundDetector != null && groundDetector.IsGrounded()) {
                 if (statusData.CanFlop)
                     GroundedMovement(movement);
             }
@@ -305,11 +306,14 @@ public class Gunfish : MonoBehaviour {
             (float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width
         ) * data.length;
         renderer = new GunfishRenderer(width, data.spriteMat, segments);
-        body = new GunfishRigidbody(segments, layer);
+        body = new GunfishRigidbody(segments);
         // add composite detection handler and Init
         // add damage receiver
         segments[0].CheckAddComponent<CollisionDamageReceiver>().gunfish = this;
         segments[0].CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
+        groundDetector = segments[0].CheckAddComponent<GroundDetector>();
+        groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layer);
+
 
         spawned = true;
         killed = false;

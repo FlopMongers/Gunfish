@@ -41,12 +41,14 @@ public class CompositeCollisionDetector : MonoBehaviour {
             // don't forget to like and subscribe
             subDetector.parentDetector = this;
             if (DetectCollision) {
+                // for some reason it doesn't work to directly subscribe, I have to use these delegates!
                 subDetector.OnComponentCollideEnter += delegate (GameObject src, Collision2D collision) { OnComponentCollideEnter?.Invoke(src, collision); };
-                subDetector.OnComponentCollideExit += OnComponentCollideExit;
+                subDetector.OnComponentCollideExit += delegate (GameObject src, Collision2D collision) { OnComponentCollideExit?.Invoke(src, collision); };
             }
             if (DetectTrigger) {
-                subDetector.OnComponentTriggerEnter += OnComponentTriggerEnter;
-                subDetector.OnComponentTriggerExit += OnComponentTriggerExit;
+                subDetector.OnComponentTriggerEnter += delegate (GameObject src, Collider2D collision) { OnComponentTriggerEnter?.Invoke(src, collision); };
+                subDetector.OnComponentTriggerExit += delegate (GameObject src, Collider2D collision) { OnComponentTriggerExit?.Invoke(src, collision); };
+                ;
             }
         }
     }

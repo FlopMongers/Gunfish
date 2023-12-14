@@ -16,12 +16,14 @@ public struct FishSegment {
 
 public class GunfishRigidbody {
     public List<FishSegment> segments;
-    private int groundMask;
     // public bool underwater;
     public GroundMaterial currentGroundMaterial;
 
+    /*
     public bool Grounded {
         get {
+            
+
             foreach (var segment in segments) {
                 var collider = Physics2D.Raycast(segment.body.position, Vector2.down, segment.collider.radius * 1.1f, groundMask);
                 if (collider)
@@ -30,6 +32,8 @@ public class GunfishRigidbody {
             return false;
         }
     }
+    */
+
     /*
     // set underwater
     public void SetUnderwater(bool underwater)
@@ -45,8 +49,7 @@ public class GunfishRigidbody {
     }
     */
 
-    public GunfishRigidbody(List<GameObject> segments, LayerMask layerMask) {
-        groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layerMask);
+    public GunfishRigidbody(List<GameObject> segments) {
         this.segments = new List<FishSegment>(segments.Count);
         segments.ForEach(segment => {
             this.segments.Add(
