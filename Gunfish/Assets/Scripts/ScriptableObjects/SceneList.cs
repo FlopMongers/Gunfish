@@ -7,10 +7,12 @@ public class SceneList : ScriptableObject {
 
     [Header("Serialized Scenes (ReadOnly)")]
     public List<string> sceneNames;
+    public string skyboxSceneName;
 
 #if UNITY_EDITOR
     [Header("Scenes (Editor Only)")]
     public List<UnityEditor.SceneAsset> scenes;
+    public UnityEditor.SceneAsset skyboxScene;
     private List<UnityEditor.EditorBuildSettingsScene> buildScenes;
     private void OnValidate() {
         sceneNames = new List<string>();
@@ -23,6 +25,11 @@ public class SceneList : ScriptableObject {
             var path = UnityEditor.AssetDatabase.GetAssetOrScenePath(scene);
             sceneNames.Add(path);
         });
+
+        if (skyboxScene) {
+            var path = UnityEditor.AssetDatabase.GetAssetOrScenePath(skyboxScene);
+            skyboxSceneName = path;
+        }
 
         var allLevelLists = Resources.LoadAll<SceneList>("ScriptableObjects/LevelLists").ToList();
         allLevelLists.ForEach(levelList => {

@@ -5,10 +5,12 @@ using UnityEngine;
 public class GameParameters {
     public List<Player> activePlayers;
     public List<string> scenes;
+    public string skyboxScene;
 
-    public GameParameters(List<Player> activePlayers, List<string> scenes) {
+    public GameParameters(List<Player> activePlayers, List<string> scenes, string skyboxScene) {
         this.activePlayers = activePlayers;
         this.scenes = scenes;
+        this.skyboxScene = skyboxScene;
     }
 }
 
@@ -16,11 +18,11 @@ public class GameManager : PersistentSingleton<GameManager> {
     public static readonly bool debug = true;
     
     [SerializeField]
-    public GameModeList _gameModeList;
+    private GameModeList _gameModeList;
     public GameModeList GameModeList { get => _gameModeList; }
 
     [SerializeField]
-    public GunfishDataList _gunfishDataList;
+    private GunfishDataList _gunfishDataList;
     public GunfishDataList  GunfishDataList { get => _gunfishDataList; }
 
     private GameModeType selectedGameMode;

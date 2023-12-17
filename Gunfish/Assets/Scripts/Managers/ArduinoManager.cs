@@ -40,7 +40,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     }
 
     private void DisconnectArduino() {
-        if (serialPort.IsOpen) {
+        if (serialPort != null && serialPort.IsOpen) {
             serialPort?.Close();
             Debug.Log("Disconnected Arduino!");
         }

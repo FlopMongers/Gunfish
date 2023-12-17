@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 public class LevelManager : PersistentSingleton<LevelManager> {
     public GameEvent OnFinishLoadLevel;
     public GameEvent OnStartPlay;
-    public string skyboxScene;
-
 
     // load level, set up callback
     // play veil anim
@@ -20,6 +18,7 @@ public class LevelManager : PersistentSingleton<LevelManager> {
 
     Action nextCallback;
     string nextSceneName;
+    string nextSkyboxSceneName;
     PlayerManager.InputMode nextInputMode;
     Animator anim;
 
@@ -29,15 +28,15 @@ public class LevelManager : PersistentSingleton<LevelManager> {
     }
 
     public void LoadMainMenu(Action callback = null) {
-        LoadScene("MainMenu", PlayerManager.InputMode.UI, callback);
+        LoadScene("MainMenu", PlayerManager.InputMode.UI, null, callback);
     }
 
     public void LoadStats(Action callback = null) {
-        LoadScene("Stats", PlayerManager.InputMode.EndLevel, callback);
+        LoadScene("Stats", PlayerManager.InputMode.EndLevel, null, callback);
     }
 
-    public void LoadLevel(string levelName) {
-        LoadScene(levelName, PlayerManager.InputMode.Player, FinishLoadLevel);
+    public void LoadLevel(string levelName, string skyboxSceneName) {
+        LoadScene(levelName, PlayerManager.InputMode.Player, skyboxSceneName, FinishLoadLevel);
     }
 
     void FinishLoadLevel() {
@@ -51,8 +50,9 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         OnStartPlay?.Invoke();
     }
 
-    void LoadScene(string sceneName, PlayerManager.InputMode inputMode, Action callback = null) {
+    void LoadScene(string sceneName, PlayerManager.InputMode inputMode, string skyboxSceneName = null, Action callback = null) {
         nextSceneName = sceneName;
+        nextSkyboxSceneName = skyboxSceneName;
         nextCallback = callback;
         nextInputMode = inputMode;
         // disable controller
@@ -66,16 +66,24 @@ public class LevelManager : PersistentSingleton<LevelManager> {
     }
 
     IEnumerator CoLoadScene(string sceneName) {
-        var op2 = SceneManager.LoadSceneAsync(skyboxScene);
-        while (op2.isDone == false) {
-            yield return null;
+        var sceneLoadMode = LoadSceneMode.Single;
+
+        if (nextSkyboxSceneName != null) {
+            sceneLoadMode = LoadSceneMode.Additive;
+            var skyboxOp = SceneManager.LoadSceneAsync(nextSkyboxSceneName);
+            while (skyboxOp.isDone == false) {
+                yield return new WaitForEndOfFrame();
+            }
         }
-        var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        while (op.isDone == false) {
-            yield return null;
+        
+        var sceneOp = SceneManager.LoadSceneAsync(sceneName, sceneLoadMode);
+        while (sceneOp.isDone == false) {
+            yield return new WaitForEndOfFrame();
         }
 
-        SkyboxCamera.Instance.RegisterCamera(Camera.main);
+        if (nextSkyboxSceneName != null) {
+            SkyboxCamera.Instance.RegisterCamera(Camera.main);
+        }
 
         anim.SetBool("veil", false);
     }

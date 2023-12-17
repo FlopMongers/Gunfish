@@ -25,17 +25,20 @@ public class MatchManager : MonoBehaviour {
     }
 
     public virtual void StartLevel() {
-        spawnPoints = new List<Transform>();
-        foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn")) {
-            spawnPoints.Add(spawnPoint.transform);
-        }
-
+        InitializeSpawnPoints();
         FreezeFish(true);
     }
 
 
     public virtual void StartPlay() {
         FreezeFish(false);
+    }
+
+    private void InitializeSpawnPoints() {
+        spawnPoints = new List<Transform>();
+        foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn")) {
+            spawnPoints.Add(spawnPoint.transform);
+        }
     }
 
     public void FreezeFish(bool freeze) {
@@ -56,12 +59,15 @@ public class MatchManager : MonoBehaviour {
 
     public virtual void NextLevel() {
         if (nextLevelIndex < parameters.scenes.Count) {
-            LevelManager.Instance.LoadLevel(parameters.scenes[nextLevelIndex]);
+            LevelManager.Instance.LoadLevel(parameters.scenes[nextLevelIndex], parameters.skyboxScene);
             nextLevelIndex++;
         }
         else if (done == true) {
             // NOTE destroy all players
-            LevelManager.Instance.LoadMainMenu(() => { GameManager.Instance.ResetGame(); MainMenu.Instance.Initialize(); });
+            LevelManager.Instance.LoadMainMenu(() => { 
+                GameManager.Instance.ResetGame();
+                MainMenu.Instance.Initialize();
+            });
         }
         else {
             done = true;

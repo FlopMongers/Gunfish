@@ -5,15 +5,12 @@ using UnityEngine;
 
 
 public class GameModeManager : PersistentSingleton<GameModeManager> {
-    [SerializeField] private GameModeList gameModeList;
-
     private GameObject gameModeInstance;
     public MatchManager matchManagerInstance { get; private set; }
 
     public void InitializeGameMode(GameModeType gameModeType, List<Player> players) {
-        Debug.Log("Initializing Gamemode");
-        var gameMode = gameModeList.gameModes.Where(element => element.gameModeType == gameModeType).FirstOrDefault();
-        var gameParameters = new GameParameters(players, gameMode.levels.sceneNames);
+        var gameMode = GameManager.Instance.GameModeList.gameModes.Where(element => element.gameModeType == gameModeType).FirstOrDefault();
+        var gameParameters = new GameParameters(players, gameMode.levels.sceneNames, gameMode.levels.skyboxSceneName);
         var matchManagerPrefab = gameMode.matchManagerPrefab;
         gameModeInstance = Instantiate(matchManagerPrefab, transform);
 
