@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +19,8 @@ public class FishSelectMenuPage : IMenuPage {
         SELECTING,
         READY
     };
+
+    private Sequence activeGameStartCountdown;
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
@@ -58,6 +61,9 @@ public class FishSelectMenuPage : IMenuPage {
             SetFish(i, fishes[0]);
             SetSelectorState(i, SelectorState.DISABLED);
         }
+
+        Fade();
+        DOTween.Sequence().AppendInterval(0.01f).AppendCallback(Unfade);
     }
 
     public void OnDisable(MenuPageContext context) {
@@ -99,12 +105,13 @@ public class FishSelectMenuPage : IMenuPage {
         switch (selectorState[deviceIndex]) {
             case SelectorState.DISABLED:
                 SetFish(deviceIndex, GameManager.Instance.GunfishDataList.gunfishes[0]);
+                CancelGameStartCountdown();
                 SetSelectorState(deviceIndex, SelectorState.SELECTING);
                 break;
             case SelectorState.SELECTING:
                 SetSelectorState(deviceIndex, SelectorState.READY);
                 if (isAllPlayersReady())
-                    GameManager.Instance.SignalGameStart();
+                    BeginGameStartCountdown();
                 break;
         }
     }
@@ -115,7 +122,7 @@ public class FishSelectMenuPage : IMenuPage {
                 SetSelectorState(deviceIndex, SelectorState.DISABLED);
                 break;
             case SelectorState.READY:
-                GameManager.Instance.CancelGameStart();
+                CancelGameStartCountdown();
                 SetSelectorState(deviceIndex, SelectorState.SELECTING);
                 break;
         }
@@ -176,6 +183,27 @@ public class FishSelectMenuPage : IMenuPage {
                 fishSelector.Q<VisualElement>("next-button").AddToClassList("ready");
                 selectorState[deviceIndex] = newState;
                 break;
+        }
+    }
+
+    private void Unfade() {
+        menuContext.document.rootVisualElement.Q("MenuContainer").RemoveFromClassList("faded");
+    }
+
+    private void Fade() {
+        menuContext.document.rootVisualElement.Q("MenuContainer").AddToClassList("faded");
+    }
+
+    private void BeginGameStartCountdown() {
+        CancelGameStartCountdown();
+        activeGameStartCountdown = DOTween.Sequence().AppendInterval(2).OnComplete(GameManager.Instance.InitializeGame);
+    }
+
+    private void CancelGameStartCountdown() {
+        if (activeGameStartCountdown != null) {
+            Debug.Log("Cancelling game start");
+            activeGameStartCountdown.Kill();
+            activeGameStartCountdown = null;
         }
     }
 

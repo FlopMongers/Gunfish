@@ -16,6 +16,8 @@ public class SplashMenuPage : IMenuPage {
                 playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
             }
         }
+        Fade();
+        DOTween.Sequence().AppendInterval(0.01f).AppendCallback(Unfade);
     }
 
     public void OnDisable(MenuPageContext context) {
@@ -35,6 +37,7 @@ public class SplashMenuPage : IMenuPage {
         {
             isLoadingNextMenu = true;
             FX_Spawner.Instance.SpawnFX(FXType.TitleScreenStartFX, Camera.main.transform.position, Quaternion.identity);
+            Fade();
             DOTween.Sequence().AppendInterval(1).AppendCallback(LoadNextMenu);
         }
     }
@@ -42,5 +45,13 @@ public class SplashMenuPage : IMenuPage {
     private void LoadNextMenu() {
         GameManager.Instance.SetSelectedGameMode(GameModeType.DeathMatch);
         menuContext.menu.SetState(MenuState.GunfishSelect);
+    }
+
+    private void Unfade() {
+        menuContext.document.rootVisualElement.Q("MenuContainer").RemoveFromClassList("faded");
+    }
+
+    private void Fade() {
+        menuContext.document.rootVisualElement.Q("MenuContainer").AddToClassList("faded");
     }
 }

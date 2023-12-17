@@ -10,20 +10,43 @@
 .leftSelectorButton {
     transition-property: translate;
     transition-duration: 200ms;
-    translate: 0px 0px;
+    translate: 0 0;
 }
 
 .leftSelectorButton.ready {
-    translate: 200px 0px;
+    translate: 200px 0;
 }
 
 .rightSelectorButton {
     transition-property: translate;
     transition-duration: 200ms;
-    translate: 0px 0px;
+    translate: 0 0;
 }
 
 .rightSelectorButton.ready {
-    translate: -200px 0px;
+    translate: -200px 0;
 }
 
+.fadeable {
+    transition-property: opacity;
+    transition-duration: 500ms;
+    opacity: 1;
+    transition-delay: 500ms;
+}
+
+.faded.fadeable {
+    opacity: 0;
+}
+
+.splashMenuPrompt {
+    font-size: 24px;
+    -unity-font: initial;
+    -unity-font-style: normal;
+    color: rgb(236, 186, 101);
+    -unity-font-definition: resource('Fonts/Cardo/Cardo-Regular SDF 1');
+    transition-duration: 0.5s;
+}
+
+.faded .splashMenuPrompt {
+    color: rgb(255, 239, 117);
+}
