@@ -1,8 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="BasicMenuBG" src="project://database/Assets/Plugins/UI%20Toolkit/UI%20Templates/BasicMenuBG.uxml?fileID=9197481963319205126&amp;guid=e452074bfa5d24e4db1a6fd9e9823f47&amp;type=3#BasicMenuBG" />
     <ui:Template name="FishSelector" src="project://database/Assets/Plugins/UI%20Toolkit/UI%20Templates/FishSelector.uxml?fileID=9197481963319205126&amp;guid=c14163e5ea19e044ba1ddb97154120d1&amp;type=3#FishSelector" />
     <Style src="project://database/Assets/Plugins/UI%20Toolkit/fish.uss?fileID=7433441132597879392&amp;guid=5d578f6ef1603684585cd7c0a59dcd8f&amp;type=3#fish" />
     <ui:VisualElement style="justify-content: center; align-items: center; -unity-text-align: middle-center; width: 100%; height: 100%;">
-        <ui:Label text="THE FISH SELECTION" display-tooltip-when-elided="true" style="font-size: 36px; -unity-text-align: middle-center; justify-content: space-around; align-items: stretch; -unity-font-definition: resource(&apos;Fonts/Cardo/Cardo-Regular SDF 1&apos;); -unity-font-style: normal;" />
+        <ui:Instance template="BasicMenuBG" name="BasicMenuBG" style="position: absolute; width: 80%; height: 100%;" />
+        <ui:Label text="THE FISH SELECTION" display-tooltip-when-elided="true" style="font-size: 36px; -unity-text-align: middle-center; justify-content: space-around; align-items: stretch; -unity-font-definition: resource(&apos;Fonts/Cardo/Cardo-Regular SDF 1&apos;); -unity-font-style: normal; color: rgba(238, 238, 238, 255);" />
         <ui:VisualElement style="width: 80%; flex-direction: row; height: 80%; justify-content: space-between; align-items: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;">
             <ui:VisualElement style="width: 50%; height: 100%; min-width: 0; min-height: 0;">
                 <ui:VisualElement class="fishSelectorPadder">

@@ -28,6 +28,7 @@ public class SplashMenuPage : IMenuPage {
     }
 
     private void OnAnyKey(InputAction.CallbackContext context) {
-        menuContext.menu.SetState(MenuState.GameModeSelect);
+        GameManager.Instance.SetSelectedGameMode(GameModeType.DeathMatch);
+        menuContext.menu.SetState(MenuState.GunfishSelect);
     }
 }
