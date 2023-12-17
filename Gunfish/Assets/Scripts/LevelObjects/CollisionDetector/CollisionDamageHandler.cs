@@ -4,18 +4,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionEventTracker {
+public class CollisionData {
     public float timestamp;
     public float oomph;
     public Collision2D collision;
     public ContactPoint2D[] contacts;
+    public int numCollisions=0;
+}
+
+public class CollisionTracker {
+    public Dictionary<GameObject, CollisionData> tracker = new Dictionary<GameObject, CollisionData>();
+
+    void AddNewTarget(GameObject target) {
+        if (tracker.ContainsKey(target) == false) {
+            tracker[target] = new CollisionData();
+            tracker[target].timestamp = Time.time;
+        }
+    }
+
+    void AddCollisionData(GameObject target, Collision2D collision, float oomph) {
+        tracker[target].collision = collision.ShallowCopy();
+        tracker[target].contacts = collision.contacts;
+        tracker[target].oomph = oomph;
+        tracker[target].timestamp = Time.time;
+        tracker[target].numCollisions++;
+    }
+
+    public void AddTarget(GameObject target, Collision2D collision, float oomph = 0) {
+        AddNewTarget(target);
+        AddCollisionData(target, collision, oomph);
+    }
+
+    public bool AddTarget(GameObject target, Collision2D collision, float oomph, float collisionTimeThreshold, float oomphThreshold) {
+        AddNewTarget(target);
+        if (Time.time - tracker[target].timestamp < collisionTimeThreshold) {
+            if (oomph > tracker[target].oomph) {
+                AddCollisionData(target, collision, oomph);
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 public class CollisionDamageHandler : MonoBehaviour {
 
-    public Dictionary<GameObject, CollisionEventTracker> collisionTracker = new Dictionary<GameObject, CollisionEventTracker>();
+    public CollisionTracker collisionTracker = new CollisionTracker();
     int checkCollisions;
     float oomphThreshold;
+
+    public bool dealDamage = true;
 
     static float collisionTimeThreshold = 0.1f;
 
@@ -38,7 +76,7 @@ public class CollisionDamageHandler : MonoBehaviour {
         }
 
         List<GameObject> removeList = new List<GameObject>();
-        foreach (var target in collisionTracker) {
+        foreach (var target in collisionTracker.tracker) {
             if ((Time.time - target.Value.timestamp) > collisionTimeThreshold || target.Key == null) {
                 removeList.Add(target.Key);
                 checkCollisions--;
@@ -49,7 +87,7 @@ public class CollisionDamageHandler : MonoBehaviour {
         }
 
         foreach (var target in removeList) {
-            collisionTracker.Remove(target);
+            collisionTracker.tracker.Remove(target);
         }
     }
 
@@ -66,19 +104,7 @@ public class CollisionDamageHandler : MonoBehaviour {
         if (oomph <= oomphThreshold)
             return;
 
-        if (collisionTracker.ContainsKey(target) == false) {
-            collisionTracker[target] = new CollisionEventTracker();
-            collisionTracker[target].timestamp = Time.time;
-        }
-
-        if (Time.time - collisionTracker[target].timestamp < collisionTimeThreshold) {
-            if (oomph > collisionTracker[target].oomph) {
-                collisionTracker[target].collision = collision.ShallowCopy();
-                collisionTracker[target].contacts = collision.contacts;
-                collisionTracker[target].oomph = oomph;
-                collisionTracker[target].timestamp = Time.time;
-            }
+        if (collisionTracker.AddTarget(target, collision, oomph, collisionTimeThreshold, oomphThreshold))
             checkCollisions++;
-        }
     }
 }
