@@ -71,7 +71,9 @@ public class MatchManager : MonoBehaviour {
         }
         else {
             done = true;
-            LevelManager.Instance.LoadStats();
+            LevelManager.Instance.LoadStats(() => {
+                ShowStats();
+            });
         }
     }
 
