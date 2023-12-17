@@ -17,6 +17,7 @@ public enum FXType {
     Beachball_Pop,
     Spawn,
     Bubbles,
+    TitleScreenStartFX,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {
