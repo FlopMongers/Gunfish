@@ -40,8 +40,10 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     }
 
     private void DisconnectArduino() {
-        serialPort?.Close();
-        Debug.Log("Disconnected Arduino!");
+        if (serialPort.IsOpen) {
+            serialPort?.Close();
+            Debug.Log("Disconnected Arduino!");
+        }
     }
 
     private float SampleLoudness() {

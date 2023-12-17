@@ -93,8 +93,8 @@ public class Gun : MonoBehaviour {
                 if (hit.collider != null && hit.collider.isTrigger == true) {
                     continue;
                 }
-                GunfishSegment fishSegment = hit.transform.GetComponent<GunfishSegment>();
-                Shootable shootable = hit.transform.GetComponent<Shootable>();
+                GunfishSegment fishSegment = hit.transform.GetComponentInParent<GunfishSegment>();
+                Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
                 if (fishSegment != null) {
                     bool fishHit = (GameManager.Instance != null)
                         ? GameModeManager.Instance.matchManagerInstance.ResolveHit(this, fishSegment)
