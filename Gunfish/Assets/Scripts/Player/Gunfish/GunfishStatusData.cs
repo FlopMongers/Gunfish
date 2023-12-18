@@ -15,4 +15,7 @@ public class GunfishStatusData {
 
     public float health;
     public bool alive { get => health > 0f; }
+
+    public float underwaterForceMultiplier;
+    public float maxUnderwaterVelocityMultiplier;
 }

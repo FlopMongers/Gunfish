@@ -24,6 +24,7 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     public void TeardownGameMode() {
         Debug.Log("Tearing down Gamemode");
         if (null != gameModeInstance) {
+            matchManagerInstance.TearDown();
             Destroy(gameModeInstance);
         }
         matchManagerInstance = null;

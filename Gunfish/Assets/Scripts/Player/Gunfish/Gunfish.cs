@@ -28,6 +28,7 @@ public class Gunfish : MonoBehaviour {
     public List<GameObject> segments;
     public int MiddleSegmentIndex { get { return segments.Count / 2; } }
     public GameObject MiddleSegment { get { return segments[MiddleSegmentIndex]; } }
+    public GameObject RootSegment { get { return segments[0]; } }
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
     [HideInInspector]
@@ -38,7 +39,8 @@ public class Gunfish : MonoBehaviour {
 
     private InputActionMap inputHandler;
 
-    private Player player;
+    [HideInInspector]
+    public Player player;
     public PlayerGameEvent OnDeath;
     public FloatGameEvent OnHealthUpdated;
     private bool killed;
@@ -64,18 +66,24 @@ public class Gunfish : MonoBehaviour {
 
         killed = false;
         spawned = false;
-
+        
+        // NOTE(Wyatt): I'm moving this to the match manager. It's the only thing that should care when a player dies.
+        /*
         // Marquee manager does not currently care about player. Encapsulating in anonymous delegate for now.
         OnDeath += (Player player) => { MarqueeManager.Instance.EnqueueRandomQuip(); };
+        */
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
         inputHandler = playerInput.actions.FindActionMap("Player");
         playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { GameModeManager.Instance?.NextLevel(); };
     }
 
+    // NOTE(Wyatt): shifting this logic to the match manager.
+    /*
     private void OnDestroy() {
         OnDeath -= (Player player) => { MarqueeManager.Instance.EnqueueRandomQuip(); };
     }
+    */
 
     private void Update() {
 
@@ -255,11 +263,12 @@ public class Gunfish : MonoBehaviour {
     }
 
     public void Hit(FishHitObject hit) {
-        // tell match manager about this for possible scoring
+        // TODO tell match manager about this for possible scoring
         // TODO: replace with generalized FX_CollisionHandler?
         FX_Spawner.Instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
+        GameModeManager.Instance.matchManagerInstance.HandleFishDamage(hit, this);
     }
 
     public void UpdateHealth(float amount) {

@@ -11,12 +11,25 @@ public class MatchManager : MonoBehaviour {
     private int nextLevelIndex;
     private bool done;
 
+    public LevelTimer timer;
+    static float levelDuration = 120;
+
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
         spawnPoints = new List<Transform>();
         LevelManager.Instance.OnFinishLoadLevel += StartLevel;
         LevelManager.Instance.OnStartPlay += StartPlay;
+        timer = timer ?? GetComponentInChildren<LevelTimer>();
+        if (timer != null) {
+            timer.levelDuration = levelDuration;
+            timer.OnTimerFinish += OnTimerFinish;
+        }
         NextLevel();
+    }
+
+    public void TearDown() {
+        LevelManager.Instance.OnFinishLoadLevel -= StartLevel;
+        LevelManager.Instance.OnStartPlay -= StartPlay;
     }
 
     public virtual void SpawnPlayer(Player player) {
@@ -31,6 +44,7 @@ public class MatchManager : MonoBehaviour {
 
 
     public virtual void StartPlay() {
+        timer?.StartTime();
         FreezeFish(false);
     }
 
@@ -80,4 +94,9 @@ public class MatchManager : MonoBehaviour {
     public virtual bool ResolveHit(Gun gun, GunfishSegment segment) {
         return gun.gunfish != segment.gunfish;
     }
+
+    public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish) {
+    }
+
+    public virtual void OnTimerFinish() { }
 }

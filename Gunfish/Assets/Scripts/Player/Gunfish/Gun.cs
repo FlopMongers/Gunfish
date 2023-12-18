@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour {
     private int layerMask;
 
     public float ammo;
-    float fireCooldown_timer, reload_timer, reloadWait_timer;
+    protected float fireCooldown_timer, reload_timer, reloadWait_timer;
 
     // Start is called before the first frame update
     void Start() {
@@ -96,6 +96,7 @@ public class Gun : MonoBehaviour {
                 GunfishSegment fishSegment = hit.transform.GetComponentInParent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
                 if (fishSegment != null) {
+                    // NOTE(Wyatt): this is how team deathmatch prevents friendly fire :)
                     bool fishHit = (GameManager.Instance != null)
                         ? GameModeManager.Instance.matchManagerInstance.ResolveHit(this, fishSegment)
                         : ResolveHit(this, fishSegment);
