@@ -16,8 +16,6 @@ public class SplashMenuPage : IMenuPage {
                 playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
             }
         }
-        Fade();
-        DOTween.Sequence().AppendInterval(0.01f).AppendCallback(Unfade);
     }
 
     public void OnDisable(MenuPageContext context) {
