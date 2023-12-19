@@ -41,7 +41,7 @@ public class Shootable : MonoBehaviour {
 
         // check for collision damage handler and receiver and collision detectors
         if (handleCollisionDamage) {
-            gameObject.CheckAddComponent<CollisionDamageHandler>();
+            gameObject.CheckAddComponent<CollisionDamageDealer>();
             gameObject.CheckAddComponent<CollisionDamageReceiver>();
             if (gameObject.GetComponent<CompositeCollisionDetector>() == null) {
                 gameObject.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);

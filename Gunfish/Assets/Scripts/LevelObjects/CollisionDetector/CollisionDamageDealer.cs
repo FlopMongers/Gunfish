@@ -47,7 +47,7 @@ public class CollisionTracker {
     }
 }
 
-public class CollisionDamageHandler : MonoBehaviour {
+public class CollisionDamageDealer : MonoBehaviour {
 
     public CollisionTracker collisionTracker = new CollisionTracker();
     int checkCollisions;
@@ -58,6 +58,8 @@ public class CollisionDamageHandler : MonoBehaviour {
     static float collisionTimeThreshold = 0.1f;
 
     public CompositeCollisionDetector collisionDetector;
+
+    public float damageMultiplier = 1;
 
     private void Start() {
         if (collisionDetector == null) {
@@ -82,7 +84,7 @@ public class CollisionDamageHandler : MonoBehaviour {
                 checkCollisions--;
                 // apply damage to the target
                 if (target.Key != null)
-                    target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
+                    target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph * damageMultiplier));
             }
         }
 
