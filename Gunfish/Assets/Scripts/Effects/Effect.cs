@@ -79,6 +79,7 @@ public class Sharkmode_Effect : Effect {
     public float timer;
 
     public static float underwaterForceModifier = 2f;
+    GameObject fx;
 
     public Sharkmode_Effect(Gunfish gunfish, float timer) : base(gunfish) {
         this.timer = timer;
@@ -92,6 +93,7 @@ public class Sharkmode_Effect : Effect {
         // subscribe to gunfish composite collision detection
         gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideEnter += OnCollision;
         // todo: spawn sharkmode music
+        fx = FX_Spawner.Instance.SpawnFX(FXType.SharkMode, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
     }
 
     public override void Merge(Effect effect) {
@@ -107,6 +109,9 @@ public class Sharkmode_Effect : Effect {
         // unsubscribe from composiite collision detection event
         gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideEnter -= OnCollision;
         // stop sharkmode music
+        // NOTE(Wyatt): stupid workaround.
+        // todo: fade out effect instead of just DELET
+        FX_Spawner.Instance.DestroyFX(fx);
     }
 
     public override void Update() {

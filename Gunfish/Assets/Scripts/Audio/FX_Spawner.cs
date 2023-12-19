@@ -18,6 +18,7 @@ public enum FXType {
     Spawn,
     Bubbles,
     TitleScreenStartFX,
+    SharkMode,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {
@@ -149,5 +150,9 @@ public class FX_Spawner : PersistentSingleton<FX_Spawner> {
             return SpawnFX(fx_default.fx, position, rotation.eulerAngles, vol, parent, FXType.Default);
 
         return SpawnFX(effectName, position, rotation.eulerAngles, vol: vol, parent: parent);
+    }
+
+    public void DestroyFX(GameObject obj) {
+        Destroy(obj);
     }
 }
