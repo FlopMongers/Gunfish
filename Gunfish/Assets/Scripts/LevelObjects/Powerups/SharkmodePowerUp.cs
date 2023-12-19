@@ -12,8 +12,8 @@ public class SharkmodePowerUp : PowerUp
 
 
     public override void PickUp(Gunfish gunfish) {
-        base.PickUp(gunfish);
         gunfish.AddEffect(new Sharkmode_Effect(gunfish, 5f));
+        base.PickUp(gunfish);
     }
     
 }

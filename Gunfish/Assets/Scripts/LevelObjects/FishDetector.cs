@@ -78,7 +78,7 @@ public class FishDetector : MonoBehaviour {
         if (DetectFishExit(segment)) {
             OnFishTriggerExit?.Invoke(segment, collision);
         }
-        else if (segment != null) {
+        else if (segment != null && fishes.ContainsKey(segment.gunfish)) {
             if (fishes[segment.gunfish] == segment.gunfish.segments.Count - 1) {
                 OnFirstSegmentTriggerExit?.Invoke(segment, collision);
             }
