@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96fcdc3eed3044b44a2e2354af873469, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: 
+  gunBarrels: []
+  kickback: -10
+  range: 0
+  damage: 0
+  knockback: 0
+  maxAmmo: 1
+  gunPrefab: {fileID: 3189059645541482188, guid: 64cfacf7565058f47a73355e4e51a035,
+    type: 3}
+  gunSpritePrefab: {fileID: 8519334242837557634, guid: f620701d9e54359409ae555c9a85e648,
+    type: 3}
+  gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
+    type: 3}
+  fireCooldown: 0
+  reload: 0.5
+  reloadWait: 0.1

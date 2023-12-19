@@ -60,11 +60,21 @@ public class CollisionDamageDealer : MonoBehaviour {
     public CompositeCollisionDetector collisionDetector;
 
     public float damageMultiplier = 1;
+    public float impulseThreshold = 4f;
 
-    private void Start() {
+    protected bool trace = false;
+
+    protected virtual void Start() {
         if (collisionDetector == null) {
             collisionDetector = GetComponent<CompositeCollisionDetector>();
         }
+        if (collisionDetector != null) {
+            collisionDetector.OnComponentCollideEnter += HandleCollisionEnter;
+        }
+    }
+
+    public void SetupCollisionDetector(CompositeCollisionDetector collisionDetector) {
+        this.collisionDetector = collisionDetector;
         collisionDetector.OnComponentCollideEnter += HandleCollisionEnter;
     }
 
@@ -83,8 +93,9 @@ public class CollisionDamageDealer : MonoBehaviour {
                 removeList.Add(target.Key);
                 checkCollisions--;
                 // apply damage to the target
-                if (target.Key != null)
+                if (target.Key != null) { 
                     target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph * damageMultiplier));
+                }
             }
         }
 
@@ -93,14 +104,19 @@ public class CollisionDamageDealer : MonoBehaviour {
         }
     }
 
-    void HandleCollisionEnter(GameObject src, Collision2D collision) {
+    protected virtual void HandleCollisionEnter(GameObject src, Collision2D collision) {
         var target = collision.collider.gameObject;
         var subDetector = collision.collider.GetComponent<SubCollisionDetector>();
         if (subDetector != null) {
             target = subDetector.parentDetector.gameObject;
         }
+        else {
+            target = collision.collider.GetComponentInParent<CompositeCollisionDetector>()?.gameObject ?? target;
+        }
 
-        float oomph = src.GetComponent<OomphCalculator>().Oomph(collision);
+        float oomph = src.GetComponent<OomphCalculator>().Oomph(collision, impulseThreshold);
+        if (trace)
+            print($"oomph {oomph} from {src} for target {target}");
 
         // if not enough oomph, just return
         if (oomph <= oomphThreshold)
