@@ -84,6 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detector: {fileID: 287484819412258695}
+  waterMaterial: {fileID: 287484820832685592}
 --- !u!50 &287484819412258692
 Rigidbody2D:
   serializedVersion: 4
@@ -158,7 +159,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 938c49b7aa88dc14d8f125319d4113bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b31faba9eb77254bb212d25e3e976e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterSurfaceNodes: []
 --- !u!1 &4268432734919233671
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Stats.unity
     guid: d86462ceaa5a5c54da7e162fb328f872
   - enabled: 1
-    path: Assets/Scenes/Levels/firing_range.unity
-    guid: 36412ad38a1154e55b18053cce8ce6fe
+    path: Assets/Scenes/Levels/great_bay.unity
+    guid: b0283a1dbefbe314cba4151f606651f1
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 74c65e590e412408290a756175924e53,
       type: 2}
