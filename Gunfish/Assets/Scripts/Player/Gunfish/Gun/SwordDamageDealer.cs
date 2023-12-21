@@ -6,7 +6,11 @@ public class SwordDamageDealer : CollisionDamageDealer
 {
 
     public Gunfish gunfish;
-    
+
+    protected override void Start() {
+        base.Start();
+    }
+
     protected override void HandleCollisionEnter(GameObject src, Collision2D collision) {
         // check if src is sword and target is not self
         if (src != collisionDetector.gameObject || collision.collider.GetComponent<GunfishSegment>()?.gunfish == gunfish) {

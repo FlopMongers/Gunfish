@@ -47,9 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dealDamage: 1
   collisionDetector: {fileID: 0}
-  damageMultiplier: 2
+  damageMultiplier: 1
   impulseThreshold: 0.5
+  trace: 0
   gunfish: {fileID: 0}
+  dashingMultiplier: 3
 --- !u!114 &739683198429410986
 MonoBehaviour:
   m_ObjectHideFlags: 0

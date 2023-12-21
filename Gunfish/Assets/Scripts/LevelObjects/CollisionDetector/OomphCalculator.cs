@@ -15,6 +15,8 @@ public class OomphCalculator : MonoBehaviour {
 
     const float defaultImpulseThreshold = 4f;
 
+
+
     // Start is called before the first frame update
     void Start() {
         if (rb == null)
@@ -31,7 +33,7 @@ public class OomphCalculator : MonoBehaviour {
         return lastVelocity.magnitude > 0 && Vector3.Angle(lastVelocity, target - (Vector2)transform.position) <= collisionAngleThreshold;
     }
 
-    public float Oomph(Collision2D collision, float impulseThreshold=defaultImpulseThreshold) {
+    public float Oomph(Collision2D collision, float oomphMultiplier = 1, float impulseThreshold=defaultImpulseThreshold) {
 
         var other = collision.rigidbody?.GetComponent<OomphCalculator>();
 
@@ -41,7 +43,7 @@ public class OomphCalculator : MonoBehaviour {
 
         float impulse = collision.contacts[0].normalImpulse;
 
-        print($"Calulating impulse between {transform} and {other}, {impulse}");
+        //print($"Calulating impulse between {transform} and {other}, {impulse}");
 
         if (impulse  < impulseThreshold || !OnTarget(collision.contacts[0].point)) {
             return 0;
@@ -49,8 +51,11 @@ public class OomphCalculator : MonoBehaviour {
 
         float oomph = Momentum;
         if (other.OnTarget(collision.contacts[0].point) && other.lastVelocity.magnitude > 0) {
-            oomph = Momentum * Mathf.Min(1f, Momentum / other.Momentum);
+            oomph = Momentum * Mathf.Min(1f, Momentum / (Mathf.Max(other.Momentum, other.rb.mass)));
         }
-        return oomph;
+        else {
+            oomph /= other.rb.mass;
+        }
+        return oomph * oomphMultiplier;
     }
 }

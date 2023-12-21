@@ -62,7 +62,7 @@ public class CollisionDamageDealer : MonoBehaviour {
     public float damageMultiplier = 1;
     public float impulseThreshold = 4f;
 
-    protected bool trace = false;
+    public bool trace = false;
 
     protected virtual void Start() {
         if (collisionDetector == null) {
@@ -79,7 +79,7 @@ public class CollisionDamageDealer : MonoBehaviour {
     }
 
 
-    private void Update() {
+    protected virtual void Update() {
         // iterate over oomphs
         // if sufficient time has passed, pass to the relevant 
         if (checkCollisions <= 0) {
@@ -94,7 +94,7 @@ public class CollisionDamageDealer : MonoBehaviour {
                 checkCollisions--;
                 // apply damage to the target
                 if (target.Key != null) { 
-                    target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph * damageMultiplier));
+                    target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
                 }
             }
         }
@@ -114,7 +114,9 @@ public class CollisionDamageDealer : MonoBehaviour {
             target = collision.collider.GetComponentInParent<CompositeCollisionDetector>()?.gameObject ?? target;
         }
 
-        float oomph = src.GetComponent<OomphCalculator>().Oomph(collision, impulseThreshold);
+        //print($"{gameObject} and {target}");
+
+        float oomph = src.GetComponent<OomphCalculator>().Oomph(collision, damageMultiplier, impulseThreshold);
         if (trace)
             print($"oomph {oomph} from {src} for target {target}");
 
