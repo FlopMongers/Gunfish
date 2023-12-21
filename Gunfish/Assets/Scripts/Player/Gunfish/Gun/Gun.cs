@@ -80,6 +80,10 @@ public class Gun : MonoBehaviour {
             return;
 
         Kickback(gunfish.data.gun.kickback);
+        _Fire();
+    }
+
+    protected virtual void _Fire() {
         Vector3 endPoint;
 
         FX_Spawner.Instance?.SpawnFX(

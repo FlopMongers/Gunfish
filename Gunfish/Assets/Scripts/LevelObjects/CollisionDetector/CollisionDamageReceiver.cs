@@ -15,7 +15,7 @@ public class CollisionDamageReceiver : MonoBehaviour {
     }
 
     public void Damage(CollisionHitObject hitObject) {
-        gunfish?.Hit(new FishHitObject(hitObject.collision.collider.GetComponent<GunfishSegment>().index, hitObject.position, hitObject.direction, hitObject.source, hitObject.damage, hitObject.knockback));
+        gunfish?.Hit(new FishHitObject(hitObject.collision.rigidbody.GetComponent<GunfishSegment>().index, hitObject.position, hitObject.direction, hitObject.source, hitObject.damage, hitObject.knockback));
         shootable?.Hit(hitObject);
     }
 }
