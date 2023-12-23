@@ -195,8 +195,6 @@ public class Gunfish : MonoBehaviour {
         // rotation speed
         if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[index].body.angularVelocity) || Mathf.Abs(body.segments[index].body.angularVelocity) < data.maxAerialAngularVelocity)
             body.ApplyTorqueToSegment(index, -direction * torque.GetValueOrDefault(data.airTorque), forceMode);
-        if (input.magnitude > 0.1f)
-            Debug.Log(torque.GetValueOrDefault(data.airTorque));
     }
 
     public void Move(Vector2 movement) {
