@@ -81,14 +81,10 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void OnNavigate(InputAction.CallbackContext context, int deviceIndex) {
-        if (selectorState[deviceIndex] != SelectorState.SELECTING)
+        if (selectorState[deviceIndex] != SelectorState.SELECTING || context.canceled)
             return;
 
         var direction = context.ReadValue<Vector2>();
-        // Joystick movement should only be registered if it's a full flick
-        if (direction.magnitude < 0.9f || context.canceled) {
-            return;
-        }
 
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
