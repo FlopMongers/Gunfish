@@ -26,7 +26,7 @@ MonoBehaviour:
   maxAerialAngularVelocity: 500
   maxUnderwaterVelocity: 10
   underwaterForce: 30
-  underwaterTorque: 4
+  underwaterTorque: 6
   waterZoomSpeedThreshold: 10
   waterZoomAngleThreshold: 30
   waterZoomForce: 4
