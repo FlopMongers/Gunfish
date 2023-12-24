@@ -53,7 +53,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 120
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -153,7 +153,8 @@ MonoBehaviour:
   fx_type: 0
   track_fx_type: 0
   mixerGroup: {fileID: 0}
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 1b9cbbd10938d5e4fb18e8ecbe748347, type: 3}
   randomize: 1
   playCount: 1
   shuffle: 0
