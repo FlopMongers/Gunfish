@@ -21,7 +21,7 @@ public class WaterZone : MonoBehaviour {
     float forceScale = 1f;
 
     void PerturbNode(int nodeIdx, Vector2 force) {
-        if (nodeIdx == waterMaterial.waterSurfaceNodes.Count - 1)
+        if (nodeIdx < 0 || nodeIdx >= waterMaterial.waterSurfaceNodes.Count - 1)
             return;
         waterMaterial.waterSurfaceNodes[nodeIdx].GetComponent<WaterSurfaceNode>().Sploosh(force);
     }
