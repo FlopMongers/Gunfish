@@ -170,9 +170,9 @@ public class Gunfish : MonoBehaviour {
                     GroundedMovement(movement);
             }
             else if (underwater) {
-                RotateMovement(movement, data.underwaterTorque);
+                RotateMovement(movement, 0, data.underwaterTorque);
             } else {
-                RotateMovement(movement);
+                RotateMovement(movement, 0, data.airTorque);
             }
         }
     }
@@ -184,17 +184,16 @@ public class Gunfish : MonoBehaviour {
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
         // flop force
         body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
-        RotateMovement(input, data.groundTorque, ForceMode2D.Impulse);
+        RotateMovement(input, index, data.groundTorque, ForceMode2D.Impulse);
         // play flop
         FX_Spawner.Instance?.SpawnFX(FXType.Flop, segments[index].transform.position, Quaternion.identity);
     }
 
-    private void RotateMovement(Vector2 input, float? torque = null, ForceMode2D forceMode = ForceMode2D.Force) {
-        var index = segments.Count / 2;
+    private void RotateMovement(Vector2 input, int segmentIndex, float torque, ForceMode2D forceMode = ForceMode2D.Force) {
         var direction = Mathf.Sign(input.x);
         // rotation speed
-        if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[index].body.angularVelocity) || Mathf.Abs(body.segments[index].body.angularVelocity) < data.maxAerialAngularVelocity)
-            body.ApplyTorqueToSegment(index, -direction * torque.GetValueOrDefault(data.airTorque), forceMode);
+        if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[segmentIndex].body.angularVelocity) || Mathf.Abs(body.segments[segmentIndex].body.angularVelocity) < data.maxAerialAngularVelocity)
+            body.ApplyTorqueToSegment(segmentIndex, -direction * torque, forceMode);
     }
 
     public void Move(Vector2 movement) {
