@@ -87,6 +87,11 @@ public class HealthUI : MonoBehaviour {
 
         SetUpConstraint(_gunfish.MiddleSegment.transform, offset);
         transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {_gunfish.playerNum + 1}";
+
+        var offscreenTracker = GetComponentInChildren<OffscreenTracker>();
+        if (offscreenTracker != null) {
+            offscreenTracker.goToTrack = _gunfish.MiddleSegment;
+        }
     }
 
     public void SetHealth(float health) {
