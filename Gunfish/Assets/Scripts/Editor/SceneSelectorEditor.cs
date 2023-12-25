@@ -1,7 +1,5 @@
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 
 public class SceneSelectorEditor : Editor {
     [MenuItem("Tools/Scenes/Load Next Build Scene %T")]
