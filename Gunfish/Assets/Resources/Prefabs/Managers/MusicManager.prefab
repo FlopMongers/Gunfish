@@ -49,8 +49,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5a58ac8435752014982b92863ada2af8, type: 3}
   - track: 1
     clip: {fileID: 8300000, guid: 99d1785c502cad74db441175ac301f3a, type: 3}
-  defaultTrack: 0
-  playOnStart: 0
+  - track: 2
+    clip: {fileID: 8300000, guid: 8c1543398f8e2dc4e98378757d2003b6, type: 3}
+  defaultTrack: 2
+  playOnStart: 1
   fadeInCurve:
     serializedVersion: 2
     m_Curve:

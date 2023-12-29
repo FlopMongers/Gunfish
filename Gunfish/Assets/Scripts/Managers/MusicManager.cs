@@ -5,6 +5,7 @@ using UnityEngine;
 public enum MusicTrack {
     AllStar,
     CoryInTheHouse,
+    Chickenwave,
 }
 
 [System.Serializable]
@@ -41,7 +42,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         InitializeMusicTrackDictionary();
 
         if (playOnStart) {
-            StartTrack(MusicTrack.AllStar);
+            StartTrack(defaultTrack);
         }
     }
 
