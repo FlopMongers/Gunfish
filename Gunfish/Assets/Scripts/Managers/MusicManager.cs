@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public enum MusicTrack {
-    AllStar,
-    CoryInTheHouse,
-    Chickenwave,
+public enum TrackSetLabel {
+    Menu,
+    Gameplay,
 }
 
 [System.Serializable]
-public struct MusicTrackToClip {
-    public MusicTrack track;
-    public AudioClip clip;
+public struct TrackEnumToObj {
+    public TrackSetLabel label;
+    public TrackSet set;
 }
 
 public class MusicManager : PersistentSingleton<MusicManager> {
 
     [SerializeField]
-    private List<MusicTrackToClip> musicTrackMap;
+    private List<TrackEnumToObj> trackSetMap;
     [SerializeField]
-    private Dictionary<MusicTrack, AudioClip> musicTrackDictionary;
+    private Dictionary<TrackSetLabel, TrackSet> musicTrackDictionary;
     [SerializeField]
-    private MusicTrack defaultTrack;
+    private TrackSetLabel defaultTrackSet;
     [SerializeField]
     private bool playOnStart;
     [SerializeField]
@@ -33,7 +33,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
 
     private Queue<AudioClip> musicQueue = new();
     private AudioSource[] audioSources;
-    private bool transitioning = false;
+    private bool do_fade = true;
     private int activeSourceIndex = 0;
 
     public override void Initialize() {
@@ -42,21 +42,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         InitializeMusicTrackDictionary();
 
         if (playOnStart) {
-            StartTrack(defaultTrack);
-        }
-    }
-
-    private void Update() {
-        if (GameManager.debug) {
-            if (Input.GetKeyDown(KeyCode.M)) {
-                var index = activeSourceIndex + (transitioning ? 1 : 0) + musicQueue.Count;
-                if (index % 2 == 0) {
-                    StartTrack(MusicTrack.AllStar);
-                }
-                else {
-                    StartTrack(MusicTrack.CoryInTheHouse);
-                }
-            }
+            PlayTrackSet(defaultTrackSet);
         }
     }
 
@@ -67,49 +53,47 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         };
 
         foreach (var audioSource in audioSources) {
-            audioSource.loop = true;
+            audioSource.loop = false;
         }
     }
 
     private void InitializeMusicTrackDictionary() {
         musicTrackDictionary = new();
-        foreach (var trackAndClip in musicTrackMap) {
-            musicTrackDictionary.Add(trackAndClip.track, trackAndClip.clip);
+        foreach (var trackAndClip in trackSetMap) {
+            musicTrackDictionary.Add(trackAndClip.label, trackAndClip.set);
         }
     }
 
-    public void StartTrack(MusicTrack track) {
-        if (!musicTrackDictionary.ContainsKey(track)) {
-            string message = $"{track.ToString()} could not be found in music map. Please check to see if it's added in the MusicManager component";
+    public void PlayTrackSet(TrackSetLabel setLabel) {
+        musicQueue.Clear();
+
+        TrackSet set;
+        if (!musicTrackDictionary.TryGetValue(setLabel, out set)) {
+            string message = $"{setLabel} could not be found in music map. Please check to see if it's added in the MusicManager component";
             throw new KeyNotFoundException(message);
         }
 
-        AudioClip clip;
-        if (musicTrackDictionary.TryGetValue(track, out clip)) {
+        foreach (AudioClip clip in set.tracks.OrderBy(x => Random.value)) {
             musicQueue.Enqueue(clip);
-            if (!transitioning) {
-                transitioning = true;
-                StartCoroutine(Fade());
-            }
         }
-        else {
-            string message = $"{track.ToString()} did not contain a value. Please set one in the MusicManager component.";
-            throw new UnassignedReferenceException(message);
-        }
+
+        do_fade = set.do_fade;
+        StartCoroutine(PlayTracks());
     }
 
-    private IEnumerator Fade() {
+    private IEnumerator PlayTracks() {
         while (musicQueue.Count > 0) {
             AudioClip audioClip;
             if (!musicQueue.TryDequeue(out audioClip)) {
                 continue;
             }
+            musicQueue.Enqueue(audioClip);
 
             var targetSourceIndex = (activeSourceIndex + 1) % audioSources.Length;
             audioSources[targetSourceIndex].clip = audioClip;
             audioSources[targetSourceIndex].Play();
 
-            float t = 0f;
+            float t = do_fade ? 0f : 1f;
             while (t < 1f) {
                 var activeVolume = fadeInCurve.Evaluate(1 - t);
                 var targetVolume = fadeInCurve.Evaluate(t);
@@ -123,8 +107,13 @@ public class MusicManager : PersistentSingleton<MusicManager> {
             audioSources[activeSourceIndex].volume = 0f;
             audioSources[targetSourceIndex].volume = 1f;
             activeSourceIndex = targetSourceIndex;
+
+            float clip_len = audioClip.length;
+            while (clip_len > 0f) {
+                clip_len -= Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
         }
-        transitioning = false;
     }
 
     private void OnGUI() {

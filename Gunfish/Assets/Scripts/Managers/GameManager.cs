@@ -53,6 +53,7 @@ public class GameManager : PersistentSingleton<GameManager> {
         // Spawn match manager
         // Get all active players
         GameModeManager.Instance.InitializeGameMode(selectedGameMode, PlayerManager.Instance.Players);
+        MusicManager.Instance.PlayTrackSet(TrackSetLabel.Gameplay);
     }
 
     public void ResetGame() {

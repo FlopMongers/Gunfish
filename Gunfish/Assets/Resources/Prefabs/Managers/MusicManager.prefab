@@ -44,14 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0737dc52c79684296654012017076c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicTrackMap:
-  - track: 0
-    clip: {fileID: 8300000, guid: 5a58ac8435752014982b92863ada2af8, type: 3}
-  - track: 1
-    clip: {fileID: 8300000, guid: 99d1785c502cad74db441175ac301f3a, type: 3}
-  - track: 2
-    clip: {fileID: 8300000, guid: 8c1543398f8e2dc4e98378757d2003b6, type: 3}
-  defaultTrack: 2
+  trackSetMap:
+  - label: 0
+    set: {fileID: 11400000, guid: c22ca18b6b35a904986d5e8ce3d8b7a9, type: 2}
+  - label: 1
+    set: {fileID: 11400000, guid: f750dfade60ef8048aa724a4064271c1, type: 2}
+  defaultTrackSet: 0
   playOnStart: 1
   fadeInCurve:
     serializedVersion: 2
