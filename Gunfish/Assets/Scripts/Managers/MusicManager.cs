@@ -33,8 +33,21 @@ public class MusicManager : PersistentSingleton<MusicManager> {
 
     private Queue<AudioClip> musicQueue = new();
     private AudioSource[] audioSources;
-    private bool do_fade = true;
+    private bool doFade = true;
     private int activeSourceIndex = 0;
+    private int targetSourceIndex = 0;
+    bool transitioning = false;
+
+    private float clipTimer = 0f;
+
+    protected void Update() {
+
+        if (clipTimer >= 0f) {
+            clipTimer -= Time.deltaTime;
+        } else if (!transitioning) {
+            StartNextTrack();
+        }
+    }
 
     public override void Initialize() {
         base.Initialize();
@@ -76,44 +89,46 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         foreach (AudioClip clip in set.tracks.OrderBy(x => Random.value)) {
             musicQueue.Enqueue(clip);
         }
+        doFade = set.doFade;
 
-        do_fade = set.do_fade;
-        StartCoroutine(PlayTracks());
+        StartNextTrack();
     }
 
-    private IEnumerator PlayTracks() {
-        while (musicQueue.Count > 0) {
-            AudioClip audioClip;
-            if (!musicQueue.TryDequeue(out audioClip)) {
-                continue;
-            }
-            musicQueue.Enqueue(audioClip);
-
-            var targetSourceIndex = (activeSourceIndex + 1) % audioSources.Length;
-            audioSources[targetSourceIndex].clip = audioClip;
-            audioSources[targetSourceIndex].Play();
-
-            float t = do_fade ? 0f : 1f;
-            while (t < 1f) {
-                var activeVolume = fadeInCurve.Evaluate(1 - t);
-                var targetVolume = fadeInCurve.Evaluate(t);
-
-                audioSources[activeSourceIndex].volume = activeVolume;
-                audioSources[targetSourceIndex].volume = targetVolume;
-
-                t += Time.deltaTime / fadeTime;
-                yield return new WaitForEndOfFrame();
-            }
-            audioSources[activeSourceIndex].volume = 0f;
-            audioSources[targetSourceIndex].volume = 1f;
-            activeSourceIndex = targetSourceIndex;
-
-            float clip_len = audioClip.length;
-            while (clip_len > 0f) {
-                clip_len -= Time.deltaTime;
-                yield return new WaitForEndOfFrame();
-            }
+    private void StartNextTrack() {
+        AudioClip audioClip;
+        if (!musicQueue.TryDequeue(out audioClip)) {
+            return;
         }
+        musicQueue.Enqueue(audioClip);
+
+        targetSourceIndex = (activeSourceIndex + 1) % audioSources.Length;
+        audioSources[targetSourceIndex].clip = audioClip;
+        audioSources[targetSourceIndex].Play();
+
+        clipTimer = audioClip.length;
+
+        if (doFade) {
+            StartCoroutine(Fade());
+        }
+    }
+
+    private IEnumerator Fade() {
+        transitioning = true;
+        float t = fadeTime;
+        while (t < fadeTime) {
+            var activeVolume = fadeInCurve.Evaluate(fadeTime - t);
+            var targetVolume = fadeInCurve.Evaluate(t);
+
+            audioSources[activeSourceIndex].volume = activeVolume;
+            audioSources[targetSourceIndex].volume = targetVolume;
+
+            t += Time.deltaTime / fadeTime;
+            yield return new WaitForEndOfFrame();
+        }
+        audioSources[activeSourceIndex].volume = 0f;
+        audioSources[targetSourceIndex].volume = 1f;
+        activeSourceIndex = targetSourceIndex;
+        transitioning = false;
     }
 
     private void OnGUI() {
