@@ -257,9 +257,9 @@ public class Gunfish : MonoBehaviour {
         if (underwater == true) {
             Swim();
         }
-        else {
+        //else {
             gun?.Fire(firingStatus);
-        }
+        //}
     }
 
     public void Hit(FishHitObject hit) {

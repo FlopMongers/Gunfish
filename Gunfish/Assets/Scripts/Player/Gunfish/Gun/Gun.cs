@@ -66,7 +66,7 @@ public class Gun : MonoBehaviour {
     }
 
     protected virtual bool CheckButtonStatus(ButtonStatus firingStatus) {
-        return firingStatus == ButtonStatus.Pressed;
+        return firingStatus == ButtonStatus.Pressed && !gunfish.underwater;
     }
 
     public virtual void Fire(ButtonStatus firingStatus) {
