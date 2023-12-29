@@ -135,7 +135,7 @@ MonoBehaviour:
   m_MinimumFOV: 3
   m_MaximumFOV: 60
   m_MinimumOrthoSize: 3
-  m_MaximumOrthoSize: 10
+  m_MaximumOrthoSize: 16
 --- !u!1 &2150593014029043301
 GameObject:
   m_ObjectHideFlags: 0

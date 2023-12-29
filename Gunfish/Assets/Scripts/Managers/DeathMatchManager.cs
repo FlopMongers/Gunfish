@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DeathMatchManager : MatchManager {
-    private const int defaultStocks = 1;
+    private const int defaultStocks = 3;
     private Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
     private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
     private int remainingPlayers;
