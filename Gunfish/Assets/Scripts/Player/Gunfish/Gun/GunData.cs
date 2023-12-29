@@ -14,9 +14,15 @@ public class TransformTuple {
 public class GunData : ScriptableObject {
     [Header("Gun")]
     public List<TransformTuple> gunBarrels = new List<TransformTuple>();
+    /// <summary>
+    /// Recoil when the gun is fired.
+    /// </summary>
     public float kickback;
     public float range;
     public float damage;
+    /// <summary>
+    /// Knockback inflicted when a fish is hit.
+    /// </summary>
     public float knockback;
     public int maxAmmo;
 

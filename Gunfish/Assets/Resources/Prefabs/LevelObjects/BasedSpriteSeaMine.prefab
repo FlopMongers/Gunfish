@@ -89,11 +89,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ed2debbdbd97943ba0b4c59d9bd0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explodeForceThreshold: 0.1
+  explodeForceThreshold: 1
   explodeDamage: 15
   explodeForce: 15
-  explodeRadius: 5
+  explodeRadius: 3
   explodeFalloff: 0.5
+  chainingProbability: 0.1
 --- !u!1 &1163073132863928095
 GameObject:
   m_ObjectHideFlags: 0

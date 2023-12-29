@@ -21,6 +21,12 @@ public class SeaMine : MonoBehaviour {
     [SerializeField]
     float explodeFalloff;
 
+    /// <summary>
+    /// The probability that any given mine in range will be affected by this explosion, starting a chain reaction.
+    /// </summary>
+    [SerializeField]
+    float chainingProbability;
+
     Shootable shootable;
 
     // Start is called before the first frame update
@@ -40,17 +46,18 @@ public class SeaMine : MonoBehaviour {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, explodeRadius, Vector2.zero);
 
         foreach (RaycastHit2D hit in hits) {
-            if (hit.rigidbody != null)
-                hit.rigidbody.AddExplosionForce(explodeForce, transform.position, explodeRadius);
+            if (hit.transform.gameObject.GetComponent<SeaMine>() == null || Random.value < chainingProbability) {
+                if (hit.rigidbody != null)
+                    hit.rigidbody.AddExplosionForce(explodeForce, transform.position, explodeRadius);
 
-            Shootable shootable = hit.transform.gameObject.GetComponent<Shootable>();
+                Shootable shootable = hit.transform.gameObject.GetComponent<Shootable>();
 
-            if (shootable != null) {
-                float damageReduction = (hit.distance / explodeRadius) * explodeFalloff;
-                float damageAmount = explodeDamage * (1f - damageReduction);
-                shootable.UpdateHealth(-1 * damageAmount);
+                if (shootable != null) {
+                    float damageReduction = (hit.distance / explodeRadius) * explodeFalloff;
+                    float damageAmount = explodeDamage * (1f - damageReduction);
+                    shootable.UpdateHealth(-1 * damageAmount);
+                }
             }
-
         }
     }
 
