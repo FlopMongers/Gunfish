@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AutomaticGun : Gun
-{  
+{
+    bool fireCanceled;
+
     protected override bool CheckButtonStatus(ButtonStatus firingStatus) {
-        return firingStatus == ButtonStatus.Holding || firingStatus == ButtonStatus.Pressed;
+
+        if (firingStatus != ButtonStatus.Holding) {
+            fireCanceled = false;
+        }
+
+        if (gunfish.underwater) {
+            fireCanceled = true;
+        }
+
+        return (firingStatus == ButtonStatus.Holding || firingStatus == ButtonStatus.Pressed) && !fireCanceled;
     }
 }
