@@ -1,9 +1,6 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 
 [CreateAssetMenu(fileName = "New Gunfish Data", menuName = "Scriptable Objects/Gunfish Data")]
 public class GunfishData : ScriptableObject {

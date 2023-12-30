@@ -1,7 +1,4 @@
-using UnityEngine.UIElements.Experimental;
-
 public class GunfishStatusData {
-
     private bool canMove = true;
     public bool CanMove { get => alive && canMove; set => canMove = value; }
 
