@@ -381,4 +381,11 @@ public class Gunfish : MonoBehaviour {
             Destroy(segment);
         }
     }
+
+    public void Garbulate() {
+        if (data == null) {
+            Debug.LogError("Cannot garbulate Gunfish. Please ensure the Gunfish Data field is populated.");
+            return;
+        }
+    }
 }
