@@ -1,16 +1,17 @@
 using FunkyCode.LightingSettings;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DeathMatchManager : MatchManager {
     private const int defaultStocks = 3;
-    private Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
+    protected Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
     private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
     private int remainingPlayers;
     private List<Player> eliminatedPlayers = new List<Player>();
 
-    DeathMatchUI ui;
+    protected DeathMatchUI ui;
 
     bool endingLevel;
     static float endLevelDelay = 0.5f;
@@ -118,8 +119,13 @@ public class DeathMatchManager : MatchManager {
             UpdateScore(player, 1);
             //UpdateScore(player, playerScores.Count);
         }
-        ui.ShowLevelStats(player, playerScores); // if player is null, no one wins
+        ShowLevelWinner(player);
+        //ui.ShowLevelStats((player == null) ? -1: player.playerNumber, playerScores); // if player is null, no one wins
         PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
+    }
+
+    protected virtual void ShowLevelWinner(Player player) {
+        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.playerNumber} wins!", playerScores);
     }
 
     public void UpdateScore(Player player, int scoreDelta) {
@@ -131,10 +137,55 @@ public class DeathMatchManager : MatchManager {
         ui.OnStockChange(player, playerStocks[player]);
     }
 
-    public override void ShowStats() {
-        base.ShowStats();
-        ui.ShowFinalScores(playerScores);
+    public override void ShowEndGameStats() {
+        base.ShowEndGameStats();
+        //Dictionary<int, int> teamScores = new Dictionary<int, int>() { { 0,0}, { 1,0} };
+        int topScore = 0;
+        List<Player> winners = new List<Player>();
+        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
+            if (playerScore.Value >= topScore) { 
+                winners.Add(playerScore.Key);
+                topScore = playerScore.Value;
+            };
+        }
+
+        string text = "It's a tie!";
+        if (winners.Count == 0) {
+            text = "No one wins?";
+        }
+        else if (winners.Count == 1) {
+            text = $"Player {winners[0].playerNumber} wins!!!";
+        }
+        ui.ShowFinalScores(text, playerScores, winners);
     }
+
+    /*
+        int playerIdx = 0;
+        int topScore = 0;
+        List<Player> winners = new List<Player>();
+        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
+            playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
+            playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
+            playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
+            if (playerScore.Value >= topScore) {
+                playerPanels[playerIdx].highlight.enabled = true;
+                winners.Add(playerScore.Key);
+                topScore = playerScore.Value;
+            }
+            playerPanels[playerIdx].panel.SetActive(true);
+            playerIdx++;
+        }
+
+        if (winners.Count == 0) {
+            winnerText.text = "No one wins?";
+        }
+        else if (winners.Count == 1) {
+            winnerText.text = $"Player {winners[0].playerNumber} wins!!!";
+        }
+        else {
+            winnerText.text = "It's a tie!";
+        }
+    */
 
     public override void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish) {
         base.HandleFishDamage(fishHit, gunfish);

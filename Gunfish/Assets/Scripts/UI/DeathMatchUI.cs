@@ -64,8 +64,9 @@ public class DeathMatchUI : MonoBehaviour {
         }
     }
 
-    public void ShowLevelStats(Player player, Dictionary<Player, int> playerScores) {
-        winnerText.text = (player == null) ? "No one wins!" : $"Player {player.playerNumber} wins!";
+    public void ShowLevelStats(string text, Dictionary<Player, int> playerScores) {
+        winnerText.text = text; 
+        //(playerNumber == -1) ? "No one wins!" : $"{winnerEntity} {playerNumber} wins!";
 
         ClearPlayerPanels();
 
@@ -86,34 +87,21 @@ public class DeathMatchUI : MonoBehaviour {
         StartCoroutine(CoShowLevelStats(false));
     }
 
-    public void ShowFinalScores(Dictionary<Player, int> playerScores) {
+    public void ShowFinalScores(string text, Dictionary<Player, int> playerScores, List<Player> winners) {
         ClearPlayerPanels();
 
         int playerIdx = 0;
-        int topScore = 0;
-        List<Player> winners = new List<Player>();
         foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
             playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
             playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
             playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
-            if (playerScore.Value >= topScore) {
+            if (winners.Contains(playerScore.Key)) {
                 playerPanels[playerIdx].highlight.enabled = true;
-                winners.Add(playerScore.Key);
-                topScore = playerScore.Value;
             }
             playerPanels[playerIdx].panel.SetActive(true);
             playerIdx++;
         }
-
-        if (winners.Count == 0) {
-            winnerText.text = "No one wins?";
-        }
-        else if (winners.Count == 1) {
-            winnerText.text = $"Player {winners[0].playerNumber} wins!!!";
-        }
-        else {
-            winnerText.text = "It's a tie!";
-        }
+        winnerText.text = text;
 
         StopAllCoroutines();
         StartCoroutine(CoShowLevelStats(true));
