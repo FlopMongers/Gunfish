@@ -19,6 +19,7 @@ public enum FXType {
     Bubbles,
     TitleScreenStartFX,
     SharkMode,
+    Splash,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {

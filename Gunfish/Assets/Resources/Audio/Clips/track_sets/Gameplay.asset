@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Gameplay
   m_EditorClassIdentifier: 
   tracks:
-  - {fileID: 8300000, guid: 99d1785c502cad74db441175ac301f3a, type: 3}
-  - {fileID: 8300000, guid: 5a58ac8435752014982b92863ada2af8, type: 3}
   - {fileID: 8300000, guid: abc74bc62d16fb546aa5d96598d48fba, type: 3}
   doFade: 1

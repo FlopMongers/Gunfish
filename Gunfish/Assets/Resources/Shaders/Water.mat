@@ -27,7 +27,7 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _Color: {r: 0.20392157, g: 0.7882353, b: 0.7529412, a: 0.3529412}
+    - _Color: {r: 0.20392156, g: 0.7323446, b: 0.7882353, a: 0.3529412}
     - _FloatArray: {r: 1, g: 2, b: 3, a: 4}
     - _NodesX: {r: -6, g: -2, b: 4, a: 6}
     - _NodesY: {r: 0, g: 0, b: 0, a: 0}
