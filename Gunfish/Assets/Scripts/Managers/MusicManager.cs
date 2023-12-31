@@ -42,6 +42,10 @@ public class MusicManager : PersistentSingleton<MusicManager> {
 
     protected void Update() {
 
+        if (GameManager.debug && Input.GetKeyDown(KeyCode.M)) {
+            clipTimer = 0f;
+        }
+
         if (clipTimer >= 0f) {
             clipTimer -= Time.deltaTime;
         } else if (!transitioning) {
@@ -114,7 +118,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
 
     private IEnumerator Fade() {
         transitioning = true;
-        float t = fadeTime;
+        float t = 0f;
         while (t < fadeTime) {
             var activeVolume = fadeInCurve.Evaluate(fadeTime - t);
             var targetVolume = fadeInCurve.Evaluate(t);
