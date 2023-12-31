@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c2a61fddb58750449e2be2c9c080bea, type: 3}
   m_Name: Gameplay
   m_EditorClassIdentifier: 
-  tracks: []
-  do_fade: 1
+  tracks:
+  - {fileID: 8300000, guid: 99d1785c502cad74db441175ac301f3a, type: 3}
+  - {fileID: 8300000, guid: 5a58ac8435752014982b92863ada2af8, type: 3}
+  - {fileID: 8300000, guid: abc74bc62d16fb546aa5d96598d48fba, type: 3}
+  doFade: 1

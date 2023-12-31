@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c2a61fddb58750449e2be2c9c080bea, type: 3}
   m_Name: Menu
   m_EditorClassIdentifier: 
-  tracks: []
-  do_fade: 1
+  tracks:
+  - {fileID: 8300000, guid: 8c1543398f8e2dc4e98378757d2003b6, type: 3}
+  doFade: 1
