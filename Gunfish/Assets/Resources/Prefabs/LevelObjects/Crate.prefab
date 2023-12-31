@@ -168,7 +168,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 5
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -217,7 +217,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7492914906587697891}
   m_Enabled: 1
-  m_Density: 1
+  m_Density: 1.8
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
