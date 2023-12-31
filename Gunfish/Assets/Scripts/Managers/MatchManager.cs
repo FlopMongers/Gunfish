@@ -67,7 +67,7 @@ public class MatchManager : MonoBehaviour {
         GameCamera.Instance?.targetGroup.RemoveMember(null);
     }
 
-    public virtual void ShowStats() {
+    public virtual void ShowEndGameStats() {
 
     }
 
@@ -86,7 +86,7 @@ public class MatchManager : MonoBehaviour {
         else {
             done = true;
             LevelManager.Instance.LoadStats(() => {
-                ShowStats();
+                ShowEndGameStats();
             });
         }
     }

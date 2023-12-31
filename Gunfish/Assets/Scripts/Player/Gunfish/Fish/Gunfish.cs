@@ -1,22 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum ButtonStatus { Pressed, Holding, Released, Up };
 public class Gunfish : MonoBehaviour {
-    // public static Gunfish Instantiate(GunfishData data, Vector3 position, Player player, LayerMask layer) {
-    //     var instance = new GameObject($"{player.name}GunfishHandler");
-    //     instance.transform.SetPositionAndRotation(position, Quaternion.identity);
-    //     var gunfish = instance.AddComponent<Gunfish>();
-    //     gunfish.player = player;
-    //     gunfish.Spawn(data, layer);
-    //     return gunfish;
-    // }
-
     public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
+    
     [HideInInspector]
     public List<EffectType> EffectRemoveList = new List<EffectType>();
 
@@ -36,8 +25,6 @@ public class Gunfish : MonoBehaviour {
     GroundDetector groundDetector;
     [HideInInspector]
     public Gun gun;
-
-    private InputActionMap inputHandler;
 
     [HideInInspector]
     public Player player;
@@ -59,31 +46,14 @@ public class Gunfish : MonoBehaviour {
     ButtonStatus firingStatus = ButtonStatus.Up;
 
     private void Start() {
-        // spawn gun based on gunfish data
-        //gun = GetComponent<Gun>();
-        //gun.gunfish = this;
         player = GetComponent<Player>();
 
         killed = false;
         spawned = false;
         
-        // NOTE(Wyatt): I'm moving this to the match manager. It's the only thing that should care when a player dies.
-        /*
-        // Marquee manager does not currently care about player. Encapsulating in anonymous delegate for now.
-        OnDeath += (Player player) => { MarqueeManager.Instance.EnqueueRandomQuip(); };
-        */
-
         PlayerInput playerInput = GetComponent<PlayerInput>();
-        inputHandler = playerInput.actions.FindActionMap("Player");
         playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { GameModeManager.Instance?.NextLevel(); };
     }
-
-    // NOTE(Wyatt): shifting this logic to the match manager.
-    /*
-    private void OnDestroy() {
-        OnDeath -= (Player player) => { MarqueeManager.Instance.EnqueueRandomQuip(); };
-    }
-    */
 
     private void Update() {
 
@@ -105,11 +75,12 @@ public class Gunfish : MonoBehaviour {
 
     void HandleEffects() {
         if (!statusData.alive) {
-            // kill da fish
-            foreach (var effect in effectMap)
+            foreach (var effect in effectMap) {
                 EffectRemoveList.Add(effect.Key);
-            foreach (var effect in EffectRemoveList)
+            }
+            foreach (var effect in EffectRemoveList) {
                 effectMap.Remove(effect);
+            }
             EffectRemoveList.Clear();
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);
             Despawn(true);
@@ -163,11 +134,11 @@ public class Gunfish : MonoBehaviour {
             return;
 
         // if underwater
-
         if (movement.sqrMagnitude > Mathf.Epsilon) {
             if (groundDetector != null && groundDetector.IsGrounded()) {
-                if (statusData.CanFlop)
+                if (statusData.CanFlop) {
                     GroundedMovement(movement);
+                }
             }
             else if (underwater) {
                 RotateMovement(movement, 0, data.underwaterTorque);
@@ -291,7 +262,6 @@ public class Gunfish : MonoBehaviour {
         this.underwater = false;
         this.data = data;
         gun = Instantiate(data.gun.gunPrefab, transform).GetComponent<Gun>();
-        //gun = GetComponent<Gun>();
         gun.gunfish = this;
         gun.ammo = data.gun.maxAmmo;
 
@@ -323,7 +293,6 @@ public class Gunfish : MonoBehaviour {
         segments[0].CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
         groundDetector = segments[0].CheckAddComponent<GroundDetector>();
         groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layer);
-
 
         spawned = true;
         killed = false;
@@ -360,7 +329,6 @@ public class Gunfish : MonoBehaviour {
 
     public void Despawn(bool animated) {
         Destroy(gun.gameObject);
-        // gun.barrels = new List<GunBarrel>();
         DespawnSegments(animated);
     }
 
@@ -379,6 +347,13 @@ public class Gunfish : MonoBehaviour {
         }
         else {
             Destroy(segment);
+        }
+    }
+
+    public void Garbulate() {
+        if (data == null) {
+            Debug.LogError("Cannot garbulate Gunfish. Please ensure the Gunfish Data field is populated.");
+            return;
         }
     }
 }

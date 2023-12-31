@@ -117,8 +117,9 @@ public class CollisionDamageDealer : MonoBehaviour {
         //print($"{gameObject} and {target}");
 
         float oomph = src.GetComponent<OomphCalculator>().Oomph(collision, damageMultiplier, impulseThreshold);
-        if (trace)
+        /*if (trace)
             print($"oomph {oomph} from {src} for target {target}");
+        */
 
         // if not enough oomph, just return
         if (oomph <= oomphThreshold)
