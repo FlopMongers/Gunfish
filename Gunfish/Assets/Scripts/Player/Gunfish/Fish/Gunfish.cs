@@ -16,8 +16,8 @@ public class Gunfish : MonoBehaviour {
     [HideInInspector]
     public List<GameObject> segments;
     public int MiddleSegmentIndex { get { return segments.Count / 2; } }
-    public GameObject MiddleSegment { get { return segments[MiddleSegmentIndex]; } }
-    public GameObject RootSegment { get { return segments[0]; } }
+    public GameObject MiddleSegment { get { return (segments.Count > 0) ? segments[MiddleSegmentIndex] : null; } }
+    public GameObject RootSegment { get { return (segments.Count > 0) ? segments[0]: null; } }
     private GunfishGenerator generator;
     private new GunfishRenderer renderer;
     [HideInInspector]

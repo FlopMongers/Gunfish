@@ -13,6 +13,8 @@ public class DeathMatchManager : MatchManager {
 
     protected DeathMatchUI ui;
 
+    public PelicanSpawner pelicanSpawner;
+
     bool endingLevel;
     static float endLevelDelay = 0.5f;
 
@@ -25,6 +27,7 @@ public class DeathMatchManager : MatchManager {
         // ui.OnLoadingStart();
         ui.InitializeMatch(parameters.activePlayers);
         base.Initialize(parameters);
+        pelicanSpawner = GetComponentInChildren<PelicanSpawner>();
     }
 
     public override void StartLevel() {
@@ -33,6 +36,8 @@ public class DeathMatchManager : MatchManager {
         eliminatedPlayers = new List<Player>();
         ui.InitializeLevel(parameters.activePlayers, defaultStocks);
         remainingPlayers = parameters.activePlayers.Count;
+        pelicanSpawner.FetchSpawnZones();
+        pelicanSpawner.active = false;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
             playerStocks[player] = defaultStocks;
@@ -97,6 +102,7 @@ public class DeathMatchManager : MatchManager {
 
     private IEnumerator EndLevel() {
         endingLevel = true;
+        pelicanSpawner.active = false;
         FreezeFish(true);
         foreach (var activePlayer in parameters.activePlayers) {
             activePlayer.OnDeath -= OnPlayerDeath;
@@ -202,7 +208,7 @@ public class DeathMatchManager : MatchManager {
             MarqueeManager.Instance.EnqueueRandomQuip();
             UpdateScore(sourceGunfish.player, 1);
         }
-        else {
+        else if (!endingLevel) {
             // todo: this should play a special suicide quip (Selfish Destruction!)
             MarqueeManager.Instance.EnqueueRandomQuip();
             UpdateScore(gunfish.player, -1);
@@ -212,6 +218,7 @@ public class DeathMatchManager : MatchManager {
     public override void OnTimerFinish() {
         base.OnTimerFinish();
         // todo: SUMMON THE FUCKING PELICANS
+        pelicanSpawner.active = true;
         foreach (var (player, stock) in playerStocks) {
             if (stock > 1) {
                 UpdateStock(player, -(playerStocks[player] - 1));
