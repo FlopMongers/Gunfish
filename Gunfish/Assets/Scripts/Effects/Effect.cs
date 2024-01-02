@@ -97,8 +97,8 @@ public class Zap_Effect : TimedEffect {
     static int MovementTypeCount = 3;
 
     MovementType affectedMovementType;
-    public static Vector2 delayRange = new Vector2(0.1f, 0.5f);
-    public static Vector2 zapDurationRange = new Vector2(0.2f, 0.5f);
+    public static Vector2 delayRange = new Vector2(0.1f, 0.3f);
+    public static Vector2 zapDurationRange = new Vector2(0.5f, 1f);
     float stateTimer;
     bool zappin;
 

@@ -4,20 +4,18 @@ public class Spawner : MonoBehaviour {
 
     public GameObject spawnPrefab;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float spawnTimer;
     public Vector2 spawnTimerRange;
 
     public Collider2D spawnArea;
 
-    [HideInInspector]
-    public bool active;
+    public bool active = true;
 
     protected virtual void Start() {
         // from 0 to max
         spawnTimer = Random.Range(0, spawnTimerRange.y);
         spawnArea = spawnArea ?? GetComponent<Collider2D>() ?? gameObject.AddComponent<BoxCollider2D>();
-        active = false;
     }
 
     // Update is called once per frame
@@ -36,6 +34,7 @@ public class Spawner : MonoBehaviour {
     }
 
     protected virtual GameObject Spawn() {
+        spawnTimer = spawnTimerRange.RandomInRange();
         return Instantiate(
             spawnPrefab,
             spawnArea.bounds.RandomPointInBounds(),

@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detector: {fileID: 4214395734261543650}
   PickupFX: 0
+  sharkmodeDuration: 15
 --- !u!114 &4214395734261543650
 MonoBehaviour:
   m_ObjectHideFlags: 0

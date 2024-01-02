@@ -52,10 +52,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detector: {fileID: 3917959985928223952}
   prickMagnitude: 10
-  prickDamage: 0.5
+  prickDamage: 2
   spriteTransform: {fileID: 3917959986623236820}
-  rb: {fileID: 0}
-  waterInteractor: {fileID: 0}
+  rb: {fileID: 3917959985928223967}
+  waterInteractor: {fileID: 2484110735886472664}
 --- !u!114 &3917959985928223952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ SpringJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.16, y: -1.14}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
   m_Distance: 0.005
   m_DampingRatio: 0

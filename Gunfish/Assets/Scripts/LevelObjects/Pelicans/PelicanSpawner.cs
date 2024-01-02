@@ -17,6 +17,7 @@ public class PelicanSpawner : Spawner
 
     protected override void Start() {
         base.Start();
+        active = false;
         // initialize spawn zones
         gunfishes = FindObjectsOfType<Gunfish>().ToList();
     }
