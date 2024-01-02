@@ -5,17 +5,17 @@ using UnityEngine;
 public class Toaster : Shootable
 {
     public WaterInteractor waterInteractor;
-    public FishDetector detector;
 
-    bool zapping;
+    public bool zapping;
 
     HashSet<Gunfish> zappedFishes = new HashSet<Gunfish>();
 
-    float zapWaitTimer, zapTimer, zapTimerDuration = 0.5f;
+    public float zapWaitTimer;
     Vector2 zapWaitTimerRange = new Vector2(6f, 10f);
-    public Animator anim;
-    public ParticleSystem zapEffector;
     int waterMask = 0;
+
+    public GameObject zapPrefab;
+    public GameObject zapInstance;
 
     public GameObject toastPrefab;
     float toastForce = 1f;
@@ -27,8 +27,6 @@ public class Toaster : Shootable
     {
         base.Start();
         waterMask = LayerMask.GetMask("Water");
-        detector.OnFishCollideEnter += OnFishCollide;
-        detector.OnFishTriggerEnter += OnFishTrigger;
     }
 
     // Update is called once per frame
@@ -44,59 +42,33 @@ public class Toaster : Shootable
             return;
         }
 
+        zapWaitTimer -= Time.deltaTime;
         if (zapWaitTimer <= 0 && !zapping) {
-            if (anim != null) // don't know why ? isn't working...
-                anim?.SetBool("Zap", true);
             if (waterInteractor.isUnderwater > 0) {
-                if (zapEffector != null)
-                    zapEffector?.Play();
-            }
-            foreach (var target in detector.fishes.Keys) {
-                ZapFish(target);
-                zappedFishes.Add(target);
-            }
-            zapTimer = zapTimerDuration;
-        }
-        if (zapping) {
-            zapTimer -= Time.deltaTime;
-            if (zapTimer <= 0) {
-                if (anim != null)
-                    anim?.SetBool("Zap", false);
-                zapping = false;
-                zappedFishes.Clear();
-                if (zapEffector != null)
-                    zapEffector?.Stop();
-                zapWaitTimer = Random.Range(zapWaitTimerRange.x, zapWaitTimerRange.y);
+                // instantiate zapper
+                if (zapPrefab != null) {
+                    zapInstance = Instantiate(zapPrefab, transform.position, Quaternion.identity);
+                    zapInstance.transform.parent = transform;
+                }
             }
         }
-    }
-
-
-    void OnFishCollide(GunfishSegment segment, Collision2D collision) {
-        if (zapping && zappedFishes.Contains(segment.gunfish) == false) {
-            ZapFish(segment.gunfish);
-            zappedFishes.Add(segment.gunfish);
+        if (zapInstance != null) {
+            zapping = true;
         }
-    }
-
-
-    void OnFishTrigger(GunfishSegment segment, Collider2D collision) {
-        if (zapping && waterInteractor.isUnderwater > 0 && zappedFishes.Contains(segment.gunfish) == false && segment.gunfish.anySegmentUnderwater > 0) {
-            ZapFish(segment.gunfish);
-            zappedFishes.Add(segment.gunfish);
+        if (zapping == true && zapInstance == null) {
+            zapWaitTimer = Random.Range(zapWaitTimerRange.x, zapWaitTimerRange.y);
+            zapping = false;
         }
-    }
-
-    void ZapFish(Gunfish gunfish) {
-
     }
 
     protected override void Damage() {
         base.Damage();
         zapWaitTimer = 0;
         // instantiate toast
-        toastInstance = Instantiate(toastPrefab, transform.position, Quaternion.LookRotation(Vector3.forward, transform.up)).GetComponent<Collider2D>();
-        toastInstance.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * toastForce, ForceMode2D.Impulse);
+        if (toastInstance != null)
+            return;
+        toastInstance = Instantiate(toastPrefab, transform.position, Quaternion.LookRotation(Vector3.forward, transform.up)).GetComponentInChildren<Collider2D>();
+        toastInstance.gameObject.GetComponentInParent<Rigidbody2D>().AddForce(transform.up * toastForce, ForceMode2D.Impulse);
         Physics2D.IgnoreCollision(ownCollider, toastInstance, true);
         Invoke("CollideToast", 1f);
     }

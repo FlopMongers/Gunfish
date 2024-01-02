@@ -61,7 +61,7 @@ public class WaterZone : MonoBehaviour {
             }
             fishSegment.SetUnderwater(1);
         }
-        var waterInteractor = other.gameObject.GetComponent<WaterInteractor>();
+        var waterInteractor = other.gameObject.GetComponentInParent<WaterInteractor>();
         if (waterInteractor != null) {
             waterInteractor.SetUnderwater(1);
         } // TODO: change gunfish segment to just use a water interactor!
@@ -78,7 +78,7 @@ public class WaterZone : MonoBehaviour {
         if (fishSegment != null) {
             fishSegment.SetUnderwater(-1);
         }
-        var waterInteractor = other.gameObject.GetComponent<WaterInteractor>();
+        var waterInteractor = other.gameObject.GetComponentInParent<WaterInteractor>();
         if (waterInteractor != null) {
             waterInteractor.SetUnderwater(-1);
         }
