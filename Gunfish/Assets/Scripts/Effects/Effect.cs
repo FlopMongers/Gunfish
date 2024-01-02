@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using UnityEditor;
-using UnityEditor.UI;
 using UnityEngine;
 
-public enum EffectType { FlopModify, NoMove, Underwater, SharkMode };
+
+public enum EffectType { FlopModify, NoMove, Underwater, SharkMode, Zap };
 
 
 [Serializable]
@@ -71,18 +67,99 @@ public class FlopModify_Effect : Effect {
     }
 }
 
+// consider using composition over inheritance here
+[Serializable]
+public class TimedEffect : Effect {
+    public float timer;
+
+    public TimedEffect(Gunfish gunfish, float timer) : base(gunfish) {
+        this.timer = timer;
+    }
+
+    public override void Merge(Effect effect) {
+        base.Merge(effect);
+        timer += ((TimedEffect)effect).timer;
+    }
+
+    public override void Update() {
+        base.Update();
+        timer -= Time.deltaTime;
+        if (timer <= 0) {
+            gunfish.RemoveEffect(effectType);
+        }
+    }
+}
+
+[Serializable]
+public class Zap_Effect : TimedEffect {
+
+    enum MovementType { MoveLeft, MoveRight };
+    static int MovementTypeCount = 3;
+
+    MovementType affectedMovementType;
+    public static Vector2 delayRange = new Vector2(0.1f, 0.5f);
+    public static Vector2 zapDurationRange = new Vector2(0.2f, 0.5f);
+    float stateTimer;
+    bool zappin;
+
+    public Zap_Effect(Gunfish gunfish, float timer) : base(gunfish, timer) {
+        this.effectType = EffectType.Zap;
+    }
+
+    public override void OnAdd() {
+        base.OnAdd();
+        gunfish.AddEffect(new NoMove_Effect(gunfish));
+        StartZappin();
+    }
+
+    public override void Update() {
+        base.Update();
+        // randomly move or shoot
+        stateTimer -= Time.deltaTime;
+        if (zappin) {
+            switch (affectedMovementType) {
+                case MovementType.MoveLeft:
+                    gunfish.Move(Vector2.left);
+                    break;
+                case MovementType.MoveRight:
+                    gunfish.Move(Vector2.right);
+                    break;
+            }
+            gunfish.Movement(true);
+        }
+        if (stateTimer <= 0) {
+            if (zappin) {
+                zappin = false;
+                stateTimer = delayRange.RandomInRange();
+            }
+            else {
+                StartZappin();
+            }
+        }
+
+    }
+    void StartZappin() {
+        affectedMovementType = (MovementType)UnityEngine.Random.Range(0, MovementTypeCount);
+        stateTimer = zapDurationRange.RandomInRange();
+        zappin = true;
+    }
+
+    public override void OnRemove() {
+        base.OnRemove();
+        gunfish.RemoveEffect(EffectType.NoMove);
+    }
+}
+
 // NOTE(Wyatt): currently, this is the only effect that modifies these values.
 // In the future, I'm considering changing stats like underWaterForce and flopForce and all that to special objects that track multiplicative and additive modifiers
 [Serializable]
-public class Sharkmode_Effect : Effect {
-
-    public float timer;
+public class Sharkmode_Effect : TimedEffect {
 
     public static float underwaterForceModifier = 2f;
     GameObject fx;
 
-    public Sharkmode_Effect(Gunfish gunfish, float timer) : base(gunfish) {
-        this.timer = timer;
+    public Sharkmode_Effect(Gunfish gunfish, float timer) : base(gunfish, timer) {
+        effectType = EffectType.SharkMode;
     }
 
     public override void OnAdd() {
@@ -94,11 +171,6 @@ public class Sharkmode_Effect : Effect {
         gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideEnter += OnCollision;
         // todo: spawn sharkmode music
         fx = FX_Spawner.Instance.SpawnFX(FXType.SharkMode, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
-    }
-
-    public override void Merge(Effect effect) {
-        base.Merge(effect);
-        timer += ((Sharkmode_Effect)effect).timer;
     }
 
     public override void OnRemove() {
@@ -114,14 +186,6 @@ public class Sharkmode_Effect : Effect {
         FX_Spawner.Instance.DestroyFX(fx);
     }
 
-    public override void Update() {
-        base.Update();
-        timer -= Time.deltaTime;
-        if (timer <= 0) {
-            gunfish.RemoveEffect(effectType);
-        }
-    }
-
     public void OnCollision(GameObject src, Collision2D collision) {
         // if it's a fish and it's not in sharkmode, fucking KILL IT!
         GunfishSegment segment = src.GetComponent<GunfishSegment>();
@@ -133,17 +197,17 @@ public class Sharkmode_Effect : Effect {
     }
 }
 
-// NOTE: consider using composition over inheritance here.
-public class Counter_Effect : Effect {
+// NOTE: once again, consider composition over inheritance
+public class CounterEffect : Effect {
     public int counter;
 
-    public Counter_Effect(Gunfish gunfish, int counter) : base(gunfish) {
+    public CounterEffect(Gunfish gunfish, int counter) : base(gunfish) {
         this.counter = counter;
     }
 
     public override void Merge(Effect effect) {
         // eat that friggin effect
-        Counter_Effect t_effect = (Counter_Effect)effect;
+        CounterEffect t_effect = (CounterEffect)effect;
         counter += t_effect.counter;
     }
 
@@ -155,7 +219,7 @@ public class Counter_Effect : Effect {
 }
 
 [Serializable]
-public class NoMove_Effect : Counter_Effect {
+public class NoMove_Effect : CounterEffect {
 
     public NoMove_Effect(Gunfish gunfish, int counter = 1) : base(gunfish, counter) {
         effectType = EffectType.NoMove;

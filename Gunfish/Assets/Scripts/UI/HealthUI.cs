@@ -95,6 +95,7 @@ public class HealthUI : MonoBehaviour {
     }
 
     public void SetHealth(float health) {
+        health = Mathf.Clamp(health, 0, health);
         _greenBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
         _orangeBar.rectTransform.localScale = new Vector3(health / GetTargetMaxHealth(), 1f, 1f);
         // _canvas.enabled = false;

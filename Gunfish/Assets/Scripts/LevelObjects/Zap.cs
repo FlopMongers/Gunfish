@@ -25,6 +25,6 @@ public class Zap : MonoBehaviour
         zappedFishes.Add(segment.gunfish);
         var direction = (segment.transform.position - transform.position).normalized;
         segment.gunfish.Hit(new FishHitObject(segment.index, segment.transform.position, direction, gameObject, zapDamage, 0));
-        // segment.gunfish.AddEffect(new Zap_Effect());
+        segment.gunfish.AddEffect(new Zap_Effect(segment.gunfish, zapDuration));
     }
 }

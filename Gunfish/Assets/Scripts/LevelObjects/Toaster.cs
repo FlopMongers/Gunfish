@@ -8,8 +8,6 @@ public class Toaster : Shootable
 
     public bool zapping;
 
-    HashSet<Gunfish> zappedFishes = new HashSet<Gunfish>();
-
     public float zapWaitTimer;
     Vector2 zapWaitTimerRange = new Vector2(6f, 10f);
     int waterMask = 0;

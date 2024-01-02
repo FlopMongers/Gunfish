@@ -128,6 +128,10 @@ public static class ExtensionMethods {
         return components.ToArray();
     }
 
+    public static float RandomInRange(this Vector2 range) {
+        return Random.Range(range.x, range.y);
+    }
+
     public static Vector3 RandomPointInBounds(this Bounds bounds) {
         return new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),

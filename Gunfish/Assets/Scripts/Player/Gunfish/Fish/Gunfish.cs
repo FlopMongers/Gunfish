@@ -98,11 +98,13 @@ public class Gunfish : MonoBehaviour {
         foreach (var effect in effectMap.Values) {
             effect.Update();
         }
-        foreach (var effect in EffectRemoveList) {
+        while (EffectRemoveList.Count > 0) {
+            var effect = EffectRemoveList[0];
             if (effectMap.ContainsKey(effect)) {
                 effectMap[effect].OnRemove();
                 effectMap.Remove(effect);
             }
+            EffectRemoveList.RemoveAt(0);
         }
         EffectRemoveList.Clear();
     }
@@ -129,8 +131,8 @@ public class Gunfish : MonoBehaviour {
         statusData.flopTimer = Mathf.Max(0f, statusData.flopTimer - delta);
     }
 
-    private void Movement() {
-        if (statusData == null || !statusData.CanMove)
+    public void Movement(bool forceMove=false) {
+        if (statusData == null || (!statusData.CanMove && !forceMove))
             return;
 
         // if underwater

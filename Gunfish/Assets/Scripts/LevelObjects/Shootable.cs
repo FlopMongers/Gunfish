@@ -73,7 +73,6 @@ public class Shootable : MonoBehaviour {
         health += amount;
         if (!damaged && (health > 0 || indestructible) && health <= maxHealth * damagedThreshold)
         {
-            print("DAMAGE ME");
             Damage();
         }
         OnHealthUpdated?.Invoke(health);
