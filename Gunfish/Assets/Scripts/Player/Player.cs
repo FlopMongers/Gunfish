@@ -16,6 +16,8 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
     public bool FreezeControls;
     public bool Active;
 
+    public int layer;
+
     private void OnEnable() {
 
     }
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
         gun = GetComponent<Gun>();
 
         playerNumber = ++playerCount;
+        layer = LayerMask.NameToLayer($"Player{playerNumber}");
 
         gameObject.name = $"Player{playerNumber}";
 
@@ -35,7 +38,6 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
     }
 
     public void SpawnGunfish(Vector3 spawnPosition) {
-        var layer = LayerMask.NameToLayer($"Player{playerNumber}");
         gunfish.Spawn(gunfishData, layer, spawnPosition);
         input.defaultActionMap = "Player";
     }
