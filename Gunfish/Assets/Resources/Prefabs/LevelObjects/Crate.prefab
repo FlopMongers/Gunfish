@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 1473432151152142590}
   - component: {fileID: 1473432151152142591}
   - component: {fileID: 1473432151152142588}
+  - component: {fileID: 8753669541030691776}
   m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
@@ -176,6 +177,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8753669541030691776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473432151152142584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb00cdccc0d135140832c752b1802717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupTuples:
+  - pickup: {fileID: 0}
+    probability: 0.5
+  - pickup: {fileID: 7765793743771778120, guid: aa3f0815a0ff3654fa91bcb0c8033764,
+      type: 3}
+    probability: 0.15
+  - pickup: {fileID: 992565516478791478, guid: 122d1df953103bd448c781178f5338c4, type: 3}
+    probability: 0.1
+  - pickup: {fileID: 9199789152994966328, guid: 24663d48aceb7ff4c8d8d5d22ba80db2,
+      type: 3}
+    probability: 0.25
+  defaultPickup: {fileID: 0}
 --- !u!1 &7492914906587697891
 GameObject:
   m_ObjectHideFlags: 0

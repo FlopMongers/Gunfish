@@ -248,7 +248,7 @@ public class Gunfish : MonoBehaviour {
     }
 
     public void UpdateHealth(float amount) {
-        statusData.health += amount;
+        statusData.health = Mathf.Clamp(statusData.health + amount, 0, data.maxHealth);
         OnHealthUpdated?.Invoke(statusData.health);
     }
 
