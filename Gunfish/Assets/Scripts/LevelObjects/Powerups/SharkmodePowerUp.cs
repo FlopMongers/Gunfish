@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 public class SharkmodePowerUp : PowerUp
 {
@@ -12,7 +9,7 @@ public class SharkmodePowerUp : PowerUp
 
 
     public override void PickUp(Gunfish gunfish) {
-        gunfish.AddEffect(new Sharkmode_Effect(gunfish, 5f));
+        gunfish.AddEffect(new Sharkmode_Effect(gunfish, sharkmodeDuration));
         base.PickUp(gunfish);
     }
     

@@ -20,6 +20,7 @@ public enum FXType {
     TitleScreenStartFX,
     SharkMode,
     Splash,
+    Invincibility,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {

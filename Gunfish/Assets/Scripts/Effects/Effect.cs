@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public enum EffectType { FlopModify, NoMove, Underwater, SharkMode, Zap };
+public enum EffectType { FlopModify, NoMove, Underwater, SharkMode, Zap, Invincibility };
 
 
 [Serializable]
@@ -147,6 +147,41 @@ public class Zap_Effect : TimedEffect {
     public override void OnRemove() {
         base.OnRemove();
         gunfish.RemoveEffect(EffectType.NoMove);
+    }
+}
+
+// invincibility effect
+// receive fish hit and nullify it
+// todo: invincibility fx object
+[Serializable]
+public class Invincibility_Effect : TimedEffect {
+
+    GameObject fx;
+
+    public Invincibility_Effect(Gunfish gunfish, float timer) : base(gunfish, timer) {
+        effectType = EffectType.Invincibility;
+    }
+
+    public override void OnAdd() {
+        base.OnAdd();
+        // subscribe to gunfish composite collision detection
+        gunfish.OnHit += OnHit;
+        // todo: spawn sharkmode music
+        fx = FX_Spawner.Instance.SpawnFX(FXType.Invincibility, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
+    }
+
+    public override void OnRemove() {
+        base.OnRemove();
+        // unsubscribe from composiite collision detection event
+        gunfish.OnHit -= OnHit;
+        // stop sharkmode music
+        // NOTE(Wyatt): stupid workaround.
+        // todo: fade out effect instead of just DELET
+        FX_Spawner.Instance.DestroyFX(fx);
+    }
+
+    void OnHit(Gunfish gunfish, FishHitObject hit) {
+        // eliminate damage?
     }
 }
 

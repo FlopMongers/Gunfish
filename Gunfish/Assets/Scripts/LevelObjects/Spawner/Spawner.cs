@@ -15,7 +15,12 @@ public class Spawner : MonoBehaviour {
     protected virtual void Start() {
         // from 0 to max
         spawnTimer = Random.Range(0, spawnTimerRange.y);
-        spawnArea = spawnArea ?? GetComponent<Collider2D>() ?? gameObject.AddComponent<BoxCollider2D>();
+        spawnArea = spawnArea ?? GetComponent<Collider2D>();
+        if (spawnArea == null) {
+            spawnArea = gameObject.AddComponent<BoxCollider2D>();
+            spawnArea.isTrigger = true;
+        }
+        print(spawnArea);
     }
 
     // Update is called once per frame
