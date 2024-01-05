@@ -113,6 +113,8 @@ GameObject:
   - component: {fileID: 2929395665185194197}
   - component: {fileID: 2929395665185194202}
   - component: {fileID: 2929395665185194196}
+  - component: {fileID: -7554973991860667415}
+  - component: {fileID: -6823867141460885957}
   m_Layer: 0
   m_Name: BeachBall
   m_TagString: Untagged
@@ -172,7 +174,39 @@ MonoBehaviour:
   maxHealth: 10
   damagedThreshold: 0
   damagedSprite: {fileID: 0}
+  indestructible: 0
   health: 8
   destroyFX: 0
   hitFX: 0
-  damageFX: 0
+  damagedFX: 0
+  handleCollisionDamage: 1
+  addDestroyer: 0
+  destroyer: {fileID: -7554973991860667415}
+--- !u!114 &-7554973991860667415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929395665185194203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a947cc0223e9b49b58be8cdae921ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6823867141460885957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929395665185194203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9b7bed155666c48a9dcd7617859308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fetchRenderersOnStart: 1
+  fadeRange: {x: 1, y: 1}
+  fadeMode: 0
+  fadeSpeed: 1

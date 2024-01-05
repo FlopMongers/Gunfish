@@ -27,6 +27,8 @@ public class Gunfish : MonoBehaviour {
     [HideInInspector]
     public Gun gun;
 
+    Destroyer destroyer;
+
     [HideInInspector]
     public Player player;
     public PlayerGameEvent OnDeath;
@@ -293,11 +295,15 @@ public class Gunfish : MonoBehaviour {
         ) * data.length;
         renderer = new GunfishRenderer(width, data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
+
+
+        //RootSegment.AddComponent<LineFader>();
+        destroyer = RootSegment.AddComponent<Destroyer>();
         // add composite detection handler and Init
         // add damage receiver
-        segments[0].CheckAddComponent<CollisionDamageReceiver>().gunfish = this;
-        segments[0].CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
-        groundDetector = segments[0].CheckAddComponent<GroundDetector>();
+        RootSegment.CheckAddComponent<CollisionDamageReceiver>().gunfish = this;
+        RootSegment.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
+        groundDetector = RootSegment.CheckAddComponent<GroundDetector>();
         groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layer);
 
         spawned = true;
@@ -305,7 +311,7 @@ public class Gunfish : MonoBehaviour {
 
         var gunSprite = Instantiate(
             data.gun.gunSpritePrefab,
-            segments[0].transform
+            RootSegment.transform
         ).transform;
         gunSprite.transform.localPosition = new Vector3(
             data.gunOffset.position.x,
@@ -334,6 +340,7 @@ public class Gunfish : MonoBehaviour {
     public void Kill() { statusData.health = 0f; }
 
     public void Despawn(bool animated) {
+        // if animated, then fade and destroy
         Destroy(gun.gameObject);
         DespawnSegments(animated);
     }
@@ -342,18 +349,12 @@ public class Gunfish : MonoBehaviour {
         while (segments.Count > 0) {
             var segment = segments[0];
             segments.Remove(segment);
-            DespawnSegment(segment, animated);
+            if (!animated)
+                Destroy(segment);
+            //DespawnSegment(segment, animated);
         }
-    }
-
-    private void DespawnSegment(GameObject segment, bool animated) {
-        if (animated) {
-            // Todo: replace with cool animated fish guts or something
-            Destroy(segment);
-        }
-        else {
-            Destroy(segment);
-        }
+        if (animated)
+            destroyer.GETTEM();
     }
 
     public void Garbulate() {

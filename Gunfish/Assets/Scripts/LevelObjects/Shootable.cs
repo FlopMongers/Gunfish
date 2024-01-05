@@ -23,6 +23,11 @@ public class Shootable : MonoBehaviour {
 
     public bool handleCollisionDamage = true;
 
+    public bool addDestroyer;
+    public Destroyer destroyer;
+
+    bool dead;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -39,6 +44,12 @@ public class Shootable : MonoBehaviour {
             healthBar.Init(this);
         }
 
+        if (addDestroyer) {
+            destroyer = gameObject.AddComponent<Destroyer>();
+            gameObject.AddComponent<Fader>();
+        }
+        destroyer = destroyer ?? GetComponent<Destroyer>();
+
         // check for collision damage handler and receiver and collision detectors
         if (handleCollisionDamage) {
             gameObject.CheckAddComponent<CollisionDamageDealer>();
@@ -52,11 +63,19 @@ public class Shootable : MonoBehaviour {
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (dead)
+            return;
         if (health <= 0 && !indestructible)
         {
+            dead = true;
             OnDead?.Invoke();
             FX_Spawner.Instance?.SpawnFX(destroyFX, transform.position, transform.up);
-            Destroy(gameObject);
+            if (destroyer != null) {
+                destroyer.GETTEM();
+            }
+            else {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -70,7 +89,7 @@ public class Shootable : MonoBehaviour {
     }
 
     public void UpdateHealth(float amount) {
-        health += amount;
+        health = Mathf.Clamp(health+amount, 0, maxHealth);
         if (!damaged && (health > 0 || indestructible) && health <= maxHealth * damagedThreshold)
         {
             Damage();

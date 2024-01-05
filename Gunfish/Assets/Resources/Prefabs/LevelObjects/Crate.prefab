@@ -97,6 +97,8 @@ GameObject:
   - component: {fileID: 1473432151152142591}
   - component: {fileID: 1473432151152142588}
   - component: {fileID: 8753669541030691776}
+  - component: {fileID: 4528336107731716631}
+  - component: {fileID: -5976797666722800623}
   m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
@@ -142,6 +144,8 @@ MonoBehaviour:
   hitFX: 8
   damagedFX: 0
   handleCollisionDamage: 1
+  addDestroyer: 0
+  destroyer: {fileID: 4528336107731716631}
 --- !u!114 &1473432151152142591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +205,34 @@ MonoBehaviour:
       type: 3}
     probability: 0.25
   defaultPickup: {fileID: 0}
+--- !u!114 &4528336107731716631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473432151152142584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a947cc0223e9b49b58be8cdae921ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5976797666722800623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473432151152142584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9b7bed155666c48a9dcd7617859308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fetchRenderersOnStart: 1
+  fadeRange: {x: 1, y: 1}
+  fadeMode: 0
+  fadeSpeed: 1
 --- !u!1 &7492914906587697891
 GameObject:
   m_ObjectHideFlags: 0

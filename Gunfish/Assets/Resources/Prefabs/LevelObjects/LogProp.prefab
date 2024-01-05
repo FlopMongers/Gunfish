@@ -108,6 +108,8 @@ GameObject:
   - component: {fileID: 5203133393737141084}
   - component: {fileID: 5203133393737141085}
   - component: {fileID: 5203133393737141086}
+  - component: {fileID: -8853610127646388208}
+  - component: {fileID: 5279993703889849825}
   m_Layer: 0
   m_Name: LogProp
   m_TagString: Untagged
@@ -153,6 +155,8 @@ MonoBehaviour:
   hitFX: 8
   damagedFX: 0
   handleCollisionDamage: 1
+  addDestroyer: 0
+  destroyer: {fileID: -8853610127646388208}
 --- !u!114 &5203133393737141085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +192,34 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-8853610127646388208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203133393737141082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a947cc0223e9b49b58be8cdae921ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5279993703889849825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203133393737141082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9b7bed155666c48a9dcd7617859308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fetchRenderersOnStart: 1
+  fadeRange: {x: 1, y: 1}
+  fadeMode: 0
+  fadeSpeed: 1
 --- !u!1 &5203133394114837438
 GameObject:
   m_ObjectHideFlags: 0
