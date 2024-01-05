@@ -17,16 +17,16 @@ MonoBehaviour:
   spriteMat: {fileID: 2100000, guid: e92757aca63a29347aa396180400ba5d, type: 2}
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
   sprite: {fileID: 21300000, guid: 092b5f07a8340c84e9fc07643296fb3d, type: 3}
-  mass: 1
+  mass: 5
   fixedJointDamping: 0.219
   fixedJointFrequency: 32
-  flopForce: 5
-  groundTorque: 5
-  airTorque: 20
+  flopForce: 25
+  groundTorque: 25
+  airTorque: 100
   maxAerialAngularVelocity: 500
   maxUnderwaterVelocity: 10
-  underwaterForce: 30
-  underwaterTorque: 6
+  underwaterForce: 150
+  underwaterTorque: 30
   waterZoomSpeedThreshold: 10
   waterZoomAngleThreshold: 30
   waterZoomForce: 4
