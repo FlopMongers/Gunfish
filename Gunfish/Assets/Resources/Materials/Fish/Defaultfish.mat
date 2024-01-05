@@ -11,6 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7ddc8899102bd604496b178cb3382f26, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
+  - PIXELSNAP_ON
   - _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -63,7 +64,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - PixelSnap: 0
+    - PixelSnap: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -75,6 +76,8 @@ Material:
     - _Metallic: 0
     - _Mode: 3
     - _OcclusionStrength: 1
+    - _Outline: 0
+    - _OutlineWidth: 0.01
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -85,5 +88,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
