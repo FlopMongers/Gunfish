@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIController {
-    public static int playerCount = 0;
-    public int playerNumber;
+    public int PlayerNumber { get; private set; }
 
     public GunfishData gunfishData;
     private Gunfish gunfish;
@@ -22,23 +22,28 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
 
     }
 
-    private void Start() {
+    public void Initialize(int playerNumber) {
         DontDestroyOnLoad(gameObject);
+        
+        PlayerNumber = playerNumber;
 
         input = GetComponent<PlayerInput>();
         gunfish = GetComponent<Gunfish>();
         gun = GetComponent<Gun>();
 
-        playerNumber = ++playerCount;
-        layer = LayerMask.NameToLayer($"Player{playerNumber}");
+        layer = LayerMask.NameToLayer($"Player{PlayerNumber+1}");
 
-        gameObject.name = $"Player{playerNumber}";
+        gameObject.name = $"Player{PlayerNumber}";
 
         input.defaultActionMap = "UI";
     }
 
     public void SpawnGunfish(Vector3 spawnPosition) {
+        var color = PlayerManager.Instance.playerColors[PlayerNumber];
         gunfish.Spawn(gunfishData, layer, spawnPosition);
+        var material = gunfish.renderer.LineRenderer.material;
+        material.SetColor("_OutlineColor", color);
+        material.SetFloat("_OutlineWidth", 0.01f);
         input.defaultActionMap = "Player";
     }
 

@@ -19,7 +19,8 @@ public class Gunfish : MonoBehaviour {
     public GameObject MiddleSegment { get { return (segments.Count > 0) ? segments[MiddleSegmentIndex] : null; } }
     public GameObject RootSegment { get { return (segments.Count > 0) ? segments[0]: null; } }
     private GunfishGenerator generator;
-    private new GunfishRenderer renderer;
+    [HideInInspector]
+    public new GunfishRenderer renderer;
     [HideInInspector]
     public GunfishRigidbody body;
     GroundDetector groundDetector;

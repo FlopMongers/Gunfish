@@ -4,6 +4,8 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerManager : PersistentSingleton<PlayerManager> {
+    public List<Color> playerColors;
+    
     public List<Player> Players { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
     public List<PlayerInput> PlayerInputs { get; private set; }
@@ -27,11 +29,13 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
         int playerIndex = 0;
         inputDevices.ForEach(device => {
-            var playerInput = inputManager.JoinPlayer(playerIndex: playerIndex++, pairWithDevice: device);
+            var playerInput = inputManager.JoinPlayer(playerIndex: playerIndex, pairWithDevice: device);
             var player = playerInput.GetComponent<Player>();
+            player.Initialize(playerIndex);
             PlayerInputs.Add(playerInput);
             Players.Add(player);
             PlayerFish.Add(GameManager.Instance.GunfishDataList.gunfishes[0]);
+            playerIndex++;
         });
     }
 

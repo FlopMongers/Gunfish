@@ -13,7 +13,7 @@ public class TeamDeathMatchManager : DeathMatchManager
         base.Initialize(parameters);
         // player 1 and player 3 are on same team and players 2 and 4 are on same team :P
         foreach (var player in parameters.activePlayers) {
-            playerTeamMap[player] = player.playerNumber % 2;
+            playerTeamMap[player] = player.PlayerNumber % 2;
         }
     }
 
@@ -50,7 +50,7 @@ public class TeamDeathMatchManager : DeathMatchManager
             text = "No team wins?";
         }
         else if (winners.Count == 2) {
-            text = $"Players {winners[0].playerNumber} and {winners[1].playerNumber} win!!!";
+            text = $"Players {winners[0].PlayerNumber} and {winners[1].PlayerNumber} win!!!";
         }
         ui.ShowFinalScores(text, playerScores, winners);
     }

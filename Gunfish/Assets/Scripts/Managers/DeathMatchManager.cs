@@ -131,7 +131,7 @@ public class DeathMatchManager : MatchManager {
     }
 
     protected virtual void ShowLevelWinner(Player player) {
-        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.playerNumber} wins!", playerScores);
+        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.PlayerNumber} wins!", playerScores);
     }
 
     public void UpdateScore(Player player, int scoreDelta) {
@@ -160,7 +160,7 @@ public class DeathMatchManager : MatchManager {
             text = "No one wins?";
         }
         else if (winners.Count == 1) {
-            text = $"Player {winners[0].playerNumber} wins!!!";
+            text = $"Player {winners[0].PlayerNumber} wins!!!";
         }
         ui.ShowFinalScores(text, playerScores, winners);
     }
