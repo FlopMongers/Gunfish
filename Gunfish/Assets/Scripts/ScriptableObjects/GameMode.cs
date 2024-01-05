@@ -8,4 +8,5 @@ public class GameMode : ScriptableObject {
     public Texture2D image;
     public GameObject matchManagerPrefab;
     public SceneList levels;
+    public int roundsPerMatch = 3;
 }
