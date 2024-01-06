@@ -10,6 +10,9 @@ public class Destroyer : MonoBehaviour
     public FXType destroyFX = FXType.Poof;
     public SpriteRenderer spriteRenderer;
 
+    float barticleToPoofRatio = 0.5f;
+    float barticleExplosionForce = 5f;
+
     public void GETTEM() {
         if (destroying)
             return;
@@ -24,6 +27,23 @@ public class Destroyer : MonoBehaviour
             shape.scale = Vector3.one * shortSide;
             var em = fx.emission;
             em.burstCount *= Mathf.RoundToInt((spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y)+1 - (longSide / shortSide));
+            for (int i = 0; i < em.burstCount*barticleToPoofRatio; i++) {
+                var barticle = Instantiate(FX_Spawner.Instance.barticles.GetRandom(), spriteRenderer.bounds.RandomPointInBounds(), Quaternion.identity);
+                barticle.transform.FindDeepChild("Mask").transform.localScale *= shortSide;
+                var barticleRenderer = barticle.GetComponentInChildren<SpriteRenderer>();
+                barticleRenderer.sprite = spriteRenderer.sprite;
+                barticleRenderer.transform.position = barticleRenderer.bounds.RandomPointInBounds();
+                barticleRenderer.transform.Rotate(Vector3.forward * Random.Range(0, 360));
+                barticle.GetComponent<Rigidbody2D>().AddExplosionForce(barticleExplosionForce, transform.position, shortSide);
+                var barticleFader = barticle.GetComponent<Fader>();
+                barticleFader.baseFadeSpeed = 0.5f;
+                barticleFader.FadeAndDestroy();
+            }
+            // spawn barticles
+            // scale up barticles (*= shortSide)
+            // apply sprite texture
+            // offset sprite randomly and apply rotation
+            // apply explosive force
             fx.Play();
         }
 
@@ -35,8 +55,7 @@ public class Destroyer : MonoBehaviour
         }
         var fader = gameObject.GetComponent<Fader>();
         if (fader != null) {
-            fader.SetTarget(new Vector2(1, 0));
-            fader.OnFadeDone += delegate { Destroy(gameObject); };
+            fader.FadeAndDestroy();
         }
         else {
             Destroy(gameObject);

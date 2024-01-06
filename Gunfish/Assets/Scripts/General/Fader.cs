@@ -73,6 +73,10 @@ public class Fader : MonoBehaviour
         fadeSpeed = baseFadeSpeed * Mathf.Abs(fadeRange.x - fadeRange.y);
         if (!fetchRenderersOnStart)
             FetchRenderers();
+    }
 
+    public void FadeAndDestroy() {
+        SetTarget(Vector2.right, FadeMode.Fade);
+        OnFadeDone += delegate { Destroy(gameObject); };
     }
 }

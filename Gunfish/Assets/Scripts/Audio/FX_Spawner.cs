@@ -62,6 +62,8 @@ public class FX_Spawner : PersistentSingleton<FX_Spawner> {
     public float freezeTime;
     bool paused;
 
+    public List<GameObject> barticles = new List<GameObject>();
+
     CinemachineImpulseSource impulseSource;
 
     public override void Initialize() {

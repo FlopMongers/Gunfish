@@ -285,6 +285,10 @@ public static class DictionaryExtension {
         }
     }
 
+    public static T GetRandom<T>(this IList<T> list) {
+        return list[Random.Range(0, list.Count)];
+    } 
+
     public static IList<T> Swap<T>(this IList<T> list, int indexA, int indexB) {
         T tmp = list[indexA];
         list[indexA] = list[indexB];

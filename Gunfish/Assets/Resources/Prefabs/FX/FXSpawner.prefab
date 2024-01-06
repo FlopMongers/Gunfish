@@ -88,11 +88,13 @@ MonoBehaviour:
     key: 0
     trackKey: 0
     fx: {fileID: 534546817594487525, guid: 89afa508187e177409eac32811e5d5eb, type: 3}
-  healthUIPrefab: {fileID: 8923636505052693735, guid: 7beff6df4ec50224f88d256e40608484,
+  healthUIPrefab: {fileID: 3316179194724269722, guid: e4060d0c291598348b477c899101e33c,
     type: 3}
-  fishHealthUIPrefab: {fileID: 1573270573997296394, guid: e4060d0c291598348b477c899101e33c,
+  fishHealthUIPrefab: {fileID: 612541404503309569, guid: 7beff6df4ec50224f88d256e40608484,
     type: 3}
   freezeTime: 0
+  barticles:
+  - {fileID: 592730356529533964, guid: eaef67cf0e3ef19408948ea5056725e4, type: 3}
 --- !u!114 &5063042218386083386
 MonoBehaviour:
   m_ObjectHideFlags: 0
