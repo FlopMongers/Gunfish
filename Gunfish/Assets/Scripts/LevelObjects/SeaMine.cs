@@ -35,13 +35,6 @@ public class SeaMine : MonoBehaviour {
         shootable.OnDead += Explode;
     }
 
-    private void Update() {
-        if (GameManager.debug && Input.GetKeyDown(KeyCode.End)) {
-            Shootable shootable = GetComponent<Shootable>();
-            shootable.UpdateHealth(-1 * shootable.health);
-        }
-    }
-
     void Explode() {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, explodeRadius, Vector2.zero);
 
