@@ -124,24 +124,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &959753594 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8494292450251231259, guid: c367644c428800f4e8afcb2a496d487a,
-    type: 3}
-  m_PrefabInstance: {fileID: 5673737387809711075}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &959753596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 959753594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cde19f30e383b1b4fa7b0f1e948ca3b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1772869125
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,80 +345,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[0].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[0].b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[0].g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[0].r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[1].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[1].b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[1].g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[2].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[2].g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[3].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[3].g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: playerColors.Array.data[3].r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_Name
       value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419726, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}

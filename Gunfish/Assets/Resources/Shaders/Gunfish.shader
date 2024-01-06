@@ -79,7 +79,7 @@ Shader "Custom/Gunfish"
                 if (_OutlineFrequency > 0.00000001) {
                     // Sinusoidally move between -1 to 1 based on frequency
                     outlineMultiplier = sin(2 * 3.1415926535 * _OutlineFrequency * time);
-                    // clamp sin from 0 to 1
+                    // Map sin from 0 to 1
                     outlineMultiplier = 0.5 * (1.0 + outlineMultiplier);
                     // sin^2
                     outlineMultiplier *= outlineMultiplier;
@@ -91,7 +91,7 @@ Shader "Custom/Gunfish"
 
             float4 sampleColors(v2f IN)
             {
-                // sample color around our pixel, size depends on _OutlineWidth
+                // Sample color around our pixel, size depends on _OutlineWidth
                 fixed4 outlineColor = fixed4(0,0,0,0);
                 for (int j = -1; j <= 1; j++)
                 {
@@ -100,7 +100,7 @@ Shader "Custom/Gunfish"
                         outlineColor += tex2D(_MainTex, IN.texcoord + fixed2(i,j) * _OutlineWidth);
                     }
                 }
-                // average sampled colors
+                // Average sampled colors
                 outlineColor /= 9;
                 return outlineColor;
             }
@@ -108,12 +108,12 @@ Shader "Custom/Gunfish"
             fixed4 frag(v2f IN) : SV_Target
             {
                 fixed4 c = tex2D(_MainTex, IN.texcoord);
-                // apply alpha test manually if we're applying outline
+                // Apply alpha test manually if we're applying outline
                 if (c.a < 0.5) discard; 
 
                 fixed4 outlineColor = sampleColors(IN);
 
-                // if alpha of pixels around is less than ours then it's outline
+                // If alpha of pixels around is less than ours then it is an outline
                 if (outlineColor.a < c.a) {
                     float outlineMultiplier = getOutlineMultiplier();
                     float outlineAmount = _OutlineAlpha * outlineMultiplier;

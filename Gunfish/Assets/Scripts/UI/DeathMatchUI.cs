@@ -10,7 +10,6 @@ public class DeathMatchUI : MonoBehaviour {
     [Header("UI References")]
     
     [SerializeField] private List<DeathMatchUIPlayerWidget> playerWidgets;
-    [SerializeField] private List<Color> playerColors;
     [SerializeField] private CanvasGroup playerPanelsGroup;
     [SerializeField] private List<PlayerPanel> playerPanels;
 
@@ -39,7 +38,8 @@ public class DeathMatchUI : MonoBehaviour {
         for (int i = 0; i < playerWidgets.Count; i++) {
             if (players.Count > i && players[i] != null) {
                 playerWidgets[i].gameObject.SetActive(true);
-                playerWidgets[i].SetColor(playerColors[i]);
+                var color = PlayerManager.Instance.playerColors[i];
+                playerWidgets[i].SetColor(color);
                 playerWidgets[i].InitializeLevel(initialStockCount, players[i]);
             }
         }
