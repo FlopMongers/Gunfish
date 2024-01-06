@@ -41,11 +41,6 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private float clipTimer = 0f;
 
     protected void Update() {
-
-        if (GameManager.debug && Input.GetKeyDown(KeyCode.M)) {
-            clipTimer = 0f;
-        }
-
         if (clipTimer >= 0f) {
             clipTimer -= Time.deltaTime;
         } else if (!transitioning) {
@@ -133,12 +128,5 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         audioSources[targetSourceIndex].volume = 1f;
         activeSourceIndex = targetSourceIndex;
         transitioning = false;
-    }
-
-    private void OnGUI() {
-        if (!GameManager.debug)
-            return;
-
-        GUI.TextField(new Rect(0f, 0f, 200f, 20f), "Press M to change music track.");
     }
 }
