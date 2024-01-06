@@ -69,10 +69,6 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         if (!GameManager.debug) {
             return;
         }
-
-        if (Input.GetKeyDown(KeyCode.P)) {
-            PlayClip(clip);
-        }
     }
 
     protected override void OnDestroy() {

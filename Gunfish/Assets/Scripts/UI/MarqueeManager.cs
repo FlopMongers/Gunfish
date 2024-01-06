@@ -43,15 +43,6 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         textAsset.SetText("");
     }
 
-    private void Update() {
-        UpdateDebug();
-    }
-
-    private void UpdateDebug() {
-        if (!GameManager.debug)
-            return;
-    }
-
     public void EnqueueRandomQuip() {
         if (quips == null || quips.Length == 0) {
             Debug.LogWarning("Could not enqueue quip. Make sure you have at least one in the MarqueeManager");
@@ -82,11 +73,6 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         }
     }
 
-    private void OnGUI() {
-        if (!GameManager.debug)
-            return;
-        GUI.TextField(new Rect(0f, 20f, 200f, 20f), "Press P to start a countdown");
-    }
 
     private IEnumerator Scroll() {
         while (queue.Count > 0) {
