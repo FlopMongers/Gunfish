@@ -17,7 +17,7 @@ public class FishHook : MonoBehaviour {
 
     public Transform roofPosition;
 
-    Vector3 lineStartPosition, lineTargetPosition, detectorStartPosition, detectorTargetPosition;
+    public Vector3 lineStartPosition, lineTargetPosition, detectorStartPosition, detectorTargetPosition;
 
     public float jiggle_timer;
     float jiggleDuration = 10f, jiggleThreshold = 4f, turboMode = 2f;
@@ -134,6 +134,7 @@ public class FishHook : MonoBehaviour {
         if (fishJointMap.ContainsKey(segment.gunfish))
             return;
 
+        segment.gunfish.MiddleSegment.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         // add component and add to map
         var joint = gameObject.AddComponent<FixedJoint2D>();
         fishJointMap[segment.gunfish] = joint;

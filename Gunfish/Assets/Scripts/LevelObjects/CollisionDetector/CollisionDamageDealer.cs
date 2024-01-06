@@ -93,8 +93,9 @@ public class CollisionDamageDealer : MonoBehaviour {
                 removeList.Add(target.Key);
                 checkCollisions--;
                 // apply damage to the target
-                if (target.Key != null) { 
-                    target.Key.GetComponent<CollisionDamageReceiver>().Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
+                if (target.Key != null) {
+                    var receiver = target.Key.GetComponent<CollisionDamageReceiver>();
+                    receiver?.Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
                 }
             }
         }
