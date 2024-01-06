@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 6064448203793190067}
   - component: {fileID: 4214395734261543650}
   - component: {fileID: 5263703348672609526}
+  - component: {fileID: 1076301457815442992}
   m_Layer: 0
   m_Name: SharkmodePowerUp
   m_TagString: Untagged
@@ -131,8 +132,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 207f3fecfe900354ca81ae756bb72ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLifetime: 10
+  threshold: 3
   detector: {fileID: 4214395734261543650}
   PickupFX: 0
+  fader: {fileID: 1076301457815442992}
   sharkmodeDuration: 15
 --- !u!114 &4214395734261543650
 MonoBehaviour:
@@ -175,3 +179,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
+--- !u!114 &1076301457815442992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765793743771778120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9b7bed155666c48a9dcd7617859308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fetchRenderersOnStart: 1
+  fadeRange: {x: 1, y: 1}
+  fadeMode: 0
+  fadeSpeed: 1

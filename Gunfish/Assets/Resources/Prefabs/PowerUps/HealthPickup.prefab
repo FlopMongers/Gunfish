@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 6730063878003899270}
   - component: {fileID: 4536601058894190739}
   - component: {fileID: 917129231440329649}
+  - component: {fileID: -3639418762906846276}
   m_Layer: 0
   m_Name: HealthPickup
   m_TagString: Untagged
@@ -172,6 +173,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda1a9e8494de9e46920b0757260c6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLifetime: 10
+  threshold: 3
   detector: {fileID: 4536601058894190739}
   PickupFX: 0
+  fader: {fileID: -3639418762906846276}
   healthAmount: 5
+--- !u!114 &-3639418762906846276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199789152994966328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9b7bed155666c48a9dcd7617859308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fetchRenderersOnStart: 1
+  fadeRange: {x: 1, y: 1}
+  fadeMode: 0
+  fadeSpeed: 1

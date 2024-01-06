@@ -16,7 +16,8 @@ public class Fader : MonoBehaviour
 
     public FadeMode fadeMode = FadeMode.Stop;
 
-    public float fadeSpeed = 1f;
+    public float baseFadeSpeed = 2f;
+    float fadeSpeed = 2f;
     protected float fadeValue;
 
     public GameEvent OnFadeDone;
@@ -40,7 +41,7 @@ public class Fader : MonoBehaviour
         SetRenderersAlpha();
         // move towards target
         var delta = ((fadeValue > fadeRange.y) ? -fadeSpeed : fadeSpeed) * Time.deltaTime;
-        if (Mathf.Abs(fadeRange.y - fadeValue) < delta)
+        if (Mathf.Abs(fadeRange.y - fadeValue) < Mathf.Abs(delta))
             delta = fadeRange.y - fadeValue;
         fadeValue += delta;
         if (Mathf.Approximately(fadeValue, fadeRange.y)) {
@@ -69,6 +70,7 @@ public class Fader : MonoBehaviour
     public void SetTarget(Vector2 fadeRange, FadeMode fadeMode=FadeMode.Fade) {
         this.fadeMode = fadeMode;
         this.fadeRange = fadeRange;
+        fadeSpeed = baseFadeSpeed * Mathf.Abs(fadeRange.x - fadeRange.y);
         if (!fetchRenderersOnStart)
             FetchRenderers();
 

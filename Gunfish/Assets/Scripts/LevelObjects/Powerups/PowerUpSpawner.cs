@@ -10,13 +10,21 @@ public class PowerUpSpawner : Spawner
         active = false;
         spawnedPowerUp = base.Spawn().GetComponent<PowerUp>();
         spawnedPowerUp.detector.OnFishTriggerEnter += OnFishPickUp;
+        spawnedPowerUp.OnPowerUpGone += RestartSpawner;
         return spawnedPowerUp.gameObject;
     }
 
     public void OnFishPickUp(GunfishSegment segment, Collider2D collider) {
+        RestartSpawner();
+    }
+
+    void RestartSpawner() {
         // unsubscribe and restart timer
         active = true;
-        spawnedPowerUp.detector.OnFishTriggerEnter -= OnFishPickUp;
+        if (spawnedPowerUp != null) {
+            spawnedPowerUp.detector.OnFishTriggerEnter -= OnFishPickUp;
+            spawnedPowerUp.OnPowerUpGone -= RestartSpawner;
+        }
         spawnTimer = Random.Range(spawnTimerRange.x, spawnTimerRange.y);
     }
 }

@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 3391077587602685832}
   - component: {fileID: 5521207299899137181}
   - component: {fileID: 7519910023005534810}
+  - component: {fileID: -2530516226392320633}
   m_Layer: 0
   m_Name: InvincibilityPowerUp
   m_TagString: Untagged
@@ -172,6 +173,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e763ba8b986460642861db2332203828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLifetime: 10
+  threshold: 3
   detector: {fileID: 5521207299899137181}
   PickupFX: 0
+  fader: {fileID: -2530516226392320633}
   invincibilityDuration: 10
+--- !u!114 &-2530516226392320633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992565516478791478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9b7bed155666c48a9dcd7617859308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fetchRenderersOnStart: 1
+  fadeRange: {x: 1, y: 1}
+  fadeMode: 0
+  fadeSpeed: 1
