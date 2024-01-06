@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MaterialType { Wood, Fish, Inflatable, Metal, Sand, };
+public enum MaterialType { Wood, Fish, Inflatable, Metal, Sand, Rock };
 
 [Serializable]
 public class EnumTuple<T, K> {
@@ -15,6 +15,7 @@ public class EnumTuple<T, K> {
 
 public class FX_CollisionHandler : Singleton<FX_CollisionHandler> {
     public List<EnumTuple<MaterialType, FXType>> shootMapList = new List<EnumTuple<MaterialType, FXType>>();
+    // when you shoot a material, what fx should happen
     Dictionary<MaterialType, FXType> shootMap = new Dictionary<MaterialType, FXType>();
 
     public List<EnumTuple<MaterialType, FXType>> defaultCollisionMapList = new List<EnumTuple<MaterialType, FXType>>();

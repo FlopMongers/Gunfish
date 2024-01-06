@@ -163,6 +163,7 @@ public class Gunfish : MonoBehaviour {
         body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
         RotateMovement(input, index, data.groundTorque, ForceMode2D.Impulse);
         // play flop
+        // TODO play correct flop sound depending on material
         FX_Spawner.Instance?.SpawnFX(FXType.Flop, segments[index].transform.position, Quaternion.identity);
     }
 

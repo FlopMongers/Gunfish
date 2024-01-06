@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipCollision: 0
-  materialType: 4
+  materialType: 5
 --- !u!50 &3022101858175218370
 Rigidbody2D:
   serializedVersion: 4
@@ -295,7 +295,7 @@ MonoBehaviour:
   fetchRenderersOnStart: 1
   fadeRange: {x: 1, y: 1}
   fadeMode: 0
-  fadeSpeed: 1
+  baseFadeSpeed: 2
 --- !u!114 &7563243773525509806
 MonoBehaviour:
   m_ObjectHideFlags: 0
