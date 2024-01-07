@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,16 @@ public class RockSpawner : MonoBehaviour
     [SerializeField] private float averageSecondsBetweenRocks = 1f;
     [Range(10f, 60f)]
     [SerializeField] private float averageSecondsBetweenAvalanches = 10f;
+    private CinemachineImpulseSource impulseSource;
     
+    private float avalancheStartTime;
+    private float avalancheEndTime;
+    private float nextImpulseTime;
 
     // Start is called before the first frame update
     void Start() {
-        
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        avalancheStartTime = Time.time + averageSecondsBetweenAvalanches + Random.Range(-2f, 2f);
     }
 
     // Update is called once per frame
@@ -31,8 +37,11 @@ public class RockSpawner : MonoBehaviour
     }
 
     void UpdateNormal() {
-        if (Random.value < Time.deltaTime / averageSecondsBetweenAvalanches) {
+        if (Time.time > avalancheStartTime) {
             avalancheIsActive = true;
+            var avalancheDuration = averageAvalancheDuration + Random.Range(-2f, 2f);
+            avalancheEndTime = Time.time + avalancheDuration;
+            nextImpulseTime = 0f;
         }
     }
 
@@ -40,8 +49,14 @@ public class RockSpawner : MonoBehaviour
         if (Random.value < Time.deltaTime / averageSecondsBetweenRocks) {
             SpawnRock();
         }
+        
+        if (Time.time > nextImpulseTime) {
+            nextImpulseTime += impulseSource.m_ImpulseDefinition.m_ImpulseDuration;
+            impulseSource.GenerateImpulse();
+        }
 
-        if (Random.value < Time.deltaTime / averageAvalancheDuration) {
+        if (Time.time > avalancheEndTime) {
+            avalancheStartTime = Time.time + averageSecondsBetweenAvalanches + Random.Range(-2f, 2f);
             avalancheIsActive = false;
         }
     }
