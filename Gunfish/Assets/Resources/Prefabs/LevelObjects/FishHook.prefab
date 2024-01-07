@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 118637949
-  m_SortingLayer: 3
+  m_SortingLayer: -4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ea1a38c2e6a2ff44996d4bdfb5cee920, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -185,6 +185,10 @@ MonoBehaviour:
   shaker: {fileID: 7545743364592495598}
   line: {fileID: 7545743364836813718}
   roofPosition: {fileID: 7545743364561101635}
+  lineStartPosition: {x: 0, y: 0, z: 0}
+  lineTargetPosition: {x: 0, y: 0, z: 0}
+  detectorStartPosition: {x: 0, y: 0, z: 0}
+  detectorTargetPosition: {x: 0, y: 0, z: 0}
   jiggle_timer: 0
   zooming: 0
 --- !u!50 &7545743364592495596
@@ -217,8 +221,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7545743364645399162}
-  - component: {fileID: 7545743364645399163}
   - component: {fileID: 7545743364645399164}
+  - component: {fileID: 645845959090368992}
   m_Layer: 0
   m_Name: Hook
   m_TagString: Untagged
@@ -242,32 +246,6 @@ Transform:
   m_Father: {fileID: 7545743364836813720}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &7545743364645399163
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7545743364645399165}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.4, y: 1.5}
-  m_EdgeRadius: 0
 --- !u!114 &7545743364645399164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +261,22 @@ MonoBehaviour:
   DetectCollision: 0
   DetectTrigger: 1
   colliders: []
+--- !u!58 &645845959090368992
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7545743364645399165}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.6}
+  serializedVersion: 2
+  m_Radius: 0.3
 --- !u!1 &7545743364836813721
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +349,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 118637949
-  m_SortingLayer: 3
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 25, z: 0}
