@@ -23,8 +23,8 @@ public class HurtBox : MonoBehaviour {
         foreach (Gunfish fish in hurtFish) {
             float frameDamage = damage * Time.deltaTime;
             print("Hurting " + fish.name + " for " + frameDamage);
-            fish.UpdateHealth(-frameDamage);
-
+            fish.Hit(new FishHitObject(0, transform.position, Vector2.zero, gameObject, frameDamage, 0));
+            //fish.UpdateHealth(-frameDamage);
             if (!fish.statusData.alive) {
                 print("They dead");
                 fishesToRemove.Add(fish);

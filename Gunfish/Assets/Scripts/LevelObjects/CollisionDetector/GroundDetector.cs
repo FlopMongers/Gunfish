@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundDetector : MonoBehaviour
@@ -15,6 +16,17 @@ public class GroundDetector : MonoBehaviour
         compositeCollisionDetector.OnComponentCollideExit += HandleCollisionExit;
     }
 
+    private void Update() {
+        List<GameObject> toRemove = new List<GameObject>();
+        foreach (var pair in collisionTracker.tracker) {
+            if (pair.Key == null)
+                toRemove.Add(pair.Key);
+        }
+        foreach (var removeObject in toRemove) {
+            collisionTracker.tracker.Remove(removeObject);
+        }
+    }
+
     void HandleCollisionEnter(GameObject src, Collision2D collision) {
         if (groundMask == (groundMask | (1 << collision.transform.gameObject.layer)))
             collisionTracker.AddTarget(src, collision);
@@ -25,7 +37,7 @@ public class GroundDetector : MonoBehaviour
             return;
 
         collisionTracker.tracker[src].numCollisions--;
-        if (collisionTracker.tracker[src].numCollisions == 0)
+        if (collisionTracker.tracker[src].numCollisions <= 0)
             collisionTracker.tracker.Remove(src);
     }
 
