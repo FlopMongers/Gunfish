@@ -22,6 +22,7 @@ public class DeathMatchManager : MatchManager {
     public override void Initialize(GameParameters parameters) {
         foreach (var player in parameters.activePlayers) {
             playerScores[player] = 0;
+            Debug.Log("Player Score: " + playerScores[player]);
         }
         ui = gameObject.GetComponentInChildren<DeathMatchUI>();
         // ui.OnLoadingStart();
