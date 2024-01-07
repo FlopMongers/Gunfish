@@ -65,6 +65,7 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 1
+    - _Alpha: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -79,7 +80,7 @@ Material:
     - _Outline: 0
     - _OutlineAlpha: 1
     - _OutlineFrequency: 0
-    - _OutlineWidth: 0.01
+    - _OutlineWidth: 0.02
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

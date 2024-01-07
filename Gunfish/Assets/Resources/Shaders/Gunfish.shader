@@ -3,7 +3,7 @@ Shader "Custom/Gunfish"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Color ("Tint", Color) = (1,1,1,1)
+        _Alpha ("Alpha", Range (0.0, 1.0)) = 1.0
         _OutlineColor ("Outline Color", Color) = (1,1,1,1)
         _OutlineWidth ("Outline Width", Range (0.0, 0.03)) = .01
         _OutlineAlpha ("Outline Alpha", Range (0.0, 1.0)) = 1.0
@@ -15,8 +15,8 @@ Shader "Custom/Gunfish"
         Tags
 		{
         	"Queue"="Transparent"
-            "IgnoreProjector"="True"
             "RenderType"="Transparent"
+            "IgnoreProjector"="True"
             "PreviewType"="Plane"
             "CanUseSpriteAtlas"="True"
         }
@@ -48,7 +48,7 @@ Shader "Custom/Gunfish"
             };
 
             sampler2D _MainTex;
-            fixed4 _Color;
+            float _Alpha;
             fixed4 _OutlineColor;
             float _OutlineWidth;
             float _OutlineAlpha;
@@ -59,7 +59,7 @@ Shader "Custom/Gunfish"
             {
                 v2f OUT;
                 OUT.vertex = UnityObjectToClipPos(IN.vertex);
-                OUT.color = IN.color * _Color;
+                OUT.color = IN.color;
                 OUT.texcoord.x = IN.texcoord.x;
                 OUT.texcoord.y = 1 - IN.texcoord.y;
                 return OUT;
@@ -119,7 +119,8 @@ Shader "Custom/Gunfish"
                     float outlineAmount = _OutlineAlpha * outlineMultiplier;
                     c.rgb = _OutlineColor.rgb * outlineAmount + c.rgb * (1 - outlineAmount);
                 }
-                
+
+                c.a = _Alpha;
                 c.rgb *= c.a;
                 return c; 
             }
