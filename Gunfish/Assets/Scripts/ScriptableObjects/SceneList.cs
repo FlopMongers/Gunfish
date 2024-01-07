@@ -32,10 +32,14 @@ public class SceneList : ScriptableObject {
         }
 
         var allLevelLists = Resources.LoadAll<SceneList>("ScriptableObjects/LevelLists").ToList();
+        var buildSceneNames = new HashSet<string>();
         allLevelLists.ForEach(levelList => {
             levelList.sceneNames.ForEach(sceneName => {
-                var buildScene = new UnityEditor.EditorBuildSettingsScene(sceneName, true);
-                buildScenes.Add(buildScene);
+                if (!buildSceneNames.Contains(sceneName)) {
+                    var buildScene = new UnityEditor.EditorBuildSettingsScene(sceneName, true);
+                    buildScenes.Add(buildScene);
+                    buildSceneNames.Add(sceneName);
+                }
             });
         });
         UnityEditor.EditorBuildSettings.scenes = buildScenes.ToArray();
