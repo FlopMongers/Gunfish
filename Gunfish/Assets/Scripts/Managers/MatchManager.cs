@@ -80,6 +80,7 @@ public class MatchManager : MonoBehaviour {
             // NOTE destroy all players
             LevelManager.Instance.LoadMainMenu(() => { 
                 GameManager.Instance.ResetGame();
+                MusicManager.Instance.PlayTrackSet(TrackSetLabel.Menu);
                 MainMenu.Instance.Initialize();
             });
         }
