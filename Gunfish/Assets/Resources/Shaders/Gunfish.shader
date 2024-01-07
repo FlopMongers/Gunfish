@@ -5,7 +5,7 @@ Shader "Custom/Gunfish"
         _MainTex ("Texture", 2D) = "white" {}
         _Alpha ("Alpha", Range (0.0, 1.0)) = 1.0
         _OutlineColor ("Outline Color", Color) = (1,1,1,1)
-        _OutlineWidth ("Outline Width", Range (0.0, 0.03)) = .01
+        _OutlineWidth ("Outline Width", Range (0.0, 0.1)) = .01
         _OutlineAlpha ("Outline Alpha", Range (0.0, 1.0)) = 1.0
         _OutlineFrequency ("Outline Frequency", Range(0.0, 4.0)) = 1.0 
     }

@@ -51,7 +51,7 @@ public class RockSpawner : MonoBehaviour
         var rockInstance = Instantiate(rock, position, Quaternion.identity);
         rockInstance.transform.SetParent(transform);
         var flip = Random.value < 0.5f;
-        var scale = new Vector3(flip ? -1f : 1f, 1f, 1f) * Random.Range(0.3f, 1f);
+        var scale = new Vector3(flip ? -1f : 1f, 1f, 1f) * Random.Range(0.2f, 0.4f);
         rockInstance.transform.SetGlobalScale(scale);
         rockInstance.transform.eulerAngles = Vector3.forward * Random.Range(0f, 360f);
         Destroy(rockInstance, 10f);

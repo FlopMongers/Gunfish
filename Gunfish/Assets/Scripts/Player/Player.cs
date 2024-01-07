@@ -43,7 +43,6 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
         gunfish.Spawn(gunfishData, layer, spawnPosition);
         var material = gunfish.gunfishRenderer.LineRenderer.material;
         material.SetColor("_OutlineColor", color);
-        material.SetFloat("_OutlineWidth", 0.01f);
         input.defaultActionMap = "Player";
     }
 
