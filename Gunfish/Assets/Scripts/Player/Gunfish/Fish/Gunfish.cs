@@ -20,7 +20,7 @@ public class Gunfish : MonoBehaviour {
     public GameObject RootSegment { get { return (segments.Count > 0) ? segments[0]: null; } }
     private GunfishGenerator generator;
     [HideInInspector]
-    public new GunfishRenderer renderer;
+    public GunfishRenderer gunfishRenderer;
     [HideInInspector]
     public GunfishRigidbody body;
     GroundDetector groundDetector;
@@ -67,7 +67,7 @@ public class Gunfish : MonoBehaviour {
 
         HandleEffects();
 
-        renderer?.Render();
+        gunfishRenderer?.Render();
         DecrementTimers(Time.deltaTime);
     }
 
@@ -294,7 +294,7 @@ public class Gunfish : MonoBehaviour {
         float width = (
             (float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width
         ) * data.length;
-        renderer = new GunfishRenderer(width, data.spriteMat, segments);
+        gunfishRenderer = new GunfishRenderer(width, data.spriteMat, segments);
         body = new GunfishRigidbody(segments);
 
 

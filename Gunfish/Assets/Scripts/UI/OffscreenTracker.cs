@@ -6,22 +6,22 @@ using UnityEngine;
 public class OffscreenTracker : MonoBehaviour
 {
 	public GameObject goToTrack;
-    private new CanvasRenderer renderer;
+    private CanvasRenderer canvasRenderer;
 
     private float minSize = 0.8f;
     private float maxSize = 2.5f;
 
     void Start() {
-        renderer = GetComponent<CanvasRenderer>();
+        canvasRenderer = GetComponent<CanvasRenderer>();
     }
 
 	void Update () {
 		Vector3 v3Screen = Camera.main.WorldToViewportPoint(goToTrack.transform.position);
 		if (v3Screen.x > -0.01f && v3Screen.x < 1.01f && v3Screen.y > -0.01f && v3Screen.y < 1.01f)
-			renderer.cull = true;
+			canvasRenderer.cull = true;
 		else
 		{
-			renderer.cull = false;
+			canvasRenderer.cull = false;
 			v3Screen.x = Mathf.Clamp (v3Screen.x, 0.01f, 0.99f);
 			v3Screen.y = Mathf.Clamp (v3Screen.y, 0.01f, 0.99f);
 			transform.position = Camera.main.ViewportToWorldPoint (v3Screen);
