@@ -395,6 +395,18 @@ PrefabInstance:
       propertyPath: defaultTween.m_Curve.Array.data[2].tangentMode
       value: 34
       objectReference: {fileID: 0}
+    - target: {fileID: 4679759487165304840, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 12007103040ab7e489c009e22d3b9157,
+        type: 2}
+    - target: {fileID: 4679759487165304840, guid: 5f1d34d704d350541bc538145950eab9,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -2917531904743474581, guid: 12007103040ab7e489c009e22d3b9157,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f1d34d704d350541bc538145950eab9, type: 3}
 --- !u!4 &2915784695254075340 stripped
