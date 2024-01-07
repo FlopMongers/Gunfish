@@ -39,7 +39,7 @@ public class Cannon : MonoBehaviour {
         gottemSpottem = false;
         foreach (var fish in detector.fishes.Keys) {
             // launch the fuckers
-            fish.Hit(new FishHitObject(fish.MiddleSegmentIndex, detector.transform.position, detector.transform.up, gameObject, 0, power));
+            fish.Hit(new FishHitObject(fish.MiddleSegmentIndex, detector.transform.position, detector.transform.up, gameObject, 0, power, ForceMode2D.Impulse));
             IgnoreFish(fish);
         }
     }

@@ -10,20 +10,23 @@ public class HitObject {
 
     public float damage;
     public float knockback;
+
+    public ForceMode2D force = ForceMode2D.Force;
     // public List<Effect> effects;
 
-    public HitObject(Vector2 position, Vector2 direction, GameObject source, float damage, float knockback) {
+    public HitObject(Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, ForceMode2D force=ForceMode2D.Force) {
         this.position = position;
         this.direction = direction;
         this.source = source;
         this.damage = damage;
         this.knockback = knockback;
+        this.force = force;
     }
 }
 
 public class FishHitObject : HitObject {
     public int segmentIndex;
-    public FishHitObject(int segmentIndex, Vector2 position, Vector2 direction, GameObject source, float damage, float knockback) : base(position, direction, source, damage, knockback) {
+    public FishHitObject(int segmentIndex, Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, ForceMode2D force=ForceMode2D.Force) : base(position, direction, source, damage, knockback, force) {
         this.segmentIndex = segmentIndex;
     }
 }

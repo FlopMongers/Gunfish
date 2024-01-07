@@ -116,7 +116,7 @@ public class Gun : MonoBehaviour {
                     }
                 }
                 else if (shootable != null) {
-                    shootable.Hit(new HitObject(hit.point, barrel.transform.right, gameObject, gunfish.data.gun.damage, gunfish.data.gun.knockback));
+                    shootable.Hit(new HitObject(hit.point, barrel.transform.right, gameObject, gunfish.data.gun.damage, gunfish.data.gun.knockback, ForceMode2D.Impulse));
                     endPoint = hit.point;
                     break;
                 }

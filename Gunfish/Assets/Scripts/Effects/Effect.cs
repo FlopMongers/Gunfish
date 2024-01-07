@@ -182,6 +182,10 @@ public class Invincibility_Effect : TimedEffect {
 
     void OnHit(Gunfish gunfish, FishHitObject hit) {
         // eliminate damage?
+        if (hit.source != null && hit.source.GetComponent<KillBox>()) {
+            return;
+        }
+        hit.damage = 0;
     }
 }
 
@@ -227,7 +231,7 @@ public class Sharkmode_Effect : TimedEffect {
         if (segment == null || segment.gunfish == gunfish)
             return;
         if (!segment.gunfish.effectMap.ContainsKey(EffectType.SharkMode)) {
-            segment.gunfish.Hit(new FishHitObject(segment.index, collision.contacts[0].point, -collision.contacts[0].normal, gunfish.gameObject, segment.gunfish.statusData.health, 10f));
+            segment.gunfish.Hit(new FishHitObject(segment.index, collision.contacts[0].point, -collision.contacts[0].normal, gunfish.gameObject, segment.gunfish.statusData.health, 10f, ForceMode2D.Impulse));
         }
     }
 }
