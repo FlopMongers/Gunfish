@@ -12,21 +12,23 @@ public class HitObject {
     public float knockback;
 
     public bool ignoreMass;
+    public bool ignoreFX;
     // public List<Effect> effects;
 
-    public HitObject(Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, bool ignoreMass=false) {
+    public HitObject(Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, bool ignoreMass=false, bool ignoreFX=false) {
         this.position = position;
         this.direction = direction;
         this.source = source;
         this.damage = damage;
         this.knockback = knockback;
         this.ignoreMass = ignoreMass;
+        this.ignoreFX = ignoreFX;
     }
 }
 
 public class FishHitObject : HitObject {
     public int segmentIndex;
-    public FishHitObject(int segmentIndex, Vector2 position, Vector2 direction, GameObject source, float damage, float knockback) : base(position, direction, source, damage, knockback, true) {
+    public FishHitObject(int segmentIndex, Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, bool ignoreFX=false) : base(position, direction, source, damage, knockback, true, ignoreFX) {
         this.segmentIndex = segmentIndex;
     }
 }

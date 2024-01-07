@@ -212,7 +212,8 @@ public class DeathMatchManager : MatchManager {
         else if (!endingLevel) {
             // todo: this should play a special suicide quip (Selfish Destruction!)
             MarqueeManager.Instance.EnqueueRandomQuip();
-            UpdateScore(gunfish.player, -1);
+            // NOTE: Temporarily takin this out. and if it's more fun this way, we'll leave it.
+            // UpdateScore(gunfish.player, -1);
         }
     }
 

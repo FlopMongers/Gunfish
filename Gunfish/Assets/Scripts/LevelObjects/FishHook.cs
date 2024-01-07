@@ -97,8 +97,10 @@ public class FishHook : MonoBehaviour {
             zoomTimer -= Time.deltaTime;
             yield return null;
         }
-        foreach (var fish in doomedFishes)
-            fish.Kill();
+        foreach (var fish in doomedFishes) {
+            fish.Hit(new FishHitObject(0, fish.RootSegment.transform.position, Vector2.zero, gameObject, fish.statusData.health, 0));
+        }
+            //fish.Kill();
         // kill the fuckers
         zoomTimer = returnDuration;
         while (zoomTimer > 0) {

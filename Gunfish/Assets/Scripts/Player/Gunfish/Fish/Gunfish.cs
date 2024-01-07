@@ -244,7 +244,7 @@ public class Gunfish : MonoBehaviour {
         // TODO tell match manager about this for possible scoring
         // TODO: replace with generalized FX_CollisionHandler?
         OnHit?.Invoke(this, hit);
-        if (hit.damage > 0)
+        if (hit.damage > 0 && hit.ignoreFX == false)
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         if (hit.ignoreMass) {
             hit.knockback *= data.mass;
