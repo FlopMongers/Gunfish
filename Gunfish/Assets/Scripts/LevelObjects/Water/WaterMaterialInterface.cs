@@ -1,9 +1,7 @@
 using MathNet.Numerics;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static FunkyCode.Rendering.Universal.Sprite;
 
 public class WaterMaterialInterface : MonoBehaviour {
     [HideInInspector]

@@ -1,14 +1,25 @@
-#if UNITY_EDITOR
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using UnityEditor;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
+
+#if UNITY_EDITOR
+using UnityEditor;
+[CanEditMultipleObjects]
+[CustomEditor(typeof(WaterSurfaceGenerator))]
+public class WaterSurfaceGeneratorEditor : Editor {
+    public override void OnInspectorGUI() {
+        DrawDefaultInspector();
+
+        var scripts = targets.OfType<WaterSurfaceGenerator>();
+        if (GUILayout.Button("GARBULATE")) {
+            foreach (var script in scripts) {
+                script.ClearCurrentNodes();
+                script.Garbulate();
+            }
+        }
+    }
+}
+#endif
 
 public class WaterSurfaceGenerator : MonoBehaviour {
     [SerializeField]
@@ -79,20 +90,3 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         }
     }
 }
-
-[CanEditMultipleObjects]
-[CustomEditor(typeof(WaterSurfaceGenerator))]
-public class WaterSurfaceGeneratorEditor : Editor {
-    public override void OnInspectorGUI() {
-        DrawDefaultInspector();
-
-        var scripts = targets.OfType<WaterSurfaceGenerator>();
-        if (GUILayout.Button("GARBULATE")) {
-            foreach (var script in scripts) {
-                script.ClearCurrentNodes();
-                script.Garbulate();
-            }
-        }
-    }
-}
-#endif
