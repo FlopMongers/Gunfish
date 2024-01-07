@@ -37,8 +37,6 @@
                 float2 texcoord : TEXCOORD0;
                 float2 worldPos : TEXCOORD1;
                 
-                UNITY_FOG_COORDS(1)
-                
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -58,8 +56,6 @@
 
                 o.worldPos = mul (unity_ObjectToWorld, v.vertex);
 
-                UNITY_TRANSFER_FOG(o,o.vertex);
-
                 return o;
             }
 
@@ -78,7 +74,6 @@
 
                 col.rgb *= OutputColor(IN);
     
-                UNITY_APPLY_FOG(IN.fogCoord, col);
                 UNITY_OPAQUE_ALPHA(col.a);
                 return col;
             }
