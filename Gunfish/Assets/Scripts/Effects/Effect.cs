@@ -227,7 +227,7 @@ public class Sharkmode_Effect : TimedEffect {
 
     public void OnCollision(GameObject src, Collision2D collision) {
         // if it's a fish and it's not in sharkmode, fucking KILL IT!
-        GunfishSegment segment = src.GetComponent<GunfishSegment>();
+        GunfishSegment segment = collision.collider.GetComponent<GunfishSegment>();
         if (segment == null || segment.gunfish == gunfish)
             return;
         if (!segment.gunfish.effectMap.ContainsKey(EffectType.SharkMode)) {
