@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/great_bay.unity
     guid: b0283a1dbefbe314cba4151f606651f1
   - enabled: 1
+    path: Assets/Scenes/Levels/great_bay.unity
+    guid: b0283a1dbefbe314cba4151f606651f1
+  - enabled: 1
     path: Assets/Scenes/Levels/firing_range.unity
     guid: 36412ad38a1154e55b18053cce8ce6fe
   - enabled: 1
