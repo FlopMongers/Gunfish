@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public enum TrackSetLabel {
     Menu,
@@ -16,6 +17,8 @@ public struct TrackEnumToObj {
 
 public class MusicManager : PersistentSingleton<MusicManager> {
 
+    [SerializeField]
+    private AudioMixerGroup audioMixerGroup;
     [SerializeField]
     private List<TrackEnumToObj> trackSetMap;
     [SerializeField]
@@ -66,6 +69,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
 
         foreach (var audioSource in audioSources) {
             audioSource.loop = false;
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
     }
 

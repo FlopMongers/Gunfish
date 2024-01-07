@@ -557,6 +557,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5644449653955953339, guid: ec7ade017b827314abf93b87791469a9,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644449653955953339, guid: ec7ade017b827314abf93b87791469a9,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2357661076994372798, guid: f0616bc19253f34408de7cebcb671a24,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec7ade017b827314abf93b87791469a9, type: 3}
 --- !u!4 &1295931029 stripped
@@ -577,6 +588,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7316021095118734187, guid: aa4560de82a304140a37bb40022da978,
+        type: 3}
+      propertyPath: audioMixerGroup
+      value: 
+      objectReference: {fileID: 3688615084044258005, guid: f0616bc19253f34408de7cebcb671a24,
+        type: 2}
     - target: {fileID: 8237897050148243548, guid: aa4560de82a304140a37bb40022da978,
         type: 3}
       propertyPath: m_RootOrder
