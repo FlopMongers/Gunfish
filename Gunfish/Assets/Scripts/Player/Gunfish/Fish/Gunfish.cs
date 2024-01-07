@@ -246,6 +246,9 @@ public class Gunfish : MonoBehaviour {
         OnHit?.Invoke(this, hit);
         if (hit.damage > 0)
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
+        if (hit.ignoreMass) {
+            hit.knockback *= data.mass;
+        }
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
         GameModeManager.Instance.matchManagerInstance.HandleFishDamage(hit, this);

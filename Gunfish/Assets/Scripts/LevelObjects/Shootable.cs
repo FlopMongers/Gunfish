@@ -82,7 +82,7 @@ public class Shootable : MonoBehaviour {
     public void Hit(HitObject hit) {
         // reduce health
         if (rb != null) {
-            rb.AddForceAtPosition(hit.direction * hit.knockback, hit.position);
+            rb.AddForceAtPosition(hit.direction * hit.knockback, hit.position, ForceMode2D.Impulse);
         }
         FX_Spawner.Instance?.SpawnFX(hitFX, hit.position, -hit.direction);
         UpdateHealth(-hit.damage);

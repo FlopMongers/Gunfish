@@ -11,22 +11,22 @@ public class HitObject {
     public float damage;
     public float knockback;
 
-    public ForceMode2D force = ForceMode2D.Force;
+    public bool ignoreMass;
     // public List<Effect> effects;
 
-    public HitObject(Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, ForceMode2D force=ForceMode2D.Force) {
+    public HitObject(Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, bool ignoreMass=false) {
         this.position = position;
         this.direction = direction;
         this.source = source;
         this.damage = damage;
         this.knockback = knockback;
-        this.force = force;
+        this.ignoreMass = ignoreMass;
     }
 }
 
 public class FishHitObject : HitObject {
     public int segmentIndex;
-    public FishHitObject(int segmentIndex, Vector2 position, Vector2 direction, GameObject source, float damage, float knockback, ForceMode2D force=ForceMode2D.Force) : base(position, direction, source, damage, knockback, force) {
+    public FishHitObject(int segmentIndex, Vector2 position, Vector2 direction, GameObject source, float damage, float knockback) : base(position, direction, source, damage, knockback, true) {
         this.segmentIndex = segmentIndex;
     }
 }
