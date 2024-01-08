@@ -127,7 +127,9 @@ public class FishHook : MonoBehaviour {
 
     void OnFishExit(GunfishSegment segment, Collider2D collider) {
         if (fishJointMap.ContainsKey(segment.gunfish)) {
-            Destroy(fishJointMap[segment.gunfish]);
+            if (fishJointMap[segment.gunfish] != null) {
+                Destroy(fishJointMap[segment.gunfish]);
+            }
             fishJointMap.Remove(segment.gunfish);
         }
     }
