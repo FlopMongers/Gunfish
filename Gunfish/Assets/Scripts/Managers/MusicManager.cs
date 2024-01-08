@@ -112,6 +112,11 @@ public class MusicManager : PersistentSingleton<MusicManager> {
 
         if (doFade) {
             StartCoroutine(Fade());
+        } else {
+            audioSources[activeSourceIndex].volume = 0f;
+            audioSources[targetSourceIndex].volume = 1f;
+            activeSourceIndex = targetSourceIndex;
+            transitioning = false;
         }
     }
 

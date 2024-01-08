@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerManager : PersistentSingleton<PlayerManager> {
     public List<Color> playerColors;
-    
+
     public List<Player> Players { get; private set; }
     public List<GunfishData> PlayerFish { get; private set; }
     public List<PlayerInput> PlayerInputs { get; private set; }
@@ -23,7 +23,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
         var inputManager = GetComponent<PlayerInputManager>();
 
-        var pattern = GameManager.debug == true ? "(Keyboard|Controller|Joystick)" : "Joystick";
+        var pattern = GameManager.debug == true ? "(Keyboard|Controller|Joystick)" : "(Controller|Joystick)";
         var regex = new Regex(pattern);
         var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
 

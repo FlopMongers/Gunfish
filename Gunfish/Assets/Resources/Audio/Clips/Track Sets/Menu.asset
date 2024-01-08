@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracks:
   - {fileID: 8300000, guid: 8c1543398f8e2dc4e98378757d2003b6, type: 3}
-  doFade: 1
+  doFade: 0
