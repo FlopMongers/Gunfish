@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,6 +29,8 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
 
         int playerIndex = 0;
+        foreach (var device in inputDevices)
+            print(device);
         inputDevices.ForEach(device => {
             var playerInput = inputManager.JoinPlayer(playerIndex: playerIndex, pairWithDevice: device);
             var player = playerInput.GetComponent<Player>();

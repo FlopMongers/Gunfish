@@ -12,6 +12,9 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
         var levels = SelectLevels(gameMode.levels.sceneNames, gameMode.roundsPerMatch);
         var gameParameters = new GameParameters(players, levels, gameMode.levels.skyboxSceneName);
         var matchManagerPrefab = gameMode.matchManagerPrefab;
+        if (gameModeInstance != null) {
+            Destroy(gameModeInstance.gameObject);
+        }
         gameModeInstance = Instantiate(matchManagerPrefab, transform);
 
         if (gameModeType == GameModeType.DeathMatch) {
