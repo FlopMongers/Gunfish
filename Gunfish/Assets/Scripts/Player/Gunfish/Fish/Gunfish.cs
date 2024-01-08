@@ -243,6 +243,7 @@ public class Gunfish : MonoBehaviour {
     public void Hit(FishHitObject hit) {
         // TODO tell match manager about this for possible scoring
         // TODO: replace with generalized FX_CollisionHandler?
+        bool alreadyDead = statusData.health < 0;
         OnHit?.Invoke(this, hit);
         if (hit.damage > 0 && hit.ignoreFX == false)
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
@@ -251,7 +252,7 @@ public class Gunfish : MonoBehaviour {
         }
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
-        GameModeManager.Instance.matchManagerInstance.HandleFishDamage(hit, this);
+        GameModeManager.Instance.matchManagerInstance.HandleFishDamage(hit, this, alreadyDead);
     }
 
     public void UpdateHealth(float amount) {

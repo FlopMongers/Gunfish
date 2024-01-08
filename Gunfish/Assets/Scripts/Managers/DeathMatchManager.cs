@@ -194,10 +194,10 @@ public class DeathMatchManager : MatchManager {
         }
     */
 
-    public override void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish) {
-        base.HandleFishDamage(fishHit, gunfish);
+    public override void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {
+        base.HandleFishDamage(fishHit, gunfish, alreadyDead);
         // if fish is dead
-        if (gunfish.statusData.health > 0) {
+        if (gunfish.statusData.health > 0 || alreadyDead == true) {
             return;
         }
 

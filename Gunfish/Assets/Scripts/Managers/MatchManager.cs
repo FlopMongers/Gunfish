@@ -96,7 +96,7 @@ public class MatchManager : MonoBehaviour {
         return gun.gunfish != segment.gunfish;
     }
 
-    public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish) {
+    public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {
     }
 
     public virtual void OnTimerFinish() { }
