@@ -20,7 +20,7 @@ public class Spawner : MonoBehaviour {
             spawnArea = gameObject.AddComponent<BoxCollider2D>();
             spawnArea.isTrigger = true;
         }
-        print(spawnArea);
+        //print(spawnArea);
     }
 
     // Update is called once per frame
