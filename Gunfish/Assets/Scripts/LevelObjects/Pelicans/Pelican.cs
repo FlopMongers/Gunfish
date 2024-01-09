@@ -50,6 +50,12 @@ public class Pelican : MonoBehaviour
     }
 
     public void HitFish(GunfishSegment segment, Collider2D collision) {
-        segment.gunfish.Hit(new FishHitObject(segment.index, transform.position, segment.transform.position - transform.position, gameObject, segment.gunfish.statusData.health, 100f));
+        segment.gunfish.Hit(new FishHitObject(
+            segment.index, 
+            transform.position, 
+            segment.transform.position - transform.position, 
+            gameObject, 
+            segment.gunfish.statusData.health, 
+            100f, HitType.Impact));
     }
 }

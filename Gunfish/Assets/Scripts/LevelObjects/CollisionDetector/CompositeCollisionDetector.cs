@@ -24,6 +24,7 @@ public class CompositeCollisionDetector : MonoBehaviour {
     public void Init(bool grabChildren, bool generateSubCollisionDetectors, bool oomphable) {
         if (init)
             return;
+        this.oomphable = oomphable;
 
         init = true;
         if (grabChildren) {

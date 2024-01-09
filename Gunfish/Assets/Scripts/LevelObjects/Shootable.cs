@@ -4,7 +4,7 @@ using System.Security.Policy;
 using UnityEditor;
 using UnityEngine;
 
-public class Shootable : MonoBehaviour {
+public class Shootable : MonoBehaviour, IHittable {
     public float maxHealth;
     [Range(0f, 1f)]
     public float damagedThreshold;
@@ -15,6 +15,7 @@ public class Shootable : MonoBehaviour {
 
     public float health;
     public FloatGameEvent OnHealthUpdated;
+    public HitEvent OnHit;
     public GameEvent OnDead;
 
     public FXType destroyFX, hitFX, damagedFX;
@@ -81,9 +82,13 @@ public class Shootable : MonoBehaviour {
 
     public void Hit(HitObject hit) {
         // reduce health
+        if (hit.ignoreMass) {
+            hit.knockback *= rb.mass;
+        }
         if (rb != null) {
             rb.AddForceAtPosition(hit.direction * hit.knockback, hit.position, ForceMode2D.Impulse);
         }
+        OnHit?.Invoke(hit);
         FX_Spawner.Instance?.SpawnFX(hitFX, hit.position, -hit.direction);
         UpdateHealth(-hit.damage);
     }
@@ -103,7 +108,7 @@ public class Shootable : MonoBehaviour {
             if (r != null)
                 r.sprite = damagedSprite;
             FX_Spawner.Instance?.SpawnFX(damagedFX, transform.position, Quaternion.identity);
-            damaged = true;
         }
+        damaged = true;
     }
 }

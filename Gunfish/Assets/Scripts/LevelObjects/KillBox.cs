@@ -17,6 +17,6 @@ public class KillBox : MonoBehaviour {
             Vector2.up,
             gameObject,
             100000000000000000f,
-            1f));
+            1f, HitType.Impact));
     }
 }

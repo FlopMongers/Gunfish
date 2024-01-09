@@ -48,7 +48,8 @@ public class DeathMatchManager : MatchManager {
         }
     }
 
-    public override void SpawnPlayer(Player player) {
+    protected override IEnumerator CoSpawnPlayer(Player player) {
+        yield return new WaitForSeconds(0.5f);
         Transform currentSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
         float maxDistance = float.MinValue;
         float distance;
@@ -65,7 +66,7 @@ public class DeathMatchManager : MatchManager {
             }
         }
         player.SpawnGunfish(currentSpawnPoint.position);
-        base.SpawnPlayer(player);
+        FinishSpawningPlayer(player);
     }
 
     public override void OnPlayerDeath(Player player) {
@@ -204,7 +205,6 @@ public class DeathMatchManager : MatchManager {
         // if src fish, then award points, otherwise detract points
         Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
         sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
-        print(fishHit.source);
         if (sourceGunfish != null) {
             MarqueeManager.Instance.EnqueueRandomQuip();
             UpdateScore(sourceGunfish.player, 1);

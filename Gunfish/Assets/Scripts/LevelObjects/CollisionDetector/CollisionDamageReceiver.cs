@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionDamageReceiver : MonoBehaviour {
+public class CollisionDamageReceiver : MonoBehaviour, IHittable {
 
     // hook up to either shootable or gunfish
     // I know this is an anti-pattern.
@@ -10,12 +10,27 @@ public class CollisionDamageReceiver : MonoBehaviour {
     // or maybe I won't and we'll suffer this idiocy even after the sweet release of dea- the game
     [HideInInspector] public Gunfish gunfish;
     [HideInInspector] public Shootable shootable;
+
+    public float oomphResistance = 1f;
+    public float oomphScale = 1f;
+
     private void Start() {
         shootable = GetComponent<Shootable>();
     }
 
-    public void Damage(CollisionHitObject hitObject) {
-        gunfish?.Hit(new FishHitObject(hitObject.collision.rigidbody.GetComponent<GunfishSegment>().index, hitObject.position, hitObject.direction, hitObject.source, hitObject.damage, hitObject.knockback));
+    public void Hit(CollisionHitObject hitObject) {
+        hitObject.damage *= oomphScale;
+        if (hitObject.damage <= oomphResistance) {
+            return;
+        }
+        gunfish?.Hit(new FishHitObject(
+            hitObject.collision.rigidbody.GetComponent<GunfishSegment>().index, 
+            hitObject.position, 
+            hitObject.direction, 
+            hitObject.source, 
+            hitObject.damage, 
+            hitObject.knockback,
+            HitType.Impact));
         shootable?.Hit(hitObject);
     }
 }

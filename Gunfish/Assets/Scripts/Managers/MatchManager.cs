@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class MatchManager : MonoBehaviour {
@@ -33,6 +35,14 @@ public class MatchManager : MonoBehaviour {
     }
 
     public virtual void SpawnPlayer(Player player) {
+        StartCoroutine(CoSpawnPlayer(player));
+    }
+
+    protected virtual IEnumerator CoSpawnPlayer(Player player) {
+        return null;
+    }
+
+    public void FinishSpawningPlayer(Player player) {
         // add player's fish to camera group
         GameCamera.Instance?.targetGroup.AddMember(player.Gunfish.MiddleSegment.transform, 1, 1);
     }

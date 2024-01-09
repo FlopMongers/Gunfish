@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum ButtonStatus { Pressed, Holding, Released, Up };
-public class Gunfish : MonoBehaviour {
+public class Gunfish : MonoBehaviour, IHittable {
     public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
     
     [HideInInspector]

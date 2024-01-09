@@ -18,7 +18,7 @@ public class Destroyer : MonoBehaviour
             return;
         destroying = true;
 
-        if (spriteRenderer != null) {
+        if (spriteRenderer != null && FX_Spawner.Instance != null) {
             var fx = FX_Spawner.Instance.SpawnFX(destroyFX, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
             // get bounds
             var shape = fx.shape;

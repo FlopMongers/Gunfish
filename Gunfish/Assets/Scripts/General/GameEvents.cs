@@ -12,3 +12,4 @@ public delegate void FishTriggerEvent(GunfishSegment segment, Collider2D collisi
 public delegate void CollisionEvent(GameObject src, Collision2D collision);
 public delegate void TriggerEvent(GameObject src, Collider2D collision);
 public delegate void FishHitEvent(Gunfish gunfish, FishHitObject hit);
+public delegate void HitEvent(HitObject hit);

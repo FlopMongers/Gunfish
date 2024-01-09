@@ -107,7 +107,13 @@ public class Gun : MonoBehaviour {
                     if (fishHit) {
                         fishSegment.gunfish.Hit(
                             new FishHitObject(
-                                fishSegment.index, hit.point, barrel.transform.right, gameObject, gunfish.data.gun.damage, gunfish.data.gun.knockback));
+                                fishSegment.index, 
+                                hit.point, 
+                                barrel.transform.right, 
+                                gameObject, 
+                                gunfish.data.gun.damage,
+                                gunfish.data.gun.knockback,
+                                HitType.Ballistic));
                         // this is temporary, but if it works let's just leave it
                         if (fishSegment.gunfish.statusData.health <= 0)
                             FX_Spawner.Instance?.BAM();
@@ -116,7 +122,13 @@ public class Gun : MonoBehaviour {
                     }
                 }
                 else if (shootable != null) {
-                    shootable.Hit(new HitObject(hit.point, barrel.transform.right, gameObject, gunfish.data.gun.damage, gunfish.data.gun.knockback));
+                    shootable.Hit(new HitObject(
+                        hit.point, 
+                        barrel.transform.right, 
+                        gameObject, 
+                        gunfish.data.gun.damage, 
+                        gunfish.data.gun.knockback,
+                        HitType.Ballistic));
                     endPoint = hit.point;
                     break;
                 }

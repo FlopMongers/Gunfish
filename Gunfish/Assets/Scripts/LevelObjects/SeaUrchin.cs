@@ -64,7 +64,14 @@ public class SeaUrchin : MonoBehaviour {
 
         Debug.Log(segment.rb);
         Debug.Log(direction);
-        segment.gunfish.Hit(new FishHitObject(segment.index, collision.contacts[0].point, -collision.contacts[0].normal, gameObject, prickDamage, prickMagnitude));
+        segment.gunfish.Hit(new FishHitObject(
+            segment.index, 
+            collision.contacts[0].point, 
+            -collision.contacts[0].normal, 
+            gameObject, 
+            prickDamage, 
+            prickMagnitude,
+            HitType.Impact));
         spriteTransform.DOScale(originalScale + punchScale, bounceDuration)
         .SetEase(Ease.OutBounce)
         .OnComplete(() => {

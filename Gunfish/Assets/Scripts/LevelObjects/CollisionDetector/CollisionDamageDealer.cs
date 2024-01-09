@@ -95,7 +95,7 @@ public class CollisionDamageDealer : MonoBehaviour {
                 // apply damage to the target
                 if (target.Key != null) {
                     var receiver = target.Key.GetComponent<CollisionDamageReceiver>();
-                    receiver?.Damage(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
+                    receiver?.Hit(new CollisionHitObject(target.Value.collision, target.Value.contacts, gameObject, target.Value.oomph));
                 }
             }
         }
@@ -118,9 +118,9 @@ public class CollisionDamageDealer : MonoBehaviour {
         //print($"{gameObject} and {target}");
 
         float oomph = src.GetComponent<OomphCalculator>().Oomph(collision, damageMultiplier, impulseThreshold);
-        /*if (trace)
+        if (trace)
             print($"oomph {oomph} from {src} for target {target}");
-        */
+        
 
         // if not enough oomph, just return
         if (oomph <= oomphThreshold)
