@@ -7,6 +7,7 @@ using UnityEngine.ProBuilder;
 public class TeamDeathMatchManager : DeathMatchManager
 {
     // associate players with teams
+    // todo: replace with sub-class of PlayerReference
     public Dictionary<Player, int> playerTeamMap = new Dictionary<Player, int>();
 
     public override void Initialize(GameParameters parameters) {
@@ -26,20 +27,20 @@ public class TeamDeathMatchManager : DeathMatchManager
     }
 
     protected override void ShowLevelWinner(Player player) {
-        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Team {playerTeamMap[player]} wins!", playerScores);
+        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Team {playerTeamMap[player]} wins!", playerReferences);
     }
 
     public override void ShowEndGameStats() {
         //base.ShowEndGameStats();
         Dictionary<int, int> teamScores = new Dictionary<int, int>() { { 0,0}, { 1,0} };
         List<Player> winners = new List<Player>();
-        foreach ((Player player, int score) in playerScores) {
-            teamScores[playerTeamMap[player]] += score;
+        foreach ((Player player, PlayerReference playerRef) in playerReferences) {
+            teamScores[playerTeamMap[player]] += playerRef.score;
         }
         int winningTeam = -1;
         if (teamScores[0] != teamScores[1])
             winningTeam = (teamScores[0] > teamScores[1]) ? 0: 1;
-        foreach ((Player player, int score) in playerScores) {
+        foreach ((Player player, PlayerReference playerRef) in playerReferences) {
             if (winningTeam == -1 || playerTeamMap[player] == winningTeam) {
                 winners.Add(player);
             }
@@ -52,6 +53,6 @@ public class TeamDeathMatchManager : DeathMatchManager
         else if (winners.Count == 2) {
             text = $"Players {winners[0].PlayerNumber} and {winners[1].PlayerNumber} win!!!";
         }
-        ui.ShowFinalScores(text, playerScores, winners);
+        ui.ShowFinalScores(text, playerReferences, winners);
     }
 }

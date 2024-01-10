@@ -2,14 +2,31 @@ using FunkyCode.LightingSettings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
+
+public class PlayerReference {
+    public Player player;
+
+    public int score;
+    public int stocks;
+
+    public float lastHitTimestamp = -1;
+    public Player lastHitter;
+
+    public PlayerReference(int stocks, int score=0) {
+        this.stocks = stocks;
+        this.score = score;
+    }
+}
 
 public class DeathMatchManager : MatchManager {
     private const int defaultStocks = 3;
-    protected Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
-    private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
+    //protected Dictionary<Player, int> playerScores = new Dictionary<Player, int>();
+    //private Dictionary<Player, int> playerStocks = new Dictionary<Player, int>();
+    protected Dictionary<Player, PlayerReference> playerReferences = new Dictionary<Player, PlayerReference>();
     private int remainingPlayers;
-    private List<Player> eliminatedPlayers = new List<Player>();
+    protected HashSet<PlayerReference> eliminatedPlayers = new HashSet<PlayerReference>();
 
     protected DeathMatchUI ui;
 
@@ -18,11 +35,16 @@ public class DeathMatchManager : MatchManager {
     bool endingLevel;
     static float endLevelDelay = 0.5f;
 
+    static float lastHitThreshold = 2f;
+
 
     public override void Initialize(GameParameters parameters) {
         foreach (var player in parameters.activePlayers) {
+            playerReferences[player] = new PlayerReference(defaultStocks);
+            /*
             playerScores[player] = 0;
             Debug.Log("Player Score: " + playerScores[player]);
+            */
         }
         ui = gameObject.GetComponentInChildren<DeathMatchUI>();
         // ui.OnLoadingStart();
@@ -34,14 +56,14 @@ public class DeathMatchManager : MatchManager {
     public override void StartLevel() {
         base.StartLevel();
         endingLevel = false;
-        eliminatedPlayers = new List<Player>();
+        eliminatedPlayers = new HashSet<PlayerReference>();
         ui.InitializeLevel(parameters.activePlayers, defaultStocks);
         remainingPlayers = parameters.activePlayers.Count;
         pelicanSpawner.FetchSpawnZones();
         pelicanSpawner.active = false;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
-            playerStocks[player] = defaultStocks;
+            //playerStocks[player] = defaultStocks;
             player.OnDeath += OnPlayerDeath;
             SpawnPlayer(player);
             player.Gunfish.OnDeath += OnPlayerDeath;
@@ -70,14 +92,15 @@ public class DeathMatchManager : MatchManager {
     }
 
     public override void OnPlayerDeath(Player player) {
+        PlayerReference playerRef = playerReferences[player];
         base.OnPlayerDeath(player);
         UpdateStock(player, -1);
-        if (playerStocks[player] > 0) {
+        if (playerRef.stocks > 0) {
             SpawnPlayer(player);
         }
         else {
             remainingPlayers--;
-            eliminatedPlayers.Add(player);
+            eliminatedPlayers.Add(playerRef);
             if (remainingPlayers <= 1 && !endingLevel) {
                 StartCoroutine(EndLevel());
             }
@@ -85,6 +108,11 @@ public class DeathMatchManager : MatchManager {
     }
 
     private Player GetLastPlayerStanding() {
+        foreach ((Player player, PlayerReference playerRef) in playerReferences) {
+            if (playerRef.stocks > 0)
+                return player;
+        }
+        /*
         foreach (var kvp in playerStocks) {
             if (kvp.Value > 0) {
                 return kvp.Key;
@@ -93,6 +121,7 @@ public class DeathMatchManager : MatchManager {
         if (eliminatedPlayers.Count > 0) {
             return eliminatedPlayers[eliminatedPlayers.Count - 1];
         }
+        */
         return null;
     }
 
@@ -133,27 +162,28 @@ public class DeathMatchManager : MatchManager {
     }
 
     protected virtual void ShowLevelWinner(Player player) {
-        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.PlayerNumber} wins!", playerScores);
+        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.PlayerNumber} wins!", playerReferences);
     }
 
     public void UpdateScore(Player player, int scoreDelta) {
-        playerScores[player] += scoreDelta;
-        ui.OnScoreChange(player, playerScores[player]);
+        PlayerReference playerRef = playerReferences[player];
+        playerRef.score += scoreDelta;
+        ui.OnScoreChange(player, playerRef.score);
     }
     public void UpdateStock(Player player, int stockDelta) {
-        playerStocks[player] += stockDelta;
-        ui.OnStockChange(player, playerStocks[player]);
+        PlayerReference playerRef = playerReferences[player];
+        playerRef.stocks += stockDelta;
+        ui.OnStockChange(player, playerRef.stocks);
     }
 
     public override void ShowEndGameStats() {
         base.ShowEndGameStats();
-        //Dictionary<int, int> teamScores = new Dictionary<int, int>() { { 0,0}, { 1,0} };
         int topScore = 0;
         List<Player> winners = new List<Player>();
-        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
-            if (playerScore.Value >= topScore) { 
-                winners.Add(playerScore.Key);
-                topScore = playerScore.Value;
+        foreach ((Player player, PlayerReference playerRef) in playerReferences.OrderByDescending(x => x.Value.score)) {
+            if (playerRef.score >= topScore) { 
+                winners.Add(player);
+                topScore = playerRef.score;
             };
         }
 
@@ -164,47 +194,33 @@ public class DeathMatchManager : MatchManager {
         else if (winners.Count == 1) {
             text = $"Player {winners[0].PlayerNumber} wins!!!";
         }
-        ui.ShowFinalScores(text, playerScores, winners);
+        ui.ShowFinalScores(text, playerReferences, winners);
     }
-
-    /*
-        int playerIdx = 0;
-        int topScore = 0;
-        List<Player> winners = new List<Player>();
-        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
-            playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
-            playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
-            playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
-            if (playerScore.Value >= topScore) {
-                playerPanels[playerIdx].highlight.enabled = true;
-                winners.Add(playerScore.Key);
-                topScore = playerScore.Value;
-            }
-            playerPanels[playerIdx].panel.SetActive(true);
-            playerIdx++;
-        }
-
-        if (winners.Count == 0) {
-            winnerText.text = "No one wins?";
-        }
-        else if (winners.Count == 1) {
-            winnerText.text = $"Player {winners[0].playerNumber} wins!!!";
-        }
-        else {
-            winnerText.text = "It's a tie!";
-        }
-    */
 
     public override void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {
         base.HandleFishDamage(fishHit, gunfish, alreadyDead);
-        // if fish is dead
-        if (gunfish.statusData.health > 0 || alreadyDead == true) {
+        if (alreadyDead == true)
             return;
-        }
+
+        PlayerReference playerRef = playerReferences[gunfish.player];
 
         // if src fish, then award points, otherwise detract points
         Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
         sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
+        if (sourceGunfish != null) {
+            playerRef.lastHitTimestamp = Time.time;
+            playerRef.lastHitter = sourceGunfish.player;
+        }
+
+        // if fish is dead
+        if (gunfish.statusData.health > 0) {
+            return;
+        }
+
+        if ((Time.time - playerRef.lastHitTimestamp) <= lastHitThreshold && playerRef.lastHitter != null) {
+            sourceGunfish = playerRef.lastHitter.Gunfish;
+        }
+
         if (sourceGunfish != null) {
             MarqueeManager.Instance.EnqueueRandomQuip();
             UpdateScore(sourceGunfish.player, 1);
@@ -221,9 +237,9 @@ public class DeathMatchManager : MatchManager {
         base.OnTimerFinish();
         // todo: SUMMON THE FUCKING PELICANS
         pelicanSpawner.active = true;
-        foreach (var (player, stock) in playerStocks) {
-            if (stock > 1) {
-                UpdateStock(player, -(playerStocks[player] - 1));
+        foreach ((Player player, PlayerReference playerRef) in playerReferences) {
+            if (playerRef.stocks > 1) {
+                UpdateStock(player, -(playerRef.stocks - 1));
             }
         }
         // maybe play a quip? (SUDDEN DEATH!)

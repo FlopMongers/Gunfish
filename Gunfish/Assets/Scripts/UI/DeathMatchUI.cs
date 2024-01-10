@@ -64,19 +64,19 @@ public class DeathMatchUI : MonoBehaviour {
         }
     }
 
-    public void ShowLevelStats(string text, Dictionary<Player, int> playerScores) {
+    public void ShowLevelStats(string text, Dictionary<Player, PlayerReference> playerRefs) {
         winnerText.text = text; 
         //(playerNumber == -1) ? "No one wins!" : $"{winnerEntity} {playerNumber} wins!";
 
         ClearPlayerPanels();
 
-        int playerIdx = 0;
-        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
-            playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.PlayerNumber}";
-            playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
-            playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
-            playerPanels[playerIdx].panel.SetActive(true);
-            playerIdx++;
+        int panelIdx = 0;
+        foreach ((Player player, PlayerReference playerRef) in playerRefs.OrderByDescending(x => x.Value.score)) {
+            playerPanels[panelIdx].playerName.text = $"Player {player.PlayerNumber}";
+            playerPanels[panelIdx].playerImg.sprite = player.gunfishData.sprite;
+            playerPanels[panelIdx].playerScore.text = playerRef.score.ToString();
+            playerPanels[panelIdx].panel.SetActive(true);
+            panelIdx++;
         }
         StopAllCoroutines();
         StartCoroutine(CoShowLevelStats(true));
@@ -87,19 +87,19 @@ public class DeathMatchUI : MonoBehaviour {
         StartCoroutine(CoShowLevelStats(false));
     }
 
-    public void ShowFinalScores(string text, Dictionary<Player, int> playerScores, List<Player> winners) {
+    public void ShowFinalScores(string text, Dictionary<Player, PlayerReference> playerRefs, List<Player> winners) {
         ClearPlayerPanels();
 
-        int playerIdx = 0;
-        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
-            playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.PlayerNumber}";
-            playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
-            playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
-            if (winners.Contains(playerScore.Key)) {
-                playerPanels[playerIdx].highlight.enabled = true;
+        int panelIdx = 0;
+        foreach ((Player player, PlayerReference playerRef) in playerRefs.OrderByDescending(x => x.Value.score)) {
+            playerPanels[panelIdx].playerName.text = $"Player {player.PlayerNumber}";
+            playerPanels[panelIdx].playerImg.sprite = player.gunfishData.sprite;
+            playerPanels[panelIdx].playerScore.text = playerRef.score.ToString();
+            if (winners.Contains(player)) {
+                playerPanels[panelIdx].highlight.enabled = true;
             }
-            playerPanels[playerIdx].panel.SetActive(true);
-            playerIdx++;
+            playerPanels[panelIdx].panel.SetActive(true);
+            panelIdx++;
         }
         winnerText.text = text;
 
