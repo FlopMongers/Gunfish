@@ -28,12 +28,12 @@ public class GunfishSegment : ObjectMaterial {
         if (change) {
             gunfish.anySegmentUnderwater += (isUnderwater > 0) ? 1 : -1;
             if (isGun) {
-                /*if (isUnderwater <= 0) {
+                if (isUnderwater <= 0) {
                     if (Vector3.Angle(Vector2.up, rb.velocity) < gunfish.data.waterZoomAngleThreshold && rb.velocity.magnitude > gunfish.data.waterZoomSpeedThreshold) {
                         gunfish.body.ApplyForceToSegment(index, ((rb.velocity.normalized + Vector2.up) / 2) * gunfish.data.waterZoomForce, ForceMode2D.Impulse);
                     }
                     // if upwards velocity is high enough, then LAUNCH the fish
-                }*/
+                }
                 // if gun, set the gunfish underwater
                 gunfish.underwater = isUnderwater == 1;
             }

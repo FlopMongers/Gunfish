@@ -47,4 +47,4 @@ MonoBehaviour:
   gunfish: {fileID: 0}
   barrels: []
   ammo: 0
-  fireWarmUpTime: 0.5
+  fireWarmUpTime: 0.25

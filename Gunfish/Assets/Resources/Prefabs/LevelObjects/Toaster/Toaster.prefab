@@ -167,6 +167,8 @@ MonoBehaviour:
   hitFX: 0
   damagedFX: 0
   handleCollisionDamage: 1
+  addDestroyer: 0
+  destroyer: {fileID: 0}
   waterInteractor: {fileID: 1904712604937553217}
   zapping: 0
   zapWaitTimer: 0
@@ -201,7 +203,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 4
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
