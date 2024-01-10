@@ -7,7 +7,7 @@ public class SeaMine : MonoBehaviour {
     // the amount of force it takes to make the mine explode
     [SerializeField]
     float explodeForceThreshold;
-
+    /*
     [SerializeField]
     float explodeDamage;
 
@@ -26,15 +26,19 @@ public class SeaMine : MonoBehaviour {
     /// </summary>
     [SerializeField]
     float chainingProbability;
+    */
 
     Shootable shootable;
+
+    public GameObject explosion;
 
     // Start is called before the first frame update
     void Awake() {
         shootable = GetComponent<Shootable>();
-        shootable.OnDead += Explode;
+        shootable.OnDead += OnDead;
     }
 
+    /*
     void Explode() {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, explodeRadius, Vector2.zero);
 
@@ -52,6 +56,15 @@ public class SeaMine : MonoBehaviour {
                 }
             }
         }
+    }
+    */
+
+    void OnDead() {
+        // if health <= 0, EXPLODE
+        if (explosion == null)
+            return;
+        // spawn explosion
+        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

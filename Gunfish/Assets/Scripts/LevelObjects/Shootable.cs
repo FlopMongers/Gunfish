@@ -46,8 +46,8 @@ public class Shootable : MonoBehaviour, IHittable {
         }
 
         if (addDestroyer) {
-            destroyer = gameObject.AddComponent<Destroyer>();
-            gameObject.AddComponent<Fader>();
+            destroyer = gameObject.CheckAddComponent<Destroyer>();
+            gameObject.CheckAddComponent<Fader>();
         }
         destroyer = destroyer ?? GetComponent<Destroyer>();
 

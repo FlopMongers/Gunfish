@@ -77,6 +77,8 @@ MonoBehaviour:
   hitFX: 3
   damagedFX: 0
   handleCollisionDamage: 1
+  addDestroyer: 1
+  destroyer: {fileID: 0}
 --- !u!114 &1377622250653943857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +97,8 @@ MonoBehaviour:
   explodeRadius: 3
   explodeFalloff: 0.5
   chainingProbability: 0.1
+  explosion: {fileID: 5971764844140717513, guid: 8505d56026bf1654ab1c819b67de4538,
+    type: 3}
 --- !u!1 &1163073132863928095
 GameObject:
   m_ObjectHideFlags: 0

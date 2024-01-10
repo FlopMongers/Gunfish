@@ -15,7 +15,7 @@ public class ExplosiveBarrel : MonoBehaviour
     {
         shootable = shootable ?? GetComponent<Shootable>();
         shootable.OnHit += OnHit;
-        shootable.OnHealthUpdated += OnHealthUpdated;
+        shootable.OnDead += OnDead;
     }
 
     void OnHit(HitObject hit) {
@@ -25,13 +25,11 @@ public class ExplosiveBarrel : MonoBehaviour
         }
     }
 
-    void OnHealthUpdated(float health) {
+    void OnDead() {
         // if health <= 0, EXPLODE
         if (explosion == null)
             return;
-        if (health <= 0) {
-            // spawn explosion
-            Instantiate(explosion, transform.position, Quaternion.identity);
-        }
+        // spawn explosion
+        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 }
