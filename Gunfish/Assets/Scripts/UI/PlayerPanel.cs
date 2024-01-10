@@ -8,4 +8,5 @@ public class PlayerPanel : MonoBehaviour {
     public Image playerImg;
     public TextMeshProUGUI playerScore;
     public Image highlight;
+    public TextMeshProUGUI tiebreakerText;
 }

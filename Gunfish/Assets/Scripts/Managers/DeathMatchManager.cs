@@ -14,6 +14,10 @@ public class PlayerReference {
     public float lastHitTimestamp = -1;
     public Player lastHitter;
 
+    // reset each level
+    public float firstKill;
+    public float lastDeath;
+
     public PlayerReference(int stocks, int score=0) {
         this.stocks = stocks;
         this.score = score;
@@ -64,6 +68,9 @@ public class DeathMatchManager : MatchManager {
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
             //playerStocks[player] = defaultStocks;
+            playerReferences[player].stocks = defaultStocks;
+            playerReferences[player].firstKill = -1;
+            playerReferences[player].lastDeath = -1;
             player.OnDeath += OnPlayerDeath;
             SpawnPlayer(player);
             player.Gunfish.OnDeath += OnPlayerDeath;
@@ -162,18 +169,11 @@ public class DeathMatchManager : MatchManager {
     }
 
     protected virtual void ShowLevelWinner(Player player) {
-        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.PlayerNumber} wins!", playerReferences);
-    }
-
-    public void UpdateScore(Player player, int scoreDelta) {
-        PlayerReference playerRef = playerReferences[player];
-        playerRef.score += scoreDelta;
-        ui.OnScoreChange(player, playerRef.score);
-    }
-    public void UpdateStock(Player player, int stockDelta) {
-        PlayerReference playerRef = playerReferences[player];
-        playerRef.stocks += stockDelta;
-        ui.OnStockChange(player, playerRef.stocks);
+        string tiebreakerText = "";
+        if (player == null) {
+            (player, tiebreakerText) = Tiebreaker(parameters.activePlayers);
+        }
+        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.PlayerNumber} wins!", playerReferences, tiebreakerText);
     }
 
     public override void ShowEndGameStats() {
@@ -186,15 +186,45 @@ public class DeathMatchManager : MatchManager {
                 topScore = playerRef.score;
             };
         }
-
         string text = "It's a tie!";
+        string tiebreakerText = "";
         if (winners.Count == 0) {
             text = "No one wins?";
         }
-        else if (winners.Count == 1) {
+        else {
+            if (winners.Count > 1) {
+                Player player;
+                (player, tiebreakerText) = Tiebreaker(winners);
+                winners = new List<Player>() { player };
+            }
             text = $"Player {winners[0].PlayerNumber} wins!!!";
         }
-        ui.ShowFinalScores(text, playerReferences, winners);
+        ui.ShowFinalScores(text, playerReferences, winners, tiebreakerText);
+    }
+
+    protected (Player, string) Tiebreaker(List<Player> winners) {
+        // get player with earliest non-negative kill
+        List<Player> tiebreaker = winners.Where(x => playerReferences[x].firstKill > 0).OrderBy(x => playerReferences[x].firstKill).ToList();
+        Player player;
+        if (tiebreaker.Count != 0) {
+            player = tiebreaker.First();
+            return (player, "*First kill!");
+        }
+        // if null, get player with last death
+        player = winners.OrderByDescending(x => playerReferences[x].lastDeath).FirstOrDefault();
+        UpdateScore(player, 1);
+        return (player, "*Last death!");
+    }
+
+    public void UpdateScore(Player player, int scoreDelta) {
+        PlayerReference playerRef = playerReferences[player];
+        playerRef.score += scoreDelta;
+        ui.OnScoreChange(player, playerRef.score);
+    }
+    public void UpdateStock(Player player, int stockDelta) {
+        PlayerReference playerRef = playerReferences[player];
+        playerRef.stocks += stockDelta;
+        ui.OnStockChange(player, playerRef.stocks);
     }
 
     public override void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {
@@ -212,7 +242,6 @@ public class DeathMatchManager : MatchManager {
             playerRef.lastHitter = sourceGunfish.player;
         }
 
-        // if fish is dead
         if (gunfish.statusData.health > 0) {
             return;
         }
@@ -220,9 +249,13 @@ public class DeathMatchManager : MatchManager {
         if ((Time.time - playerRef.lastHitTimestamp) <= lastHitThreshold && playerRef.lastHitter != null) {
             sourceGunfish = playerRef.lastHitter.Gunfish;
         }
+        playerRef.lastDeath = Time.time;
 
         if (sourceGunfish != null) {
             MarqueeManager.Instance.EnqueueRandomQuip();
+            // todo: update first kill
+            if (playerReferences[sourceGunfish.player].firstKill < 0)
+                playerReferences[sourceGunfish.player].firstKill = Time.time;
             UpdateScore(sourceGunfish.player, 1);
         }
         else if (!endingLevel) {

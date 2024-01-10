@@ -27,7 +27,11 @@ public class TeamDeathMatchManager : DeathMatchManager
     }
 
     protected override void ShowLevelWinner(Player player) {
-        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Team {playerTeamMap[player]} wins!", playerReferences);
+        string tiebreakerText = "";
+        if (player == null) {
+            (player, tiebreakerText) = Tiebreaker(parameters.activePlayers);
+        }
+        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Team {playerTeamMap[player]} wins!", playerReferences, tiebreakerText);
     }
 
     public override void ShowEndGameStats() {
@@ -45,14 +49,32 @@ public class TeamDeathMatchManager : DeathMatchManager
                 winners.Add(player);
             }
         }
-
+        /*
         string text = "It's a tie!";
+        string tiebreakerText = "";
         if (winners.Count == 0) {
             text = "No team wins?";
         }
         else if (winners.Count == 2) {
             text = $"Players {winners[0].PlayerNumber} and {winners[1].PlayerNumber} win!!!";
         }
-        ui.ShowFinalScores(text, playerReferences, winners);
+        */
+
+        string text = "It's a tie!";
+        string tiebreakerText = "";
+        if (winners.Count == 0) {
+            text = "No team wins?";
+        }
+        else {
+            if (winners.Count > 2) {
+                Player player;
+                (player, tiebreakerText) = Tiebreaker(winners);
+                winningTeam = playerTeamMap[player];
+                winners = winners.Where(x => playerTeamMap[x] == winningTeam).ToList();
+            }
+            text = $"Players {winners[0].PlayerNumber} and {winners[1].PlayerNumber} win!!!";
+        }
+
+        ui.ShowFinalScores(text, playerReferences, winners, tiebreakerText);
     }
 }

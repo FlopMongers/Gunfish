@@ -64,7 +64,7 @@ public class DeathMatchUI : MonoBehaviour {
         }
     }
 
-    public void ShowLevelStats(string text, Dictionary<Player, PlayerReference> playerRefs) {
+    public void ShowLevelStats(string text, Dictionary<Player, PlayerReference> playerRefs, string tiebreakerText) {
         winnerText.text = text; 
         //(playerNumber == -1) ? "No one wins!" : $"{winnerEntity} {playerNumber} wins!";
 
@@ -78,6 +78,9 @@ public class DeathMatchUI : MonoBehaviour {
             playerPanels[panelIdx].panel.SetActive(true);
             panelIdx++;
         }
+        if (tiebreakerText != "") {
+            playerPanels[0].tiebreakerText.text = tiebreakerText;
+        }
         StopAllCoroutines();
         StartCoroutine(CoShowLevelStats(true));
     }
@@ -87,7 +90,7 @@ public class DeathMatchUI : MonoBehaviour {
         StartCoroutine(CoShowLevelStats(false));
     }
 
-    public void ShowFinalScores(string text, Dictionary<Player, PlayerReference> playerRefs, List<Player> winners) {
+    public void ShowFinalScores(string text, Dictionary<Player, PlayerReference> playerRefs, List<Player> winners, string tiebreakerText) {
         ClearPlayerPanels();
 
         int panelIdx = 0;
@@ -102,6 +105,9 @@ public class DeathMatchUI : MonoBehaviour {
             panelIdx++;
         }
         winnerText.text = text;
+        if (tiebreakerText != "") {
+            playerPanels[0].tiebreakerText.text = tiebreakerText;
+        }
 
         StopAllCoroutines();
         StartCoroutine(CoShowLevelStats(true));
