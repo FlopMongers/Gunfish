@@ -85,12 +85,18 @@ public class HealthUI : MonoBehaviour {
         _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         gunfish.gun.OnAmmoChanged += UpdateWhiteBar;
 
-        SetUpConstraint(_gunfish.MiddleSegment.transform, offset);
-        transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {_gunfish.playerNum + 1}";
+        SetUpConstraint(_gunfish.segments[(int)((float)_gunfish.segments.Count/3)].transform, offset);
+
+        var playerColor = PlayerManager.Instance.playerColors[gunfish.playerNum];
+
+        var fishTitle = transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>();
+        fishTitle.text = $"P{_gunfish.playerNum + 1}";
+        fishTitle.color = playerColor;
 
         var offscreenTracker = GetComponentInChildren<OffscreenTracker>();
         if (offscreenTracker != null) {
             offscreenTracker.goToTrack = _gunfish.MiddleSegment;
+            offscreenTracker.color = playerColor;
         }
     }
 

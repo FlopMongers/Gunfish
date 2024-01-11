@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goToTrack: {fileID: 3316179194724269722}
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!222 &3209663020251470422
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -254,7 +255,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &2508142406450027037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,8 +423,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.1}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.8899999}
+  m_SizeDelta: {x: 0, y: 1.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2812018642103230809
 CanvasRenderer:
@@ -456,7 +457,7 @@ MonoBehaviour:
   m_text: Fish
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -480,13 +481,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.15
-  m_fontSizeBase: 36
+  m_fontSize: 0.3
+  m_fontSizeBase: 36.24
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 0.15
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

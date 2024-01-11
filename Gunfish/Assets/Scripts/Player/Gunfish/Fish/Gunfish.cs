@@ -51,6 +51,7 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     private void Start() {
         player = GetComponent<Player>();
+        playerNum = player.PlayerNumber;
 
         killed = false;
         spawned = false;
@@ -265,6 +266,27 @@ public class Gunfish : MonoBehaviour, IHittable {
             return segments[0].transform.position;
         else
             return null;
+    }
+
+    public Bounds GetBoundingBox() {
+        List<Collider2D> colliders = new(10);
+        segments[0].GetComponent<Rigidbody2D>().GetAttachedColliders(colliders);
+        Bounds bounds = colliders[0].bounds;
+        bounds = AddCollidersToBounds(bounds, colliders);
+        for (int i = 1; i < segments.Count; i++) {
+            colliders.Clear();
+            segments[i].GetComponent<Rigidbody2D>().GetAttachedColliders(colliders);
+            bounds = AddCollidersToBounds(bounds, colliders);
+        }
+        return bounds;
+    }
+
+    private Bounds AddCollidersToBounds(Bounds bounds, List<Collider2D> colliders) {
+        foreach (Collider2D collider in colliders) {
+            bounds.Encapsulate(collider.bounds.min);
+            bounds.Encapsulate(collider.bounds.max);
+        }
+        return bounds;
     }
 
     public void Spawn(GunfishData data, LayerMask layer, Vector3 position) {
