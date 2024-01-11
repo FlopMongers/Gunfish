@@ -70,7 +70,8 @@ public class FishHook : MonoBehaviour {
     void Zoom() {
         zooming = true;
         foreach (var fishPair in fishJointMap) {
-            fishPair.Value.breakForce = float.MaxValue;
+            if (fishJointMap.Values != null)
+                fishPair.Value.breakForce = float.MaxValue;
         }
         StartCoroutine(CoZoom());
     }
