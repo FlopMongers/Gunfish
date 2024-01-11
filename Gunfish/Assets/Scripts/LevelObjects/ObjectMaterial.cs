@@ -6,6 +6,8 @@ public class ObjectMaterial : MonoBehaviour {
     public bool skipCollision;
     public MaterialType materialType;
 
+    public GameEvent OnShot;
+
     protected void HandleMaterialCollision(ObjectMaterial mat, Collision2D collision) {
         if (mat == null) {
             FX_CollisionHandler.Instance?.HandleDefaultCollision(this, collision);
@@ -26,5 +28,9 @@ public class ObjectMaterial : MonoBehaviour {
         // if other has no thingy, play send to handler with default
         HandleMaterialCollision(collision.collider.GetComponent<ObjectMaterial>(), collision);
 
+    }
+
+    public void Shoot() {
+        OnShot?.Invoke();
     }
 }

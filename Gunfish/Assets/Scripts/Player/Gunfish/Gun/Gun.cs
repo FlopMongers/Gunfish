@@ -99,6 +99,7 @@ public class Gun : MonoBehaviour {
                 }
                 GunfishSegment fishSegment = hit.transform.GetComponentInParent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
+                ObjectMaterial objMat = hit.transform.GetComponentInParent<ObjectMaterial>();
                 if (fishSegment != null) {
                     // NOTE(Wyatt): this is how team deathmatch prevents friendly fire :)
                     bool fishHit = (GameManager.Instance != null)
@@ -131,6 +132,11 @@ public class Gun : MonoBehaviour {
                         HitType.Ballistic));
                     endPoint = hit.point;
                     break;
+                }
+                else if (objMat != null) {
+                    // TODO: replace with generalized FX_CollisionHandler code
+                    FX_Spawner.Instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
+                    objMat.Shoot();
                 }
                 else {
                     // TODO: replace with generalized FX_CollisionHandler code
