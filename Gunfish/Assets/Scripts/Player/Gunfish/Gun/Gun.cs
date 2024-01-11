@@ -141,6 +141,7 @@ public class Gun : MonoBehaviour {
                     // TODO: replace with generalized FX_CollisionHandler code
                     FX_Spawner.Instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
                     objMat.Shoot();
+                    break;
                 }
                 else {
                     // TODO: replace with generalized FX_CollisionHandler code
