@@ -12,6 +12,7 @@ public class ObjectMaterial : MonoBehaviour {
             return;
         }
         // if other skip collision, send the collision to the fx handler
+        // NOTE(Wyatt): hmm... check if skipCollision == true or false? will need to test.
         if (mat.skipCollision == true || materialType > mat.materialType || (materialType == mat.materialType && GetInstanceID() > mat.gameObject.GetInstanceID())) {
             FX_CollisionHandler.Instance?.HandleCollision(this, mat, collision);
         }

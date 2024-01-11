@@ -24,12 +24,12 @@ MonoBehaviour:
   groundTorque: 25
   airTorque: 100
   maxAerialAngularVelocity: 500
-  maxUnderwaterVelocity: 5
-  underwaterForce: 150
+  maxUnderwaterVelocity: 10
+  underwaterForce: 200
   underwaterTorque: 30
-  waterZoomSpeedThreshold: 10
+  waterZoomSpeedThreshold: 5
   waterZoomAngleThreshold: 30
-  waterZoomForce: 20
+  waterZoomForce: 30
   maxHealth: 10
   length: 2
   width:

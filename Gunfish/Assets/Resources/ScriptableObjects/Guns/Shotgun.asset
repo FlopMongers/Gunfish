@@ -21,7 +21,7 @@ MonoBehaviour:
     rotation: 185
   - position: {x: 0, y: 0}
     rotation: 195
-  kickback: 45
+  kickback: 75
   range: 10
   damage: 1.6
   knockback: 15

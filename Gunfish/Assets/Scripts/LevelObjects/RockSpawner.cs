@@ -16,6 +16,9 @@ public class RockSpawner : MonoBehaviour
     [Range(10f, 60f)]
     [SerializeField] private float averageSecondsBetweenAvalanches = 10f;
     private CinemachineImpulseSource impulseSource;
+
+    public Vector2 RockDuration = new Vector2(5f, 10f);
+   
     
     private float avalancheStartTime;
     private float avalancheEndTime;
@@ -69,6 +72,6 @@ public class RockSpawner : MonoBehaviour
         var scale = new Vector3(flip ? -1f : 1f, 1f, 1f) * Random.Range(0.2f, 0.4f);
         rockInstance.transform.SetGlobalScale(scale);
         rockInstance.transform.eulerAngles = Vector3.forward * Random.Range(0f, 360f);
-        Destroy(rockInstance, 10f);
+        rockInstance.GetComponent<Destroyer>().GETTEM(RockDuration.RandomInRange());
     }
 }

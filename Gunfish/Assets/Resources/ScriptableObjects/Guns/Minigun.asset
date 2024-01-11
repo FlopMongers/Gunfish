@@ -17,7 +17,7 @@ MonoBehaviour:
     rotation: 180
   kickback: 2
   range: 20
-  damage: 1.4
+  damage: 2
   knockback: 2
   maxAmmo: 18
   gunPrefab: {fileID: 3189059645541482188, guid: 9aa90d612c50c9f4294834d2f7544de3,

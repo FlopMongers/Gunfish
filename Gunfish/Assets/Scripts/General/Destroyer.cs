@@ -1,4 +1,3 @@
-using SolidUtilities.UnityEngineInternals;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +12,22 @@ public class Destroyer : MonoBehaviour
     float barticleToPoofRatio = 0.5f;
     float barticleExplosionForce = 5f;
 
-    public void GETTEM() {
+    public void GETTEM(float timer=-1) {
+        if (timer < 0) {
+            ActuallyGettem();
+        }
+        else {
+            StartCoroutine(CoGETTEM(timer));
+        }
+    }
+
+    IEnumerator CoGETTEM(float timer) {
+        yield return new WaitForSeconds(timer);
+        ActuallyGettem();
+    }
+
+    // NOTE(Wyatt): I know these names are moronic. Remember the KISS principle (keep it stupid, stupid)
+    void ActuallyGettem() {
         if (destroying)
             return;
         destroying = true;
@@ -26,8 +40,8 @@ public class Destroyer : MonoBehaviour
             float longSide = Mathf.Max(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y);
             shape.scale = Vector3.one * shortSide;
             var em = fx.emission;
-            em.burstCount *= Mathf.RoundToInt((spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y)+1 - (longSide / shortSide));
-            for (int i = 0; i < em.burstCount*barticleToPoofRatio; i++) {
+            em.burstCount *= Mathf.RoundToInt((spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y) + 1 - (longSide / shortSide));
+            for (int i = 0; i < em.burstCount * barticleToPoofRatio; i++) {
                 var barticle = Instantiate(FX_Spawner.Instance.barticles.GetRandom(), spriteRenderer.bounds.RandomPointInBounds(), Quaternion.identity);
                 barticle.transform.FindDeepChild("Mask").transform.localScale *= shortSide;
                 var barticleRenderer = barticle.GetComponentInChildren<SpriteRenderer>();
