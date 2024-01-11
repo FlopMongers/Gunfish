@@ -98,7 +98,7 @@ public class FishHook : MonoBehaviour {
             yield return null;
         }
         foreach (var fish in doomedFishes) {
-            fish.Hit(
+            fish?.Hit(
                 new FishHitObject(0, 
                 fish.RootSegment.transform.position, 
                 Vector2.zero, 
