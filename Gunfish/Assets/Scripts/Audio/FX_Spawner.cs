@@ -22,6 +22,7 @@ public enum FXType {
     Splash,
     Invincibility,
     Poof,
+    AcidSplash,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {

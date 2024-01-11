@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HitType { Impact, Ballistic, Electric, Explosive, }
+public enum HitType { Impact, Ballistic, Electric, Explosive, Acid }
 
 public class HitObject {
     public Vector2 position;

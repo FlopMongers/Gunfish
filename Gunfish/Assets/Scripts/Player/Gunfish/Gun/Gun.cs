@@ -93,6 +93,7 @@ public class Gun : MonoBehaviour {
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
 
+            bool splooshed = false;
             foreach (var hit in hits) {
                 if (hit.collider != null && hit.collider.isTrigger == true) {
                     continue;
@@ -101,8 +102,9 @@ public class Gun : MonoBehaviour {
                 Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
                 ObjectMaterial objMat = hit.transform.GetComponentInParent<ObjectMaterial>();
                 WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
-                if (node != null) {
-                    node.Sploosh(Vector2.down * gunfish.data.gun.damage);
+                if (node != null && !splooshed) {
+                    splooshed = true;
+                    node.zone.Sploosh(hit.point, gunfish.data.gun.damage, false);
                 }
                 if (fishSegment != null) {
                     // NOTE(Wyatt): this is how team deathmatch prevents friendly fire :)

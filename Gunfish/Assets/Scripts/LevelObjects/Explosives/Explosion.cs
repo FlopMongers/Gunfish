@@ -51,11 +51,11 @@ public class Explosion : MonoBehaviour
             }
             else if (hitTransform.GetComponentInParent<Shootable>()) { hittable = hitTransform.GetComponentInParent<Shootable>(); }
             WaterSurfaceNode node = hitTransform.GetComponent<WaterSurfaceNode>();
-            if (node != null) {
-                node.Sploosh(Vector2.up * damageCurve.Evaluate(
-                        Vector3.Distance(transform.position, node.GetComponent<BoxCollider2D>().bounds.max) / radius.bounds.extents.x) * waterSplooshForce);
+            if (node != null && !hittables.Contains(node.zone.gameObject)) {
+                node.zone.Sploosh(transform.position, damageCurve.Evaluate(
+                        Vector3.Distance(transform.position, node.GetComponent<BoxCollider2D>().bounds.max) / radius.bounds.extents.x) * waterSplooshForce, true);
+                hittables.Add(node.zone.gameObject);
             }
-                
             if (hittable == null || hittables.Contains(hittable.gameObject)) {
                 continue;
             }
