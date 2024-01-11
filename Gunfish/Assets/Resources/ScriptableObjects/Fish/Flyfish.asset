@@ -20,8 +20,8 @@ MonoBehaviour:
   mass: 3
   fixedJointDamping: 1
   fixedJointFrequency: 32
-  flopForce: 15
-  groundTorque: 15
+  flopForce: 10
+  groundTorque: 10
   airTorque: 20
   maxAerialAngularVelocity: 500
   maxUnderwaterVelocity: 10
