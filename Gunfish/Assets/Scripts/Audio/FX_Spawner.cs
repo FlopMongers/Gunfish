@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public enum FXType
-{
+public enum FXType {
     Default,
     Bang,
     Fish_Death,
@@ -17,21 +16,24 @@ public enum FXType
     Beachball_Shoot,
     Beachball_Pop,
     Spawn,
+    Bubbles,
+    TitleScreenStartFX,
+    SharkMode,
+    Splash,
+    Invincibility,
+    Poof,
 }
 
-public class FX_Spawner : MonoBehaviour
-{
+public class FX_Spawner : PersistentSingleton<FX_Spawner> {
     [System.Serializable]
-    public class FX_Tuple
-    {
+    public class FX_Tuple {
         public FXType key;
         public FXType trackKey;
-        public UnityEngine.GameObject fx; 
+        public UnityEngine.GameObject fx;
     }
 
     [System.Serializable]
-    public class FX_Track_Tuple
-    {
+    public class FX_Track_Tuple {
         public FXType key;
         public int limit = -1;
         public bool ignore;
@@ -39,8 +41,7 @@ public class FX_Spawner : MonoBehaviour
         [HideInInspector]
         public List<GameObject> fx_objects = new List<GameObject>();
 
-        public void HandleFXDestroy(FX_Object fx_obj)
-        {
+        public void HandleFXDestroy(FX_Object fx_obj) {
             fx_obj.Destroy_Event -= HandleFXDestroy;
             fx_objects.Remove(fx_obj.gameObject);
         }
@@ -61,30 +62,16 @@ public class FX_Spawner : MonoBehaviour
     public float freezeTime;
     bool paused;
 
+    public List<GameObject> barticles = new List<GameObject>();
+
     CinemachineImpulseSource impulseSource;
 
-    // Singleton code
-    public static FX_Spawner instance;
-    private void Awake()
-    {
-        if (null == instance)
-        {
-            instance = this;
-            transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        foreach (var entry in Serialized_FX_Dict)
-        {
+    public override void Initialize() {
+        base.Initialize();
+        foreach (var entry in Serialized_FX_Dict) {
             FX_Dict[entry.key] = entry;
         }
-        if (FX_Dict.ContainsKey(FXType.Default))
-        {
+        if (FX_Dict.ContainsKey(FXType.Default)) {
             FX_Dict[FXType.Default] = null;
         }
         holder = new UnityEngine.GameObject("FX Objects");
@@ -94,7 +81,7 @@ public class FX_Spawner : MonoBehaviour
         CinemachineImpulseManager.Instance.IgnoreTimeScale = true;
     }
 
-    public void BAM(float time=0.4f) {
+    public void BAM(float time = 0.4f) {
         impulseSource.GenerateImpulseWithVelocity(Random.insideUnitSphere);
         freezeTime = time;
     }
@@ -103,24 +90,25 @@ public class FX_Spawner : MonoBehaviour
         if (freezeTime > 0) {
             if (paused == false) {
                 paused = true;
-                PauseManager.instance?.PauseTime(0, 0);
+                PauseManager.Instance?.PauseTime(0, 0);
             }
             freezeTime -= Time.unscaledDeltaTime;
         }
         else if (paused == true) {
             paused = false;
-            PauseManager.instance?.PauseTime(1, 0);
+            PauseManager.Instance?.PauseTime(1, 0);
         }
     }
 
-    public UnityEngine.GameObject SpawnFX(GameObject fx, Vector3 position, Vector3 rotation, float vol = -1, Transform parent = null, FXType effectName = FXType.Default)
-    {
-        if (fx == null) return null;
+    public UnityEngine.GameObject SpawnFX(GameObject fx, Vector3 position, Vector3 rotation, float vol = -1, Transform parent = null, FXType effectName = FXType.Default) {
+        if (fx == null)
+            return null;
 
         UnityEngine.GameObject spawned_fx = Instantiate(fx, position, Quaternion.identity);
 
 
-        if (spawned_fx == null) return null;
+        if (spawned_fx == null)
+            return null;
 
         spawned_fx.transform.parent = (parent != null ? parent : holder.transform);
 
@@ -128,8 +116,7 @@ public class FX_Spawner : MonoBehaviour
             spawned_fx.transform.eulerAngles = rotation;
         FX_Object fx_obj = spawned_fx.GetComponent<FX_Object>();
         // get tracker and hook up event
-        if (FX_Tracker.ContainsKey(fx_obj.track_fx_type))
-        {
+        if (FX_Tracker.ContainsKey(fx_obj.track_fx_type)) {
             fx_obj.Destroy_Event += FX_Tracker[fx_obj.track_fx_type].HandleFXDestroy;
         }
         fx_obj.vol = vol;
@@ -138,8 +125,7 @@ public class FX_Spawner : MonoBehaviour
         return spawned_fx;
     }
 
-    public UnityEngine.GameObject SpawnFX(FXType effectName, Vector3 position, Vector3 rotation, float vol = -1, Transform parent = null)
-    {
+    public UnityEngine.GameObject SpawnFX(FXType effectName, Vector3 position, Vector3 rotation, float vol = -1, Transform parent = null) {
         if (!FX_Dict.ContainsKey(effectName))
             return SpawnFX(fx_default.fx, position, rotation, vol, parent, FXType.Default);
 
@@ -149,16 +135,13 @@ public class FX_Spawner : MonoBehaviour
 
         var track_tuple = FX_Tracker[FX_Dict[effectName].trackKey];
         GameObject fx_obj = null;
-        if (track_tuple.limit > -1 && track_tuple.fx_objects.Count > track_tuple.limit && !track_tuple.ignore)
-        {
-            if (track_tuple.cycle)
-            {
+        if (track_tuple.limit > -1 && track_tuple.fx_objects.Count > track_tuple.limit && !track_tuple.ignore) {
+            if (track_tuple.cycle) {
                 fx_obj = track_tuple.fx_objects[0];
                 fx_obj.GetComponent<FX_Object>().Replay();
                 track_tuple.fx_objects.Remove(fx_obj);
             }
-            else
-            {
+            else {
                 track_tuple.fx_objects[0].GetComponent<FX_Object>().Kill();
                 fx_obj = SpawnFX(FX_Dict[effectName].fx, position, rotation, vol, parent, effectName);
             }
@@ -167,11 +150,14 @@ public class FX_Spawner : MonoBehaviour
         return fx_obj;
     }
 
-    public UnityEngine.GameObject SpawnFX(FXType effectName, Vector3 position, Quaternion rotation, float vol = -1, Transform parent = null)
-    {
+    public UnityEngine.GameObject SpawnFX(FXType effectName, Vector3 position, Quaternion rotation, float vol = -1, Transform parent = null) {
         if (!FX_Dict.ContainsKey(effectName))
             return SpawnFX(fx_default.fx, position, rotation.eulerAngles, vol, parent, FXType.Default);
 
         return SpawnFX(effectName, position, rotation.eulerAngles, vol: vol, parent: parent);
+    }
+
+    public void DestroyFX(GameObject obj) {
+        Destroy(obj);
     }
 }

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
-public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUIController {
-    public static int playerCount = 0;
-    public int playerNumber;
+public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIController {
+    public int PlayerNumber { get; private set; }
 
     public GunfishData gunfishData;
     private Gunfish gunfish;
@@ -16,27 +16,33 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
     public bool FreezeControls;
     public bool Active;
 
+    public int layer;
+
     private void OnEnable() {
 
     }
 
-    private void Start() {
+    public void Initialize(int playerNumber) {
         DontDestroyOnLoad(gameObject);
+        
+        PlayerNumber = playerNumber;
 
         input = GetComponent<PlayerInput>();
         gunfish = GetComponent<Gunfish>();
         gun = GetComponent<Gun>();
 
-        playerNumber = ++playerCount;
+        layer = LayerMask.NameToLayer($"Player{PlayerNumber+1}");
 
-        gameObject.name = $"Player{playerNumber}";
+        gameObject.name = $"Player{PlayerNumber}";
 
         input.defaultActionMap = "UI";
     }
 
     public void SpawnGunfish(Vector3 spawnPosition) {
-        var layer = LayerMask.NameToLayer($"Player{playerNumber}");
+        var color = PlayerManager.Instance.playerColors[PlayerNumber];
         gunfish.Spawn(gunfishData, layer, spawnPosition);
+        var material = gunfish.gunfishRenderer.LineRenderer.material;
+        material.SetColor("_OutlineColor", color);
         input.defaultActionMap = "Player";
     }
 
@@ -67,6 +73,7 @@ public class Player: MonoBehaviour, IDeviceController, IGunfishController, IUICo
         }
 
         if (FreezeControls) {
+            gunfish.Move(Vector2.zero);
             return;
         }
 

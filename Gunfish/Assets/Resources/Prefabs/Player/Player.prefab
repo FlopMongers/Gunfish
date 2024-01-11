@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3189059645541482187}
   - component: {fileID: 4411546140183832275}
   - component: {fileID: 3703576942959761050}
-  - component: {fileID: -7990712495156368892}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -94,20 +93,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0efc72071dcefa648adfb61f7000d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectRemoveList: 
   data: {fileID: 0}
   debug: 0
+  segments: []
+  gun: {fileID: 0}
   playerNum: 0
---- !u!114 &-7990712495156368892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3189059645541482188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1e35f64340ec5643b649fcb05179b7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunfish: {fileID: 0}
-  barrels: []
+  underwater: 0
+  anySegmentUnderwater: 0

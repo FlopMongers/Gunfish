@@ -9,20 +9,32 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 0d33a14c2736a584685bdb4679ec37dc
   - enabled: 1
-    path: Assets/Scenes/Prototype/Gunfish Test.unity
-    guid: 945097a568d52464e818c2d9e8d2a284
+    path: Assets/Scenes/Skybox.unity
+    guid: b203674794be445f3ad69fd546365653
   - enabled: 1
-    path: Assets/Scenes/Player Loading.unity
-    guid: 87d88e86ad73b1440932c43b0ecd1ba3
-  - enabled: 1
-    path: Assets/Scenes/Prototype/Stats.unity
+    path: Assets/Scenes/Stats.unity
     guid: d86462ceaa5a5c54da7e162fb328f872
+  - enabled: 1
+    path: Assets/Scenes/Levels/great_bay.unity
+    guid: b0283a1dbefbe314cba4151f606651f1
+  - enabled: 1
+    path: Assets/Scenes/Levels/firing_range.unity
+    guid: 36412ad38a1154e55b18053cce8ce6fe
+  - enabled: 1
+    path: Assets/Scenes/Levels/pipes.unity
+    guid: 1d28d4803aef06b47b4cf63f7d55947a
   - enabled: 1
     path: Assets/Scenes/Levels/crags.unity
     guid: c6b20b12ee72972469b888b58c3512ed
   - enabled: 1
+    path: Assets/Scenes/Levels/valley.unity
+    guid: a92c5663c2aeb94449a17417b2bebb45
+  - enabled: 1
     path: Assets/Scenes/Levels/barrel.unity
     guid: d97c2aca0b082b343a7577eb252c9e5f
+  - enabled: 1
+    path: Assets/Scenes/Levels/cargo_hold.unity
+    guid: 87d88e86ad73b1440932c43b0ecd1ba3
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 74c65e590e412408290a756175924e53,
       type: 2}

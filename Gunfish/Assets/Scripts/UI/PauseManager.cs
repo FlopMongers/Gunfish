@@ -4,42 +4,36 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class PauseManager : Singleton<PauseManager>
-{
+public class PauseManager : Singleton<PauseManager> {
     public AudioMixer audioMixer;
     bool paused = false;
     Animator anim;
 
     int pausePriority;
 
-    public void Start()
-    {
+    public void Start() {
         anim = GetComponent<Animator>();
     }
 
-    public void Update()
-    {
+    public void Update() {
         if (Input.GetButtonDown("Pause"))
             Pause();
     }
 
-    public void MainMenu()
-    {
+    public void MainMenu() {
         PauseTime(1, 1);
-        LevelManager.instance?.LoadMainMenu();
+        LevelManager.Instance?.LoadMainMenu();
     }
 
 
-    public void Pause()
-    {
+    public void Pause() {
         paused = !paused;
         PauseTime((paused) ? 1 : 0, 1);
         anim.SetBool("Pause", paused);
         audioMixer.SetFloat("MasterLowpass", (paused) ? 500f : 22000f);
     }
 
-    public void PauseTime(int pause, int priority=0)
-    {
+    public void PauseTime(int pause, int priority = 0) {
         if (priority < pausePriority)
             return;
         pausePriority = (pause == 0) ? 0 : priority;

@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
-using TMPro;
 
 public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     private struct MarqueeContents {
@@ -43,14 +43,6 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         textAsset.SetText("");
     }
 
-    private void Update() {
-        UpdateDebug();
-    }
-
-    private void UpdateDebug() {
-        if (!GameManager.debug) return;
-    }
-
     public void EnqueueRandomQuip() {
         if (quips == null || quips.Length == 0) {
             Debug.LogWarning("Could not enqueue quip. Make sure you have at least one in the MarqueeManager");
@@ -59,7 +51,7 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
 
         var index = UnityEngine.Random.Range(0, 10);
         //var index = UnityEngine.Random.Range(0, quips.Length);
-        var quip = quips[29];
+        var quip = quips[index];
         var quipClip = quipClips[index];
         Enqueue(quip, quipClip);
     }
@@ -81,10 +73,6 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         }
     }
 
-    private void OnGUI() {
-        if (!GameManager.debug) return;
-        GUI.TextField(new Rect(0f, 20f, 200f, 20f), "Press P to start a countdown");
-    }
 
     private IEnumerator Scroll() {
         while (queue.Count > 0) {
@@ -92,12 +80,12 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
             if (!queue.TryDequeue(out contents)) {
                 continue;
             }
-            
+
             textAsset.SetText(contents.text);
 
             print($"Contents clip: {contents.clip}");
             if (contents.clip != null) {
-                ArduinoManager.instance.PlayClip(contents.clip);
+                ArduinoManager.Instance.PlayClip(contents.clip);
             }
 
             float t = 0f;

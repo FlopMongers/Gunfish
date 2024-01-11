@@ -1,56 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using System.Linq;
-using System;
 using UnityEngine.UI;
 
-public class PlayerPanel {
-    public GameObject panel;
-    public TextMeshProUGUI playerName;
-    public Image playerImg;
-    public TextMeshProUGUI playerScore;
-    public Image highlight;
-
-    public PlayerPanel(GameObject panel, TextMeshProUGUI playerName, Image playerImg, TextMeshProUGUI playerScore, Image highlight) {
-        this.panel = panel;
-        this.playerName = playerName;
-        this.playerImg = playerImg;
-        this.playerScore = playerScore;
-        this.highlight = highlight;
-    }
-}
-
 public class DeathMatchUI : MonoBehaviour {
-    [SerializeField]
-    private List<DeathMatchUIPlayerWidget> playerWidgets = new List<DeathMatchUIPlayerWidget>();
-    //[SerializeField]
-    //private LoadingCountdownUI loadingScreen;
+    [Header("UI References")]
+    
+    [SerializeField] private List<DeathMatchUIPlayerWidget> playerWidgets;
+    [SerializeField] private CanvasGroup playerPanelsGroup;
+    [SerializeField] private List<PlayerPanel> playerPanels;
 
-    TextMeshProUGUI winnerText;
-    List<PlayerPanel> playerPanels = new List<PlayerPanel>();
-    CanvasGroup playerPanelsGroup;
+    [Header("Preferences")]
+    [SerializeField] private Color eliminatedColor;
+    [SerializeField] private TextMeshProUGUI winnerText;
 
     // Start is called before the first frame update
     void Awake() {
-        foreach (var playerWidget in playerWidgets)
-        {
+        foreach (var playerWidget in playerWidgets) {
             playerWidget.gameObject.SetActive(false);
-        }
-
-        winnerText = transform.FindDeepChild("WinnerText").GetComponent<TextMeshProUGUI>();
-        playerPanelsGroup = transform.FindDeepChild("LevelStats").GetComponent<CanvasGroup>();
-        for (int i = 0; i < 4; i++) {
-            var panel = transform.FindDeepChild($"PlayerPanel{i}");
-            playerPanels.Add(
-                new PlayerPanel(
-                    panel.gameObject, 
-                    panel.FindDeepChild("PlayerName").GetComponent<TextMeshProUGUI>(),
-                    panel.FindDeepChild("PlayerImg").GetComponent<Image>(),
-                    panel.FindDeepChild("PlayerWins").GetComponent<TextMeshProUGUI>(),
-                    panel.FindDeepChild("Highlight").GetComponent<Image>()
-                    ));
         }
     }
 
@@ -68,13 +38,19 @@ public class DeathMatchUI : MonoBehaviour {
         for (int i = 0; i < playerWidgets.Count; i++) {
             if (players.Count > i && players[i] != null) {
                 playerWidgets[i].gameObject.SetActive(true);
+                var color = PlayerManager.Instance.playerColors[i];
+                playerWidgets[i].SetColor(color);
                 playerWidgets[i].InitializeLevel(initialStockCount, players[i]);
             }
         }
     }
 
     public void OnStockChange(Player player, int newStockValue) {
-        playerWidgets.Find((pwidget) => pwidget.player == player)?.OnStockChange(newStockValue);
+        DeathMatchUIPlayerWidget playerWidget = playerWidgets.Find((pwidget) => pwidget.player == player);
+        playerWidget.OnStockChange(newStockValue);
+        if (newStockValue == 0) {
+            playerWidget.SetColor(eliminatedColor);
+        }
     }
 
     public void OnScoreChange(Player player, int newScoreValue) {
@@ -88,18 +64,22 @@ public class DeathMatchUI : MonoBehaviour {
         }
     }
 
-    public void ShowLevelStats(Player player, Dictionary<Player, int> playerScores) {
-        winnerText.text = (player == null) ? "No one wins!" : $"Player {player.playerNumber} wins!";
+    public void ShowLevelStats(string text, Dictionary<Player, PlayerReference> playerRefs, string tiebreakerText) {
+        winnerText.text = text; 
+        //(playerNumber == -1) ? "No one wins!" : $"{winnerEntity} {playerNumber} wins!";
 
         ClearPlayerPanels();
 
-        int playerIdx = 0;
-        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
-            playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
-            playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
-            playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
-            playerPanels[playerIdx].panel.SetActive(true);
-            playerIdx++;
+        int panelIdx = 0;
+        foreach ((Player player, PlayerReference playerRef) in playerRefs.OrderByDescending(x => x.Value.score)) {
+            playerPanels[panelIdx].playerName.text = $"Player {player.PlayerNumber}";
+            playerPanels[panelIdx].playerImg.sprite = player.gunfishData.sprite;
+            playerPanels[panelIdx].playerScore.text = playerRef.score.ToString();
+            playerPanels[panelIdx].panel.SetActive(true);
+            panelIdx++;
+        }
+        if (tiebreakerText != "") {
+            playerPanels[0].tiebreakerText.text = tiebreakerText;
         }
         StopAllCoroutines();
         StartCoroutine(CoShowLevelStats(true));
@@ -110,33 +90,23 @@ public class DeathMatchUI : MonoBehaviour {
         StartCoroutine(CoShowLevelStats(false));
     }
 
-    public void ShowFinalScores(Dictionary<Player, int> playerScores) {
+    public void ShowFinalScores(string text, Dictionary<Player, PlayerReference> playerRefs, List<Player> winners, string tiebreakerText) {
         ClearPlayerPanels();
 
-        int playerIdx = 0;
-        int topScore = 0;
-        List<Player> winners = new List<Player>();
-        foreach (var playerScore in playerScores.OrderByDescending(x => x.Value)) {
-            playerPanels[playerIdx].playerName.text = $"Player {playerScore.Key.playerNumber}";
-            playerPanels[playerIdx].playerImg.sprite = playerScore.Key.gunfishData.sprite;
-            playerPanels[playerIdx].playerScore.text = playerScore.Value.ToString();
-            if (playerScore.Value >= topScore) {
-                playerPanels[playerIdx].highlight.enabled = true;
-                winners.Add(playerScore.Key);
-                topScore = playerScore.Value;
+        int panelIdx = 0;
+        foreach ((Player player, PlayerReference playerRef) in playerRefs.OrderByDescending(x => x.Value.score)) {
+            playerPanels[panelIdx].playerName.text = $"Player {player.PlayerNumber}";
+            playerPanels[panelIdx].playerImg.sprite = player.gunfishData.sprite;
+            playerPanels[panelIdx].playerScore.text = playerRef.score.ToString();
+            if (winners.Contains(player)) {
+                playerPanels[panelIdx].highlight.enabled = true;
             }
-            playerPanels[playerIdx].panel.SetActive(true);
-            playerIdx++;
+            playerPanels[panelIdx].panel.SetActive(true);
+            panelIdx++;
         }
-
-        if (winners.Count == 0) {
-            winnerText.text = "No one wins?";
-        }
-        else if (winners.Count == 1) {
-            winnerText.text = $"Player {winners[0].playerNumber} wins!!!";
-        }
-        else {
-            winnerText.text = "It's a tie!";
+        winnerText.text = text;
+        if (tiebreakerText != "") {
+            playerPanels[0].tiebreakerText.text = tiebreakerText;
         }
 
         StopAllCoroutines();

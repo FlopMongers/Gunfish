@@ -1,9 +1,9 @@
-using UnityEngine;
 using System.IO.Ports;
+using UnityEngine;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
 
-    private SerialPort serialPort = new SerialPort("COM69", 9600);
+    private SerialPort serialPort;
 
     private AudioClip clip;
     private AudioSource source;
@@ -12,71 +12,67 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     public void PlayClip(AudioClip clip) {
         this.clip = clip;
         source.clip = clip;
-        data = new float[clip.samples * clip.channels];
+        data = new float[source.clip.samples * source.clip.channels];
+        source.clip.GetData(data, 0);
         source?.Play();
     }
 
-    private void OnEnable() {
+    public override void Initialize() {
+        serialPort = new SerialPort("COM3", 9600) {
+            ReadTimeout = 100
+        };
+
+        source = GetComponent<AudioSource>();
+        clip = source.clip;
+        ConnectArduino();
+
+        base.Initialize();
+    }
+
+    private void ConnectArduino() {
         try {
             serialPort?.Open();
-        } catch {
+            Debug.Log("Connected Arduino!");
+        }
+        catch {
             Debug.LogWarning("Could not open serial port. Is the Arduino connected?");
         }
     }
 
-    private void Start() {
-        serialPort.ReadTimeout = 100;
-        
-        source = GetComponent<AudioSource>();
-        clip = source.clip;
+    private void DisconnectArduino() {
+        if (serialPort != null && serialPort.IsOpen) {
+            serialPort?.Close();
+            Debug.Log("Disconnected Arduino!");
+        }
     }
 
     private float SampleLoudness() {
-        var time = source.timeSamples;
-        clip.GetData(data, time);
-
-        // Calculate loudness for the first second of the audio
-        // Replace these numbers to adjust for desired interval
-        int samplesPerSecond = clip.frequency * clip.channels;
-        float amplitude = 0;
-        float sumDerivatives = 0;
-
-        int sampleCount = samplesPerSecond / 8;
-
-        for (int i = 1; i < sampleCount; i++) {
-            amplitude += Mathf.Abs(data[i]);
-            sumDerivatives += Mathf.Abs(data[i]-data[i-1]);
+        if (data == null || source.timeSamples > data.Length) {
+            return 0f;
         }
 
-        amplitude /= sampleCount;
-        sumDerivatives /= sampleCount - 1;
-
-        // f(t) = a * s(t) + b * (s(t) - s(t-1))
-
+        var index = source.timeSamples;
+        var amplitude = data[index];
         float loudness = amplitude * 255;
-        // loudness = Mathf.sin(sumDerivatives * 255*2f,255);
-
+        Debug.Log(loudness);
         return loudness;
     }
 
     private void Update() {
         if (serialPort.IsOpen) {
-            // Send an oscillating byte value from 0 to 255
-            byte volume = (byte)Mathf.RoundToInt(SampleLoudness());
-            byte[] buffer = new byte[] {volume};
+            float loudness = SampleLoudness();
+            byte volume = (byte)Mathf.RoundToInt(loudness);
+            byte[] buffer = new byte[] { volume };
             serialPort.Write(buffer, 0, 1);
         }
 
         if (!GameManager.debug) {
             return;
         }
-
-        if (Input.GetKeyDown(KeyCode.P)) {
-            source?.Play();
-        }
     }
 
-    private void OnDisable() {
-        serialPort?.Close();
+    protected override void OnDestroy() {
+        DisconnectArduino();
+        base.OnDestroy();
     }
 }

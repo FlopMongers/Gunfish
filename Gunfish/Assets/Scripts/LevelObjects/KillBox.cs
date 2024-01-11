@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FishDetector))]
-public class KillBox : MonoBehaviour
-{
+public class KillBox : MonoBehaviour {
     // add start method to initialize fish detector
-    public void Start()
-    {
+    public void Start() {
         var detector = GetComponent<FishDetector>();
         detector.OnFishTriggerEnter += HandleFishTriggerEnter;
     }
@@ -19,6 +17,6 @@ public class KillBox : MonoBehaviour
             Vector2.up,
             gameObject,
             100000000000000000f,
-            1f));
+            1f, HitType.Impact));
     }
 }

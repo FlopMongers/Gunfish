@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e20875e2f4b0f4b994737fe6e249e3, type: 3}
+  m_Name: BetaGunfishList
+  m_EditorClassIdentifier: 
+  gunfishes:
+  - {fileID: 11400000, guid: 097afb333d13663499f4f2a0cd056a26, type: 2}
+  - {fileID: 11400000, guid: 4ee698ce9de6ffb4cb440125fa859322, type: 2}
+  - {fileID: 11400000, guid: 7d2823675ed2ca948887fb636ca23cc6, type: 2}
+  - {fileID: 11400000, guid: 47f97c42e280d1c49ac11a8fa0441dbb, type: 2}
+  - {fileID: 11400000, guid: 1551ba87db9759b4ea4975d1f8555212, type: 2}

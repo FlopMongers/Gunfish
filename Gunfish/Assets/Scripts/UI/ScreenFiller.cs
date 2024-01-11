@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScreenFiller : Singleton<ScreenFiller>
-{
+public class ScreenFiller : Singleton<ScreenFiller> {
     // total number
     // how long
     // curve dictates the distribution
@@ -21,43 +20,35 @@ public class ScreenFiller : Singleton<ScreenFiller>
 
 
     // Start is called before the first frame update
-    void Start()
-    {
-        foreach (var t in gameObject.FindComponentsInChildrenWithTag<Image>("UI_Filler", forceActive: true))
-        {
+    void Start() {
+        foreach (var t in gameObject.FindComponentsInChildrenWithTag<Image>("UI_Filler", forceActive: true)) {
             fillers.Add(t.gameObject);
         }
 
-        for (int i = 0; i < numSamples; i++)
-        {
+        for (int i = 0; i < numSamples; i++) {
             timeNormalizer += sampleDelayCurve.Evaluate(i / numSamples);
         }
         DontDestroyOnLoad(transform.parent);
     }
 
-    public void Fill(int fill)
-    {
+    public void Fill(int fill) {
         StartCoroutine(CoFill(fill != 0));
     }
 
-    IEnumerator CoFill(bool fill)
-    {
+    IEnumerator CoFill(bool fill) {
         int revealedIcons = 0;
         int j = 0;
         int sampleSize = Mathf.CeilToInt(fillers.Count / numSamples);
         float delay;
         //int musicIndex = 0;
 
-        while (revealedIcons < fillers.Count)
-        {
-            for (int i = revealedIcons; i < revealedIcons + Mathf.Max(sampleSize, 1f); i++)
-            {
+        while (revealedIcons < fillers.Count) {
+            for (int i = revealedIcons; i < revealedIcons + Mathf.Max(sampleSize, 1f); i++) {
                 if (i >= fillers.Count)
                     break;
                 fillers[i].gameObject.SetActive(fill);
             }
-            if (fill)
-            {
+            if (fill) {
                 //FX_Spawner.instance?.SpawnFX(musicSounds[musicIndex], Vector3.zero, Quaternion.identity);
                 //musicIndex = (musicIndex + 1) % musicSounds.Count;
                 // print(musicIndex % musicSounds.Count);

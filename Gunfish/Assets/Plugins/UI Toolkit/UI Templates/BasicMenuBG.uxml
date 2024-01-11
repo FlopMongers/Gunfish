@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="width: 100%; height: 100%; border-left-width: 4px; border-right-width: 4px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.8); overflow: hidden; align-items: center; justify-content: center;">
+        <ui:VisualElement style="background-image: resource(&apos;Sprites/UI/stripes&apos;); width: 1024px; height: 1024px; -unity-background-image-tint-color: rgba(7, 7, 7, 0.79); rotate: 26deg; translate: 0 57px; -unity-background-scale-mode: scale-to-fit; scale: 1 5;" />
+    </ui:VisualElement>
+</ui:UXML>

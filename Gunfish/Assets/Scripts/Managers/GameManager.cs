@@ -1,51 +1,63 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameParameters {
     public List<Player> activePlayers;
     public List<string> scenes;
+    public string skyboxScene;
 
-    public GameParameters(List<Player> activePlayers, List<string> scenes) {
+    public GameParameters(List<Player> activePlayers, List<string> scenes, string skyboxScene) {
         this.activePlayers = activePlayers;
         this.scenes = scenes;
+        this.skyboxScene = skyboxScene;
     }
 }
 
 public class GameManager : PersistentSingleton<GameManager> {
     public static readonly bool debug = true;
     
-    public List<GameMode> GameModeList = new List<GameMode>();
-    public List<GunfishData> GunfishList = new List<GunfishData>();
+    [SerializeField]
+    private GameModeList _gameModeList;
+    public GameModeList GameModeList { get => _gameModeList; }
 
-    private GameObject gameModeObject;
+    [SerializeField]
+    private GunfishDataList _gunfishDataList;
+    public GunfishDataList  GunfishDataList { get => _gunfishDataList; }
+
     private GameModeType selectedGameMode;
-    
-    private Dictionary<GameModeType, GameMode> gameModeMap = new Dictionary<GameModeType, GameMode>();
-    public MatchManager MatchManager { get; private set; }
 
+    public MatchManager MatchManager { get; private set; }
 
     protected override void Awake() {
         base.Awake();
-        foreach (GameMode gameMode in GameModeList) {
-            gameModeMap[gameMode.gameModeType] = gameMode;
-        }
+    }
+
+    protected void Start() {
+        Initialize();
+    }
+
+    public override void Initialize() {
+        PlayerManager.Instance.Initialize();
+        LevelManager.Instance.Initialize();
+        MusicManager.Instance.Initialize();
+        ArduinoManager.Instance.Initialize();
+        FX_Spawner.Instance.Initialize();
+        MarqueeManager.Instance.Initialize();
+        PauseManager.Instance.Initialize();
+        GameModeManager.Instance.Initialize();
+        MainMenu.Instance.Initialize();
     }
 
     public void InitializeGame() {
         // Spawn match manager
-        if (selectedGameMode == GameModeType.DeathMatch) {
-            gameModeObject = Instantiate(gameModeMap[selectedGameMode].matchManagerPrefab);
-            MatchManager = gameModeObject.GetComponent<MatchManager>();
-        } else if (selectedGameMode == GameModeType.Race) {
-            MatchManager = null;
-        }
-
-        var scenes = new List<string>() { "Player Loading", "crags", "barrel" };
-
         // Get all active players
-        GameParameters parameters = new GameParameters(PlayerManager.instance.Players, scenes);
-        MatchManager?.Initialize(parameters);
+        GameModeManager.Instance.InitializeGameMode(selectedGameMode, PlayerManager.Instance.Players);
+        MusicManager.Instance.PlayTrackSet(TrackSetLabel.Gameplay);
+    }
+
+    public void ResetGame() {
+        GameModeManager.Instance.TeardownGameMode();
     }
 
     public void SetSelectedGameMode(GameModeType gameMode) {

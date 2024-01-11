@@ -1,6 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="Container" style="justify-content: flex-start; align-items: center; -unity-text-align: middle-center; width: 100%; height: 100%; color: rgb(210, 210, 210);">
-        <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/UI/logo.png?fileID=2800000&amp;guid=79f56d222a0a4b74aa085d0c79cc1f7a&amp;type=3#logo&apos;); width: 100%; height: 80%; -unity-background-scale-mode: scale-to-fit;" />
-        <ui:Label text="PRESS ANY BUTTON" display-tooltip-when-elided="true" name="Subtitle" style="font-size: 24px; -unity-font: initial; -unity-font-style: bold; color: rgb(236, 186, 101);" />
-    </ui:VisualElement>
-</ui:UXML>
