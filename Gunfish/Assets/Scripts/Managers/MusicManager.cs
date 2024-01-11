@@ -44,11 +44,12 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private float clipTimer = 0f;
 
     protected void Update() {
-        if (clipTimer >= 0f) {
-            clipTimer -= Time.deltaTime;
-        } else if (!transitioning) {
-            StartNextTrack();
-        }
+        // Temporailiy remove music queue functionality while we aren't using it
+        // if (clipTimer >= 0f) {
+        //     clipTimer -= Time.deltaTime;
+        // } else if (!transitioning) {
+        //     StartNextTrack();
+        // }
     }
 
     public override void Initialize() {
@@ -68,7 +69,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         };
 
         foreach (var audioSource in audioSources) {
-            audioSource.loop = false;
+            audioSource.loop = true;
             audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
     }
