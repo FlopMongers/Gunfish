@@ -15,7 +15,7 @@ MonoBehaviour:
   gunBarrels:
   - position: {x: 0, y: 0}
     rotation: 180
-  kickback: 7
+  kickback: 15
   range: 20
   damage: 2
   knockback: 5
