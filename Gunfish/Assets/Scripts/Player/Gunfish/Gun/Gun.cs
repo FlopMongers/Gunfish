@@ -100,6 +100,10 @@ public class Gun : MonoBehaviour {
                 GunfishSegment fishSegment = hit.transform.GetComponentInParent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
                 ObjectMaterial objMat = hit.transform.GetComponentInParent<ObjectMaterial>();
+                WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
+                if (node != null) {
+                    node.Sploosh(Vector2.down * gunfish.data.gun.damage);
+                }
                 if (fishSegment != null) {
                     // NOTE(Wyatt): this is how team deathmatch prevents friendly fire :)
                     bool fishHit = (GameManager.Instance != null)
