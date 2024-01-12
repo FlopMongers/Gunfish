@@ -86,7 +86,7 @@ public class DeathMatchManager : MatchManager {
             distance = float.MaxValue;
             bool skip = true;
             foreach (var activePlayer in parameters.activePlayers) {
-                if (activePlayer.Gunfish == null) {
+                if (activePlayer.Gunfish.RootSegment == null) {
                     continue;
                 }
                 else {
