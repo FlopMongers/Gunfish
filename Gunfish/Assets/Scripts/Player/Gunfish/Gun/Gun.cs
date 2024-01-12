@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default");
+        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water");
     }
 
     // Update is called once per frame
@@ -95,17 +95,17 @@ public class Gun : MonoBehaviour {
 
             bool splooshed = false;
             foreach (var hit in hits) {
+                WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
+                if (node != null && !splooshed) {
+                    splooshed = true;
+                    node.zone.Sploosh(hit.point, node.zone.splashThresholdRange.y, false, true);
+                }
                 if (hit.collider != null && hit.collider.isTrigger == true) {
                     continue;
                 }
                 GunfishSegment fishSegment = hit.transform.GetComponentInParent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
                 ObjectMaterial objMat = hit.transform.GetComponentInParent<ObjectMaterial>();
-                WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
-                if (node != null && !splooshed) {
-                    splooshed = true;
-                    node.zone.Sploosh(hit.point, gunfish.data.gun.damage, false);
-                }
                 if (fishSegment != null) {
                     // NOTE(Wyatt): this is how team deathmatch prevents friendly fire :)
                     bool fishHit = (GameManager.Instance != null)
@@ -142,6 +142,7 @@ public class Gun : MonoBehaviour {
                 else if (objMat != null) {
                     // TODO: replace with generalized FX_CollisionHandler code
                     FX_Spawner.Instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
+                    endPoint = hit.point;
                     objMat.Shoot();
                     break;
                 }

@@ -20,7 +20,7 @@ public class SplashEffect : MonoBehaviour
         float size = Mathf.Lerp(particleSizeRange.x, particleSizeRange.y, power);
         main.startSize = new ParticleSystem.MinMaxCurve(size - (size * particleSizeRange.z), size + (size * particleSizeRange.z));
         float speed = Mathf.Lerp(particleSpeedRange.x, particleSpeedRange.y, power);
-        main.startSpeed = new ParticleSystem.MinMaxCurve(size - (size * particleSpeedRange.z), size + (size * particleSpeedRange.z));
+        main.startSpeed = new ParticleSystem.MinMaxCurve(speed - (speed * particleSpeedRange.z), speed + (speed * particleSpeedRange.z));
         splashFX.Play();
     }
 }
