@@ -43,7 +43,7 @@ public class WaterZone : MonoBehaviour {
             waterMaterial.waterSurfaceNodes, position.x, PiecewiseLinear.transformPosition, true);
         PerturbNode(nodeIdx, dir * force);
         PerturbNode(nodeIdx + 1, dir * force);
-        if (splash == true && force > splashThresholdRange.x) {
+        if (splash == true && force > splashThresholdRange.x && FX_Spawner.Instance != null) {
             float normalizedForce = ExtensionMethods.GetNormalizedValueInRange(force, splashThresholdRange.x, splashThresholdRange.y);
             var splashFX = FX_Spawner.Instance.SpawnFX(
                 splashType, position, Quaternion.identity, Mathf.Lerp(splashVolumeRange.x, splashVolumeRange.y, normalizedForce)).GetComponent<SplashEffect>();
