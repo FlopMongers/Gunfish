@@ -328,7 +328,9 @@ public class Gunfish : MonoBehaviour, IHittable {
         destroyer = RootSegment.AddComponent<Destroyer>();
         // add composite detection handler and Init
         // add damage receiver
-        RootSegment.CheckAddComponent<CollisionDamageReceiver>().gunfish = this;
+        CollisionDamageReceiver receiver = RootSegment.CheckAddComponent<CollisionDamageReceiver>();
+        receiver.oomphScale = 0.5f;
+        receiver.gunfish = this;
         RootSegment.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
         groundDetector = RootSegment.CheckAddComponent<GroundDetector>();
         groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layer);
