@@ -5,7 +5,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class MatchManager : MonoBehaviour {
-    protected GameParameters parameters;
+    [HideInInspector]
+    public GameParameters parameters;
     protected int currentLevel;
 
     protected List<Transform> spawnPoints;

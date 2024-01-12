@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: GrenadeLauncher
   m_EditorClassIdentifier: 
   gunBarrels:
-  - position: {x: 0, y: 0}
+  - position: {x: -1.2, y: 0}
     rotation: 180
-  kickback: 80
+  kickback: 55
   range: 20
   damage: 4
   knockback: 8
   maxAmmo: 1
   gunPrefab: {fileID: 3189059645541482188, guid: 57dded0472679fe4196d659344e94bad,
     type: 3}
-  gunSpritePrefab: {fileID: 8519334242837557634, guid: f620701d9e54359409ae555c9a85e648,
+  gunSpritePrefab: {fileID: 8519334242837557634, guid: 1f44bd1d37bdf264593fc9b86ad3cdb4,
     type: 3}
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}

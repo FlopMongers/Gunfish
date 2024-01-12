@@ -12,37 +12,43 @@ public class PelicanSpawner : Spawner
     // when you spawn a pelican, give them a start position and end position
     List<Collider2D> spawnZones = new List<Collider2D>();
 
-    [HideInInspector]
-    public List<Gunfish> gunfishes = new List<Gunfish>();
-
     protected override void Start() {
         base.Start();
         active = false;
-        // initialize spawn zones
-        gunfishes = FindObjectsOfType<Gunfish>().ToList();
     }
 
     public void FetchSpawnZones() {
         spawnZones = new List<Collider2D>();
+        Vector3 maxPosition = Vector3.zero;
+        Vector3 minPosition = Vector3.zero;
         foreach (var killbox in FindObjectsOfType<KillBox>()) {
-            spawnZones.Add(killbox.gameObject.GetComponent<Collider2D>());
+            var coll = killbox.gameObject.GetComponent<Collider2D>();
+            spawnZones.Add(coll);
+            maxPosition = Vector3.Max(coll.bounds.max, maxPosition);
+            minPosition = Vector3.Min (coll.bounds.min, minPosition);
         }
+        distance = Vector3.Distance(maxPosition, minPosition);
     }
 
     protected override GameObject Spawn() {
         if (spawnZones.Count == 0) {
             return null;
         }
+
+        // TODO INCREASE PELICAN SPAWN RATE AND SPEED OVER TIME
+
         List<Transform> targets = new List<Transform>();
-        foreach (var gunfish in gunfishes) {
-            bool noFish = true;
-            if (gunfish.segments.Count > 0) {
+        bool noFish = true;
+        foreach (var player in GameModeManager.Instance.matchManagerInstance.parameters.activePlayers) {
+            Gunfish gunfish = player.Gunfish;
+            if (gunfish.RootSegment != null) {
                 noFish = false;
                 targets.Add(gunfish.RootSegment.transform);
             }
-            if (noFish) {
-                return null;
-            }
+        }
+        if (noFish == true) {
+            targets.Add(transform);
+            //return null;
         }
         Pelican pelican = base.Spawn().GetComponent<Pelican>();
         pelican.transform.position = spawnZones[Random.Range(0, spawnZones.Count)].bounds.RandomPointInBounds();
