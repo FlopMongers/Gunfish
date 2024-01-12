@@ -142,6 +142,7 @@ public class Gun : MonoBehaviour {
                 else if (objMat != null) {
                     // TODO: replace with generalized FX_CollisionHandler code
                     FX_Spawner.Instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
+                    endPoint = hit.point;
                     objMat.Shoot();
                     break;
                 }
