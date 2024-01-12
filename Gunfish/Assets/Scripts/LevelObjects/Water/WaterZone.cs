@@ -33,7 +33,7 @@ public class WaterZone : MonoBehaviour {
         waterMaterial.waterSurfaceNodes[nodeIdx].GetComponent<WaterSurfaceNode>().Sploosh(force);
     }
 
-    public void Sploosh(Vector3 position, float force, bool up) {
+    public void Sploosh(Vector3 position, float force, bool up, bool splash) {
         if (force < forceRange.x)
             return;
         force *= forceScale;
@@ -43,20 +43,20 @@ public class WaterZone : MonoBehaviour {
             waterMaterial.waterSurfaceNodes, position.x, PiecewiseLinear.transformPosition, true);
         PerturbNode(nodeIdx, dir * force);
         PerturbNode(nodeIdx + 1, dir * force);
-        if (force > splashThresholdRange.x) {
+        if (splash == true && force > splashThresholdRange.x) {
             float normalizedForce = ExtensionMethods.GetNormalizedValueInRange(force, splashThresholdRange.x, splashThresholdRange.y);
-            var splash = FX_Spawner.Instance.SpawnFX(
+            var splashFX = FX_Spawner.Instance.SpawnFX(
                 splashType, position, Quaternion.identity, Mathf.Lerp(splashVolumeRange.x, splashVolumeRange.y, normalizedForce)).GetComponent<SplashEffect>();
-            splash.SetSplashPower(normalizedForce);
+            splashFX.SetSplashPower(normalizedForce);
         }
     }
 
     void FishEnterSploosh(GunfishSegment segment, Collider2D collider) {
-        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, false);
+        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, false, false);
     }
 
     void FishExitSploosh(GunfishSegment segment, Collider2D collider) {
-        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, true);
+        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, true, false);
     }
 
     public virtual void OnTriggerEnter2D(Collider2D other) {
@@ -68,6 +68,10 @@ public class WaterZone : MonoBehaviour {
         if (shootable != null) {
             if (!submergedShootables.ContainsKey(shootable)) {
                 submergedShootables[shootable] = 0;
+                float vel = shootable.GetComponent<Rigidbody2D>().velocity.y;
+                if (vel < -splashThresholdRange.x) {
+                    Sploosh(other.transform.position, -vel, false, true);
+                }
             }
             submergedShootables[shootable]++;
         }
@@ -76,6 +80,12 @@ public class WaterZone : MonoBehaviour {
         if (fishSegment != null) {
             if (fishSegment.isGun && !fishSegment.gunfish.underwater) {
                 //if (fishSegment.GetComponent<Rigidbody2D>().velocity.y < -5)
+                if (fishSegment.gunfish.anySegmentUnderwater == 0) {
+                    float vel = fishSegment.GetComponent<Rigidbody2D>().velocity.y;
+                    if (vel < -splashThresholdRange.x) {
+                        Sploosh(other.transform.position, -vel, false, true);
+                    }
+                }
                 FX_Spawner.Instance.SpawnFX(FXType.Bubbles, fishSegment.transform.position, Quaternion.identity, 0.1f, fishSegment.transform);
             }
             fishSegment.SetUnderwater(1);
@@ -85,7 +95,7 @@ public class WaterZone : MonoBehaviour {
             waterInteractor.SetUnderwater(1);
         } // TODO: change gunfish segment to just use a water interactor!
         if (other.GetComponentInParent<Rigidbody2D>() != null) {
-            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, false);
+            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, false, false);
         }
     }
 
@@ -111,7 +121,7 @@ public class WaterZone : MonoBehaviour {
             waterInteractor.SetUnderwater(-1);
         }
         else if (other.GetComponentInParent<Rigidbody2D>() != null) {
-            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, true);
+            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, true, false);
         }
     }
 }
