@@ -22,7 +22,7 @@ public class HurtBox : MonoBehaviour {
         List<Gunfish> fishesToRemove = new List<Gunfish>();
         foreach (Gunfish fish in hurtFish) {
             float frameDamage = damage * Time.deltaTime;
-            print("Hurting " + fish.name + " for " + frameDamage);
+            //print("Hurting " + fish.name + " for " + frameDamage);
             fish.Hit(new FishHitObject(0, transform.position, Vector2.zero, gameObject, frameDamage, 0, HitType.Impact, true));
             //fish.UpdateHealth(-frameDamage);
             if (!fish.statusData.alive) {

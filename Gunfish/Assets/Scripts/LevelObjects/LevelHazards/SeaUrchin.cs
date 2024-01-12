@@ -11,7 +11,7 @@ public class SeaUrchin : MonoBehaviour {
 
     [SerializeField]
     [Range(0f, 100f)]
-    private float prickMagnitude = 10f;
+    private float prickKnockback = 10f;
 
     [SerializeField]
     [Range(0f, 10f)]
@@ -60,17 +60,13 @@ public class SeaUrchin : MonoBehaviour {
     }
 
     private void OnFishEnter(GunfishSegment segment, Collision2D collision) {
-        var direction = (segment.transform.position - transform.position).normalized;
-
-        Debug.Log(segment.rb);
-        Debug.Log(direction);
         segment.gunfish.Hit(new FishHitObject(
             segment.index, 
             collision.contacts[0].point, 
             -collision.contacts[0].normal, 
             gameObject, 
             prickDamage, 
-            prickMagnitude,
+            prickKnockback,
             HitType.Impact));
         spriteTransform.DOScale(originalScale + punchScale, bounceDuration)
         .SetEase(Ease.OutBounce)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FX_Composite : FX_Object {
     new void Awake() {
-        parent = GetComponentInParent<FX_Object>() == null;
+        parent = transform.parent == null || transform.parent.GetComponentInParent<FX_Object>() == null;
     }
 
     protected void Start() {
