@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class Explosion : MonoBehaviour
 {
@@ -15,20 +16,26 @@ public class Explosion : MonoBehaviour
 
     float waterScale = 0.5f;
 
+    public Gunfish sourceGunfish;
+
+    public bool delayedExplosion;
+
     // Start is called before the first frame update
     void Start()
     {
-        Explode();
-        // screen shake
-        effector.forceMagnitude = explosionForce;
-        Invoke("TurnOffEffector", 0.25f);
+        if (!delayedExplosion)
+            Explode();
     }
 
     void TurnOffEffector() {
         effector.enabled = false;
     }
 
-    void Explode() {
+    public void Explode() {
+        effector.enabled = true;
+        // screen shake
+        effector.forceMagnitude = explosionForce;
+        Invoke("TurnOffEffector", 0.25f);
         // circle cast to get things in radius
         // raycast to make sure no walls in the way
         // raycast from the things you hit and if blocked by ground, then ignore
@@ -47,6 +54,9 @@ public class Explosion : MonoBehaviour
             Transform hitTransform = hit.transform;
             IHittable hittable = null;
             if (segment != null) {
+                if (sourceGunfish != null && sourceGunfish == segment.gunfish) {
+                    continue;
+                }
                 hittable = segment.gunfish;
             }
             else if (hitTransform.GetComponentInParent<Shootable>()) { hittable = hitTransform.GetComponentInParent<Shootable>(); }
@@ -72,7 +82,7 @@ public class Explosion : MonoBehaviour
                         gunfish.MiddleSegmentIndex,
                         gunfish.MiddleSegment.transform.position,
                         (gunfish.MiddleSegment.transform.position - transform.position).normalized,
-                        gameObject,
+                        (sourceGunfish != null) ? sourceGunfish.gameObject : gameObject,
                         damage,
                         0,
                         HitType.Explosive));

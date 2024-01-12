@@ -17,7 +17,7 @@ public class Gun : MonoBehaviour {
     protected float fireCooldown_timer, reload_timer, reloadWait_timer;
 
     // Start is called before the first frame update
-    void Start() {
+    protected virtual void Start() {
         layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water");
     }
 

@@ -8,12 +8,15 @@ public class WaterZone : MonoBehaviour {
 
     public WaterMaterialInterface waterMaterial;
 
-    public Vector2 splashThresholdRange = new Vector2(5, 10);
+    public Vector2 splashThresholdRange = new Vector2(2, 10);
     public Vector2 splashVolumeRange = new Vector2(0.6f, 1f);
 
     public FXType splashType = FXType.Splash;
 
     public  Dictionary<Shootable, int> submergedShootables = new Dictionary<Shootable, int>();
+
+    public Vector2 forceRange = new Vector2(0f, 10f);
+    float forceScale = 1f;
 
     // Start is called before the first frame update
     protected virtual void Start() {
@@ -23,9 +26,6 @@ public class WaterZone : MonoBehaviour {
         detector.OnFishTriggerEnter += FishEnterSploosh;
         detector.OnFirstSegmentTriggerExit += FishExitSploosh;
     }
-
-    Vector2 forceRange = new Vector2(0f, 10f);
-    float forceScale = 1f;
 
     void PerturbNode(int nodeIdx, Vector2 force) {
         if (nodeIdx < 0 || nodeIdx >= waterMaterial.waterSurfaceNodes.Count - 1)
@@ -80,11 +80,9 @@ public class WaterZone : MonoBehaviour {
         if (fishSegment != null) {
             if (fishSegment.isGun && !fishSegment.gunfish.underwater) {
                 //if (fishSegment.GetComponent<Rigidbody2D>().velocity.y < -5)
-                if (fishSegment.gunfish.anySegmentUnderwater == 0) {
-                    float vel = fishSegment.GetComponent<Rigidbody2D>().velocity.y;
-                    if (vel < -splashThresholdRange.x) {
-                        Sploosh(other.transform.position, -vel, false, true);
-                    }
+                float vel = fishSegment.GetComponent<Rigidbody2D>().velocity.y;
+                if (vel < -splashThresholdRange.x) {
+                    Sploosh(other.transform.position, -vel, false, true);
                 }
                 FX_Spawner.Instance.SpawnFX(FXType.Bubbles, fishSegment.transform.position, Quaternion.identity, 0.1f, fishSegment.transform);
             }

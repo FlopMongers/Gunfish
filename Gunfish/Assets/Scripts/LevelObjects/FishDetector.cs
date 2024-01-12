@@ -22,7 +22,7 @@ public class FishDetector : MonoBehaviour {
             collider.enabled = enable;
     }
 
-    bool DetectFishEnter(GunfishSegment segment) {
+    public bool DetectFishEnter(GunfishSegment segment) {
         if (segment == null)
             return false;
         if (fishes.ContainsKey(segment.gunfish) == false) {
@@ -32,7 +32,7 @@ public class FishDetector : MonoBehaviour {
         return fishes[segment.gunfish] == 1; // we'll see about this...
     }
 
-    bool DetectFishExit(GunfishSegment segment) {
+    public bool DetectFishExit(GunfishSegment segment) {
         if (segment == null)
             return false;
         if (fishes.ContainsKey(segment.gunfish) == false) {

@@ -85,6 +85,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detector: {fileID: 287484819412258695}
   waterMaterial: {fileID: 287484820832685592}
+  splashThresholdRange: {x: 5, y: 10}
+  splashVolumeRange: {x: 0.6, y: 1}
+  splashType: 14
+  forceRange: {x: 0, y: 10}
 --- !u!50 &287484819412258692
 Rigidbody2D:
   serializedVersion: 4

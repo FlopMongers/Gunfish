@@ -5011,4 +5011,4 @@ MonoBehaviour:
   splashFX: {fileID: 235662435}
   particleNumberRange: {x: 3, y: 10}
   particleSpeedRange: {x: 1.5, y: 3, z: 0.75}
-  particleSizeRange: {x: 0.1, y: 0.5, z: 0.25}
+  particleSizeRange: {x: 0.05, y: 0.3, z: 0.25}
