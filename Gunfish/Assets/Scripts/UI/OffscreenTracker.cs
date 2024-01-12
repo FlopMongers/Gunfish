@@ -9,8 +9,8 @@ public class OffscreenTracker : MonoBehaviour
 	public GameObject goToTrack;
     private CanvasRenderer canvasRenderer;
 
-    private float minSize = 0.8f;
-    private float maxSize = 2.5f;
+    private float minSize = 1.5f;
+    private float maxSize = 2.8f;
 	private float padding = 0.015f;
 	private float inversePadding;
 	public Color color;
