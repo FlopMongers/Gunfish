@@ -37,6 +37,7 @@ public class Cannon : MonoBehaviour {
         // iterate over fishes in detector and blow them to hell
         coolDown_timer = coolDown;
         gottemSpottem = false;
+        GetComponent<AudioSource>().Play();
         foreach (var fish in detector.fishes.Keys) {
             // launch the fuckers
             fish.Hit(new FishHitObject(fish.MiddleSegmentIndex, detector.transform.position, detector.transform.up, gameObject, 0, power, HitType.Impact, true));
