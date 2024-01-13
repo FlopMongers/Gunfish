@@ -297,11 +297,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
         type: 3}
-      propertyPath: quips.Array.size
-      value: 29
-      objectReference: {fileID: 0}
-    - target: {fileID: 2224740755716462453, guid: 5f1d34d704d350541bc538145950eab9,
-        type: 3}
       propertyPath: quipClips.Array.size
       value: 10
       objectReference: {fileID: 0}

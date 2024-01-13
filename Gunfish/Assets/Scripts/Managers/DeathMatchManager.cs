@@ -259,7 +259,7 @@ public class DeathMatchManager : MatchManager {
         playerRef.lastDeath = Time.time;
 
         if (sourceGunfish != null) {
-            MarqueeManager.Instance.EnqueueRandomQuip();
+            MarqueeManager.Instance.PlayRandomQuip();
             // todo: update first kill
             if (playerReferences[sourceGunfish.player].firstKill < 0)
                 playerReferences[sourceGunfish.player].firstKill = Time.time;
@@ -267,7 +267,7 @@ public class DeathMatchManager : MatchManager {
         }
         else if (!endingLevel) {
             // todo: this should play a special suicide quip (Selfish Destruction!)
-            MarqueeManager.Instance.EnqueueRandomQuip();
+            MarqueeManager.Instance.PlayRandomQuip();
             // NOTE: Temporarily takin this out. and if it's more fun this way, we'll leave it.
             // UpdateScore(gunfish.player, -1);
         }
