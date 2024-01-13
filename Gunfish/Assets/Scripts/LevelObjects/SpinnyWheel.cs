@@ -15,7 +15,7 @@ public class SpinnyWheel : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         rb.angularVelocity = angularVelocity;
     }
