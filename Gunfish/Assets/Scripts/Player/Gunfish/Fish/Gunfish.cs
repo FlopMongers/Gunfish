@@ -221,11 +221,12 @@ public class Gunfish : MonoBehaviour, IHittable {
     void Swim() {
         // TODO handle surge swimming logic
         // for now, if pressed or holding, then swim
-        if (!statusData.CanMove || (firingStatus != ButtonStatus.Pressed && firingStatus != ButtonStatus.Holding))
+        if (!statusData.CanMove) {
             return;
-        int index = segments.Count / 2;
-        if (Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity) {
-            body.ApplyForceToSegment(index, -segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
+        }
+
+        if (body.segments[0].body.velocity.magnitude < data.maxUnderwaterVelocity) {
+            body.ApplyForceToSegment(0, movement * data.underwaterForce, ForceMode2D.Force);
         }
     }
 
