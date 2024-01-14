@@ -106,8 +106,13 @@ public class FishSelectMenuPage : IMenuPage {
                 break;
             case SelectorState.SELECTING:
                 SetSelectorState(deviceIndex, SelectorState.READY);
-                if (isAllPlayersReady())
+                if (isAllPlayersReady()) {
                     BeginGameStartCountdown();
+                }
+                break;
+            case SelectorState.READY:
+                SetSelectorState(deviceIndex, SelectorState.SELECTING);
+                CancelGameStartCountdown();
                 break;
         }
     }
