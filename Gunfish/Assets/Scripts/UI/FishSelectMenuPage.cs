@@ -5,6 +5,40 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class FishSelectMenuPage : IMenuPage {
+    
+    private struct FishSelectData {
+        public VisualElement fishImage;
+        public VisualElement leftArrow;
+        public VisualElement rightArrow;
+        public VisualElement joinText;
+        public VisualElement readyText;
+        public VisualElement cancelText;
+        public VisualElement confirmText;
+        public GunfishData gunfishData;
+        public SelectorState state; 
+
+        public FishSelectData(
+            VisualElement fishImage,
+            VisualElement leftArrow,
+            VisualElement rightArrow,
+            VisualElement joinText,
+            VisualElement readyText,
+            VisualElement cancelText,
+            VisualElement confirmText,
+            GunfishData gunfishData,
+            SelectorState state
+        ) {
+            this.fishImage = fishImage;
+            this.leftArrow = leftArrow;
+            this.rightArrow = rightArrow;
+            this.joinText = joinText;
+            this.readyText = readyText;
+            this.cancelText = cancelText;
+            this.confirmText = confirmText;
+            this.gunfishData = gunfishData;
+            this.state = state;
+        }
+    }
     private MenuPageContext menuContext;
     public List<GunfishData> fishes;
 
@@ -21,6 +55,8 @@ public class FishSelectMenuPage : IMenuPage {
     };
 
     private Sequence activeGameStartCountdown;
+
+    private List<FishSelectData> fishSelectDatas;
 
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
@@ -64,6 +100,34 @@ public class FishSelectMenuPage : IMenuPage {
 
         Fade();
         DOTween.Sequence().AppendInterval(0.01f).AppendCallback(Unfade);
+    }
+
+    private void InitializeFishSelectors() {
+        var playerInputs = PlayerManager.Instance.PlayerInputs;
+        var playerCount = playerInputs.Count;
+        fishSelectDatas = new List<FishSelectData>(playerCount);
+        
+        for (int playerIndex = 0; playerIndex < playerCount; playerIndex++)
+        {   
+            var playerInput = playerInputs[playerIndex];
+            playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
+            playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
+            playerInput.currentActionMap.FindAction("Cancel").performed += (InputAction.CallbackContext context) => OnCancel(context, playerIndex);
+
+            var fishSelector = menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex}");
+            var data = new FishSelectData(
+                fishSelector.Q<VisualElement>("FishImage"),
+                fishSelector.Q<VisualElement>("LeftArrow"),
+                fishSelector.Q<VisualElement>("RightArrow"),
+                fishSelector.Q<VisualElement>("JoinText"),
+                fishSelector.Q<VisualElement>("ReadyText"),
+                fishSelector.Q<VisualElement>("CancelText"),
+                fishSelector.Q<VisualElement>("ConfirmText"),
+                new GunfishData(),
+                SelectorState.DISABLED
+            );
+        }
+
     }
 
     public void OnDisable(MenuPageContext context) {
