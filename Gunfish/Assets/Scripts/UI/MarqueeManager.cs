@@ -76,9 +76,4 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         quipSettings.text?.SetText(quip.text);
         quipSettings.t = 0;
     }
-
-    void OnGUI() {
-        GUILayout.TextField(titleSettings.t.ToString());
-        GUILayout.TextField(quipSettings.t.ToString());
-    }
 }
