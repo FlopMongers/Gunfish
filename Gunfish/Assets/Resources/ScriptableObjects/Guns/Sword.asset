@@ -27,3 +27,4 @@ MonoBehaviour:
   fireCooldown: 0.5
   reload: 0.5
   reloadWait: 0.1
+  bulletPrefab: {fileID: 0}

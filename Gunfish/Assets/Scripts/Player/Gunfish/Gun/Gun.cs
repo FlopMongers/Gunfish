@@ -1,3 +1,4 @@
+using MathNet.Numerics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -66,7 +67,7 @@ public class Gun : MonoBehaviour {
     }
 
     protected virtual bool CheckButtonStatus(ButtonStatus firingStatus) {
-        return firingStatus == ButtonStatus.Pressed && !gunfish.underwater;
+        return firingStatus == ButtonStatus.Pressed;// && !gunfish.underwater;
     }
 
     public virtual void Fire(ButtonStatus firingStatus) {
@@ -99,6 +100,11 @@ public class Gun : MonoBehaviour {
                 if (node != null && !splooshed) {
                     splooshed = true;
                     node.zone.Sploosh(hit.point, node.zone.splashThresholdRange.y, false, true);
+                    Bullet bullet = Instantiate(gunfish.data.gun.bulletPrefab, hit.point, Quaternion.identity).GetComponent<Bullet>();
+                    bullet.gunfish = gunfish;
+                    bullet.SetSpeed(barrel.transform.right, 1f - (Vector3.Distance(hit.point, barrel.transform.position)/gunfish.data.gun.range));
+                    endPoint = hit.point;
+                    break;
                 }
                 if (hit.collider != null && hit.collider.isTrigger == true) {
                     continue;

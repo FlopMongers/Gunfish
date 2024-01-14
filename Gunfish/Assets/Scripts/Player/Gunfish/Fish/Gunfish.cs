@@ -148,6 +148,7 @@ public class Gunfish : MonoBehaviour, IHittable {
                 }
             }
             else if (underwater) {
+                Swim();
                 RotateMovement(movement, 0, data.underwaterTorque);
             } else {
                 RotateMovement(movement, 0, data.airTorque);
@@ -233,10 +234,11 @@ public class Gunfish : MonoBehaviour, IHittable {
     public void Fire() {
         if (statusData == null || statusData.alive == false)
             return;
+        // NOTE(Wyatt): just uncomment if you don't want to be able to shoot underwater
         // if underwater, then zoom
-        if (underwater == true) {
+        /*if (underwater == true) {
             Swim();
-        }
+        }*/
         //else {
             gun?.Fire(firingStatus);
         //}
