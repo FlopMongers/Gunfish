@@ -30,11 +30,15 @@ public class Spawner : MonoBehaviour {
         // subscribe the thing being picked up
         if (!active)
             return;
-        if (spawnTimer > 0) {
+        UpdateSpawn();
+    }
+
+    protected virtual void UpdateSpawn() {
+        if (spawnTimer >= 0) {
             spawnTimer -= Time.deltaTime;
-            if (spawnTimer < 0) {
-                Spawn();
-            }
+        }
+        if (spawnTimer < 0) {
+            Spawn();
         }
     }
 
