@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIController {
     public int PlayerNumber { get; private set; }
+    public int VisiblePlayerNumber { get { return PlayerNumber + 1; } }
 
     public GunfishData gunfishData;
     private Gunfish gunfish;

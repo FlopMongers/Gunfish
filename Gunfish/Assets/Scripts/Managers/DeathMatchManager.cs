@@ -181,7 +181,7 @@ public class DeathMatchManager : MatchManager {
         if (player == null) {
             (player, tiebreakerText) = Tiebreaker(parameters.activePlayers);
         }
-        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.PlayerNumber} wins!", playerReferences, tiebreakerText);
+        ui.ShowLevelStats((player == null) ? "No one wins!" : $"Player {player.VisiblePlayerNumber} wins!", playerReferences, tiebreakerText);
     }
 
     public override void ShowEndGameStats() {
@@ -205,7 +205,7 @@ public class DeathMatchManager : MatchManager {
                 (player, tiebreakerText) = Tiebreaker(winners);
                 winners = new List<Player>() { player };
             }
-            text = $"Player {winners[0].PlayerNumber} wins!!!";
+            text = $"Player {winners[0].VisiblePlayerNumber} wins!!!";
         }
         ui.ShowFinalScores(text, playerReferences, winners, tiebreakerText);
     }

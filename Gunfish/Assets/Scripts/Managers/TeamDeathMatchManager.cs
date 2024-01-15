@@ -72,7 +72,7 @@ public class TeamDeathMatchManager : DeathMatchManager
                 winningTeam = playerTeamMap[player];
                 winners = winners.Where(x => playerTeamMap[x] == winningTeam).ToList();
             }
-            text = $"Players {winners[0].PlayerNumber} and {winners[1].PlayerNumber} win!!!";
+            text = $"Players {winners[0].VisiblePlayerNumber} and {winners[1].VisiblePlayerNumber} win!!!";
         }
 
         ui.ShowFinalScores(text, playerReferences, winners, tiebreakerText);
