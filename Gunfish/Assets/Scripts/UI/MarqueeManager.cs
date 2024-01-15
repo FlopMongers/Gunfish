@@ -1,12 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     [Serializable]
-    private struct Quip {
+    private class Quip {
         public string text;
         public AudioClip clip;
     }
@@ -75,5 +74,13 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         ArduinoManager.Instance.PlayClip(quip.clip);
         quipSettings.text?.SetText(quip.text);
         quipSettings.t = 0;
+    }
+
+    void OnValidate() {
+        
+        for (int i = 0; i < quips.Count; i++)
+        {
+            quips[i].text = quips[i].clip.name.Trim('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        }
     }
 }

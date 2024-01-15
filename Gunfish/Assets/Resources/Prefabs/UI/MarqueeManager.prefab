@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: marquee text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 56154dcacfc62c948bab717e1de44b02, type: 2}
-  m_sharedMaterial: {fileID: 4894871783142943051, guid: 56154dcacfc62c948bab717e1de44b02,
+  m_fontAsset: {fileID: 11400000, guid: 12007103040ab7e489c009e22d3b9157, type: 2}
+  m_sharedMaterial: {fileID: -2917531904743474581, guid: 12007103040ab7e489c009e22d3b9157,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -284,30 +284,130 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quips:
-  - text: sushi to go
-    clip: {fileID: 8300000, guid: f7bfda82014df1f43948a80aaf882093, type: 3}
-  - text: koi story bro
-    clip: {fileID: 8300000, guid: 2d5e34ca0d4ae9641af924c73b92b228, type: 3}
-  - text: codtastrophic
-    clip: {fileID: 8300000, guid: a86a37c007953db43b7e81866c0f8667, type: 3}
-  - text: fish out of water
-    clip: {fileID: 8300000, guid: f4b88a3c05f308845994823c33d7df3a, type: 3}
-  - text: gone belly up
-    clip: {fileID: 8300000, guid: 3a6cb5c4fbcf4f34090be6ea5b232086, type: 3}
-  - text: holy mackerel
-    clip: {fileID: 8300000, guid: 13631713bf5add0409f6005d0df45761, type: 3}
-  - text: killimanjaro
-    clip: {fileID: 8300000, guid: 4e960d6df20d98e4993ca9cc85e26ba4, type: 3}
-  - text: reeled in
-    clip: {fileID: 8300000, guid: a437f5e432492f2428bad63a540582cf, type: 3}
-  - text: shoaled out
-    clip: {fileID: 8300000, guid: 6326988156a64ed46b1722cce34d79a5, type: 3}
-  - text: shoot to krill
-    clip: {fileID: 8300000, guid: bb013a95ef3fd054d9be1a3049dedf02, type: 3}
-  - text: sleeping with the fishes
-    clip: {fileID: 8300000, guid: 6dc55be617fcdbb438a4c9901f77317a, type: 3}
-  - text: squid riddance
-    clip: {fileID: 8300000, guid: c0a6d04834a9c124d86f9913d87a8a33, type: 3}
+  - text: All washed up
+    clip: {fileID: 8300000, guid: 2b920487ae2b98f449d9060e637180c2, type: 3}
+  - text: All washed up
+    clip: {fileID: 8300000, guid: 1a18b351dd78c1e4f80323845206afca, type: 3}
+  - text: Better luck next tide
+    clip: {fileID: 8300000, guid: 605ee26c04857a14db78650b51e958fc, type: 3}
+  - text: Better luck next tide
+    clip: {fileID: 8300000, guid: fb73b708e61a1e744ad45c15f8e686df, type: 3}
+  - text: Bub bye
+    clip: {fileID: 8300000, guid: 3069948ddfebf4e46a0a6450d30b4c34, type: 3}
+  - text: Bub bye
+    clip: {fileID: 8300000, guid: 4c3deeb8d94599f4ab8a33235dd5c1a9, type: 3}
+  - text: Codtastrophic
+    clip: {fileID: 8300000, guid: e886b2d90236cd44b989f5ea6526ceda, type: 3}
+  - text: Codtastrophic
+    clip: {fileID: 8300000, guid: 5f7fe64089c69d94493c53e6459ff6a9, type: 3}
+  - text: Deep fried
+    clip: {fileID: 8300000, guid: ba4e3ad641ff1ba4b8bc761bb61be63c, type: 3}
+  - text: Deep fried
+    clip: {fileID: 8300000, guid: 21ba7543f775cbb43979d2e23c3bc7f1, type: 3}
+  - text: Fin-ito
+    clip: {fileID: 8300000, guid: dab0675489f713f47aa616a2bd9a65dd, type: 3}
+  - text: Fin-ito
+    clip: {fileID: 8300000, guid: b2fca91e5f0d55f46aaab92b30e6f7dd, type: 3}
+  - text: Fintastic
+    clip: {fileID: 8300000, guid: 8ad405d9c011cbf4d9c613032283b2b3, type: 3}
+  - text: Fintastic
+    clip: {fileID: 8300000, guid: ae01b58165ab9d742941f791262253a2, type: 3}
+  - text: Fish fingers
+    clip: {fileID: 8300000, guid: eaeeada1e642c11489044d13d4a7d957, type: 3}
+  - text: Fish fingers
+    clip: {fileID: 8300000, guid: 3614fd1ef5515e84fa568a0f27b522dc, type: 3}
+  - text: Get scurvey
+    clip: {fileID: 8300000, guid: 3ca00ec8c8d02e4419a7aa89e4ef0d2f, type: 3}
+  - text: Get scurvey
+    clip: {fileID: 8300000, guid: e04a630272bf11f45b5419dc99dae0e6, type: 3}
+  - text: Gillty as charged
+    clip: {fileID: 8300000, guid: 7bec89935731c384aa50d69e395b7773, type: 3}
+  - text: Gillty as charged
+    clip: {fileID: 8300000, guid: 1b91899b75129434dbc5bebae2a3ca06, type: 3}
+  - text: Gone belly up
+    clip: {fileID: 8300000, guid: 547899d4810fee74e8ea0fe768f5759e, type: 3}
+  - text: Gone belly up
+    clip: {fileID: 8300000, guid: 7198c5cfd79dedd408683e7bd550b9d0, type: 3}
+  - text: Good squiddance
+    clip: {fileID: 8300000, guid: 0c69fb6993a5f0442a6e04858a840513, type: 3}
+  - text: Good squiddance
+    clip: {fileID: 8300000, guid: 3f42f81d0036872499a1d074cfbf4af2, type: 3}
+  - text: Holy mackerel
+    clip: {fileID: 8300000, guid: 86bcf2b592b261d4e9075372a2cf6885, type: 3}
+  - text: Holy mackerel
+    clip: {fileID: 8300000, guid: f27c2707d6cc0884ea926f2e7b44a9a7, type: 3}
+  - text: Hook, line, and sinker
+    clip: {fileID: 8300000, guid: 9712a6e6280603646a309238773b3f7b, type: 3}
+  - text: Hook, line, and sinker
+    clip: {fileID: 8300000, guid: 09f5e9b1c23bf354a8823e6017a6bb80, type: 3}
+  - text: Kick some bass
+    clip: {fileID: 8300000, guid: 67669406886897541abbccca5e8277d0, type: 3}
+  - text: Kick some bass
+    clip: {fileID: 8300000, guid: a4b2e2169576afd47a4fcf3b1237288e, type: 3}
+  - text: Killimari
+    clip: {fileID: 8300000, guid: 94f3dd35ab15fc14992cee47cb08f6ec, type: 3}
+  - text: Killimari
+    clip: {fileID: 8300000, guid: 918ee2834cb275a4b90c06e286e86ea2, type: 3}
+  - text: Krilling spree
+    clip: {fileID: 8300000, guid: 032a8476b7bc20a4595f62c74ed08370, type: 3}
+  - text: Krilling spree
+    clip: {fileID: 8300000, guid: 5e411ff69b98a134a8cd56330573e266, type: 3}
+  - text: Marooned
+    clip: {fileID: 8300000, guid: 4f5d4ab80335fe64ea882286c88105aa, type: 3}
+  - text: Marooned
+    clip: {fileID: 8300000, guid: 6808a38772da26248b044a24f1078094, type: 3}
+  - text: Mother of cod
+    clip: {fileID: 8300000, guid: bdda325c9975014439582874938298b4, type: 3}
+  - text: Mother of cod
+    clip: {fileID: 8300000, guid: 1eeeeed4200f18049bed575db42bc8e0, type: 3}
+  - text: No trout about it
+    clip: {fileID: 8300000, guid: 054023afe473d6b43bba67fe6e6f669f, type: 3}
+  - text: No trout about it
+    clip: {fileID: 8300000, guid: cc9b4c014652e674fb6eebb0ad05c6fe, type: 3}
+  - text: Off the hook
+    clip: {fileID: 8300000, guid: 11765e4422ae4ac479dc706f41b36a20, type: 3}
+  - text: Off the hook
+    clip: {fileID: 8300000, guid: 26cc4fe64008a334f8d1d466fb4b672f, type: 3}
+  - text: Reeled in
+    clip: {fileID: 8300000, guid: 97a004875df11584b890e61c597c55fe, type: 3}
+  - text: Reeled in
+    clip: {fileID: 8300000, guid: 52e86cc1e29edeb4d89732ae3d41e99f, type: 3}
+  - text: Rock bottom
+    clip: {fileID: 8300000, guid: a5ffb8fb94ddc324f877520536c79998, type: 3}
+  - text: Rock bottom
+    clip: {fileID: 8300000, guid: 3789e2d97b1dc6c4cb15a8b7f348a736, type: 3}
+  - text: Seas the day
+    clip: {fileID: 8300000, guid: 185d56e5606227b46ac8a0b8f907a6e1, type: 3}
+  - text: Seas the day
+    clip: {fileID: 8300000, guid: cde728b3ad048ee4c8980ce87f684c50, type: 3}
+  - text: Shoot to krill
+    clip: {fileID: 8300000, guid: d08202b8e594710489d22e479ff7fb80, type: 3}
+  - text: Shoot to krill
+    clip: {fileID: 8300000, guid: 657df099292adac4fa5c58b7bf856b6c, type: 3}
+  - text: Sleep with the fishes
+    clip: {fileID: 8300000, guid: 8dd175b6c80c8dd4385f6803a9ad0173, type: 3}
+  - text: Sleep with the fishes
+    clip: {fileID: 8300000, guid: ae0e91d27ae2dcd4b801e01c6a95070b, type: 3}
+  - text: Sushi to go
+    clip: {fileID: 8300000, guid: 6909c9bee52e88b4a9384cffa292a34c, type: 3}
+  - text: Sushi to go
+    clip: {fileID: 8300000, guid: 8f057eefa89eb754db25c1c8a461853e, type: 3}
+  - text: Thar she blows
+    clip: {fileID: 8300000, guid: 8f3e5c5317008db469828f28bb9d259a, type: 3}
+  - text: Thar she blows
+    clip: {fileID: 8300000, guid: bf88d8c6ab548bc449db0177505abfc8, type: 3}
+  - text: To Davey Jones' locker
+    clip: {fileID: 8300000, guid: 61f1b9fd9086af94a87ec13ca6a9877b, type: 3}
+  - text: To Davey Jones' locker
+    clip: {fileID: 8300000, guid: 2bf7e82c552874041ab3dc252493987a, type: 3}
+  - text: To the brig
+    clip: {fileID: 8300000, guid: de3cf455a6a68b949b72ea2281d3ae11, type: 3}
+  - text: To the brig
+    clip: {fileID: 8300000, guid: e3b7f6dbe055f8f4cb6c3e3b71edd76a, type: 3}
+  - text: Walk the plank
+    clip: {fileID: 8300000, guid: 7a2e13cbc2c390d46b91c04032cf534b, type: 3}
+  - text: Walk the plank
+    clip: {fileID: 8300000, guid: 73ea7b4ddf41e24448fb3d76e007f90e, type: 3}
   titleSettings:
     duration: 5
     tween:
