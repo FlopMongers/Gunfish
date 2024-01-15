@@ -25,6 +25,8 @@ public class FishSelectMenuPage : IMenuPage {
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
 
+        ArduinoManager.Instance.playAttractors = false;
+
         fishImages = new List<VisualElement>();
         selectorState = new List<SelectorState>();
 

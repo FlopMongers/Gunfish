@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
 
@@ -15,7 +16,14 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     private AudioSource source;
     private float[] data;
 
+    public bool playAttractors;
+
     private void Attractor() {
+        if (!playAttractors) {
+            secondsSinceLastAttractor = 0f;
+            return;
+        }
+
         if (secondsSinceLastAttractor > secondsBetweenAttractors) {
             secondsSinceLastAttractor = 0f;
             PlayClip(attractorLines[Random.Range(0, attractorLines.Count)]);
