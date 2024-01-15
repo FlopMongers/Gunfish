@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 public class GrenadeLauncher : Gun
 {
     public GameObject grenadePrefab;
+    Grenade grenade;
     FishDetector detector;
 
     public float spikeDamage = 1.5f;
@@ -51,15 +52,45 @@ public class GrenadeLauncher : Gun
         detector.DetectFishExit(segment);
     }
 
+    public override bool CheckFire() {
+        if (!gunfish.statusData.CanFire)
+            return false;
+
+        if (fireCooldown_timer > 0)
+            return false;
+
+        if (ammo <= 0 && grenade == null)
+            return false;
+
+        if (grenade == null) {
+            ammo -= 1;
+            OnAmmoChanged?.Invoke(ammo / gunfish.data.gun.maxAmmo);
+        }
+
+        fireCooldown_timer = gunfish.data.gun.fireCooldown;
+        reloadWait_timer = gunfish.data.gun.reloadWait;
+        reload_timer = 0;
+        return true;
+    }
+
     protected override void _Fire() {
-        // fireFX
-        FX_Spawner.Instance?.SpawnFX(
-            FXType.Bang, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
-        // spawn grenade
-        var nade = Instantiate(grenadePrefab, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
-        nade.GetComponent<Grenade>().sourceGunfish = gunfish;
-        // NOTE: give grenade duration here?
-        // give it some force
-        nade.GetComponent<Rigidbody2D>().AddForce(barrels[0].transform.right * gunfish.data.gun.range * grenadeForceMultiplier, ForceMode2D.Impulse);
+
+        if (grenade != null) {
+            grenade.Explode();
+            grenade = null;
+        }
+        else {
+            // fireFX
+            FX_Spawner.Instance?.SpawnFX(
+                FXType.Bang, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
+            // spawn grenade
+            var nadeObj = Instantiate(grenadePrefab, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
+            var nade = nadeObj.GetComponent<Grenade>();
+            nade.sourceGunfish = gunfish;
+            grenade = nade;
+            // NOTE: give grenade duration here?
+            // give it some force
+            nadeObj.GetComponent<Rigidbody2D>().AddForce(barrels[0].transform.right * gunfish.data.gun.range * grenadeForceMultiplier, ForceMode2D.Impulse);
+        }
     }
 }

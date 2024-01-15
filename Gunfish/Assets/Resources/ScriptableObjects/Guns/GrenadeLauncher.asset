@@ -15,7 +15,7 @@ MonoBehaviour:
   gunBarrels:
   - position: {x: -1.2, y: 0}
     rotation: 180
-  kickback: 55
+  kickback: 40
   range: 20
   damage: 4
   knockback: 8
@@ -26,7 +26,7 @@ MonoBehaviour:
     type: 3}
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
-  fireCooldown: 1
+  fireCooldown: 0.1
   reload: 0.75
   reloadWait: 1
   bulletPrefab: {fileID: 0}

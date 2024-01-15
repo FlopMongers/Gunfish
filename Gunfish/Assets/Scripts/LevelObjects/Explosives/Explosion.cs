@@ -62,7 +62,7 @@ public class Explosion : MonoBehaviour
             else if (hitTransform.GetComponentInParent<Shootable>()) { hittable = hitTransform.GetComponentInParent<Shootable>(); }
             WaterSurfaceNode node = hitTransform.GetComponent<WaterSurfaceNode>();
             if (node != null && !hittables.Contains(node.zone.gameObject)) {
-                node.zone.Sploosh(transform.position, damageCurve.Evaluate(
+                node.zone.Sploosh(hit.point, damageCurve.Evaluate(
                         Vector3.Distance(transform.position, node.GetComponent<BoxCollider2D>().bounds.max) / radius.bounds.extents.x) * waterSplooshForce, true, true);
                 hittables.Add(node.zone.gameObject);
             }

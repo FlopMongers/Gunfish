@@ -15,12 +15,16 @@ public class Grenade : MonoBehaviour
     {
         duration -= Time.deltaTime;
         if (duration < 0) {
-            // spawn the explosion
-            var exp = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<Explosion>();
-            exp.sourceGunfish = sourceGunfish;
-            //exp.Explode();
-            // destroy grenade
-            Destroy(gameObject);
+            Explode();
         }
+    }
+
+    public void Explode() {
+        // spawn the explosion
+        var exp = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<Explosion>();
+        exp.sourceGunfish = sourceGunfish;
+        //exp.Explode();
+        // destroy grenade
+        Destroy(gameObject);
     }
 }

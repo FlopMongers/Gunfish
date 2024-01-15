@@ -146,6 +146,7 @@ public class DeathMatchManager : MatchManager {
     }
 
     private IEnumerator EndLevel() {
+        timer.DisappearTimer();
         endingLevel = true;
         pelicanSpawner.active = false;
         FreezeFish(true);

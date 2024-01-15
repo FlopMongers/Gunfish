@@ -137,7 +137,7 @@ public class Gunfish : MonoBehaviour, IHittable {
     }
 
     public void Movement(bool forceMove=false) {
-        if (statusData == null || (!statusData.CanMove && !forceMove))
+        if (statusData == null || RootSegment == null || (!statusData.CanMove && !forceMove))
             return;
 
         // if underwater

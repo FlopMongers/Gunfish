@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fingergun
   m_EditorClassIdentifier: 
   gunBarrels:
-  - position: {x: 0, y: 0}
+  - position: {x: -0.55, y: 0}
     rotation: 180
   kickback: 10
   range: 20

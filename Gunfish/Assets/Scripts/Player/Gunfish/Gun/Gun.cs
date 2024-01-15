@@ -47,7 +47,7 @@ public class Gun : MonoBehaviour {
         }
     }
 
-    public bool CheckFire() {
+    public virtual bool CheckFire() {
         if (!gunfish.statusData.CanFire)
             return false;
 

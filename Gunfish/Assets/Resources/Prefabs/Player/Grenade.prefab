@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847,
     type: 3}
-  m_Color: {r: 0.0011806038, g: 0.3207547, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.047002666, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9296053ef5accff42b53dc74ff053cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 5971764844140717513, guid: 8505d56026bf1654ab1c819b67de4538,
+  explosion: {fileID: 5971764844140717513, guid: c9e7477a7f8f91e4e9961893a65df751,
     type: 3}
   sourceGunfish: {fileID: 0}
   duration: 2
