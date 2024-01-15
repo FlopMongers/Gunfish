@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DetectCollision: 0
   DetectTrigger: 1
+  DetectGun: 0
   colliders: []
 --- !u!114 &7519910023005534810
 MonoBehaviour:
@@ -178,7 +179,7 @@ MonoBehaviour:
   detector: {fileID: 5521207299899137181}
   PickupFX: 0
   fader: {fileID: -2530516226392320633}
-  invincibilityDuration: 10
+  invincibilityDuration: 8
 --- !u!114 &-2530516226392320633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,4 +195,4 @@ MonoBehaviour:
   fetchRenderersOnStart: 1
   fadeRange: {x: 1, y: 1}
   fadeMode: 0
-  fadeSpeed: 1
+  baseFadeSpeed: 2

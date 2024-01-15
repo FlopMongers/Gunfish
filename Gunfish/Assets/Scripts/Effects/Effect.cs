@@ -78,7 +78,7 @@ public class TimedEffect : Effect {
 
     public override void Merge(Effect effect) {
         base.Merge(effect);
-        timer += ((TimedEffect)effect).timer;
+        timer = Mathf.Max(((TimedEffect)effect).timer, timer);
     }
 
     public override void Update() {
