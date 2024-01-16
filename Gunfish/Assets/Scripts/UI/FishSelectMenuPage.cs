@@ -23,6 +23,7 @@ public class FishSelectMenuPage : IMenuPage {
     private Sequence activeGameStartCountdown;
 
     public void OnEnable(MenuPageContext context) {
+        MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
 
         ArduinoManager.Instance.playAttractors = false;

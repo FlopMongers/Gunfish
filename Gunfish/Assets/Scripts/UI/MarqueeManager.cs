@@ -3,11 +3,37 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+public enum QuipType { 
+    Attractor,
+    PlayerDeath,
+    FishSelection,
+    Player1Wins,
+    Player2Wins,
+    Player3Wins,
+    Player4Wins,
+    Team1Wins,
+    Team2Wins,
+    Tie,
+    NoOneWins,
+    Pelicans,
+    Three,
+    Two,
+    One,
+    GUNFISH,
+}
+
+
 public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     [Serializable]
     private class Quip {
         public string text;
         public AudioClip clip;
+    }
+
+    [Serializable]
+    private class QuipTuple {
+        public QuipType QuipType;
+        public List<Quip> quips = new List<Quip>();
     }
 
     [Serializable]
@@ -30,6 +56,11 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     private List<Quip> quips = new();
 
     [SerializeField]
+    private List<QuipTuple> quipList = new List<QuipTuple>();
+
+    Dictionary<QuipType, List<Quip>> quipMap = new Dictionary<QuipType, List<Quip>>();
+
+    [SerializeField]
     private MarqueeData titleSettings;
     [SerializeField]
     private MarqueeData quipSettings;
@@ -38,6 +69,9 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     private void Start() {
         titleSettings.Init();
         quipSettings.Init();
+        foreach (QuipTuple tuple in quipList) {
+            quipMap[tuple.QuipType] = tuple.quips;
+        }
     }
 
     private void Update() {
@@ -60,19 +94,19 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         titleSettings.t = 0;
     }
 
-    public void PlayRandomQuip() {
-        if (quips == null || quips.Count == 0) {
+    public void PlayRandomQuip(QuipType quipType) {
+        if (quipMap == null || quipMap.ContainsKey(quipType) == false || quipMap[quipType].Count == 0) {
             Debug.LogWarning("Could not enqueue quip. Make sure you have at least one in the MarqueeManager");
             return;
         }
 
-        var index = UnityEngine.Random.Range(0, quips.Count);
-        PlayQuip(quips[index]);
+        var index = UnityEngine.Random.Range(0, quipMap[quipType].Count);
+        PlayQuip(quipMap[quipType][index]);
     }
 
     private void PlayQuip(Quip quip) {
         ArduinoManager.Instance.PlayClip(quip.clip);
-        quipSettings.text?.SetText(quip.text);
+        quipSettings.text.SetText(quip.text);
         quipSettings.t = 0;
     }
 

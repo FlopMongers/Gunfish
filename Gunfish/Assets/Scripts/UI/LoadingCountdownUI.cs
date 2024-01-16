@@ -18,4 +18,8 @@ public class LoadingCountdownUI : MonoBehaviour {
     public void StartCountdown() {
         anim.Play(countdownAnimation);
     }
+
+    public void PlayQuip(QuipType quipType) {
+        MarqueeManager.Instance.PlayRandomQuip(quipType);
+    }
 }

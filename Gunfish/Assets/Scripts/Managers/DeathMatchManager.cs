@@ -198,14 +198,34 @@ public class DeathMatchManager : MatchManager {
         string tiebreakerText = "";
         if (winners.Count == 0) {
             text = "No one wins?";
+            MarqueeManager.Instance.PlayRandomQuip(QuipType.NoOneWins);
         }
         else {
+            string verb = "wins!!!";
             if (winners.Count > 1) {
                 Player player;
                 (player, tiebreakerText) = Tiebreaker(winners);
                 winners = new List<Player>() { player };
+                MarqueeManager.Instance.PlayRandomQuip(QuipType.Tie);
+                verb = "wins by a tiebreak!";
             }
-            text = $"Player {winners[0].VisiblePlayerNumber} wins!!!";
+            else {
+                switch (winners[0].VisiblePlayerNumber) {
+                    case 1:
+                        MarqueeManager.Instance.PlayRandomQuip(QuipType.Player1Wins);
+                        break;
+                    case 2:
+                        MarqueeManager.Instance.PlayRandomQuip(QuipType.Player2Wins);
+                        break;
+                    case 3:
+                        MarqueeManager.Instance.PlayRandomQuip(QuipType.Player3Wins);
+                        break;
+                    case 4:
+                        MarqueeManager.Instance.PlayRandomQuip(QuipType.Player4Wins);
+                        break;
+                }
+            }
+            text = $"Player {winners[0].VisiblePlayerNumber} {verb}";
         }
         ui.ShowFinalScores(text, playerReferences, winners, tiebreakerText);
     }
@@ -260,7 +280,7 @@ public class DeathMatchManager : MatchManager {
         playerRef.lastDeath = Time.time;
 
         if (sourceGunfish != null) {
-            MarqueeManager.Instance.PlayRandomQuip();
+            MarqueeManager.Instance.PlayRandomQuip(QuipType.PlayerDeath);
             // todo: update first kill
             if (playerReferences[sourceGunfish.player].firstKill < 0)
                 playerReferences[sourceGunfish.player].firstKill = Time.time;
@@ -268,7 +288,7 @@ public class DeathMatchManager : MatchManager {
         }
         else if (!endingLevel) {
             // todo: this should play a special suicide quip (Selfish Destruction!)
-            MarqueeManager.Instance.PlayRandomQuip();
+            MarqueeManager.Instance.PlayRandomQuip(QuipType.PlayerDeath);
             // NOTE: Temporarily takin this out. and if it's more fun this way, we'll leave it.
             // UpdateScore(gunfish.player, -1);
         }
@@ -277,7 +297,8 @@ public class DeathMatchManager : MatchManager {
     public override void OnTimerFinish() {
         base.OnTimerFinish();
         // todo: SUMMON THE FUCKING PELICANS
-        MarqueeManager.Instance.PlayTitle("PELICAN TIME!!!");
+        MarqueeManager.Instance.PlayRandomQuip(QuipType.Pelicans);
+        //MarqueeManager.Instance.PlayTitle("PELICAN TIME!!!");
         pelicanSpawner.active = true;
         foreach ((Player player, PlayerReference playerRef) in playerReferences) {
             if (playerRef.stocks > 1) {
