@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.SceneManagement;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
 
@@ -19,6 +17,8 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     private float[] data;
 
     public bool playAttractors;
+
+    public float loudness;
 
     private void Attractor() {
         if (!playAttractors) {
@@ -48,9 +48,6 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     }
 
     public override void Initialize() {
-        serialPort = new SerialPort("COM3", 9600) {
-            ReadTimeout = 100
-        };
         secondsSinceLastAttractor = 0f;
         source = GetComponent<AudioSource>();
         clip = source.clip;
@@ -68,12 +65,15 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     }
 
     private void ConnectArduino() {
-        try {
-            serialPort?.Open();
-            Debug.Log("Connected Arduino!");
-        }
-        catch {
-            Debug.LogWarning("Could not open serial port. Is the Arduino connected?");
+        foreach (var port in new string[] { "COM3", "COM4", "COM5" }) {
+            serialPort = new SerialPort(port, 9600) { ReadTimeout = 100 };
+            try {
+                serialPort?.Open();
+                Debug.Log($"Connected Arduino on port {port}");
+                break;
+            } catch {
+                Debug.Log($"Failed to connect Arduino on port {port}");
+            }
         }
     }
 
@@ -91,8 +91,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
         var index = source.timeSamples;
         var amplitude = data[index];
-        float loudness = amplitude * 255;
-        Debug.Log(loudness);
+        loudness = Mathf.Abs(amplitude * 255);
         return loudness;
     }
 
@@ -104,5 +103,12 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     protected override void OnDestroy() {
         DisconnectArduino();
         base.OnDestroy();
+    }
+
+    private void OnGUI() {
+        if (!GameManager.Instance.debug)
+            return;
+
+        GUILayout.TextField(loudness.ToString());
     }
 }

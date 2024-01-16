@@ -5,20 +5,20 @@
 #endif
 
 class Motor {
-  public:
-    // Constructor
-    Motor(int pin1, int pin2);
+public:
+  // Constructor
+  Motor(int pin1, int pin2);
 
-    // Methods
-    void forward();
-    void backward();
-    void setSpeed(int motorSpeed);
-    void halt();
+  // Methods
+  void forward();
+  void backward();
+  void setSpeed(int motorSpeed);
+  void halt();
 
-  private:
-    int _pin1;
-    int _pin2;
-    int _motorSpeed;
+private:
+  int _pin1;
+  int _pin2;
+  int _motorSpeed;
 };
 
 Motor::Motor(int pin1, int pin2) {
@@ -29,13 +29,13 @@ Motor::Motor(int pin1, int pin2) {
 }
 
 void Motor::forward() {
-  analogWrite(_pin1, _motorSpeed);
+  digitalWrite(_pin1, HIGH);
   digitalWrite(_pin2, LOW);
 }
 
 void Motor::backward() {
   digitalWrite(_pin1, LOW);
-  analogWrite(_pin2, _motorSpeed);
+  digitalWrite(_pin2, HIGH);
 }
 
 void Motor::setSpeed(int motorSpeed) {
@@ -47,11 +47,11 @@ void Motor::halt() {
   digitalWrite(_pin2, LOW);
 }
 
-Motor bodyMotor(6, 9); // Sets up an Motor controlled motor on PWM pins 6 and 9
-Motor mouthMotor(5, 3); // Sets up an Motor controlled motor on PWM pins 5 and 3
+Motor bodyMotor(12, 7);   // Sets up an Motor controlled motor on PWM pins 6 and 9
+Motor mouthMotor(10, 8);  // Sets up an Motor controlled motor on PWM pins 5 and 3
 
-int silence = 20; // Threshold for "silence". Anything below this level is ignored.
-int volume = 0; // variable to hold the analog audio value
+int silence = 20;  // Threshold for "silence". Anything below this level is ignored.
+int volume = 0;    // variable to hold the analog audio value
 
 //these variables are for storing the current time, scheduling times for actions to end, and when the action took place
 long currentTime;
@@ -71,26 +71,41 @@ enum FishState {
 
 FishState fishState = WAIT;
 
-int debugSpeed;
-int debugSpeedLF;
+bool debug;
 
 void setup() {
-  bodyMotor.setSpeed(255); 
-  mouthMotor.setSpeed(255);
+  debug = false;
 
   timeOfLastSound = millis();
 
   pinMode(LED_BUILTIN, OUTPUT);
 
-  Serial.begin(9600);
+  Serial.begin(57600);
 }
 
 void loop() {
   currentTime = millis();
   volume = getVolumeFromSerial();
-  handleState();
-  articulateBody();
-  digitalWrite(LED_BUILTIN, (int)bodyUp);
+
+  if (debug) { 
+    debugMovement();
+  } else {
+    handleState();
+    articulateBody();
+    digitalWrite(LED_BUILTIN, (int)bodyUp);
+  }
+}
+
+void debugMovement() {
+  if (currentTime % 2000 > 1000) {
+    bodyMotor.forward();
+    mouthMotor.forward();
+    digitalWrite(LED_BUILTIN, 0);
+  } else {
+    mouthMotor.halt();
+    bodyMotor.halt();
+    digitalWrite(LED_BUILTIN, 1);
+  }
 }
 
 void handleState() {
@@ -124,7 +139,7 @@ void talk() {
     fishState = WAIT;
     return;
   }
-  
+
   // Action
   if (currentTime < mouthActionTime) {
     if (currentTime < mouthActionHalfTime) {
@@ -158,7 +173,7 @@ void wait() {
     bodyUp = false;
     bodyDownTime = currentTime;
   }
-  
+
   // Action
   bodyMotor.halt();
   mouthMotor.halt();
