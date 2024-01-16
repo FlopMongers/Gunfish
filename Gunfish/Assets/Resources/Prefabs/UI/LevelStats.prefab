@@ -146,7 +146,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Wins
+  m_text: Points
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a63bc4949f5a364d86f91a1e904acd7, type: 2}
   m_sharedMaterial: {fileID: 1603815300725903869, guid: 3a63bc4949f5a364d86f91a1e904acd7,
