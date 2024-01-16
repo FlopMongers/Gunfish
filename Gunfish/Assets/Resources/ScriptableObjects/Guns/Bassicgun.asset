@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bassicgun
   m_EditorClassIdentifier: 
   gunBarrels:
-  - position: {x: -0.647, y: 0.243}
+  - position: {x: -0.839, y: -0.056}
     rotation: 175.87
   kickback: 10
   range: 20
