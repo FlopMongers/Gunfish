@@ -102,11 +102,13 @@ public class FishSelectMenuPage : IMenuPage {
     private void OnSubmit(InputAction.CallbackContext context, int deviceIndex) {
         switch (selectorState[deviceIndex]) {
             case SelectorState.DISABLED:
+                PlayerManager.Instance.Players[deviceIndex].Active = false;
                 SetFish(deviceIndex, GameManager.Instance.GunfishDataList.gunfishes[0]);
                 CancelGameStartCountdown();
                 SetSelectorState(deviceIndex, SelectorState.SELECTING);
                 break;
             case SelectorState.SELECTING:
+                PlayerManager.Instance.Players[deviceIndex].Active = true;
                 SetSelectorState(deviceIndex, SelectorState.READY);
                 if (isAllPlayersReady()) {
                     BeginGameStartCountdown();
@@ -118,9 +120,11 @@ public class FishSelectMenuPage : IMenuPage {
     private void OnCancel(InputAction.CallbackContext context, int deviceIndex) {
         switch (selectorState[deviceIndex]) {
             case SelectorState.SELECTING:
+                PlayerManager.Instance.Players[deviceIndex].Active = false;
                 SetSelectorState(deviceIndex, SelectorState.DISABLED);
                 break;
             case SelectorState.READY:
+                PlayerManager.Instance.Players[deviceIndex].Active = false;
                 CancelGameStartCountdown();
                 SetSelectorState(deviceIndex, SelectorState.SELECTING);
                 break;
@@ -209,6 +213,7 @@ public class FishSelectMenuPage : IMenuPage {
     private bool isAllPlayersReady() {
         bool hasNoSelecting = true;
         int readyPlayerCount = 0;
+        var requiredPlayersToStart = GameManager.debug ? 1 : 2;
         foreach (SelectorState state in selectorState) {
             if (state == SelectorState.READY) {
                 readyPlayerCount++;
@@ -217,6 +222,6 @@ public class FishSelectMenuPage : IMenuPage {
                 hasNoSelecting = false;
             }
         }
-        return hasNoSelecting && readyPlayerCount >= 1;
+        return hasNoSelecting && readyPlayerCount >= requiredPlayersToStart;
     }
 }
