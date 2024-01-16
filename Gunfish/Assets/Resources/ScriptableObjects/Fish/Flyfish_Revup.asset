@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d43ac47a9ef8aa64d9aa82ab44404374, type: 3}
-  m_Name: Flyfish
+  m_Name: Flyfish_Revup
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: fc9d8479589497b4285c27626e52b828,
     type: 3}
@@ -31,13 +31,13 @@ MonoBehaviour:
   waterZoomAngleThreshold: 30
   waterZoomForce: 4
   maxHealth: 10
-  length: 1.5
+  length: 1.3333334
   width:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.005214691
-      value: 0.20454025
+      time: -0.011962891
+      value: 0.18849564
       inSlope: 0.09048438
       outSlope: 0.09048438
       tangentMode: 0
@@ -45,8 +45,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 0.4913263
-      value: 0.28571886
+      time: 0.4710779
+      value: 0.23222536
       inSlope: -0.030833902
       outSlope: -0.030833902
       tangentMode: 0
@@ -54,8 +54,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.11499996
     - serializedVersion: 3
-      time: 0.9102656
-      value: 0.30188483
+      time: 0.8900172
+      value: 0.26443976
       inSlope: 0.010325795
       outSlope: 0.010325795
       tangentMode: 0
@@ -79,5 +79,5 @@ MonoBehaviour:
   gunOffset:
     position: {x: 0, y: 0}
     rotation: 0
-  gun: {fileID: 11400000, guid: 02745ea4a8079794599098e20d4cad6e, type: 2}
+  gun: {fileID: 11400000, guid: 8033aeffdf6482f4097f895a3569cca9, type: 2}
   gunSegmentIndex: 0

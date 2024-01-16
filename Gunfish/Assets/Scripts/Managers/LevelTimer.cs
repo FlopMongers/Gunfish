@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class LevelTimer : MonoBehaviour
 {
     public float levelDuration;
-    // LevelTimerUI ui;
+    public LevelTimerUI ui;
     public float timer;
     public bool awakened = false;
 
@@ -13,10 +14,12 @@ public class LevelTimer : MonoBehaviour
 
     public void AwakenTimer() {
         awakened = true;
+        ui.TimerFade(0, 1, 0.25f);
     }
 
     public void DisappearTimer() {
         awakened = false;
+        ui.TimerFade(1, 0, 0.25f);
     }
 
     public void StartTime() {
@@ -32,7 +35,7 @@ public class LevelTimer : MonoBehaviour
             return;
 
         timer -= Time.deltaTime;
-        // ui.UpdateTime(Mathf.Clamp(Mathf.Round(timer), 0, levelDuration));
+        ui.UpdateTime(Mathf.RoundToInt(Mathf.Clamp(Mathf.Round(timer), 0, levelDuration)));
         if (timer <= 0) {
             // fire event and deaden timer
             OnTimerFinish?.Invoke();

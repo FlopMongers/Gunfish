@@ -277,6 +277,7 @@ public class DeathMatchManager : MatchManager {
     public override void OnTimerFinish() {
         base.OnTimerFinish();
         // todo: SUMMON THE FUCKING PELICANS
+        MarqueeManager.Instance.PlayTitle("PELICAN TIME!!!");
         pelicanSpawner.active = true;
         foreach ((Player player, PlayerReference playerRef) in playerReferences) {
             if (playerRef.stocks > 1) {
