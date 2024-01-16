@@ -17,6 +17,8 @@ public class Gun : MonoBehaviour {
     public float ammo;
     protected float fireCooldown_timer, reload_timer, reloadWait_timer;
 
+    public bool piercing;
+
     // Start is called before the first frame update
     protected virtual void Start() {
         layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water");
@@ -100,11 +102,13 @@ public class Gun : MonoBehaviour {
                 if (node != null && !splooshed) {
                     splooshed = true;
                     node.zone.Sploosh(hit.point, node.zone.splashThresholdRange.y, false, true);
-                    Bullet bullet = Instantiate(gunfish.data.gun.bulletPrefab, hit.point, Quaternion.identity).GetComponent<Bullet>();
-                    bullet.gunfish = gunfish;
-                    bullet.SetSpeed(barrel.transform.right, 1f - (Vector3.Distance(hit.point, barrel.transform.position)/gunfish.data.gun.range));
-                    endPoint = hit.point;
-                    break;
+                    if (!piercing) {
+                        Bullet bullet = Instantiate(gunfish.data.gun.bulletPrefab, hit.point, Quaternion.identity).GetComponent<Bullet>();
+                        bullet.gunfish = gunfish;
+                        bullet.SetSpeed(barrel.transform.right, 1f - (Vector3.Distance(hit.point, barrel.transform.position) / gunfish.data.gun.range));
+                        endPoint = hit.point;
+                        break;
+                    }
                 }
                 if (hit.collider != null && hit.collider.isTrigger == true) {
                     continue;
@@ -131,7 +135,8 @@ public class Gun : MonoBehaviour {
                         if (fishSegment.gunfish.statusData.health <= 0)
                             FX_Spawner.Instance?.BAM();
                         endPoint = hit.point;
-                        break;
+                        if (!piercing)
+                            break;
                     }
                 }
                 else if (shootable != null) {
@@ -143,7 +148,8 @@ public class Gun : MonoBehaviour {
                         gunfish.data.gun.knockback,
                         HitType.Ballistic));
                     endPoint = hit.point;
-                    break;
+                    if (!piercing)
+                        break;
                 }
                 else if (objMat != null) {
                     // TODO: replace with generalized FX_CollisionHandler code

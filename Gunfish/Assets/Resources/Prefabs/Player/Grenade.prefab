@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 8961582423614950044}
   - component: {fileID: 8961582423614950034}
   - component: {fileID: 360077827}
+  - component: {fileID: 1514608829860066851}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -201,7 +202,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9296053ef5accff42b53dc74ff053cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootable: {fileID: 0}
   explosion: {fileID: 5971764844140717513, guid: c9e7477a7f8f91e4e9961893a65df751,
     type: 3}
   sourceGunfish: {fileID: 0}
   duration: 2
+--- !u!114 &1514608829860066851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961582423614950035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef301691f3e33f54184ca54c149ae3da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  damagedThreshold: 0
+  damagedSprite: {fileID: 0}
+  indestructible: 0
+  health: 0
+  destroyFX: 0
+  hitFX: 0
+  damagedFX: 0
+  handleCollisionDamage: 0
+  addDestroyer: 0
+  destroyer: {fileID: 0}

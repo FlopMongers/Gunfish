@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
+    public Shootable shootable;
     public GameObject explosion;
 
     public Gunfish sourceGunfish;
 
     public float duration = 2f;
+
+
+    private void Start() {
+        shootable.OnDead += Explode;
+    }
 
     // Update is called once per frame
     void Update()
