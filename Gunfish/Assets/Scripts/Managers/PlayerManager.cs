@@ -24,7 +24,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
         var inputManager = GetComponent<PlayerInputManager>();
 
-        var pattern = GameManager.debug == true ? "(Keyboard|Controller|Joystick)" : "(Controller|Joystick)";
+        var pattern = GameManager.Instance.debug == true ? "(Keyboard|Controller|Joystick)" : "(Controller|Joystick)";
         var regex = new Regex(pattern);
         var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
 

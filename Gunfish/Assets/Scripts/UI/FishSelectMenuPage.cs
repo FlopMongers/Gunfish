@@ -213,7 +213,7 @@ public class FishSelectMenuPage : IMenuPage {
     private bool isAllPlayersReady() {
         bool hasNoSelecting = true;
         int readyPlayerCount = 0;
-        var requiredPlayersToStart = GameManager.debug ? 1 : 2;
+        var requiredPlayersToStart = GameManager.Instance.debug ? 1 : 2;
         foreach (SelectorState state in selectorState) {
             if (state == SelectorState.READY) {
                 readyPlayerCount++;
