@@ -7,6 +7,9 @@ public class SwordDamageDealer : CollisionDamageDealer
 
     public Gunfish gunfish;
 
+    [HideInInspector]
+    public Sword sword;
+
     protected override void Start() {
         base.Start();
     }
@@ -15,6 +18,12 @@ public class SwordDamageDealer : CollisionDamageDealer
         // check if src is sword and target is not self
         if (src != collisionDetector.gameObject || collision.collider.GetComponent<GunfishSegment>()?.gunfish == gunfish) {
             return;
+        }
+        if (collision.rigidbody != null) {
+            var shootable = collision.rigidbody.GetComponent<Shootable>();
+            if (shootable != null) {
+                damageMultiplier = sword.dashingDamageMultiplier;
+            }
         }
         print($"{src}, {collision.rigidbody}");
         trace = true;
