@@ -1,6 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
+
+    public List<PickUpTuple> spawnPrefabProbabilityList = new List<PickUpTuple>();
+    Dictionary<GameObject, float> spawnPrefabProbabilityMap = new Dictionary<GameObject, float>();
 
     public GameObject spawnPrefab;
 
@@ -45,7 +49,7 @@ public class Spawner : MonoBehaviour {
     protected virtual GameObject Spawn() {
         spawnTimer = spawnTimerRange.RandomInRange();
         return Instantiate(
-            spawnPrefab,
+            spawnPrefabProbabilityMap.Choose(spawnPrefab),
             spawnArea.bounds.RandomPointInBounds(),
             Quaternion.identity);
     }
