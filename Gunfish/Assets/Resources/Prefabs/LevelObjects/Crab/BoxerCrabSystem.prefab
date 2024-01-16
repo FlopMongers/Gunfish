@@ -105,6 +105,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2089078253296353892, guid: 31b765a0bc1370544aa498e145db914b,
         type: 3}
+      propertyPath: movePoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2089078253296353892, guid: 31b765a0bc1370544aa498e145db914b,
+        type: 3}
       propertyPath: movePoints.Array.data[0].point
       value: 
       objectReference: {fileID: 3317731234026923269}
@@ -113,6 +118,16 @@ PrefabInstance:
       propertyPath: movePoints.Array.data[1].point
       value: 
       objectReference: {fileID: 3317731233967802326}
+    - target: {fileID: 2089078253296353892, guid: 31b765a0bc1370544aa498e145db914b,
+        type: 3}
+      propertyPath: movePoints.Array.data[0].duration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2089078253296353892, guid: 31b765a0bc1370544aa498e145db914b,
+        type: 3}
+      propertyPath: movePoints.Array.data[1].duration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7291469913447136400, guid: 31b765a0bc1370544aa498e145db914b,
         type: 3}
       propertyPath: m_Name

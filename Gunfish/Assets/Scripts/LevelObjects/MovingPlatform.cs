@@ -44,6 +44,7 @@ public class MovingPlatform : MonoBehaviour
     }
 
     private void Update() {
+        if (movePoints.Count == 0) { return; }
         if (Vector2.Distance(transform.position, nextPoint.position) < threshold) {
             GetNextPoint();
         }
@@ -55,6 +56,9 @@ public class MovingPlatform : MonoBehaviour
         nextPoint = movePoints[index].point;
         // calculate by movePoint distance/duration
         Vector2 dir = (nextPoint.position - transform.position);
+        if (dir == Vector2.zero) {
+            return;
+        }
         rb.velocity = dir.magnitude / movePoints[index].duration * dir.normalized;
     }
 
