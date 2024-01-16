@@ -15,23 +15,17 @@ public class GroundDetector : MonoBehaviour
         var compositeCollisionDetector = GetComponent<CompositeCollisionDetector>();
         compositeCollisionDetector.OnComponentCollideEnter += HandleCollisionEnter;
         compositeCollisionDetector.OnComponentCollideExit += HandleCollisionExit;
-        
+        InvokeRepeating("ClearMap", 1.5f, 1.5f);
+    }
+
+    void ClearMap() {
+        collisionTracker = new CollisionTracker();
     }
 
     private void Update() {
         List<GameObject> toRemove = new List<GameObject>();
-        HashSet<GameObject> hitObjs = new HashSet<GameObject>();
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(gunfish.MiddleSegment.transform.position, gunfish.data.length+1.5f, Vector2.zero, 1);
-        foreach (var hit in hits) {
-            if (hit.collider != null) {
-                hitObjs.Add(hit.collider.gameObject);
-            }
-            if (hit.rigidbody != null) {
-                hitObjs.Add(hit.rigidbody.gameObject);
-            }
-        }
         foreach (var pair in collisionTracker.tracker) {
-            if (pair.Key == null || hitObjs.Contains(pair.Key) == false) {
+            if (pair.Key == null) {
                 toRemove.Add(pair.Key);
             }
         }
