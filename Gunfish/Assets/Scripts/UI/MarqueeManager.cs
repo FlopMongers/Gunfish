@@ -19,6 +19,8 @@ public enum QuipType {
     Three,
     Two,
     One,
+    Ready,
+    Flop,
     GUNFISH,
 }
 

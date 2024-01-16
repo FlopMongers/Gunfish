@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class ArduinoManager : Singleton<ArduinoManager> {
 
     public List<AudioClip> attractorLines;
+    public AudioClip HARK;
+
     public float secondsBetweenAttractors = 60f;
     private float secondsSinceLastAttractor;
 
@@ -26,18 +28,23 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
         if (secondsSinceLastAttractor > secondsBetweenAttractors) {
             secondsSinceLastAttractor = 0f;
-            PlayClip(attractorLines[Random.Range(0, attractorLines.Count)]);
+            AudioClip clip = attractorLines[Random.Range(0, attractorLines.Count)];
+            if (clip == HARK && Random.value < 0.8f) {
+                clip = attractorLines[Random.Range(0, attractorLines.Count)];
+            }
+            secondsBetweenAttractors -= PlayClip(clip);
         } else {
             secondsSinceLastAttractor += Time.deltaTime;
         }
     }
 
-    public void PlayClip(AudioClip clip) {
+    public float PlayClip(AudioClip clip) {
         this.clip = clip;
         source.clip = clip;
         data = new float[source.clip.samples * source.clip.channels];
         source.clip.GetData(data, 0);
         source?.Play();
+        return clip.length;
     }
 
     public override void Initialize() {

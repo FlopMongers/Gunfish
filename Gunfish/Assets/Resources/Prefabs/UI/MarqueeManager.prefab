@@ -755,12 +755,28 @@ MonoBehaviour:
       clip: {fileID: 0}
     - text: 
       clip: {fileID: 0}
-  - QuipType: 15
+  - QuipType: 17
     quips:
     - text: 
       clip: {fileID: 8300000, guid: 0ce99b9786594cf478ec47ab37386081, type: 3}
     - text: 
       clip: {fileID: 8300000, guid: 6ed066a310aac974990763564e65985b, type: 3}
+  - QuipType: 15
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 905556159745029448f597e9ba823bba, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 1bc14024cb1b35847b6aa51f84f013d0, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: de0fc3217a8ce434dabb0b890bd81e50, type: 3}
+  - QuipType: 16
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 863ec16771458074098021a951b30b08, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 643377d0916fd234f94fd0e243f1e4f4, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 637c61bc7aa0fb04882ad00c66770371, type: 3}
   titleSettings:
     duration: 5
     tween:

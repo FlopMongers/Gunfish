@@ -345,6 +345,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1295931030, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
+      propertyPath: attractorLines.Array.size
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 1295931030, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
+      propertyPath: attractorLines.Array.data[50]
+      value: 
+      objectReference: {fileID: 8300000, guid: 76cc76f39a1580c408bf652dc3a79eb0, type: 3}
+    - target: {fileID: 4294059311677317433, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 3372220415
+      objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_Name
