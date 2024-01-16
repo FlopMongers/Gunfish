@@ -265,6 +265,9 @@ public class DeathMatchManager : MatchManager {
         // if src fish, then award points, otherwise detract points
         Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
         sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
+        if (sourceGunfish == gunfish) {
+            sourceGunfish = null;
+        }
         if (sourceGunfish != null) {
             playerRef.lastHitTimestamp = Time.time;
             playerRef.lastHitter = sourceGunfish.player;

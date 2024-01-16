@@ -49,6 +49,11 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     ButtonStatus firingStatus = ButtonStatus.Up;
 
+    float respawnHoldDuration = 3f;
+    float respawnHoldTimer;
+    bool startRespawning = false;
+    public FloatGameEvent OnRespawnUpdated;
+
     private void Start() {
         player = GetComponent<Player>();
         playerNum = player.PlayerNumber;
@@ -64,6 +69,17 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         if (killed || !spawned) {
             return;
+        }
+
+        if (startRespawning == true && player.FreezeControls == false) {
+            respawnHoldTimer += Time.deltaTime;
+        }
+        else {
+            respawnHoldTimer = 0f;
+        }
+        OnRespawnUpdated?.Invoke(respawnHoldTimer / respawnHoldDuration);
+        if (respawnHoldTimer >= respawnHoldDuration) {
+            Hit(new FishHitObject(MiddleSegmentIndex, MiddleSegment.transform.position, Vector2.zero, gameObject, statusData.health, 0, HitType.Explosive));
         }
 
         HandleEffects();
@@ -244,6 +260,12 @@ public class Gunfish : MonoBehaviour, IHittable {
         //}
     }
 
+    public void SetRespawn(bool respawn) {
+        // NOTE(Wyatt): I intensely dislike how incongruent unity's new input system is from the rest of the engine
+        print(startRespawning);
+        startRespawning = respawn;
+    }
+
     public void Hit(FishHitObject hit) {
         // TODO tell match manager about this for possible scoring
         // TODO: replace with generalized FX_CollisionHandler?
@@ -298,6 +320,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         }
         SetFiring(false);
         this.underwater = false;
+        startRespawning = false;
         this.data = data;
         gun = Instantiate(data.gun.gunPrefab, transform).GetComponent<Gun>();
         gun.gunfish = this;
