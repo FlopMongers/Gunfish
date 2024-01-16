@@ -28,11 +28,13 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
         if (secondsSinceLastAttractor > secondsBetweenAttractors) {
             secondsSinceLastAttractor = 0f;
-            AudioClip clip = attractorLines[Random.Range(0, attractorLines.Count)];
-            if (clip == HARK && Random.value < 0.8f) {
+
+            if (Random.Range(0, 1000) == 0) {
+                clip = HARK;
+            } else {
                 clip = attractorLines[Random.Range(0, attractorLines.Count)];
             }
-            secondsBetweenAttractors -= PlayClip(clip);
+            secondsSinceLastAttractor -= PlayClip(clip);
         } else {
             secondsSinceLastAttractor += Time.deltaTime;
         }
