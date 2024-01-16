@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Minigun
   m_EditorClassIdentifier: 
   gunBarrels:
-  - position: {x: 0, y: 0}
+  - position: {x: -0.633, y: 0}
     rotation: 180
   kickback: 10
   range: 20

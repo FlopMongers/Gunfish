@@ -22,7 +22,7 @@ public class SwordDamageDealer : CollisionDamageDealer
         if (collision.rigidbody != null) {
             var shootable = collision.rigidbody.GetComponent<Shootable>();
             if (shootable != null) {
-                damageMultiplier = sword.dashingDamageMultiplier;
+                damageMultiplier = sword.shootableDamageMultiplier;
             }
         }
         print($"{src}, {collision.rigidbody}");

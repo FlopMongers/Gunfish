@@ -8,7 +8,7 @@ using UnityEngine;
 public class Sword : Gun
 {
     SwordDamageDealer damageDealer;
-    public float damageMultiplier = 1, dashingDamageMultiplier = 3;
+    public float damageMultiplier = 1, dashingDamageMultiplier = 3, shootableDamageMultiplier = 3;
 
     // Start is called before the first frame update
     protected override void Start()

@@ -51,7 +51,7 @@ MonoBehaviour:
   impulseThreshold: 0.5
   trace: 0
   gunfish: {fileID: 0}
-  dashingMultiplier: 3
+  sword: {fileID: 0}
 --- !u!114 &739683198429410986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,3 +67,6 @@ MonoBehaviour:
   gunfish: {fileID: 0}
   barrels: []
   ammo: 0
+  damageMultiplier: 1
+  dashingDamageMultiplier: 2.2
+  shootableDamageMultiplier: 3
