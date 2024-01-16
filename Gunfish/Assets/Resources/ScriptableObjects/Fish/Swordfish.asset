@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: fc9d8479589497b4285c27626e52b828,
     type: 3}
-  spriteMat: {fileID: 2100000, guid: e92757aca63a29347aa396180400ba5d, type: 2}
+  spriteMat: {fileID: 2100000, guid: 747a1deaf01309c4ea66669f6813e5e6, type: 2}
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
-  sprite: {fileID: 21300000, guid: ae535ebc3b14147caa468c802dfa8608, type: 3}
+  sprite: {fileID: 21300000, guid: 62463b20e71fe2547938798e1a7afb5c, type: 3}
   mass: 1
   fixedJointDamping: 1
   fixedJointFrequency: 49
