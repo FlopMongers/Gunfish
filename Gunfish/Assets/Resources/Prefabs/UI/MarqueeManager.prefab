@@ -547,10 +547,6 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: 8235ad253eef93e41ae3afdc14290f4b, type: 3}
     - text: 
       clip: {fileID: 8300000, guid: f6e015556011aec4aa557911a7130b63, type: 3}
-    - text: 
-      clip: {fileID: 8300000, guid: 11214facd76b8324d8663f20255c953c, type: 3}
-    - text: 
-      clip: {fileID: 8300000, guid: b4e5b3ff5837d0d4583d7be781c4578b, type: 3}
   - QuipType: 3
     quips:
     - text: 
@@ -710,13 +706,13 @@ MonoBehaviour:
     - text: 
       clip: {fileID: 8300000, guid: 24496dbdc1a93f2469b8bcee30fe2b94, type: 3}
     - text: 
-      clip: {fileID: 8300000, guid: 50173ae931f449a44a87502311fe4d17, type: 3}
-    - text: 
       clip: {fileID: 8300000, guid: 673a771798d112d4ea34cdde356a9dde, type: 3}
     - text: 
       clip: {fileID: 8300000, guid: 6b26ddc89280e1b4fa793f6f300fb962, type: 3}
     - text: 
       clip: {fileID: 8300000, guid: bccc1c20142e4dd4891dde5e005bea41, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 2571d35ee209b794493c7591cbfb7042, type: 3}
   - QuipType: 10
     quips:
     - text: 
@@ -725,8 +721,6 @@ MonoBehaviour:
     quips:
     - text: 
       clip: {fileID: 8300000, guid: 838ba0cfdde403f4ba264cc51cdb4c0e, type: 3}
-    - text: 
-      clip: {fileID: 8300000, guid: 2571d35ee209b794493c7591cbfb7042, type: 3}
     - text: 
       clip: {fileID: 8300000, guid: 89a8e3f49627dba488556b87fce24cb5, type: 3}
     - text: 
