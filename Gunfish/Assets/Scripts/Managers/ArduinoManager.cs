@@ -40,7 +40,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         }
     }
 
-    public float PlayClip(AudioClip clip) {
+    public float PlayClip(AudioClip clip, float decibels = 0f) {
         this.clip = clip;
         source.clip = clip;
         data = new float[source.clip.samples * source.clip.channels];
@@ -50,6 +50,9 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     }
 
     public override void Initialize() {
+        if (GameManager.Instance.debug) {
+            secondsBetweenAttractors = 5f;
+        }
         secondsSinceLastAttractor = 0f;
         source = GetComponent<AudioSource>();
         clip = source.clip;
