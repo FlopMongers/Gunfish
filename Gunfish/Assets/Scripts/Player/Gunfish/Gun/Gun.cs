@@ -172,7 +172,7 @@ public class Gun : MonoBehaviour {
     }
 
     public void Kickback(float kickback) {
-        var direction = (gunfish.segments[1].transform.position - gunfish.segments[0].transform.position).normalized;
+        var direction = gunfish.segments[0].transform.right;
         // gun kickback
         gunfish.body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
     }
