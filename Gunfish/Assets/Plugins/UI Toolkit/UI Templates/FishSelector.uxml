@@ -4,16 +4,27 @@
         <ui:VisualElement style="width: 100%; flex-direction: row; height: 200%; justify-content: space-between; align-items: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; transform-origin: top;">
             <ui:Button display-tooltip-when-elided="true" name="back-button" focusable="false" class="leftSelectorButton" style="width: 50px; height: 50px; justify-content: center; -unity-text-align: middle-center; white-space: nowrap; background-image: url(&apos;project://database/Assets/Dark%20UI/Free/Left%20Arrow.png?fileID=2800000&amp;guid=210e6a7b28c57aa4e9408866e861895c&amp;type=3#Left Arrow&apos;); background-color: rgba(88, 88, 88, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
             <ui:VisualElement name="fish-image" style="flex-grow: 1; flex-shrink: 0; height: 50%; background-image: none; -unity-background-scale-mode: scale-to-fit;">
-                <ui:Label text="⚪◉ TO JOIN" display-tooltip-when-elided="true" name="DisabledHint" style="-unity-text-align: middle-center; font-size: 30px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: bold; translate: 0 -3px; color: rgb(255, 255, 255);">
-                    <ui:Label text="READY" display-tooltip-when-elided="true" name="ReadyHint" style="-unity-text-align: middle-center; font-size: 30px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: bold; color: rgb(255, 255, 255); translate: 0 -3px;" />
-                </ui:Label>
+                <ui:VisualElement style="flex-direction: row; display: flex; justify-content: center;">
+                    <ui:Label text="READY" display-tooltip-when-elided="true" name="ReadyHint" style="-unity-text-align: middle-center; font-size: 30px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: bold; color: rgb(255, 255, 255); translate: 0 -3px; display: flex;">
+                        <ui:VisualElement name="DisabledHint" style="flex-direction: row; justify-content: center; align-items: center; display: flex;">
+                            <ui:VisualElement name="DisabledIcon" style="background-image: resource(&apos;Sprites/UI/GunIcon&apos;); width: 50%; height: 50%; justify-content: space-between; flex-shrink: 0;" />
+                            <ui:Label text=" TO JOIN" display-tooltip-when-elided="true" name="DisabledText" style="-unity-text-align: middle-center; font-size: 30px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: bold; translate: 0 -3px; color: rgb(255, 255, 255);" />
+                        </ui:VisualElement>
+                    </ui:Label>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button display-tooltip-when-elided="true" name="next-button" focusable="false" class="rightSelectorButton" style="width: 50px; height: 50px; background-image: url(&apos;project://database/Assets/Dark%20UI/Free/Right%20Arrow.png?fileID=2800000&amp;guid=7cf2f46063edb3445a4b32cbd687b51c&amp;type=3#Right Arrow&apos;); background-color: rgba(77, 75, 75, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
         </ui:VisualElement>
         <ui:VisualElement style="display: flex; width: 100%; height: 100%; position: absolute; flex-basis: auto; left: auto; top: auto; transform-origin: top; scale: 1 1; background-image: url(&apos;project://database/Assets/Dark%20UI/Free/BTN_Line_4PX_Medium.png?fileID=2800000&amp;guid=b631b747eaea1bb40a188fdced546dd2&amp;type=3#BTN_Line_4PX_Medium&apos;); -unity-background-image-tint-color: rgb(5, 5, 5);" />
     </ui:VisualElement>
-    <ui:VisualElement name="ControlPrompt" style="flex-direction: row; position: relative; justify-content: center; height: 24px;">
-        <ui:Label text="◉⚪ CANCEL" display-tooltip-when-elided="true" name="CancelHint" style="-unity-text-align: middle-center; font-size: 22px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: normal; color: rgb(255, 255, 255);" />
-        <ui:Label text="⚪◉ CONFIRM" display-tooltip-when-elided="true" name="ConfirmHint" style="-unity-text-align: middle-center; font-size: 22px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: normal; color: rgb(255, 255, 255);" />
+    <ui:VisualElement name="ControlPrompt" style="flex-direction: row; position: relative; justify-content: center; height: 24px; align-items: center;">
+        <ui:VisualElement name="CancelHint" style="height: 100%; flex-direction: row; width: 50%; justify-content: flex-end; align-items: stretch;">
+            <ui:VisualElement name="CancelIcon" style="background-image: resource(&apos;Sprites/UI/BackIcon&apos;); flex-shrink: 0; width: 20%; justify-content: center; translate: 0 5px;" />
+            <ui:Label text="CANCEL" display-tooltip-when-elided="true" name="CancelText" style="-unity-text-align: middle-center; font-size: 22px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: normal; color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ConfirmHint" style="height: 100%; flex-shrink: 0; flex-direction: row; width: 50%; visibility: visible; overflow: visible; display: flex; justify-content: flex-start;">
+            <ui:VisualElement name="ConfirmIcon" style="background-image: resource(&apos;Sprites/UI/GunIcon&apos;); flex-shrink: 0; width: 20%; justify-content: center; translate: 0 5px;" />
+            <ui:Label text="CONFIRM" display-tooltip-when-elided="true" name="ConfirmText" style="-unity-text-align: middle-center; font-size: 22px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: normal; color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
