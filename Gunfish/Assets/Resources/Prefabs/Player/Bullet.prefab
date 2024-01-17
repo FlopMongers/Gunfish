@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4965525518979213272}
   - component: {fileID: 492439743445926309}
   - component: {fileID: 7042920668411452032}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 3144476237402104265}
   - component: {fileID: 7201637775176575312}
   - component: {fileID: 8960812110001815913}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: FXBubbles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4963,7 +4963,7 @@ GameObject:
   - component: {fileID: 3390965030286774273}
   - component: {fileID: 1539668340371976702}
   - component: {fileID: 7283901480012401334}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
