@@ -29,6 +29,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
 
         int playerIndex = 0;
+        inputDevices = inputDevices.OrderBy(x => x.name).ToList();
         foreach (var device in inputDevices)
             print(device);
         inputDevices.ForEach(device => {
