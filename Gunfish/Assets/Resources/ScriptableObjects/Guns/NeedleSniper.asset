@@ -16,7 +16,7 @@ MonoBehaviour:
   - position: {x: -0.5, y: 0.02}
     rotation: 180
   kickback: 18
-  range: 20
+  range: 40
   damage: 7.5
   knockback: 15
   maxAmmo: 1

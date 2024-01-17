@@ -1,4 +1,5 @@
 using System;
+using System.Drawing.Printing;
 using UnityEngine;
 
 
@@ -209,7 +210,13 @@ public class Sharkmode_Effect : TimedEffect {
         // subscribe to gunfish composite collision detection
         gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideEnter += OnCollision;
         // todo: spawn sharkmode music
-        fx = FX_Spawner.Instance.SpawnFX(FXType.SharkMode, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
+        if (FX_Spawner.Instance != null) {
+            fx = FX_Spawner.Instance.SpawnFX(FXType.SharkMode, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
+        }
+        if (SharkmodeManager.Instance != null) {
+            Debug.Log("sharkmode >:)");
+            SharkmodeManager.Instance.UpdateCounter(gunfish, true);
+        }
     }
 
     public override void OnRemove() {
@@ -222,6 +229,10 @@ public class Sharkmode_Effect : TimedEffect {
         // stop sharkmode music
         // NOTE(Wyatt): stupid workaround.
         // todo: fade out effect instead of just DELET
+        if (SharkmodeManager.Instance != null) {
+            Debug.Log("No more sharkmode :(");
+            SharkmodeManager.Instance.UpdateCounter(gunfish, false);
+        }
         FX_Spawner.Instance.DestroyFX(fx);
     }
 

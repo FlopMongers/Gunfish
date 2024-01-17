@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9296053ef5accff42b53dc74ff053cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootable: {fileID: 0}
+  shootable: {fileID: 1514608829860066851}
   explosion: {fileID: 5971764844140717513, guid: c9e7477a7f8f91e4e9961893a65df751,
     type: 3}
   sourceGunfish: {fileID: 0}

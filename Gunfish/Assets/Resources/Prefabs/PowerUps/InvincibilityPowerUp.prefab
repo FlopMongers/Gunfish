@@ -179,7 +179,7 @@ MonoBehaviour:
   detector: {fileID: 5521207299899137181}
   PickupFX: 0
   fader: {fileID: -2530516226392320633}
-  invincibilityDuration: 8
+  invincibilityDuration: 12
 --- !u!114 &-2530516226392320633
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 public enum TrackSetLabel {
     Menu,
     Gameplay,
+    Sharkmode,
 }
 
 [System.Serializable]
@@ -25,6 +26,9 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private Dictionary<TrackSetLabel, TrackSet> musicTrackDictionary;
     [SerializeField]
     private TrackSetLabel defaultTrackSet;
+
+    public TrackSetLabel currentTrackSetLabel;
+
     [SerializeField]
     private bool playOnStart;
     [SerializeField]
@@ -95,6 +99,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         }
         doFade = set.doFade;
 
+        currentTrackSetLabel = setLabel;
         StartNextTrack();
     }
 
