@@ -24,4 +24,9 @@ public class SharkmodeManager : Singleton<SharkmodeManager>
             MusicManager.Instance.PlayTrackSet(trackSetLabel);
         }
     }
+
+    public void StopMusic() {
+        gunfishes.Clear();
+        MusicManager.Instance.PlayTrackSet(trackSetLabel);
+    }
 }
