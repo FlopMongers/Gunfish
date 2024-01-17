@@ -16,13 +16,11 @@ public class SharkmodeManager : Singleton<SharkmodeManager>
         }
         if (add == true && gunfishes.Count == 1) {
             // start playing sharkmode
-            print("oh yeah sharkmode time!");
             trackSetLabel = MusicManager.Instance.currentTrackSetLabel;
             MusicManager.Instance.PlayTrackSet(TrackSetLabel.Sharkmode);
         }
         else if (gunfishes.Count == 0) {
             // stop playing sharkmode
-            print("yep, no more sharkmode");
             MusicManager.Instance.PlayTrackSet(trackSetLabel);
         }
     }

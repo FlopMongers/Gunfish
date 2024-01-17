@@ -24,7 +24,7 @@ public class Effect {
     }
 
     public virtual void Update() {
-        // keep doing something to that gunfish 
+        // keep doing something to that gunfish
     }
 
     public virtual void Merge(Effect effect) {
@@ -119,12 +119,12 @@ public class Zap_Effect : TimedEffect {
         stateTimer -= Time.deltaTime;
         if (zappin) {
             switch (affectedMovementType) {
-                case MovementType.MoveLeft:
-                    gunfish.Move(Vector2.left);
-                    break;
-                case MovementType.MoveRight:
-                    gunfish.Move(Vector2.right);
-                    break;
+            case MovementType.MoveLeft:
+                gunfish.Move(Vector2.left);
+                break;
+            case MovementType.MoveRight:
+                gunfish.Move(Vector2.right);
+                break;
             }
             gunfish.Movement(true);
         }
@@ -132,8 +132,7 @@ public class Zap_Effect : TimedEffect {
             if (zappin) {
                 zappin = false;
                 stateTimer = delayRange.RandomInRange();
-            }
-            else {
+            } else {
                 StartZappin();
             }
         }
@@ -214,7 +213,6 @@ public class Sharkmode_Effect : TimedEffect {
             fx = FX_Spawner.Instance.SpawnFX(FXType.SharkMode, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
         }
         if (SharkmodeManager.Instance != null) {
-            Debug.Log("sharkmode >:)");
             SharkmodeManager.Instance.UpdateCounter(gunfish, true);
         }
     }
@@ -230,7 +228,6 @@ public class Sharkmode_Effect : TimedEffect {
         // NOTE(Wyatt): stupid workaround.
         // todo: fade out effect instead of just DELET
         if (SharkmodeManager.Instance != null) {
-            Debug.Log("No more sharkmode :(");
             SharkmodeManager.Instance.UpdateCounter(gunfish, false);
         }
         FX_Spawner.Instance.DestroyFX(fx);
