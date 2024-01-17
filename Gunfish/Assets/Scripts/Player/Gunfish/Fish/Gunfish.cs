@@ -165,7 +165,6 @@ public class Gunfish : MonoBehaviour, IHittable {
             }
             else if (underwater) {
                 Swim();
-                RotateMovement(movement, 0, data.underwaterTorque);
             } else {
                 RotateMovement(movement, 0, data.airTorque);
             }
