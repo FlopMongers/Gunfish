@@ -50,7 +50,7 @@ public class Destroyer : MonoBehaviour
                 barticleRenderer.transform.Rotate(Vector3.forward * Random.Range(0, 360));
                 barticle.GetComponent<Rigidbody2D>().AddExplosionForce(barticleExplosionForce, transform.position, shortSide);
                 var barticleFader = barticle.GetComponent<Fader>();
-                barticleFader.baseFadeSpeed = 0.5f;
+                //barticleFader.baseFadeSpeed = 0.5f;
                 barticleFader.FadeAndDestroy();
             }
             // spawn barticles

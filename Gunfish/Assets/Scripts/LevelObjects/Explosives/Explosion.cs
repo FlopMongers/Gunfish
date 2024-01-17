@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class Explosion : MonoBehaviour
 {
     public CircleCollider2D radius;
     public AnimationCurve damageCurve;
     public float damageScale;
+    public float fishDamageScale;
 
     public PointEffector2D effector;
     public float explosionForce = 50;
@@ -15,20 +17,26 @@ public class Explosion : MonoBehaviour
 
     float waterScale = 0.5f;
 
+    public Gunfish sourceGunfish;
+
+    public bool delayedExplosion;
+
     // Start is called before the first frame update
     void Start()
     {
-        Explode();
-        // screen shake
-        effector.forceMagnitude = explosionForce;
-        Invoke("TurnOffEffector", 0.25f);
+        if (!delayedExplosion)
+            Explode();
     }
 
     void TurnOffEffector() {
         effector.enabled = false;
     }
 
-    void Explode() {
+    public void Explode() {
+        effector.enabled = true;
+        // screen shake
+        effector.forceMagnitude = explosionForce;
+        Invoke("TurnOffEffector", 0.25f);
         // circle cast to get things in radius
         // raycast to make sure no walls in the way
         // raycast from the things you hit and if blocked by ground, then ignore
@@ -47,15 +55,18 @@ public class Explosion : MonoBehaviour
             Transform hitTransform = hit.transform;
             IHittable hittable = null;
             if (segment != null) {
+                if (sourceGunfish != null && sourceGunfish == segment.gunfish) {
+                    continue;
+                }
                 hittable = segment.gunfish;
             }
             else if (hitTransform.GetComponentInParent<Shootable>()) { hittable = hitTransform.GetComponentInParent<Shootable>(); }
             WaterSurfaceNode node = hitTransform.GetComponent<WaterSurfaceNode>();
-            if (node != null) {
-                node.Sploosh(Vector2.up * damageCurve.Evaluate(
-                        Vector3.Distance(transform.position, node.GetComponent<BoxCollider2D>().bounds.max) / radius.bounds.extents.x) * waterSplooshForce);
+            if (node != null && !hittables.Contains(node.zone.gameObject)) {
+                node.zone.Sploosh(hit.point, damageCurve.Evaluate(
+                        Vector3.Distance(transform.position, node.GetComponent<BoxCollider2D>().bounds.max) / radius.bounds.extents.x) * waterSplooshForce, true, true);
+                hittables.Add(node.zone.gameObject);
             }
-                
             if (hittable == null || hittables.Contains(hittable.gameObject)) {
                 continue;
             }
@@ -65,15 +76,15 @@ public class Explosion : MonoBehaviour
                 float nearness = damageCurve.Evaluate(Vector3.Distance(transform.position, hittable.gameObject.transform.position) / radius.bounds.extents.x);
                 //print(nearness);
                 // calculate hit object based on distance
-                float damage = nearness * damageScale;
+                float damage = nearness;
                 if (hittable is Gunfish) {
                     Gunfish gunfish = (Gunfish)hittable;
                     gunfish.Hit(new FishHitObject(
                         gunfish.MiddleSegmentIndex,
                         gunfish.MiddleSegment.transform.position,
                         (gunfish.MiddleSegment.transform.position - transform.position).normalized,
-                        gameObject,
-                        damage,
+                        (sourceGunfish != null) ? sourceGunfish.gameObject : gameObject,
+                        damage * fishDamageScale,
                         0,
                         HitType.Explosive));
                 }
@@ -82,7 +93,7 @@ public class Explosion : MonoBehaviour
                         hittable.gameObject.transform.position,
                         (hittable.gameObject.transform.position - transform.position).normalized,
                         hittable.gameObject,
-                        damage,
+                        damage * damageScale,
                         0,
                         HitType.Explosive,
                         ignoreMass: true));

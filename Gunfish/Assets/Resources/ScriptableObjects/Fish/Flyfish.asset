@@ -20,8 +20,8 @@ MonoBehaviour:
   mass: 3
   fixedJointDamping: 1
   fixedJointFrequency: 32
-  flopForce: 15
-  groundTorque: 15
+  flopForce: 10
+  groundTorque: 10
   airTorque: 20
   maxAerialAngularVelocity: 500
   maxUnderwaterVelocity: 10
@@ -31,13 +31,13 @@ MonoBehaviour:
   waterZoomAngleThreshold: 30
   waterZoomForce: 4
   maxHealth: 10
-  length: 1.3333334
+  length: 1.5
   width:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.011962891
-      value: 0.18849564
+      time: -0.005214691
+      value: 0.20454025
       inSlope: 0.09048438
       outSlope: 0.09048438
       tangentMode: 0
@@ -45,8 +45,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 0.4710779
-      value: 0.23222536
+      time: 0.4913263
+      value: 0.28571886
       inSlope: -0.030833902
       outSlope: -0.030833902
       tangentMode: 0
@@ -54,8 +54,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.11499996
     - serializedVersion: 3
-      time: 0.8900172
-      value: 0.26443976
+      time: 0.9102656
+      value: 0.30188483
       inSlope: 0.010325795
       outSlope: 0.010325795
       tangentMode: 0
@@ -79,5 +79,5 @@ MonoBehaviour:
   gunOffset:
     position: {x: 0, y: 0}
     rotation: 0
-  gun: {fileID: 11400000, guid: 8033aeffdf6482f4097f895a3569cca9, type: 2}
+  gun: {fileID: 11400000, guid: 02745ea4a8079794599098e20d4cad6e, type: 2}
   gunSegmentIndex: 0

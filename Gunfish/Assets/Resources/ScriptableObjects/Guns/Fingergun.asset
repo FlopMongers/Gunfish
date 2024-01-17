@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fingergun
   m_EditorClassIdentifier: 
   gunBarrels:
-  - position: {x: 0, y: 0}
+  - position: {x: -0.55, y: 0}
     rotation: 180
   kickback: 10
   range: 20
@@ -29,3 +29,5 @@ MonoBehaviour:
   fireCooldown: 0.5
   reload: 0.75
   reloadWait: 1
+  bulletPrefab: {fileID: 1502404068387010642, guid: 6c6b5ebb0a1ecb3418a88e77e87cae96,
+    type: 3}

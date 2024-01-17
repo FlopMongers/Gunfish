@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIController {
     public int PlayerNumber { get; private set; }
+    public int VisiblePlayerNumber { get { return PlayerNumber + 1; } }
 
     public GunfishData gunfishData;
     private Gunfish gunfish;
@@ -92,6 +93,16 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
 
 
         gunfish.SetFiring(value.isPressed); //.Fire();
+    }
+
+    public void OnRespawn(InputValue value) {
+        if (gunfish == null) {
+            throw new UnityException($"Cannot respawn Gunfish for {name} as a Gunfish has not been instantiated.");
+        }
+        if (FreezeControls) {
+            return;
+        }
+        gunfish.SetRespawn(value.isPressed);
     }
 
     public void OnNavigate(InputValue value) {

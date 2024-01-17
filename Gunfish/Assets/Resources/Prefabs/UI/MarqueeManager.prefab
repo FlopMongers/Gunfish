@@ -1,0 +1,1084 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &255998136632789448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 560894576439683912}
+  - component: {fileID: 2964465259725590295}
+  - component: {fileID: 4679759487165304840}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &560894576439683912
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255998136632789448}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 341948191178126532}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 8.46, y: 0.5}
+--- !u!222 &2964465259725590295
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255998136632789448}
+  m_CullTransparentMesh: 1
+--- !u!114 &4679759487165304840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255998136632789448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: marquee text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 12007103040ab7e489c009e22d3b9157, type: 2}
+  m_sharedMaterial: {fileID: -2917531904743474581, guid: 12007103040ab7e489c009e22d3b9157,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 92
+  m_fontSizeBase: 72
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 92
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1334430497554310501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 341948191178126532}
+  - component: {fileID: 5096197407435609653}
+  - component: {fileID: 9077965584527677109}
+  - component: {fileID: 1184249497058567778}
+  m_Layer: 5
+  m_Name: QuipCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &341948191178126532
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334430497554310501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 560894576439683912}
+  m_Father: {fileID: 2224740755716462442}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!223 &5096197407435609653
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334430497554310501}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &9077965584527677109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334430497554310501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!114 &1184249497058567778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334430497554310501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!1 &2224740755716462440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2224740755716462442}
+  - component: {fileID: 2224740755716462453}
+  m_Layer: 5
+  m_Name: MarqueeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2224740755716462442
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2224740755716462440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 341948191178126532}
+  - {fileID: 3991709891468367828}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2224740755716462453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2224740755716462440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c270a1e5d8a60c47939539ddfb54860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quips:
+  - text: All washed up
+    clip: {fileID: 8300000, guid: 2b920487ae2b98f449d9060e637180c2, type: 3}
+  - text: All washed up
+    clip: {fileID: 8300000, guid: 1a18b351dd78c1e4f80323845206afca, type: 3}
+  - text: Better luck next tide
+    clip: {fileID: 8300000, guid: 605ee26c04857a14db78650b51e958fc, type: 3}
+  - text: Better luck next tide
+    clip: {fileID: 8300000, guid: fb73b708e61a1e744ad45c15f8e686df, type: 3}
+  - text: Bub bye
+    clip: {fileID: 8300000, guid: 3069948ddfebf4e46a0a6450d30b4c34, type: 3}
+  - text: Bub bye
+    clip: {fileID: 8300000, guid: 4c3deeb8d94599f4ab8a33235dd5c1a9, type: 3}
+  - text: Codtastrophic
+    clip: {fileID: 8300000, guid: e886b2d90236cd44b989f5ea6526ceda, type: 3}
+  - text: Codtastrophic
+    clip: {fileID: 8300000, guid: 5f7fe64089c69d94493c53e6459ff6a9, type: 3}
+  - text: Deep fried
+    clip: {fileID: 8300000, guid: ba4e3ad641ff1ba4b8bc761bb61be63c, type: 3}
+  - text: Deep fried
+    clip: {fileID: 8300000, guid: 21ba7543f775cbb43979d2e23c3bc7f1, type: 3}
+  - text: Fin-ito
+    clip: {fileID: 8300000, guid: dab0675489f713f47aa616a2bd9a65dd, type: 3}
+  - text: Fin-ito
+    clip: {fileID: 8300000, guid: b2fca91e5f0d55f46aaab92b30e6f7dd, type: 3}
+  - text: Fintastic
+    clip: {fileID: 8300000, guid: 8ad405d9c011cbf4d9c613032283b2b3, type: 3}
+  - text: Fintastic
+    clip: {fileID: 8300000, guid: ae01b58165ab9d742941f791262253a2, type: 3}
+  - text: Fish fingers
+    clip: {fileID: 8300000, guid: eaeeada1e642c11489044d13d4a7d957, type: 3}
+  - text: Fish fingers
+    clip: {fileID: 8300000, guid: 3614fd1ef5515e84fa568a0f27b522dc, type: 3}
+  - text: Get scurvey
+    clip: {fileID: 8300000, guid: 3ca00ec8c8d02e4419a7aa89e4ef0d2f, type: 3}
+  - text: Get scurvey
+    clip: {fileID: 8300000, guid: e04a630272bf11f45b5419dc99dae0e6, type: 3}
+  - text: Gillty as charged
+    clip: {fileID: 8300000, guid: 7bec89935731c384aa50d69e395b7773, type: 3}
+  - text: Gillty as charged
+    clip: {fileID: 8300000, guid: 1b91899b75129434dbc5bebae2a3ca06, type: 3}
+  - text: Gone belly up
+    clip: {fileID: 8300000, guid: 547899d4810fee74e8ea0fe768f5759e, type: 3}
+  - text: Gone belly up
+    clip: {fileID: 8300000, guid: 7198c5cfd79dedd408683e7bd550b9d0, type: 3}
+  - text: Good squiddance
+    clip: {fileID: 8300000, guid: 0c69fb6993a5f0442a6e04858a840513, type: 3}
+  - text: Good squiddance
+    clip: {fileID: 8300000, guid: 3f42f81d0036872499a1d074cfbf4af2, type: 3}
+  - text: Holy mackerel
+    clip: {fileID: 8300000, guid: 86bcf2b592b261d4e9075372a2cf6885, type: 3}
+  - text: Holy mackerel
+    clip: {fileID: 8300000, guid: f27c2707d6cc0884ea926f2e7b44a9a7, type: 3}
+  - text: Hook, line, and sinker
+    clip: {fileID: 8300000, guid: 9712a6e6280603646a309238773b3f7b, type: 3}
+  - text: Hook, line, and sinker
+    clip: {fileID: 8300000, guid: 09f5e9b1c23bf354a8823e6017a6bb80, type: 3}
+  - text: Kick some bass
+    clip: {fileID: 8300000, guid: 67669406886897541abbccca5e8277d0, type: 3}
+  - text: Kick some bass
+    clip: {fileID: 8300000, guid: a4b2e2169576afd47a4fcf3b1237288e, type: 3}
+  - text: Killimari
+    clip: {fileID: 8300000, guid: 94f3dd35ab15fc14992cee47cb08f6ec, type: 3}
+  - text: Killimari
+    clip: {fileID: 8300000, guid: 918ee2834cb275a4b90c06e286e86ea2, type: 3}
+  - text: Krilling spree
+    clip: {fileID: 8300000, guid: 032a8476b7bc20a4595f62c74ed08370, type: 3}
+  - text: Krilling spree
+    clip: {fileID: 8300000, guid: 5e411ff69b98a134a8cd56330573e266, type: 3}
+  - text: Marooned
+    clip: {fileID: 8300000, guid: 4f5d4ab80335fe64ea882286c88105aa, type: 3}
+  - text: Marooned
+    clip: {fileID: 8300000, guid: 6808a38772da26248b044a24f1078094, type: 3}
+  - text: Mother of cod
+    clip: {fileID: 8300000, guid: bdda325c9975014439582874938298b4, type: 3}
+  - text: Mother of cod
+    clip: {fileID: 8300000, guid: 1eeeeed4200f18049bed575db42bc8e0, type: 3}
+  - text: No trout about it
+    clip: {fileID: 8300000, guid: 054023afe473d6b43bba67fe6e6f669f, type: 3}
+  - text: No trout about it
+    clip: {fileID: 8300000, guid: cc9b4c014652e674fb6eebb0ad05c6fe, type: 3}
+  - text: Off the hook
+    clip: {fileID: 8300000, guid: 11765e4422ae4ac479dc706f41b36a20, type: 3}
+  - text: Off the hook
+    clip: {fileID: 8300000, guid: 26cc4fe64008a334f8d1d466fb4b672f, type: 3}
+  - text: Reeled in
+    clip: {fileID: 8300000, guid: 97a004875df11584b890e61c597c55fe, type: 3}
+  - text: Reeled in
+    clip: {fileID: 8300000, guid: 52e86cc1e29edeb4d89732ae3d41e99f, type: 3}
+  - text: Rock bottom
+    clip: {fileID: 8300000, guid: a5ffb8fb94ddc324f877520536c79998, type: 3}
+  - text: Rock bottom
+    clip: {fileID: 8300000, guid: 3789e2d97b1dc6c4cb15a8b7f348a736, type: 3}
+  - text: Seas the day
+    clip: {fileID: 8300000, guid: 185d56e5606227b46ac8a0b8f907a6e1, type: 3}
+  - text: Seas the day
+    clip: {fileID: 8300000, guid: cde728b3ad048ee4c8980ce87f684c50, type: 3}
+  - text: Shoot to krill
+    clip: {fileID: 8300000, guid: d08202b8e594710489d22e479ff7fb80, type: 3}
+  - text: Shoot to krill
+    clip: {fileID: 8300000, guid: 657df099292adac4fa5c58b7bf856b6c, type: 3}
+  - text: Sleep with the fishes
+    clip: {fileID: 8300000, guid: 8dd175b6c80c8dd4385f6803a9ad0173, type: 3}
+  - text: Sleep with the fishes
+    clip: {fileID: 8300000, guid: ae0e91d27ae2dcd4b801e01c6a95070b, type: 3}
+  - text: Sushi to go
+    clip: {fileID: 8300000, guid: 6909c9bee52e88b4a9384cffa292a34c, type: 3}
+  - text: Sushi to go
+    clip: {fileID: 8300000, guid: 8f057eefa89eb754db25c1c8a461853e, type: 3}
+  - text: Thar she blows
+    clip: {fileID: 8300000, guid: 8f3e5c5317008db469828f28bb9d259a, type: 3}
+  - text: Thar she blows
+    clip: {fileID: 8300000, guid: bf88d8c6ab548bc449db0177505abfc8, type: 3}
+  - text: To Davey Jones' locker
+    clip: {fileID: 8300000, guid: 61f1b9fd9086af94a87ec13ca6a9877b, type: 3}
+  - text: To Davey Jones' locker
+    clip: {fileID: 8300000, guid: 2bf7e82c552874041ab3dc252493987a, type: 3}
+  - text: To the brig
+    clip: {fileID: 8300000, guid: de3cf455a6a68b949b72ea2281d3ae11, type: 3}
+  - text: To the brig
+    clip: {fileID: 8300000, guid: e3b7f6dbe055f8f4cb6c3e3b71edd76a, type: 3}
+  - text: Walk the plank
+    clip: {fileID: 8300000, guid: 7a2e13cbc2c390d46b91c04032cf534b, type: 3}
+  - text: Walk the plank
+    clip: {fileID: 8300000, guid: 73ea7b4ddf41e24448fb3d76e007f90e, type: 3}
+  quipList:
+  - QuipType: 0
+    quips: []
+  - QuipType: 1
+    quips:
+    - text: All washed up
+      clip: {fileID: 8300000, guid: 2b920487ae2b98f449d9060e637180c2, type: 3}
+    - text: All washed up
+      clip: {fileID: 8300000, guid: 1a18b351dd78c1e4f80323845206afca, type: 3}
+    - text: Better luck next tide
+      clip: {fileID: 8300000, guid: 605ee26c04857a14db78650b51e958fc, type: 3}
+    - text: Better luck next tide
+      clip: {fileID: 8300000, guid: fb73b708e61a1e744ad45c15f8e686df, type: 3}
+    - text: Bub bye
+      clip: {fileID: 8300000, guid: 3069948ddfebf4e46a0a6450d30b4c34, type: 3}
+    - text: Bub bye
+      clip: {fileID: 8300000, guid: 4c3deeb8d94599f4ab8a33235dd5c1a9, type: 3}
+    - text: Codtastrophic
+      clip: {fileID: 8300000, guid: e886b2d90236cd44b989f5ea6526ceda, type: 3}
+    - text: Codtastrophic
+      clip: {fileID: 8300000, guid: 5f7fe64089c69d94493c53e6459ff6a9, type: 3}
+    - text: Deep fried
+      clip: {fileID: 8300000, guid: ba4e3ad641ff1ba4b8bc761bb61be63c, type: 3}
+    - text: Deep fried
+      clip: {fileID: 8300000, guid: 21ba7543f775cbb43979d2e23c3bc7f1, type: 3}
+    - text: Fin-ito
+      clip: {fileID: 8300000, guid: dab0675489f713f47aa616a2bd9a65dd, type: 3}
+    - text: Fin-ito
+      clip: {fileID: 8300000, guid: b2fca91e5f0d55f46aaab92b30e6f7dd, type: 3}
+    - text: Fintastic
+      clip: {fileID: 8300000, guid: 8ad405d9c011cbf4d9c613032283b2b3, type: 3}
+    - text: Fintastic
+      clip: {fileID: 8300000, guid: ae01b58165ab9d742941f791262253a2, type: 3}
+    - text: Fish fingers
+      clip: {fileID: 8300000, guid: eaeeada1e642c11489044d13d4a7d957, type: 3}
+    - text: Fish fingers
+      clip: {fileID: 8300000, guid: 3614fd1ef5515e84fa568a0f27b522dc, type: 3}
+    - text: Get scurvey
+      clip: {fileID: 8300000, guid: 3ca00ec8c8d02e4419a7aa89e4ef0d2f, type: 3}
+    - text: Get scurvey
+      clip: {fileID: 8300000, guid: e04a630272bf11f45b5419dc99dae0e6, type: 3}
+    - text: Gillty as charged
+      clip: {fileID: 8300000, guid: 7bec89935731c384aa50d69e395b7773, type: 3}
+    - text: Gillty as charged
+      clip: {fileID: 8300000, guid: 1b91899b75129434dbc5bebae2a3ca06, type: 3}
+    - text: Gone belly up
+      clip: {fileID: 8300000, guid: 547899d4810fee74e8ea0fe768f5759e, type: 3}
+    - text: Gone belly up
+      clip: {fileID: 8300000, guid: 7198c5cfd79dedd408683e7bd550b9d0, type: 3}
+    - text: Good squiddance
+      clip: {fileID: 8300000, guid: 0c69fb6993a5f0442a6e04858a840513, type: 3}
+    - text: Good squiddance
+      clip: {fileID: 8300000, guid: 3f42f81d0036872499a1d074cfbf4af2, type: 3}
+    - text: Holy mackerel
+      clip: {fileID: 8300000, guid: 86bcf2b592b261d4e9075372a2cf6885, type: 3}
+    - text: Holy mackerel
+      clip: {fileID: 8300000, guid: f27c2707d6cc0884ea926f2e7b44a9a7, type: 3}
+    - text: Hook, line, and sinker
+      clip: {fileID: 8300000, guid: 9712a6e6280603646a309238773b3f7b, type: 3}
+    - text: Hook, line, and sinker
+      clip: {fileID: 8300000, guid: 09f5e9b1c23bf354a8823e6017a6bb80, type: 3}
+    - text: Kick some bass
+      clip: {fileID: 8300000, guid: 67669406886897541abbccca5e8277d0, type: 3}
+    - text: Kick some bass
+      clip: {fileID: 8300000, guid: a4b2e2169576afd47a4fcf3b1237288e, type: 3}
+    - text: Killimari
+      clip: {fileID: 8300000, guid: 94f3dd35ab15fc14992cee47cb08f6ec, type: 3}
+    - text: Killimari
+      clip: {fileID: 8300000, guid: 918ee2834cb275a4b90c06e286e86ea2, type: 3}
+    - text: Krilling spree
+      clip: {fileID: 8300000, guid: 032a8476b7bc20a4595f62c74ed08370, type: 3}
+    - text: Krilling spree
+      clip: {fileID: 8300000, guid: 5e411ff69b98a134a8cd56330573e266, type: 3}
+    - text: Marooned
+      clip: {fileID: 8300000, guid: 4f5d4ab80335fe64ea882286c88105aa, type: 3}
+    - text: Marooned
+      clip: {fileID: 8300000, guid: 6808a38772da26248b044a24f1078094, type: 3}
+    - text: Mother of cod
+      clip: {fileID: 8300000, guid: bdda325c9975014439582874938298b4, type: 3}
+    - text: Mother of cod
+      clip: {fileID: 8300000, guid: 1eeeeed4200f18049bed575db42bc8e0, type: 3}
+    - text: No trout about it
+      clip: {fileID: 8300000, guid: 054023afe473d6b43bba67fe6e6f669f, type: 3}
+    - text: No trout about it
+      clip: {fileID: 8300000, guid: cc9b4c014652e674fb6eebb0ad05c6fe, type: 3}
+    - text: Off the hook
+      clip: {fileID: 8300000, guid: 11765e4422ae4ac479dc706f41b36a20, type: 3}
+    - text: Off the hook
+      clip: {fileID: 8300000, guid: 26cc4fe64008a334f8d1d466fb4b672f, type: 3}
+    - text: Reeled in
+      clip: {fileID: 8300000, guid: 97a004875df11584b890e61c597c55fe, type: 3}
+    - text: Reeled in
+      clip: {fileID: 8300000, guid: 52e86cc1e29edeb4d89732ae3d41e99f, type: 3}
+    - text: Rock bottom
+      clip: {fileID: 8300000, guid: a5ffb8fb94ddc324f877520536c79998, type: 3}
+    - text: Rock bottom
+      clip: {fileID: 8300000, guid: 3789e2d97b1dc6c4cb15a8b7f348a736, type: 3}
+    - text: Seas the day
+      clip: {fileID: 8300000, guid: 185d56e5606227b46ac8a0b8f907a6e1, type: 3}
+    - text: Seas the day
+      clip: {fileID: 8300000, guid: cde728b3ad048ee4c8980ce87f684c50, type: 3}
+    - text: Shoot to krill
+      clip: {fileID: 8300000, guid: d08202b8e594710489d22e479ff7fb80, type: 3}
+    - text: Shoot to krill
+      clip: {fileID: 8300000, guid: 657df099292adac4fa5c58b7bf856b6c, type: 3}
+    - text: Sleep with the fishes
+      clip: {fileID: 8300000, guid: 8dd175b6c80c8dd4385f6803a9ad0173, type: 3}
+    - text: Sleep with the fishes
+      clip: {fileID: 8300000, guid: ae0e91d27ae2dcd4b801e01c6a95070b, type: 3}
+    - text: Sushi to go
+      clip: {fileID: 8300000, guid: 6909c9bee52e88b4a9384cffa292a34c, type: 3}
+    - text: Sushi to go
+      clip: {fileID: 8300000, guid: 8f057eefa89eb754db25c1c8a461853e, type: 3}
+    - text: Thar she blows
+      clip: {fileID: 8300000, guid: 8f3e5c5317008db469828f28bb9d259a, type: 3}
+    - text: Thar she blows
+      clip: {fileID: 8300000, guid: bf88d8c6ab548bc449db0177505abfc8, type: 3}
+    - text: To Davey Jones' locker
+      clip: {fileID: 8300000, guid: 61f1b9fd9086af94a87ec13ca6a9877b, type: 3}
+    - text: To Davey Jones' locker
+      clip: {fileID: 8300000, guid: 2bf7e82c552874041ab3dc252493987a, type: 3}
+    - text: To the brig
+      clip: {fileID: 8300000, guid: de3cf455a6a68b949b72ea2281d3ae11, type: 3}
+    - text: To the brig
+      clip: {fileID: 8300000, guid: e3b7f6dbe055f8f4cb6c3e3b71edd76a, type: 3}
+    - text: Walk the plank
+      clip: {fileID: 8300000, guid: 7a2e13cbc2c390d46b91c04032cf534b, type: 3}
+    - text: Walk the plank
+      clip: {fileID: 8300000, guid: 73ea7b4ddf41e24448fb3d76e007f90e, type: 3}
+  - QuipType: 2
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 19d91ab259e56024f9d7c666cd58db27, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 61a3e86233469434d96fee7eae7d6fa4, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 8235ad253eef93e41ae3afdc14290f4b, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f6e015556011aec4aa557911a7130b63, type: 3}
+  - QuipType: 3
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 4e7751af8eb33e049adb24ca8ff0c37e, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 12a8a99aa8514964ca31bf89d066bc70, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f8f10221e71014441a59983dbc1a37b6, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 0deb2b622f1098d45b2783840d61bdee, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 6b91f3bc1033ab440a4cb98d83e4c412, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 1b6647fa7cb9ca141bc7ccd7e44878c8, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 765dc50e0aa3f4241b515fbe2c577f96, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 8fc4ee62cc845a0468c75d58f074ad59, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: aa593d9d7db1eb74186e3c3041d0dc58, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: b06972db1a924fa4e955354eba01b97e, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 6fb7520028d2cf0479f95bc344d32170, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 5dde2a2f06ff1fc4daa2dad47904581a, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 97c6e422020ee4d41b982224714c45c5, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 1af221c1707ff4445b2f451f79d489c7, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 783ee85057eb06148ba69074c6336f71, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 457d6f7f57d84e54384c31b3dee1f7a7, type: 3}
+  - QuipType: 4
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: eb65f2f09b249e047a73a4aff435a195, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: c87e0fb8ffcdad34ab49b8f61a9460b8, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 2514616190815ab4e8c3b34f17fc8e5d, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: d9b41f5d8c9f7f34eb8797cf0a156d60, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 3856e9d8867876842b42506d3d7b196d, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 52a7cf1513d390b408a6665ac92cace1, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 6f220e495d6a2ff46b93bdc8ec6e2fcc, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 26bc56a23d1e06f419706929bbfc5888, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: af969e9f957cd32479074fb6340dc3ed, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 7593edd6ddb36804b9bbcaed28629703, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f30250180ab4d6b4c9f658a76a87716f, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f26a3eae74e5cab47b0906e78c4ad6ca, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 348f0cb45f7960f4a83d9e5d361c4c2b, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 52cd79725795c2a4d9ba65e2afd30437, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 68b8f495181f4d0449c3738f0d13ff87, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 717d9c1292657114cb42eeeb8dc9e7f7, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 318d4fefd73718f45a570d15f90b826e, type: 3}
+  - QuipType: 5
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 4df888e2745ce6842bb52e1b8695a14e, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 41f5f7efffaa44545addc69376a0c264, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: ce2510d6db8abad4e880ef14767e6df7, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f0949603d6dcfb44bb5b791ae5e308b7, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 969fd364ce3ad1c45a2dd06346ea3c66, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: e92bc5cbc07c3e442ae0f6d8e7cb6931, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 5f5c093a4b6f43a478cdf355b9e82ca4, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 7bafdead239e05844ab3cf4acc7db7b3, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 45ad9c9685d23684b922cd805298fdb0, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: a99f89abd66daa841a58768bf0485a5b, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 4d5bf6a5108b272459efabd3e2ecc406, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f4878845ae11e7a4f97c3596a2ed58d1, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: cec0e1b2ad0409549bf2c16d218faa5a, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 88caafcc266cd24468b941fdda5be7f1, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 9edf1dd3d2b3cd94da88a03013d536a1, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 4116e42968345844cae7217adaadc3d6, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f35a6a45985af8b44868f2050f5947e8, type: 3}
+  - QuipType: 6
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 1338355bfe0d0f3479cd73dd20a79b84, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 5fa6073c95f06d641be96e597ca27293, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 95f993a45a3734b4082d46c099603454, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 0a3e894787831ed469b63e6814ff32b7, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 306585c674f43b8449d52afb56fa8e3b, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 71de7f2c4ae200248a9d772bf7b87113, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: b7663a9b64ab8c9428083a0104275b81, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: d2b88a1ba67f53c47bd0b96d1799277f, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 546dff034750f9b44be327186184c2fd, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f073b7a5d2efcbc46bac22dd932ad723, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 5e44067850b823247a9b4ff2766c5669, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 0b7c526bb7bf10444b858da51accf64a, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 3bb7e531f8dd9e6418be63f122a62496, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: dac900b613f943e43baffbeab8394163, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: e586a1f0bf64e164ebe3f92c6fa58a4d, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: a5276f10b056c9648904b901805f0637, type: 3}
+  - QuipType: 7
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 4bbe886b85c491b44bebb7d868efe25f, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: f5e0d6b05b09f744a95792789c54c71c, type: 3}
+  - QuipType: 8
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 00372c3d298dcd74a91df97170c68345, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 3a857c5f49b20ce4591225cd70b47f04, type: 3}
+  - QuipType: 9
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: d3b3d65ac90e5f748bf0cad358c631a4, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 24496dbdc1a93f2469b8bcee30fe2b94, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 673a771798d112d4ea34cdde356a9dde, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 6b26ddc89280e1b4fa793f6f300fb962, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: bccc1c20142e4dd4891dde5e005bea41, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 2571d35ee209b794493c7591cbfb7042, type: 3}
+  - QuipType: 10
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 50173ae931f449a44a87502311fe4d17, type: 3}
+  - QuipType: 11
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 838ba0cfdde403f4ba264cc51cdb4c0e, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 89a8e3f49627dba488556b87fce24cb5, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 202104c358317b749b0c1dbd6aa9742d, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 4447ed343713b8c4598896a6debdceae, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: c2d4685e229abf74b986537f83a9cda3, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 6194084478b5cb943ac9d28db7c496fb, type: 3}
+  - QuipType: 12
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 27c3ab6885a0af0419225917c9215761, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 92caba6ff2bc559418f969a432254bf8, type: 3}
+  - QuipType: 13
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: eacda81bd1770a74f87820db604f7626, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 1a89b7d9d45477942a7a9f33557fa025, type: 3}
+  - QuipType: 14
+    quips:
+    - text: 
+      clip: {fileID: 0}
+    - text: 
+      clip: {fileID: 0}
+  - QuipType: 17
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 0ce99b9786594cf478ec47ab37386081, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 6ed066a310aac974990763564e65985b, type: 3}
+  - QuipType: 15
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 905556159745029448f597e9ba823bba, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 1bc14024cb1b35847b6aa51f84f013d0, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: de0fc3217a8ce434dabb0b890bd81e50, type: 3}
+  - QuipType: 16
+    quips:
+    - text: 
+      clip: {fileID: 8300000, guid: 863ec16771458074098021a951b30b08, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 643377d0916fd234f94fd0e243f1e4f4, type: 3}
+    - text: 
+      clip: {fileID: 8300000, guid: 637c61bc7aa0fb04882ad00c66770371, type: 3}
+  titleSettings:
+    duration: 5
+    tween:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.49906945
+        value: 0.4986042
+        inSlope: -0.002389489
+        outSlope: -0.002389489
+        tangentMode: 0
+        weightedMode: 3
+        inWeight: 0.79864484
+        outWeight: 0.8042858
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    text: {fileID: 7566608386672300131}
+    t: 0
+  quipSettings:
+    duration: 3
+    tween:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.49906945
+        value: 0.4986042
+        inSlope: -0.002389489
+        outSlope: -0.002389489
+        tangentMode: 0
+        weightedMode: 3
+        inWeight: 0.79864484
+        outWeight: 0.8042858
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    text: {fileID: 4679759487165304840}
+    t: 0
+--- !u!1 &3706653603065883043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5933263844180398366}
+  - component: {fileID: 8728744647246819700}
+  - component: {fileID: 7566608386672300131}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5933263844180398366
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3706653603065883043}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3991709891468367828}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 8.46, y: 0.5}
+--- !u!222 &8728744647246819700
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3706653603065883043}
+  m_CullTransparentMesh: 1
+--- !u!114 &7566608386672300131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3706653603065883043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: marquee text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 56154dcacfc62c948bab717e1de44b02, type: 2}
+  m_sharedMaterial: {fileID: 4894871783142943051, guid: 56154dcacfc62c948bab717e1de44b02,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 72
+  m_fontSizeBase: 72
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &5958474008648575979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3991709891468367828}
+  - component: {fileID: 1982351443615756426}
+  - component: {fileID: 900138272414106769}
+  - component: {fileID: 6460404759053052728}
+  m_Layer: 5
+  m_Name: TitleCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3991709891468367828
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958474008648575979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5933263844180398366}
+  m_Father: {fileID: 2224740755716462442}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!223 &1982351443615756426
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958474008648575979}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &900138272414106769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958474008648575979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!114 &6460404759053052728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958474008648575979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

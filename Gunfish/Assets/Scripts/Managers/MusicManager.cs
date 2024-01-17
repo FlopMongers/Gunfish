@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 public enum TrackSetLabel {
     Menu,
     Gameplay,
+    Sharkmode,
 }
 
 [System.Serializable]
@@ -25,6 +26,9 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private Dictionary<TrackSetLabel, TrackSet> musicTrackDictionary;
     [SerializeField]
     private TrackSetLabel defaultTrackSet;
+
+    public TrackSetLabel currentTrackSetLabel;
+
     [SerializeField]
     private bool playOnStart;
     [SerializeField]
@@ -44,11 +48,12 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private float clipTimer = 0f;
 
     protected void Update() {
-        if (clipTimer >= 0f) {
-            clipTimer -= Time.deltaTime;
-        } else if (!transitioning) {
-            StartNextTrack();
-        }
+        // Temporailiy remove music queue functionality while we aren't using it
+        // if (clipTimer >= 0f) {
+        //     clipTimer -= Time.deltaTime;
+        // } else if (!transitioning) {
+        //     StartNextTrack();
+        // }
     }
 
     public override void Initialize() {
@@ -68,7 +73,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         };
 
         foreach (var audioSource in audioSources) {
-            audioSource.loop = false;
+            audioSource.loop = true;
             audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
     }
@@ -94,6 +99,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         }
         doFade = set.doFade;
 
+        currentTrackSetLabel = setLabel;
         StartNextTrack();
     }
 

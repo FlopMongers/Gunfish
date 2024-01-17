@@ -12,9 +12,11 @@ public class AutomaticGun : Gun
             fireCanceled = false;
         }
 
+        /*
         if (gunfish.underwater) {
             fireCanceled = true;
         }
+        */
 
         return (firingStatus == ButtonStatus.Holding || firingStatus == ButtonStatus.Pressed) && !fireCanceled;
     }

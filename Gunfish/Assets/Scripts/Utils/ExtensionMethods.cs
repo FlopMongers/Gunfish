@@ -10,6 +10,10 @@ using UnityEngine.AI;
 
 public static class ExtensionMethods {
 
+    public static float GetNormalizedValueInRange(float value, float minValue, float maxValue) {
+        return (value - minValue) / (maxValue - minValue);
+    }
+
     public static void SetGlobalScale(this Transform transform, Vector3 globalScale) {
         transform.localScale = Vector3.one;
         transform.localScale = new Vector3(globalScale.x / transform.lossyScale.x, globalScale.y / transform.lossyScale.y, globalScale.z / transform.lossyScale.z);

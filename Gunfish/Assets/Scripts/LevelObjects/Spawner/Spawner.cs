@@ -1,6 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
+
+    public List<PickUpTuple> spawnPrefabProbabilityList = new List<PickUpTuple>();
+    Dictionary<GameObject, float> spawnPrefabProbabilityMap = new Dictionary<GameObject, float>();
 
     public GameObject spawnPrefab;
 
@@ -30,18 +34,22 @@ public class Spawner : MonoBehaviour {
         // subscribe the thing being picked up
         if (!active)
             return;
-        if (spawnTimer > 0) {
+        UpdateSpawn();
+    }
+
+    protected virtual void UpdateSpawn() {
+        if (spawnTimer >= 0) {
             spawnTimer -= Time.deltaTime;
-            if (spawnTimer < 0) {
-                Spawn();
-            }
+        }
+        if (spawnTimer < 0) {
+            Spawn();
         }
     }
 
     protected virtual GameObject Spawn() {
         spawnTimer = spawnTimerRange.RandomInRange();
         return Instantiate(
-            spawnPrefab,
+            spawnPrefabProbabilityMap.Choose(spawnPrefab),
             spawnArea.bounds.RandomPointInBounds(),
             Quaternion.identity);
     }

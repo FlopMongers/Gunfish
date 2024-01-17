@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -24,6 +25,11 @@ public class HealthUI : MonoBehaviour {
 
     [SerializeField]
     private RectTransform _pipBar;
+
+    [SerializeField]
+    private RawImage _respawnBar;
+    [SerializeField]
+    private CanvasGroup _respawnBarCanvasGroup;
 
     Gunfish _gunfish;
     Shootable _shootable;
@@ -66,15 +72,12 @@ public class HealthUI : MonoBehaviour {
         SetUpConstraint(shootable.transform, offset);
     }
 
-    void UpdateWhiteBar(float value) {
-        _whiteBar.rectTransform.localScale = new Vector3(value, 1f, 1f);
-    }
-
     public void Init(Gunfish gunfish, Vector3? offset = null) {
         _gunfish = gunfish;
 
         _gunfish.OnHealthUpdated += UpdateHealth;
         _gunfish.OnDeath += OnGunfishDeath;
+        _gunfish.OnRespawnUpdated += UpdateRespawnBar;
         SetHealth(_gunfish.statusData.health);
 
         // get ammo and hook into ammo change
@@ -85,13 +88,40 @@ public class HealthUI : MonoBehaviour {
         _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         gunfish.gun.OnAmmoChanged += UpdateWhiteBar;
 
-        SetUpConstraint(_gunfish.MiddleSegment.transform, offset);
-        transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>().text = $"Player {_gunfish.playerNum + 1}";
+        SetUpConstraint(_gunfish.segments[(int)((float)_gunfish.segments.Count / 3)].transform, offset);
+
+        var playerColor = PlayerManager.Instance.playerColors[gunfish.playerNum];
+
+        var fishTitle = transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>();
+        fishTitle.text = $"P{_gunfish.playerNum + 1}";
+        fishTitle.color = playerColor;
 
         var offscreenTracker = GetComponentInChildren<OffscreenTracker>();
         if (offscreenTracker != null) {
             offscreenTracker.goToTrack = _gunfish.MiddleSegment;
+            offscreenTracker.color = playerColor;
         }
+    }
+
+    void UpdateWhiteBar(float value) {
+        _whiteBar.rectTransform.localScale = new Vector3(value, 1f, 1f);
+    }
+
+    bool showRespawnBar = false;
+    public void UpdateRespawnBar(float value) {
+        // if off, then turn on
+        // 
+        if (_respawnBar == null)
+            return;
+        if (showRespawnBar == false && value > 0) {
+            _respawnBarCanvasGroup.DOFade(1f, 0.25f);
+            showRespawnBar = true;
+        }
+        else if (showRespawnBar == true && value <= 0) {
+            _respawnBarCanvasGroup.DOFade(0f, 0.1f);
+            showRespawnBar = false;
+        }
+        _respawnBar.rectTransform.localScale = new Vector3(value, 1f, 1f);
     }
 
     public void SetHealth(float health) {

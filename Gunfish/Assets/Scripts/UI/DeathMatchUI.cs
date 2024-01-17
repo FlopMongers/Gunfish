@@ -72,7 +72,7 @@ public class DeathMatchUI : MonoBehaviour {
 
         int panelIdx = 0;
         foreach ((Player player, PlayerReference playerRef) in playerRefs.OrderByDescending(x => x.Value.score)) {
-            playerPanels[panelIdx].playerName.text = $"Player {player.PlayerNumber}";
+            playerPanels[panelIdx].playerName.text = $"Player {player.VisiblePlayerNumber}";
             playerPanels[panelIdx].playerImg.sprite = player.gunfishData.sprite;
             playerPanels[panelIdx].playerScore.text = playerRef.score.ToString();
             playerPanels[panelIdx].panel.SetActive(true);
@@ -95,7 +95,7 @@ public class DeathMatchUI : MonoBehaviour {
 
         int panelIdx = 0;
         foreach ((Player player, PlayerReference playerRef) in playerRefs.OrderByDescending(x => x.Value.score)) {
-            playerPanels[panelIdx].playerName.text = $"Player {player.PlayerNumber}";
+            playerPanels[panelIdx].playerName.text = $"Player {player.VisiblePlayerNumber}";
             playerPanels[panelIdx].playerImg.sprite = player.gunfishData.sprite;
             playerPanels[panelIdx].playerScore.text = playerRef.score.ToString();
             if (winners.Contains(player)) {

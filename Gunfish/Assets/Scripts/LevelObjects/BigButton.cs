@@ -32,7 +32,6 @@ public class BigButton : MonoBehaviour
     {
         if (detectAllCollisions) {
             compositeCollisionDetector.OnComponentCollideEnter += delegate (GameObject src, Collision2D collision) {
-                print(collision.relativeVelocity);
                 if (collision.relativeVelocity.magnitude > impulseThreshold) {
                     Trigger();
                 }

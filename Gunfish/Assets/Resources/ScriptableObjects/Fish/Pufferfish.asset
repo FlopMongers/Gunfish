@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43ac47a9ef8aa64d9aa82ab44404374, type: 3}
+  m_Name: Pufferfish
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: fc9d8479589497b4285c27626e52b828,
+    type: 3}
+  spriteMat: {fileID: 2100000, guid: 47bca18cc2bbd3343ac28d2f39df3e06, type: 2}
+  physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
+  sprite: {fileID: 21300000, guid: 71f12e683f3dd574c87f8fc087558d1e, type: 3}
+  mass: 5
+  fixedJointDamping: 1
+  fixedJointFrequency: 32
+  flopForce: 25
+  groundTorque: 25
+  airTorque: 100
+  maxAerialAngularVelocity: 500
+  maxUnderwaterVelocity: 10
+  underwaterForce: 200
+  underwaterTorque: 30
+  waterZoomSpeedThreshold: 5
+  waterZoomAngleThreshold: 30
+  waterZoomForce: 20
+  maxHealth: 10
+  length: 2
+  width:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0056114197
+      value: 0.0022697449
+      inSlope: 0.46709004
+      outSlope: 0.46709004
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.38630426
+    - serializedVersion: 3
+      time: 0.3023262
+      value: 0.39881587
+      inSlope: 0.36136404
+      outSlope: 0.36136404
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.4298644
+    - serializedVersion: 3
+      time: 0.6387889
+      value: 0.42511863
+      inSlope: -0.24920067
+      outSlope: -0.24920067
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.60099804
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1.0040294
+      value: -0.0039895438
+      inSlope: -0.13069001
+      outSlope: -0.13069001
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  segmentCount: 8
+  flopCooldown: 0.5
+  gunOffset:
+    position: {x: -0.01, y: -0.282}
+    rotation: 0
+  gun: {fileID: 11400000, guid: 799e21ee783f12f4ea8eabf9d4c401f3, type: 2}
+  gunSegmentIndex: 0

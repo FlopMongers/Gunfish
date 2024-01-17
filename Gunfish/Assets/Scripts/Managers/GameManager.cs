@@ -15,7 +15,8 @@ public class GameParameters {
 }
 
 public class GameManager : PersistentSingleton<GameManager> {
-    public static readonly bool debug = true;
+    [SerializeField]
+    public bool debug = false;
     
     [SerializeField]
     private GameModeList _gameModeList;

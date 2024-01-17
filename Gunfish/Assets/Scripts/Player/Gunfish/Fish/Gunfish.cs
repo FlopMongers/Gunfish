@@ -49,8 +49,16 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     ButtonStatus firingStatus = ButtonStatus.Up;
 
+    float respawnHoldDuration = 3f;
+    float respawnHoldTimer;
+    bool startRespawning = false;
+    public FloatGameEvent OnRespawnUpdated;
+
+    static float spawnInvincibilityDuration = 2f;
+
     private void Start() {
         player = GetComponent<Player>();
+        playerNum = player.PlayerNumber;
 
         killed = false;
         spawned = false;
@@ -63,6 +71,17 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         if (killed || !spawned) {
             return;
+        }
+
+        if (startRespawning == true && player.FreezeControls == false) {
+            respawnHoldTimer += Time.deltaTime;
+        }
+        else {
+            respawnHoldTimer = 0f;
+        }
+        OnRespawnUpdated?.Invoke(respawnHoldTimer / respawnHoldDuration);
+        if (respawnHoldTimer >= respawnHoldDuration) {
+            Hit(new FishHitObject(MiddleSegmentIndex, MiddleSegment.transform.position, Vector2.zero, gameObject, statusData.health, 0, HitType.Explosive));
         }
 
         HandleEffects();
@@ -83,6 +102,7 @@ public class Gunfish : MonoBehaviour, IHittable {
                 EffectRemoveList.Add(effect.Key);
             }
             foreach (var effect in EffectRemoveList) {
+                effectMap[effect].OnRemove();
                 effectMap.Remove(effect);
             }
             EffectRemoveList.Clear();
@@ -136,7 +156,7 @@ public class Gunfish : MonoBehaviour, IHittable {
     }
 
     public void Movement(bool forceMove=false) {
-        if (statusData == null || (!statusData.CanMove && !forceMove))
+        if (statusData == null || RootSegment == null || (!statusData.CanMove && !forceMove))
             return;
 
         // if underwater
@@ -147,8 +167,8 @@ public class Gunfish : MonoBehaviour, IHittable {
                 }
             }
             else if (underwater) {
-                RotateMovement(movement, 0, data.underwaterTorque);
-            } else {
+                Swim();
+            } else if (Mathf.Abs(movement.x) >= 0.2f) {
                 RotateMovement(movement, 0, data.airTorque);
             }
         }
@@ -220,24 +240,32 @@ public class Gunfish : MonoBehaviour, IHittable {
     void Swim() {
         // TODO handle surge swimming logic
         // for now, if pressed or holding, then swim
-        if (!statusData.CanMove || (firingStatus != ButtonStatus.Pressed && firingStatus != ButtonStatus.Holding))
+        if (!statusData.CanMove) {
             return;
-        int index = segments.Count / 2;
-        if (Vector3.Project(body.segments[index].body.velocity, segments[index].transform.right).magnitude < data.maxUnderwaterVelocity) {
-            body.ApplyForceToSegment(index, -segments[index].transform.right * data.underwaterForce, ForceMode2D.Force);
+        }
+
+        if (body.segments[0].body.velocity.magnitude < data.maxUnderwaterVelocity) {
+            body.ApplyForceToSegment(0, movement * data.underwaterForce, ForceMode2D.Force);
         }
     }
 
     public void Fire() {
         if (statusData == null || statusData.alive == false)
             return;
+        // NOTE(Wyatt): just uncomment if you don't want to be able to shoot underwater
         // if underwater, then zoom
-        if (underwater == true) {
+        /*if (underwater == true) {
             Swim();
-        }
+        }*/
         //else {
             gun?.Fire(firingStatus);
         //}
+    }
+
+    public void SetRespawn(bool respawn) {
+        // NOTE(Wyatt): I intensely dislike how incongruent unity's new input system is from the rest of the engine
+        print(startRespawning);
+        startRespawning = respawn;
     }
 
     public void Hit(FishHitObject hit) {
@@ -267,12 +295,34 @@ public class Gunfish : MonoBehaviour, IHittable {
             return null;
     }
 
+    public Bounds GetBoundingBox() {
+        List<Collider2D> colliders = new(10);
+        segments[0].GetComponent<Rigidbody2D>().GetAttachedColliders(colliders);
+        Bounds bounds = colliders[0].bounds;
+        bounds = AddCollidersToBounds(bounds, colliders);
+        for (int i = 1; i < segments.Count; i++) {
+            colliders.Clear();
+            segments[i].GetComponent<Rigidbody2D>().GetAttachedColliders(colliders);
+            bounds = AddCollidersToBounds(bounds, colliders);
+        }
+        return bounds;
+    }
+
+    private Bounds AddCollidersToBounds(Bounds bounds, List<Collider2D> colliders) {
+        foreach (Collider2D collider in colliders) {
+            bounds.Encapsulate(collider.bounds.min);
+            bounds.Encapsulate(collider.bounds.max);
+        }
+        return bounds;
+    }
+
     public void Spawn(GunfishData data, LayerMask layer, Vector3 position) {
         if (data.segmentCount < 3) {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
         SetFiring(false);
         this.underwater = false;
+        startRespawning = false;
         this.data = data;
         gun = Instantiate(data.gun.gunPrefab, transform).GetComponent<Gun>();
         gun.gunfish = this;
@@ -306,9 +356,12 @@ public class Gunfish : MonoBehaviour, IHittable {
         destroyer = RootSegment.AddComponent<Destroyer>();
         // add composite detection handler and Init
         // add damage receiver
-        RootSegment.CheckAddComponent<CollisionDamageReceiver>().gunfish = this;
+        CollisionDamageReceiver receiver = RootSegment.CheckAddComponent<CollisionDamageReceiver>();
+        receiver.oomphScale = 0.5f;
+        receiver.gunfish = this;
         RootSegment.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
         groundDetector = RootSegment.CheckAddComponent<GroundDetector>();
+        groundDetector.gunfish = this;
         groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layer);
 
         spawned = true;
@@ -340,6 +393,7 @@ public class Gunfish : MonoBehaviour, IHittable {
             barrel.localEulerAngles = Vector3.forward * tuple.rotation;
             gun.barrels.Add(barrel.gameObject.GetComponent<GunBarrel>());
         }
+        AddEffect(new Invincibility_Effect(this, spawnInvincibilityDuration));
     }
 
     public void Kill() { statusData.health = 0f; }

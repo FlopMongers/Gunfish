@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Minigun
   m_EditorClassIdentifier: 
   gunBarrels:
-  - position: {x: 0, y: 0}
+  - position: {x: -0.633, y: 0}
     rotation: 180
-  kickback: 2
+  kickback: 10
   range: 20
-  damage: 2
-  knockback: 2
-  maxAmmo: 18
+  damage: 3.2
+  knockback: 4
+  maxAmmo: 12
   gunPrefab: {fileID: 3189059645541482188, guid: 9aa90d612c50c9f4294834d2f7544de3,
     type: 3}
   gunSpritePrefab: {fileID: 8519334242837557634, guid: 1f44bd1d37bdf264593fc9b86ad3cdb4,
@@ -29,3 +29,5 @@ MonoBehaviour:
   fireCooldown: 0.06
   reload: 1
   reloadWait: 1
+  bulletPrefab: {fileID: 1502404068387010642, guid: 6c6b5ebb0a1ecb3418a88e77e87cae96,
+    type: 3}

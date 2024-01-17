@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 5203133393737141086}
   - component: {fileID: -8853610127646388208}
   - component: {fileID: 5279993703889849825}
+  - component: {fileID: 7521670784292959571}
   m_Layer: 0
   m_Name: LogProp
   m_TagString: Untagged
@@ -154,7 +155,7 @@ MonoBehaviour:
   destroyFX: 9
   hitFX: 8
   damagedFX: 0
-  handleCollisionDamage: 1
+  handleCollisionDamage: 0
   addDestroyer: 0
   destroyer: {fileID: -8853610127646388208}
 --- !u!114 &5203133393737141085
@@ -221,7 +222,24 @@ MonoBehaviour:
   fetchRenderersOnStart: 1
   fadeRange: {x: 1, y: 1}
   fadeMode: 0
-  fadeSpeed: 1
+  baseFadeSpeed: 2
+--- !u!114 &7521670784292959571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203133393737141082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab75a4e94e8654640a6fb0dafd170fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dealDamage: 1
+  collisionDetector: {fileID: 0}
+  damageMultiplier: 0.1
+  impulseThreshold: 4
+  trace: 0
 --- !u!1 &5203133394114837438
 GameObject:
   m_ObjectHideFlags: 0

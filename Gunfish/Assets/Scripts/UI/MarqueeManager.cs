@@ -1,107 +1,122 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+
+public enum QuipType { 
+    Attractor,
+    PlayerDeath,
+    FishSelection,
+    Player1Wins,
+    Player2Wins,
+    Player3Wins,
+    Player4Wins,
+    Team1Wins,
+    Team2Wins,
+    Tie,
+    NoOneWins,
+    Pelicans,
+    Three,
+    Two,
+    One,
+    Ready,
+    Flop,
+    GUNFISH,
+}
+
 
 public class MarqueeManager : PersistentSingleton<MarqueeManager> {
-    private struct MarqueeContents {
+    [Serializable]
+    private class Quip {
         public string text;
         public AudioClip clip;
+    }
+
+    [Serializable]
+    private class QuipTuple {
+        public QuipType QuipType;
+        public List<Quip> quips = new List<Quip>();
+    }
+
+    [Serializable]
+    private struct MarqueeData {
         public float duration;
         public AnimationCurve tween;
-        public Action callback;
+        public TMP_Text text;
+        
+        [HideInInspector]
+        public float t;
 
-        public MarqueeContents(string text, AudioClip clip, float duration, AnimationCurve tween, Action callback) {
-            this.text = text;
-            this.clip = clip;
-            this.duration = duration;
-            this.tween = tween;
-            this.callback = callback;
+        public void Init() {
+            t = 1f;
+            text.SetText("");
+            text.rectTransform.anchoredPosition = new Vector2(-Screen.width, 0f);
+        }
+    }
+    
+    [SerializeField]
+    private List<Quip> quips = new();
+
+    [SerializeField]
+    private List<QuipTuple> quipList = new List<QuipTuple>();
+
+    Dictionary<QuipType, List<Quip>> quipMap = new Dictionary<QuipType, List<Quip>>();
+
+    [SerializeField]
+    private MarqueeData titleSettings;
+    [SerializeField]
+    private MarqueeData quipSettings;
+
+
+    private void Start() {
+        titleSettings.Init();
+        quipSettings.Init();
+        foreach (QuipTuple tuple in quipList) {
+            quipMap[tuple.QuipType] = tuple.quips;
         }
     }
 
-    [SerializeField]
-    private float defaultDuration = 1f;
-    [SerializeField]
-    private AnimationCurve defaultTween = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-
-    [SerializeField]
-    private string[] quips;
-
-    [SerializeField]
-    private AudioClip[] quipClips;
-
-    private TMP_Text textAsset;
-    private Queue<MarqueeContents> queue = new();
-
-    private bool transitioning = false;
-
-    private void Start() {
-        textAsset = GetComponentInChildren<TMP_Text>();
-        textAsset.SetText("");
+    private void Update() {
+        UpdateData(ref titleSettings);
+        UpdateData(ref quipSettings);
     }
 
-    public void EnqueueRandomQuip() {
-        if (quips == null || quips.Length == 0) {
+    private void UpdateData(ref MarqueeData data) {
+        if (data.t < 1f) {
+            var tween = data.tween.Evaluate(data.t);
+            var value = Mathf.Lerp(Screen.width, -Screen.width, tween);
+            data.text.rectTransform.anchoredPosition = new Vector2(value, 0f);
+
+            data.t += Time.deltaTime / data.duration;
+        }
+    }
+
+    public void PlayTitle(string title) {
+        titleSettings.text?.SetText(title);
+        titleSettings.t = 0;
+    }
+
+    public void PlayRandomQuip(QuipType quipType) {
+        if (quipMap == null || quipMap.ContainsKey(quipType) == false || quipMap[quipType].Count == 0) {
             Debug.LogWarning("Could not enqueue quip. Make sure you have at least one in the MarqueeManager");
             return;
         }
 
-        var index = UnityEngine.Random.Range(0, 10);
-        //var index = UnityEngine.Random.Range(0, quips.Length);
-        var quip = quips[index];
-        var quipClip = quipClips[index];
-        Enqueue(quip, quipClip);
+        var index = UnityEngine.Random.Range(0, quipMap[quipType].Count);
+        PlayQuip(quipMap[quipType][index]);
     }
 
-    public void Enqueue(string text, AudioClip clip = null, Action callback = null) {
-        Enqueue(text, defaultDuration, defaultTween, clip, callback);
+    private void PlayQuip(Quip quip) {
+        ArduinoManager.Instance.PlayClip(quip.clip);
+        quipSettings.text.SetText(quip.text);
+        quipSettings.t = 0;
     }
 
-    public void Enqueue(string text, float duration, AudioClip clip = null, Action callback = null) {
-        Enqueue(text, duration, defaultTween, clip, callback);
-    }
-
-    public void Enqueue(string text, float duration, AnimationCurve tween, AudioClip clip = null, Action callback = null) {
-        var contents = new MarqueeContents(text, clip, duration, tween, callback);
-        queue.Enqueue(contents);
-        if (!transitioning) {
-            transitioning = true;
-            StartCoroutine(Scroll());
+    void OnValidate() {
+        
+        for (int i = 0; i < quips.Count; i++)
+        {
+            quips[i].text = quips[i].clip.name.Trim('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         }
-    }
-
-
-    private IEnumerator Scroll() {
-        while (queue.Count > 0) {
-            MarqueeContents contents;
-            if (!queue.TryDequeue(out contents)) {
-                continue;
-            }
-
-            textAsset.SetText(contents.text);
-
-            print($"Contents clip: {contents.clip}");
-            if (contents.clip != null) {
-                ArduinoManager.Instance.PlayClip(contents.clip);
-            }
-
-            float t = 0f;
-            while (t < 1f) {
-                var tween = contents.tween.Evaluate(t);
-                var value = Mathf.Lerp(Screen.width, -Screen.width, tween);
-
-                textAsset.rectTransform.anchoredPosition = new Vector2(value, 0f);
-
-                t += Time.deltaTime / contents.duration;
-                yield return new WaitForEndOfFrame();
-            }
-
-            contents.callback?.Invoke();
-        }
-        textAsset.SetText("");
-        transitioning = false;
     }
 }

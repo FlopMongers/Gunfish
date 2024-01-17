@@ -1,7 +1,14 @@
+using System.Collections.Generic;
 using System.IO.Ports;
 using UnityEngine;
 
 public class ArduinoManager : Singleton<ArduinoManager> {
+
+    public List<AudioClip> attractorLines;
+    public AudioClip HARK;
+
+    public float secondsBetweenAttractors = 60f;
+    private float secondsSinceLastAttractor;
 
     private SerialPort serialPort;
 
@@ -9,33 +16,69 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     private AudioSource source;
     private float[] data;
 
-    public void PlayClip(AudioClip clip) {
+    public bool playAttractors;
+
+    public float loudness;
+
+    private void Attractor() {
+        if (!playAttractors) {
+            secondsSinceLastAttractor = 0f;
+            return;
+        }
+
+        if (secondsSinceLastAttractor > secondsBetweenAttractors) {
+            secondsSinceLastAttractor = 0f;
+
+            if (Random.Range(0, 1000) == 0) {
+                clip = HARK;
+            } else {
+                clip = attractorLines[Random.Range(0, attractorLines.Count)];
+            }
+            secondsSinceLastAttractor -= PlayClip(clip);
+        } else {
+            secondsSinceLastAttractor += Time.deltaTime;
+        }
+    }
+
+    public float PlayClip(AudioClip clip, float decibels = 0f) {
         this.clip = clip;
         source.clip = clip;
         data = new float[source.clip.samples * source.clip.channels];
         source.clip.GetData(data, 0);
         source?.Play();
+        return clip.length;
     }
 
     public override void Initialize() {
-        serialPort = new SerialPort("COM3", 9600) {
-            ReadTimeout = 100
-        };
-
+        if (GameManager.Instance.debug) {
+            secondsBetweenAttractors = 5f;
+        }
+        secondsSinceLastAttractor = 0f;
         source = GetComponent<AudioSource>();
         clip = source.clip;
         ConnectArduino();
 
         base.Initialize();
     }
+    private void HandleArduino() {
+        if (serialPort.IsOpen) {
+            float loudness = SampleLoudness();
+            byte volume = (byte)Mathf.RoundToInt(loudness);
+            byte[] buffer = new byte[] { volume };
+            serialPort.Write(buffer, 0, 1);
+        }
+    }
 
     private void ConnectArduino() {
-        try {
-            serialPort?.Open();
-            Debug.Log("Connected Arduino!");
-        }
-        catch {
-            Debug.LogWarning("Could not open serial port. Is the Arduino connected?");
+        foreach (var port in new string[] { "COM3", "COM4", "COM5" }) {
+            serialPort = new SerialPort(port, 9600) { ReadTimeout = 100 };
+            try {
+                serialPort?.Open();
+                Debug.Log($"Connected Arduino on port {port}");
+                break;
+            } catch {
+                Debug.Log($"Failed to connect Arduino on port {port}");
+            }
         }
     }
 
@@ -53,26 +96,24 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
         var index = source.timeSamples;
         var amplitude = data[index];
-        float loudness = amplitude * 255;
-        Debug.Log(loudness);
+        loudness = Mathf.Abs(amplitude * 255);
         return loudness;
     }
 
     private void Update() {
-        if (serialPort.IsOpen) {
-            float loudness = SampleLoudness();
-            byte volume = (byte)Mathf.RoundToInt(loudness);
-            byte[] buffer = new byte[] { volume };
-            serialPort.Write(buffer, 0, 1);
-        }
-
-        if (!GameManager.debug) {
-            return;
-        }
+        Attractor();
+        HandleArduino();
     }
 
     protected override void OnDestroy() {
         DisconnectArduino();
         base.OnDestroy();
+    }
+
+    private void OnGUI() {
+        if (!GameManager.Instance.debug)
+            return;
+
+        GUILayout.TextField(loudness.ToString());
     }
 }

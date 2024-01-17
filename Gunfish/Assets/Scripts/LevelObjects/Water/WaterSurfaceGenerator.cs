@@ -35,6 +35,8 @@ public class WaterSurfaceGenerator : MonoBehaviour {
     [SerializeField]
     private GameObject nodesContainer;
 
+    protected float length, height;
+
     public Vector2 dimensions = new Vector2(5f, 5f);
 
     private void OnDrawGizmos() {
@@ -65,11 +67,11 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         return node;
     }
 
-    public void Garbulate() {
+    public virtual void Garbulate() {
         ClearCurrentNodes();
 
-        float length = dimensions.x;
-        float height = dimensions.y;
+        length = dimensions.x;
+        height = dimensions.y;
 
         renderers.transform.SetGlobalScale(new Vector3(length, height * 2, 1f));
 

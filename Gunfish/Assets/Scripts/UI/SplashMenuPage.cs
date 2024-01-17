@@ -10,6 +10,7 @@ public class SplashMenuPage : IMenuPage {
     public void OnEnable(MenuPageContext context) {
         menuContext = context;
         isLoadingNextMenu = false;
+        ArduinoManager.Instance.playAttractors = true;
 
         foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
             if (playerInput) {

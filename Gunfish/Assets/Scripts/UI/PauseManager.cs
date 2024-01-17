@@ -16,8 +16,10 @@ public class PauseManager : Singleton<PauseManager> {
     }
 
     public void Update() {
+        /*
         if (Input.GetButtonDown("Pause"))
             Pause();
+        */
     }
 
     public void MainMenu() {

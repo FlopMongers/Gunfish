@@ -32,4 +32,6 @@ public class GunData : ScriptableObject {
     public float fireCooldown;
     public float reload;
     public float reloadWait;
+
+    public GameObject bulletPrefab;
 }

@@ -64,15 +64,29 @@ public class TeamDeathMatchManager : DeathMatchManager
         string tiebreakerText = "";
         if (winners.Count == 0) {
             text = "No team wins?";
+            MarqueeManager.Instance.PlayRandomQuip(QuipType.NoOneWins);
         }
         else {
+            string verb = "wins!!!";
             if (winners.Count > 2) {
                 Player player;
                 (player, tiebreakerText) = Tiebreaker(winners);
                 winningTeam = playerTeamMap[player];
                 winners = winners.Where(x => playerTeamMap[x] == winningTeam).ToList();
+                MarqueeManager.Instance.PlayRandomQuip(QuipType.Tie);
+                verb = "win by a tiebreak!";
             }
-            text = $"Players {winners[0].PlayerNumber} and {winners[1].PlayerNumber} win!!!";
+            else {
+                switch (winningTeam) {
+                    case 0:
+                        MarqueeManager.Instance.PlayRandomQuip(QuipType.Team1Wins);
+                        break;
+                    case 1:
+                        MarqueeManager.Instance.PlayRandomQuip(QuipType.Team2Wins);
+                        break;
+                }
+            }
+            text = $"Players {winners[0].VisiblePlayerNumber} and {winners[1].VisiblePlayerNumber} {verb}";
         }
 
         ui.ShowFinalScores(text, playerReferences, winners, tiebreakerText);

@@ -11,7 +11,7 @@ public class OomphCalculator : MonoBehaviour {
     static float massScale = 1f, velocityScale = 1f;
     public float Momentum { get { return (rb.mass * massScale) * (lastVelocity.magnitude * velocityScale); } }
 
-    float collisionAngleThreshold = 50f;
+    float collisionAngleThreshold = 90f;
 
     const float defaultImpulseThreshold = 4f;
 

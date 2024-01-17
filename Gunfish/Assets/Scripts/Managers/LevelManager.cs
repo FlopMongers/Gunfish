@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,8 +18,8 @@ public class LevelManager : PersistentSingleton<LevelManager> {
     // if level, callback invokes FinishLoadLevel_Event and starts countdown anim, which invokes StartPlay_Event
 
     Action nextCallback;
-    string nextSceneName;
-    string nextSkyboxSceneName;
+    string nextScenePath;
+    string nextSkyboxScenePath;
     PlayerManager.InputMode nextInputMode;
     Animator anim;
 
@@ -35,14 +36,15 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         LoadScene("Stats", PlayerManager.InputMode.EndLevel, null, callback);
     }
 
-    public void LoadLevel(string levelName, string skyboxSceneName) {
-        LoadScene(levelName, PlayerManager.InputMode.Player, skyboxSceneName, FinishLoadLevel);
+    public void LoadLevel(string levelName, string skyboxScenePath) {
+        LoadScene(levelName, PlayerManager.InputMode.Player, skyboxScenePath, FinishLoadLevel);
     }
 
     void FinishLoadLevel() {
-        // set new input mode here?
         OnFinishLoadLevel?.Invoke();
         anim.SetTrigger("countdown");
+        var sceneName = ScenePathToName(nextScenePath);
+        MarqueeManager.Instance.PlayTitle(sceneName);
     }
 
     // countdown anim invokes this
@@ -50,9 +52,9 @@ public class LevelManager : PersistentSingleton<LevelManager> {
         OnStartPlay?.Invoke();
     }
 
-    void LoadScene(string sceneName, PlayerManager.InputMode inputMode, string skyboxSceneName = null, Action callback = null) {
-        nextSceneName = sceneName;
-        nextSkyboxSceneName = skyboxSceneName;
+    private void LoadScene(string scenePath, PlayerManager.InputMode inputMode, string skyboxScenePath = null, Action callback = null) {
+        nextScenePath = scenePath;
+        nextSkyboxScenePath = skyboxScenePath;
         nextCallback = callback;
         nextInputMode = inputMode;
         // disable controller
@@ -62,15 +64,15 @@ public class LevelManager : PersistentSingleton<LevelManager> {
 
     // veil anim invokes this
     public void LoadNextScene() {
-        StartCoroutine(CoLoadScene(nextSceneName));
+        StartCoroutine(CoLoadScene(nextScenePath));
     }
 
     IEnumerator CoLoadScene(string sceneName) {
         var sceneLoadMode = LoadSceneMode.Single;
 
-        if (nextSkyboxSceneName != null) {
+        if (nextSkyboxScenePath != null) {
             sceneLoadMode = LoadSceneMode.Additive;
-            var skyboxOp = SceneManager.LoadSceneAsync(nextSkyboxSceneName);
+            var skyboxOp = SceneManager.LoadSceneAsync(nextSkyboxScenePath);
             while (skyboxOp.isDone == false) {
                 yield return new WaitForEndOfFrame();
             }
@@ -81,7 +83,7 @@ public class LevelManager : PersistentSingleton<LevelManager> {
             yield return new WaitForEndOfFrame();
         }
 
-        if (nextSkyboxSceneName != null) {
+        if (nextSkyboxScenePath != null) {
             SkyboxCamera.Instance.RegisterCamera(Camera.main);
         }
 
@@ -92,5 +94,10 @@ public class LevelManager : PersistentSingleton<LevelManager> {
     public void InvokeCallback() {
         PlayerManager.Instance.SetInputMode(nextInputMode);
         nextCallback?.Invoke();
+    }
+
+    // Assumes camel case naming convention for level names
+    private string ScenePathToName(string scenePath) {
+        return scenePath.Split("/").Last().Replace(".unity", "");
     }
 }

@@ -50,7 +50,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: -2
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -92,12 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeForceThreshold: 1
-  explodeDamage: 15
-  explodeForce: 15
-  explodeRadius: 3
-  explodeFalloff: 0.5
-  chainingProbability: 0.1
-  explosion: {fileID: 5971764844140717513, guid: 8505d56026bf1654ab1c819b67de4538,
+  explosion: {fileID: 5971764844140717513, guid: a163305eb3f9b2e41890633948895b31,
     type: 3}
 --- !u!1 &1163073132863928095
 GameObject:

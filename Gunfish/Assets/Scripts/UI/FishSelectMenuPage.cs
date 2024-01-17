@@ -23,7 +23,10 @@ public class FishSelectMenuPage : IMenuPage {
     private Sequence activeGameStartCountdown;
 
     public void OnEnable(MenuPageContext context) {
+        MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
+
+        ArduinoManager.Instance.playAttractors = false;
 
         fishImages = new List<VisualElement>();
         selectorState = new List<SelectorState>();
@@ -35,12 +38,14 @@ public class FishSelectMenuPage : IMenuPage {
             playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
             playerInput.currentActionMap.FindAction("Cancel").performed += (InputAction.CallbackContext context) => OnCancel(context, playerIndex);
 
-            menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}");
-            menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}").Q<VisualElement>("fish-image");
+            var fishSelector = menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}");
 
-            var image = menuContext.document.rootVisualElement
-                .Q<VisualElement>($"FishSelector{playerIndex + 1}")
-                .Q<VisualElement>("fish-image");
+            var color = PlayerManager.Instance.playerColors[playerIndex];
+
+            fishSelector.Q<VisualElement>("back-button").style.unityBackgroundImageTintColor = new StyleColor(color);
+            fishSelector.Q<VisualElement>("next-button").style.unityBackgroundImageTintColor = new StyleColor(color);
+
+            var image = fishSelector.Q<VisualElement>("fish-image");
 
             fishImages.Add(image);
             selectorState.Add(SelectorState.DISABLED);
@@ -88,6 +93,7 @@ public class FishSelectMenuPage : IMenuPage {
 
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
+            menuContext.menu.PlayBloop();
             if (direction.x > 0) {
                 IncrementFish(deviceIndex);
             }
@@ -100,14 +106,17 @@ public class FishSelectMenuPage : IMenuPage {
     private void OnSubmit(InputAction.CallbackContext context, int deviceIndex) {
         switch (selectorState[deviceIndex]) {
             case SelectorState.DISABLED:
+                PlayerManager.Instance.Players[deviceIndex].Active = false;
                 SetFish(deviceIndex, GameManager.Instance.GunfishDataList.gunfishes[0]);
                 CancelGameStartCountdown();
                 SetSelectorState(deviceIndex, SelectorState.SELECTING);
                 break;
             case SelectorState.SELECTING:
+                PlayerManager.Instance.Players[deviceIndex].Active = true;
                 SetSelectorState(deviceIndex, SelectorState.READY);
-                if (isAllPlayersReady())
+                if (isAllPlayersReady()) {
                     BeginGameStartCountdown();
+                }
                 break;
         }
     }
@@ -115,9 +124,11 @@ public class FishSelectMenuPage : IMenuPage {
     private void OnCancel(InputAction.CallbackContext context, int deviceIndex) {
         switch (selectorState[deviceIndex]) {
             case SelectorState.SELECTING:
+                PlayerManager.Instance.Players[deviceIndex].Active = false;
                 SetSelectorState(deviceIndex, SelectorState.DISABLED);
                 break;
             case SelectorState.READY:
+                PlayerManager.Instance.Players[deviceIndex].Active = false;
                 CancelGameStartCountdown();
                 SetSelectorState(deviceIndex, SelectorState.SELECTING);
                 break;
@@ -206,6 +217,7 @@ public class FishSelectMenuPage : IMenuPage {
     private bool isAllPlayersReady() {
         bool hasNoSelecting = true;
         int readyPlayerCount = 0;
+        var requiredPlayersToStart = GameManager.Instance.debug ? 1 : 2;
         foreach (SelectorState state in selectorState) {
             if (state == SelectorState.READY) {
                 readyPlayerCount++;
@@ -214,6 +226,6 @@ public class FishSelectMenuPage : IMenuPage {
                 hasNoSelecting = false;
             }
         }
-        return hasNoSelecting && readyPlayerCount >= 1;
+        return hasNoSelecting && readyPlayerCount >= requiredPlayersToStart;
     }
 }

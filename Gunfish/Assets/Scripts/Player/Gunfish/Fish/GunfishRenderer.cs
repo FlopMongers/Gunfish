@@ -12,6 +12,7 @@ public class GunfishRenderer {
         LineRenderer = segments[0].AddComponent<LineRenderer>();
         LineRenderer.positionCount = segments.Count;
         LineRenderer.material = material;
+        LineRenderer.sortingLayerName = "Fish";
 
         LineRenderer.widthMultiplier = widthMultiplier;
     }

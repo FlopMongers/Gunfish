@@ -16,6 +16,8 @@ public class MainMenu : Singleton<MainMenu> {
     private MenuState state;
     private IMenuPage page;
 
+    [SerializeField] private AudioClip uiSound;
+
     [SerializeField] private VisualTreeAsset splash;
     [SerializeField] private VisualTreeAsset gameModeSelect;
     [SerializeField] private VisualTreeAsset gunfishSelect;
@@ -64,5 +66,9 @@ public class MainMenu : Singleton<MainMenu> {
 
         page.OnEnable(context);
         this.state = state;
+    }
+
+    public void PlayBloop() {
+        GetComponent<AudioSource>()?.PlayOneShot(uiSound);
     }
 }

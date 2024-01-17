@@ -51,4 +51,9 @@ MonoBehaviour:
   spawnArea: {fileID: 0}
   active: 0
   distance: 0
-  gunfishes: []
+  originalSpeedRange: {x: 2, y: 10}
+  pelicanSpeedRangeIncreaseRate: 1
+  pelicanSpeedRangeLimit: 50
+  originalSpawnTimerRange: {x: 1, y: 5}
+  spawnTimerRangeDecreaseRate: 1
+  spawnTimerRangeLowerLimit: 1

@@ -1,3 +1,4 @@
+using MathNet.Numerics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -16,9 +17,11 @@ public class Gun : MonoBehaviour {
     public float ammo;
     protected float fireCooldown_timer, reload_timer, reloadWait_timer;
 
+    public bool piercing;
+
     // Start is called before the first frame update
-    void Start() {
-        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default");
+    protected virtual void Start() {
+        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water");
     }
 
     // Update is called once per frame
@@ -46,7 +49,7 @@ public class Gun : MonoBehaviour {
         }
     }
 
-    public bool CheckFire() {
+    public virtual bool CheckFire() {
         if (!gunfish.statusData.CanFire)
             return false;
 
@@ -66,7 +69,7 @@ public class Gun : MonoBehaviour {
     }
 
     protected virtual bool CheckButtonStatus(ButtonStatus firingStatus) {
-        return firingStatus == ButtonStatus.Pressed && !gunfish.underwater;
+        return firingStatus == ButtonStatus.Pressed;// && !gunfish.underwater;
     }
 
     public virtual void Fire(ButtonStatus firingStatus) {
@@ -93,7 +96,20 @@ public class Gun : MonoBehaviour {
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
 
+            bool splooshed = false;
             foreach (var hit in hits) {
+                WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
+                if (node != null && !splooshed) {
+                    splooshed = true;
+                    node.zone.Sploosh(hit.point, node.zone.splashThresholdRange.y, false, true);
+                    if (!piercing) {
+                        Bullet bullet = Instantiate(gunfish.data.gun.bulletPrefab, hit.point, Quaternion.identity).GetComponent<Bullet>();
+                        bullet.gunfish = gunfish;
+                        bullet.SetSpeed(barrel.transform.right, 1f - (Vector3.Distance(hit.point, barrel.transform.position) / gunfish.data.gun.range));
+                        endPoint = hit.point;
+                        break;
+                    }
+                }
                 if (hit.collider != null && hit.collider.isTrigger == true) {
                     continue;
                 }
@@ -119,7 +135,8 @@ public class Gun : MonoBehaviour {
                         if (fishSegment.gunfish.statusData.health <= 0)
                             FX_Spawner.Instance?.BAM();
                         endPoint = hit.point;
-                        break;
+                        if (!piercing)
+                            break;
                     }
                 }
                 else if (shootable != null) {
@@ -131,12 +148,15 @@ public class Gun : MonoBehaviour {
                         gunfish.data.gun.knockback,
                         HitType.Ballistic));
                     endPoint = hit.point;
-                    break;
+                    if (!piercing)
+                        break;
                 }
                 else if (objMat != null) {
                     // TODO: replace with generalized FX_CollisionHandler code
                     FX_Spawner.Instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
+                    endPoint = hit.point;
                     objMat.Shoot();
+                    break;
                 }
                 else {
                     // TODO: replace with generalized FX_CollisionHandler code
@@ -152,7 +172,7 @@ public class Gun : MonoBehaviour {
     }
 
     public void Kickback(float kickback) {
-        var direction = (gunfish.segments[1].transform.position - gunfish.segments[0].transform.position).normalized;
+        var direction = gunfish.segments[0].transform.right;
         // gun kickback
         gunfish.body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);
     }

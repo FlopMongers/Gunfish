@@ -4,6 +4,7 @@ using UnityEngine;
 public class GroundDetector : MonoBehaviour
 {
     CollisionTracker collisionTracker = new CollisionTracker();
+    public Gunfish gunfish;
 
     [HideInInspector]
     public int groundMask;
@@ -14,13 +15,19 @@ public class GroundDetector : MonoBehaviour
         var compositeCollisionDetector = GetComponent<CompositeCollisionDetector>();
         compositeCollisionDetector.OnComponentCollideEnter += HandleCollisionEnter;
         compositeCollisionDetector.OnComponentCollideExit += HandleCollisionExit;
+        InvokeRepeating("ClearMap", 1.5f, 1.5f);
+    }
+
+    void ClearMap() {
+        collisionTracker = new CollisionTracker();
     }
 
     private void Update() {
         List<GameObject> toRemove = new List<GameObject>();
         foreach (var pair in collisionTracker.tracker) {
-            if (pair.Key == null)
+            if (pair.Key == null) {
                 toRemove.Add(pair.Key);
+            }
         }
         foreach (var removeObject in toRemove) {
             collisionTracker.tracker.Remove(removeObject);
