@@ -93,6 +93,7 @@ public class FishSelectMenuPage : IMenuPage {
 
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
+            menuContext.menu.PlayBloop();
             if (direction.x > 0) {
                 IncrementFish(deviceIndex);
             }
