@@ -30,7 +30,7 @@ MonoBehaviour:
   waterZoomSpeedThreshold: 10
   waterZoomAngleThreshold: 30
   waterZoomForce: 4
-  maxHealth: 10
+  maxHealth: 13
   length: 2
   width:
     serializedVersion: 2
