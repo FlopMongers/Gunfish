@@ -143,7 +143,7 @@ MonoBehaviour:
   destroyFX: 9
   hitFX: 8
   damagedFX: 0
-  handleCollisionDamage: 1
+  handleCollisionDamage: 0
   addDestroyer: 0
   destroyer: {fileID: 4528336107731716631}
 --- !u!114 &1473432151152142591
@@ -234,7 +234,7 @@ MonoBehaviour:
   fetchRenderersOnStart: 1
   fadeRange: {x: 1, y: 1}
   fadeMode: 0
-  fadeSpeed: 1
+  baseFadeSpeed: 2
 --- !u!1 &7492914906587697891
 GameObject:
   m_ObjectHideFlags: 0

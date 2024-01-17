@@ -155,7 +155,7 @@ MonoBehaviour:
   destroyFX: 9
   hitFX: 8
   damagedFX: 0
-  handleCollisionDamage: 1
+  handleCollisionDamage: 0
   addDestroyer: 0
   destroyer: {fileID: -8853610127646388208}
 --- !u!114 &5203133393737141085
