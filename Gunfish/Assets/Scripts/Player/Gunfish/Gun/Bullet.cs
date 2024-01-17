@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour
                     segment.index,
                     collision.contacts[0].point,
                     -collision.contacts[0].normal,
-                    gunfish.gun.gameObject,
+                    (gunfish == null || gunfish.gun == null) ? gameObject : gunfish.gun.gameObject,
                     gunfish.data.gun.damage * damageRatio,
                     gunfish.data.gun.knockback * damageRatio,
                     HitType.Ballistic));
