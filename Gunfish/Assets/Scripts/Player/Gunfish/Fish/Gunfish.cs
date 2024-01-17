@@ -54,6 +54,8 @@ public class Gunfish : MonoBehaviour, IHittable {
     bool startRespawning = false;
     public FloatGameEvent OnRespawnUpdated;
 
+    static float spawnInvincibilityDuration = 2f;
+
     private void Start() {
         player = GetComponent<Player>();
         playerNum = player.PlayerNumber;
@@ -390,6 +392,7 @@ public class Gunfish : MonoBehaviour, IHittable {
             barrel.localEulerAngles = Vector3.forward * tuple.rotation;
             gun.barrels.Add(barrel.gameObject.GetComponent<GunBarrel>());
         }
+        AddEffect(new Invincibility_Effect(this, spawnInvincibilityDuration));
     }
 
     public void Kill() { statusData.health = 0f; }
