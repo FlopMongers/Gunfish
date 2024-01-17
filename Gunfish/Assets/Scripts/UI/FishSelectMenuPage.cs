@@ -38,12 +38,14 @@ public class FishSelectMenuPage : IMenuPage {
             playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
             playerInput.currentActionMap.FindAction("Cancel").performed += (InputAction.CallbackContext context) => OnCancel(context, playerIndex);
 
-            menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}");
-            menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}").Q<VisualElement>("fish-image");
+            var fishSelector = menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}");
 
-            var image = menuContext.document.rootVisualElement
-                .Q<VisualElement>($"FishSelector{playerIndex + 1}")
-                .Q<VisualElement>("fish-image");
+            var color = PlayerManager.Instance.playerColors[playerIndex];
+
+            fishSelector.Q<VisualElement>("back-button").style.unityBackgroundImageTintColor = new StyleColor(color);
+            fishSelector.Q<VisualElement>("next-button").style.unityBackgroundImageTintColor = new StyleColor(color);
+
+            var image = fishSelector.Q<VisualElement>("fish-image");
 
             fishImages.Add(image);
             selectorState.Add(SelectorState.DISABLED);
