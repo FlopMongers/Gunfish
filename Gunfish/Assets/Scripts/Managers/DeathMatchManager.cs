@@ -147,6 +147,7 @@ public class DeathMatchManager : MatchManager {
 
     private IEnumerator EndLevel() {
         timer.DisappearTimer();
+        SharkmodeManager.Instance.StopMusic();
         endingLevel = true;
         pelicanSpawner.active = false;
         FreezeFish(true);
