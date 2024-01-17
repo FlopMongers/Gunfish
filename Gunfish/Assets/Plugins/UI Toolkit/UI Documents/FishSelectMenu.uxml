@@ -3,11 +3,11 @@
     <ui:Template name="FishSelector" src="project://database/Assets/Plugins/UI%20Toolkit/UI%20Templates/FishSelector.uxml?fileID=9197481963319205126&amp;guid=c14163e5ea19e044ba1ddb97154120d1&amp;type=3#FishSelector" />
     <Style src="project://database/Assets/Plugins/UI%20Toolkit/fish.uss?fileID=7433441132597879392&amp;guid=5d578f6ef1603684585cd7c0a59dcd8f&amp;type=3#fish" />
     <ui:VisualElement name="MenuContainer" class="fadeable" style="justify-content: center; align-items: center; -unity-text-align: middle-center; width: 100%; height: 100%;">
-        <ui:Instance template="BasicMenuBG" name="BasicMenuBG" style="position: absolute; width: 80%; height: 100%;" />
-        <ui:Label text="THE FISH SELECTION" display-tooltip-when-elided="true" style="font-size: 36px; -unity-text-align: middle-center; justify-content: space-around; align-items: stretch; -unity-font-definition: resource(&apos;Fonts/Cardo/Cardo-Regular SDF 1&apos;); -unity-font-style: normal; color: rgb(238, 238, 238);" />
-        <ui:VisualElement style="width: 80%; flex-direction: row; height: 80%; justify-content: space-between; align-items: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;">
+        <ui:Instance template="BasicMenuBG" name="BasicMenuBG" style="position: absolute; width: 100%; height: 100%;" />
+        <ui:Label text="FISH SELECTION" display-tooltip-when-elided="true" style="font-size: 36px; -unity-text-align: middle-center; justify-content: space-around; align-items: stretch; -unity-font-definition: resource(&apos;Fonts/Cardo/Cardo-Regular SDF 1&apos;); -unity-font-style: normal; color: rgb(238, 238, 238);" />
+        <ui:VisualElement style="width: 80%; flex-direction: row; height: 80%; justify-content: space-between; align-items: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; scale: 0.8 0.8;">
             <ui:VisualElement style="width: 50%; height: 100%; min-width: 0; min-height: 0;">
-                <ui:VisualElement class="fishSelectorPadder">
+                <ui:VisualElement class="fishSelectorPadder" style="translate: -150px 0;">
                     <ui:Instance template="FishSelector" name="FishSelector1" style="width: 100%; height: 100%;" />
                 </ui:VisualElement>
                 <ui:VisualElement class="fishSelectorPadder" style="width: 100%; height: 50%;">
@@ -15,11 +15,11 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement style="width: 50%; height: 100%; min-width: 0; min-height: 0;">
-                <ui:VisualElement class="fishSelectorPadder" style="width: 100%; height: 50%;">
-                    <ui:Instance template="FishSelector" name="FishSelector3" style="width: 100%; height: 100%;" />
+                <ui:VisualElement class="fishSelectorPadder" style="width: 100%; height: 50%; translate: 150px 0;">
+                    <ui:Instance template="FishSelector" name="FishSelector4" style="width: 100%; height: 100%;" />
                 </ui:VisualElement>
                 <ui:VisualElement class="fishSelectorPadder" style="width: 100%; height: 50%;">
-                    <ui:Instance template="FishSelector" name="FishSelector4" style="width: 100%; height: 100%;" />
+                    <ui:Instance template="FishSelector" name="FishSelector3" style="width: 100%; height: 100%;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

@@ -88,6 +88,9 @@ public class Bullet : MonoBehaviour
         if (collision.rigidbody == null)
             return;
         var shootable = collision.rigidbody.GetComponent<Shootable>();
+        var bullet = collision.rigidbody.GetComponent<Bullet>();
+        var hitGunfish = collision.rigidbody.GetComponent<Gunfish>();
+        var hitSegment = collision.rigidbody.GetComponent<GunfishSegment>();
         if (shootable != null && !destroyed && collision.relativeVelocity.magnitude > speedRange.x) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
             float damageRatio = ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y);
@@ -98,6 +101,11 @@ public class Bullet : MonoBehaviour
                 gunfish.data.gun.damage * damageRatio,
                 gunfish.data.gun.knockback * damageRatio,
                 HitType.Ballistic));
+        }
+        else if (!(bullet != null || hitGunfish == gunfish || hitSegment?.gunfish == gunfish)) {
+            destroyed = true;
+            destroyer.GETTEM();
+            rb.velocity = Vector2.zero;
         }
     }
 }

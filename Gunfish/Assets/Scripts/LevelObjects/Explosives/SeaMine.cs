@@ -7,26 +7,6 @@ public class SeaMine : MonoBehaviour {
     // the amount of force it takes to make the mine explode
     [SerializeField]
     float explodeForceThreshold;
-    /*
-    [SerializeField]
-    float explodeDamage;
-
-    [SerializeField]
-    float explodeForce;
-
-    [SerializeField]
-    float explodeRadius;
-
-    // the percent of total damage that will be dealt at radius edge
-    [SerializeField]
-    float explodeFalloff;
-
-    /// <summary>
-    /// The probability that any given mine in range will be affected by this explosion, starting a chain reaction.
-    /// </summary>
-    [SerializeField]
-    float chainingProbability;
-    */
 
     Shootable shootable;
 
@@ -37,27 +17,6 @@ public class SeaMine : MonoBehaviour {
         shootable = GetComponent<Shootable>();
         shootable.OnDead += OnDead;
     }
-
-    /*
-    void Explode() {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, explodeRadius, Vector2.zero);
-
-        foreach (RaycastHit2D hit in hits) {
-            if (hit.transform.gameObject.GetComponent<SeaMine>() == null || Random.value < chainingProbability) {
-                if (hit.rigidbody != null)
-                    hit.rigidbody.AddExplosionForce(explodeForce, transform.position, explodeRadius);
-
-                Shootable shootable = hit.transform.gameObject.GetComponent<Shootable>();
-
-                if (shootable != null) {
-                    float damageReduction = (hit.distance / explodeRadius) * explodeFalloff;
-                    float damageAmount = explodeDamage * (1f - damageReduction);
-                    shootable.UpdateHealth(-1 * damageAmount);
-                }
-            }
-        }
-    }
-    */
 
     void OnDead() {
         // if health <= 0, EXPLODE
@@ -74,5 +33,4 @@ public class SeaMine : MonoBehaviour {
             shootable.UpdateHealth(-10_000_000f);
         }
     }
-
 }
