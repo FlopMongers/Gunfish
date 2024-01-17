@@ -4911,7 +4911,7 @@ Transform:
   m_GameObject: {fileID: 5971764844140717513}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.91, y: -8.56, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3384951274684728960}
@@ -9911,6 +9911,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damageScale: 10
+  fishDamageScale: 5
   effector: {fileID: 5398111357643700316}
   explosionForce: 150
   waterSplooshForce: 25

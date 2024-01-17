@@ -8,6 +8,7 @@ public class Explosion : MonoBehaviour
     public CircleCollider2D radius;
     public AnimationCurve damageCurve;
     public float damageScale;
+    public float fishDamageScale;
 
     public PointEffector2D effector;
     public float explosionForce = 50;
@@ -75,7 +76,7 @@ public class Explosion : MonoBehaviour
                 float nearness = damageCurve.Evaluate(Vector3.Distance(transform.position, hittable.gameObject.transform.position) / radius.bounds.extents.x);
                 //print(nearness);
                 // calculate hit object based on distance
-                float damage = nearness * damageScale;
+                float damage = nearness;
                 if (hittable is Gunfish) {
                     Gunfish gunfish = (Gunfish)hittable;
                     gunfish.Hit(new FishHitObject(
@@ -83,7 +84,7 @@ public class Explosion : MonoBehaviour
                         gunfish.MiddleSegment.transform.position,
                         (gunfish.MiddleSegment.transform.position - transform.position).normalized,
                         (sourceGunfish != null) ? sourceGunfish.gameObject : gameObject,
-                        damage,
+                        damage * fishDamageScale,
                         0,
                         HitType.Explosive));
                 }
@@ -92,7 +93,7 @@ public class Explosion : MonoBehaviour
                         hittable.gameObject.transform.position,
                         (hittable.gameObject.transform.position - transform.position).normalized,
                         hittable.gameObject,
-                        damage,
+                        damage * damageScale,
                         0,
                         HitType.Explosive,
                         ignoreMass: true));

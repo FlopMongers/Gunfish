@@ -5032,8 +5032,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damageScale: 2
+  fishDamageScale: 1
   effector: {fileID: 5398111357643700316}
-  explosionForce: 150
+  explosionForce: 200
   waterSplooshForce: 25
   sourceGunfish: {fileID: 0}
   delayedExplosion: 0
