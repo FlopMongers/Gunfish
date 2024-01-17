@@ -18,13 +18,13 @@
         <ui:VisualElement style="display: flex; width: 100%; height: 100%; position: absolute; flex-basis: auto; left: auto; top: auto; transform-origin: top; scale: 1 1; background-image: url(&apos;project://database/Assets/Dark%20UI/Free/BTN_Line_4PX_Medium.png?fileID=2800000&amp;guid=b631b747eaea1bb40a188fdced546dd2&amp;type=3#BTN_Line_4PX_Medium&apos;); -unity-background-image-tint-color: rgb(5, 5, 5);" />
     </ui:VisualElement>
     <ui:VisualElement name="ControlPrompt" style="flex-direction: row; position: relative; justify-content: center; height: 24px; align-items: center;">
-        <ui:VisualElement name="CancelHint" style="height: 100%; flex-direction: row; width: 50%; justify-content: flex-end; align-items: stretch;">
-            <ui:VisualElement name="CancelIcon" style="background-image: resource(&apos;Sprites/UI/BackIcon&apos;); flex-shrink: 0; width: 20%; justify-content: center; translate: 0 5px;" />
-            <ui:Label text="CANCEL" display-tooltip-when-elided="true" name="CancelText" style="-unity-text-align: middle-center; font-size: 22px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: normal; color: rgb(255, 255, 255);" />
-        </ui:VisualElement>
-        <ui:VisualElement name="ConfirmHint" style="height: 100%; flex-shrink: 0; flex-direction: row; width: 50%; visibility: visible; overflow: visible; display: flex; justify-content: flex-start;">
+        <ui:VisualElement name="ConfirmHint" style="height: 100%; flex-shrink: 0; flex-direction: row; width: 50%; visibility: visible; overflow: visible; display: flex; justify-content: flex-end;">
             <ui:VisualElement name="ConfirmIcon" style="background-image: resource(&apos;Sprites/UI/GunIcon&apos;); flex-shrink: 0; width: 20%; justify-content: center; translate: 0 5px;" />
             <ui:Label text="CONFIRM" display-tooltip-when-elided="true" name="ConfirmText" style="-unity-text-align: middle-center; font-size: 22px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: normal; color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="CancelHint" style="height: 100%; flex-direction: row; width: 50%; justify-content: flex-start; align-items: stretch;">
+            <ui:VisualElement name="CancelIcon" style="background-image: resource(&apos;Sprites/UI/BackIcon&apos;); flex-shrink: 0; width: 20%; justify-content: center; translate: 0 5px;" />
+            <ui:Label text="CANCEL" display-tooltip-when-elided="true" name="CancelText" style="-unity-text-align: middle-center; font-size: 22px; height: 100%; -unity-font: resource(&apos;Fonts/Cardo/Cardo-Bold&apos;); -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-font-style: normal; color: rgb(255, 255, 255);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
