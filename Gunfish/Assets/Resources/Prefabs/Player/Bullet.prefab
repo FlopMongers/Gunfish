@@ -68,7 +68,7 @@ MonoBehaviour:
   fetchRenderersOnStart: 1
   fadeRange: {x: 1, y: 1}
   fadeMode: 0
-  baseFadeSpeed: 4
+  baseFadeSpeed: 10
 --- !u!114 &2684527878922822024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +139,7 @@ MonoBehaviour:
   waterInteractor: {fileID: 2684527878922822024}
   destroyer: {fileID: 2098444283209977260}
   bubbles: {fileID: 7201637775176575312}
+  col: {fileID: 7283901480012401334}
   lastSpeed: {x: 0, y: 0}
 --- !u!1 &3144476237402104311
 GameObject:

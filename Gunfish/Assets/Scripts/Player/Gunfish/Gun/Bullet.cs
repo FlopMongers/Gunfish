@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
     public WaterInteractor waterInteractor;
     public Destroyer destroyer;
     public ParticleSystem bubbles;
+    public Collider2D col;
 
     public Vector2 lastSpeed;
 
@@ -42,11 +43,13 @@ public class Bullet : MonoBehaviour
     {
         // check rb speed
         if (!starting && !destroyed && rb.velocity.magnitude <= speedRange.x) {
-            destroyed = true;
-            destroyer.GETTEM();
+            Gettem();
         }
         else if (!destroyed) {
             lastSpeed = rb.velocity;
+        }
+        else {
+            rb.velocity = Vector2.zero;
         }
         // if less than range, then destroy the bullet
     }
@@ -71,8 +74,7 @@ public class Bullet : MonoBehaviour
                     gunfish.data.gun.knockback * damageRatio,
                     HitType.Ballistic));
         }
-        destroyed = true;
-        destroyer.GETTEM();
+        Gettem();
     }
 
     void OnUnderwaterChange(bool underwater) {
@@ -85,8 +87,10 @@ public class Bullet : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.rigidbody == null)
+        if (collision.rigidbody == null) {
+            Gettem();
             return;
+        }
         var shootable = collision.rigidbody.GetComponent<Shootable>();
         var bullet = collision.rigidbody.GetComponent<Bullet>();
         var hitGunfish = collision.rigidbody.GetComponent<Gunfish>();
@@ -103,9 +107,17 @@ public class Bullet : MonoBehaviour
                 HitType.Ballistic));
         }
         else if (!(bullet != null || hitGunfish == gunfish || hitSegment?.gunfish == gunfish)) {
-            destroyed = true;
-            destroyer.GETTEM();
-            rb.velocity = Vector2.zero;
+            Gettem();
         }
+    }
+
+    void Gettem() {
+        if (destroyed)
+            return;
+        col.enabled = false;
+        destroyed = true;
+        destroyer.GETTEM();
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
     }
 }

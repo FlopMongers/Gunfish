@@ -39,7 +39,7 @@ public class DeathMatchManager : MatchManager {
     bool endingLevel;
     static float endLevelDelay = 0.5f;
 
-    static float lastHitThreshold = 2f;
+    static float lastHitThreshold = 4f;
 
 
     public override void Initialize(GameParameters parameters) {
@@ -236,6 +236,7 @@ public class DeathMatchManager : MatchManager {
         Player player;
         if (tiebreaker.Count != 0) {
             player = tiebreaker.First();
+            UpdateScore(player, 1);
             return (player, "*First kill!");
         }
         // if null, get player with last death
