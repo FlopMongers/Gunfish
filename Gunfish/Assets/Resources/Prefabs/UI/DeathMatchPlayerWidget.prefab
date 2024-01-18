@@ -88,7 +88,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &37056455272102186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +122,7 @@ MonoBehaviour:
   stockText: {fileID: 8972227807088046911}
   scoreText: {fileID: 6086319594531899147}
   playerPortrait: {fileID: 762118107356509742}
+  playerName: {fileID: 5756999092219062565}
   OnPlayerColorChange:
     m_PersistentCalls:
       m_Calls: []

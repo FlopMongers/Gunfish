@@ -32,6 +32,7 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     protected override void Awake() {
         base.Awake();
+        Cursor.visible = false;
     }
 
     protected void Start() {
@@ -40,6 +41,14 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     public override void Initialize() {
         PlayerManager.Instance.Initialize();
+    }
+
+    public void InitializeNonPlayerManagerManagersLol() {
+        StartCoroutine(SendIt());
+    }
+
+    private IEnumerator SendIt() {
+        yield return new WaitForEndOfFrame();
         LevelManager.Instance.Initialize();
         MusicManager.Instance.Initialize();
         ArduinoManager.Instance.Initialize();

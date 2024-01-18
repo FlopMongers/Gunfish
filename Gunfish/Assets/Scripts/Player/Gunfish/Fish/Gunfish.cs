@@ -102,8 +102,12 @@ public class Gunfish : MonoBehaviour, IHittable {
                 EffectRemoveList.Add(effect.Key);
             }
             foreach (var effect in EffectRemoveList) {
-                effectMap[effect].OnRemove();
-                effectMap.Remove(effect);
+                if (effectMap.ContainsKey(effect)) {
+                    if (effectMap[effect] != null) {
+                        effectMap[effect].OnRemove();
+                    }
+                    effectMap.Remove(effect);
+                }
             }
             EffectRemoveList.Clear();
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);

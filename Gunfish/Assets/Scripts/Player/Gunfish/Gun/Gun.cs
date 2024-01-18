@@ -123,7 +123,7 @@ public class Gun : MonoBehaviour {
                 GunfishSegment fishSegment = hit.transform.GetComponentInParent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
                 ObjectMaterial objMat = hit.transform.GetComponentInParent<ObjectMaterial>();
-                if (fishSegment != null && hitGunfishes.Contains(fishSegment.gunfish)) {
+                if (fishSegment != null && !hitGunfishes.Contains(fishSegment.gunfish)) {
                     hitGunfishes.Add(fishSegment.gunfish);
                     // NOTE(Wyatt): this is how team deathmatch prevents friendly fire :)
                     bool fishHit = (GameManager.Instance != null)

@@ -64,8 +64,8 @@ public class SeaUrchin : MonoBehaviour {
 
     private void OnFishEnter(GunfishSegment segment, Collision2D collision) {
         GameObject src = gameObject;
-        if (hitCounter != null && hitCounter.lastHitter != null) {
-            src = hitCounter.lastHitter.gameObject;
+        if (hitCounter != null && hitCounter.GetLastHitter() != null) {
+            src = hitCounter.GetLastHitter().gameObject;
         }
         segment.gunfish.Hit(new FishHitObject(
             segment.index, 

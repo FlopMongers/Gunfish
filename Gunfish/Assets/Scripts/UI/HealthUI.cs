@@ -90,10 +90,10 @@ public class HealthUI : MonoBehaviour {
 
         SetUpConstraint(_gunfish.segments[(int)((float)_gunfish.segments.Count / 3)].transform, offset);
 
-        var playerColor = PlayerManager.Instance.playerColors[gunfish.playerNum];
+        var playerColor = PlayerManager.Instance.playerColors[gunfish.player.PlayerNumber];
 
         var fishTitle = transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>();
-        fishTitle.text = $"P{_gunfish.playerNum + 1}";
+        fishTitle.text = $"P{_gunfish.player.VisiblePlayerNumber}";
         fishTitle.color = playerColor;
 
         var offscreenTracker = GetComponentInChildren<OffscreenTracker>();

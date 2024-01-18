@@ -20,6 +20,8 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
     public float loudness;
 
+    private bool initialized = false;
+
     private void Attractor() {
         if (!playAttractors) {
             secondsSinceLastAttractor = 0f;
@@ -58,6 +60,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         clip = source.clip;
         ConnectArduino();
 
+        initialized = true;
         base.Initialize();
     }
     private void HandleArduino() {
@@ -95,12 +98,16 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         }
 
         var index = source.timeSamples;
+        if (index >= data.Length) {
+            return 0f;
+        }
         var amplitude = data[index];
         loudness = Mathf.Abs(amplitude * 255);
         return loudness;
     }
 
     private void Update() {
+        if (!initialized) return;
         Attractor();
         HandleArduino();
     }
@@ -108,12 +115,5 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     protected override void OnDestroy() {
         DisconnectArduino();
         base.OnDestroy();
-    }
-
-    private void OnGUI() {
-        if (!GameManager.Instance.debug)
-            return;
-
-        GUILayout.TextField(loudness.ToString());
     }
 }

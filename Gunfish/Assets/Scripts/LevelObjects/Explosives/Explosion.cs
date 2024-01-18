@@ -49,9 +49,9 @@ public class Explosion : MonoBehaviour
         }
 
         mask = ~LayerMask.GetMask("Ground");
+        HashSet<GameObject> hittables = new HashSet<GameObject>();
         foreach (var hit in Physics2D.CircleCastAll(transform.position, radius.bounds.extents.x, Vector2.zero, 0, mask)) {
             //print($"hit {hit.transform}");
-            HashSet<GameObject> hittables = new HashSet<GameObject>();
             IHittable hittable = GetIHittable(hit);
             Transform hitTransform = hit.transform;
             WaterSurfaceNode node = hitTransform.GetComponent<WaterSurfaceNode>();
@@ -67,17 +67,20 @@ public class Explosion : MonoBehaviour
             Vector2 dir = hit.point - (Vector2)transform.position;
             mask = LayerMask.GetMask("Ground", "Default");
             print($"hittable: {hittable}");
+            bool blockHit = false;
             foreach (var blockingHit in Physics2D.RaycastAll(transform.position, (dir).normalized, dir.magnitude, mask)) {
                 IHittable blockingHittable = GetIHittable(blockingHit, true);
                 print($"{blockingHit.transform} with {blockingHittable}, {blockingHit.transform.gameObject.layer}");
                 if (blockingHittable == null && blockingHit.collider != null && blockingHit.collider.isTrigger == false) {
                     print($"OOPS! {blockingHit.collider}");
-                    continue;
+                    blockHit = true;
                     // only if doesn't have gunfish segment, 
                 }
             }
-            //if (Physics2D.Raycast(transform.position, (dir).normalized, dir.magnitude, mask) == false) {
-                float nearness = damageCurve.Evaluate(Vector3.Distance(transform.position, hittable.gameObject.transform.position) / radius.bounds.extents.x);
+            if (!blockHit) {
+                //if (Physics2D.Raycast(transform.position, (dir).normalized, dir.magnitude, mask) == false) {
+                Vector2 hittablePosition = hittable is Gunfish ? ((Gunfish)hittable).GetPosition().GetValueOrDefault() : hittable.gameObject.transform.position;
+                float nearness = damageCurve.Evaluate(Mathf.Clamp01(Vector2.Distance(transform.position, hittablePosition) / radius.bounds.extents.x));
                 //print(nearness);
                 // calculate hit object based on distance
                 float damage = nearness;
@@ -91,6 +94,7 @@ public class Explosion : MonoBehaviour
                         damage * fishDamageScale,
                         0,
                         HitType.Explosive));
+                    Debug.Log("Hit player " + gunfish.playerNum + " for dmg " + damage * fishDamageScale);
                 }
                 else {
                     hittable.Hit(new HitObject(
@@ -103,11 +107,13 @@ public class Explosion : MonoBehaviour
                         ignoreMass: true));
                 }
                 hittables.Add(hittable.gameObject);
+                
+            }
             //}
         }
 
         IHittable GetIHittable(RaycastHit2D hit, bool includeParent=false) {
-            GunfishSegment segment = (includeParent) ? hit.transform.GetComponentInParent<GunfishSegment>() : hit.transform.GetComponent<GunfishSegment>();
+            GunfishSegment segment = hit.rigidbody != null ? hit.rigidbody.GetComponent<GunfishSegment>() : null;
             Transform hitTransform = hit.transform;
             IHittable hittable = null;
             if (segment != null && !(sourceGunfish != null && ignoreSourceGunfish==false && sourceGunfish == segment.gunfish)) {

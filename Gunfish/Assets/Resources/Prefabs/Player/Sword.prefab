@@ -70,4 +70,4 @@ MonoBehaviour:
   piercing: 0
   damageMultiplier: 1
   dashingDamageMultiplier: 2.2
-  shootableDamageMultiplier: 3
+  shootableDamageMultiplier: 4
