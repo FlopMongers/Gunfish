@@ -37,7 +37,7 @@ public class ExplosiveBarrel : MonoBehaviour
         var explodey = Instantiate(explosion, transform.position, Quaternion.identity);
         if (hitCounter != null) {
             Explosion exp = explodey.GetComponent<Explosion>();
-            exp.sourceGunfish = hitCounter.lastHitter;
+            exp.sourceGunfish = hitCounter.GetLastHitter();
             exp.ignoreSourceGunfish = true;
         }
     }
