@@ -7,16 +7,16 @@ using UnityEngine.InputSystem;
 public class PlayerManager : PersistentSingleton<PlayerManager> {
     public List<Color> playerColors;
 
-    public List<Player> Players { get; private set; }
-    public List<GunfishData> PlayerFish { get; private set; }
-    public List<PlayerInput> PlayerInputs { get; private set; }
+    public List<Player> Players;// { get; private set; }
+    public List<GunfishData> PlayerFish;// { get; private set; }
+    public List<PlayerInput> PlayerInputs;// { get; private set; }
 
     private bool showDebugMessage;
 
     public void OnPlayerJoined(PlayerInput input) {
         PlayerInputs.Add(input);
-
-        if (PlayerInputs.Count == 4) {
+        Debug.Log("Added player");
+        if (PlayerInputs.Count == 1) {
             showDebugMessage = false;
             InitializePlayers();
             GameManager.Instance.InitializeNonPlayerManagerManagersLol();
@@ -41,6 +41,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
     }
 
     private void InitializePlayers() {
+        SetInputMode(InputMode.UI);
         for (int playerIndex = 0; playerIndex < PlayerInputs.Count; playerIndex++)
         {
             var playerInput = PlayerInputs[playerIndex];

@@ -48,20 +48,30 @@ public class FishSelectMenuPage : IMenuPage {
         fishImages = new List<VisualElement>();
         selectorState = new List<SelectorState>();
         playerActions = new List<PlayerAction>();
+        int testing = 0;
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
+            Debug.Log(PlayerManager.Instance.PlayerInputs.Count);
+            Debug.Log(testing++);
             var playerInput = PlayerManager.Instance.PlayerInputs[i];
             int playerIndex = i;
+            Debug.Log(testing++);
             PlayerAction playerAction = new PlayerAction(
                 (InputAction.CallbackContext context) => OnNavigate(context, playerIndex),
-                 (InputAction.CallbackContext context) => OnSubmit(context, playerIndex),
-                 (InputAction.CallbackContext context) => OnCancel(context, playerIndex)
-                );
-            playerActions.Add( playerAction);
+                (InputAction.CallbackContext context) => OnSubmit(context, playerIndex),
+                (InputAction.CallbackContext context) => OnCancel(context, playerIndex)
+            );
+            Debug.Log(testing++);
+            playerActions.Add(playerAction);
+            Debug.Log(testing++);
+            Debug.Log("ActionMap: " + playerInput.currentActionMap);
             playerInput.currentActionMap.FindAction("Navigate").performed += playerAction.navigatePerformed;
             playerInput.currentActionMap.FindAction("Submit").performed += playerAction.submitPerformed;
             playerInput.currentActionMap.FindAction("Cancel").performed += playerAction.cancelPerformed;
+            Debug.Log(testing++);
 
             var fishSelector = menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}");
+
+            Debug.Log("Fish Selector: " + fishSelector.name);
 
             var color = PlayerManager.Instance.playerColors[playerIndex];
 
