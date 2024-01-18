@@ -16,7 +16,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
     public void OnPlayerJoined(PlayerInput input) {
         PlayerInputs.Add(input);
         Debug.Log("Added player");
-        if (PlayerInputs.Count == 1) {
+        if (PlayerInputs.Count == 4) {
             showDebugMessage = false;
             InitializePlayers();
             GameManager.Instance.InitializeNonPlayerManagerManagersLol();

@@ -23,27 +23,6 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="Tips" style="position: absolute; width: 16%; height: 24%; top: 25%; margin-left: 0; padding-left: 0; padding-right: 0; translate: -40px 0;">
-            <ui:VisualElement name="Line" style="width: auto; flex-direction: row; margin-left: 0; padding-top: 10px; padding-bottom: 10px; height: auto;">
-                <ui:VisualElement style="background-image: resource(&apos;Sprites/UI/GunIcon&apos;); width: 50px; height: 50px; flex-shrink: 0;" />
-                <ui:Label text="PRESS/HOLD TO SHOOT" display-tooltip-when-elided="true" style="flex-wrap: wrap; -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" />
-            </ui:VisualElement>
-            <ui:VisualElement name="Line" style="width: auto; flex-direction: row; margin-left: 0; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement style="background-image: resource(&apos;Sprites/UI/BackIcon&apos;); width: 50px; height: 50px; flex-shrink: 0;" />
-                <ui:Label text="HOLD TO SELF-DESTRUCT" display-tooltip-when-elided="true" style="flex-wrap: wrap; -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" />
-            </ui:VisualElement>
-            <ui:VisualElement name="Line" style="width: auto; flex-direction: row; margin-left: 0; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement style="background-image: resource(&apos;Sprites/UI/HorizontalIcon&apos;); width: 50px; height: 50px; flex-shrink: 0; padding-top: 0; translate: 0 10px;" />
-                <ui:Label text="ON GROUND TO FLOP" display-tooltip-when-elided="true" style="flex-wrap: wrap; -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" />
-            </ui:VisualElement>
-            <ui:VisualElement name="Line" style="width: auto; flex-direction: row; margin-left: 0; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement style="background-image: resource(&apos;Sprites/UI/HorizontalIcon&apos;); width: 50px; height: 50px; flex-shrink: 0; padding-top: 0; translate: 0 10px;" />
-                <ui:Label text="IN AIR TO ROTATE" display-tooltip-when-elided="true" style="flex-wrap: wrap; -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" />
-            </ui:VisualElement>
-            <ui:VisualElement name="Line" style="width: auto; flex-direction: row; margin-left: 0; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement style="background-image: resource(&apos;Sprites/UI/OmniIcon&apos;); width: 50px; height: 50px; flex-shrink: 0; padding-top: 0; translate: 0 0;" />
-                <ui:Label text="IN WATER TO SHOOT" display-tooltip-when-elided="true" style="flex-wrap: wrap; -unity-font-definition: resource(&apos;Fonts/Oswald/Oswald-VariableFont_wght SDF&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" />
-            </ui:VisualElement>
-        </ui:VisualElement>
+        <ui:VisualElement name="Tips" style="position: absolute; width: 50%; height: 50%; top: 25%; margin-left: 0; padding-left: 0; padding-right: 0; translate: 0 0; background-image: resource(&apos;Sprites/UI/Controls&apos;);" />
     </ui:VisualElement>
 </ui:UXML>
