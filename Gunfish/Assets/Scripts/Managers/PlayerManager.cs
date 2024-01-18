@@ -30,9 +30,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
         int playerIndex = 0;
         List<InputDevice> devices = new List<InputDevice>(inputDevices);
-        List<int> deviceIdPressOrder = new List<int>() {
-            1,2,3,4
-        };
+        List<int> deviceIdPressOrder = new List<int>();
         // List<int> deviceIdPressOrder = GameManager.Instance.controllerPressOrder;
         if (deviceIdPressOrder.Count > 0) {
             devices = new List<InputDevice>();
