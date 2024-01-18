@@ -12,6 +12,15 @@ public class Destroyer : MonoBehaviour
     float barticleToPoofRatio = 0.5f;
     float barticleExplosionForce = 5f;
 
+    public bool destroyFromStart;
+    public Vector2 destroyDelay;
+
+    private void Start() {
+        if (destroyFromStart) {
+            Invoke("ActuallyGettem", destroyDelay.RandomInRange());
+        }
+    }
+
     public void GETTEM(float timer=-1) {
         if (timer < 0) {
             ActuallyGettem();

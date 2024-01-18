@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 3005604053255823788}
   - component: {fileID: 3005604053255823779}
   - component: {fileID: 2262110183810122818}
+  - component: {fileID: 3133074634561996180}
   m_Layer: 0
   m_Name: ExplosiveBarrel
   m_TagString: Untagged
@@ -263,6 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyFX: 16
   spriteRenderer: {fileID: 3005604052467891958}
+  destroyFromStart: 0
+  destroyDelay: {x: 0, y: 0}
 --- !u!114 &3005604053255823788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +281,7 @@ MonoBehaviour:
   shootable: {fileID: 3005604053255823791}
   explosion: {fileID: 5971764844140717513, guid: 8505d56026bf1654ab1c819b67de4538,
     type: 3}
+  hitCounter: {fileID: 3133074634561996180}
 --- !u!114 &3005604053255823779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,3 +314,17 @@ MonoBehaviour:
   shootable: {fileID: 0}
   oomphResistance: 1
   oomphScale: 0.1
+--- !u!114 &3133074634561996180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3005604053255823778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae0504ec60cb28489ca1125d6bb81f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timestamp: -1
+  lastHitter: {fileID: 0}
