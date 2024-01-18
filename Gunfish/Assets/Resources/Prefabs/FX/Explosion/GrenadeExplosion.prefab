@@ -9890,32 +9890,33 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0000005066395
+      time: -0.0025511533
       value: 1.0000033
-      inSlope: -1.4464263
-      outSlope: -1.4464263
+      inSlope: -0.027859764
+      outSlope: -0.027859764
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.389413
+      outWeight: 0.11675165
     - serializedVersion: 3
-      time: 1
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
+      time: 1.0095894
+      value: 0.24964416
+      inSlope: -0.7872423
+      outSlope: -0.7872423
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.06598697
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   damageScale: 5
-  fishDamageScale: 1.5
+  fishDamageScale: 6
   effector: {fileID: 5398111357643700316}
   explosionForce: 150
   waterSplooshForce: 25
   sourceGunfish: {fileID: 0}
+  ignoreSourceGunfish: 0
   delayedExplosion: 0
 --- !u!58 &5971764844140717512
 CircleCollider2D:
