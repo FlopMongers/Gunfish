@@ -17,6 +17,8 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
     private TMP_Text scoreText;
     [SerializeField]
     private Image playerPortrait;
+    [SerializeField] 
+    private TMP_Text playerName;
     public UnityEvent<Color> OnPlayerColorChange;
 
     // Start is called before the first frame update
@@ -49,6 +51,7 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
 
     public void SetPlayer(Player player) {
         this.player = player;
+        playerName.text = $"P{player.VisiblePlayerNumber}";
         playerPortrait.overrideSprite = player.gunfishData.sprite;
     }
 

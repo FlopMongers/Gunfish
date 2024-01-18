@@ -93,7 +93,7 @@ public class HealthUI : MonoBehaviour {
         var playerColor = PlayerManager.Instance.playerColors[gunfish.playerNum];
 
         var fishTitle = transform.FindDeepChild("FishTitle").GetComponent<TextMeshProUGUI>();
-        fishTitle.text = $"P{_gunfish.playerNum + 1}";
+        fishTitle.text = $"P{_gunfish.player.VisiblePlayerNumber}";
         fishTitle.color = playerColor;
 
         var offscreenTracker = GetComponentInChildren<OffscreenTracker>();
