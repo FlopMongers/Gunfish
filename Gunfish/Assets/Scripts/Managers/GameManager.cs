@@ -40,6 +40,9 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     public override void Initialize() {
         PlayerManager.Instance.Initialize();
+    }
+
+    public void InitializeNonPlayerManagerManagersLol() {
         LevelManager.Instance.Initialize();
         MusicManager.Instance.Initialize();
         ArduinoManager.Instance.Initialize();
