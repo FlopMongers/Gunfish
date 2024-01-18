@@ -38,7 +38,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
             player.Initialize(playerIndex);
             PlayerInputs.Add(playerInput);
             Players.Add(player);
-            PlayerFish.Add(GameManager.Instance.GunfishDataList.gunfishes[0]);
+            PlayerFish.Add(null);
             playerIndex++;
         });
     }
@@ -49,6 +49,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         }
         PlayerFish[playerIndex] = data;
         Players[playerIndex].gunfishData = data;
+        Players[playerIndex].Active = data != null;
     }
 
     public void SetInputMode(InputMode inputMode) {
