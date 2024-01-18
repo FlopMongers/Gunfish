@@ -23,7 +23,7 @@ public class FishSelectMenuPage : IMenuPage {
     private Sequence activeGameStartCountdown;
 
     protected struct PlayerAction {
-      public System.Action<InputAction.CallbackContext> navigatePerformed;
+        public System.Action<InputAction.CallbackContext> navigatePerformed;
         public System.Action<InputAction.CallbackContext> submitPerformed;
         public System.Action<InputAction.CallbackContext> cancelPerformed;
 
@@ -37,13 +37,11 @@ public class FishSelectMenuPage : IMenuPage {
             cancelPerformed = cancelAction;
         }
     }
-    private List<PlayerAction> playerActions; 
+    private List<PlayerAction> playerActions;
 
     public void OnEnable(MenuPageContext context) {
         MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
-
-        ArduinoManager.Instance.playAttractors = false;
 
         fishImages = new List<VisualElement>();
         selectorState = new List<SelectorState>();
@@ -105,6 +103,8 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     public void OnDisable(MenuPageContext context) {
+        ArduinoManager.Instance.playAttractors = false;
+
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.Instance.PlayerInputs[i];
             playerInput.currentActionMap.FindAction("Navigate").performed -= playerActions[i].navigatePerformed;
@@ -128,8 +128,7 @@ public class FishSelectMenuPage : IMenuPage {
             menuContext.menu.PlayBloop();
             if (direction.x > 0) {
                 IncrementFish(deviceIndex);
-            }
-            else {
+            } else {
                 DecrementFish(deviceIndex);
             }
         }
@@ -137,38 +136,38 @@ public class FishSelectMenuPage : IMenuPage {
 
     private void OnSubmit(InputAction.CallbackContext context, int deviceIndex) {
         switch (selectorState[deviceIndex]) {
-            case SelectorState.DISABLED:
-                PlayerManager.Instance.Players[deviceIndex].Active = false;
-                SetFish(deviceIndex, GameManager.Instance.GunfishDataList.gunfishes[0]);
-                CancelGameStartCountdown();
-                SetSelectorState(deviceIndex, SelectorState.SELECTING);
-                break;
-            case SelectorState.SELECTING:
-                PlayerManager.Instance.Players[deviceIndex].Active = true;
-                SetSelectorState(deviceIndex, SelectorState.READY);
-                if (isAllPlayersReady()) {
-                    BeginGameStartCountdown();
-                }
-                break;
-            case SelectorState.READY:
-                if (isAllPlayersReady()) {
-                    BeginGameStartCountdown();
-                }
-                break;
+        case SelectorState.DISABLED:
+            PlayerManager.Instance.Players[deviceIndex].Active = false;
+            SetFish(deviceIndex, GameManager.Instance.GunfishDataList.gunfishes[0]);
+            CancelGameStartCountdown();
+            SetSelectorState(deviceIndex, SelectorState.SELECTING);
+            break;
+        case SelectorState.SELECTING:
+            PlayerManager.Instance.Players[deviceIndex].Active = true;
+            SetSelectorState(deviceIndex, SelectorState.READY);
+            if (isAllPlayersReady()) {
+                BeginGameStartCountdown();
+            }
+            break;
+        case SelectorState.READY:
+            if (isAllPlayersReady()) {
+                BeginGameStartCountdown();
+            }
+            break;
         }
     }
 
     private void OnCancel(InputAction.CallbackContext context, int deviceIndex) {
         switch (selectorState[deviceIndex]) {
-            case SelectorState.SELECTING:
-                PlayerManager.Instance.Players[deviceIndex].Active = false;
-                SetSelectorState(deviceIndex, SelectorState.DISABLED);
-                break;
-            case SelectorState.READY:
-                PlayerManager.Instance.Players[deviceIndex].Active = false;
-                CancelGameStartCountdown();
-                SetSelectorState(deviceIndex, SelectorState.SELECTING);
-                break;
+        case SelectorState.SELECTING:
+            PlayerManager.Instance.Players[deviceIndex].Active = false;
+            SetSelectorState(deviceIndex, SelectorState.DISABLED);
+            break;
+        case SelectorState.READY:
+            PlayerManager.Instance.Players[deviceIndex].Active = false;
+            CancelGameStartCountdown();
+            SetSelectorState(deviceIndex, SelectorState.SELECTING);
+            break;
         }
     }
 
@@ -199,34 +198,33 @@ public class FishSelectMenuPage : IMenuPage {
 
     private void SetSelectorState(int deviceIndex, SelectorState newState) {
         VisualElement fishSelector = menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{deviceIndex + 1}");
-        switch (newState)
-        {
-            case SelectorState.DISABLED:
-                SetFish(deviceIndex, null);
-                fishSelector.Q<VisualElement>("CancelHint").visible = false;
-                fishSelector.Q<VisualElement>("ConfirmHint").visible = false;
-                fishSelector.Q<VisualElement>("DisabledHint").visible = true;
-                fishSelector.Q<VisualElement>("ReadyHint").visible = false;
-                selectorState[deviceIndex] = newState;
-                break;
-            case SelectorState.SELECTING:
-                fishSelector.Q<VisualElement>("CancelHint").visible = true;
-                fishSelector.Q<VisualElement>("ConfirmHint").visible = true;
-                fishSelector.Q<VisualElement>("DisabledHint").visible = false;
-                fishSelector.Q<VisualElement>("ReadyHint").visible = false;
-                fishSelector.Q<VisualElement>("back-button").RemoveFromClassList("ready");
-                fishSelector.Q<VisualElement>("next-button").RemoveFromClassList("ready");
-                selectorState[deviceIndex] = newState;
-                break;
-            case SelectorState.READY:
-                fishSelector.Q<VisualElement>("CancelHint").visible = true;
-                fishSelector.Q<VisualElement>("ConfirmHint").visible = false;
-                fishSelector.Q<VisualElement>("DisabledHint").visible = false;
-                fishSelector.Q<VisualElement>("ReadyHint").visible = true;
-                fishSelector.Q<VisualElement>("back-button").AddToClassList("ready");
-                fishSelector.Q<VisualElement>("next-button").AddToClassList("ready");
-                selectorState[deviceIndex] = newState;
-                break;
+        switch (newState) {
+        case SelectorState.DISABLED:
+            SetFish(deviceIndex, null);
+            fishSelector.Q<VisualElement>("CancelHint").visible = false;
+            fishSelector.Q<VisualElement>("ConfirmHint").visible = false;
+            fishSelector.Q<VisualElement>("DisabledHint").visible = true;
+            fishSelector.Q<VisualElement>("ReadyHint").visible = false;
+            selectorState[deviceIndex] = newState;
+            break;
+        case SelectorState.SELECTING:
+            fishSelector.Q<VisualElement>("CancelHint").visible = true;
+            fishSelector.Q<VisualElement>("ConfirmHint").visible = true;
+            fishSelector.Q<VisualElement>("DisabledHint").visible = false;
+            fishSelector.Q<VisualElement>("ReadyHint").visible = false;
+            fishSelector.Q<VisualElement>("back-button").RemoveFromClassList("ready");
+            fishSelector.Q<VisualElement>("next-button").RemoveFromClassList("ready");
+            selectorState[deviceIndex] = newState;
+            break;
+        case SelectorState.READY:
+            fishSelector.Q<VisualElement>("CancelHint").visible = true;
+            fishSelector.Q<VisualElement>("ConfirmHint").visible = false;
+            fishSelector.Q<VisualElement>("DisabledHint").visible = false;
+            fishSelector.Q<VisualElement>("ReadyHint").visible = true;
+            fishSelector.Q<VisualElement>("back-button").AddToClassList("ready");
+            fishSelector.Q<VisualElement>("next-button").AddToClassList("ready");
+            selectorState[deviceIndex] = newState;
+            break;
         }
     }
 
