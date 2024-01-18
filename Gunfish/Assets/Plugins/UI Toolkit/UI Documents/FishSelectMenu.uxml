@@ -23,6 +23,6 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="Tips" style="position: absolute; width: 50%; height: 50%; top: 25%; margin-left: 0; padding-left: 0; padding-right: 0; translate: 0 0; background-image: resource(&apos;Sprites/UI/Controls&apos;);" />
+        <ui:VisualElement name="Tips" style="position: absolute; width: 20%; height: 30%; top: 118px; margin-left: 0; padding-left: 0; padding-right: 0; translate: 0 0; background-image: resource(&apos;Sprites/UI/Controls&apos;); left: 391px;" />
     </ui:VisualElement>
 </ui:UXML>
