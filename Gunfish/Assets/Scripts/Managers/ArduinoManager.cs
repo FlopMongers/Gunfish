@@ -98,6 +98,9 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         }
 
         var index = source.timeSamples;
+        if (index >= data.Length) {
+            return 0f;
+        }
         var amplitude = data[index];
         loudness = Mathf.Abs(amplitude * 255);
         return loudness;
