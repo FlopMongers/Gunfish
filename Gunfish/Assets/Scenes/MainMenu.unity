@@ -410,12 +410,6 @@ PrefabInstance:
       propertyPath: debug
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9189882869126579373, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: Serialized_FX_Dict.Array.data[13].fx
-      value: 
-      objectReference: {fileID: 7345107578677404228, guid: a72c27597c8161843802f5e2d3b6169a,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
 --- !u!1001 &5870836715334963464
