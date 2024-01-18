@@ -240,6 +240,15 @@ public class Sharkmode_Effect : TimedEffect {
             return;
         if (!segment.gunfish.effectMap.ContainsKey(EffectType.SharkMode)) {
             segment.gunfish.Hit(new FishHitObject(segment.index, collision.contacts[0].point, -collision.contacts[0].normal, gunfish.gameObject, segment.gunfish.statusData.health, 10f, HitType.Impact));
+            if (!segment.gunfish.statusData.alive) {
+                // if sharkmode killed the fish, play a sound
+                // (n.b. invincibility can make this not deadly - have to check!)
+                if (FX_Spawner.Instance != null) {
+                    FX_Spawner.Instance.SpawnFX(FXType.SharkModeKill,
+                                                segment.transform.position,
+                                                segment.transform.rotation);
+                }
+            }
         }
     }
 }

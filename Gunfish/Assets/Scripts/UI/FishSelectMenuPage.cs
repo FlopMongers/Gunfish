@@ -22,6 +22,23 @@ public class FishSelectMenuPage : IMenuPage {
 
     private Sequence activeGameStartCountdown;
 
+    protected struct PlayerAction {
+      public System.Action<InputAction.CallbackContext> navigatePerformed;
+        public System.Action<InputAction.CallbackContext> submitPerformed;
+        public System.Action<InputAction.CallbackContext> cancelPerformed;
+
+        // Constructor to initialize the struct fields
+        public PlayerAction(
+            System.Action<InputAction.CallbackContext> navigateAction,
+            System.Action<InputAction.CallbackContext> submitAction,
+            System.Action<InputAction.CallbackContext> cancelAction) {
+            navigatePerformed = navigateAction;
+            submitPerformed = submitAction;
+            cancelPerformed = cancelAction;
+        }
+    }
+    private List<PlayerAction> playerActions; 
+
     public void OnEnable(MenuPageContext context) {
         MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
@@ -30,13 +47,19 @@ public class FishSelectMenuPage : IMenuPage {
 
         fishImages = new List<VisualElement>();
         selectorState = new List<SelectorState>();
-
+        playerActions = new List<PlayerAction>();
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.Instance.PlayerInputs[i];
             int playerIndex = i;
-            playerInput.currentActionMap.FindAction("Navigate").performed += (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
-            playerInput.currentActionMap.FindAction("Submit").performed += (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
-            playerInput.currentActionMap.FindAction("Cancel").performed += (InputAction.CallbackContext context) => OnCancel(context, playerIndex);
+            PlayerAction playerAction = new PlayerAction(
+                (InputAction.CallbackContext context) => OnNavigate(context, playerIndex),
+                 (InputAction.CallbackContext context) => OnSubmit(context, playerIndex),
+                 (InputAction.CallbackContext context) => OnCancel(context, playerIndex)
+                );
+            playerActions.Add( playerAction);
+            playerInput.currentActionMap.FindAction("Navigate").performed += playerAction.navigatePerformed;
+            playerInput.currentActionMap.FindAction("Submit").performed += playerAction.submitPerformed;
+            playerInput.currentActionMap.FindAction("Cancel").performed += playerAction.cancelPerformed;
 
             var fishSelector = menuContext.document.rootVisualElement.Q<VisualElement>($"FishSelector{playerIndex + 1}");
 
@@ -63,7 +86,7 @@ public class FishSelectMenuPage : IMenuPage {
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
             displayedFishes.Add(null);
             displayedFishIndices.Add(0);
-            SetFish(i, fishes[0]);
+            SetFish(i, null);
             SetSelectorState(i, SelectorState.DISABLED);
         }
 
@@ -74,10 +97,9 @@ public class FishSelectMenuPage : IMenuPage {
     public void OnDisable(MenuPageContext context) {
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.Instance.PlayerInputs[i];
-            int playerIndex = i;
-            playerInput.currentActionMap.FindAction("Navigate").performed -= (InputAction.CallbackContext context) => OnNavigate(context, playerIndex);
-            playerInput.currentActionMap.FindAction("Submit").performed -= (InputAction.CallbackContext context) => OnSubmit(context, playerIndex);
-            playerInput.currentActionMap.FindAction("Cancel").performed -= (InputAction.CallbackContext context) => OnCancel(context, playerIndex);
+            playerInput.currentActionMap.FindAction("Navigate").performed -= playerActions[i].navigatePerformed;
+            playerInput.currentActionMap.FindAction("Submit").performed -= playerActions[i].submitPerformed;
+            playerInput.currentActionMap.FindAction("Cancel").performed -= playerActions[i].cancelPerformed;
         }
     }
 
@@ -114,6 +136,11 @@ public class FishSelectMenuPage : IMenuPage {
             case SelectorState.SELECTING:
                 PlayerManager.Instance.Players[deviceIndex].Active = true;
                 SetSelectorState(deviceIndex, SelectorState.READY);
+                if (isAllPlayersReady()) {
+                    BeginGameStartCountdown();
+                }
+                break;
+            case SelectorState.READY:
                 if (isAllPlayersReady()) {
                     BeginGameStartCountdown();
                 }
@@ -202,8 +229,14 @@ public class FishSelectMenuPage : IMenuPage {
     }
 
     private void BeginGameStartCountdown() {
+        if (activeGameStartCountdown != null && activeGameStartCountdown.active) {
+            return;
+        }
         CancelGameStartCountdown();
-        activeGameStartCountdown = DOTween.Sequence().AppendInterval(2).OnComplete(GameManager.Instance.InitializeGame);
+        activeGameStartCountdown = DOTween.Sequence().AppendInterval(2).OnComplete(() => {
+            OnDisable(menuContext);
+            GameManager.Instance.InitializeGame();
+        });
     }
 
     private void CancelGameStartCountdown() {

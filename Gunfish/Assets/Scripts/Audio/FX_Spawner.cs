@@ -23,6 +23,7 @@ public enum FXType {
     Invincibility,
     Poof,
     AcidSplash,
+    SharkModeKill,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {

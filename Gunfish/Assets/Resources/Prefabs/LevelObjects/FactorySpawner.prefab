@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7150654314803389106}
   - component: {fileID: 7150654314803389107}
   - component: {fileID: 7150654314803389108}
-  - component: {fileID: 7150654314803389109}
+  - component: {fileID: 6126925689364158865}
   m_Layer: 0
   m_Name: FactorySpawner
   m_TagString: Untagged
@@ -197,7 +197,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.16, y: 5.16}
   m_EdgeRadius: 0
---- !u!114 &7150654314803389109
+--- !u!114 &6126925689364158865
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,16 +206,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 7150654314803389110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fdf31a91417b2046b2ccbab880374f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 22bd2d66e7151d74c87076e5ef69516e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPrefabProbabilityList:
   - pickup: {fileID: 1473432151152142584, guid: f2ccfcfcbc97dae42967c32237d76452,
       type: 3}
-    probability: 0.66
+    probability: 0.125
   - pickup: {fileID: 3005604053255823778, guid: f1c07b37474447a45b34395220236560,
       type: 3}
-    probability: 0.3
+    probability: 0.125
+  - pickup: {fileID: 2929395665185194203, guid: 273ecb600c69bd14a8fc5162df7f8299,
+      type: 3}
+    probability: 0.125
+  - pickup: {fileID: 3917959985928223957, guid: ea1de6847e14bb447a6e8491cf369363,
+      type: 3}
+    probability: 0.125
+  - pickup: {fileID: 5203133393737141082, guid: b62c44193f91394478dcfdf010d02d1c,
+      type: 3}
+    probability: 0.125
+  - pickup: {fileID: 1904712604937553222, guid: 5a4a90354df6ef74ab82faf949165f88,
+      type: 3}
+    probability: 0.125
+  - pickup: {fileID: 1405642123618053840, guid: 4a5c11b690ea60441bc3f0310643f852,
+      type: 3}
+    probability: 0.125
+  - pickup: {fileID: 3022101858175218381, guid: 13fad05679f40334c9fb7a41c49c274f,
+      type: 3}
+    probability: 0.125
   spawnPrefab: {fileID: 1473432151152142584, guid: f2ccfcfcbc97dae42967c32237d76452,
     type: 3}
   spawnTimer: 0

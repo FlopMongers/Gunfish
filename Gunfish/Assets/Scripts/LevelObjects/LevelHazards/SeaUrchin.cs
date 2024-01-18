@@ -29,6 +29,8 @@ public class SeaUrchin : MonoBehaviour {
 
     public WaterInteractor waterInteractor;
 
+    public HitCounter hitCounter;
+
     private void Start() {
         detector.OnFishCollideEnter += OnFishEnter;
         if (spriteTransform == null)
@@ -40,6 +42,7 @@ public class SeaUrchin : MonoBehaviour {
         if (waterInteractor == null)
             waterInteractor = gameObject.CheckAddComponent<WaterInteractor>();
         waterInteractor.underwaterChangeEvent += OnUnderwaterChange;
+        hitCounter = hitCounter ?? GetComponent<HitCounter>();
     }
 
     private void Update() {
@@ -60,11 +63,15 @@ public class SeaUrchin : MonoBehaviour {
     }
 
     private void OnFishEnter(GunfishSegment segment, Collision2D collision) {
+        GameObject src = gameObject;
+        if (hitCounter != null && hitCounter.lastHitter != null) {
+            src = hitCounter.lastHitter.gameObject;
+        }
         segment.gunfish.Hit(new FishHitObject(
             segment.index, 
             collision.contacts[0].point, 
             -collision.contacts[0].normal, 
-            gameObject, 
+            src, 
             prickDamage, 
             prickKnockback,
             HitType.Impact));

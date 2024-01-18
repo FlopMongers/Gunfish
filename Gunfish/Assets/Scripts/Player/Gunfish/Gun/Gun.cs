@@ -92,7 +92,10 @@ public class Gun : MonoBehaviour {
         FX_Spawner.Instance?.SpawnFX(
             FXType.Bang, barrels[0].transform.position, Quaternion.LookRotation(barrels[0].transform.forward, barrels[0].transform.up));
 
+        HashSet<Gunfish> hitGunfishes = new HashSet<Gunfish>();
+
         foreach (GunBarrel barrel in barrels) {
+            hitGunfishes.Clear();
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
 
@@ -110,13 +113,18 @@ public class Gun : MonoBehaviour {
                         break;
                     }
                 }
+                HitCounter hitCounter = hit.transform.GetComponentInParent<HitCounter>();
+                if (hitCounter) {
+                    hitCounter.TakeHit(gunfish);
+                }
                 if (hit.collider != null && hit.collider.isTrigger == true) {
                     continue;
                 }
                 GunfishSegment fishSegment = hit.transform.GetComponentInParent<GunfishSegment>();
                 Shootable shootable = hit.transform.GetComponentInParent<Shootable>();
                 ObjectMaterial objMat = hit.transform.GetComponentInParent<ObjectMaterial>();
-                if (fishSegment != null) {
+                if (fishSegment != null && hitGunfishes.Contains(fishSegment.gunfish)) {
+                    hitGunfishes.Add(fishSegment.gunfish);
                     // NOTE(Wyatt): this is how team deathmatch prevents friendly fire :)
                     bool fishHit = (GameManager.Instance != null)
                         ? GameModeManager.Instance.matchManagerInstance.ResolveHit(this, fishSegment)
@@ -153,6 +161,10 @@ public class Gun : MonoBehaviour {
                 }
                 else if (objMat != null) {
                     // TODO: replace with generalized FX_CollisionHandler code
+                    Rigidbody2D otherRB = objMat.GetComponent<Rigidbody2D>();
+                    if (otherRB != null) {
+                        otherRB.AddForceAtPosition(gunfish.data.gun.knockback * -hit.normal, hit.point, ForceMode2D.Impulse);
+                    }
                     FX_Spawner.Instance?.SpawnFX(FXType.Ground_Hit, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal));
                     endPoint = hit.point;
                     objMat.Shoot();

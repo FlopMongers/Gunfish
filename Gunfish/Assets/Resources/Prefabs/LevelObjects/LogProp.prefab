@@ -57,7 +57,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.93, y: 0.56}
   m_EdgeRadius: 0
 --- !u!114 &907514232474504803
 MonoBehaviour:
@@ -207,6 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyFX: 16
   spriteRenderer: {fileID: 5203133394114837427}
+  destroyFromStart: 0
+  destroyDelay: {x: 0, y: 0}
 --- !u!114 &5279993703889849825
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,7 +31,7 @@ public class MainMenu : Singleton<MainMenu> {
         context = new MenuPageContext();
 
         context.menu = this;
-        context.document = GetComponent<UIDocument>();
+        context.document = gameObject.GetComponent<UIDocument>();
         SetState(MenuState.Splash);
     }
 

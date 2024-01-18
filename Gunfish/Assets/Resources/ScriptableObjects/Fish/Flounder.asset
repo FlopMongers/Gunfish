@@ -77,7 +77,7 @@ MonoBehaviour:
   segmentCount: 8
   flopCooldown: 0.5
   gunOffset:
-    position: {x: 0, y: 0}
+    position: {x: 0.28, y: 0}
     rotation: 0
   gun: {fileID: 11400000, guid: 266d11c01fef0b24ea55d0b9513f1040, type: 2}
   gunSegmentIndex: 0

@@ -24,6 +24,9 @@ public class Spawner : MonoBehaviour {
             spawnArea = gameObject.AddComponent<BoxCollider2D>();
             spawnArea.isTrigger = true;
         }
+        foreach (var pickUpTuple in spawnPrefabProbabilityList) {
+            spawnPrefabProbabilityMap[pickUpTuple.pickup] = pickUpTuple.probability;
+        }
         //print(spawnArea);
     }
 

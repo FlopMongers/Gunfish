@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3917959985928223967}
   - component: {fileID: 2484110735886472664}
   - component: {fileID: 1797823456}
+  - component: {fileID: 8974529082854136789}
   m_Layer: 11
   m_Name: Sea Urchin
   m_TagString: Untagged
@@ -51,11 +52,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detector: {fileID: 3917959985928223952}
-  prickMagnitude: 10
+  prickKnockback: 10
   prickDamage: 2
   spriteTransform: {fileID: 3917959986623236820}
   rb: {fileID: 3917959985928223967}
   waterInteractor: {fileID: 2484110735886472664}
+  hitCounter: {fileID: 8974529082854136789}
 --- !u!114 &3917959985928223952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DetectCollision: 1
   DetectTrigger: 0
+  DetectGun: 0
   colliders: []
 --- !u!58 &3917959985928223953
 CircleCollider2D:
@@ -141,6 +144,20 @@ SpringJoint2D:
   m_Distance: 0.005
   m_DampingRatio: 0
   m_Frequency: 0.05
+--- !u!114 &8974529082854136789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3917959985928223957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae0504ec60cb28489ca1125d6bb81f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timestamp: -1
+  lastHitter: {fileID: 0}
 --- !u!1 &3917959986623236821
 GameObject:
   m_ObjectHideFlags: 0

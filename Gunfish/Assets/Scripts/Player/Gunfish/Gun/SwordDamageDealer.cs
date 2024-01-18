@@ -16,7 +16,15 @@ public class SwordDamageDealer : CollisionDamageDealer
 
     protected override void HandleCollisionEnter(GameObject src, Collision2D collision) {
         // check if src is sword and target is not self
-        if (src != collisionDetector.gameObject || collision.collider.GetComponent<GunfishSegment>()?.gunfish == gunfish) {
+
+        if (src != collisionDetector.gameObject)
+            return;
+
+        HitCounter hitCounter = collision.collider.GetComponentInParent<HitCounter>();
+        if (hitCounter != null) {
+            hitCounter.TakeHit(gunfish);
+        }
+        if (collision.collider.GetComponent<GunfishSegment>()?.gunfish == gunfish) {
             return;
         }
         if (collision.rigidbody != null) {
