@@ -26,22 +26,19 @@ public class DeathMatchUI : MonoBehaviour {
 
 
     public void InitializeMatch(List<Player> players) {
-        for (int i = 0; i < playerWidgets.Count; i++) {
-            if (players.Count > i && players[i] != null) {
-                playerWidgets[i].InitializeMatch(players[i]);
-                playerWidgets[i].OnScoreChange(0);
-            }
+        foreach (Player player in players) {
+            playerWidgets[player.PlayerNumber].InitializeMatch(player);
+            playerWidgets[player.PlayerNumber].OnScoreChange(0);
         }
     }
 
     public void InitializeLevel(List<Player> players, int initialStockCount) {
-        for (int i = 0; i < playerWidgets.Count; i++) {
-            if (players.Count > i && players[i] != null) {
-                playerWidgets[i].gameObject.SetActive(true);
-                var color = PlayerManager.Instance.playerColors[i];
-                playerWidgets[i].SetColor(color);
-                playerWidgets[i].InitializeLevel(initialStockCount, players[i]);
-            }
+        foreach (Player player in players) {
+            var playerWidget = playerWidgets[player.PlayerNumber];
+            playerWidget.gameObject.SetActive(true);
+            var color = PlayerManager.Instance.playerColors[player.PlayerNumber];
+            playerWidget.SetColor(color);
+            playerWidget.InitializeLevel(initialStockCount, player);
         }
     }
 
