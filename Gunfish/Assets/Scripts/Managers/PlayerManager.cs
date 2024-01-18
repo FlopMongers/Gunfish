@@ -13,10 +13,12 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
     private bool showDebugMessage;
 
+    public int playerThreshold = 4;
+
     public void OnPlayerJoined(PlayerInput input) {
         PlayerInputs.Add(input);
         Debug.Log("Added player");
-        if (PlayerInputs.Count == 4) {
+        if (PlayerInputs.Count == playerThreshold) {
             showDebugMessage = false;
             InitializePlayers();
             GameManager.Instance.InitializeNonPlayerManagerManagersLol();
