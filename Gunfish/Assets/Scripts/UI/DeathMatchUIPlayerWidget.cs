@@ -17,9 +17,11 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
     private TMP_Text scoreText;
     [SerializeField]
     private Image playerPortrait;
-    [SerializeField] 
+    [SerializeField]
     private TMP_Text playerName;
     public UnityEvent<Color> OnPlayerColorChange;
+
+    public HealthUI healthUI;
 
     // Start is called before the first frame update
     void Start() {

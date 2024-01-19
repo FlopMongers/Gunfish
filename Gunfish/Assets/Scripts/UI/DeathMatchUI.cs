@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class DeathMatchUI : MonoBehaviour {
     [Header("UI References")]
-    
-    [SerializeField] private List<DeathMatchUIPlayerWidget> playerWidgets;
+
+    public List<DeathMatchUIPlayerWidget> playerWidgets;
     [SerializeField] private CanvasGroup playerPanelsGroup;
     [SerializeField] private List<PlayerPanel> playerPanels;
 
@@ -62,7 +62,7 @@ public class DeathMatchUI : MonoBehaviour {
     }
 
     public void ShowLevelStats(string text, Dictionary<Player, PlayerReference> playerRefs, string tiebreakerText) {
-        winnerText.text = text; 
+        winnerText.text = text;
         //(playerNumber == -1) ? "No one wins!" : $"{winnerEntity} {playerNumber} wins!";
 
         ClearPlayerPanels();

@@ -696,10 +696,30 @@ PrefabInstance:
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4015604048652379515, guid: 240af06730e808942974d5e1b574edc3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4815917166150843895, guid: 240af06730e808942974d5e1b574edc3,
         type: 3}
       propertyPath: m_fontSize
-      value: 60.6
+      value: 18.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350087129849690005, guid: 240af06730e808942974d5e1b574edc3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846732384078274175, guid: 240af06730e808942974d5e1b574edc3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6858686644281384173, guid: 240af06730e808942974d5e1b574edc3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 9201150075725320559, guid: 240af06730e808942974d5e1b574edc3,
         type: 3}
@@ -836,6 +856,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6163603444143445191, guid: 4b1463c1efe9f5147bc5b4017db91057,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 30.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b1463c1efe9f5147bc5b4017db91057, type: 3}
 --- !u!224 &7706544395777433241 stripped
@@ -967,6 +992,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 37056455272102187, guid: 42baa2fbbafa2114fae8137aa6c90c2b,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2596975593392585365, guid: 42baa2fbbafa2114fae8137aa6c90c2b,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1

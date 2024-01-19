@@ -32,7 +32,8 @@ public class DeathMatchManager : MatchManager {
     private int remainingPlayers;
     protected HashSet<PlayerReference> eliminatedPlayers = new HashSet<PlayerReference>();
 
-    protected DeathMatchUI ui;
+    [HideInInspector]
+    public DeathMatchUI ui;
 
     public PelicanSpawner pelicanSpawner;
 
