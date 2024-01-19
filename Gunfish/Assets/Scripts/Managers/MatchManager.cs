@@ -17,6 +17,10 @@ public class MatchManager : MonoBehaviour {
     public LevelTimer timer;
     static float levelDuration = 120;
 
+    protected float maxNextLevelTimer = 15f;
+    protected float nextLevelTimer;
+    protected bool waitingForNextLevel = false;
+
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
         spawnPoints = new List<Transform>();
@@ -28,6 +32,16 @@ public class MatchManager : MonoBehaviour {
             timer.OnTimerFinish += OnTimerFinish;
         }
         NextLevel();
+    }
+
+    void Update() {
+        if (waitingForNextLevel) {
+            nextLevelTimer -= Time.deltaTime;
+            if (nextLevelTimer <= 0) {
+                waitingForNextLevel = false;
+                NextLevel();
+            }
+        }
     }
 
     public void TearDown() {
@@ -83,19 +97,18 @@ public class MatchManager : MonoBehaviour {
     }
 
     public virtual void NextLevel() {
+        waitingForNextLevel = false;
         if (nextLevelIndex < parameters.scenes.Count) {
             LevelManager.Instance.LoadLevel(parameters.scenes[nextLevelIndex], parameters.skyboxScene);
             nextLevelIndex++;
-        }
-        else if (done == true) {
+        } else if (done == true) {
             // NOTE destroy all players
-            LevelManager.Instance.LoadMainMenu(() => { 
+            LevelManager.Instance.LoadMainMenu(() => {
                 GameManager.Instance.ResetGame();
                 MusicManager.Instance.PlayTrackSet(TrackSetLabel.Menu);
                 MainMenu.Instance.Initialize();
             });
-        }
-        else {
+        } else {
             done = true;
             LevelManager.Instance.LoadStats(() => {
                 ShowEndGameStats();

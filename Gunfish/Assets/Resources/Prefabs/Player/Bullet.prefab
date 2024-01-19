@@ -53,6 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyFX: 16
   spriteRenderer: {fileID: 1539668340371976702}
+  destroyFromStart: 0
+  destroyDelay: {x: 0, y: 0}
 --- !u!114 &5952723887658995883
 MonoBehaviour:
   m_ObjectHideFlags: 0

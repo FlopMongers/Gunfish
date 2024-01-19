@@ -345,10 +345,49 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1295931030, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
+      propertyPath: HARK
+      value: 
+      objectReference: {fileID: 8300000, guid: 76cc76f39a1580c408bf652dc3a79eb0, type: 3}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[11].quips.Array.data[0].text
+      value: PELICAN TIME!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[11].quips.Array.data[1].text
+      value: PELICAN TIME!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[11].quips.Array.data[2].text
+      value: PELICAN TIME!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[11].quips.Array.data[3].text
+      value: PELICAN TIME!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[11].quips.Array.data[4].text
+      value: PELICAN TIME!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[11].quips.Array.data[5].text
+      value: PELICAN TIME!!!
+      objectReference: {fileID: 0}
     - target: {fileID: 5673737386987831905, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_JoinBehavior
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: playerThreshold
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
@@ -413,7 +452,7 @@ PrefabInstance:
     - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: debug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c367644c428800f4e8afcb2a496d487a, type: 3}
