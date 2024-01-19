@@ -173,6 +173,8 @@ public class DeathMatchManager : MatchManager {
         ShowLevelWinner(player);
         //ui.ShowLevelStats((player == null) ? -1: player.playerNumber, playerScores); // if player is null, no one wins
         // TODO: insert delay here?
+        float minDelayBeforeContinuing = Mathf.Min(3f, maxNextLevelTimer-1);
+        yield return new WaitForSeconds(minDelayBeforeContinuing);
         PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
     }
 
