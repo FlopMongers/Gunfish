@@ -13,6 +13,7 @@ using static UnityEngine.Rendering.HableCurve;
 public class Bullet : MonoBehaviour
 {
     bool destroyed, starting=true;
+    public bool velocityFalloff = true;
 
     public Gunfish gunfish;
 
@@ -63,7 +64,7 @@ public class Bullet : MonoBehaviour
         // if fast enough and not destroyed and not sourceGunfish, WHACK THE FISH
         if (!destroyed && segment.gunfish != gunfish && collision.relativeVelocity.magnitude > speedRange.x) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
-            float damageRatio = ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y);
+            float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y) : 1f;
             segment.gunfish.Hit(
                 new FishHitObject(
                     segment.index,

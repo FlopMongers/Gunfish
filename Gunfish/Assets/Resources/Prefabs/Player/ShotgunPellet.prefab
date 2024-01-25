@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 492439743445926309}
   - component: {fileID: 7042920668411452032}
   m_Layer: 15
-  m_Name: Bullet
+  m_Name: ShotgunPellet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,10 +133,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6875f53b537a7049aa9da7f261ec796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocityFalloff: 1
+  velocityFalloff: 0
   gunfish: {fileID: 0}
-  speedRange: {x: 5, y: 20}
-  maxSpeed: 40
+  speedRange: {x: 10, y: 20}
+  maxSpeed: 20
   rb: {fileID: 4965525518979213272}
   detector: {fileID: 492439743445926309}
   waterInteractor: {fileID: 2684527878922822024}

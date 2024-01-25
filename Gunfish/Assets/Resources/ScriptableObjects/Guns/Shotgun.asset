@@ -35,5 +35,5 @@ MonoBehaviour:
   fireCooldown: 0.8
   reload: 0.9
   reloadWait: 1
-  bulletPrefab: {fileID: 1502404068387010642, guid: 6c6b5ebb0a1ecb3418a88e77e87cae96,
+  bulletPrefab: {fileID: 1502404068387010642, guid: d18ecdf532ac546458daf7098541eed1,
     type: 3}

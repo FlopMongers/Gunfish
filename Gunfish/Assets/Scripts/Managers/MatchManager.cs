@@ -15,7 +15,7 @@ public class MatchManager : MonoBehaviour {
     private bool done;
 
     public LevelTimer timer;
-    static float levelDuration = 120;
+    static float levelDuration = 90;
 
     protected float maxNextLevelTimer = 15f;
     protected float nextLevelTimer;

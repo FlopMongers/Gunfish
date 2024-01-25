@@ -17,4 +17,4 @@ MonoBehaviour:
   matchManagerPrefab: {fileID: 7011402022136294806, guid: f209f77a6155e2f4ead9cf9ee6141f98,
     type: 3}
   levels: {fileID: 11400000, guid: e83818e14e67a594f9b068a182459828, type: 2}
-  roundsPerMatch: 1
+  roundsPerMatch: 2
