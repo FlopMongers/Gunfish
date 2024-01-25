@@ -24,6 +24,7 @@ MonoBehaviour:
   groundTorque: 10
   airTorque: 20
   maxAerialAngularVelocity: 500
+  angularDrag: 5
   maxUnderwaterVelocity: 10
   underwaterForce: 60
   underwaterTorque: 6

@@ -20,6 +20,7 @@ public class GunfishData : ScriptableObject {
     public float groundTorque;
     public float airTorque;
     public float maxAerialAngularVelocity;
+    public float angularDrag = 0f;
     [Header("Water")]
     public float maxUnderwaterVelocity;
     public float underwaterForce;

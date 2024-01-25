@@ -98,9 +98,9 @@ public class Gun : MonoBehaviour {
             hitGunfishes.Clear();
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
-
             bool splooshed = false;
             foreach (var hit in hits) {
+                print(hit.transform);
                 WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
                 if (node != null && !splooshed) {
                     splooshed = true;

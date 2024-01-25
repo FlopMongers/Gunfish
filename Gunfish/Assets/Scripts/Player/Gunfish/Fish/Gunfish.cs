@@ -356,7 +356,7 @@ public class Gunfish : MonoBehaviour, IHittable {
                           (float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width
                       ) * data.length;
         gunfishRenderer = new GunfishRenderer(width, data.spriteMat, segments);
-        body = new GunfishRigidbody(segments);
+        body = new GunfishRigidbody(segments, data);
 
 
         //RootSegment.AddComponent<LineFader>();
