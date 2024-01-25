@@ -12,7 +12,7 @@ public class Gun : MonoBehaviour {
 
     public FloatGameEvent OnAmmoChanged;
 
-    private int layerMask;
+    protected int layerMask;
 
     public float ammo;
     protected float fireCooldown_timer, reload_timer, reloadWait_timer;
@@ -100,7 +100,6 @@ public class Gun : MonoBehaviour {
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
             bool splooshed = false;
             foreach (var hit in hits) {
-                print(hit.transform);
                 WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
                 if (node != null && !splooshed) {
                     splooshed = true;

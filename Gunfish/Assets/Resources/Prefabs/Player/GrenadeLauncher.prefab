@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3189059645541482186}
   - component: {fileID: 6017646542632366941}
+  - component: {fileID: 8709473441454459124}
   m_Layer: 0
   m_Name: GrenadeLauncher
   m_TagString: Untagged
@@ -47,8 +48,25 @@ MonoBehaviour:
   gunfish: {fileID: 0}
   barrels: []
   ammo: 0
+  piercing: 0
   grenadePrefab: {fileID: 8961582423614950035, guid: a35aafda7d1b52a4fa2c0d5ee8d3a038,
     type: 3}
-  spikeDamage: 1.5
+  spikeDamage: 0.33
   spikeKnockback: 10
   grenadeForceMultiplier: 1
+--- !u!114 &8709473441454459124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189059645541482188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f27d673fbd37f42bf0c5fe3a1fa602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DetectCollision: 0
+  DetectTrigger: 0
+  DetectGun: 0
+  colliders: []

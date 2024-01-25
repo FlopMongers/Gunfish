@@ -36,7 +36,6 @@ public class Bullet : MonoBehaviour
         // hook up to fish detector
         detector.OnFishCollideEnter += OnFishHit;
         waterInteractor.underwaterChangeEvent += OnUnderwaterChange;
-        print("spawned bullet");
     }
 
     // Update is called once per frame
@@ -44,7 +43,6 @@ public class Bullet : MonoBehaviour
     {
         // check rb speed
         if (!starting && !destroyed && rb.velocity.magnitude <= speedRange.x) {
-            print("not fast enough :(");
             Gettem();
         }
         else if (!destroyed) {
@@ -76,7 +74,6 @@ public class Bullet : MonoBehaviour
                     gunfish.data.gun.knockback * damageRatio,
                     HitType.Ballistic));
         }
-        print("fish hit, destroying");
         Gettem();
     }
 
@@ -92,7 +89,6 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.rigidbody == null) {
             Gettem();
-            print("no rb, destroying");
             return;
         }
         var shootable = collision.rigidbody.GetComponent<Shootable>();
@@ -111,7 +107,6 @@ public class Bullet : MonoBehaviour
                 HitType.Ballistic));
         }
         else if (!(bullet != null || hitGunfish == gunfish || hitSegment?.gunfish == gunfish)) {
-            print("hit something kooky");
             Gettem();
         }
     }

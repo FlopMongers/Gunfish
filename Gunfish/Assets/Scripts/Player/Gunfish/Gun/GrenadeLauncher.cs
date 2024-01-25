@@ -17,16 +17,16 @@ public class GrenadeLauncher : Gun
     protected override void Start() {
         base.Start();
         // hook into fish detector
-        detector = gunfish.RootSegment.AddComponent<FishDetector>();
-        detector.DetectCollision = false;
-        detector.DetectTrigger = false;
+        detector = GetComponent<FishDetector>();
         gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideEnter += OnCompositeCollideEnter;
         gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideExit += OnCompositeCollideExit;
     }
 
     void OnCompositeCollideEnter(GameObject src, Collision2D collision) {
         // if fish
-        GunfishSegment segment = collision.otherCollider.GetComponent<GunfishSegment>();
+        if (collision.otherCollider.GetComponent<GunfishSegment>() == null)
+            return;
+        GunfishSegment segment = collision.collider.GetComponent<GunfishSegment>();
         if (segment == null || segment.gunfish == gunfish)
             return;
 
@@ -45,7 +45,9 @@ public class GrenadeLauncher : Gun
 
     void OnCompositeCollideExit(GameObject src, Collision2D collision) {
         // if fish
-        GunfishSegment segment = collision.otherCollider.GetComponent<GunfishSegment>();
+        if (collision.otherCollider.GetComponent<GunfishSegment>() == null)
+            return;
+        GunfishSegment segment = collision.collider.GetComponent<GunfishSegment>();
         if (segment == null || segment.gunfish == gunfish)
             return;
 
