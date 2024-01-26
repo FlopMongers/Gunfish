@@ -10,6 +10,10 @@ using UnityEngine.AI;
 
 public static class ExtensionMethods {
 
+    public static float GetValueInRange(this Vector2 range, float normalizedValue) {
+        return range.x + ((range.y - range.x) * normalizedValue);
+    }
+
     public static float GetNormalizedValueInRange(float value, float minValue, float maxValue) {
         return (value - minValue) / (maxValue - minValue);
     }

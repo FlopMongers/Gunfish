@@ -93,6 +93,7 @@ public class HealthUI : MonoBehaviour {
             Instantiate(pip, _pipBar);
         }
         _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
+        UpdateWhiteBar(0);
         gunfish.gun.OnAmmoChanged += UpdateWhiteBar;
 
         SetUpConstraint(_gunfish.segments[(int)((float)_gunfish.segments.Count / 3)].transform, offset);

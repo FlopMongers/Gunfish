@@ -21,7 +21,8 @@ public class Gun : MonoBehaviour {
 
     // Start is called before the first frame update
     protected virtual void Start() {
-        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water");
+        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water", "Floaty");
+        OnAmmoChanged?.Invoke(ammo / gunfish.data.gun.maxAmmo);
     }
 
     // Update is called once per frame

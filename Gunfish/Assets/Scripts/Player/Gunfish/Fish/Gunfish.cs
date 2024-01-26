@@ -267,7 +267,6 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     public void SetRespawn(bool respawn) {
         // NOTE(Wyatt): I intensely dislike how incongruent unity's new input system is from the rest of the engine
-        print(startRespawning);
         startRespawning = respawn;
     }
 
