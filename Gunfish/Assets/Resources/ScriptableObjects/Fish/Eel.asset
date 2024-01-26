@@ -10,67 +10,58 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d43ac47a9ef8aa64d9aa82ab44404374, type: 3}
-  m_Name: Flyfish_Revup
+  m_Name: Eel
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: fc9d8479589497b4285c27626e52b828,
     type: 3}
-  spriteMat: {fileID: 2100000, guid: d42ec17606b9ab7429e81a46dbb5ed19, type: 2}
+  spriteMat: {fileID: 2100000, guid: 48719f342ddfc594c862c4dba3020dec, type: 2}
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
-  sprite: {fileID: 21300000, guid: 2f4e5eca07fbfb4498e746fe5bbe6e7e, type: 3}
-  mass: 3
+  sprite: {fileID: 21300000, guid: afe54e89b590c1c48aadcb9c6f21316c, type: 3}
+  mass: 1
   fixedJointDamping: 1
-  fixedJointFrequency: 32
-  flopForce: 10
-  groundTorque: 10
+  fixedJointFrequency: 35
+  flopForce: 5
+  groundTorque: 5
   airTorque: 20
   maxAerialAngularVelocity: 500
   angularDrag: 5
   maxUnderwaterVelocity: 10
-  underwaterForce: 60
+  underwaterForce: 30
   underwaterTorque: 6
   waterZoomSpeedThreshold: 10
   waterZoomAngleThreshold: 30
   waterZoomForce: 4
   maxHealth: 10
-  length: 1.3333334
+  length: 2
   width:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.011962891
-      value: 0.18849564
-      inSlope: 0.09048438
-      outSlope: 0.09048438
+      time: -0.012493134
+      value: 0.023338318
+      inSlope: 3.0475364
+      outSlope: 3.0475364
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 1
+      outWeight: 0.03941608
     - serializedVersion: 3
-      time: 0.4710779
-      value: 0.23222536
-      inSlope: -0.030833902
-      outSlope: -0.030833902
+      time: 0.42259413
+      value: 0.5025145
+      inSlope: 0.025234353
+      outSlope: 0.025234353
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.11499996
+      inWeight: 0.5467151
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.8900172
-      value: 0.26443976
-      inSlope: 0.010325795
-      outSlope: 0.010325795
+      time: 0.99941325
+      value: 0.0022323877
+      inSlope: -2.0909472
+      outSlope: -2.0909472
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 1
-    - serializedVersion: 3
-      time: 1.0040294
-      value: -0.0039895438
-      inSlope: -0.13069001
-      outSlope: -0.13069001
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 1
+      inWeight: 0.04296414
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -78,7 +69,7 @@ MonoBehaviour:
   segmentCount: 8
   flopCooldown: 0.5
   gunOffset:
-    position: {x: 0, y: 0}
+    position: {x: 0.025, y: 0.16}
     rotation: 0
-  gun: {fileID: 11400000, guid: 8033aeffdf6482f4097f895a3569cca9, type: 2}
+  gun: {fileID: 11400000, guid: 4cf2b9a5e3cca5f4fbf993a92a3c0956, type: 2}
   gunSegmentIndex: 0

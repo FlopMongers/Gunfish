@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 [RequireComponent(typeof(Destroyer))]
 [RequireComponent(typeof(Fader))]
@@ -31,7 +26,7 @@ public class Bullet : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         // hook up to fish detector
         detector.OnFishCollideEnter += OnFishHit;
@@ -86,8 +81,8 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.rigidbody == null) {
+    protected virtual void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.rigidbody == null || destroyed == true) {
             Gettem();
             return;
         }
@@ -95,23 +90,25 @@ public class Bullet : MonoBehaviour
         var bullet = collision.rigidbody.GetComponent<Bullet>();
         var hitGunfish = collision.rigidbody.GetComponent<Gunfish>();
         var hitSegment = collision.rigidbody.GetComponent<GunfishSegment>();
+
         if (shootable != null && !destroyed && collision.relativeVelocity.magnitude > speedRange.x) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
             float damageRatio = ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y);
             shootable.Hit(new HitObject(
                 collision.contacts[0].point,
                 -collision.contacts[0].normal,
-                gunfish.gun.gameObject,
+                (gunfish != null) ? gunfish.gun.gameObject : null,
                 gunfish.data.gun.damage * damageRatio,
                 gunfish.data.gun.knockback * damageRatio,
                 HitType.Ballistic));
+            Gettem();
         }
         else if (!(bullet != null || hitGunfish == gunfish || hitSegment?.gunfish == gunfish)) {
             Gettem();
         }
     }
 
-    void Gettem() {
+    protected virtual void Gettem() {
         if (destroyed)
             return;
         col.enabled = false;
