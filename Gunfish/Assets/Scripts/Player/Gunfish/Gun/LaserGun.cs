@@ -13,6 +13,8 @@ public class LaserGun : Gun
 
     public Color laserColor;
 
+    public RevUp revUp;
+
     protected override void Start() {
         base.Start();
         ammo = 0;
@@ -86,11 +88,15 @@ public class LaserGun : Gun
         if (!CheckFire())
             return;
 
-        if ((firingStatus == ButtonStatus.Pressed && ammo == 0) || firingStatus == ButtonStatus.Holding) {
+        if (firingStatus == ButtonStatus.Pressed || (firingStatus == ButtonStatus.Holding && ammo > 0)) {
             ammo = Mathf.Min(gunfish.data.gun.maxAmmo, ammo + Time.deltaTime);
+            if (firingStatus == ButtonStatus.Pressed) {
+                revUp.SetWarmupParticles(true, barrels[0].transform, gunfish.data.gun.maxAmmo);
+            }
         }
 
-        if (firingStatus == ButtonStatus.Released || ammo >= gunfish.data.gun.maxAmmo) {
+        if ((firingStatus == ButtonStatus.Released && ammo > 0.1f) || ammo >= gunfish.data.gun.maxAmmo) {
+            revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
             chargeAmount = ammo / gunfish.data.gun.maxAmmo;
             range = gunfish.data.gun.range * chargeAmount;
             ammo = 0;

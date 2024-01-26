@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3189059645541482186}
   - component: {fileID: -5878578364607189909}
   - component: {fileID: 261772233539453454}
+  - component: {fileID: 3355688474809085604}
   m_Layer: 0
   m_Name: Minigun
   m_TagString: Untagged
@@ -50,11 +51,7 @@ MonoBehaviour:
   ammo: 0
   piercing: 0
   fireWarmUpTime: 0.25
-  warmupSound: {fileID: 261772233539453454}
-  warmupParticlesPrefab: {fileID: 3016804962828059508, guid: 9150e2d2aa3ed0d44a2b9b0357ae217e,
-    type: 3}
-  volRange: {x: 0, y: 1}
-  pitchRange: {x: 1, y: 2}
+  revUp: {fileID: 3355688474809085604}
 --- !u!82 &261772233539453454
 AudioSource:
   m_ObjectHideFlags: 0
@@ -151,3 +148,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3355688474809085604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189059645541482188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2523a0fe473a34d844f234de3674c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warmupSound: {fileID: 261772233539453454}
+  warmupParticlesPrefab: {fileID: 3016804962828059508, guid: 9150e2d2aa3ed0d44a2b9b0357ae217e,
+    type: 3}
+  volRange: {x: 0, y: 1}
+  pitchRange: {x: 1, y: 2}
