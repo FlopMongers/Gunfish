@@ -95,8 +95,11 @@ public class LaserGun : Gun
             }
         }
 
-        if ((firingStatus == ButtonStatus.Released && ammo > 0.1f) || ammo >= gunfish.data.gun.maxAmmo) {
+        if (firingStatus == ButtonStatus.Released) {
             revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
+        }
+
+        if ((firingStatus == ButtonStatus.Released && ammo > 0.1f) || ammo >= gunfish.data.gun.maxAmmo) {
             chargeAmount = ammo / gunfish.data.gun.maxAmmo;
             range = gunfish.data.gun.range * chargeAmount;
             ammo = 0;

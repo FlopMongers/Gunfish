@@ -136,7 +136,7 @@ MonoBehaviour:
   velocityFalloff: 1
   gunfish: {fileID: 0}
   speedRange: {x: 5, y: 20}
-  maxSpeed: 30
+  maxSpeed: 25
   rb: {fileID: 4965525518979213272}
   detector: {fileID: 492439743445926309}
   waterInteractor: {fileID: 2684527878922822024}
@@ -144,7 +144,7 @@ MonoBehaviour:
   bubbles: {fileID: 7201637775176575312}
   col: {fileID: 7283901480012401334}
   lastSpeed: {x: 0, y: 0}
-  zapFX: {fileID: 7004597714339528004, guid: 637d4ec431bdfe541ad3cfbd883beca5, type: 3}
+  zapFX: {fileID: 7004597714339528004, guid: 96bce7ba57b210546b3f959ba46d2cda, type: 3}
 --- !u!1 &3144476237402104311
 GameObject:
   m_ObjectHideFlags: 0

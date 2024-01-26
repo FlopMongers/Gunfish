@@ -32,7 +32,7 @@ public class Zap : MonoBehaviour
         zappedFishes.Add(segment.gunfish);
         var direction = (segment.transform.position - transform.position).normalized;
         segment.gunfish.Hit(new FishHitObject(segment.index, segment.transform.position, direction, gameObject, zapDamage, 0, HitType.Electric));
-        if (!fishZapMap.ContainsKey(segment.gunfish) && (Time.time - fishZapMap[segment.gunfish]) < MIN_ZAP_TIME) {
+        if (!fishZapMap.ContainsKey(segment.gunfish) || (Time.time - fishZapMap[segment.gunfish]) < MIN_ZAP_TIME) {
             segment.gunfish.AddEffect(new Zap_Effect(segment.gunfish, zapDuration));
             fishZapMap[segment.gunfish] = Time.time;
         }

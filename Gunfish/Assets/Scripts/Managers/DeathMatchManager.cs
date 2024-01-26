@@ -18,6 +18,9 @@ public class PlayerReference {
     public float firstKill;
     public float lastDeath;
 
+    // team number associated with each player
+    // color associated with each player
+
     public PlayerReference(int stocks, int score=0) {
         this.stocks = stocks;
         this.score = score;
@@ -125,16 +128,6 @@ public class DeathMatchManager : MatchManager {
             if (playerRef.stocks > 0)
                 return player;
         }
-        /*
-        foreach (var kvp in playerStocks) {
-            if (kvp.Value > 0) {
-                return kvp.Key;
-            }
-        }
-        if (eliminatedPlayers.Count > 0) {
-            return eliminatedPlayers[eliminatedPlayers.Count - 1];
-        }
-        */
         return null;
     }
 
@@ -157,14 +150,6 @@ public class DeathMatchManager : MatchManager {
 
         // todo: do a little async wait and THEN let the player win in case all the remaining players die at roughly the same time
         yield return new WaitForSeconds(endLevelDelay);
-
-        // NOTE(Wyatt): I'm redoing scoring a bit. BITE ME!
-        /*
-        // Player score = which place they were eliminated at
-        for (int i = 0; i < eliminatedPlayers.Count; i++) {
-            playerScores[eliminatedPlayers[i]] += i;
-        }
-        */
 
         var player = GetLastPlayerStanding();
         if (player != null) {
