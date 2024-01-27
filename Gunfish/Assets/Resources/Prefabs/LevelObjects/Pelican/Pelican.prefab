@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3340656552285493579}
   - component: {fileID: 2721964008820864864}
   - component: {fileID: 6922059803093750143}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Pelican
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 4548625883847043435}
   - component: {fileID: 8393885457636329895}
   - component: {fileID: 7750192339461365047}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
