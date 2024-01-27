@@ -13,8 +13,6 @@ public enum QuipType {
     Player4Wins,
     Team1Wins,
     Team2Wins,
-    Team3Wins,
-    Team4Wins,
     Tie,
     NoOneWins,
     Pelicans,
@@ -24,6 +22,8 @@ public enum QuipType {
     Ready,
     Flop,
     GUNFISH,
+    Team3Wins,
+    Team4Wins,
 }
 
 
