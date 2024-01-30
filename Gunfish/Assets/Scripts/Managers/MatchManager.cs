@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class MatchManager : MonoBehaviour {
+public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviour, IMatchManager {
     [HideInInspector]
     public GameParameters parameters;
     protected int currentLevel;
@@ -20,6 +20,11 @@ public class MatchManager : MonoBehaviour {
     protected float maxNextLevelTimer = 15f;
     protected float nextLevelTimer;
     protected bool waitingForNextLevel = false;
+
+    protected List<TeamReferenceType> teams = new List<TeamReferenceType>();
+    protected Dictionary<Player, PlayerReferenceType> playerReferences = new Dictionary<Player, PlayerReferenceType>();
+
+    public StatsUI statsUI;
 
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
@@ -92,9 +97,15 @@ public class MatchManager : MonoBehaviour {
         GameCamera.Instance?.targetGroup.RemoveMember(null);
     }
 
+    public virtual void ShowLevelStats() { }
+
     public virtual void ShowEndGameStats() {
 
     }
+
+    protected virtual (PlayerReference, string) Tiebreaker(List<PlayerReference> tiedPlayers) {
+        return (null, "WHAT?");
+    } 
 
     public virtual void NextLevel() {
         waitingForNextLevel = false;
@@ -124,4 +135,12 @@ public class MatchManager : MonoBehaviour {
     }
 
     public virtual void OnTimerFinish() { }
+}
+
+public interface IMatchManager {
+    public void Initialize(GameParameters parameters);
+    public void TearDown();
+    public void NextLevel();
+    public bool ResolveHit(Gun gun, GunfishSegment segment);
+    public void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead);
 }

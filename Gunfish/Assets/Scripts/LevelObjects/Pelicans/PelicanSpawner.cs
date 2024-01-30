@@ -58,7 +58,7 @@ public class PelicanSpawner : Spawner
 
         List<Transform> targets = new List<Transform>();
         bool noFish = true;
-        foreach (var player in GameModeManager.Instance.matchManagerInstance.parameters.activePlayers) {
+        foreach (var player in GameModeManager.Instance.activePlayers) {
             Gunfish gunfish = player.Gunfish;
             if (gunfish.RootSegment != null) {
                 noFish = false;

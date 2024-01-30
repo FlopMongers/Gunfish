@@ -7,6 +7,7 @@ public class PlayerPanel : MonoBehaviour {
     public TextMeshProUGUI playerName;
     public Image playerImg;
     public TextMeshProUGUI playerScore;
-    public Image highlight;
+    public CanvasGroup highlightCanvasGroup;
     public TextMeshProUGUI tiebreakerText;
+    public Image panelColor;
 }

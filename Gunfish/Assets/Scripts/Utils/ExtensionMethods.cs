@@ -275,6 +275,15 @@ public static class DictionaryExtension {
         }
     }
 
+    public static T Pop<T>(this List<T> list) {
+        if (list.Count > 0) {
+            T result = list[0];
+            list.RemoveAt(0);
+            return result;
+        }
+        return list.DefaultIfEmpty().First();
+    }
+
     public static IEnumerator CoShuffle<T>(this IList<T> list, int blockSize = 100) {
         System.Random rng = new System.Random();
         int n = list.Count;

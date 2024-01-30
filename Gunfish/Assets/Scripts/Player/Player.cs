@@ -6,6 +6,9 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
     public int PlayerNumber { get; private set; }
     public int VisiblePlayerNumber { get { return PlayerNumber + 1; } }
 
+    public int TeamNumber;
+    public Color TeamColor;
+
     public GunfishData gunfishData;
     private Gunfish gunfish;
     private Gun gun;
