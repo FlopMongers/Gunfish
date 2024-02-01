@@ -31,6 +31,7 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     [HideInInspector]
     public Player player;
+    public PlayerGameEvent PreDeath;
     public PlayerGameEvent OnDeath;
     public FloatGameEvent OnHealthUpdated;
     public FishHitEvent OnHit;
@@ -112,6 +113,7 @@ public class Gunfish : MonoBehaviour, IHittable {
             }
             EffectRemoveList.Clear();
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);
+            PreDeath?.Invoke(player);
             Despawn(true);
             killed = true;
             OnDeath?.Invoke(player);

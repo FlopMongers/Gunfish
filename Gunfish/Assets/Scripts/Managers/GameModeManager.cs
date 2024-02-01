@@ -21,10 +21,13 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
         }
         gameModeInstance = Instantiate(matchManagerPrefab, transform);
 
+        /*
         if (gameModeType == GameModeType.DeathMatch) {
             matchManagerInstance = gameModeInstance.GetComponent<DeathMatchManager>();
         }
-        print("trying");
+        */
+        //print("trying");
+        matchManagerInstance = gameModeInstance.GetComponent<IMatchManager>();
         matchManagerInstance.Initialize(gameParameters);
     }
 

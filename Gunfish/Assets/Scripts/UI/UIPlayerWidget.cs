@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// Death Match UI Player Widget encapsulates the UI for one active player during deathmatch.
 /// It displays their score and stock count, and shows which fish they are.
 /// </summary>
-public class DeathMatchUIPlayerWidget : MonoBehaviour {
+public class UIPlayerWidget : MonoBehaviour {
     public Player player;
     [SerializeField]
     private TMP_Text stockText;
@@ -46,9 +46,9 @@ public class DeathMatchUIPlayerWidget : MonoBehaviour {
     /// At the start of the level, initialize the player widget with the provided player and stock value.
     /// If the player slot is empty, don't call this method and instead disable this GameObject.
     /// </summary>
-    public void InitializeLevel(int stockValue, Player player) {
+    public void InitializeLevel(string stockValue, Player player) {
         SetPlayer(player);
-        stockText.text = stockValue.ToString();
+        stockText.text = stockValue;
     }
 
     public void SetPlayer(Player player) {

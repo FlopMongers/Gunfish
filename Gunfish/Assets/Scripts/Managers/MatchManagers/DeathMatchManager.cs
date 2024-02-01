@@ -1,28 +1,8 @@
-using FunkyCode.LightingSettings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Security.Permissions;
-using UnityEditor.Tilemaps;
+using UnityEditor;
 using UnityEngine;
-
-public class PlayerReference {
-    public Player player;
-
-    // team number associated with each player
-    public TeamReference team;
-
-    public PlayerReference(Player player, TeamReference team) {
-        this.player = player;
-        this.team = team;
-        team.players.Add(this);
-    }
-
-    public virtual string GetStatsText() {
-        return "";
-    }
-}
 
 public class DeathMatchPlayerReference : PlayerReference {
     public float lastHitTimestamp = -1;
@@ -35,7 +15,7 @@ public class DeathMatchPlayerReference : PlayerReference {
     public int score;
     public int stocks;
 
-    public DeathMatchPlayerReference(Player player, TeamReference team, int stocks) : base(player, team) {
+    public DeathMatchPlayerReference(Player player, ScoredTeamReference team, int stocks) : base(player, team) {
         this.stocks = stocks;
     }
 
@@ -44,82 +24,46 @@ public class DeathMatchPlayerReference : PlayerReference {
     }
 }
 
-public class TeamReference {
-    public List<PlayerReference> players = new List<PlayerReference>();
-    public int teamNumber;
-    public int VisibleTeamNumber { get { return teamNumber + 1; } }
-    public Color teamColor;
-    public int score;
-
-    public TeamReference(int teamNumber, Color teamColor) {
-        this.teamNumber = teamNumber; 
-        this.teamColor = teamColor;
-    }
-
-    public QuipType GetWinningQuip() {
-        if (players.Count > 1) {
-            return new QuipType[] { QuipType.Player1Wins, QuipType.Player2Wins, QuipType.Player3Wins, QuipType.Player4Wins }[teamNumber];
-        }
-        else {
-            return new QuipType[] { QuipType.Team1Wins, QuipType.Team2Wins, QuipType.Team3Wins, QuipType.Team4Wins }[teamNumber];
-        }
-    }
-
-    public string GetTitle() {
-        if (players.Count > 1) {
-            return $"Team {VisibleTeamNumber}";
-        }
-        return $"Player {VisibleTeamNumber}";
-    }
-}
-
-public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, TeamReference> {
+public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredTeamReference> {
     private const int defaultStocks = 3;
     protected HashSet<TeamReference> eliminatedTeams = new HashSet<TeamReference>();
 
     [HideInInspector]
-    public DeathMatchUI ui;
 
     public PelicanSpawner pelicanSpawner;
-
-    bool endingLevel;
-    static float endLevelDelay = 0.5f;
 
     static float lastHitThreshold = 4f;
 
 
     public override void Initialize(GameParameters parameters) {
-        Dictionary<int, TeamReference> teamNumbers = new Dictionary<int, TeamReference>();
-        foreach (var player in parameters.activePlayers) {
-            if (teamNumbers.ContainsKey(player.PlayerNumber) == false) {
-                var TeamRef = new TeamReference(player.PlayerNumber, PlayerManager.Instance.playerColors[player.PlayerNumber]);
-                teamNumbers[player.PlayerNumber] = TeamRef;
-                teams.Add(TeamRef);
-            }
-            playerReferences[player] = new DeathMatchPlayerReference(player, teamNumbers[player.PlayerNumber], defaultStocks);
-        }
         pelicanSpawner = GetComponentInChildren<PelicanSpawner>();
-        ui = gameObject.GetComponentInChildren<DeathMatchUI>();
-        ui.InitializeMatch(parameters.activePlayers);
         base.Initialize(parameters);
+    }
+
+    protected override void AddPlayerReference(Player player, TeamReference teamRef) {
+        playerReferences[player] = new DeathMatchPlayerReference(player, (ScoredTeamReference)teamRef, defaultStocks);
+    }
+
+    protected override ScoredTeamReference GenerateTeamRef(Player player) {
+        return new ScoredTeamReference(player.PlayerNumber, PlayerManager.Instance.playerColors[player.PlayerNumber]);
     }
 
     public override void StartLevel() {
         base.StartLevel();
         endingLevel = false;
         eliminatedTeams = new HashSet<TeamReference>();
-        ui.InitializeLevel(parameters.activePlayers, defaultStocks);
+        ui.InitializeLevel(parameters.activePlayers, defaultStocks.ToString());
         pelicanSpawner.FetchSpawnZones();
         pelicanSpawner.active = false;
         // iterate players and set up stocks
         foreach (var player in parameters.activePlayers) {
-            //playerStocks[player] = defaultStocks;
             playerReferences[player].stocks = defaultStocks;
             playerReferences[player].firstKill = -1;
             playerReferences[player].lastDeath = -1;
             player.OnDeath += OnPlayerDeath;
-            SpawnPlayer(player);
             player.Gunfish.OnDeath += OnPlayerDeath;
+            player.Gunfish.PreDeath += OnPlayerPreDeath;
+            SpawnPlayer(player);
         }
     }
 
@@ -156,10 +100,10 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, TeamRef
         UpdateStock(player, -1);
         if (playerRef.stocks > 0) {
             SpawnPlayer(player);
-        } else {
+        } else if (!playerRef.team.players.Any(x => ((DeathMatchPlayerReference)x).stocks > 0)) {
             eliminatedTeams.Add(playerRef.team);
             if ((teams.Count - eliminatedTeams.Count) <= 1 && !endingLevel) {
-                StartCoroutine(EndLevel());
+                EndLevel();
             }
         }
     }
@@ -172,30 +116,10 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, TeamRef
         return null;
     }
 
-    public override void NextLevel() {
-        statsUI.CloseStats();
-        base.NextLevel();
-    }
-
-    private IEnumerator EndLevel() {
-        timer.DisappearTimer();
+    protected override void EndLevel() {
         SharkmodeManager.Instance.StopMusic();
-        endingLevel = true;
         pelicanSpawner.active = false;
-        FreezeFish(true);
-        foreach (var activePlayer in parameters.activePlayers) {
-            activePlayer.OnDeath -= OnPlayerDeath;
-            activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
-        }
-
-        // we have the option to do a little waitskies here
-        // in case we want both players dying at the same time to count as a tie
-        yield return new WaitForSeconds(endLevelDelay);
-
-        ShowLevelStats();
-        float minDelayBeforeContinuing = Mathf.Min(3f, maxNextLevelTimer-1);
-        yield return new WaitForSeconds(minDelayBeforeContinuing);
-        PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
+        base.EndLevel();
     }
 
     public override void ShowLevelStats() {
@@ -203,11 +127,9 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, TeamRef
         // if no winner, No level winner!
         base.ShowLevelStats();
         DeathMatchPlayerReference winningPlayer = (DeathMatchPlayerReference)GetLastPlayerStanding();
-        print(winningPlayer);
         string winnerText = "No level winner...";
         if (winningPlayer != null) {
             winnerText = $"{winningPlayer.team.GetTitle()} wins the level!";
-            print(winningPlayer);
             UpdateScore(winningPlayer.player, 1);
         }
         // sort player references by scores
@@ -223,14 +145,14 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, TeamRef
         string winnerText = "No one wins?";
 
         // resolve ties
-        List<TeamReference> preSortedTeams = teams.OrderByDescending(x => x.score).ToList();
+        List<ScoredTeamReference> preSortedTeams = teams.OrderByDescending(x => x.score).ToList();
         List<DeathMatchPlayerReference> players = new List<DeathMatchPlayerReference>();
-        TeamReference winningTeam = null;
-        TeamReference currentTeam = preSortedTeams.Pop();
+        ScoredTeamReference winningTeam = null;
+        ScoredTeamReference currentTeam = preSortedTeams.Pop();
         Dictionary<DeathMatchPlayerReference, string> tiebreakerTextMap = new Dictionary<DeathMatchPlayerReference, string>();
         while (preSortedTeams.Count > 0) {
-            TeamReference nextTeam = preSortedTeams[0];
-            TeamReference displayTeam = currentTeam;
+            ScoredTeamReference nextTeam = preSortedTeams[0];
+            ScoredTeamReference displayTeam = currentTeam;
             (PlayerReference tiebreakPlayer, string tiebreakText) = Tiebreaker(currentTeam, nextTeam);
             if ((nextTeam.score == currentTeam.score && tiebreakPlayer.team == nextTeam)) {
                 displayTeam = nextTeam;
@@ -288,7 +210,7 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, TeamRef
     public void UpdateScore(Player player, int scoreDelta) {
         DeathMatchPlayerReference playerRef = playerReferences[player];
         playerRef.score += scoreDelta;
-        playerRef.team.score += scoreDelta;
+        ((ScoredTeamReference)playerRef.team).score += scoreDelta;
         ui.OnScoreChange(player, playerRef.score);
     }
     public void UpdateStock(Player player, int stockDelta) {

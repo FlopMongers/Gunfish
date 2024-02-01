@@ -4,7 +4,57 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviour, IMatchManager {
+public class PlayerReference {
+    public Player player;
+
+    // team number associated with each player
+    public TeamReference team;
+
+    public PlayerReference(Player player, TeamReference team) {
+        this.player = player;
+        this.team = team;
+        team.players.Add(this);
+    }
+
+    public virtual string GetStatsText() {
+        return "";
+    }
+}
+
+public class TeamReference {
+    public List<PlayerReference> players = new List<PlayerReference>();
+    public int teamNumber;
+    public int VisibleTeamNumber { get { return teamNumber + 1; } }
+    public Color teamColor;
+
+    public TeamReference(int teamNumber, Color teamColor) {
+        this.teamNumber = teamNumber;
+        this.teamColor = teamColor;
+    }
+
+    public QuipType GetWinningQuip() {
+        if (players.Count > 1) {
+            return new QuipType[] { QuipType.Player1Wins, QuipType.Player2Wins, QuipType.Player3Wins, QuipType.Player4Wins }[teamNumber];
+        }
+        else {
+            return new QuipType[] { QuipType.Team1Wins, QuipType.Team2Wins, QuipType.Team3Wins, QuipType.Team4Wins }[teamNumber];
+        }
+    }
+
+    public string GetTitle() {
+        if (players.Count > 1) {
+            return $"Team {VisibleTeamNumber}";
+        }
+        return $"Player {VisibleTeamNumber}";
+    }
+}
+
+public class ScoredTeamReference : TeamReference {
+    public int score;
+    public ScoredTeamReference(int teamNumber, Color teamColor) : base(teamNumber, teamColor) {}
+}
+
+public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviour, IMatchManager where PlayerReferenceType : PlayerReference where TeamReferenceType : TeamReference {
     [HideInInspector]
     public GameParameters parameters;
     protected int currentLevel;
@@ -21,13 +71,29 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     protected float nextLevelTimer;
     protected bool waitingForNextLevel = false;
 
+    protected bool endingLevel;
+    protected static float endLevelDelay = 0.5f;
+
     protected List<TeamReferenceType> teams = new List<TeamReferenceType>();
     protected Dictionary<Player, PlayerReferenceType> playerReferences = new Dictionary<Player, PlayerReferenceType>();
+
+    public MatchUI ui;
 
     public StatsUI statsUI;
 
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
+        ui = ui ?? gameObject.GetComponentInChildren<MatchUI>();
+        ui.InitializeMatch(parameters.activePlayers);
+        Dictionary<int, TeamReferenceType> teamNumbers = new Dictionary<int, TeamReferenceType>();
+        foreach (var player in parameters.activePlayers) {
+            if (teamNumbers.ContainsKey(player.PlayerNumber) == false) {
+                TeamReferenceType TeamRef = GenerateTeamRef(player);
+                teamNumbers[player.PlayerNumber] = TeamRef;
+                teams.Add(TeamRef);
+            }
+            AddPlayerReference(player, teamNumbers[player.PlayerNumber]);
+        }
         spawnPoints = new List<Transform>();
         LevelManager.Instance.OnFinishLoadLevel += StartLevel;
         LevelManager.Instance.OnStartPlay += StartPlay;
@@ -37,6 +103,14 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             timer.OnTimerFinish += OnTimerFinish;
         }
         NextLevel();
+    }
+
+    protected virtual void AddPlayerReference(Player player, TeamReference teamRef) {
+
+    }
+
+    protected virtual TeamReferenceType GenerateTeamRef(Player player) {
+        return (TeamReferenceType)new TeamReference(player.PlayerNumber, PlayerManager.Instance.playerColors[player.PlayerNumber]);
     }
 
     void Update() {
@@ -78,11 +152,31 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         FreezeFish(false);
     }
 
-    private void InitializeSpawnPoints() {
+    protected virtual void InitializeSpawnPoints() {
         spawnPoints = new List<Transform>();
         foreach (var spawnPoint in GameObject.FindGameObjectsWithTag("Spawn")) {
             spawnPoints.Add(spawnPoint.transform);
         }
+    }
+
+    protected virtual void EndLevel() {
+        timer?.DisappearTimer();
+        endingLevel = true;
+        FreezeFish(true);
+        foreach (var activePlayer in parameters.activePlayers) {
+            activePlayer.OnDeath -= OnPlayerDeath;
+            activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
+            activePlayer.Gunfish.PreDeath -= OnPlayerPreDeath;
+        }
+        StartCoroutine(CoEndLevel());
+    }
+
+    protected virtual IEnumerator CoEndLevel() {
+        yield return new WaitForSeconds(endLevelDelay);
+        ShowLevelStats();
+        float minDelayBeforeContinuing = Mathf.Min(3f, maxNextLevelTimer - 1);
+        yield return new WaitForSeconds(minDelayBeforeContinuing);
+        PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
     }
 
     public void FreezeFish(bool freeze) {
@@ -97,6 +191,10 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         GameCamera.Instance?.targetGroup.RemoveMember(null);
     }
 
+    public virtual void OnPlayerPreDeath(Player player) {
+        return;
+    }
+
     public virtual void ShowLevelStats() { }
 
     public virtual void ShowEndGameStats() {
@@ -108,6 +206,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     } 
 
     public virtual void NextLevel() {
+        statsUI.CloseStats();
         waitingForNextLevel = false;
         if (nextLevelIndex < parameters.scenes.Count) {
             LevelManager.Instance.LoadLevel(parameters.scenes[nextLevelIndex], parameters.skyboxScene);
@@ -128,7 +227,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     }
 
     public virtual bool ResolveHit(Gun gun, GunfishSegment segment) {
-        return gun.gunfish != segment.gunfish;
+        return playerReferences[gun.gunfish.player].team != playerReferences[segment.gunfish.player].team;
     }
 
     public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {

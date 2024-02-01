@@ -6,10 +6,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DeathMatchUI : MonoBehaviour {
+public class MatchUI : MonoBehaviour {
     [Header("UI References")]
 
-    public List<DeathMatchUIPlayerWidget> playerWidgets;
+    public List<UIPlayerWidget> playerWidgets;
 
     [Header("Preferences")]
     [SerializeField] private Color eliminatedColor;
@@ -29,18 +29,18 @@ public class DeathMatchUI : MonoBehaviour {
         }
     }
 
-    public void InitializeLevel(List<Player> players, int initialStockCount) {
+    public void InitializeLevel(List<Player> players, string initialStockValue) {
         foreach (Player player in players) {
             var playerWidget = playerWidgets[player.PlayerNumber];
             playerWidget.gameObject.SetActive(true);
             var color = PlayerManager.Instance.playerColors[player.PlayerNumber];
             playerWidget.SetColor(color);
-            playerWidget.InitializeLevel(initialStockCount, player);
+            playerWidget.InitializeLevel(initialStockValue, player);
         }
     }
 
     public void OnStockChange(Player player, int newStockValue) {
-        DeathMatchUIPlayerWidget playerWidget = playerWidgets.Find((pwidget) => pwidget.player == player);
+        UIPlayerWidget playerWidget = playerWidgets.Find((pwidget) => pwidget.player == player);
         playerWidget.OnStockChange(newStockValue);
         if (newStockValue == 0) {
             playerWidget.SetColor(eliminatedColor);
