@@ -28,7 +28,7 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     private GameModeType selectedGameMode;
 
-    public MatchManager MatchManager { get; private set; }
+    public MatchManager<PlayerReference, TeamReference> MatchManager { get; private set; }
 
     protected override void Awake() {
         base.Awake();
