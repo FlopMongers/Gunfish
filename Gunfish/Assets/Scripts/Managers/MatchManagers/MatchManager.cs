@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Policy;
 using UnityEngine;
 
 public class PlayerReference {
@@ -212,18 +213,22 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             LevelManager.Instance.LoadLevel(parameters.scenes[nextLevelIndex], parameters.skyboxScene);
             nextLevelIndex++;
         } else if (done == true) {
-            // NOTE destroy all players
-            LevelManager.Instance.LoadMainMenu(() => {
-                GameManager.Instance.ResetGame();
-                MusicManager.Instance.PlayTrackSet(TrackSetLabel.Menu);
-                MainMenu.Instance.Initialize();
-            });
+            ENDITALL();
         } else {
             done = true;
             LevelManager.Instance.LoadStats(() => {
                 ShowEndGameStats();
             });
         }
+    }
+
+    public void ENDITALL() {
+        // NOTE destroy all players
+        LevelManager.Instance.LoadMainMenu(() => {
+            GameManager.Instance.ResetGame();
+            MusicManager.Instance.PlayTrackSet(TrackSetLabel.Menu);
+            MainMenu.Instance.Initialize();
+        });
     }
 
     public virtual bool ResolveHit(Gun gun, GunfishSegment segment) {
@@ -242,4 +247,6 @@ public interface IMatchManager {
     public void NextLevel();
     public bool ResolveHit(Gun gun, GunfishSegment segment);
     public void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead);
+
+    public void ENDITALL();
 }

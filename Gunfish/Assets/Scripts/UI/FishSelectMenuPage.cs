@@ -46,7 +46,7 @@ public class FishSelectMenuPage : IMenuPage {
         fishImages = new List<VisualElement>();
         selectorState = new List<SelectorState>();
         playerActions = new List<PlayerAction>();
-        int testing = 0;
+        //int testing = 0;
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
             //Debug.Log(PlayerManager.Instance.PlayerInputs.Count);
             //Debug.Log(testing++);
