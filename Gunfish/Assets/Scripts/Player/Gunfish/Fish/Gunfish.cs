@@ -103,7 +103,8 @@ public class Gunfish : MonoBehaviour, IHittable {
             foreach (var effect in effectMap) {
                 EffectRemoveList.Add(effect.Key);
             }
-            foreach (var effect in EffectRemoveList) {
+            while (EffectRemoveList.Count > 0) {
+                var effect = EffectRemoveList.Pop();
                 if (effectMap.ContainsKey(effect)) {
                     if (effectMap[effect] != null) {
                         effectMap[effect].OnRemove();
