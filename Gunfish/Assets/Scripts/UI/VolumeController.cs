@@ -3,27 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-
 public class VolumeController : MonoBehaviour {
-    Slider slider;
     public AudioMixer mixer;
+    public Slider slider;
 
-    public static float volume = 1f;
+    public string volumeName;
+    [Range(0, 1)]
+    public float defaultValue = 0.75f;
 
-    public void Start() {
-        // set slider
-        // to mixer value
-        slider = GetComponent<Slider>();
-        slider.value = volume;
+    void Start() {
+        slider.value = PlayerPrefs.GetFloat(volumeName, defaultValue);
     }
-
-    public void SetLevel(float sliderValue) {
-        volume = sliderValue;
-        if (sliderValue <= 0)
-            sliderValue = -40;
-        else
-            sliderValue = Mathf.Log10(sliderValue) * 20;
-        mixer.SetFloat("MasterVolume", sliderValue);
+    public void SetLevel() {
+        float sliderValue = slider.value;
+        mixer.SetFloat(volumeName, Mathf.Log10(sliderValue) * 20);
+        PlayerPrefs.SetFloat(volumeName, sliderValue);
     }
-
 }

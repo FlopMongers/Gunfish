@@ -16,7 +16,7 @@ public class PauseManager : Singleton<PauseManager> {
     }
 
     public void Update() {
-        if (GameModeManager.Instance.matchManagerInstance != null && Input.GetButtonDown("Pause"))
+        if (GameModeManager.Instance?.matchManagerInstance != null && Input.GetButtonDown("Pause"))
             Pause();
         if (paused == true && Input.GetButtonDown("Quit"))
             MainMenu();
