@@ -154,7 +154,7 @@ MonoBehaviour:
   track_fx_type: 0
   mixerGroup: {fileID: 0}
   clips:
-  - {fileID: 8300000, guid: 1b9cbbd10938d5e4fb18e8ecbe748347, type: 3}
+  - {fileID: 8300000, guid: c442f1e4a33173b4fb2bb966a9bc3e8f, type: 3}
   randomize: 1
   playCount: 1
   shuffle: 0

@@ -184,6 +184,8 @@ public class Gun : MonoBehaviour {
     }
 
     public void Kickback(float kickback) {
+        if (gunfish.segments[0] == null)
+            return;
         var direction = gunfish.segments[0].transform.right;
         // gun kickback
         gunfish.body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);

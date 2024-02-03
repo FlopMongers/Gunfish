@@ -154,12 +154,14 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
             ScoredTeamReference nextTeam = preSortedTeams[0];
             ScoredTeamReference displayTeam = currentTeam;
             (PlayerReference tiebreakPlayer, string tiebreakText) = Tiebreaker(currentTeam, nextTeam);
+            if (nextTeam.score != currentTeam.score) {
+                tiebreakText = "";
+            }
             if ((nextTeam.score == currentTeam.score && tiebreakPlayer.team == nextTeam)) {
                 displayTeam = nextTeam;
                 preSortedTeams.Pop();
             }
             else {
-                tiebreakText = "";
                 displayTeam = currentTeam;
                 currentTeam = preSortedTeams.Pop();
             }

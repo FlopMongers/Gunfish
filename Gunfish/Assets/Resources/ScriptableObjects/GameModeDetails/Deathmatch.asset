@@ -16,5 +16,5 @@ MonoBehaviour:
   image: {fileID: 2800000, guid: e476cce4ec1f114408a8fdfb19c612e9, type: 3}
   matchManagerPrefab: {fileID: 7011402022136294806, guid: f209f77a6155e2f4ead9cf9ee6141f98,
     type: 3}
-  levels: {fileID: 11400000, guid: 947967e36f46d8b4cbb69747fef327ec, type: 2}
-  roundsPerMatch: 1
+  levels: {fileID: 11400000, guid: e83818e14e67a594f9b068a182459828, type: 2}
+  roundsPerMatch: 2

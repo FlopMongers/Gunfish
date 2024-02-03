@@ -80,6 +80,10 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public MatchUI ui;
 
+    public MatchUI GetUI() {
+        return ui;
+    }
+
     public StatsUI statsUI;
 
     public virtual void Initialize(GameParameters parameters) {
@@ -247,6 +251,6 @@ public interface IMatchManager {
     public void NextLevel();
     public bool ResolveHit(Gun gun, GunfishSegment segment);
     public void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead);
-
     public void ENDITALL();
+    public MatchUI GetUI();
 }

@@ -29,7 +29,9 @@ public class Minigun : AutomaticGun
             fireWarmUpTimer -= Time.deltaTime;
         }
         if ((result && fireWarmUpTimer <= 0) || !result) {
-            revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
+            if (barrels != null && barrels.Count > 0 && barrels[0] != null && revUp != null) {
+                revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
+            }
         }
 
         // else if playing warm up sound

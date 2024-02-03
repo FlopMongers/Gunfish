@@ -18,7 +18,7 @@ public class RacePlayerReference : PlayerReference {
     public override string GetStatsText() {
         TimeSpan timeSpan = TimeSpan.FromSeconds(lastCheckpointTimestamp);
         string formattedTime = $"{timeSpan.Minutes}:{timeSpan.Seconds:D2}";
-        return (finished == true) ? $"{formattedTime}" : $"DNF (({lastCheckpoint.checkpointOrder})), {formattedTime}";
+        return (finished == true) ? $"{formattedTime}" : $"DNF ({lastCheckpoint.checkpointOrder}), {formattedTime}";
     }
 }
 
@@ -30,7 +30,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
     HashSet<RacePlayerReference> finishedPlayers = new HashSet<RacePlayerReference>();
 
     protected override void AddPlayerReference(Player player, TeamReference teamRef) {
-        playerReferences[player] = new RacePlayerReference(player, (ScoredTeamReference)teamRef);
+        playerReferences[player] = new RacePlayerReference(player, teamRef);
     }
 
     public override void StartLevel() {
@@ -115,6 +115,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
                 playerRef.firstCheckpointDistance = Vector3.Distance(player.Gunfish.RootSegment.transform.position, checkpoints[1].transform.position);
             }
         }
+        EndLevel();
     }
 
     public override void ShowLevelStats() {
@@ -177,6 +178,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
                     winnerText = $"{displayTeam.team.GetTitle()} wins!";
                 }
             }
+            players.Add(displayTeam);
             tiebreakerTextMap[displayTeam] = tiebreakText;
         }
         players.Add(currentTeam);
@@ -184,6 +186,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
         // no winner
         // X wins
         // X wins... by a tiebreak!
+        winningTeam = winningTeam ?? currentTeam;
         statsUI.ShowStats(winnerText, players, winningTeam.team, tiebreakerTextMap);
         nextLevelTimer = maxNextLevelTimer;
         waitingForNextLevel = true;

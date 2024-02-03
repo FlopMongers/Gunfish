@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SingleLevel
   m_EditorClassIdentifier: 
   sceneNames:
-  - Assets/Scenes/Levels/acid_factory.unity
+  - Assets/Scenes/Levels/RaceModeTestMap.unity
   skyboxSceneName: Assets/Scenes/Skybox.unity
   scenes:
-  - {fileID: 102900000, guid: 211ef79c7a6ed234a8aba70795953c22, type: 3}
+  - {fileID: 102900000, guid: 2cddfa1e6bdb1044a9d9cf4cb8a29f37, type: 3}
   skyboxScene: {fileID: 102900000, guid: b203674794be445f3ad69fd546365653, type: 3}

@@ -34,21 +34,16 @@ public class PauseManager : Singleton<PauseManager> {
 
 
     public void Pause() {
-        print($"woah, trying to pause {paused}, {!paused}");
         paused = !paused;
-        print(paused);
         PauseTime((paused) ? 0 : 1, 1);
         anim.SetBool("Pause", paused);
         audioMixer.SetFloat("MasterLowpass", (paused) ? 500f : 22000f);
     }
 
     public void PauseTime(int pause, int priority = 0) {
-        print($"priority: {priority}, pause priority {pausePriority}");
         if (priority < pausePriority)
             return;
-        print("yep, we pausin.");
         pausePriority = (pause == 0) ? 0 : priority;
-        print(pause);
         Time.timeScale = pause;
     }
 }
