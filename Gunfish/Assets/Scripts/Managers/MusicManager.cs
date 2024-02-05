@@ -43,7 +43,6 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private bool doFade = true;
     private int activeSourceIndex = 0;
     private int targetSourceIndex = 0;
-    bool transitioning = false;
 
     private float clipTimer = 0f;
 
@@ -122,12 +121,10 @@ public class MusicManager : PersistentSingleton<MusicManager> {
             audioSources[activeSourceIndex].volume = 0f;
             audioSources[targetSourceIndex].volume = 1f;
             activeSourceIndex = targetSourceIndex;
-            transitioning = false;
         }
     }
 
     private IEnumerator Fade() {
-        transitioning = true;
         float t = 0f;
         while (t < fadeTime) {
             var activeVolume = fadeInCurve.Evaluate(fadeTime - t);
@@ -142,6 +139,5 @@ public class MusicManager : PersistentSingleton<MusicManager> {
         audioSources[activeSourceIndex].volume = 0f;
         audioSources[targetSourceIndex].volume = 1f;
         activeSourceIndex = targetSourceIndex;
-        transitioning = false;
     }
 }
