@@ -122,7 +122,10 @@ public class FX_Spawner : PersistentSingleton<FX_Spawner> {
             fx_obj.Destroy_Event += FX_Tracker[fx_obj.track_fx_type].HandleFXDestroy;
         }
         fx_obj.vol = vol;
-        fx_obj.mixerGroup = mixer;
+        if (mixer != null) {
+            fx_obj.mixerGroup = mixer;
+            fx_obj.SetAudioMixerGroup(mixer);
+        }
 
         return spawned_fx;
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [RequireComponent(typeof(AudioSource))]
 public class FX_SoundList : FX_Object {
@@ -19,6 +20,9 @@ public class FX_SoundList : FX_Object {
         aud = GetComponent<AudioSource>();
         if (!aud || clips.Count == 0)
             return;
+
+        print($"Hey {aud}, {mixerGroup}");
+        aud.outputAudioMixerGroup = mixerGroup;
 
         if (!randomize) {
             if (soundListIndices == null) {
@@ -50,6 +54,7 @@ public class FX_SoundList : FX_Object {
             foreach (Transform child in transform) {
                 if (child.name == "src") {
                     var child_aud = child.GetComponent<AudioSource>();
+                    child_aud.outputAudioMixerGroup = mixerGroup;
                     child_aud.volume = aud.volume;
                     child_aud.pitch = aud.pitch;
                     MaxLifetime = Mathf.Max(lifetime, SetClip(child_aud, index));
@@ -64,6 +69,16 @@ public class FX_SoundList : FX_Object {
             MaxLifetime = Mathf.Max(lifetime, SetClip(aud, index));
         }
         lifetime = MaxLifetime;
+    }
+
+    public override void SetAudioMixerGroup(AudioMixerGroup mixer) {
+        base.SetAudioMixerGroup(mixer);
+        foreach (Transform child in transform) {
+            if (child.name == "src") {
+                var child_aud = child.GetComponent<AudioSource>();
+                child_aud.outputAudioMixerGroup = mixer;
+            }
+        }
     }
 
     public override void Replay() {

@@ -35,6 +35,7 @@ public class PauseManager : Singleton<PauseManager> {
 
     public void Pause() {
         paused = !paused;
+        Cursor.visible = paused;
         PauseTime((paused) ? 0 : 1, 1);
         anim.SetBool("Pause", paused);
         audioMixer.SetFloat("MasterLowpass", (paused) ? 500f : 22000f);
