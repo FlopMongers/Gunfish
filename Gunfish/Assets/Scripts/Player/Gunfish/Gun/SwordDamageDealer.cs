@@ -33,8 +33,9 @@ public class SwordDamageDealer : CollisionDamageDealer
                 damageMultiplier = sword.shootableDamageMultiplier;
             }
         }
-        print($"{src}, {collision.rigidbody}");
-        trace = true;
+        if (trace)
+            print($"{src}, {collision.rigidbody}");
+        //trace = true;
         base.HandleCollisionEnter(src, collision);
     }
 }

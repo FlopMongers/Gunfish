@@ -23,6 +23,7 @@ public class Shootable : MonoBehaviour, IHittable {
     Rigidbody2D rb;
 
     public bool handleCollisionDamage = true;
+    public bool dealCollisionDamage = true;
 
     public bool addDestroyer;
     public Destroyer destroyer;
@@ -53,7 +54,9 @@ public class Shootable : MonoBehaviour, IHittable {
 
         // check for collision damage handler and receiver and collision detectors
         if (handleCollisionDamage) {
-            gameObject.CheckAddComponent<CollisionDamageDealer>();
+            if (dealCollisionDamage) {
+                gameObject.CheckAddComponent<CollisionDamageDealer>();
+            }
             gameObject.CheckAddComponent<CollisionDamageReceiver>();
             if (gameObject.GetComponent<CompositeCollisionDetector>() == null) {
                 gameObject.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);

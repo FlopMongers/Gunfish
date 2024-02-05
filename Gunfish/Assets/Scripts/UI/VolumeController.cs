@@ -16,7 +16,12 @@ public class VolumeController : MonoBehaviour {
     }
     public void SetLevel() {
         float sliderValue = slider.value;
-        mixer.SetFloat(volumeName, Mathf.Log10(sliderValue) * 20);
+        if (sliderValue > 0) {
+            mixer.SetFloat(volumeName, Mathf.Log10(sliderValue) * 20);
+        }
+        else {
+            mixer.SetFloat(volumeName, -80f);
+        }
         PlayerPrefs.SetFloat(volumeName, sliderValue);
     }
 }

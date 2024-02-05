@@ -227,6 +227,7 @@ MonoBehaviour:
   hitFX: 0
   damagedFX: 0
   handleCollisionDamage: 1
+  dealCollisionDamage: 0
   addDestroyer: 0
   destroyer: {fileID: 3005604053255823789}
 --- !u!50 &3005604053255823790
@@ -327,4 +328,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timestamp: -1
-  lastHitter: {fileID: 0}

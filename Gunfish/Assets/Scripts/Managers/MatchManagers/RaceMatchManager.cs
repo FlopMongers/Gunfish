@@ -11,6 +11,8 @@ public class RacePlayerReference : PlayerReference {
 
     public float firstCheckpointDistance;
 
+    public int cumulativeScore;
+
     public bool IsAlive { get { return player.Gunfish.RootSegment != null; } }
 
     public RacePlayerReference(Player player, TeamReference team) : base(player, team) { }
