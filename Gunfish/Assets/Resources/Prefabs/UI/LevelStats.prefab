@@ -310,7 +310,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.4
+  m_fontSize: 26.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -647,7 +647,8 @@ MonoBehaviour:
   - {fileID: 886066974893990406}
   - {fileID: 1833202602728262636}
   - {fileID: 892126975798239380}
-  winnerText: {fileID: 4815917166150843895}
+  winnerText: {fileID: 4173416892348062446}
+  scoreColumnText: {fileID: 0}
 --- !u!1001 &1702217930520501957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -655,10 +656,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4125409000947617946}
     m_Modifications:
+    - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 32.25
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4662489122991577817, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -770,6 +776,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPanel0
       objectReference: {fileID: 0}
+    - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 35.35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c2c5e6246f50324b8f054fee2979ca6, type: 3}
 --- !u!224 &6281117506642936860 stripped
@@ -797,10 +808,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4125409000947617946}
     m_Modifications:
+    - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 32.25
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4662489122991577817, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -912,6 +928,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPanel2
       objectReference: {fileID: 0}
+    - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 35.35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c2c5e6246f50324b8f054fee2979ca6, type: 3}
 --- !u!114 &1833202602728262636 stripped
@@ -939,10 +960,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4125409000947617946}
     m_Modifications:
+    - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 32.25
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4662489122991577817, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -1054,6 +1080,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPanel3
       objectReference: {fileID: 0}
+    - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 35.35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c2c5e6246f50324b8f054fee2979ca6, type: 3}
 --- !u!114 &892126975798239380 stripped
@@ -1081,10 +1112,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4125409000947617946}
     m_Modifications:
+    - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 32.25
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4662489122991577817, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -1195,6 +1231,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerPanel1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 35.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c2c5e6246f50324b8f054fee2979ca6, type: 3}

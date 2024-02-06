@@ -124,6 +124,7 @@ MonoBehaviour:
   debug: 1
   _gameModeList: {fileID: 11400000, guid: 7c2fb38946b14604eaa780fb2451339c, type: 2}
   _gunfishDataList: {fileID: 11400000, guid: 09eb2fcf654f97c44acd5f5a5e6fc030, type: 2}
+  defaultGameMode: 0
 --- !u!1 &8494292450251231259
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +252,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5673737387414419726}
     m_Modifications:
+    - target: {fileID: 1198437199954480414, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1198437199954480414, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1198437199954480414, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1056454801}
+    - target: {fileID: 1198437199954480414, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1198437199954480414, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1198437199954480414, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VolumeController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1198437199954480414, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439557190097601737, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 55.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439557190260750384, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 35.15
+      objectReference: {fileID: 0}
     - target: {fileID: 4439557191438398294, guid: d0b19ceded7191241a7fab11b205b22a,
         type: 3}
       propertyPath: m_Name
@@ -375,6 +421,76 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161384280112928343, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161384280112928343, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161384280112928343, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1521103636}
+    - target: {fileID: 8161384280112928343, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161384280112928343, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161384280112928343, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VolumeController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161384280112928343, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280609461050617349, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280609461050617349, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280609461050617349, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 438775005}
+    - target: {fileID: 8280609461050617349, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280609461050617349, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280609461050617349, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VolumeController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280609461050617349, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0b19ceded7191241a7fab11b205b22a, type: 3}

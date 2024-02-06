@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Destroyer : MonoBehaviour
 {
-    bool destroying;
+    [HideInInspector] public bool destroying;
 
     public FXType destroyFX = FXType.Poof;
     public SpriteRenderer spriteRenderer;

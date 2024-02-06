@@ -20,7 +20,7 @@ public class RacePlayerReference : PlayerReference {
     public override string GetStatsText() {
         TimeSpan timeSpan = TimeSpan.FromSeconds(lastCheckpointTimestamp);
         string formattedTime = $"{timeSpan.Minutes}:{timeSpan.Seconds:D2}";
-        return (finished == true) ? $"{formattedTime}" : $"DNF ({lastCheckpoint.checkpointOrder}), {formattedTime}";
+        return (finished == true) ? $"{formattedTime}" : $"DNF ({lastCheckpoint.spawnPointOrder}), {formattedTime}";
     }
 }
 
@@ -37,24 +37,19 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
 
     public override void StartLevel() {
         base.StartLevel();
-        endingLevel = false;
-        // TODO: set up UI
         ui.InitializeLevel(parameters.activePlayers, "X");
-        // iterate players and set up stocks
-        foreach (var player in parameters.activePlayers) {
-            RacePlayerReference playerRef = playerReferences[player];
-            playerRef.lastCheckpoint = checkpoints[0];
-            playerRef.lastCheckpointTimestamp = 0;
-            playerRef.finished = false;
-            player.OnDeath += OnPlayerDeath;
-            player.Gunfish.OnDeath += OnPlayerDeath;
-            player.Gunfish.PreDeath += OnPlayerPreDeath;
-            SpawnPlayer(player);
-        }
+    }
+
+    public override void SetUpPlayer(Player player) {
+        base.SetUpPlayer(player);
+        RacePlayerReference playerRef = playerReferences[player];
+        playerRef.lastCheckpoint = checkpoints[0];
+        playerRef.lastCheckpointTimestamp = 0;
+        playerRef.finished = false;
     }
 
     protected override void InitializeSpawnPoints() {
-        checkpoints = FindObjectsOfType<Checkpoint>().OrderBy(x => x.checkpointOrder).ToList();
+        checkpoints = FindObjectsOfType<Checkpoint>().OrderBy(x => x.spawnPointOrder).ToList();
         // hook into the checkpoint events
         foreach (var checkpoint in checkpoints) {
             checkpoint.fishEnterEvent += OnCheckpointEnter;
@@ -66,7 +61,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
         // get player reference
         RacePlayerReference playerRef = playerReferences[gunfish.player];
         // if checkpoint order greater than player last checkpoint
-        if (checkpoint.checkpointOrder <= playerRef.lastCheckpoint.checkpointOrder)
+        if (checkpoint.spawnPointOrder <= playerRef.lastCheckpoint.spawnPointOrder)
             return;
 
         gunfish.AddEffect(new Invincibility_Effect(gunfish, 2f));
@@ -87,7 +82,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
     }
 
     protected override IEnumerator CoSpawnPlayer(Player player) {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(spawnDelay);
 
         // spawn a player at their last checkpoint
         player.SpawnGunfish(playerReferences[player].lastCheckpoint.GetNextSpawnPoint().position);
@@ -97,7 +92,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
     public override void OnPlayerPreDeath(Player player) {
         // get and save distance to next checkpoint if applicable
         RacePlayerReference playerRef = playerReferences[player];
-        if (playerRef.lastCheckpoint.checkpointOrder != 0)
+        if (playerRef.lastCheckpoint.spawnPointOrder != 0)
             return;
 
         playerRef.firstCheckpointDistance = Vector3.Distance(player.Gunfish.RootSegment.transform.position, checkpoints[1].transform.position);
@@ -137,7 +132,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
         //  2) by earliest non-negative timestamp
         //  3) being alive vs dead
         //  4) by being closest to first checkpoint
-        List<RacePlayerReference> sortedList = playerReferences.Values.OrderByDescending(x => x.lastCheckpoint.checkpointOrder)
+        List<RacePlayerReference> sortedList = playerReferences.Values.OrderByDescending(x => x.lastCheckpoint.spawnPointOrder)
                               .ThenBy(x => x.lastCheckpointTimestamp)
                               .ThenByDescending(x => x.finished)
                               .ThenByDescending(x => x.firstCheckpointDistance)
@@ -152,7 +147,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
         string winnerText = "No one wins?";
 
         // resolve ties
-        List<RacePlayerReference> preSortedTeams = playerReferences.Values.OrderByDescending(x => x.lastCheckpoint.checkpointOrder).ToList();
+        List<RacePlayerReference> preSortedTeams = playerReferences.Values.OrderByDescending(x => x.lastCheckpoint.spawnPointOrder).ToList();
         List<RacePlayerReference> players = new List<RacePlayerReference>();
         RacePlayerReference winningTeam = null;
         RacePlayerReference currentTeam = preSortedTeams.Pop();
@@ -161,7 +156,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
             RacePlayerReference nextTeam = preSortedTeams[0];
             RacePlayerReference displayTeam = currentTeam;
             (PlayerReference tiebreakPlayer, string tiebreakText) = Tiebreaker(currentTeam, nextTeam);
-            if ((nextTeam.lastCheckpoint.checkpointOrder == currentTeam.lastCheckpoint.checkpointOrder && tiebreakPlayer == nextTeam)) {
+            if ((nextTeam.lastCheckpoint.spawnPointOrder == currentTeam.lastCheckpoint.spawnPointOrder && tiebreakPlayer == nextTeam)) {
                 displayTeam = nextTeam;
                 preSortedTeams.Pop();
             }

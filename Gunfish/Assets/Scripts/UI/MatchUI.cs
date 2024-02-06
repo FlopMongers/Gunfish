@@ -14,6 +14,8 @@ public class MatchUI : MonoBehaviour {
     [Header("Preferences")]
     [SerializeField] private Color eliminatedColor;
 
+    public TextMeshProUGUI gameScore;
+
     // Start is called before the first frame update
     void Awake() {
         foreach (var playerWidget in playerWidgets) {
@@ -37,6 +39,10 @@ public class MatchUI : MonoBehaviour {
             playerWidget.SetColor(color);
             playerWidget.InitializeLevel(initialStockValue, player);
         }
+    }
+
+    public void SetGameScore(int score1, int score2) {
+        gameScore.text = $"{score1} - {score2}";
     }
 
     public void OnStockChange(Player player, int newStockValue) {

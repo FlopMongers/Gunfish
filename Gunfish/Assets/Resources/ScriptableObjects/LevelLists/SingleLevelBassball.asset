@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60572ed5ae6f5cb438217d1242176bab, type: 3}
-  m_Name: SingleLevel
+  m_Name: SingleLevelBassball
   m_EditorClassIdentifier: 
   sceneNames:
-  - Assets/Scenes/Levels/RaceModeTestMap.unity
+  - Assets/Scenes/Levels/BassballTestMap.unity
   skyboxSceneName: Assets/Scenes/Skybox.unity
   scenes:
-  - {fileID: 102900000, guid: 2cddfa1e6bdb1044a9d9cf4cb8a29f37, type: 3}
+  - {fileID: 102900000, guid: 5f47a2a804a4577478f4b9096c0869a9, type: 3}
   skyboxScene: {fileID: 102900000, guid: b203674794be445f3ad69fd546365653, type: 3}

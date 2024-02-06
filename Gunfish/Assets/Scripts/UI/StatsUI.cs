@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ public class StatsUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI winnerText;
 
+    [SerializeField] private TextMeshProUGUI scoreColumnText;
+
     void ClearPlayerPanels() {
         foreach (var panel in playerPanels) {
             panel.highlightCanvasGroup.alpha = 0;
@@ -23,8 +26,14 @@ public class StatsUI : MonoBehaviour
         string text, 
         List<PlayerReferenceType> players,
         TeamReference winningTeam, 
-        Dictionary<PlayerReferenceType, string> tiebreakerTextMap) where PlayerReferenceType : PlayerReference 
+        Dictionary<PlayerReferenceType, string> tiebreakerTextMap,
+        string scoreColumnText=null,
+        Func<PlayerReferenceType, string> scoreLambda=null) where PlayerReferenceType : PlayerReference 
     {
+        if (scoreColumnText != null) {
+            this.scoreColumnText.text = scoreColumnText;
+        }
+
         winnerText.text = text;
         if (winningTeam != null) {
             winnerText.color = winningTeam.teamColor;
@@ -38,7 +47,7 @@ public class StatsUI : MonoBehaviour
             }
             playerPanels[i].playerName.text = $"Player {players[i].player.VisiblePlayerNumber} (Team {players[i].team.VisibleTeamNumber})";
             playerPanels[i].playerImg.sprite = players[i].player.gunfishData.sprite;
-            playerPanels[i].playerScore.text = players[i].GetStatsText();
+            playerPanels[i].playerScore.text = (scoreLambda != null) ? scoreLambda(players[i]) : players[i].GetStatsText();
             playerPanels[i].panelColor.color = players[i].team.teamColor;
             if (tiebreakerTextMap.ContainsKey(players[i])) {
                 playerPanels[i].tiebreakerText.text = tiebreakerTextMap[players[i]];

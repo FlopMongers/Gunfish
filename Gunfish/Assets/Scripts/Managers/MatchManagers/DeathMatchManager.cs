@@ -50,25 +50,22 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
 
     public override void StartLevel() {
         base.StartLevel();
-        endingLevel = false;
         eliminatedTeams = new HashSet<TeamReference>();
         ui.InitializeLevel(parameters.activePlayers, defaultStocks.ToString());
         pelicanSpawner.FetchSpawnZones();
         pelicanSpawner.active = false;
-        // iterate players and set up stocks
-        foreach (var player in parameters.activePlayers) {
-            playerReferences[player].stocks = defaultStocks;
-            playerReferences[player].firstKill = -1;
-            playerReferences[player].lastDeath = -1;
-            player.OnDeath += OnPlayerDeath;
-            player.Gunfish.OnDeath += OnPlayerDeath;
-            player.Gunfish.PreDeath += OnPlayerPreDeath;
-            SpawnPlayer(player);
-        }
     }
 
+    public override void SetUpPlayer(Player player) {
+        base.SetUpPlayer(player);
+        playerReferences[player].stocks = defaultStocks;
+        playerReferences[player].firstKill = -1;
+        playerReferences[player].lastDeath = -1;
+    }
+
+
     protected override IEnumerator CoSpawnPlayer(Player player) {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(spawnDelay);
         Transform currentSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
         float maxDistance = float.MinValue;
         float distance;

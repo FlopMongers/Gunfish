@@ -124,42 +124,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &438775005 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 438775005, guid: c367644c428800f4e8afcb2a496d487a,
-    type: 3}
-  m_PrefabInstance: {fileID: 5673737387809711075}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6914b50c603116547a8fd50adeb3f0b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1056454801 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1056454801, guid: c367644c428800f4e8afcb2a496d487a,
-    type: 3}
-  m_PrefabInstance: {fileID: 5673737387809711075}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6914b50c603116547a8fd50adeb3f0b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1521103636 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1521103636, guid: c367644c428800f4e8afcb2a496d487a,
-    type: 3}
-  m_PrefabInstance: {fileID: 5673737387809711075}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6914b50c603116547a8fd50adeb3f0b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1772869125
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,41 +345,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2717890726505631963, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2717890726505631963, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2717890726505631963, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1056454801}
-    - target: {fileID: 2717890726505631963, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2717890726505631963, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 2717890726505631963, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: VolumeController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2717890726505631963, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3644286909186876605, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -466,85 +395,15 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4923939334572362642, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923939334572362642, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923939334572362642, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1521103636}
-    - target: {fileID: 4923939334572362642, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923939334572362642, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923939334572362642, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: VolumeController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923939334572362642, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 4973510394416393890, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5187290325109830592, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187290325109830592, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187290325109830592, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 438775005}
-    - target: {fileID: 5187290325109830592, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187290325109830592, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187290325109830592, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: VolumeController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187290325109830592, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: playerThreshold
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
@@ -610,11 +469,6 @@ PrefabInstance:
         type: 3}
       propertyPath: debug
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
-        type: 3}
-      propertyPath: defaultGameMode
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5999316683040595489, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}

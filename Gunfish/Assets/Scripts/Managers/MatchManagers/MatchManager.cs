@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Security.Policy;
 using UnityEngine;
 
 public class PlayerReference {
@@ -68,6 +66,8 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public LevelTimer timer;
     static float levelDuration = 90;
 
+    public float spawnDelay = 0.5f;
+
     protected float maxNextLevelTimer = 15f;
     protected float nextLevelTimer;
     protected bool waitingForNextLevel = false;
@@ -92,6 +92,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         ui.InitializeMatch(parameters.activePlayers);
         Dictionary<int, TeamReferenceType> teamNumbers = new Dictionary<int, TeamReferenceType>();
         foreach (var player in parameters.activePlayers) {
+            // TODO USE ACTUAL TEAM NUMBER
             if (teamNumbers.ContainsKey(player.PlayerNumber) == false) {
                 TeamReferenceType TeamRef = GenerateTeamRef(player);
                 teamNumbers[player.PlayerNumber] = TeamRef;
@@ -149,7 +150,18 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public virtual void StartLevel() {
         InitializeSpawnPoints();
         FreezeFish(true);
+        endingLevel = false;
+        // iterate players and set up stocks
+        foreach (var player in parameters.activePlayers) {
+            SetUpPlayer(player);
+            player.OnDeath += OnPlayerDeath;
+            player.Gunfish.OnDeath += OnPlayerDeath;
+            player.Gunfish.PreDeath += OnPlayerPreDeath;
+            SpawnPlayer(player);
+        }
     }
+
+    public virtual void SetUpPlayer(Player player) { }
 
 
     public virtual void StartPlay() {
