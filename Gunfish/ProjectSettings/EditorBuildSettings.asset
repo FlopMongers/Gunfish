@@ -21,11 +21,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/BassballTestMap.unity
     guid: 5f47a2a804a4577478f4b9096c0869a9
   - enabled: 1
-    path: Assets/Scenes/Levels/RaceModeTestMap.unity
-    guid: 2cddfa1e6bdb1044a9d9cf4cb8a29f37
-  - enabled: 1
     path: Assets/Scenes/Levels/cargo_hold.unity
     guid: 87d88e86ad73b1440932c43b0ecd1ba3
+  - enabled: 1
+    path: Assets/Scenes/Levels/RaceModeTestMap.unity
+    guid: 2cddfa1e6bdb1044a9d9cf4cb8a29f37
   - enabled: 1
     path: Assets/Scenes/Levels/barrel.unity
     guid: d97c2aca0b082b343a7577eb252c9e5f

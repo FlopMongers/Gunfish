@@ -21,7 +21,6 @@ public class FX_SoundList : FX_Object {
         if (!aud || clips.Count == 0)
             return;
 
-        print($"Hey {aud}, {mixerGroup}");
         aud.outputAudioMixerGroup = mixerGroup;
 
         if (!randomize) {

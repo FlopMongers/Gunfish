@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour {
 
     public GameObject spawnPrefab;
 
+    public bool useSpawnTimerOnStart;
     //[HideInInspector]
     public float spawnTimer;
     public Vector2 spawnTimerRange;
@@ -18,7 +19,7 @@ public class Spawner : MonoBehaviour {
 
     protected virtual void Start() {
         // from 0 to max
-        spawnTimer = Random.Range(0, spawnTimerRange.y);
+        spawnTimer = (useSpawnTimerOnStart) ? spawnTimer : Random.Range(0, spawnTimerRange.y);
         spawnArea = spawnArea ?? GetComponent<Collider2D>();
         if (spawnArea == null) {
             spawnArea = gameObject.AddComponent<BoxCollider2D>();

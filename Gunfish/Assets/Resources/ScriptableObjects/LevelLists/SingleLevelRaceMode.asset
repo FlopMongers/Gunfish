@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SingleLevelRaceMode
   m_EditorClassIdentifier: 
   sceneNames:
-  - Assets/Scenes/Levels/cargo_hold.unity
+  - Assets/Scenes/Levels/RaceModeTestMap.unity
   skyboxSceneName: Assets/Scenes/Skybox.unity
   scenes:
-  - {fileID: 102900000, guid: 87d88e86ad73b1440932c43b0ecd1ba3, type: 3}
+  - {fileID: 102900000, guid: 2cddfa1e6bdb1044a9d9cf4cb8a29f37, type: 3}
   skyboxScene: {fileID: 102900000, guid: b203674794be445f3ad69fd546365653, type: 3}

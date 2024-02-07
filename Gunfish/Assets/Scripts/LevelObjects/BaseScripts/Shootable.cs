@@ -11,7 +11,7 @@ public class Shootable : MonoBehaviour, IHittable {
     public Sprite damagedSprite;
     protected bool damaged;
 
-    public bool indestructible = false;
+    public bool indestructible = false, undamageable = false;
 
     public float health;
     public FloatGameEvent OnHealthUpdated;
@@ -28,7 +28,7 @@ public class Shootable : MonoBehaviour, IHittable {
     public bool addDestroyer;
     public Destroyer destroyer;
 
-    bool dead;
+    [HideInInspector] public bool dead;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -84,6 +84,9 @@ public class Shootable : MonoBehaviour, IHittable {
     }
 
     public void Hit(HitObject hit) {
+        if (undamageable) {
+            hit.damage = 0;
+        }
         // reduce health
         if (hit.ignoreMass) {
             hit.knockback *= rb.mass;

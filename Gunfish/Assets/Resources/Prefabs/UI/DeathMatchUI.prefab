@@ -126,7 +126,7 @@ MonoBehaviour:
   - {fileID: 5451562435075322681}
   - {fileID: 245552029105374938}
   eliminatedColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
-  gameScore: {fileID: 0}
+  gameScore: {fileID: 5197249741781737869}
 --- !u!1 &6755448225137994933
 GameObject:
   m_ObjectHideFlags: 0
