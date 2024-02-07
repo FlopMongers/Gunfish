@@ -137,6 +137,11 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
                               .ThenByDescending(x => x.finished)
                               .ThenByDescending(x => x.firstCheckpointDistance)
                               .ToList();
+
+        for (int i = 0; i < sortedList.Count; i++) {
+            sortedList[i].cumulativeScore += (sortedList.Count-1) - i;
+        }
+
         statsUI.ShowStats(winnerText, sortedList, winner?.team, new Dictionary<RacePlayerReference, string>());
         nextLevelTimer = maxNextLevelTimer;
         waitingForNextLevel = true;
@@ -147,7 +152,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
         string winnerText = "No one wins?";
 
         // resolve ties
-        List<RacePlayerReference> preSortedTeams = playerReferences.Values.OrderByDescending(x => x.lastCheckpoint.spawnPointOrder).ToList();
+        List<RacePlayerReference> preSortedTeams = playerReferences.Values.OrderByDescending(x => x.cumulativeScore).ToList();
         List<RacePlayerReference> players = new List<RacePlayerReference>();
         RacePlayerReference winningTeam = null;
         RacePlayerReference currentTeam = preSortedTeams.Pop();
@@ -156,7 +161,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
             RacePlayerReference nextTeam = preSortedTeams[0];
             RacePlayerReference displayTeam = currentTeam;
             (PlayerReference tiebreakPlayer, string tiebreakText) = Tiebreaker(currentTeam, nextTeam);
-            if ((nextTeam.lastCheckpoint.spawnPointOrder == currentTeam.lastCheckpoint.spawnPointOrder && tiebreakPlayer == nextTeam)) {
+            if ((nextTeam.cumulativeScore == currentTeam.cumulativeScore && tiebreakPlayer == nextTeam)) {
                 displayTeam = nextTeam;
                 preSortedTeams.Pop();
             }
@@ -184,7 +189,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
         // X wins
         // X wins... by a tiebreak!
         winningTeam = winningTeam ?? currentTeam;
-        statsUI.ShowStats(winnerText, players, winningTeam.team, tiebreakerTextMap);
+        statsUI.ShowStats(winnerText, players, winningTeam.team, tiebreakerTextMap, "Total Score", scoreLambda: (x => x.cumulativeScore.ToString()));
         nextLevelTimer = maxNextLevelTimer;
         waitingForNextLevel = true;
     }
@@ -193,7 +198,9 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
 
     protected (RacePlayerReference, string) Tiebreaker(RacePlayerReference player1, RacePlayerReference player2) {
 
-        // these players have the same finish
+        if (player1.lastCheckpoint.spawnPointOrder != player2.lastCheckpoint.spawnPointOrder) {
+            return (player1.lastCheckpoint.spawnPointOrder > player2.lastCheckpoint.spawnPointOrder) ? (player1, "*Further checkpoint!"): (player2, "*Further checkpoint!");
+        }
 
         //  2) by earliest non-negative timestamp
         if (player1.lastCheckpointTimestamp != 0 ^ player2.lastCheckpointTimestamp != 0) {

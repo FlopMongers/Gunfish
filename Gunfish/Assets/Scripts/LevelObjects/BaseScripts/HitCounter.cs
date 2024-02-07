@@ -17,6 +17,6 @@ public class HitCounter : MonoBehaviour
     }
 
     public Gunfish GetLastHitter() {
-        return (timestamp > 0 && Time.time - timestamp < lastHitThreshod) ? lastHitter : null;
+        return (timestamp > 0 && (Time.time - timestamp) < lastHitThreshod) ? lastHitter : null;
     }
 }
