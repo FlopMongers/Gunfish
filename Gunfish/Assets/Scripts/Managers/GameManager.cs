@@ -27,8 +27,9 @@ public class GameManager : PersistentSingleton<GameManager> {
     public GunfishDataList  GunfishDataList { get => _gunfishDataList; }
 
     private GameModeType selectedGameMode;
+    public GameModeType defaultGameMode;
 
-    public MatchManager MatchManager { get; private set; }
+    public MatchManager<PlayerReference, TeamReference> MatchManager { get; private set; }
 
     protected override void Awake() {
         base.Awake();

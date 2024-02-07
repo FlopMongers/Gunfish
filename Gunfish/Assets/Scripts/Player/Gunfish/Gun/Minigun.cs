@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Minigun : AutomaticGun
@@ -9,11 +10,7 @@ public class Minigun : AutomaticGun
     public float fireWarmUpTime = 2f;
     float fireWarmUpTimer;
 
-    public AudioSource warmupSound;
-    public GameObject warmupParticlesPrefab;
-    ParticleSystem warmupParticles;
-    public Vector2 volRange;
-    public Vector2 pitchRange;
+    public RevUp revUp;
 
     // NOTE(Wyatt): maybe miniguns and lasers should have a constantly playing audio source that we just turn up or down depending on whether they're warming up?
 
@@ -24,9 +21,7 @@ public class Minigun : AutomaticGun
             fireWarmUpTimer = fireWarmUpTime;
             // start playing warm up sound
             // turn up warm up sound
-            SetWarmupParticles(true);
-            warmupSound.DOFade(volRange.y, fireWarmUpTime);
-            warmupSound.DOPitch(pitchRange.y, fireWarmUpTime);
+            revUp.SetWarmupParticles(true, barrels[0].transform, fireWarmUpTime);
         }
         // if held, decrement the timer (play fx)
         else if (firingStatus == ButtonStatus.Holding && fireWarmUpTimer > 0 && reload_timer <= 0 && fireCooldown_timer <= 0) {
@@ -34,9 +29,9 @@ public class Minigun : AutomaticGun
             fireWarmUpTimer -= Time.deltaTime;
         }
         if ((result && fireWarmUpTimer <= 0) || !result) {
-            SetWarmupParticles(false);
-            warmupSound.DOFade(volRange.x, 0.2f);
-            warmupSound.DOPitch(pitchRange.x, 0.2f);
+            if (barrels != null && barrels.Count > 0 && barrels[0] != null && revUp != null) {
+                revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
+            }
         }
 
         // else if playing warm up sound
@@ -44,19 +39,4 @@ public class Minigun : AutomaticGun
         // if result and timer <= 0
         return result && fireWarmUpTimer <= 0;
     }
-
-    void SetWarmupParticles(bool turnOn) {
-        if (warmupParticles == null) {
-            Transform barrel = gunfish.gun.barrels[0].transform;
-            var warmupInstance = Instantiate(warmupParticlesPrefab, barrel.position, Quaternion.LookRotation(Vector3.forward, barrel.right));
-            warmupInstance.transform.parent = barrel;
-            warmupParticles = warmupInstance.GetComponent<ParticleSystem>();
-        }
-        if (turnOn) {
-            warmupParticles.Play();
-        }
-        else {
-            warmupParticles.Stop();
-        }
-    } 
 }

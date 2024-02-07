@@ -34,8 +34,8 @@ public class MovingPlatform : MonoBehaviour
     void Start()
     {
         detector = detector ?? GetComponent<FishDetector>();
-        detector.OnFishTriggerEnter += delegate (GunfishSegment segment, Collider2D collision) { CarryObject(segment.gunfish.RootSegment.GetComponent<Rigidbody2D>()); };
-        detector.OnFishTriggerExit += delegate (GunfishSegment segment, Collider2D collision) { ReleaseObject(segment.gunfish.RootSegment.GetComponent<Rigidbody2D>()); };
+        detector.OnFishTriggerEnter += delegate (GunfishSegment segment, Collider2D collision) { if (segment.gunfish != null && segment.gunfish.RootSegment != null) CarryObject(segment.gunfish.RootSegment.GetComponent<Rigidbody2D>()); };
+        detector.OnFishTriggerExit += delegate (GunfishSegment segment, Collider2D collision) { if (segment.gunfish != null && segment.gunfish.RootSegment != null) ReleaseObject(segment.gunfish.RootSegment.GetComponent<Rigidbody2D>()); };
         rb = rb ?? GetComponent<Rigidbody2D>();
         if (movePoints.Count == 0) {
             movePoints.Add(new MovePoint(transform, 0));

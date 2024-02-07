@@ -81,11 +81,19 @@ public class HealthUI : MonoBehaviour {
         SetHealth(_gunfish.statusData.health);
 
         // get ammo and hook into ammo change
+        List<GameObject> pips = new List<GameObject>();
+        foreach (Transform t in _pipBar.transform) {
+            pips.Add(t.gameObject);
+        }
+        foreach (var p in pips) {
+            Destroy(p);
+        }
         for (int i = 0; i < gunfish.data.gun.maxAmmo; i++) {
             // add pip
             Instantiate(pip, _pipBar);
         }
         _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
+        UpdateWhiteBar(0);
         gunfish.gun.OnAmmoChanged += UpdateWhiteBar;
 
         SetUpConstraint(_gunfish.segments[(int)((float)_gunfish.segments.Count / 3)].transform, offset);
@@ -104,20 +112,22 @@ public class HealthUI : MonoBehaviour {
     }
 
     void UpdateWhiteBar(float value) {
+        if (_whiteBar == null) {
+            return;
+        }
         _whiteBar.rectTransform.localScale = new Vector3(value, 1f, 1f);
     }
 
     bool showRespawnBar = false;
     public void UpdateRespawnBar(float value) {
         // if off, then turn on
-        // 
+        //
         if (_respawnBar == null)
             return;
         if (showRespawnBar == false && value > 0) {
             _respawnBarCanvasGroup.DOFade(1f, 0.25f);
             showRespawnBar = true;
-        }
-        else if (showRespawnBar == true && value <= 0) {
+        } else if (showRespawnBar == true && value <= 0) {
             _respawnBarCanvasGroup.DOFade(0f, 0.1f);
             showRespawnBar = false;
         }
@@ -173,6 +183,10 @@ public class HealthUI : MonoBehaviour {
     }
 
     void OnDestroy() {
+        Unhook();
+    }
+
+    public void Unhook() {
         if (_gunfish) {
             _gunfish.OnHealthUpdated -= UpdateHealth;
             _gunfish.OnDeath -= OnGunfishDeath;
@@ -182,5 +196,8 @@ public class HealthUI : MonoBehaviour {
             _shootable.OnHealthUpdated -= UpdateHealth;
             _shootable.OnDead -= OnShootableDeath;
         }
+        EnableBars(false);
+        UpdateWhiteBar(0);
+        UpdateRespawnBar(0);
     }
 }

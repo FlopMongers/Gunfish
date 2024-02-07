@@ -22,8 +22,8 @@ TagManager:
   - Player4
   - Boundary
   - Floaty
-  - 
-  - 
+  - GroundEffector
+  - Pelican
   - 
   - Bullets
   - 

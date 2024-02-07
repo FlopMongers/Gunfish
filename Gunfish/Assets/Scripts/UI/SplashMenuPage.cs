@@ -42,7 +42,7 @@ public class SplashMenuPage : IMenuPage {
     }
 
     private void LoadNextMenu() {
-        GameManager.Instance.SetSelectedGameMode(GameModeType.DeathMatch);
+        GameManager.Instance.SetSelectedGameMode(GameManager.Instance.defaultGameMode);
         menuContext.menu.SetState(MenuState.GunfishSelect);
     }
 

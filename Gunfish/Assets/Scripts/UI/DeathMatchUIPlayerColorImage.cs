@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// Death Match UI Player Color Image will reflect the hue of its parent Player Widget.
 /// </summary>
 public class DeathMatchUIPlayerColorImage : MonoBehaviour {
-    private DeathMatchUIPlayerWidget playerWidget;
+    private UIPlayerWidget playerWidget;
     private Image image;
     private Color baseColor;
 
@@ -16,7 +16,7 @@ public class DeathMatchUIPlayerColorImage : MonoBehaviour {
     void Awake() {
         image = GetComponent<Image>();
         baseColor = image.color;
-        playerWidget = GetComponentInParent<DeathMatchUIPlayerWidget>();
+        playerWidget = GetComponentInParent<UIPlayerWidget>();
         playerWidget.OnPlayerColorChange.AddListener(SetColor);
     }
 

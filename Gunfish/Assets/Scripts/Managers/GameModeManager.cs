@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class GameModeManager : PersistentSingleton<GameModeManager> {
     private GameObject gameModeInstance;
-    public MatchManager matchManagerInstance { get; private set; }
+    public IMatchManager matchManagerInstance { get; private set; }
+
+    [HideInInspector]
+    public List<Player> activePlayers = new List<Player>();
 
     public void InitializeGameMode(GameModeType gameModeType, List<Player> players) {
         var gameMode = GameManager.Instance.GameModeList.gameModes.Where(element => element.gameModeType == gameModeType).FirstOrDefault();
         var levels = SelectLevels(gameMode.levels.sceneNames, gameMode.roundsPerMatch);
-        var activePlayers = players.Where(player => player.Active).ToList();
+        activePlayers = players.Where(player => player.Active).ToList();
         var gameParameters = new GameParameters(activePlayers, levels, gameMode.levels.skyboxSceneName);
         var matchManagerPrefab = gameMode.matchManagerPrefab;
         if (gameModeInstance != null) {
@@ -18,10 +21,7 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
         }
         gameModeInstance = Instantiate(matchManagerPrefab, transform);
 
-        if (gameModeType == GameModeType.DeathMatch) {
-            matchManagerInstance = gameModeInstance.GetComponent<DeathMatchManager>();
-        }
-
+        matchManagerInstance = gameModeInstance.GetComponent<IMatchManager>();
         matchManagerInstance.Initialize(gameParameters);
     }
 

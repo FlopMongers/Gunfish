@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public enum ButtonStatus { Pressed, Holding, Released, Up };
 public class Gunfish : MonoBehaviour, IHittable {
     public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
-    
+
     [HideInInspector]
     public List<EffectType> EffectRemoveList = new List<EffectType>();
 
@@ -31,6 +31,7 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     [HideInInspector]
     public Player player;
+    public PlayerGameEvent PreDeath;
     public PlayerGameEvent OnDeath;
     public FloatGameEvent OnHealthUpdated;
     public FishHitEvent OnHit;
@@ -62,9 +63,11 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         killed = false;
         spawned = false;
-        
+
         PlayerInput playerInput = GetComponent<PlayerInput>();
-        playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => { GameModeManager.Instance?.NextLevel(); };
+        playerInput.actions.FindActionMap("EndLevel").FindAction("Submit").performed += ctx => {
+            GameModeManager.Instance?.NextLevel();
+        };
     }
 
     private void Update() {
@@ -75,8 +78,7 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         if (startRespawning == true && player.FreezeControls == false) {
             respawnHoldTimer += Time.deltaTime;
-        }
-        else {
+        } else {
             respawnHoldTimer = 0f;
         }
         OnRespawnUpdated?.Invoke(respawnHoldTimer / respawnHoldDuration);
@@ -101,7 +103,8 @@ public class Gunfish : MonoBehaviour, IHittable {
             foreach (var effect in effectMap) {
                 EffectRemoveList.Add(effect.Key);
             }
-            foreach (var effect in EffectRemoveList) {
+            while (EffectRemoveList.Count > 0) {
+                var effect = EffectRemoveList.Pop();
                 if (effectMap.ContainsKey(effect)) {
                     if (effectMap[effect] != null) {
                         effectMap[effect].OnRemove();
@@ -111,6 +114,7 @@ public class Gunfish : MonoBehaviour, IHittable {
             }
             EffectRemoveList.Clear();
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Death, MiddleSegment.transform.position, Quaternion.identity);
+            PreDeath?.Invoke(player);
             Despawn(true);
             killed = true;
             OnDeath?.Invoke(player);
@@ -144,8 +148,7 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         if (effectMap.ContainsKey(effect.effectType)) {
             effectMap[effect.effectType].Merge(effect);
-        }
-        else {
+        } else {
             effectMap[effect.effectType] = effect;
             effect.OnAdd();
         }
@@ -169,8 +172,7 @@ public class Gunfish : MonoBehaviour, IHittable {
                 if (statusData.CanFlop) {
                     GroundedMovement(movement);
                 }
-            }
-            else if (underwater) {
+            } else if (underwater) {
                 Swim();
             } else if (Mathf.Abs(movement.x) >= 0.2f) {
                 RotateMovement(movement, 0, data.airTorque);
@@ -262,13 +264,12 @@ public class Gunfish : MonoBehaviour, IHittable {
             Swim();
         }*/
         //else {
-            gun?.Fire(firingStatus);
+        gun?.Fire(firingStatus);
         //}
     }
 
     public void SetRespawn(bool respawn) {
         // NOTE(Wyatt): I intensely dislike how incongruent unity's new input system is from the rest of the engine
-        print(startRespawning);
         startRespawning = respawn;
     }
 
@@ -344,16 +345,20 @@ public class Gunfish : MonoBehaviour, IHittable {
             // TODO, init properly
             var healthUI = Instantiate(FX_Spawner.Instance.fishHealthUIPrefab).GetComponent<HealthUI>();
             healthUI.Init(this);
+            if (GameModeManager.Instance.matchManagerInstance is IMatchManager) {
+                widgetHealthUI = GameModeManager.Instance.matchManagerInstance.GetUI().playerWidgets[player.PlayerNumber].healthUI;
+                widgetHealthUI.Init(this);
+            }
             FX_Spawner.Instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }
 
         // width in sprite mat units means the width in pixels - i.e. tail-to-tip of fish
         // whereas width here refers to line renderer width - i.e. back-to-belly of fish
         float width = (
-            (float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width
-        ) * data.length;
+                          (float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width
+                      ) * data.length;
         gunfishRenderer = new GunfishRenderer(width, data.spriteMat, segments);
-        body = new GunfishRigidbody(segments);
+        body = new GunfishRigidbody(segments, data);
 
 
         //RootSegment.AddComponent<LineFader>();
@@ -372,9 +377,9 @@ public class Gunfish : MonoBehaviour, IHittable {
         killed = false;
 
         var gunSprite = Instantiate(
-            data.gun.gunSpritePrefab,
-            RootSegment.transform
-        ).transform;
+                            data.gun.gunSpritePrefab,
+                            RootSegment.transform
+                        ).transform;
         gunSprite.transform.localPosition = new Vector3(
             data.gunOffset.position.x,
             data.gunOffset.position.y
@@ -400,10 +405,14 @@ public class Gunfish : MonoBehaviour, IHittable {
         AddEffect(new Invincibility_Effect(this, spawnInvincibilityDuration));
     }
 
-    public void Kill() { statusData.health = 0f; }
+    public void Kill() {
+        statusData.health = 0f;
+    }
 
+    HealthUI widgetHealthUI;
     public void Despawn(bool animated) {
         // if animated, then fade and destroy
+        widgetHealthUI.Unhook();
         Destroy(gun.gameObject);
         DespawnSegments(animated);
     }

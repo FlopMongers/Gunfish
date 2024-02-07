@@ -22,6 +22,8 @@ public enum QuipType {
     Ready,
     Flop,
     GUNFISH,
+    Team3Wins,
+    Team4Wins,
 }
 
 

@@ -7,9 +7,10 @@ public struct FishSegment {
     public Rigidbody2D body;
     public CircleCollider2D collider;
 
-    public FishSegment(GameObject obj, Rigidbody2D body, CircleCollider2D collider) {
+    public FishSegment(GameObject obj, Rigidbody2D body, CircleCollider2D collider, GunfishData data) {
         this.obj = obj;
         this.body = body;
+        this.body.angularDrag = data.angularDrag;
         this.collider = collider;
     }
 }
@@ -49,14 +50,15 @@ public class GunfishRigidbody {
     }
     */
 
-    public GunfishRigidbody(List<GameObject> segments) {
+    public GunfishRigidbody(List<GameObject> segments, GunfishData data) {
         this.segments = new List<FishSegment>(segments.Count);
         segments.ForEach(segment => {
             this.segments.Add(
                 new FishSegment(
                     segment,
                     segment.GetComponent<Rigidbody2D>(),
-                    segment.GetComponent<CircleCollider2D>()
+                    segment.GetComponent<CircleCollider2D>(),
+                    data
                 )
             );
         });

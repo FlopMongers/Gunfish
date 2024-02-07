@@ -12,7 +12,7 @@ public class Gun : MonoBehaviour {
 
     public FloatGameEvent OnAmmoChanged;
 
-    private int layerMask;
+    protected int layerMask;
 
     public float ammo;
     protected float fireCooldown_timer, reload_timer, reloadWait_timer;
@@ -21,7 +21,8 @@ public class Gun : MonoBehaviour {
 
     // Start is called before the first frame update
     protected virtual void Start() {
-        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water");
+        layerMask = LayerMask.GetMask("Player1", "Player2", "Player3", "Player4", "Ground", "Default", "Water", "Floaty");
+        OnAmmoChanged?.Invoke(ammo / gunfish.data.gun.maxAmmo);
     }
 
     // Update is called once per frame
@@ -98,7 +99,6 @@ public class Gun : MonoBehaviour {
             hitGunfishes.Clear();
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
-
             bool splooshed = false;
             foreach (var hit in hits) {
                 WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
@@ -184,6 +184,8 @@ public class Gun : MonoBehaviour {
     }
 
     public void Kickback(float kickback) {
+        if (gunfish.segments[0] == null)
+            return;
         var direction = gunfish.segments[0].transform.right;
         // gun kickback
         gunfish.body.ApplyForceToSegment(0, direction * kickback, ForceMode2D.Impulse);

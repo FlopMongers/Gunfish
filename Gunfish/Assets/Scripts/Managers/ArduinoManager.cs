@@ -74,7 +74,9 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
     private void ConnectArduino() {
         foreach (var port in new string[] { "COM3", "COM4", "COM5" }) {
-            serialPort = new SerialPort(port, 9600) { ReadTimeout = 100 };
+            serialPort = new SerialPort(port, 9600) {
+                ReadTimeout = 100
+            };
             try {
                 serialPort?.Open();
                 Debug.Log($"Connected Arduino on port {port}");

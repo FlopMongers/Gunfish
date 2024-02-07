@@ -13,3 +13,5 @@ public delegate void CollisionEvent(GameObject src, Collision2D collision);
 public delegate void TriggerEvent(GameObject src, Collider2D collision);
 public delegate void FishHitEvent(Gunfish gunfish, FishHitObject hit);
 public delegate void HitEvent(HitObject hit);
+public delegate void CheckpointEvent(Gunfish gunfish, Checkpoint checkpoint);
+public delegate void OnGoalEvent(Goal goal, BassballBall ball);

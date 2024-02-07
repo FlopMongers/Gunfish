@@ -143,7 +143,8 @@ MonoBehaviour:
   destroyFX: 9
   hitFX: 8
   damagedFX: 0
-  handleCollisionDamage: 0
+  handleCollisionDamage: 1
+  dealCollisionDamage: 0
   addDestroyer: 0
   destroyer: {fileID: 4528336107731716631}
 --- !u!114 &1473432151152142591
@@ -219,6 +220,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyFX: 16
   spriteRenderer: {fileID: 1473432151076837393}
+  destroyFromStart: 0
+  destroyDelay: {x: 0, y: 0}
 --- !u!114 &-5976797666722800623
 MonoBehaviour:
   m_ObjectHideFlags: 0

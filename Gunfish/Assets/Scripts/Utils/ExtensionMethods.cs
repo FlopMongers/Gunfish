@@ -10,6 +10,10 @@ using UnityEngine.AI;
 
 public static class ExtensionMethods {
 
+    public static float GetValueInRange(this Vector2 range, float normalizedValue) {
+        return range.x + ((range.y - range.x) * normalizedValue);
+    }
+
     public static float GetNormalizedValueInRange(float value, float minValue, float maxValue) {
         return (value - minValue) / (maxValue - minValue);
     }
@@ -269,6 +273,15 @@ public static class DictionaryExtension {
             list[k] = list[n];
             list[n] = value;
         }
+    }
+
+    public static T Pop<T>(this List<T> list) {
+        if (list.Count > 0) {
+            T result = list[0];
+            list.RemoveAt(0);
+            return result;
+        }
+        return list.DefaultIfEmpty().First();
     }
 
     public static IEnumerator CoShuffle<T>(this IList<T> list, int blockSize = 100) {

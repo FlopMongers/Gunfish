@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71473bc39620ff41b4c80aea9046c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mixer: {fileID: 24300002, guid: f0616bc19253f34408de7cebcb671a24, type: 2}
+  mixer: {fileID: 243106783325251347, guid: f0616bc19253f34408de7cebcb671a24, type: 2}
   Serialized_FX_Dict:
   - key: 1
     trackKey: 1

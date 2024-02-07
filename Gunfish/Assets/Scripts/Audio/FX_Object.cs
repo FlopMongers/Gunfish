@@ -80,6 +80,12 @@ public class FX_Object : MonoBehaviour {
         Play();
     }
 
+    public virtual void SetAudioMixerGroup(AudioMixerGroup mixerGroup) {
+        foreach (AudioSource aud in GetComponentsInChildren<AudioSource>()) {
+            aud.outputAudioMixerGroup = mixerGroup;
+        }   
+    }
+
     private void Update() {
         if (!parent)
             return;
