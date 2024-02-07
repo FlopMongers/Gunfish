@@ -19,7 +19,6 @@ public class BassballBall : MonoBehaviour
         Goal goal = collision.GetComponentInParent<Goal>();
         if (goal != null && collision.OverlapPoint(transform.position)) {
             goal.OnGoal?.Invoke(goal, this);
-            print("HELLO");
             shootable.undamageable = false;
             shootable.indestructible = false;
             shootable.UpdateHealth(-shootable.health);
