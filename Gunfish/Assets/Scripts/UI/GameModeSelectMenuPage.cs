@@ -89,7 +89,7 @@ public class GameModeSelectMenuPage : IMenuPage {
 
     private void DisplayGameMode(GameMode gameMode) {
         displayedGameMode = gameMode;
-        gameModeImage.style.backgroundImage = gameMode.image;
+        //gameModeImage.style.backgroundImage = gameMode.image;
         gameModeName.text = gameMode.name;
     }
 }
