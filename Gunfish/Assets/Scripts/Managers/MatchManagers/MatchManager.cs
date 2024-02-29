@@ -142,11 +142,6 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         return null;
     }
 
-    public void FinishSpawningPlayer(Player player) {
-        // add player's fish to camera group
-        GameCamera.Instance?.targetGroup.AddMember(player.Gunfish.MiddleSegment.transform, 1, 1);
-    }
-
     public virtual void StartLevel() {
         InitializeSpawnPoints();
         FreezeFish(true);
@@ -205,7 +200,6 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public virtual void OnPlayerDeath(Player player) {
         // remove the fishy from the camera group
         // will this work? I don't know...
-        GameCamera.Instance?.targetGroup.RemoveMember(null);
     }
 
     public virtual void OnPlayerPreDeath(Player player) {

@@ -61,7 +61,7 @@ public class GameModeSelectMenuPage : MenuPage {
     }
 
     private void OnCancel(InputAction.CallbackContext context) {
-        menuContext.menu.SetState(MenuState.Splash);
+        menuContext.menu.SetState(MenuState.Splash, MenuDirection.Right);
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {

@@ -22,6 +22,10 @@ public class OffscreenTracker : MonoBehaviour
     }
 
 	void Update () {
+        if (goToTrack == null || goToTrack.transform == null) {
+            Destroy(gameObject);
+            return;
+        }
 		Vector3 v3Screen = Camera.main.WorldToViewportPoint(goToTrack.transform.position);
 		if (v3Screen.x > padding && v3Screen.x < inversePadding && v3Screen.y > padding && v3Screen.y < inversePadding)
 			canvasRenderer.cull = true;

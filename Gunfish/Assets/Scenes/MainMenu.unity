@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 388296117486258223, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 388296117486258223, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
@@ -398,7 +398,7 @@ PrefabInstance:
     - target: {fileID: 3613558910019778712, guid: b09ed2996b0fa3d44937d1946986e17e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3613558910019778712, guid: b09ed2996b0fa3d44937d1946986e17e,
         type: 3}
@@ -469,6 +469,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 615355709661621907, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075342, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3644286909186876605, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -508,6 +518,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479670534428438839, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4777274976923191128, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
@@ -547,7 +562,7 @@ PrefabInstance:
     - target: {fileID: 5673737387414419726, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419726, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
@@ -604,6 +619,12 @@ PrefabInstance:
       propertyPath: debug
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: _gameModeList
+      value: 
+      objectReference: {fileID: 11400000, guid: 4666cf486b5ed7d48a6e33d03729e697,
+        type: 2}
     - target: {fileID: 5673737387414419727, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: defaultGameMode

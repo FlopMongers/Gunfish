@@ -66,7 +66,7 @@ public class HealthUI : MonoBehaviour {
         _shootable = shootable;
 
         _shootable.OnHealthUpdated += UpdateHealth;
-        _shootable.OnDead += OnShootableDeath;
+        _shootable.OnDead += OnDeath;
         SetHealth(_shootable.health);
 
         SetUpConstraint(shootable.transform, offset);
@@ -76,7 +76,7 @@ public class HealthUI : MonoBehaviour {
         _gunfish = gunfish;
 
         _gunfish.OnHealthUpdated += UpdateHealth;
-        _gunfish.OnDeath += OnGunfishDeath;
+        _gunfish.RemoveUI += OnDeath;
         _gunfish.OnRespawnUpdated += UpdateRespawnBar;
         SetHealth(_gunfish.statusData.health);
 
@@ -174,11 +174,7 @@ public class HealthUI : MonoBehaviour {
         _hitInProgress = false;
     }
 
-    void OnGunfishDeath(Player player) {
-        Destroy(gameObject);
-    }
-
-    void OnShootableDeath() {
+    void OnDeath() {
         Destroy(gameObject);
     }
 
@@ -189,12 +185,12 @@ public class HealthUI : MonoBehaviour {
     public void Unhook() {
         if (_gunfish) {
             _gunfish.OnHealthUpdated -= UpdateHealth;
-            _gunfish.OnDeath -= OnGunfishDeath;
+            _gunfish.RemoveUI -= OnDeath;
             _gunfish.gun.OnAmmoChanged -= UpdateWhiteBar;
         }
         if (_shootable) {
             _shootable.OnHealthUpdated -= UpdateHealth;
-            _shootable.OnDead -= OnShootableDeath;
+            _shootable.OnDead -= OnDeath;
         }
         EnableBars(false);
         UpdateWhiteBar(0);

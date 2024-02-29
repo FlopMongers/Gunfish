@@ -114,9 +114,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 452d60cf45c986149bc423a5477be7b5, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1424,6 +1424,4 @@ MonoBehaviour:
   cancelHint: {fileID: 2344477266609296946}
   readyHint: {fileID: 2894082416628817005}
   disabledHint: {fileID: 2894082416975595846}
-  arrowsActive: 0
-  arrowsT: 0
   arrowAnimationDuration: 0.25

@@ -58,7 +58,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
 
         // spawn a player at their respective spawn area
         player.SpawnGunfish(((BassballTeamReference)playerReferences[player].team).goal.GetNextSpawnPoint().position);
-        FinishSpawningPlayer(player);
+        //FinishSpawningPlayer(player);
     }
 
     public override void OnPlayerDeath(Player player) {

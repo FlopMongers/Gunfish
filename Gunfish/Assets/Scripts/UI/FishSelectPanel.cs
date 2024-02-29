@@ -76,7 +76,9 @@ public class FishSelectPanel : MonoBehaviour {
     }
 
     public void SetFishImage(Sprite sprite) {
+        fishImage.color = Color.white;
         fishImage.sprite = sprite;
+        fishImage.preserveAspect = true;
     }
 
     public void SetState(State state) {
@@ -96,6 +98,7 @@ public class FishSelectPanel : MonoBehaviour {
 
     private void SetStateInactive() {
         arrowsActive = false;
+        fishImage.color = Color.black;
         confirmHint.gameObject.SetActive(false);
         cancelHint.gameObject.SetActive(false);
         readyHint.gameObject.SetActive(false);
