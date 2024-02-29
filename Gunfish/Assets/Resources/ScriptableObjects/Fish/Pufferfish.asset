@@ -16,7 +16,7 @@ MonoBehaviour:
     type: 3}
   spriteMat: {fileID: 2100000, guid: 47bca18cc2bbd3343ac28d2f39df3e06, type: 2}
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
-  sprite: {fileID: 21300000, guid: 71f12e683f3dd574c87f8fc087558d1e, type: 3}
+  sprite: {fileID: 21300000, guid: 9a523b0a24a45f64f823dfaf9002bdae, type: 3}
   mass: 5
   fixedJointDamping: 1
   fixedJointFrequency: 32
@@ -78,7 +78,7 @@ MonoBehaviour:
   segmentCount: 8
   flopCooldown: 0.5
   gunOffset:
-    position: {x: -0.01, y: -0.282}
+    position: {x: 0, y: -0.1}
     rotation: 0
   gun: {fileID: 11400000, guid: 799e21ee783f12f4ea8eabf9d4c401f3, type: 2}
   gunSegmentIndex: 0

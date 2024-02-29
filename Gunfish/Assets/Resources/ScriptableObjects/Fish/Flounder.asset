@@ -16,7 +16,7 @@ MonoBehaviour:
     type: 3}
   spriteMat: {fileID: 2100000, guid: 42d0ef158eb073e44b45b7e4246daf1c, type: 2}
   physicsMaterial: {fileID: 6200000, guid: 1f204d6ce793d8d49829c4ca2ef72606, type: 2}
-  sprite: {fileID: 21300000, guid: 16293a836b0c96b4c90e81e30cead360, type: 3}
+  sprite: {fileID: 21300000, guid: 53f7eba93dbb2ab4fa1d8790349cfb74, type: 3}
   mass: 5
   fixedJointDamping: 1
   fixedJointFrequency: 32
