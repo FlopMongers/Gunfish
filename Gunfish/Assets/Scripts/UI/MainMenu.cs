@@ -4,23 +4,22 @@ using UnityEngine.UIElements;
 
 public struct MenuPageContext {
     public MainMenu menu;
-    public UIDocument document;
     public InputActionMap actionMap;
+    public GameObject pageObject;
 }
 
-[RequireComponent(typeof(UIDocument))]
 public class MainMenu : Singleton<MainMenu> {
 
     private MenuPageContext context;
 
     private MenuState state;
-    private IMenuPage page;
+    private MenuPage currentPage;
 
     [SerializeField] private AudioClip uiSound;
 
-    [SerializeField] private VisualTreeAsset splash;
-    [SerializeField] private VisualTreeAsset gameModeSelect;
-    [SerializeField] private VisualTreeAsset gunfishSelect;
+    [SerializeField] private SplashMenuPage splashMenuPage;
+    [SerializeField] private GameModeSelectMenuPage gameModeSelectMenuPage;
+    [SerializeField] private FishSelectMenuPage fishSelectMenuPage;
 
     public override void Initialize() {
         base.Initialize();
@@ -31,14 +30,7 @@ public class MainMenu : Singleton<MainMenu> {
         context = new MenuPageContext();
 
         context.menu = this;
-        context.document = gameObject.GetComponent<UIDocument>();
         SetState(MenuState.Splash);
-    }
-
-    private void Update() {
-        if (page != null) {
-            page.OnUpdate(context);
-        }
     }
 
     public void SetState(MenuState state) {
@@ -46,25 +38,17 @@ public class MainMenu : Singleton<MainMenu> {
             return;
         }
 
-        if (page != null) {
-            page.OnDisable(context);
-        }
+        currentPage?.OnPageStop(context);
 
         if (state == MenuState.Splash) {
-            context.document.visualTreeAsset = splash;
-            page = new SplashMenuPage();
-
-        }
-        else if (state == MenuState.GameModeSelect) {
-            context.document.visualTreeAsset = gameModeSelect;
-            page = new GameModeSelectMenuPage();
-        }
-        else if (state == MenuState.GunfishSelect) {
-            context.document.visualTreeAsset = gunfishSelect;
-            page = new FishSelectMenuPage();
+            currentPage = splashMenuPage;
+        } else if (state == MenuState.GameModeSelect) {
+            currentPage = gameModeSelectMenuPage;
+        } else if (state == MenuState.FishSelect) {
+            currentPage = fishSelectMenuPage;
         }
 
-        page.OnEnable(context);
+        currentPage?.OnPageStart(context);
         this.state = state;
     }
 

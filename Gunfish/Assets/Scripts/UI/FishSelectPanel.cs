@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,36 +19,32 @@ public class FishSelectPanel : MonoBehaviour {
     public RectTransform readyHint;
     public RectTransform disabledHint;
 
-    [SerializeField] private State state;
+    public State state { get; private set; }
 
-    [SerializeField] private bool arrowsActive;
+    private bool arrowsActive;
     private float arrowsT;
     private AnimationCurve tween;
     private Vector2 leftPosition;
     private Vector2 rightPosition;
+    
+    private bool initialized;
+
     [SerializeField] private float arrowAnimationDuration = 1f;
 
     private void Start() {
+        initialized = false;
+    }
+
+    public void Initialize() {
         InitializeArrows();
         SetState(State.Inactive);
+        initialized = true;
     }
-    private void Update() {
-        AnimateArrows();
 
-        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            if (state == State.Inactive) {
-                SetState(State.Selecting);
-            } else if (state == State.Selecting) {
-                SetState(State.Confirmed);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            if (state == State.Confirmed) {
-                SetState(State.Selecting);
-            } else if (state == State.Selecting) {
-                SetState(State.Inactive);
-            }
-        }
+    private void Update() {
+        if (!initialized)
+            return;
+        AnimateArrows();
     }
 
     private void InitializeArrows() {
@@ -72,6 +69,10 @@ public class FishSelectPanel : MonoBehaviour {
             arrowsT -= Time.deltaTime / arrowAnimationDuration;
         }
         arrowsT = Mathf.Clamp01(arrowsT);
+    }
+
+    public void SetColor(Color color) {
+
     }
 
     public void SetFishImage(Sprite sprite) {

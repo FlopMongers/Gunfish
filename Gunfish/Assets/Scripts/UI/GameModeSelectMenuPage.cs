@@ -1,21 +1,20 @@
 using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
-public class GameModeSelectMenuPage : IMenuPage {
+public class GameModeSelectMenuPage : MenuPage {
     private MenuPageContext menuContext;
-    public List<GameMode> gameModes;
+    private List<GameMode> gameModes;
     private GameMode displayedGameMode;
     private int displayedGameModeIndex;
 
-    private VisualElement gameModeImage;
-    private Label gameModeName;
-    private Button backButton;
-    private Button nextButton;
+    [SerializeField] private TMP_Text gameModeName;
+    [SerializeField] private Image gameModeImage;
 
-    public void OnEnable(MenuPageContext context) {
+    public override void OnPageStart(MenuPageContext context) {
+        base.OnPageStart(context);
         menuContext = context;
 
         foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
@@ -23,12 +22,8 @@ public class GameModeSelectMenuPage : IMenuPage {
                 continue;
             playerInput.currentActionMap.FindAction("Navigate").performed += OnNavigate;
             playerInput.currentActionMap.FindAction("Submit").performed += OnSubmit;
+            playerInput.currentActionMap.FindAction("Cancel").performed += OnCancel;
         }
-
-        gameModeImage = menuContext.document.rootVisualElement.Q<VisualElement>("gamemode-image");
-        gameModeName = menuContext.document.rootVisualElement.Q<Label>("gamemode-name");
-        backButton = menuContext.document.rootVisualElement.Q<Button>("back-button");
-        nextButton = menuContext.document.rootVisualElement.Q<Button>("next-button");
 
         displayedGameModeIndex = 0;
         gameModes = GameManager.Instance.GameModeList.gameModes;
@@ -37,17 +32,14 @@ public class GameModeSelectMenuPage : IMenuPage {
         }
     }
 
-    public void OnDisable(MenuPageContext context) {
+    public override void OnPageStop(MenuPageContext context) {
         foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
             if (!playerInput)
                 continue;
             playerInput.currentActionMap.FindAction("Navigate").performed -= OnNavigate;
             playerInput.currentActionMap.FindAction("Submit").performed -= OnSubmit;
         }
-    }
-
-    public void OnUpdate(MenuPageContext context) {
-
+        base.OnPageStop(context);
     }
 
     private void OnNavigate(InputAction.CallbackContext context) {
@@ -68,9 +60,13 @@ public class GameModeSelectMenuPage : IMenuPage {
         }
     }
 
+    private void OnCancel(InputAction.CallbackContext context) {
+        menuContext.menu.SetState(MenuState.Splash);
+    }
+
     private void OnSubmit(InputAction.CallbackContext context) {
         GameManager.Instance.SetSelectedGameMode(displayedGameMode.gameModeType);
-        menuContext.menu.SetState(MenuState.GunfishSelect);
+        menuContext.menu.SetState(MenuState.FishSelect);
     }
 
     private void IncrementGameMode() {
@@ -89,7 +85,7 @@ public class GameModeSelectMenuPage : IMenuPage {
 
     private void DisplayGameMode(GameMode gameMode) {
         displayedGameMode = gameMode;
-        //gameModeImage.style.backgroundImage = gameMode.image;
+        gameModeImage.sprite = gameMode.image;
         gameModeName.text = gameMode.name;
     }
 }
