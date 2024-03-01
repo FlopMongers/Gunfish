@@ -34,8 +34,6 @@ public class FishSelectMenuPage : MenuPage {
         MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
 
-        print("onPageStart");
-
         playerActions = new List<PlayerAction>();
         gunfishIndices = new List<int>();
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
@@ -43,7 +41,6 @@ public class FishSelectMenuPage : MenuPage {
             var playerInput = PlayerManager.Instance.PlayerInputs[playerIndex];
             var fishSelectPanel = fishSelectPanels[playerIndex];
             gunfishIndices.Add(0);
-            print($"{fishSelectPanel} - {playerIndex}");
 
             PlayerAction playerAction = new PlayerAction(
                 (InputAction.CallbackContext context) => OnNavigate(context, playerIndex),
@@ -98,7 +95,6 @@ public class FishSelectMenuPage : MenuPage {
 
     private void OnSubmit(InputAction.CallbackContext context, int playerIndex) {
         var fishSelectPanel = fishSelectPanels[playerIndex];
-        print($"{fishSelectPanel} - {playerIndex}");
         switch (fishSelectPanel.state) {
             case FishSelectPanel.State.Inactive:
                 PlayerManager.Instance.Players[playerIndex].Active = false;
