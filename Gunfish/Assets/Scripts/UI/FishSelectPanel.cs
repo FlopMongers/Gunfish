@@ -33,6 +33,7 @@ public class FishSelectPanel : MonoBehaviour {
 
     private void Start() {
         initialized = false;
+        Initialize();
     }
 
     public void Initialize() {
