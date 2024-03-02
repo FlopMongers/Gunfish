@@ -70,6 +70,24 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-4527241504943888588
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: c8b230f1577e765469d027c0922c7d8c
+  m_EffectName: Lowpass
+  m_MixLevel: a88ca07e78491714294361b87265496c
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 84a9fdd197ca44b449d745d1496a022a
+  - m_ParameterName: Resonance
+    m_GUID: 08eda971b6ec7e149aac26de4bb6d7ae
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-4279973681051463488
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -120,6 +138,8 @@ AudioMixerController:
     name: ArduinoVolume
   - guid: c77a8797bd60b2043b3ea1e1fed0d6e1
     name: MasterVolume
+  - guid: 84a9fdd197ca44b449d745d1496a022a
+    name: MasterLowpass
   - guid: f86ed6ac8fb30c441b0f939bb13c864f
     name: MusicVolume
   - guid: 59ac125621fd9ef428fe8d4871a0bbbf
@@ -151,6 +171,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
+  - {fileID: -4527241504943888588}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -180,6 +201,7 @@ AudioMixerSnapshotController:
   m_SnapshotID: 86f5c0f9cebcba142aa374e3a466d0a9
   m_FloatValues:
     07f9b6a07e49c8a43a9eef6f0c9a27a0: 0
+    84a9fdd197ca44b449d745d1496a022a: 22000
     54e6d4329596d4afdb76daeafc5637d6: 4335.791
     f53390b2a263659439bc25e7b9da5ff0: 0.04
     1a854ce3a3ffd47439b2ff720107cfba: 0.01
