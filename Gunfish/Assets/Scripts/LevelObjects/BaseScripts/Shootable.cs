@@ -42,7 +42,7 @@ public class Shootable : MonoBehaviour, IHittable {
             healthBar = Instantiate(FX_Spawner.Instance.healthUIPrefab, transform).GetComponent<HealthUI>();
         }
         if (healthBar != null) {
-            healthBar.transform.parent = null;
+            healthBar.transform.SetParent(null);
             healthBar.Init(this);
         }
 

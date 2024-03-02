@@ -65,6 +65,8 @@ public class HealthUI : MonoBehaviour {
     public void Init(Shootable shootable, Vector3? offset = null) {
         _shootable = shootable;
 
+        transform.SetParent(null);
+
         _shootable.OnHealthUpdated += UpdateHealth;
         _shootable.OnDead += OnDeath;
         SetHealth(_shootable.health);
