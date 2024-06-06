@@ -6,18 +6,22 @@ using UnityEngine;
 public class BassballBall : MonoBehaviour
 {
     public Destroyer destroyer;
+    public Shootable shootable;
 
     private void Start() {
         destroyer = destroyer ?? GetComponent<Destroyer>();
+        shootable = shootable ?? GetComponent<Shootable>();
     }
 
     private void OnTriggerStay2D(Collider2D collision) {
-        if (destroyer.destroying)
+        if (shootable.dead == true)
             return;
-        Goal goal = collision.attachedRigidbody?.GetComponent<Goal>();
+        Goal goal = collision.GetComponentInParent<Goal>();
         if (goal != null && collision.OverlapPoint(transform.position)) {
             goal.OnGoal?.Invoke(goal, this);
-            destroyer.GETTEM();
+            shootable.undamageable = false;
+            shootable.indestructible = false;
+            shootable.UpdateHealth(-shootable.health);
         }
     }
 }

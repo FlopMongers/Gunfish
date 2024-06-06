@@ -44,7 +44,7 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
 
     public void SpawnGunfish(Vector3 spawnPosition) {
         var color = PlayerManager.Instance.playerColors[PlayerNumber];
-        gunfish.Spawn(gunfishData, layer, spawnPosition);
+        gunfish.Spawn(gunfishData, spawnPosition);
         var material = gunfish.gunfishRenderer.LineRenderer.material;
         material.SetColor("_OutlineColor", color);
         input.defaultActionMap = "Player";

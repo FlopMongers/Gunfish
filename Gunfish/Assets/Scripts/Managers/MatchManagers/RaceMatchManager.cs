@@ -86,7 +86,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
 
         // spawn a player at their last checkpoint
         player.SpawnGunfish(playerReferences[player].lastCheckpoint.GetNextSpawnPoint().position);
-        FinishSpawningPlayer(player);
+        //FinishSpawningPlayer(player);
     }
 
     public override void OnPlayerPreDeath(Player player) {

@@ -35,6 +35,7 @@ public class Gunfish : MonoBehaviour, IHittable {
     public PlayerGameEvent OnDeath;
     public FloatGameEvent OnHealthUpdated;
     public FishHitEvent OnHit;
+    public GameEvent RemoveUI;
     private bool killed;
     private bool spawned;
 
@@ -321,7 +322,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         return bounds;
     }
 
-    public void Spawn(GunfishData data, LayerMask layer, Vector3 position) {
+    public void Spawn(GunfishData data, Vector3 position) {
         if (data.segmentCount < 3) {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
@@ -339,7 +340,7 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         generator = new GunfishGenerator(this);
 
-        segments = generator.Generate(layer, position);
+        segments = generator.Generate(player.layer, position);
 
         if (FX_Spawner.Instance != null) {
             // TODO, init properly
@@ -371,7 +372,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         RootSegment.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
         groundDetector = RootSegment.CheckAddComponent<GroundDetector>();
         groundDetector.gunfish = this;
-        groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << layer);
+        groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << player.layer);
 
         spawned = true;
         killed = false;
@@ -384,9 +385,9 @@ public class Gunfish : MonoBehaviour, IHittable {
             data.gunOffset.position.x,
             data.gunOffset.position.y
         );
-        gunSprite.gameObject.layer = layer;
+        gunSprite.gameObject.layer = player.layer;
         foreach (Transform child in gunSprite) {
-            child.gameObject.layer = layer;
+            child.gameObject.layer = player.layer;
         }
 
         float gun_length = gunSprite.gameObject.GetComponentInChildren<SpriteRenderer>().sprite.texture.width;
@@ -403,7 +404,25 @@ public class Gunfish : MonoBehaviour, IHittable {
             gun.barrels.Add(barrel.gameObject.GetComponent<GunBarrel>());
         }
         AddEffect(new Invincibility_Effect(this, spawnInvincibilityDuration));
+        GameCamera.Instance?.targetGroup.AddMember(MiddleSegment.transform, 1, 1);
     }
+
+    public void SwapFish(GunfishData fishData) {
+        float health = statusData.health;
+        Rigidbody2D rb = RootSegment.GetComponent<Rigidbody2D>();
+        Vector3 velocity = rb.velocity;
+        float angularVelocity = rb.angularVelocity;
+        Vector3 pos = RootSegment.transform.position;
+        Vector3 rot = RootSegment.transform.rotation.eulerAngles;
+        Despawn(false);
+        Spawn(fishData, pos);
+        RootSegment.transform.Rotate(rot);
+        // update health, add momentum?
+        UpdateHealth(health-statusData.health);
+        rb = RootSegment.GetComponent<Rigidbody2D>();
+        rb.velocity = velocity;
+        rb.angularVelocity = angularVelocity;
+    } 
 
     public void Kill() {
         statusData.health = 0f;
@@ -412,7 +431,9 @@ public class Gunfish : MonoBehaviour, IHittable {
     HealthUI widgetHealthUI;
     public void Despawn(bool animated) {
         // if animated, then fade and destroy
+        GameCamera.Instance?.targetGroup.RemoveMember(MiddleSegment.transform);
         widgetHealthUI.Unhook();
+        RemoveUI?.Invoke();
         Destroy(gun.gameObject);
         DespawnSegments(animated);
     }

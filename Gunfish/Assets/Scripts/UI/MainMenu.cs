@@ -1,26 +1,35 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public struct MenuPageContext {
     public MainMenu menu;
-    public UIDocument document;
     public InputActionMap actionMap;
+    public GameObject pageObject;
 }
 
-[RequireComponent(typeof(UIDocument))]
+public enum MenuDirection { Right, Left };
+
 public class MainMenu : Singleton<MainMenu> {
 
     private MenuPageContext context;
 
     private MenuState state;
-    private IMenuPage page;
+    private MenuPage currentPage;
 
     [SerializeField] private AudioClip uiSound;
 
-    [SerializeField] private VisualTreeAsset splash;
-    [SerializeField] private VisualTreeAsset gameModeSelect;
-    [SerializeField] private VisualTreeAsset gunfishSelect;
+    [SerializeField] private SplashMenuPage splashMenuPage;
+    [SerializeField] private GameModeSelectMenuPage gameModeSelectMenuPage;
+    [SerializeField] private FishSelectMenuPage fishSelectMenuPage;
+
+    [SerializeField] private Transform OffScreenPoint;
+    [SerializeField] private Transform StartScreenPoint;
+    [SerializeField] private Transform CentralPoint;
+
+    bool animating;
 
     public override void Initialize() {
         base.Initialize();
@@ -31,40 +40,57 @@ public class MainMenu : Singleton<MainMenu> {
         context = new MenuPageContext();
 
         context.menu = this;
-        context.document = gameObject.GetComponent<UIDocument>();
         SetState(MenuState.Splash);
     }
 
-    private void Update() {
-        if (page != null) {
-            page.OnUpdate(context);
-        }
-    }
 
-    public void SetState(MenuState state) {
-        if (this.state == state) {
+    public void SetState(MenuState state, MenuDirection dir = MenuDirection.Left) {
+        if (animating || this.state == state) {
             return;
         }
-
-        if (page != null) {
-            page.OnDisable(context);
-        }
+        StartCoroutine(CoSetState(state, dir));
+        /*
+        currentPage?.OnPageStop(context);
 
         if (state == MenuState.Splash) {
-            context.document.visualTreeAsset = splash;
-            page = new SplashMenuPage();
+            currentPage = splashMenuPage;
+        } else if (state == MenuState.GameModeSelect) {
+            currentPage = gameModeSelectMenuPage;
+        } else if (state == MenuState.FishSelect) {
+            currentPage = fishSelectMenuPage;
+        }
 
+        currentPage?.OnPageStart(context);
+        */
+    }
+
+    IEnumerator CoSetState(MenuState state, MenuDirection dir) {
+        animating = true;
+
+        Transform target = (dir == MenuDirection.Left) ? OffScreenPoint : StartScreenPoint;
+        Transform source = (dir == MenuDirection.Left) ? StartScreenPoint : OffScreenPoint;
+
+        if (currentPage != null) {
+            var page = currentPage;
+            page.transform.DOMove(target.position, 1f).OnComplete(() => {
+                page.OnPageStop(context);
+            });
+            yield return new WaitForSeconds(0.25f);
+        }
+        if (state == MenuState.Splash) {
+            currentPage = splashMenuPage;
         }
         else if (state == MenuState.GameModeSelect) {
-            context.document.visualTreeAsset = gameModeSelect;
-            page = new GameModeSelectMenuPage();
+            currentPage = gameModeSelectMenuPage;
         }
-        else if (state == MenuState.GunfishSelect) {
-            context.document.visualTreeAsset = gunfishSelect;
-            page = new FishSelectMenuPage();
+        else if (state == MenuState.FishSelect) {
+            currentPage = fishSelectMenuPage;
         }
-
-        page.OnEnable(context);
+        currentPage.OnPageStart(context);
+        currentPage.transform.position = source.position;
+        currentPage.transform.DOMove(CentralPoint.position, 1f);
+        yield return new WaitForSeconds(1);
+        animating = false;
         this.state = state;
     }
 

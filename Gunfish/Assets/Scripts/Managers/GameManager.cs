@@ -42,14 +42,6 @@ public class GameManager : PersistentSingleton<GameManager> {
 
     public override void Initialize() {
         PlayerManager.Instance.Initialize();
-    }
-
-    public void InitializeNonPlayerManagerManagersLol() {
-        StartCoroutine(SendIt());
-    }
-
-    private IEnumerator SendIt() {
-        yield return new WaitForEndOfFrame();
         LevelManager.Instance.Initialize();
         MusicManager.Instance.Initialize();
         ArduinoManager.Instance.Initialize();

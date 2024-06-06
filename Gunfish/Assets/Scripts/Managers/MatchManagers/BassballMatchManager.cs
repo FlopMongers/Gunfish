@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class BassballTeamReference : ScoredTeamReference {
     public Goal goal;
@@ -13,7 +14,7 @@ public class BassballTeamReference : ScoredTeamReference {
 public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamReference>
 {
     // a ball spawns every X seconds
-    Dictionary<Goal, TeamReference> goalToTeam = new Dictionary<Goal, TeamReference>();
+    Dictionary<Goal, BassballTeamReference> goalToTeam = new Dictionary<Goal, BassballTeamReference>();
     protected BassballTeamReference lastGameWinner;
     List<Goal> goals = new List<Goal>();
 
@@ -44,12 +45,20 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
         }
     }
 
+    protected override void AddPlayerReference(Player player, TeamReference teamRef) {
+        playerReferences[player] = new PlayerReference(player, (BassballTeamReference)teamRef);
+    }
+
+    protected override BassballTeamReference GenerateTeamRef(Player player) {
+        return new BassballTeamReference(player.PlayerNumber, PlayerManager.Instance.playerColors[player.PlayerNumber]);
+    }
+
     protected override IEnumerator CoSpawnPlayer(Player player) {
         yield return new WaitForSeconds(spawnDelay);
 
         // spawn a player at their respective spawn area
         player.SpawnGunfish(((BassballTeamReference)playerReferences[player].team).goal.GetNextSpawnPoint().position);
-        FinishSpawningPlayer(player);
+        //FinishSpawningPlayer(player);
     }
 
     public override void OnPlayerDeath(Player player) {
@@ -130,7 +139,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
 
         List<PlayerReference> sortedList = playerReferences.Values.OrderByDescending(x => winner == x.team)
                               .ToList();
-        statsUI.ShowStats(winnerText, sortedList, winner, tiebreakerText, "Games Won", scoreLambda:(x => ((BassballTeamReference)x.team).score.ToString()));
+        statsUI.ShowStats(winnerText, sortedList, winner, tiebreakerText, "Games", scoreLambda:(x => ((BassballTeamReference)x.team).gamesWon.ToString()));
         nextLevelTimer = maxNextLevelTimer;
         waitingForNextLevel = true;
     }

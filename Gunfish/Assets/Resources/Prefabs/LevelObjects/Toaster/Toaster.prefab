@@ -161,12 +161,14 @@ MonoBehaviour:
   maxHealth: 5
   damagedThreshold: 0
   damagedSprite: {fileID: 21300000, guid: 477978bf567429447bf5bef6f6b3242f, type: 3}
-  indestructible: 1
+  indestructible: 0
+  undamageable: 1
   health: 5
   destroyFX: 0
   hitFX: 0
   damagedFX: 0
   handleCollisionDamage: 1
+  dealCollisionDamage: 1
   addDestroyer: 0
   destroyer: {fileID: 0}
   waterInteractor: {fileID: 1904712604937553217}

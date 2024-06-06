@@ -126,7 +126,7 @@ MonoBehaviour:
   - {fileID: 5451562435075322681}
   - {fileID: 245552029105374938}
   eliminatedColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
-  gameScore: {fileID: 0}
+  gameScore: {fileID: 5197249741781737869}
 --- !u!1 &6755448225137994933
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,6 +870,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSize
       value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173416892348062446, guid: 240af06730e808942974d5e1b574edc3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 33.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173416892348062446, guid: 240af06730e808942974d5e1b574edc3,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4815917166150843895, guid: 240af06730e808942974d5e1b574edc3,
         type: 3}

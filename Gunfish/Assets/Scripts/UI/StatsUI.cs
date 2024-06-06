@@ -27,10 +27,10 @@ public class StatsUI : MonoBehaviour
         List<PlayerReferenceType> players,
         TeamReference winningTeam, 
         Dictionary<PlayerReferenceType, string> tiebreakerTextMap,
-        string scoreColumnText=null,
+        string scoreColumnText="",
         Func<PlayerReferenceType, string> scoreLambda=null) where PlayerReferenceType : PlayerReference 
     {
-        if (scoreColumnText != null) {
+        if (scoreColumnText != "") {
             this.scoreColumnText.text = scoreColumnText;
         }
 
