@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WaterSurfaceNode : MonoBehaviour {
@@ -15,9 +13,10 @@ public class WaterSurfaceNode : MonoBehaviour {
     float extraSplooshThreshold = 0.75f;
     float splooshHeightThreshold = 2f; // measure distance from 
 
-    // perturbationTimer
-    // perturbationAmount
-    // public bool perturbUp
+    void OnDrawGizmos() {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 0.25f);
+    }
 
     public void Sploosh(Vector2 force) {
         if ((Time.time - splooshTimestamp) < splooshDuration)

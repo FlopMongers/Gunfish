@@ -39,9 +39,13 @@ public class WaterSurfaceGenerator : MonoBehaviour {
 
     public Vector2 dimensions = new Vector2(5f, 5f);
 
+    private void Start() {
+
+    }
+
     private void OnDrawGizmos() {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(transform.position, dimensions);
+        Gizmos.DrawWireCube(transform.position - new Vector3(0f, dimensions.y / 2f), dimensions);
     }
 
     public void ClearCurrentNodes() {
@@ -73,6 +77,7 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         length = dimensions.x;
         height = dimensions.y;
 
+
         renderers.transform.SetGlobalScale(new Vector3(length, height * 2, 1f));
 
         int nodeCount = Mathf.RoundToInt(nodesPerUnit * length);
@@ -80,8 +85,8 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         float delta = 1f / nodeCount;
         var parent = transform.Find("Nodes");
 
-        var topLeft = new Vector3(transform.position.x - length / 2, transform.position.y + height / 2);
-        var topRight = new Vector3(transform.position.x + length / 2, transform.position.y + height / 2);
+        var topLeft = new Vector3(transform.position.x - length / 2, transform.position.y);
+        var topRight = new Vector3(transform.position.x + length / 2, transform.position.y);
 
         WaterSurfaceNode previousNode = null;
         for (int i = 0; i <= nodeCount; i++) {
