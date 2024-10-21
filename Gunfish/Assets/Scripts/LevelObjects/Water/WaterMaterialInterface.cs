@@ -7,11 +7,11 @@ public class WaterMaterialInterface : MonoBehaviour {
     [HideInInspector]
     public List<Transform> waterSurfaceNodes;
 
-    private double[] positionsX;
-    private double[] positionsY;
+    public double[] positionsX;
+    public double[] positionsY;
 
     private double[] coefficients;
-    private int degree = 10;
+    private int degree = 9;
 
     private void Start() {
         Init();
@@ -47,10 +47,14 @@ public class WaterMaterialInterface : MonoBehaviour {
             }
         }
 
-        waterSurfaceNodes.Sort((a, b) => a.position.x < b.position.x ? -1 : 1);
-
-        positionsX = new double[waterSurfaceNodes.Count];
-        positionsY = new double[waterSurfaceNodes.Count];
+        var count = waterSurfaceNodes.Count;
+        var width = waterSurfaceNodes[1].position.x - waterSurfaceNodes[0].position.x;
+        positionsX = new double[count + 2];
+        positionsY = new double[count + 2];
+        positionsX[0] = waterSurfaceNodes[0].position.x - width;
+        positionsY[0] = waterSurfaceNodes[0].position.y;
+        positionsX[count + 1] = waterSurfaceNodes[count-1].position.x + width;
+        positionsY[count + 1] = waterSurfaceNodes[count-1].position.y;
 
         GetComponent<SpriteRenderer>().material.SetInt("_NodeCount", waterSurfaceNodes.Count);
         GetComponent<SpriteRenderer>().material.SetInt("_Degree", degree);
@@ -58,29 +62,28 @@ public class WaterMaterialInterface : MonoBehaviour {
 
     private void Update() {
         for (int i = 0; i < waterSurfaceNodes.Count; i++) {
-            positionsX[i] = waterSurfaceNodes[i].position.x;
-            positionsY[i] = waterSurfaceNodes[i].position.y;
+            positionsX[i+1] = waterSurfaceNodes[i].position.x;
+            positionsY[i+1] = waterSurfaceNodes[i].position.y;
 
             if (i == waterSurfaceNodes.Count - 1) {
                 continue;
             }
 
-            var colliders = waterSurfaceNodes[i].GetComponents<BoxCollider2D>();
+            var collider = waterSurfaceNodes[i].GetComponent<BoxCollider2D>();
             var effector = waterSurfaceNodes[i].GetComponent<BuoyancyEffector2D>();
             var waterDimensions = GetComponentInParent<WaterSurfaceGenerator>().dimensions;
 
-            Vector2 offset = (waterSurfaceNodes[i + 1].position - waterSurfaceNodes[i].position);
-            var surfaceMidpoint = (Vector2)waterSurfaceNodes[i].position + offset / 2;
+            var p1 = waterSurfaceNodes[i].localPosition;
+            var p2 = waterSurfaceNodes[i+1].localPosition;
+            var width = p2.x - p1.x;
+            var pm = (p1 + p2) / 2f;
+            var pb = new Vector2(-waterDimensions.x, -waterDimensions.y);
+            var size = new Vector2(width, pm.y - pb.y);
+            var offset = new Vector2(width / 2f, pm.y - p1.y - size.y / 2f);
 
-            var width = offset.x;
-            var height = surfaceMidpoint.y - transform.parent.position.y + waterDimensions.y / 2;
+            collider.size = size;
+            collider.offset = offset;
 
-            //effector.surfaceLevel = height / 2 - 5f;
-
-            foreach (var collider in colliders) {
-                collider.offset = new Vector2(offset.x / 2, -height / 2);
-                collider.size = new Vector2(width, height);
-            }
         }
         coefficients = Fit.Polynomial(positionsX, positionsY, degree);
 

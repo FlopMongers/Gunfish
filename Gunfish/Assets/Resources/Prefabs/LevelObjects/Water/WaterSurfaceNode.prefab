@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3721081103379710858}
   - component: {fileID: 5953203926325183369}
   - component: {fileID: 430036910610385659}
-  - component: {fileID: 5627556189589233653}
   m_Layer: 4
   m_Name: WaterSurfaceNode
   m_TagString: Untagged
@@ -74,7 +73,7 @@ SpringJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -12.25, y: -2.25}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 0
   m_Distance: 0.005
   m_DampingRatio: 0
@@ -161,29 +160,3 @@ BuoyancyEffector2D:
   m_FlowAngle: 90
   m_FlowMagnitude: 20
   m_FlowVariation: 5
---- !u!61 &5627556189589233653
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5655336544190105337}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
