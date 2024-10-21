@@ -69,4 +69,11 @@ public class GunfishRigidbody {
     public void ApplyTorqueToSegment(int index, float torque, ForceMode2D forceMode = ForceMode2D.Force) {
         segments[index].body.AddTorque(torque, forceMode);
     }
+
+    public void SetAngularDrag(float amount) {
+        foreach (var segment in segments)
+        {
+            segment.body.angularDrag = amount;
+        }
+    }
 }

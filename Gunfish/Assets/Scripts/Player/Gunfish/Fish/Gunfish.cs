@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +13,9 @@ public class Gunfish : MonoBehaviour, IHittable {
     public GunfishStatusData statusData;
     public GunfishData data;
     public bool debug = false;
+
+    [Range(0f, 10f)]
+    public float swimSensitivity = 1f;
 
     [HideInInspector]
     public List<GameObject> segments;
@@ -246,6 +250,21 @@ public class Gunfish : MonoBehaviour, IHittable {
         if (!statusData.CanMove) {
             return;
         }
+
+        var rb = body.segments[0].body;
+
+        var angle = Vector3.Angle(rb.velocity, movement);
+        
+        if (angle < 30f) {
+            print("DOING THE THING! " + angle);
+            gun.transform.right = transform.position + (Vector3)movement;
+        } else {
+            gun.transform.forward = rb.transform.forward;
+        }
+        
+        var t = 1 - angle / 360f;
+
+        body.SetAngularDrag(Mathf.Lerp(0f, 1000f, Mathf.Sqrt(t)));
 
         if (body.segments[0].body.velocity.magnitude < data.maxUnderwaterVelocity) {
             body.ApplyForceToSegment(0, movement * data.underwaterForce, ForceMode2D.Force);
