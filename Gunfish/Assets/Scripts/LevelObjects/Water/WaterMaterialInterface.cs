@@ -69,7 +69,7 @@ public class WaterMaterialInterface : MonoBehaviour {
                 continue;
             }
 
-            var collider = waterSurfaceNodes[i].GetComponent<BoxCollider2D>();
+            var colliders = waterSurfaceNodes[i].GetComponents<BoxCollider2D>();
             var effector = waterSurfaceNodes[i].GetComponent<BuoyancyEffector2D>();
             var waterDimensions = GetComponentInParent<WaterSurfaceGenerator>().dimensions;
 
@@ -81,8 +81,10 @@ public class WaterMaterialInterface : MonoBehaviour {
             var size = new Vector2(width, pm.y - pb.y);
             var offset = new Vector2(width / 2f, pm.y - p1.y - size.y / 2f);
 
-            collider.size = size;
-            collider.offset = offset;
+            foreach (var collider in colliders) {
+                collider.size = size;
+                collider.offset = offset;
+            }
 
         }
         coefficients = Fit.Polynomial(positionsX, positionsY, degree);

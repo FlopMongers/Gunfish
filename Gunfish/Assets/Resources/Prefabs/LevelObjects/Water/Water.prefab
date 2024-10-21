@@ -70,6 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DetectCollision: 0
   DetectTrigger: 1
+  DetectGun: 0
   colliders: []
 --- !u!114 &287484819412258680
 MonoBehaviour:
@@ -209,6 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterSurfaceNodes: []
+  positionsX: []
+  positionsY: []
 --- !u!1 &4268432734919233671
 GameObject:
   m_ObjectHideFlags: 0

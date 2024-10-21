@@ -27,10 +27,7 @@ public class WaterSurfaceGenerator : MonoBehaviour {
     private float unitsPerNode;
 
     [SerializeField]
-    private GameObject waterSurfaceNodePrefab;
-
-    [SerializeField]
-    private GameObject waterDensityNodePrefab;
+    private GameObject waterNodePrefab;
 
     [SerializeField]
     private GameObject renderers;
@@ -89,7 +86,7 @@ public class WaterSurfaceGenerator : MonoBehaviour {
     }
 
     WaterSurfaceNode SpawnNode(Vector3 position, WaterSurfaceNode prevNode) {
-        var node = Instantiate(waterSurfaceNodePrefab, position, Quaternion.identity).GetComponent<WaterSurfaceNode>();
+        var node = Instantiate(waterNodePrefab, position, Quaternion.identity).GetComponent<WaterSurfaceNode>();
         if (prevNode != null) {
             node.prevSpring.connectedBody = prevNode.rb;
         } else {
