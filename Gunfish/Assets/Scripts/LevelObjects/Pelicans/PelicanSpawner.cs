@@ -24,6 +24,7 @@ public class PelicanSpawner : Spawner
     protected override void Start() {
         base.Start();
         active = false;
+        FetchSpawnZones();
     }
 
     protected override void UpdateSpawn() {
@@ -55,14 +56,15 @@ public class PelicanSpawner : Spawner
         if (spawnZones.Count == 0) {
             return null;
         }
-
         List<Transform> targets = new List<Transform>();
         bool noFish = true;
-        foreach (var player in GameModeManager.Instance.activePlayers) {
-            Gunfish gunfish = player.Gunfish;
-            if (gunfish.RootSegment != null) {
-                noFish = false;
-                targets.Add(gunfish.RootSegment.transform);
+        if (GameModeManager.Instance != null) {
+            foreach (var player in GameModeManager.Instance.activePlayers) {
+                Gunfish gunfish = player.Gunfish;
+                if (gunfish.RootSegment != null) {
+                    noFish = false;
+                    targets.Add(gunfish.RootSegment.transform);
+                }
             }
         }
         if (noFish == true) {

@@ -52,6 +52,7 @@ public class Spawner : MonoBehaviour {
 
     protected virtual GameObject Spawn() {
         spawnTimer = spawnTimerRange.RandomInRange();
+        print("spawn");
         return Instantiate(
             spawnPrefabProbabilityMap.Choose(spawnPrefab),
             spawnArea.bounds.RandomPointInBounds(),

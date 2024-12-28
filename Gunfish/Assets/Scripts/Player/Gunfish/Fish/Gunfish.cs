@@ -188,7 +188,8 @@ public class Gunfish : MonoBehaviour, IHittable {
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
         // flop force
         body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
-        body.SetAngularDrag(0.05f);
+        body.segments[MiddleSegmentIndex].body.angularDrag = 0.05f;
+        // body.SetAngularDrag(0.05f);
         RotateMovement(input, index, data.groundTorque, ForceMode2D.Impulse);
         // play flop
         // TODO play correct flop sound depending on material
@@ -197,7 +198,8 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     private void RotateMovement(Vector2 input, int segmentIndex, float torque, ForceMode2D forceMode = ForceMode2D.Force) {
         var direction = Mathf.Sign(input.x);
-        body.SetAngularDrag(0.05f);
+        body.segments[MiddleSegmentIndex].body.angularDrag = 0.05f;
+        // body.SetAngularDrag(0.05f);
         // rotation speed
         if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[segmentIndex].body.angularVelocity) || Mathf.Abs(body.segments[segmentIndex].body.angularVelocity) < data.maxAerialAngularVelocity)
             body.ApplyTorqueToSegment(segmentIndex, -direction * torque, forceMode);
