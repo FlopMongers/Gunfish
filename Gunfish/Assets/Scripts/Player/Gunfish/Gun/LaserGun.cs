@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class LaserGun : Gun
     public Color laserColor;
 
     public RevUp revUp;
+    bool fired = false;
 
     protected override void Start() {
         base.Start();
@@ -88,7 +90,7 @@ public class LaserGun : Gun
         if (!CheckFire())
             return;
 
-        if (firingStatus == ButtonStatus.Pressed || (firingStatus == ButtonStatus.Holding && ammo > 0)) {
+        if (firingStatus == ButtonStatus.Pressed || (firingStatus == ButtonStatus.Holding)) {
             ammo = Mathf.Min(gunfish.data.gun.maxAmmo, ammo + Time.deltaTime);
             if (firingStatus == ButtonStatus.Pressed) {
                 revUp.SetWarmupParticles(true, barrels[0].transform, gunfish.data.gun.maxAmmo);
