@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -8,6 +9,7 @@ using UnityEngine.UIElements;
 public class FishSelectMenuPage : MenuPage {
     private MenuPageContext menuContext;
     [SerializeField] private List<FishSelectPanel> fishSelectPanels;
+    [SerializeField] private TextMeshProUGUI gameModeNote;
     private List<int> gunfishIndices;
 
     private Sequence activeGameStartCountdown;
@@ -31,6 +33,7 @@ public class FishSelectMenuPage : MenuPage {
 
     public override void OnPageStart(MenuPageContext context) {
         base.OnPageStart(context);
+        gameModeNote.text = GameManager.Instance.currentGameMode.gameModeNote;
         MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
 
@@ -194,6 +197,6 @@ public class FishSelectMenuPage : MenuPage {
                 hasNoSelecting = false;
             }
         }
-        return hasNoSelecting && readyPlayerCount >= requiredPlayersToStart;
+        return hasNoSelecting && ((GameManager.Instance.debug == true && readyPlayerCount >= 1) || GameManager.Instance.currentGameMode.requiredPlayerCount.Contains(readyPlayerCount));
     }
 }

@@ -18,3 +18,5 @@ MonoBehaviour:
     type: 3}
   levels: {fileID: 11400000, guid: bad596a41449e2e4c964558ee883972a, type: 2}
   roundsPerMatch: 1
+  gameModeNote: Needs 2 or 4 players!
+  requiredPlayerCount: 0200000004000000
