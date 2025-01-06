@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameParameters {
@@ -63,7 +64,14 @@ public class GameManager : PersistentSingleton<GameManager> {
         GameModeManager.Instance.TeardownGameMode();
     }
 
+    
+    // NOTE(Wyatt): we should just be using a gamemode scriptable object instead of this enum GARBAGE.
+    // whatever. this is just a quick implementation.
+    [HideInInspector]
+    public GameMode currentGameMode;
+
     public void SetSelectedGameMode(GameModeType gameMode) {
+        currentGameMode = GameModeList.gameModes.Where(element => element.gameModeType == gameMode).FirstOrDefault();
         selectedGameMode = gameMode;
     }
 }

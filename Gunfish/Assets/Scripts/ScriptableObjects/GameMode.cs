@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameModeType { DeathMatch, Race, Bassball };
@@ -9,4 +10,6 @@ public class GameMode : ScriptableObject {
     public GameObject matchManagerPrefab;
     public SceneList levels;
     public int roundsPerMatch = 3;
+    public string gameModeNote = "";
+    public List<int> requiredPlayerCount = new List<int> { 2 };
 }
