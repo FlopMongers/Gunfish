@@ -146,6 +146,7 @@ public class Zap_Effect : TimedEffect {
 
     public override void OnRemove() {
         base.OnRemove();
+        gunfish.Move(Vector2.zero);
         gunfish.RemoveEffect(EffectType.NoMove);
     }
 }
