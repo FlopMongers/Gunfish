@@ -17,10 +17,7 @@ public class BeachBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rb.position.x < bounds.min.x || 
-            rb.position.y < bounds.min.y || 
-            rb.position.x > bounds.max.x || 
-            rb.position.y > bounds.max.y) {
+        if (!bounds.Contains(rb.position)) {
             rb.position = spawnPoint;
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0.0f;

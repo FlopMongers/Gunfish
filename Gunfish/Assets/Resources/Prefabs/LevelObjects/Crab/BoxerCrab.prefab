@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 2089078253296353892}
   - component: {fileID: 9223116379820760824}
   - component: {fileID: 7291469913447136407}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: BoxerCrab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
