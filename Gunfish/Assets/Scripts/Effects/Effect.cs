@@ -3,7 +3,7 @@ using System.Drawing.Printing;
 using UnityEngine;
 
 
-public enum EffectType { FlopModify, NoMove, Underwater, SharkMode, Zap, Invincibility };
+public enum EffectType { FlopModify, NoMove, Underwater, SharkMode, Zap, Invincibility, Flame };
 
 
 [Serializable]
@@ -249,6 +249,44 @@ public class Sharkmode_Effect : TimedEffect {
                                                 segment.transform.rotation);
                 }
             }
+        }
+    }
+}
+
+[Serializable]
+public class Flame_Effect : TimedEffect {
+
+    static float flame_damage = 2f;
+    GameObject fx;
+
+    public Flame_Effect(Gunfish gunfish, float timer) : base(gunfish, timer) {
+        effectType = EffectType.Flame;
+    }
+
+    public override void OnAdd() {
+        base.OnAdd();
+        // subscribe to gunfish composite collision detection
+        gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideEnter += OnCollision;
+        // todo: spawn sharkmode music
+        if (FX_Spawner.Instance != null) {
+            fx = FX_Spawner.Instance.SpawnFX(FXType.Flame, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
+        }
+    }
+
+    public override void OnRemove() {
+        base.OnRemove();
+        // unsubscribe from composiite collision detection event
+        gunfish.RootSegment.GetComponent<CompositeCollisionDetector>().OnComponentCollideEnter -= OnCollision;
+        FX_Spawner.Instance.DestroyFX(fx);
+    }
+
+    public void OnCollision(GameObject src, Collision2D collision) {
+        // if it's a fish and it's not in sharkmode, fucking KILL IT!
+        GunfishSegment segment = collision.collider.GetComponent<GunfishSegment>();
+        if (segment == null || segment.gunfish == gunfish)
+            return;
+        if (!segment.gunfish.effectMap.ContainsKey(EffectType.SharkMode)) {
+            segment.gunfish.Hit(new FishHitObject(segment.index, collision.contacts[0].point, -collision.contacts[0].normal, gunfish.gameObject, flame_damage, 10f, HitType.Impact));
         }
     }
 }

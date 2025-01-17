@@ -30,6 +30,7 @@ public class Cannon : MonoBehaviour {
     }
 
     void OnFishLeave(GunfishSegment segment, Collider2D fishCollider) {
+        segment.gunfish.AddEffect(new Flame_Effect(segment.gunfish, 2));
         segment.gunfish.AddEffect(new NoMove_Effect(segment.gunfish, -1));
     }
 
