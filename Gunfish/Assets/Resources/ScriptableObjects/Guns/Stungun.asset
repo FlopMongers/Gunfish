@@ -15,19 +15,19 @@ MonoBehaviour:
   gunBarrels:
   - position: {x: -0.839, y: -0.056}
     rotation: 175.87
-  kickback: 10
+  kickback: 14
   range: 20
   damage: 2
-  knockback: 9
+  knockback: 12
   maxAmmo: 1
   gunPrefab: {fileID: 3189059645541482188, guid: 898bed05833452c4abf7011d795ed05e,
     type: 3}
-  gunSpritePrefab: {fileID: 8519334242837557634, guid: f620701d9e54359409ae555c9a85e648,
+  gunSpritePrefab: {fileID: 8519334242837557634, guid: 42c02be53d0fdc64399bed9ac54f8015,
     type: 3}
   gunBarrelPrefab: {fileID: 4641082033966749824, guid: 56976b9b9d902d949b280b30799fe810,
     type: 3}
-  fireCooldown: 0.5
-  reload: 0.75
+  fireCooldown: 0.3
+  reload: 0.4
   reloadWait: 1
   bulletPrefab: {fileID: 1502404068387010642, guid: a03c1308c6929114fa8798ec6368014c,
     type: 3}

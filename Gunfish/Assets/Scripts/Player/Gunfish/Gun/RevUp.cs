@@ -12,6 +12,8 @@ public class RevUp : MonoBehaviour
     ParticleSystem warmupParticles;
     public Vector2 volRange;
     public Vector2 pitchRange;
+    [HideInInspector]
+    public bool turnedOn; // OH BABY
 
     TweenerCore<float, float, FloatOptions> fadeTween, pitchTween;
 
@@ -22,11 +24,13 @@ public class RevUp : MonoBehaviour
             warmupParticles = warmupInstance.GetComponent<ParticleSystem>();
         }
         if (turnOn) {
+            turnedOn = true;
             warmupParticles.Play();
             fadeTween = warmupSound.DOFade(volRange.y, fadeTime);
             pitchTween = warmupSound.DOPitch(pitchRange.y, fadeTime);
         }
         else {
+            turnedOn = false;
             if (fadeTween != null) {
                 fadeTween.Kill();
             }

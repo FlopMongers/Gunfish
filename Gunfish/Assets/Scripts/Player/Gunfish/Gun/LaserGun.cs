@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class LaserGun : Gun
@@ -9,7 +7,9 @@ public class LaserGun : Gun
     // firecooldown? yeah
 
     // NOTE(Wyatt): I'm just going to use 'ammo' as the charge amount.
+    // THEREFORE, max_ammo is the time it takes to charge. go freakin figure!!!
     float chargeAmount, hitReduction=.25f, range;
+    // I think this is the range of the width of the laser
     public Vector2 radiusRange = new Vector2();
 
     public Color laserColor;
@@ -92,7 +92,7 @@ public class LaserGun : Gun
 
         if (firingStatus == ButtonStatus.Pressed || (firingStatus == ButtonStatus.Holding)) {
             ammo = Mathf.Min(gunfish.data.gun.maxAmmo, ammo + Time.deltaTime);
-            if (firingStatus == ButtonStatus.Pressed) {
+            if (firingStatus == ButtonStatus.Pressed || revUp.turnedOn == false) {
                 revUp.SetWarmupParticles(true, barrels[0].transform, gunfish.data.gun.maxAmmo);
             }
         }
@@ -107,6 +107,7 @@ public class LaserGun : Gun
             ammo = 0;
             fireCooldown_timer = gunfish.data.gun.fireCooldown;
             // kickback is based on release
+            revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
             Kickback(gunfish.data.gun.kickback * chargeAmount);
             _Fire();
         }

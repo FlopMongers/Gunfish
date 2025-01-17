@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Laserfish
+  m_Name: Eel
   m_Shader: {fileID: 4800000, guid: 7ddc8899102bd604496b178cb3382f26, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4b0a4c4f3f167954f98ead49bbdd0a3a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 57ab121ed94857242959dfd04e1e5870, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
