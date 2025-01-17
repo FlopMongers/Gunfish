@@ -8,7 +8,7 @@ public class Cannon : MonoBehaviour {
     [SerializeField] private float power;
     bool gottemSpottem;
     float coolDown_timer, coolDown = 2f;
-    float shoost_timer, shoostDuration = 2f;
+    float shoost_timer, shoostDuration = 1f;
 
     float ignoreTimer = 1f;
 
