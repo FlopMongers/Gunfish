@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.HableCurve;
 
 public class Cannon : MonoBehaviour {
     public FishDetector detector;
@@ -30,7 +31,6 @@ public class Cannon : MonoBehaviour {
     }
 
     void OnFishLeave(GunfishSegment segment, Collider2D fishCollider) {
-        segment.gunfish.AddEffect(new Flame_Effect(segment.gunfish, 2));
         segment.gunfish.AddEffect(new NoMove_Effect(segment.gunfish, -1));
     }
 
@@ -39,8 +39,10 @@ public class Cannon : MonoBehaviour {
         coolDown_timer = coolDown;
         gottemSpottem = false;
         GetComponent<AudioSource>().Play();
+        FX_Spawner.Instance.BAM(0);
         foreach (var fish in detector.fishes.Keys) {
             // launch the fuckers
+            fish.AddEffect(new Flame_Effect(fish, 2));
             fish.Hit(new FishHitObject(fish.MiddleSegmentIndex, detector.transform.position, detector.transform.up, gameObject, 0, power, HitType.Impact, true));
             IgnoreFish(fish);
         }
