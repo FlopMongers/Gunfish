@@ -8,10 +8,12 @@ public class MovePoint {
     public Transform point;
     // how long should it take to get here?
     public float duration;
+    public bool wait;
 
-    public MovePoint(Transform point, float duration) {
+    public MovePoint(Transform point, float duration, bool wait) {
         this.point = point;
         this.duration = duration;
+        this.wait = wait;
     }
 }
 
@@ -29,6 +31,8 @@ public class MovingPlatform : MonoBehaviour
 
     public FishDetector detector;
 
+    float lastMoveTimestamp;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +42,7 @@ public class MovingPlatform : MonoBehaviour
         detector.OnFishTriggerExit += delegate (GunfishSegment segment, Collider2D collision) { if (segment.gunfish != null && segment.gunfish.RootSegment != null) ReleaseObject(segment.gunfish.RootSegment.GetComponent<Rigidbody2D>()); };
         rb = rb ?? GetComponent<Rigidbody2D>();
         if (movePoints.Count == 0) {
-            movePoints.Add(new MovePoint(transform, 0));
+            movePoints.Add(new MovePoint(transform, 0, false));
         }
         GetNextPoint();
     }
@@ -46,17 +50,22 @@ public class MovingPlatform : MonoBehaviour
     private void Update() {
         if (movePoints.Count == 0) { return; }
         if (Vector2.Distance(transform.position, nextPoint.position) < threshold) {
+            rb.velocity = Vector2.zero;
+        }
+        if ((Time.time - lastMoveTimestamp) > movePoints[index].duration) { 
             GetNextPoint();
         }
     }
 
     void GetNextPoint() {
         index = (index + 1) % movePoints.Count;
+        lastMoveTimestamp = Time.time;
         // get movePoint
         nextPoint = movePoints[index].point;
         // calculate by movePoint distance/duration
         Vector2 dir = (nextPoint.position - transform.position);
         if (dir == Vector2.zero) {
+            rb.velocity = Vector2.zero;
             return;
         }
         rb.velocity = dir.magnitude / movePoints[index].duration * dir.normalized;
