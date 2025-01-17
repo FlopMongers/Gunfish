@@ -52,7 +52,7 @@ public class PelicanSpawner : Spawner
         distance = Vector3.Distance(maxPosition, minPosition);
     }
 
-    protected override GameObject Spawn() {
+    public override GameObject Spawn() {
         if (spawnZones.Count == 0) {
             return null;
         }

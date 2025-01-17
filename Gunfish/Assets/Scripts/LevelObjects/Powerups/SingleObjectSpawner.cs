@@ -6,7 +6,7 @@ public class SingleObjectSpawner : Spawner
 {
     GameObject spawnedObject;
 
-    protected override GameObject Spawn() {
+    public override GameObject Spawn() {
         active = false;
         spawnedObject = base.Spawn();
         return spawnedObject.gameObject;

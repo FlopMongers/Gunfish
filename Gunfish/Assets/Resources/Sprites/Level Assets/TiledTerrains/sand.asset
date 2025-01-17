@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: sand
   m_EditorClassIdentifier: 
   m_Angles:
-  - m_Start: -180
-    m_End: 180
+  - m_Start: -104
+    m_End: 103
     m_Order: 0
     m_Sprites:
     - {fileID: 21300000, guid: 6f260cf20fe83e04b8f5a7a5569a01d8, type: 3}

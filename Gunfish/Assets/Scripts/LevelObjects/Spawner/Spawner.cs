@@ -50,7 +50,7 @@ public class Spawner : MonoBehaviour {
         }
     }
 
-    protected virtual GameObject Spawn() {
+    public virtual GameObject Spawn() {
         spawnTimer = spawnTimerRange.RandomInRange();
         print("spawn");
         return Instantiate(
