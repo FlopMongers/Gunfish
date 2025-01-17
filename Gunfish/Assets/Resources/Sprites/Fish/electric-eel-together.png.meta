@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: d2a2d743a39b37f4b8de3356ff8a7a23
+=======
+guid: 7c1838a9bb7ddb246a72a39994aacf9c
+>>>>>>> 5a4a46f4 (Menu bloops and blips)
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -113,6 +117,7 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< HEAD
   - serializedVersion: 3
     buildTarget: Windows Store Apps
     maxTextureSize: 2048
@@ -125,6 +130,8 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+=======
+>>>>>>> 5a4a46f4 (Menu bloops and blips)
   spriteSheet:
     serializedVersion: 2
     sprites: []

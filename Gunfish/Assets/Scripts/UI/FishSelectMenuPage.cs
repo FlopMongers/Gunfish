@@ -87,7 +87,7 @@ public class FishSelectMenuPage : MenuPage {
 
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
-            menuContext.menu.PlayBloop();
+            FX_Spawner.Instance.SpawnFX(FXType.MenuBloop, Camera.main.transform.position, Quaternion.identity);
             if (direction.x > 0) {
                 IncrementFish(deviceIndex);
             } else {
@@ -100,12 +100,14 @@ public class FishSelectMenuPage : MenuPage {
         var fishSelectPanel = fishSelectPanels[playerIndex];
         switch (fishSelectPanel.state) {
             case FishSelectPanel.State.Inactive:
+                FX_Spawner.Instance.SpawnFX(FXType.MenuBlorp, Camera.main.transform.position, Quaternion.identity);
                 PlayerManager.Instance.Players[playerIndex].Active = false;
                 SetFish(playerIndex, GameManager.Instance.GunfishDataList.gunfishes[0]);
                 CancelGameStartCountdown();
                 fishSelectPanel.SetState(FishSelectPanel.State.Selecting);
                 break;
             case FishSelectPanel.State.Selecting:
+                FX_Spawner.Instance.SpawnFX(FXType.MenuBlorp, Camera.main.transform.position, Quaternion.identity);
                 PlayerManager.Instance.Players[playerIndex].Active = true;
                 fishSelectPanel.SetState(FishSelectPanel.State.Confirmed);
                 if (AllPlayersReady()) {
@@ -113,6 +115,7 @@ public class FishSelectMenuPage : MenuPage {
                 }
                 break;
             case FishSelectPanel.State.Confirmed:
+                FX_Spawner.Instance.SpawnFX(FXType.MenuBlorp, Camera.main.transform.position, Quaternion.identity);
                 if (AllPlayersReady()) {
                     BeginGameStartCountdown();
                 }

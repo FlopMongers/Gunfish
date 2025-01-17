@@ -51,6 +51,7 @@ public class GameModeSelectMenuPage : MenuPage {
 
         // Horizontal
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)) {
+            FX_Spawner.Instance.SpawnFX(FXType.MenuBloop, Camera.main.transform.position, Quaternion.identity);
             if (direction.x > 0) {
                 IncrementGameMode();
             }
@@ -65,6 +66,7 @@ public class GameModeSelectMenuPage : MenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {
+        FX_Spawner.Instance.SpawnFX(FXType.TitleScreenStartFX, Camera.main.transform.position, Quaternion.identity);
         GameManager.Instance.SetSelectedGameMode(displayedGameMode.gameModeType);
         menuContext.menu.SetState(MenuState.FishSelect);
     }

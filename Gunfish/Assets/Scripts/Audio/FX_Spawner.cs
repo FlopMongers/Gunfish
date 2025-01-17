@@ -24,6 +24,8 @@ public enum FXType {
     Poof,
     AcidSplash,
     SharkModeKill,
+    MenuBloop,
+    MenuBlorp,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {

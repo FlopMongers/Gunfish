@@ -1,9 +1,7 @@
 using DG.Tweening;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public struct MenuPageContext {
     public MainMenu menu;
@@ -21,6 +19,7 @@ public class MainMenu : Singleton<MainMenu> {
     private MenuPage currentPage;
 
     [SerializeField] private AudioClip uiSound;
+    [SerializeField] private AudioClip shootSound;
 
     [SerializeField] private SplashMenuPage splashMenuPage;
     [SerializeField] private GameModeSelectMenuPage gameModeSelectMenuPage;
@@ -93,9 +92,5 @@ public class MainMenu : Singleton<MainMenu> {
         yield return new WaitForSeconds(1);
         animating = false;
         this.state = state;
-    }
-
-    public void PlayBloop() {
-        GetComponent<AudioSource>()?.PlayOneShot(uiSound);
     }
 }
