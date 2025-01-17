@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0e20875e2f4b0f4b994737fe6e249e3, type: 3}
-  m_Name: BetaGunfishList
+  m_Name: GunfishList
   m_EditorClassIdentifier: 
   gunfishes:
   - {fileID: 11400000, guid: f3478274895ead04c9cd5737112d23dc, type: 2}

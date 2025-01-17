@@ -125,6 +125,7 @@ MonoBehaviour:
   _gameModeList: {fileID: 11400000, guid: 7c2fb38946b14604eaa780fb2451339c, type: 2}
   _gunfishDataList: {fileID: 11400000, guid: 09eb2fcf654f97c44acd5f5a5e6fc030, type: 2}
   defaultGameMode: 0
+  currentGameMode: {fileID: 0}
 --- !u!1 &8494292450251231259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,7 +1133,7 @@ PrefabInstance:
     - target: {fileID: 3514341141918750856, guid: 2c3b6339af3a71241ba0d314bc1a1cb0,
         type: 3}
       propertyPath: m_JoinBehavior
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3514341141918750858, guid: 2c3b6339af3a71241ba0d314bc1a1cb0,
         type: 3}
@@ -1192,7 +1193,7 @@ PrefabInstance:
     - target: {fileID: 3514341141918750859, guid: 2c3b6339af3a71241ba0d314bc1a1cb0,
         type: 3}
       propertyPath: playerThreshold
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3514341141918750859, guid: 2c3b6339af3a71241ba0d314bc1a1cb0,
         type: 3}
