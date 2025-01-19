@@ -38,6 +38,7 @@ public class GameModeSelectMenuPage : MenuPage {
                 continue;
             playerInput.currentActionMap.FindAction("Navigate").performed -= OnNavigate;
             playerInput.currentActionMap.FindAction("Submit").performed -= OnSubmit;
+            playerInput.currentActionMap.FindAction("Cancel").performed -= OnCancel;
         }
         base.OnPageStop(context);
     }
