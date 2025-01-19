@@ -62,7 +62,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: c4de57ff-ba88-4b2c-bf47-9592304dce98
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &4411546140183832275
@@ -77,10 +77,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029b523ee35de3f4fa07bd59071af4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 0
+  TeamNumber: 0
+  TeamColor: {r: 0, g: 0, b: 0, a: 0}
   gunfishData: {fileID: 0}
   FreezeControls: 0
   Active: 0
+  layer: 0
 --- !u!114 &3703576942959761050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +100,7 @@ MonoBehaviour:
   debug: 0
   segments: []
   gun: {fileID: 0}
+  player: {fileID: 0}
   playerNum: 0
   underwater: 0
   anySegmentUnderwater: 0
