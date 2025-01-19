@@ -136,6 +136,9 @@ public class FishSelectMenuPage : MenuPage {
                 fishSelectPanel.SetState(FishSelectPanel.State.Selecting);
                 break;
         }
+        if (AllPlayersReady()) {
+            BeginGameStartCountdown();
+        }
     }
 
     private void IncrementFish(int deviceIndex) {
