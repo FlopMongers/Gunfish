@@ -48,7 +48,7 @@ MonoBehaviour:
   m_NotificationBehavior: 2
   m_MaxPlayerCount: 4
   m_AllowJoining: 1
-  m_JoinBehavior: 2
+  m_JoinBehavior: 0
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:
@@ -114,3 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831323c15f5934f4ebca44a75e3de0fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerColors: []
+  Players: []
+  PlayerFish: []
+  PlayerInputs: []
+  playerThreshold: 4
