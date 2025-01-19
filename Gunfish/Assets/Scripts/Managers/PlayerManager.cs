@@ -15,36 +15,43 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
     public int playerThreshold = 4;
 
-    private void JoinPlayers() {
-        PlayerInputs = new List<PlayerInput>();
-        Players = new List<Player>();
-        PlayerFish = new List<GunfishData>();
+    public void OnPlayerJoined(PlayerInput input) {
+        PlayerInputs.Add(input);
+        Debug.Log("Added player");
+        if (PlayerInputs.Count == playerThreshold) {
+            showDebugMessage = false;
+            InitializePlayers();
+            GameManager.Instance.InitializeNonPlayerManagerManagersLol();
+        }
+    }
 
-        var inputManager = GetComponent<PlayerInputManager>();
-
-        var pattern = GameManager.Instance.debug == true ? "(Keyboard|Controller|Joystick)" : "(Controller|Joystick)";
-        var regex = new Regex(pattern);
-        var inputDevices = InputSystem.devices.Where(device => regex.IsMatch(device.displayName)).OrderBy(device => device.deviceId).ToList();
-
-        int playerIndex = 0;
-        foreach (var device in inputDevices)
-            print(device);
-        inputDevices.ForEach(device => {
-            var playerInput = inputManager.JoinPlayer(playerIndex: playerIndex, pairWithDevice: device);
-            var player = playerInput.GetComponent<Player>();
-            player.Initialize(playerIndex);
-            PlayerInputs.Add(playerInput);
-            Players.Add(player);
-            PlayerFish.Add(GameManager.Instance.GunfishDataList.gunfishes[0]);
-            playerIndex++;
-        });
+    public void OnPlayerLeft(PlayerInput input) {
+        Debug.LogError($"Player {input.name} has been disconnected.");
+        PlayerInputs.Remove(input);
     }
 
     public override void Initialize() {
         base.Initialize();
 
-        JoinPlayers();
+        showDebugMessage = true;
+
+        PlayerInputs = new List<PlayerInput>();
+        Players = new List<Player>();
+        PlayerFish = new List<GunfishData>();
+
         SetInputMode(InputMode.UI);
+    }
+
+    private void InitializePlayers() {
+        SetInputMode(InputMode.UI);
+        for (int playerIndex = 0; playerIndex < PlayerInputs.Count; playerIndex++)
+        {
+            var playerInput = PlayerInputs[playerIndex];
+            var player = playerInput.GetComponent<Player>();
+            player.Initialize(playerIndex);
+            Players.Add(player);
+            PlayerFish.Add(null);
+        }        
     }
 
     public void SetPlayerFish(int playerIndex, GunfishData data) {
@@ -60,6 +67,11 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         foreach (var playerInput in PlayerInputs) {
             playerInput?.SwitchCurrentActionMap(inputMode.ToString());
         }
+    }
+
+    public void OnGUI() {
+        if (!showDebugMessage) return;
+        GUILayout.TextArea("Welcome to Gunfish! If you're seeing this message it means this game is still initializing. Please press the GUN button for each controller in the following order: RED, GREEN, BLUE, YELLOW.");
     }
 
     // Must be either Player or UI

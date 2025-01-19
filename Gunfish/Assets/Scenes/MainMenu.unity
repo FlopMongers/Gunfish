@@ -1040,6 +1040,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5673737386987831906, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: playerThreshold
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5673737387414419720, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_Name
