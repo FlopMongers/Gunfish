@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
 
     public void SetSpeed(Vector2 dir,float percent) {
         starting = false;
-        rb.velocity = dir * maxSpeed * percent;
+        rb.velocity = dir * maxSpeed * percent; //Mathf.Clamp(maxSpeed * percent, speedRange.x, maxSpeed);
     }
 
     void OnFishHit(GunfishSegment segment, Collision2D collision) {

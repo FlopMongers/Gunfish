@@ -92,6 +92,7 @@ public class GrenadeLauncher : Gun
             nade.sourceGunfish = gunfish;
             grenade = nade;
             grenade.duration = grenadeDuration;
+            grenade.fishDamageScale = gunfish.data.gun.damage;
             // NOTE: give grenade duration here?
             // give it some force
             nadeObj.GetComponent<Rigidbody2D>().AddForce(barrels[0].transform.right * gunfish.data.gun.range * grenadeForceMultiplier, ForceMode2D.Impulse);

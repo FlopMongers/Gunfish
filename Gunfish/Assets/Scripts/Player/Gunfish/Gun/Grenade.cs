@@ -11,6 +11,11 @@ public class Grenade : MonoBehaviour
 
     public float duration = 2f;
 
+    [HideInInspector]
+    public float damageScale = -1f;
+    [HideInInspector]
+    public float fishDamageScale = -1f;
+
 
     private void Start() {
         shootable.OnDead += Explode;
@@ -29,6 +34,12 @@ public class Grenade : MonoBehaviour
         // spawn the explosion
         var exp = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<Explosion>();
         exp.sourceGunfish = sourceGunfish;
+        if (fishDamageScale < 0) {
+            exp.fishDamageScale = fishDamageScale;
+        }
+        if (damageScale < 0) {
+            exp.damageScale = damageScale;
+        }
         //exp.Explode();
         // destroy grenade
         Destroy(gameObject);

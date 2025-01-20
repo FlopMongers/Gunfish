@@ -1,6 +1,7 @@
 using MathNet.Numerics;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.AccessControl;
 using UnityEngine;
@@ -100,6 +101,7 @@ public class Gun : MonoBehaviour {
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
             endPoint = barrel.transform.position + barrel.transform.right * gunfish.data.gun.range;
             bool splooshed = false;
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
             foreach (var hit in hits) {
                 WaterSurfaceNode node = hit.transform.GetComponent<WaterSurfaceNode>();
                 if (node != null && !splooshed) {

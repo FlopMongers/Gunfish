@@ -18,6 +18,7 @@ public class GunfishSegment : ObjectMaterial {
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
+        materialType = MaterialType.Fish;
     }
 
     public void SetUnderwater(int underwater) {

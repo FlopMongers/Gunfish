@@ -66,13 +66,13 @@ public class Explosion : MonoBehaviour
             //print(hittable);
             Vector2 dir = hit.point - (Vector2)transform.position;
             mask = LayerMask.GetMask("Ground", "Default");
-            print($"hittable: {hittable}");
+            //print($"hittable: {hittable}");
             bool blockHit = false;
             foreach (var blockingHit in Physics2D.RaycastAll(transform.position, (dir).normalized, dir.magnitude, mask)) {
                 IHittable blockingHittable = GetIHittable(blockingHit, true);
-                print($"{blockingHit.transform} with {blockingHittable}, {blockingHit.transform.gameObject.layer}");
+                //print($"{blockingHit.transform} with {blockingHittable}, {blockingHit.transform.gameObject.layer}");
                 if (blockingHittable == null && blockingHit.collider != null && blockingHit.collider.isTrigger == false) {
-                    print($"OOPS! {blockingHit.collider}");
+                    //print($"OOPS! {blockingHit.collider}");
                     blockHit = true;
                     // only if doesn't have gunfish segment, 
                 }
@@ -94,7 +94,7 @@ public class Explosion : MonoBehaviour
                         damage * fishDamageScale,
                         0,
                         HitType.Explosive));
-                    Debug.Log("Hit player " + gunfish.playerNum + " for dmg " + damage * fishDamageScale);
+                    //Debug.Log("Hit player " + gunfish.playerNum + " for dmg " + damage * fishDamageScale);
                 }
                 else {
                     hittable.Hit(new HitObject(

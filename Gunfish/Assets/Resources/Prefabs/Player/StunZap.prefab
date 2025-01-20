@@ -4921,7 +4921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishDetector: {fileID: 7004597714339527866}
   zapDamage: 3
-  zapDuration: 2
+  zapDuration: 1
 --- !u!114 &5871753974607148214
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -34,6 +34,9 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         base.Initialize();
 
         showDebugMessage = true;
+        if (GameManager.Instance.debug == true) {
+            playerThreshold = 1;
+        }
 
         PlayerInputs = new List<PlayerInput>();
         Players = new List<Player>();
