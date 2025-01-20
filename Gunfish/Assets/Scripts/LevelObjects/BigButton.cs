@@ -41,7 +41,6 @@ public class BigButton : MonoBehaviour
             objMaterial.OnShot += Trigger;
         }
         fishDetector.OnFishCollideEnter += delegate (GunfishSegment segment, Collision2D collision) { Trigger(); };
-        Trigger();
     }
 
     void Trigger() {
