@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "New Gunfish Data", menuName = "Scriptable Objects/Gunfish Data")]
 public class GunfishData : ScriptableObject {
+    [Header("Descriptors")]
+    public string description;
+
     [Header("Input")]
     public InputActionAsset inputActions;
 
