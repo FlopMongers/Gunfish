@@ -15,14 +15,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Stats.unity
     guid: d86462ceaa5a5c54da7e162fb328f872
   - enabled: 1
+    path: Assets/Scenes/Levels/Deathmatch/beach.unity
+    guid: c0e766a874b760445aab180d55fdfc47
+  - enabled: 1
     path: Assets/Scenes/Levels/Deathmatch/acid_factory.unity
     guid: 211ef79c7a6ed234a8aba70795953c22
   - enabled: 1
     path: Assets/Scenes/Levels/Deathmatch/barrel.unity
     guid: d97c2aca0b082b343a7577eb252c9e5f
-  - enabled: 1
-    path: Assets/Scenes/Levels/Deathmatch/beach.unity
-    guid: c0e766a874b760445aab180d55fdfc47
   - enabled: 1
     path: Assets/Scenes/Levels/Deathmatch/cargo_hold.unity
     guid: 87d88e86ad73b1440932c43b0ecd1ba3
