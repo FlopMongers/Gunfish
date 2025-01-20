@@ -137,6 +137,8 @@ GameObject:
   - component: {fileID: 8346592955914793318}
   - component: {fileID: 8346592955914793319}
   - component: {fileID: 8346592955914793316}
+  - component: {fileID: -3037216304083764171}
+  - component: {fileID: 7625079374328733952}
   m_Layer: 0
   m_Name: ChainedMine
   m_TagString: Untagged
@@ -276,6 +278,39 @@ MonoBehaviour:
   transforms:
   - {fileID: 8346592955873852142}
   - {fileID: 6489128913476465490}
+--- !u!114 &-3037216304083764171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8346592955914793313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a947cc0223e9b49b58be8cdae921ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroying: 0
+  destroyFX: 16
+  spriteRenderer: {fileID: 0}
+  destroyFromStart: 0
+  destroyDelay: {x: 0, y: 0}
+--- !u!114 &7625079374328733952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8346592955914793313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9b7bed155666c48a9dcd7617859308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fetchRenderersOnStart: 1
+  fadeRange: {x: 1, y: 1}
+  fadeMode: 0
+  baseFadeSpeed: 2
 --- !u!1 &8346592956725190660
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +354,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BasedSpriteSeaMine
       objectReference: {fileID: 0}
+    - target: {fileID: 1377622250653943857, guid: e62d8462f7ac43a44af9a7536b1db647,
+        type: 3}
+      propertyPath: otherDestroyers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1377622250653943857, guid: e62d8462f7ac43a44af9a7536b1db647,
+        type: 3}
+      propertyPath: otherDestroyers.Array.data[0]
+      value: 
+      objectReference: {fileID: -3037216304083764171}
     - target: {fileID: 6629634723605203808, guid: e62d8462f7ac43a44af9a7536b1db647,
         type: 3}
       propertyPath: m_RootOrder

@@ -61,6 +61,8 @@ public class Fader : MonoBehaviour
 
     public virtual void SetRenderersAlpha() {
         foreach (var renderer in renderers) {
+            if (renderer == null)
+                continue;
             Color color = renderer.color;
             color.a = fadeValue;
             renderer.color = color;

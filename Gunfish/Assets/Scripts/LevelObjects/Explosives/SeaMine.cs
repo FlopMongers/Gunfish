@@ -12,6 +12,8 @@ public class SeaMine : MonoBehaviour {
 
     public GameObject explosion;
 
+    public List<Destroyer> otherDestroyers = new List<Destroyer>();
+
     // Start is called before the first frame update
     void Awake() {
         shootable = GetComponent<Shootable>();
@@ -23,6 +25,9 @@ public class SeaMine : MonoBehaviour {
         if (explosion == null)
             return;
         // spawn explosion
+        foreach (var destroyer in otherDestroyers) {
+            destroyer.GETTEM();
+        }
         Instantiate(explosion, transform.position, Quaternion.identity);
     }
 
