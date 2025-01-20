@@ -27,6 +27,8 @@ public enum FXType {
     MenuBloop,
     MenuBlorp,
     Flame,
+    Alarm,
+    HeavyClick,
 }
 
 public class FX_Spawner : PersistentSingleton<FX_Spawner> {

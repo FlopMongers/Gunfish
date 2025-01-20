@@ -41,6 +41,7 @@ public class BigButton : MonoBehaviour
             objMaterial.OnShot += Trigger;
         }
         fishDetector.OnFishCollideEnter += delegate (GunfishSegment segment, Collision2D collision) { Trigger(); };
+        Trigger();
     }
 
     void Trigger() {
@@ -48,6 +49,8 @@ public class BigButton : MonoBehaviour
         if (triggered)
             return;
         triggered = true;
+        FX_Spawner.Instance.SpawnFX(FXType.HeavyClick, transform.position, transform.rotation);
+        FX_Spawner.Instance.SpawnFX(FXType.Alarm, transform.position, transform.rotation);
         buttonTop.DOMove(buttonBottomPosition.position, depressTime).SetEase(Ease.Linear).OnComplete(FinishButtonDepress);
         OnTrigger?.Invoke();
     }
