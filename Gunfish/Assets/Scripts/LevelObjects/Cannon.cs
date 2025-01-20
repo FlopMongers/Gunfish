@@ -1,15 +1,17 @@
+using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
+using System.Drawing.Text;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 public class Cannon : MonoBehaviour {
-    public FishDetector detector;
-    public PointEffector2D effector;
+    [SerializeField] private FishDetector detector;
+    [SerializeField] private PointEffector2D effector;
+    [SerializeField] private Transform barrelSpriteTransform;
     [SerializeField] private float power;
+
     bool gottemSpottem;
-    float coolDown_timer, coolDown = 2f;
-    float shoost_timer, shoostDuration = 1f;
+    float cooldownTimer, cooldown = 2f;
+    float shoostTimer, shoostDuration = 1f;
 
     float ignoreTimer = 1f;
 
@@ -26,7 +28,7 @@ public class Cannon : MonoBehaviour {
         if (gottemSpottem)
             return;
         gottemSpottem = true;
-        shoost_timer = shoostDuration;
+        shoostTimer = shoostDuration;
         // if we haven't started the shoost, then do so
     }
 
@@ -36,9 +38,10 @@ public class Cannon : MonoBehaviour {
 
     void BlastEm() {
         // iterate over fishes in detector and blow them to hell
-        coolDown_timer = coolDown;
+        cooldownTimer = cooldown;
         gottemSpottem = false;
         GetComponent<AudioSource>().Play();
+        barrelSpriteTransform.DOPunchScale(new Vector3(0.5f, 0.05f, 0f), 0.5f, 8, 0.5f);
         FX_Spawner.Instance.BAM(0);
         foreach (var fish in detector.fishes.Keys) {
             // launch the fuckers
@@ -52,17 +55,17 @@ public class Cannon : MonoBehaviour {
     void Update() {
         // if gottem spottem, subtract shoost_timer
         if (gottemSpottem) {
-            shoost_timer = Mathf.Max(0, shoost_timer - Time.deltaTime);
-            if (shoost_timer <= 0) {
+            shoostTimer = Mathf.Max(0, shoostTimer - Time.deltaTime);
+            if (shoostTimer <= 0) {
                 BlastEm();
             }
         }
 
-        if (coolDown_timer > 0) {
-            coolDown_timer = Mathf.Max(0, coolDown_timer - Time.deltaTime);
-            if (coolDown_timer <= 0 && detector.fishes.Count > 0) {
+        if (cooldownTimer > 0) {
+            cooldownTimer = Mathf.Max(0, cooldownTimer - Time.deltaTime);
+            if (cooldownTimer <= 0 && detector.fishes.Count > 0) {
                 gottemSpottem = true;
-                shoost_timer = shoostDuration;
+                shoostTimer = shoostDuration;
             }
         }
     }
