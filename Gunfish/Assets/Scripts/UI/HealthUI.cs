@@ -188,7 +188,8 @@ public class HealthUI : MonoBehaviour {
         if (_gunfish) {
             _gunfish.OnHealthUpdated -= UpdateHealth;
             _gunfish.RemoveUI -= OnDeath;
-            _gunfish.gun.OnAmmoChanged -= UpdateWhiteBar;
+            if (_gunfish.gun)
+                _gunfish.gun.OnAmmoChanged -= UpdateWhiteBar;
         }
         if (_shootable) {
             _shootable.OnHealthUpdated -= UpdateHealth;
