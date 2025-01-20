@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +10,7 @@ public class FishSelectPanel : MonoBehaviour {
     }
     
     public Image fishImage;
+    public TMP_Text description;
     public RectTransform leftArrow;
     public RectTransform rightArrow;
     public RectTransform confirmHint;
@@ -80,6 +79,10 @@ public class FishSelectPanel : MonoBehaviour {
         fishImage.color = Color.white;
         fishImage.sprite = sprite;
         fishImage.preserveAspect = true;
+    }
+
+    public void SetFishDescription(string text) {
+        description.SetText(text);
     }
 
     public void SetState(State state) {
