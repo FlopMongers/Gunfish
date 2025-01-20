@@ -9,12 +9,16 @@ public class Zap : MonoBehaviour
 
     public float zapDamage;
     public float zapDuration;
+    public float underwaterDamageMultiplier = 1f;
 
     [HideInInspector]
     public HashSet<Gunfish> zappedFishes = new HashSet<Gunfish>();
 
     // NOTE(Wyatt): this is passed by reference
     public Dictionary<Gunfish, float> fishZapMap = new Dictionary<Gunfish, float>();
+
+    [HideInInspector]
+    public GameObject owner;
 
     static float MIN_ZAP_TIME = 2f;
 
@@ -26,12 +30,19 @@ public class Zap : MonoBehaviour
     }
 
     private void ZapFish(GunfishSegment segment, Collider2D collision) {
-        if (zappedFishes.Contains(segment.gunfish) == true || segment.gunfish.anySegmentUnderwater <= 0) {
+        if (zappedFishes.Contains(segment.gunfish) == true) {
             return;
         }
         zappedFishes.Add(segment.gunfish);
         var direction = (segment.transform.position - transform.position).normalized;
-        segment.gunfish.Hit(new FishHitObject(segment.index, segment.transform.position, direction, gameObject, zapDamage, 0, HitType.Electric));
+        segment.gunfish.Hit(new FishHitObject(
+            segment.index, 
+            segment.transform.position, 
+            direction, 
+            (owner == null) ? gameObject : owner, 
+            zapDamage * ((segment.gunfish.anySegmentUnderwater <= 0) ? 1f : underwaterDamageMultiplier), 
+            0, 
+            HitType.Electric));
         if (!fishZapMap.ContainsKey(segment.gunfish) || (Time.time - fishZapMap[segment.gunfish]) < MIN_ZAP_TIME) {
             segment.gunfish.AddEffect(new Zap_Effect(segment.gunfish, zapDuration));
             fishZapMap[segment.gunfish] = Time.time;
