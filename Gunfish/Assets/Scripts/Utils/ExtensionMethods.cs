@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,7 +15,9 @@ public static class ExtensionMethods {
         return range.x + ((range.y - range.x) * normalizedValue);
     }
 
-    public static float GetNormalizedValueInRange(float value, float minValue, float maxValue) {
+    public static float GetNormalizedValueInRange(float value, float minValue, float maxValue, bool clamp = false) {
+        if (clamp)
+            value = Mathf.Clamp(value, minValue, maxValue);
         return (value - minValue) / (maxValue - minValue);
     }
 

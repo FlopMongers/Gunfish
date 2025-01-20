@@ -16,7 +16,7 @@ public class Zap : MonoBehaviour
     // NOTE(Wyatt): this is passed by reference
     public Dictionary<Gunfish, float> fishZapMap = new Dictionary<Gunfish, float>();
 
-    static float MIN_ZAP_TIME = 1f;
+    static float MIN_ZAP_TIME = 2f;
 
     // Start is called before the first frame update
     void Start()

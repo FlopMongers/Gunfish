@@ -93,7 +93,7 @@ public class Bullet : MonoBehaviour
 
         if (shootable != null && !destroyed && collision.relativeVelocity.magnitude > speedRange.x) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
-            float damageRatio = ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y);
+            float damageRatio = ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true);
             shootable.Hit(new HitObject(
                 collision.contacts[0].point,
                 -collision.contacts[0].normal,
