@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43ac47a9ef8aa64d9aa82ab44404374, type: 3}
   m_Name: Swordfish
   m_EditorClassIdentifier: 
+  description: Fire to lunge!
   inputActions: {fileID: -944628639613478452, guid: fc9d8479589497b4285c27626e52b828,
     type: 3}
   spriteMat: {fileID: 2100000, guid: 747a1deaf01309c4ea66669f6813e5e6, type: 2}

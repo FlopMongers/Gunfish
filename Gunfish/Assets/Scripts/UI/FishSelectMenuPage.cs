@@ -165,6 +165,7 @@ public class FishSelectMenuPage : MenuPage {
 
     private void SetFish(int deviceIndex, GunfishData fish) {
         fishSelectPanels[deviceIndex].SetFishImage(fish.sprite);
+        fishSelectPanels[deviceIndex].SetFishDescription(fish.description);
         PlayerManager.Instance.SetPlayerFish(deviceIndex, fish);
     }
 
