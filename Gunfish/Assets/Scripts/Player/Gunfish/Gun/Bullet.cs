@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(FishDetector))]
 public class Bullet : MonoBehaviour
 {
-    bool destroyed, starting=true;
+    protected bool destroyed, starting=true;
     public bool velocityFalloff = true;
 
     public Gunfish gunfish;

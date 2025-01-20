@@ -4920,8 +4920,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishDetector: {fileID: 7004597714339527866}
-  zapDamage: 1.5
+  zapDamage: 1.8
   zapDuration: 1
+  underwaterDamageMultiplier: 1
+  owner: {fileID: 0}
 --- !u!114 &5871753974607148214
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class Stunbullet : Bullet
     }
 
     protected override void Gettem() {
+        if (destroyed)
+            return;
         base.Gettem();
         // spawn zap, pass the zap map and the ignore fishes
         var zap = Instantiate(zapFX, transform.position, Quaternion.identity).GetComponent<Zap>();
