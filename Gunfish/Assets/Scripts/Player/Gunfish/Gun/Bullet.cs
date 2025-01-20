@@ -58,7 +58,7 @@ public class Bullet : MonoBehaviour
         // if fast enough and not destroyed and not sourceGunfish, WHACK THE FISH
         if (!destroyed && segment.gunfish != gunfish && collision.relativeVelocity.magnitude > speedRange.x) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
-            float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y) : 1f;
+            float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true) : 1f;
             segment.gunfish.Hit(
                 new FishHitObject(
                     segment.index,

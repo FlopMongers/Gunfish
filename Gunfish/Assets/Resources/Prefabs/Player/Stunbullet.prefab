@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7eb423997cf3048bdb08337a1b3bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocityFalloff: 1
+  velocityFalloff: 0
   gunfish: {fileID: 0}
   speedRange: {x: 5, y: 12}
   maxSpeed: 15
