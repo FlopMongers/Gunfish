@@ -70,6 +70,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
         foreach (var team in teams) {
             if (team.goal != goal) {
                 UpdateTeamScore(team, 1);
+                return;
             }
         }
     }
