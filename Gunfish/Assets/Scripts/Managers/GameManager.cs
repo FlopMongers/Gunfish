@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,6 @@ public class GameParameters {
 }
 
 public class GameManager : PersistentSingleton<GameManager> {
-    [SerializeField]
     public bool debug = false;
     
     [SerializeField]
@@ -45,11 +45,12 @@ public class GameManager : PersistentSingleton<GameManager> {
         PlayerManager.Instance.Initialize();
     }
 
-    public void InitializeNonPlayerManagerManagersLol() {
-        StartCoroutine(SendIt());
+    public void InitializePostRitualManagers() {
+        StartCoroutine(InitializePostRitualManagersCR());
     }
 
-    private IEnumerator SendIt() {
+    private IEnumerator InitializePostRitualManagersCR() {
+        // Yielding for one frame is required due to a bug in Unity.
         yield return new WaitForEndOfFrame();
         LevelManager.Instance.Initialize();
         MusicManager.Instance.Initialize();

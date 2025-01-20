@@ -1,15 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerManager : PersistentSingleton<PlayerManager> {
     public List<Color> playerColors;
 
-    public List<Player> Players;// { get; private set; }
-    public List<GunfishData> PlayerFish;// { get; private set; }
-    public List<PlayerInput> PlayerInputs;// { get; private set; }
+    public List<Player> Players;
+    public List<GunfishData> PlayerFish;
+    public List<PlayerInput> PlayerInputs;
 
     private bool showDebugMessage;
 
@@ -17,11 +14,16 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
     public void OnPlayerJoined(PlayerInput input) {
         PlayerInputs.Add(input);
-        Debug.Log("Added player");
-        if (PlayerInputs.Count == playerThreshold) {
+
+        var requiredPlayerCount = 
+            GameManager.Instance.debug 
+            ? 1 
+            : GetComponent<PlayerInputManager>().maxPlayerCount;
+        
+        if (PlayerInputs.Count == requiredPlayerCount) {
             showDebugMessage = false;
             InitializePlayers();
-            GameManager.Instance.InitializeNonPlayerManagerManagersLol();
+            GameManager.Instance.InitializePostRitualManagers();
         }
     }
 
@@ -36,6 +38,8 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         showDebugMessage = true;
         if (GameManager.Instance.debug == true) {
             playerThreshold = 1;
+        } else {
+            playerThreshold = GetComponent<PlayerInputManager>().maxPlayerCount;
         }
 
         PlayerInputs = new List<PlayerInput>();
@@ -74,7 +78,15 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
     public void OnGUI() {
         if (!showDebugMessage) return;
-        GUILayout.TextArea("Welcome to Gunfish! If you're seeing this message it means this game is still initializing. Please press the GUN button for each controller in the following order: RED, GREEN, BLUE, YELLOW.");
+        GUIStyle style = new GUIStyle(GUI.skin.textArea) {
+            fontSize = 30,
+            wordWrap = true
+        };
+
+        GUILayout.TextField(
+            "Welcome to Gunfish! If you're seeing this message it means this game is still initializing. Please press the GUN button for each controller in the following order: RED, GREEN, BLUE, YELLOW.",
+            style
+        );
     }
 
     // Must be either Player or UI
