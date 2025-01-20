@@ -13,6 +13,7 @@ public class GrenadeLauncher : Gun
     public float spikeKnockback = 10f;
 
     public float grenadeForceMultiplier = 2f;
+    public float grenadeDuration = 1f;
 
     protected override void Start() {
         base.Start();
@@ -90,6 +91,7 @@ public class GrenadeLauncher : Gun
             var nade = nadeObj.GetComponent<Grenade>();
             nade.sourceGunfish = gunfish;
             grenade = nade;
+            grenade.duration = grenadeDuration;
             // NOTE: give grenade duration here?
             // give it some force
             nadeObj.GetComponent<Rigidbody2D>().AddForce(barrels[0].transform.right * gunfish.data.gun.range * grenadeForceMultiplier, ForceMode2D.Impulse);

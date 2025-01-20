@@ -8,7 +8,8 @@ public class LaserGun : Gun
 
     // NOTE(Wyatt): I'm just going to use 'ammo' as the charge amount.
     // THEREFORE, max_ammo is the time it takes to charge. go freakin figure!!!
-    float chargeAmount, hitReduction=.25f, range;
+    float chargeAmount, hitReduction=.25f, range, fullBlastMultiplier=1.5f;
+    bool fullBlast;
     // I think this is the range of the width of the laser
     public Vector2 radiusRange = new Vector2();
 
@@ -101,7 +102,8 @@ public class LaserGun : Gun
             revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
         }
 
-        if ((firingStatus == ButtonStatus.Released && ammo > 0.1f) || ammo >= gunfish.data.gun.maxAmmo) {
+        fullBlast = ammo >= gunfish.data.gun.maxAmmo;
+        if ((firingStatus == ButtonStatus.Released && ammo > 0.1f) || fullBlast) {
             chargeAmount = ammo / gunfish.data.gun.maxAmmo;
             range = gunfish.data.gun.range * chargeAmount;
             ammo = 0;
@@ -110,6 +112,7 @@ public class LaserGun : Gun
             revUp.SetWarmupParticles(false, barrels[0].transform, 0.2f);
             Kickback(gunfish.data.gun.kickback * chargeAmount);
             _Fire();
+            fullBlast = false;
         }
         OnAmmoChanged?.Invoke(ammo / gunfish.data.gun.maxAmmo);
     }
