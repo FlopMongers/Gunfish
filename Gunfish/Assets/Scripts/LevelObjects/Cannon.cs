@@ -33,6 +33,7 @@ public class Cannon : MonoBehaviour {
     }
 
     void OnFishLeave(GunfishSegment segment, Collider2D fishCollider) {
+        gottemSpottem = detector.fishes.Count > 0;
         segment.gunfish.AddEffect(new NoMove_Effect(segment.gunfish, -1));
     }
 

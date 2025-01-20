@@ -1,5 +1,6 @@
 using System;
 using System.Drawing.Printing;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -271,6 +272,12 @@ public class Flame_Effect : TimedEffect {
         // todo: spawn sharkmode music
         if (FX_Spawner.Instance != null) {
             fx = FX_Spawner.Instance.SpawnFX(FXType.Flame, gunfish.RootSegment.transform.position, Quaternion.identity, parent: gunfish.RootSegment.transform);
+            var pSystem = fx.GetComponent<ParticleSystem>();
+            pSystem.Stop();
+            var main = pSystem.main;
+            main.duration = timer - 0.5f;
+            main.startLifetime = new ParticleSystem.MinMaxCurve(0.25f, main.duration);
+            pSystem.Play();
         }
     }
 
