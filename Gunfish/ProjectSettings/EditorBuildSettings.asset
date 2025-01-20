@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Stats.unity
     guid: d86462ceaa5a5c54da7e162fb328f872
   - enabled: 1
-    path: Assets/Scenes/Levels/Deathmatch/valley.unity
-    guid: a92c5663c2aeb94449a17417b2bebb45
-  - enabled: 1
     path: Assets/Scenes/Levels/Deathmatch/acid_factory.unity
     guid: 211ef79c7a6ed234a8aba70795953c22
   - enabled: 1
@@ -32,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Deathmatch/firing_range.unity
     guid: 36412ad38a1154e55b18053cce8ce6fe
+  - enabled: 1
+    path: Assets/Scenes/Levels/Deathmatch/valley.unity
+    guid: a92c5663c2aeb94449a17417b2bebb45
   - enabled: 1
     path: Assets/Scenes/Levels/Bassball/BassballTestMap.unity
     guid: 5f47a2a804a4577478f4b9096c0869a9

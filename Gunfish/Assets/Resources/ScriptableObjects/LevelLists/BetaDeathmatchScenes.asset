@@ -13,14 +13,10 @@ MonoBehaviour:
   m_Name: BetaDeathmatchScenes
   m_EditorClassIdentifier: 
   sceneNames:
-  - Assets/Scenes/Levels/Deathmatch/valley.unity
-  - Assets/Scenes/Levels/Deathmatch/valley.unity
-  - Assets/Scenes/Levels/Deathmatch/valley.unity
-  - Assets/Scenes/Levels/Deathmatch/valley.unity
+  - Assets/Scenes/Levels/Deathmatch/acid_factory.unity
+  - Assets/Scenes/Levels/Deathmatch/acid_factory.unity
   skyboxSceneName: Assets/Scenes/Skybox.unity
   scenes:
-  - {fileID: 102900000, guid: a92c5663c2aeb94449a17417b2bebb45, type: 3}
-  - {fileID: 102900000, guid: a92c5663c2aeb94449a17417b2bebb45, type: 3}
-  - {fileID: 102900000, guid: a92c5663c2aeb94449a17417b2bebb45, type: 3}
-  - {fileID: 102900000, guid: a92c5663c2aeb94449a17417b2bebb45, type: 3}
+  - {fileID: 102900000, guid: 211ef79c7a6ed234a8aba70795953c22, type: 3}
+  - {fileID: 102900000, guid: 211ef79c7a6ed234a8aba70795953c22, type: 3}
   skyboxScene: {fileID: 102900000, guid: b203674794be445f3ad69fd546365653, type: 3}
