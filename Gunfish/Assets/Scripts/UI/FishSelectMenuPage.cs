@@ -125,6 +125,10 @@ public class FishSelectMenuPage : MenuPage {
 
     private void OnCancel(InputAction.CallbackContext context, int playerIndex) {
         var fishSelectPanel = fishSelectPanels[playerIndex];
+        if (NoPlayersActive()) {
+            MainMenu.Instance.SetState(MenuState.GameModeSelect, MenuDirection.Right);
+            return;
+        }
         switch (fishSelectPanel.state) {
             case FishSelectPanel.State.Selecting:
                 PlayerManager.Instance.Players[playerIndex].Active = false;
@@ -194,7 +198,6 @@ public class FishSelectMenuPage : MenuPage {
     private bool AllPlayersReady() {
         bool hasNoSelecting = true;
         int readyPlayerCount = 0;
-        var requiredPlayersToStart = GameManager.Instance.debug ? 1 : 2;
         foreach (var fishSelectPanel in fishSelectPanels) {
             if (fishSelectPanel.state == FishSelectPanel.State.Confirmed) {
                 readyPlayerCount++;
@@ -204,5 +207,13 @@ public class FishSelectMenuPage : MenuPage {
             }
         }
         return hasNoSelecting && ((GameManager.Instance.debug == true && readyPlayerCount >= 1) || GameManager.Instance.currentGameMode.requiredPlayerCount.Contains(readyPlayerCount));
+    }
+
+    private bool NoPlayersActive() {
+        foreach (var fishSelectPanel in fishSelectPanels) {
+            if (fishSelectPanel.state != FishSelectPanel.State.Inactive)
+                return false;
+        }
+        return true;
     }
 }
