@@ -20,7 +20,7 @@ public class FishHook : MonoBehaviour {
     public Vector3 lineStartPosition, lineTargetPosition, detectorStartPosition, detectorTargetPosition;
 
     public float jiggle_timer;
-    float jiggleDuration = 10f, jiggleThreshold = 4f, turboMode = 2f;
+    float jiggleDuration = 10f, jiggleThreshold = 6f, turboMode = 2f;
     float zoomDuration = 0.5f, returnDuration = 1f;
     float jointStrength = 500f;
     public bool zooming = false;
