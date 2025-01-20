@@ -103,6 +103,7 @@ public class FishSelectPanel : MonoBehaviour {
     private void SetStateInactive() {
         arrowsActive = false;
         fishImage.color = Color.black;
+        description.SetText("");
         confirmHint.gameObject.SetActive(false);
         cancelHint.gameObject.SetActive(false);
         readyHint.gameObject.SetActive(false);
