@@ -5009,6 +5009,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splashFX: {fileID: 4221444693424322087}
-  particleNumberRange: {x: 3, y: 10}
+  particleNumberRange: {x: 3, y: 8}
   particleSpeedRange: {x: 1.5, y: 3, z: 0.75}
   particleSizeRange: {x: 0.05, y: 0.3, z: 0.25}

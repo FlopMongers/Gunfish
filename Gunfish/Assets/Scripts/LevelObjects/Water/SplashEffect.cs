@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SplashEffect : MonoBehaviour
 {
     public ParticleSystem splashFX;
 
-    public Vector2 particleNumberRange = new Vector2(3, 10);
+    public Vector2 particleNumberRange = new Vector2(3, 8);
     // min, max, variance percent
     public Vector3 particleSpeedRange = new Vector3(1.5f, 3f, 0.1f);
     public Vector3 particleSizeRange = new Vector3(0.1f, 0.5f, 0.1f);
