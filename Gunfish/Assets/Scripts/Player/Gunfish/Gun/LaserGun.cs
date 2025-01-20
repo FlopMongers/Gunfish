@@ -56,7 +56,7 @@ public class LaserGun : Gun
     }
 
     public override bool CheckFire() {
-        if (!gunfish.statusData.CanFire)
+        if (!gunfish.statusData.CanFire || barrels.Count == 0 || barrels[0] == null)
             return false;
 
         // cooling down
