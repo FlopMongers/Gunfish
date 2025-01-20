@@ -8,6 +8,7 @@ public class LoadingCountdownUI : MonoBehaviour {
     private string loadingAnimation = "Loading";
 
     void Awake() {
+        GetComponent<Canvas>().enabled = true;
         anim = GetComponent<Animator>();
     }
 

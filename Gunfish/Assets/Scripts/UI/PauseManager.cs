@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 public class PauseManager : Singleton<PauseManager> {
     public AudioMixer audioMixer;
@@ -12,6 +9,7 @@ public class PauseManager : Singleton<PauseManager> {
     int pausePriority;
 
     public void Start() {
+        GetComponent<Canvas>().enabled = true;
         anim = GetComponent<Animator>();
     }
 

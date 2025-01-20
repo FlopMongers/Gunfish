@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c488847fb97bd34aa4ebab60dfc6cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 1
+  debug: 0
   _gameModeList: {fileID: 11400000, guid: 7c2fb38946b14604eaa780fb2451339c, type: 2}
   _gunfishDataList: {fileID: 11400000, guid: 09eb2fcf654f97c44acd5f5a5e6fc030, type: 2}
   defaultGameMode: 0
@@ -492,6 +492,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407709523315997621, guid: d0b19ceded7191241a7fab11b205b22a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0b19ceded7191241a7fab11b205b22a, type: 3}
@@ -991,6 +996,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 5673737387414419726}
     m_Modifications:
     - target: {fileID: 6100708586927589425, guid: d61d2430c7d471c44abafadc9d6d1f8e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6100708586927589427, guid: d61d2430c7d471c44abafadc9d6d1f8e,
         type: 3}
       propertyPath: m_Enabled
       value: 0
