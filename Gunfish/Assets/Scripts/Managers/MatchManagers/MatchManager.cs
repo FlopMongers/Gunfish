@@ -249,6 +249,8 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     }
 
     public virtual void OnTimerFinish() { }
+
+    public virtual int GetPlayerScore(Player player) { return 0; }
 }
 
 public interface IMatchManager {
@@ -259,4 +261,5 @@ public interface IMatchManager {
     public void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead);
     public void ENDITALL();
     public MatchUI GetUI();
+    public int GetPlayerScore(Player player);
 }

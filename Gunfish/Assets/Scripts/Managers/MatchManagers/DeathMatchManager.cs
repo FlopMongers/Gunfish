@@ -270,4 +270,14 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
         }
         // maybe play a quip? (SUDDEN DEATH!)
     }
+
+    public override int GetPlayerScore(Player player) {
+        if (player == null) {
+            return -1;
+        }
+        if (!playerReferences.ContainsKey(player)) {
+            return -1;
+        }
+        return playerReferences[player].score;
+    }
 }
