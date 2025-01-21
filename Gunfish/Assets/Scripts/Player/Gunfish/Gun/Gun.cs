@@ -17,6 +17,9 @@ public class Gun : MonoBehaviour {
 
     public float ammo;
     protected float fireCooldown_timer, reload_timer, reloadWait_timer;
+    // these are placeholders until we turn all of the gunfish attributes into runtime-modifiable, modifier-tracking objects
+    // when? HAHA!!!!!! HOHO HEEHEE!!!!
+    protected float fireCoolDown_modifier = 0;
 
     public bool piercing;
 
@@ -64,7 +67,7 @@ public class Gun : MonoBehaviour {
         ammo -= 1;
         OnAmmoChanged?.Invoke(ammo / gunfish.data.gun.maxAmmo);
 
-        fireCooldown_timer = gunfish.data.gun.fireCooldown;
+        fireCooldown_timer = gunfish.data.gun.fireCooldown + fireCoolDown_modifier;
         reloadWait_timer = gunfish.data.gun.reloadWait;
         reload_timer = 0;
         return true;
