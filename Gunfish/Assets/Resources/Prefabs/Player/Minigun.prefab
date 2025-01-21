@@ -50,7 +50,7 @@ MonoBehaviour:
   barrels: []
   ammo: 0
   piercing: 0
-  fireWarmUpTime: 0.25
+  fireWarmUpTime: 0.1
   revUp: {fileID: 3355688474809085604}
 --- !u!82 &261772233539453454
 AudioSource:
@@ -165,3 +165,4 @@ MonoBehaviour:
     type: 3}
   volRange: {x: 0, y: 1}
   pitchRange: {x: 1, y: 2}
+  turnedOn: 0
