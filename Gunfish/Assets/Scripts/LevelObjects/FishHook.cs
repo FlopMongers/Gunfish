@@ -11,13 +11,14 @@ turn off the collision when zooming
 */
 
 public class FishHook : MonoBehaviour {
+    public float[] startingXPositions;
     public FishDetector detector;
     public Shaker shaker;
     public LineRenderer line;
 
-    public Transform roofPosition;
-
-    public Vector3 lineStartPosition, lineTargetPosition, detectorStartPosition, detectorTargetPosition;
+    public Transform roof;
+    public Transform floor;
+    public Transform sprite;
 
     public float jiggle_timer;
     float jiggleDuration = 10f, jiggleThreshold = 6f, turboMode = 2f;
@@ -31,21 +32,16 @@ public class FishHook : MonoBehaviour {
         detector.OnFishTriggerEnter += OnFishEnter;
         detector.OnFishTriggerExit += OnFishExit;
         jiggle_timer = jiggleDuration;
-        lineStartPosition = line.transform.position;
-        lineTargetPosition = roofPosition.position;
-
-        // the detector is offset from the line and so must be lerped independently between equivalent positions
-        detectorStartPosition = detector.transform.position;
-        detectorTargetPosition = roofPosition.position + (detector.transform.position - line.transform.position);
-        
-        line.SetPosition(1, line.transform.InverseTransformPoint(lineStartPosition));
-        line.SetPosition(0, line.transform.InverseTransformPoint(roofPosition.position));
+        SetPosition();
     }
 
     // Update is called once per frame
     void Update() {
-        if (zooming)
-            return;
+        line.SetPosition(0, roof.position);
+        line.SetPosition(1, sprite.position + new Vector3(0f, 0.85f, 0f));
+
+        if (zooming) return;
+
         jiggle_timer = Mathf.Max(0, jiggle_timer - (Time.deltaTime * ((detector.fishes.Count > 0) ? turboMode : 1)));
         if (!shaker.shaking && jiggle_timer < jiggleThreshold) {
             StartJiggle();
@@ -67,11 +63,18 @@ public class FishHook : MonoBehaviour {
         }
     }
 
+    void SetPosition() {
+        if (startingXPositions != null && startingXPositions.Length > 0) {
+            transform.position = new Vector3(startingXPositions[Random.Range(0, startingXPositions.Length)], transform.position.y, transform.position.z);
+        }
+    }
+
     void Zoom() {
         zooming = true;
         foreach (var fishPair in fishJointMap) {
-            if (fishJointMap.Values != null)
+            if (fishJointMap.Values != null) {
                 fishPair.Value.breakForce = float.MaxValue;
+            }
         }
         StartCoroutine(CoZoom());
     }
@@ -93,8 +96,7 @@ public class FishHook : MonoBehaviour {
         detector.SetCollidersEnabled(false);
         while (zoomTimer > 0) {
             percentage = 1 - (zoomTimer / zoomDuration);
-            line.SetPosition(1, line.transform.InverseTransformPoint(Vector3.Lerp(lineStartPosition, lineTargetPosition, percentage)));
-            detector.transform.position = Vector3.Lerp(detectorStartPosition, detectorTargetPosition, percentage);
+            detector.transform.position = Vector3.Lerp(floor.position, roof.position, percentage);
             zoomTimer -= Time.deltaTime;
             yield return null;
         }
@@ -109,13 +111,11 @@ public class FishHook : MonoBehaviour {
                 fish.statusData.health, 
                 0, HitType.Impact));
         }
-            //fish.Kill();
-        // kill the fuckers
+        SetPosition();
         zoomTimer = returnDuration;
         while (zoomTimer > 0) {
             percentage = 1 - (zoomTimer / returnDuration);
-            line.SetPosition(1, line.transform.InverseTransformPoint(Vector3.Lerp(lineTargetPosition, lineStartPosition, percentage)));
-            detector.transform.position = Vector3.Lerp(detectorTargetPosition, detectorStartPosition, percentage);
+            detector.transform.position = Vector3.Lerp(roof.position, floor.position, percentage);
             zoomTimer -= Time.deltaTime;
             yield return null;
         }
@@ -128,9 +128,9 @@ public class FishHook : MonoBehaviour {
     }
 
     void OnFishEnter(GunfishSegment segment, Collider2D collider) {
-        //if (shaker.shaking)
-        if (!shaker.shaking)
+        if (!shaker.shaking) {
             jiggle_timer = jiggleThreshold;
+        }
         StickFish(segment);
     }
 

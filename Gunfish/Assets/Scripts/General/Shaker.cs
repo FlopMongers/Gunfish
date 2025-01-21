@@ -31,8 +31,8 @@ public class Shaker : MonoBehaviour {
         shooketh = true;
         foreach (var target in targets) {
             startingPos[target] = new Vector4(
-                target.position.x - radius,
-                target.position.y - radius,
+                target.localPosition.x - radius,
+                target.localPosition.y - radius,
                 Random.Range(0, 1f),
                 Random.Range(0, 1f));
         }
@@ -44,7 +44,7 @@ public class Shaker : MonoBehaviour {
             foreach (var target in startingPos.Keys) {
                 if (!target)
                     continue;
-                target.position = (Vector2)startingPos[target] + new Vector2(
+                target.localPosition = (Vector2)startingPos[target] + new Vector2(
                     Mathf.PerlinNoise(Time.time * speed, startingPos[target].z) * amount,
                     Mathf.PerlinNoise(Time.time * speed, startingPos[target].w) * amount);
             }
@@ -59,7 +59,7 @@ public class Shaker : MonoBehaviour {
         foreach (var target in startingPos.Keys) {
             if (!target)
                 continue;
-            target.position = (Vector2)startingPos[target] + new Vector2(radius, radius);
+            target.localPosition = (Vector2)startingPos[target] + new Vector2(radius, radius);
         }
     }
 

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1192994068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1192994069}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1192994069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192994068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7545743364592495597}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7545743364011459218
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +179,8 @@ Transform:
   m_Children:
   - {fileID: 7545743364836813720}
   - {fileID: 7545743364561101635}
+  - {fileID: 1192994069}
+  - {fileID: 7545743364645399162}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -168,7 +201,7 @@ MonoBehaviour:
   shaking: 0
   shooketh: 0
   targets:
-  - {fileID: 7545743364836813720}
+  - {fileID: 7545743364011459217}
 --- !u!114 &7545743364592495599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,14 +214,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865f0087574480c43a7e41f2e21406bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingXPositions:
+  - -11
+  - -3.75
+  - 3.75
+  - 11
   detector: {fileID: 7545743364645399164}
   shaker: {fileID: 7545743364592495598}
   line: {fileID: 7545743364836813718}
-  roofPosition: {fileID: 7545743364561101635}
-  lineStartPosition: {x: 0, y: 0, z: 0}
-  lineTargetPosition: {x: 0, y: 0, z: 0}
-  detectorStartPosition: {x: 0, y: 0, z: 0}
-  detectorTargetPosition: {x: 0, y: 0, z: 0}
+  roof: {fileID: 7545743364561101635}
+  floor: {fileID: 1192994069}
+  sprite: {fileID: 7545743364011459217}
   jiggle_timer: 0
   zooming: 0
 --- !u!50 &7545743364592495596
@@ -238,13 +274,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7545743364645399165}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.85, z: 0}
+  m_LocalPosition: {x: 0, y: -0.8500004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7545743364011459217}
-  m_Father: {fileID: 7545743364836813720}
-  m_RootOrder: 0
+  m_Father: {fileID: 7545743364592495597}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7545743364645399164
 MonoBehaviour:
@@ -260,6 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DetectCollision: 0
   DetectTrigger: 1
+  DetectGun: 0
   colliders: []
 --- !u!58 &645845959090368992
 CircleCollider2D:
@@ -305,8 +342,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7545743364645399162}
+  m_Children: []
   m_Father: {fileID: 7545743364592495597}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
