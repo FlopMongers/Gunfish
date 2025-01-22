@@ -84,7 +84,7 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
         var map = Path.GetFileNameWithoutExtension(levels[0]);
         line += map + ",";
         line += "1";
-        StreamWriter writer = new StreamWriter(outputFile);
+        StreamWriter writer = new StreamWriter(outputFile, true);
         writer.WriteLine(line);
         writer.Close();
         print("Wrote to " + outputFile);
