@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a947cc0223e9b49b58be8cdae921ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroying: 0
   destroyFX: 16
   spriteRenderer: {fileID: 1539668340371976702}
   destroyFromStart: 0
@@ -135,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityFalloff: 1
   gunfish: {fileID: 0}
-  speedRange: {x: 5, y: 20}
+  speedRange: {x: 2, y: 20}
   maxSpeed: 40
   rb: {fileID: 4965525518979213272}
   detector: {fileID: 492439743445926309}

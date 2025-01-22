@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityFalloff: 0
   gunfish: {fileID: 0}
-  speedRange: {x: 5, y: 12}
+  speedRange: {x: 2, y: 12}
   maxSpeed: 15
   rb: {fileID: 4965525518979213272}
   detector: {fileID: 492439743445926309}
