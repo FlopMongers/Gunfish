@@ -17,7 +17,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
         var requiredPlayerCount = 
             GameManager.Instance.debug 
-            ? 1 
+            ? GameManager.Instance.debugPlayerCount
             : GetComponent<PlayerInputManager>().maxPlayerCount;
         
         if (PlayerInputs.Count == requiredPlayerCount) {
@@ -37,7 +37,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
 
         showDebugMessage = true;
         if (GameManager.Instance.debug == true) {
-            playerThreshold = 1;
+            playerThreshold = GameManager.Instance.debugPlayerCount;
         } else {
             playerThreshold = GetComponent<PlayerInputManager>().maxPlayerCount;
         }

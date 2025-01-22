@@ -18,6 +18,7 @@ public class GameParameters {
 
 public class GameManager : PersistentSingleton<GameManager> {
     public bool debug = false;
+    public int debugPlayerCount = 1;
     
     [SerializeField]
     private GameModeList _gameModeList;

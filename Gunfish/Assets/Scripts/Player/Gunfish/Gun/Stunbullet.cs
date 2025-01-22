@@ -21,7 +21,9 @@ public class Stunbullet : Bullet
         // spawn zap, pass the zap map and the ignore fishes
         var zap = Instantiate(zapFX, transform.position, Quaternion.identity).GetComponent<Zap>();
         zap.zappedFishes.Add(gunfish);
-        zap.owner = gunfish.gun.gameObject;
+        if (gunfish != null && gunfish.gameObject != null) { 
+            zap.owner = gunfish.gameObject;
+        }
         zap.fishZapMap = fishZapMap;
     }
 }
