@@ -41,7 +41,7 @@ public class SplashMenuPage : MenuPage {
 
     private void LoadNextMenu() {
         GameManager.Instance.SetSelectedGameMode(GameManager.Instance.defaultGameMode);
-        menuContext.menu.SetState(MenuState.GameModeSelect);
+        menuContext.menu.SetState(MenuState.FishSelect);
     }
 
     private void Unfade() {
