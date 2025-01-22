@@ -108,6 +108,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
             winner = (teams[0].score > teams[1].score) ? teams[0] : teams[1];
             winnerText = $"{winner.GetTitle()} wins!";
         }
+        MarqueeManager.Instance.PlayWinQuip(winner);
         winner.gamesWon += 1;
 
         List<PlayerReference> sortedList = playerReferences.Values.OrderByDescending(x => winner == x.team)
@@ -137,7 +138,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
             winner = (teams[0].gamesWon > teams[1].gamesWon) ? teams[0] : teams[1];
             winnerText = $"{winner.GetTitle()} wins!";
         }
-
+        MarqueeManager.Instance.PlayWinQuip(winner);
         List<PlayerReference> sortedList = playerReferences.Values.OrderByDescending(x => winner == x.team)
                               .ToList();
         statsUI.ShowStats(winnerText, sortedList, winner, tiebreakerText, "Games", scoreLambda:(x => ((BassballTeamReference)x.team).gamesWon.ToString()));

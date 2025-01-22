@@ -28,7 +28,8 @@ public class StatsUI : MonoBehaviour
         TeamReference winningTeam, 
         Dictionary<PlayerReferenceType, string> tiebreakerTextMap,
         string scoreColumnText="",
-        Func<PlayerReferenceType, string> scoreLambda=null) where PlayerReferenceType : PlayerReference 
+        Func<PlayerReferenceType, string> scoreLambda=null,
+        bool showTeam=true) where PlayerReferenceType : PlayerReference 
     {
         if (scoreColumnText != "") {
             this.scoreColumnText.text = scoreColumnText;
@@ -45,7 +46,7 @@ public class StatsUI : MonoBehaviour
             if (players[i].team == winningTeam) {
                 playerPanels[i].highlightCanvasGroup.alpha = 1;
             }
-            playerPanels[i].playerName.text = $"Player {players[i].player.VisiblePlayerNumber} (Team {players[i].team.VisibleTeamNumber})";
+            playerPanels[i].playerName.text = $"Player {players[i].player.VisiblePlayerNumber}" + (showTeam ? $"(Team {players[i].team.VisibleTeamNumber})" : "");
             playerPanels[i].playerImg.sprite = players[i].player.gunfishData.sprite;
             playerPanels[i].playerScore.text = (scoreLambda != null) ? scoreLambda(players[i]) : players[i].GetStatsText();
             playerPanels[i].panelColor.color = players[i].team.teamColor;

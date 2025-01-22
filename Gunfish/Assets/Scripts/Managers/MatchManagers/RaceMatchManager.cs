@@ -126,6 +126,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
         if (winnerList.Count() > 0) {
             winner = winnerList.First();
             winnerText = $"{winner.team.GetTitle()} wins the level!";
+            MarqueeManager.Instance.PlayPlayerWinQuip(winner.player);
         }
 
         //  1) who got the farthest checkpoint

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 
@@ -112,6 +113,41 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         ArduinoManager.Instance.PlayClip(quip.clip);
         quipSettings.text.SetText(quip.text);
         quipSettings.t = 0;
+    }
+
+    public void PlayPlayerWinQuip(Player player) {
+        switch (player.PlayerNumber) {
+            case 1:
+                PlayRandomQuip(QuipType.Player1Wins);
+                break;
+            case 2:
+                PlayRandomQuip(QuipType.Player2Wins);
+                break;
+            case 3:
+                PlayRandomQuip(QuipType.Player3Wins);
+                break;
+            case 4:
+                PlayRandomQuip(QuipType.Player4Wins);
+                break;
+        }
+    }
+
+    public void PlayWinQuip(ScoredTeamReference winnerTeam) {
+        if (winnerTeam.players.Count == 1) {
+            PlayPlayerWinQuip(winnerTeam.players[0].player);
+        }
+        else {
+            switch (winnerTeam.teamNumber) {
+                case 1:
+                    PlayRandomQuip(QuipType.Team1Wins); break;
+                case 2:
+                    PlayRandomQuip(QuipType.Team2Wins); break;
+                case 3:
+                    PlayRandomQuip(QuipType.Team3Wins); break;
+                case 4:
+                    PlayRandomQuip(QuipType.Team4Wins); break;
+            }
+        }
     }
 
     void OnValidate() {
