@@ -8,11 +8,12 @@ using UnityEngine;
 public class StatsUI : MonoBehaviour
 {
     [SerializeField] private CanvasGroup playerPanelsGroup;
-    [SerializeField] private List<PlayerPanel> playerPanels;
+    [SerializeField] public List<PlayerPanel> playerPanels;
 
     [SerializeField] private TextMeshProUGUI winnerText;
 
     [SerializeField] private TextMeshProUGUI scoreColumnText;
+    [SerializeField] private Transform feedbackPanel;
 
     void ClearPlayerPanels() {
         foreach (var panel in playerPanels) {
@@ -28,6 +29,7 @@ public class StatsUI : MonoBehaviour
         TeamReference winningTeam, 
         Dictionary<PlayerReferenceType, string> tiebreakerTextMap,
         string scoreColumnText="",
+        bool final=false,
         Func<PlayerReferenceType, string> scoreLambda=null,
         bool showTeam=true) where PlayerReferenceType : PlayerReference 
     {
@@ -39,6 +41,8 @@ public class StatsUI : MonoBehaviour
         if (winningTeam != null) {
             winnerText.color = winningTeam.teamColor;
         }
+
+        feedbackPanel.gameObject.SetActive(final);
 
         ClearPlayerPanels();
 
@@ -53,7 +57,13 @@ public class StatsUI : MonoBehaviour
             if (tiebreakerTextMap.ContainsKey(players[i])) {
                 playerPanels[i].tiebreakerText.text = tiebreakerTextMap[players[i]];
             }
+            /*
             playerPanels[i].panel.SetActive(true);
+            var playerInput = PlayerManager.Instance.PlayerInputs[i];
+            if (!playerInput)
+                continue;
+            playerInput.currentActionMap.FindAction("Navigate").performed += playerPanels[i].Rate;
+            */
         }
 
         StopAllCoroutines();
