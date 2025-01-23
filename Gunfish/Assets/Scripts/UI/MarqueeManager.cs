@@ -116,17 +116,18 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     }
 
     public void PlayPlayerWinQuip(Player player) {
+        print(player.PlayerNumber);
         switch (player.PlayerNumber) {
-            case 1:
+            case 0:
                 PlayRandomQuip(QuipType.Player1Wins);
                 break;
-            case 2:
+            case 1:
                 PlayRandomQuip(QuipType.Player2Wins);
                 break;
-            case 3:
+            case 2:
                 PlayRandomQuip(QuipType.Player3Wins);
                 break;
-            case 4:
+            case 3:
                 PlayRandomQuip(QuipType.Player4Wins);
                 break;
         }
@@ -138,13 +139,13 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
         }
         else {
             switch (winnerTeam.teamNumber) {
-                case 1:
+                case 0:
                     PlayRandomQuip(QuipType.Team1Wins); break;
-                case 2:
+                case 1:
                     PlayRandomQuip(QuipType.Team2Wins); break;
-                case 3:
+                case 2:
                     PlayRandomQuip(QuipType.Team3Wins); break;
-                case 4:
+                case 3:
                     PlayRandomQuip(QuipType.Team4Wins); break;
             }
         }

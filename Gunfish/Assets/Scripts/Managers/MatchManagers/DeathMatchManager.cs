@@ -153,6 +153,10 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
         ScoredTeamReference winningTeam = null;
         ScoredTeamReference currentTeam = preSortedTeams.Pop();
         Dictionary<DeathMatchPlayerReference, string> tiebreakerTextMap = new Dictionary<DeathMatchPlayerReference, string>();
+        if (teams.Count == 1) {
+            winningTeam = teams[0];
+            winnerText = $"{winningTeam.GetTitle()} wins... by default!";
+        }
         while (preSortedTeams.Count > 0) {
             ScoredTeamReference nextTeam = preSortedTeams[0];
             ScoredTeamReference displayTeam = currentTeam;
@@ -168,7 +172,6 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
                 displayTeam = currentTeam;
                 currentTeam = preSortedTeams.Pop();
             }
-
             if (winningTeam == null) {
                 winningTeam = displayTeam;
                 if (tiebreakText != "") {
