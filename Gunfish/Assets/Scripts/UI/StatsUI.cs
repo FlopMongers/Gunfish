@@ -54,11 +54,12 @@ public class StatsUI : MonoBehaviour
             playerPanels[i].playerImg.sprite = players[i].player.gunfishData.sprite;
             playerPanels[i].playerScore.text = (scoreLambda != null) ? scoreLambda(players[i]) : players[i].GetStatsText();
             playerPanels[i].panelColor.color = players[i].team.teamColor;
+            playerPanels[i].SetInput(players[i].player);
             if (tiebreakerTextMap.ContainsKey(players[i])) {
                 playerPanels[i].tiebreakerText.text = tiebreakerTextMap[players[i]];
             }
-            /*
             playerPanels[i].panel.SetActive(true);
+            /*
             var playerInput = PlayerManager.Instance.PlayerInputs[i];
             if (!playerInput)
                 continue;

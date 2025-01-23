@@ -16,22 +16,24 @@ public class PlayerPanel : MonoBehaviour {
     public GameObject thumbsUp;
     public GameObject thumbsDown;
 
+    private Player player;
+    private bool delegated;
+
     void Start() {
         thumbsUp?.SetActive(false);
         thumbsDown?.SetActive(false);
+        delegated = false;
     }
 
     void RatePositive() {
         thumbsUp?.SetActive(true);
         thumbsDown?.SetActive(false);
-        var player = PlayerManager.Instance.Players[playerNumber];
         GameModeManager.Instance.matchManagerInstance.SetPlayerRating(player, 1);
     }
 
     void RateNegative() {
         thumbsUp?.SetActive(false);
         thumbsDown?.SetActive(true);
-        var player = PlayerManager.Instance?.Players[playerNumber];
         GameModeManager.Instance?.matchManagerInstance?.SetPlayerRating(player, -1);
     }
 
@@ -47,5 +49,34 @@ public class PlayerPanel : MonoBehaviour {
                 RateNegative();
             }
         }
+    }
+
+    public void SetInput(Player player)
+    {
+        if (this.player)
+        {
+            this.player.input.actions.FindActionMap("EndLevel").FindAction("Navigate").performed -= Rate;
+        }
+        this.player = player;
+        this.player.input.actions.FindActionMap("EndLevel").FindAction("Navigate").performed += Rate;
+        delegated = true;
+    }
+
+    public void OnEnable()
+    {
+        if (!delegated && player)
+        {
+            this.player.input.actions.FindActionMap("EndLevel").FindAction("Navigate").performed += Rate;
+        }
+        delegated = true;
+    }
+       
+    public void OnDisable()
+    {
+        if (delegated && player)
+        {
+            this.player.input.actions.FindActionMap("EndLevel").FindAction("Navigate").performed -= Rate;
+        }
+        delegated = true;
     }
 }
