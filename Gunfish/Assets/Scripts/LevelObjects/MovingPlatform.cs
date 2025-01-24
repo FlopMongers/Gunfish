@@ -75,14 +75,14 @@ public class MovingPlatform : MonoBehaviour
     // apply
     private void OnTriggerEnter2D(Collider2D collision) {
         var otherRB = collision.attachedRigidbody;
-        if (otherRB == null || otherRB.GetComponentInParent<GunfishSegment>() != null)
+        if (otherRB == null || otherRB.GetComponentInParent<GunfishSegment>() != null || otherRB.gameObject.layer == LayerMask.GetMask("Pelican"))
             return;
         CarryObject(otherRB);
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
         var otherRB = collision.attachedRigidbody;
-        if (otherRB == null || otherRB.GetComponentInParent<GunfishSegment>() != null)
+        if (otherRB == null || otherRB.GetComponentInParent<GunfishSegment>() != null || otherRB.gameObject.layer == LayerMask.GetMask("Pelican"))
             return;
         ReleaseObject(otherRB);
     }

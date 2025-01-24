@@ -58,10 +58,12 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public GameParameters parameters;
     protected int currentLevel;
 
+    protected bool skipLastStats = false;
+
     protected List<Transform> spawnPoints;
 
-    private int nextLevelIndex;
-    private bool done;
+    protected int nextLevelIndex;
+    protected bool done;
 
     public LevelTimer timer;
     static float levelDuration = 90;
@@ -180,7 +182,18 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
             activePlayer.Gunfish.PreDeath -= OnPlayerPreDeath;
         }
-        StartCoroutine(CoEndLevel());
+        if (skipLastStats && nextLevelIndex >= parameters.scenes.Count) {
+            PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
+            StartCoroutine(CoEndLastLevel());
+        }
+        else {
+            StartCoroutine(CoEndLevel());
+        }
+    }
+
+    protected virtual IEnumerator CoEndLastLevel() {
+        yield return new WaitForSeconds(2f);
+        EndLastLevel();
     }
 
     protected virtual IEnumerator CoEndLevel() {
@@ -225,11 +238,15 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         } else if (done == true) {
             ENDITALL();
         } else {
-            done = true;
-            LevelManager.Instance.LoadStats(() => {
-                ShowEndGameStats();
-            });
+            EndLastLevel();
         }
+    }
+
+    public virtual void EndLastLevel() {
+        done = true;
+        LevelManager.Instance.LoadStats(() => {
+            ShowEndGameStats();
+        });
     }
 
     public void ENDITALL() {

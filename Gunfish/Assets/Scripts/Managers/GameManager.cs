@@ -19,6 +19,8 @@ public class GameParameters {
 public class GameManager : PersistentSingleton<GameManager> {
     public bool debug = false;
     public int debugPlayerCount = 1;
+
+    public bool useSavedVolumes = false;
     
     [SerializeField]
     private GameModeList _gameModeList;

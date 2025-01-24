@@ -116,7 +116,6 @@ public class MarqueeManager : PersistentSingleton<MarqueeManager> {
     }
 
     public void PlayPlayerWinQuip(Player player) {
-        print(player.PlayerNumber);
         switch (player.PlayerNumber) {
             case 0:
                 PlayRandomQuip(QuipType.Player1Wins);
