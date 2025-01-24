@@ -70,7 +70,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public float spawnDelay = 0.5f;
 
-    protected float maxNextLevelTimer = 15f;
+    protected float maxNextLevelTimer = 8f;
     protected float nextLevelTimer;
     protected bool waitingForNextLevel = false;
 
