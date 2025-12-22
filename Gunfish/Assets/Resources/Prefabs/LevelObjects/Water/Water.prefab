@@ -53,9 +53,9 @@ MonoBehaviour:
   nodesPerUnit: 1
   waterNodePrefab: {fileID: 5655336544190105337, guid: 0efcc41a8b9b7ba4880d3a42d6652fc3,
     type: 3}
-  renderers: {fileID: 287484820832685586}
+  waterMaterialInterface: {fileID: 287484820832685592}
   nodesContainer: {fileID: 4268432736571907804}
-  dimensions: {x: 25, y: 10}
+  dimensions: {x: 30, y: 10}
 --- !u!114 &287484819412258695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DetectCollision: 0
   DetectTrigger: 1
+  DetectGun: 0
   colliders: []
 --- !u!114 &287484819412258680
 MonoBehaviour:
