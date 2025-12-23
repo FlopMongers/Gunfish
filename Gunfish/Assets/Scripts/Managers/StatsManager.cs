@@ -41,6 +41,7 @@ public class PlayerLevelResult
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
+    public int MatchResultId { get; set; }
     public int LevelResultId { get; set; }
     public int PlayerId { get; set; }
     public int Score { get; set; }

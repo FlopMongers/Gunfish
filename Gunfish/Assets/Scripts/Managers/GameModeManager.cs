@@ -86,6 +86,13 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
             playerResults.Add(playerMatchResult);
         }
 
+        foreach (var levelData in levelResultsData) {
+            levelData.levelResult.MatchResultId = matchResult.Id;
+            foreach (var plr in levelData.playerLevelResults) {
+                plr.MatchResultId = matchResult.Id;
+            }
+        }
+
         StatsManager.SaveMatchResults(matchResult, playerResults, levelResultsData);
         levelResultsData.Clear();
     }
