@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class PlayerReference {
@@ -67,6 +68,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public LevelTimer timer;
     static float levelDuration = 90;
+    private DateTime levelStartTime;
 
     public float spawnDelay = 0.5f;
 
@@ -156,6 +158,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             player.Gunfish.PreDeath += OnPlayerPreDeath;
             SpawnPlayer(player);
         }
+        levelStartTime = DateTime.Now;
     }
 
     public virtual void SetUpPlayer(Player player) { }
@@ -189,6 +192,8 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         else {
             StartCoroutine(CoEndLevel());
         }
+
+        GameModeManager.Instance.LogLevel(levelStartTime);
     }
 
     protected virtual IEnumerator CoEndLastLevel() {
@@ -268,6 +273,14 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public virtual void OnTimerFinish() { }
 
     public virtual int GetPlayerScore(Player player) { return 0; }
+
+    public virtual int GetPlayerKills(Player player) { return 0; }
+
+    public virtual int GetPlayerDeaths(Player player) { return 0; }
+
+    public virtual string GetCurrentLevelName() {
+        return Path.GetFileNameWithoutExtension(parameters.scenes[currentLevel]);
+    }
 }
 
 public interface IMatchManager {
@@ -279,4 +292,10 @@ public interface IMatchManager {
     public void ENDITALL();
     public MatchUI GetUI();
     public int GetPlayerScore(Player player);
+
+    public int GetPlayerKills(Player player);
+
+    public int GetPlayerDeaths(Player player);
+
+    public string GetCurrentLevelName();
 }
