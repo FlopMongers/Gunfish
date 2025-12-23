@@ -57,6 +57,10 @@ public class WaterMaterialInterface : MonoBehaviour {
     }
 
     private void Update() {
+        UpdateWater();
+    }
+
+    public void UpdateWater() {
         for (int i = 0; i < waterSurfaceNodes.Count; i++) {
             positionsX[i] = waterSurfaceNodes[i].position.x;
             positionsY[i] = waterSurfaceNodes[i].position.y;
