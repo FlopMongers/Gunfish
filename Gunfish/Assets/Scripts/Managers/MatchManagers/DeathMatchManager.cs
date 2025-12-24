@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DeathMatchPlayerReference : PlayerReference {
     public float lastHitTimestamp = -1;
@@ -195,7 +196,22 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
         // no winner
         // X wins
         // X wins... by a tiebreak!
-        statsUI.ShowStats(winnerText, players, winningTeam, tiebreakerTextMap, showTeam:false);
+        ui.HideWidgets();
+        statsUI.ShowStats(winnerText, players, winningTeam, tiebreakerTextMap,"", final: true, showTeam: false);
+        /*
+        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++)
+        {   
+            var playerInput = PlayerManager.Instance.PlayerInputs[i];
+            if (!playerInput)
+                continue;
+            print(playerInput);
+            print(playerInput.currentActionMap);
+            print(playerInput.currentActionMap.FindAction("Navigate"));
+            print(statsUI);
+            print(statsUI.playerPanels[i]);
+            playerInput.currentActionMap.FindAction("Navigate").performed += statsUI.playerPanels[i].Rate;
+        }
+        */
         nextLevelTimer = maxNextLevelTimer;
         waitingForNextLevel = true;
     }
@@ -299,5 +315,25 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
             return -1;
         }
         return playerReferences[player].score;
+    }
+
+    public override void SetPlayerRating(Player player, int rating) {
+        if (player == null) {
+            return;
+        }
+        if (!playerReferences.ContainsKey(player)) {
+            return;
+        }
+        playerReferences[player].rating = rating;
+    }
+
+    public override int GetPlayerRating(Player player) {
+        if (player == null) {
+            return 0;
+        }
+        if (!playerReferences.ContainsKey(player)) {
+            return 0;
+        }
+        return playerReferences[player].rating;
     }
 }

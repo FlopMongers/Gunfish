@@ -9,6 +9,7 @@ public class PlayerReference {
 
     // team number associated with each player
     public TeamReference team;
+    public int rating;
 
     public PlayerReference(Player player, TeamReference team) {
         this.player = player;
@@ -354,6 +355,10 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public virtual string GetCurrentLevelName() {
         return Path.GetFileNameWithoutExtension(parameters.scenes[currentLevel]);
     }
+
+    public virtual void SetPlayerRating(Player player, int rating) {}
+
+    public virtual int GetPlayerRating(Player player) { return 0; }
 }
 
 public interface IMatchManager {
@@ -365,6 +370,7 @@ public interface IMatchManager {
     public void ENDITALL();
     public MatchUI GetUI();
     public int GetPlayerScore(Player player);
-
     public string GetCurrentLevelName();
+    public void SetPlayerRating(Player player, int rating);
+    public int GetPlayerRating(Player player);
 }

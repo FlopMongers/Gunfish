@@ -8,11 +8,12 @@ using UnityEngine;
 public class StatsUI : MonoBehaviour
 {
     [SerializeField] private CanvasGroup playerPanelsGroup;
-    [SerializeField] private List<PlayerPanel> playerPanels;
+    [SerializeField] public List<PlayerPanel> playerPanels;
 
     [SerializeField] private TextMeshProUGUI winnerText;
 
     [SerializeField] private TextMeshProUGUI scoreColumnText;
+    [SerializeField] private Transform feedbackPanel;
 
     void ClearPlayerPanels() {
         foreach (var panel in playerPanels) {
@@ -28,6 +29,7 @@ public class StatsUI : MonoBehaviour
         TeamReference winningTeam, 
         Dictionary<PlayerReferenceType, string> tiebreakerTextMap,
         string scoreColumnText="",
+        bool final=false,
         Func<PlayerReferenceType, string> scoreLambda=null,
         bool showTeam=true) where PlayerReferenceType : PlayerReference 
     {
@@ -40,6 +42,8 @@ public class StatsUI : MonoBehaviour
             winnerText.color = winningTeam.teamColor;
         }
 
+        feedbackPanel.gameObject.SetActive(final);
+
         ClearPlayerPanels();
 
         for (int i = 0; i < players.Count; i++) {
@@ -50,10 +54,17 @@ public class StatsUI : MonoBehaviour
             playerPanels[i].playerImg.sprite = players[i].player.gunfishData.sprite;
             playerPanels[i].playerScore.text = (scoreLambda != null) ? scoreLambda(players[i]) : players[i].GetStatsText();
             playerPanels[i].panelColor.color = players[i].team.teamColor;
+            playerPanels[i].SetInput(players[i].player);
             if (tiebreakerTextMap.ContainsKey(players[i])) {
                 playerPanels[i].tiebreakerText.text = tiebreakerTextMap[players[i]];
             }
             playerPanels[i].panel.SetActive(true);
+            /*
+            var playerInput = PlayerManager.Instance.PlayerInputs[i];
+            if (!playerInput)
+                continue;
+            playerInput.currentActionMap.FindAction("Navigate").performed += playerPanels[i].Rate;
+            */
         }
 
         StopAllCoroutines();
