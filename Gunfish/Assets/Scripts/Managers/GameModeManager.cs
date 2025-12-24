@@ -14,9 +14,6 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     public List<Player> activePlayers = new List<Player>();
     private List<string> levels;
 
-    private List<LevelResultsData> levelResultsData = new List<LevelResultsData>();
-
-    private DateTime matchStartTime;
 
     public void InitializeGameMode(GameModeType gameModeType, List<Player> players) {
         var gameMode = GameManager.Instance.GameModeList.gameModes.Where(element => element.gameModeType == gameModeType).FirstOrDefault();
@@ -31,7 +28,6 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
 
         matchManagerInstance = gameModeInstance.GetComponent<IMatchManager>();
         matchManagerInstance.Initialize(gameParameters);
-        matchStartTime = DateTime.Now;
     }
 
     public List<string> SelectLevels(List<string> levelSet, int quantity) {
@@ -47,8 +43,6 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     public void TeardownGameMode() {
         Debug.Log("Tearing down Gamemode");
         
-        LogMatch();
-
         for (int i = 0; i < PlayerManager.Instance.Players.Count; i++) {
             PlayerManager.Instance.SetPlayerFish(i, null);
         }
@@ -60,72 +54,7 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
         matchManagerInstance = null;
     }
 
-    private void LogMatch() {
-
-        var matchResult = new MatchResult
-        {
-            GameMode = matchManagerInstance.GetType().ToString().Replace("MatchManager", ""),
-            StartTime = matchStartTime.ToString(),
-            EndTime = DateTime.Now.ToString(),
-            LevelCount = levels.Count,
-            PlayerCount = activePlayers.Count
-        };
-
-        var playerResults = new List<PlayerMatchResult>();
-        foreach (var player in activePlayers) {
-            var playerMatchResult = new PlayerMatchResult
-            {
-                MatchResultId = matchResult.Id,
-                PlayerId = player.PlayerNumber,
-                PlayerFish = player.gunfishData.name,
-                TotalScore = matchManagerInstance.GetPlayerScore(player),
-                TotalKills = matchManagerInstance.GetPlayerKills(player),
-                TotalDeaths = matchManagerInstance.GetPlayerDeaths(player),
-                Rating = 0
-            };
-            playerResults.Add(playerMatchResult);
-        }
-
-        foreach (var levelData in levelResultsData) {
-            levelData.levelResult.MatchResultId = matchResult.Id;
-            foreach (var plr in levelData.playerLevelResults) {
-                plr.MatchResultId = matchResult.Id;
-            }
-        }
-
-        StatsManager.SaveMatchResults(matchResult, playerResults, levelResultsData);
-        levelResultsData.Clear();
-    }
-
-    public void LogLevel(DateTime startTime) {
-        var levelResult = new LevelResult
-        {
-            LevelName = matchManagerInstance.GetCurrentLevelName(),
-            StartTime = startTime.ToString(),
-            EndTime = DateTime.Now.ToString()
-        };
-
-        levelResultsData.Add(new LevelResultsData
-        {
-            levelResult = levelResult,
-            playerLevelResults = new List<PlayerLevelResult>()
-        });
-
-        foreach (var player in activePlayers) {
-
-            var playerLevelResult = new PlayerLevelResult
-            {
-                LevelResultId = levelResult.Id,
-                PlayerId = player.PlayerNumber,
-                Score = matchManagerInstance.GetPlayerScore(player),
-                Kills = matchManagerInstance.GetPlayerKills(player),
-                Deaths = matchManagerInstance.GetPlayerDeaths(player)
-            };
-            levelResultsData[levelResultsData.Count - 1].playerLevelResults.Add(playerLevelResult);
-        }
-    }
-
-    public void NextLevel() {
+        public void NextLevel() {
         matchManagerInstance?.NextLevel();
     }
 }

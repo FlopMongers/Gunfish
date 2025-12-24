@@ -12,6 +12,11 @@ public class MatchResult
     public string EndTime { get; set; }
     public int LevelCount { get; set; }
     public int PlayerCount { get; set; }
+
+    [Ignore]
+    public Dictionary<Player, PlayerMatchResult> PlayerMatchResults { get; set; }
+    [Ignore]
+    public List<LevelResult> LevelResults { get; set; }
 }
 
 public class LevelResult
@@ -22,6 +27,9 @@ public class LevelResult
     public string LevelName { get; set; }
     public string StartTime { get; set; }
     public string EndTime { get; set; }
+
+    [Ignore]
+    public Dictionary<Player, PlayerLevelResult> PlayerLevelResults { get; set; }
 }
 
 public class PlayerMatchResult
@@ -30,6 +38,7 @@ public class PlayerMatchResult
     public int Id { get; set; }
     public int MatchResultId { get; set; }
     public int PlayerId { get; set; }
+    public int PlayerTeam { get; set; }
     public string PlayerFish { get; set; }
     public int TotalScore { get; set; }
     public int TotalKills { get; set; }
@@ -69,33 +78,33 @@ public class StatsManager : MonoBehaviour
 
     SQLiteConnection dbConnection;
 
-    public static void SaveMatchResults(MatchResult matchResult, List<PlayerMatchResult> playerMatchResults, List<LevelResultsData> levelResultsData)
+    public static void SaveMatchResults(MatchResult matchResult)
     {
         if (instance == null)
         {
             Debug.LogError("StatsManager instance is null. Cannot save match results.");
             return;
         }
-        Instance.WriteMatchResults(matchResult, playerMatchResults, levelResultsData);
+        Instance.WriteMatchResults(matchResult);
     }
 
-    private void WriteMatchResults(MatchResult matchResult, List<PlayerMatchResult> playerMatchResults, List<LevelResultsData> levelResultsData)
+    private void WriteMatchResults(MatchResult matchResult)
     {
         dbConnection.Insert(matchResult);
-        foreach (var pmr in playerMatchResults)
+        foreach (var pmr in matchResult.PlayerMatchResults.Values)
         {
             pmr.MatchResultId = matchResult.Id;
             dbConnection.Insert(pmr);
         }
 
-        foreach (var levelData in levelResultsData)
+        foreach (var levelResult in matchResult.LevelResults)
         {
-            var levelResult = levelData.levelResult;
             levelResult.MatchResultId = matchResult.Id;
             dbConnection.Insert(levelResult);
 
-            foreach (var plr in levelData.playerLevelResults)
+            foreach (var plr in levelResult.PlayerLevelResults.Values)
             {
+                plr.MatchResultId = matchResult.Id;
                 plr.LevelResultId = levelResult.Id;
                 dbConnection.Insert(plr);
             }

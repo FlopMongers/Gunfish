@@ -90,6 +90,8 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public StatsUI statsUI;
 
+    private MatchResult matchResult;
+
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
         ui = ui ?? gameObject.GetComponentInChildren<MatchUI>();
@@ -111,6 +113,27 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         if (timer != null) {
             timer.levelDuration = levelDuration;
             timer.OnTimerFinish += OnTimerFinish;
+        }
+        matchResult = new MatchResult
+        {
+            GameMode = this.GetType().ToString().Replace("Manager", ""),
+            StartTime = DateTime.Now.ToString(),
+            LevelCount = parameters.scenes.Count,
+            PlayerCount = parameters.activePlayers.Count,
+            PlayerMatchResults = new Dictionary<Player, PlayerMatchResult>(),
+            LevelResults = new List<LevelResult>()
+        };
+        foreach (var player in parameters.activePlayers) {
+            matchResult.PlayerMatchResults[player] = new PlayerMatchResult
+            {
+                PlayerId = player.PlayerNumber,
+                PlayerTeam = player.TeamNumber,
+                PlayerFish = player.gunfishData.name,
+                TotalScore = 0,
+                TotalKills = 0,
+                TotalDeaths = 0,
+                Rating = 0
+            };
         }
         NextLevel();
     }
@@ -159,6 +182,24 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             SpawnPlayer(player);
         }
         levelStartTime = DateTime.Now;
+
+        matchResult.LevelResults.Add(new LevelResult
+        {
+            PlayerLevelResults = new Dictionary<Player, PlayerLevelResult>(),
+            MatchResultId = matchResult.Id,
+            StartTime = levelStartTime.ToString(),
+            LevelName = GetCurrentLevelName()
+        });
+        LevelResult levelResult = matchResult.LevelResults[^1];
+        foreach (var player in parameters.activePlayers) {
+            levelResult.PlayerLevelResults[player] = new PlayerLevelResult
+            {
+                PlayerId = player.PlayerNumber,
+                Score = 0,
+                Kills = 0,
+                Deaths = 0
+            };
+        }
     }
 
     public virtual void SetUpPlayer(Player player) { }
@@ -185,6 +226,13 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
             activePlayer.Gunfish.PreDeath -= OnPlayerPreDeath;
         }
+
+        LevelResult levelResult = matchResult.LevelResults[^1];
+        levelResult.EndTime = DateTime.Now.ToString();
+        foreach (var player in parameters.activePlayers) {
+            levelResult.PlayerLevelResults[player].Score = GetPlayerScore(player);
+        }
+
         if (skipLastStats && nextLevelIndex >= parameters.scenes.Count) {
             PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
             StartCoroutine(CoEndLastLevel());
@@ -193,7 +241,6 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             StartCoroutine(CoEndLevel());
         }
 
-        GameModeManager.Instance.LogLevel(levelStartTime);
     }
 
     protected virtual IEnumerator CoEndLastLevel() {
@@ -252,6 +299,12 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         LevelManager.Instance.LoadStats(() => {
             ShowEndGameStats();
         });
+        matchResult.EndTime = DateTime.Now.ToString();
+        foreach (var player in parameters.activePlayers) {
+            matchResult.PlayerMatchResults[player].TotalScore = GetPlayerScore(player);
+            matchResult.PlayerMatchResults[player].Rating = 0;  // FIXME: retrieve rating
+        }
+        StatsManager.SaveMatchResults(matchResult);
     }
 
     public void ENDITALL() {
@@ -267,16 +320,36 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         return playerReferences[gun.gunfish.player].team != playerReferences[segment.gunfish.player].team;
     }
 
-    public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {
+    public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead)
+    {
+        // If the fish is already dead, don't track kills or deaths
+        if (alreadyDead)
+            return;
+        // If the fish isn't dead, don't track kills or deaths
+        if (gunfish.statusData.health > 0)
+            return;
+
+        // Otherwise, track a death and, if possible, a kill
+        Player targetPlayer = gunfish.player;
+        matchResult.PlayerMatchResults[targetPlayer].TotalDeaths += 1;
+        matchResult.LevelResults[^1].PlayerLevelResults[targetPlayer].Deaths += 1;
+
+        Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
+        sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
+        if (sourceGunfish == gunfish) {
+            sourceGunfish = null;
+        } else if (sourceGunfish != null)
+        {
+            Player sourcePlayer = sourceGunfish?.player;
+            matchResult.PlayerMatchResults[sourcePlayer].TotalKills += 1;
+            matchResult.LevelResults[^1].PlayerLevelResults[sourcePlayer].Kills += 1;
+        }
+
     }
 
     public virtual void OnTimerFinish() { }
 
     public virtual int GetPlayerScore(Player player) { return 0; }
-
-    public virtual int GetPlayerKills(Player player) { return 0; }
-
-    public virtual int GetPlayerDeaths(Player player) { return 0; }
 
     public virtual string GetCurrentLevelName() {
         return Path.GetFileNameWithoutExtension(parameters.scenes[currentLevel]);
@@ -292,10 +365,6 @@ public interface IMatchManager {
     public void ENDITALL();
     public MatchUI GetUI();
     public int GetPlayerScore(Player player);
-
-    public int GetPlayerKills(Player player);
-
-    public int GetPlayerDeaths(Player player);
 
     public string GetCurrentLevelName();
 }
