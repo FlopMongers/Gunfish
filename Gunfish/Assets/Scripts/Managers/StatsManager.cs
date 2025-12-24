@@ -59,12 +59,6 @@ public class PlayerLevelResult
 }
 
 
-public struct LevelResultsData
-{
-    public LevelResult levelResult;
-    public List<PlayerLevelResult> playerLevelResults;
-}
-
 public class StatsManager : MonoBehaviour
 {
     static StatsManager instance;
