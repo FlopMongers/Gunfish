@@ -160,6 +160,11 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public void TearDown() {
         LevelManager.Instance.OnFinishLoadLevel -= StartLevel;
         LevelManager.Instance.OnStartPlay -= StartPlay;
+        foreach (var player in parameters.activePlayers) {
+            matchResult.PlayerMatchResults[player].TotalScore = GetPlayerScore(player);
+            matchResult.PlayerMatchResults[player].Rating = GetPlayerRating(player);
+        }
+        StatsManager.SaveMatchResults(matchResult);
     }
 
     public virtual void SpawnPlayer(Player player) {
@@ -301,11 +306,6 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             ShowEndGameStats();
         });
         matchResult.EndTime = DateTime.Now.ToString();
-        foreach (var player in parameters.activePlayers) {
-            matchResult.PlayerMatchResults[player].TotalScore = GetPlayerScore(player);
-            matchResult.PlayerMatchResults[player].Rating = 0;  // FIXME: retrieve rating
-        }
-        StatsManager.SaveMatchResults(matchResult);
     }
 
     public void ENDITALL() {
