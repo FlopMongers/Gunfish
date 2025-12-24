@@ -69,7 +69,6 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public LevelTimer timer;
     static float levelDuration = 90;
-    private DateTime levelStartTime;
 
     public float spawnDelay = 0.5f;
 
@@ -118,7 +117,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         matchResult = new MatchResult
         {
             GameMode = this.GetType().ToString().Replace("Manager", ""),
-            StartTime = DateTime.Now.ToString(),
+            StartTime = DateTime.Now,
             LevelCount = parameters.scenes.Count,
             PlayerCount = parameters.activePlayers.Count,
             PlayerMatchResults = new Dictionary<Player, PlayerMatchResult>(),
@@ -130,10 +129,6 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
                 PlayerId = player.PlayerNumber,
                 PlayerTeam = player.TeamNumber,
                 PlayerFish = player.gunfishData.name,
-                TotalScore = 0,
-                TotalKills = 0,
-                TotalDeaths = 0,
-                Rating = 0
             };
         }
         NextLevel();
@@ -164,11 +159,18 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             matchResult.PlayerMatchResults[player].TotalScore = GetPlayerScore(player);
             matchResult.PlayerMatchResults[player].Rating = GetPlayerRating(player);
         }
-        StatsManager.SaveMatchResults(matchResult);
+        StatsManager.LogMatchResults(matchResult);
     }
 
     public virtual void SpawnPlayer(Player player) {
         StartCoroutine(CoSpawnPlayer(player));
+        StatsManager.LogPlayerSpawn(new PlayerSpawn
+        {
+            PlayerId = player.PlayerNumber,
+            TimeOfSpawn = DateTime.Now,
+            X = player.Gunfish.transform.position.x,
+            Y = player.Gunfish.transform.position.y
+        });
     }
 
     protected virtual IEnumerator CoSpawnPlayer(Player player) {
@@ -187,25 +189,12 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             player.Gunfish.PreDeath += OnPlayerPreDeath;
             SpawnPlayer(player);
         }
-        levelStartTime = DateTime.Now;
 
         matchResult.LevelResults.Add(new LevelResult
         {
-            PlayerLevelResults = new Dictionary<Player, PlayerLevelResult>(),
-            MatchResultId = matchResult.Id,
-            StartTime = levelStartTime.ToString(),
+            StartTime = DateTime.Now,
             LevelName = GetCurrentLevelName()
         });
-        LevelResult levelResult = matchResult.LevelResults[^1];
-        foreach (var player in parameters.activePlayers) {
-            levelResult.PlayerLevelResults[player] = new PlayerLevelResult
-            {
-                PlayerId = player.PlayerNumber,
-                Score = 0,
-                Kills = 0,
-                Deaths = 0
-            };
-        }
     }
 
     public virtual void SetUpPlayer(Player player) { }
@@ -233,11 +222,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             activePlayer.Gunfish.PreDeath -= OnPlayerPreDeath;
         }
 
-        LevelResult levelResult = matchResult.LevelResults[^1];
-        levelResult.EndTime = DateTime.Now.ToString();
-        foreach (var player in parameters.activePlayers) {
-            levelResult.PlayerLevelResults[player].Score = GetPlayerScore(player);
-        }
+        matchResult.LevelResults[^1].EndTime = DateTime.Now;
 
         if (skipLastStats && nextLevelIndex >= parameters.scenes.Count) {
             PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
@@ -305,7 +290,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         LevelManager.Instance.LoadStats(() => {
             ShowEndGameStats();
         });
-        matchResult.EndTime = DateTime.Now.ToString();
+        matchResult.EndTime = DateTime.Now;
     }
 
     public void ENDITALL() {
@@ -323,29 +308,35 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead)
     {
-        // If the fish is already dead, don't track kills or deaths
+        // If the fish is already dead, don't track a death
         if (alreadyDead)
             return;
-        // If the fish isn't dead, don't track kills or deaths
+        // If the fish isn't dead, don't track a death
         if (gunfish.statusData.health > 0)
             return;
 
-        // Otherwise, track a death and, if possible, a kill
-        Player targetPlayer = gunfish.player;
-        matchResult.PlayerMatchResults[targetPlayer].TotalDeaths += 1;
-        matchResult.LevelResults[^1].PlayerLevelResults[targetPlayer].Deaths += 1;
-
+        // Try to track the source of the damage
         Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
         sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
         if (sourceGunfish == gunfish) {
             sourceGunfish = null;
-        } else if (sourceGunfish != null)
+        }
+        // FIXME: Try to use the DeathMatchManager's last-hitter identification somehow
+        string causeOfDeath = fishHit.source.name;
+        if (sourceGunfish != null)
         {
             Player sourcePlayer = sourceGunfish?.player;
-            matchResult.PlayerMatchResults[sourcePlayer].TotalKills += 1;
-            matchResult.LevelResults[^1].PlayerLevelResults[sourcePlayer].Kills += 1;
+            causeOfDeath = $"Player {sourcePlayer.PlayerNumber + 1}";
         }
 
+        StatsManager.LogPlayerDeath(new PlayerDeath
+        {
+            PlayerId = gunfish.player.PlayerNumber,
+            TimeOfDeath = DateTime.Now,
+            CauseOfDeath = causeOfDeath,
+            X = gunfish.transform.position.x,
+            Y = gunfish.transform.position.y
+        });
     }
 
     public virtual void OnTimerFinish() { }

@@ -1,3 +1,4 @@
+using System;
 using SQLite;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,13 +9,14 @@ public class MatchResult
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
     public string GameMode { get; set; }
-    public string StartTime { get; set; }
-    public string EndTime { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
     public int LevelCount { get; set; }
     public int PlayerCount { get; set; }
 
     [Ignore]
     public Dictionary<Player, PlayerMatchResult> PlayerMatchResults { get; set; }
+
     [Ignore]
     public List<LevelResult> LevelResults { get; set; }
 }
@@ -25,11 +27,8 @@ public class LevelResult
     public int Id { get; set; }
     public int MatchResultId { get; set; }
     public string LevelName { get; set; }
-    public string StartTime { get; set; }
-    public string EndTime { get; set; }
-
-    [Ignore]
-    public Dictionary<Player, PlayerLevelResult> PlayerLevelResults { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
 }
 
 public class PlayerMatchResult
@@ -41,23 +40,31 @@ public class PlayerMatchResult
     public int PlayerTeam { get; set; }
     public string PlayerFish { get; set; }
     public int TotalScore { get; set; }
-    public int TotalKills { get; set; }
-    public int TotalDeaths { get; set; }
     public int Rating { get; set; }
 }
 
-public class PlayerLevelResult
+// These will be associated with matches and levels
+// via a data prep step before analysis
+public class PlayerDeath
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
-    public int MatchResultId { get; set; }
-    public int LevelResultId { get; set; }
     public int PlayerId { get; set; }
-    public int Score { get; set; }
-    public int Kills { get; set; }
-    public int Deaths { get; set; }
+    public DateTime TimeOfDeath { get; set; }
+    public string CauseOfDeath { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
 }
 
+public class PlayerSpawn
+{
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+    public int PlayerId { get; set; }
+    public DateTime TimeOfSpawn { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
+}
 
 public class StatsManager : MonoBehaviour
 {
@@ -72,7 +79,7 @@ public class StatsManager : MonoBehaviour
 
     SQLiteConnection dbConnection;
 
-    public static void SaveMatchResults(MatchResult matchResult)
+    public static void LogMatchResults(MatchResult matchResult)
     {
         if (instance == null)
         {
@@ -96,13 +103,25 @@ public class StatsManager : MonoBehaviour
             levelResult.MatchResultId = matchResult.Id;
             dbConnection.Insert(levelResult);
 
-            foreach (var plr in levelResult.PlayerLevelResults.Values)
-            {
-                plr.MatchResultId = matchResult.Id;
-                plr.LevelResultId = levelResult.Id;
-                dbConnection.Insert(plr);
-            }
         }
+    }
+
+    public static void LogPlayerDeath(PlayerDeath playerDeath) {
+        if (instance == null)
+        {
+            Debug.LogError("StatsManager instance is null. Cannot log player death.");
+            return;
+        }
+        Instance.dbConnection.Insert(playerDeath);
+    }
+
+    public static void LogPlayerSpawn(PlayerSpawn playerSpawn) {
+        if (instance == null)
+        {
+            Debug.LogError("StatsManager instance is null. Cannot log player spawn.");
+            return;
+        }
+        Instance.dbConnection.Insert(playerSpawn);
     }
 
     public void Awake()
@@ -126,7 +145,8 @@ public class StatsManager : MonoBehaviour
         dbConnection.CreateTable<MatchResult>();
         dbConnection.CreateTable<PlayerMatchResult>();
         dbConnection.CreateTable<LevelResult>();
-        dbConnection.CreateTable<PlayerLevelResult>();
+        dbConnection.CreateTable<PlayerDeath>();
+        dbConnection.CreateTable<PlayerSpawn>();
     }
 
 }
