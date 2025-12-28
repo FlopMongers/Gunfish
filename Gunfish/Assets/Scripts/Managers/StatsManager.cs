@@ -45,14 +45,17 @@ public class PlayerMatchResult
 
 // These will be associated with matches and levels
 // via a data prep step before analysis
-public class PlayerDeath
+public class PlayerDamage
 {
     [PrimaryKey, AutoIncrement]
-    public int DeathId { get; set; }
+    public int DamageId { get; set; }
     public int PlayerId { get; set; }
-    public DateTime DeathTime { get; set; }
-    public int KillerId { get; set; }
-    public string KillerType { get; set; }
+    public DateTime DamageTime { get; set; }
+    public int SourceId { get; set; }
+    public string SourceType { get; set; }
+    public float Amount { get; set; }
+    public bool IsFatal { get; set; }
+
     public float X { get; set; }
     public float Y { get; set; }
 }
@@ -139,8 +142,8 @@ public class StatsManager : MonoBehaviour
         dbConnection.CreateTable<MatchResult>();
         dbConnection.CreateTable<PlayerMatchResult>();
         dbConnection.CreateTable<LevelResult>();
-        dbConnection.CreateTable<PlayerDeath>();
         dbConnection.CreateTable<PlayerSpawn>();
+        dbConnection.CreateTable<PlayerDamage>();
     }
 
 }

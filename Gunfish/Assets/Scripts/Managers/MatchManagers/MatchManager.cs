@@ -311,40 +311,44 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         // If the fish is already dead, don't track a death
         if (alreadyDead)
             return;
-        // If the fish isn't dead, don't track a death
-        if (gunfish.statusData.health > 0)
+        // If the hit didn't do damage, don't track a hit
+        if (fishHit.damage <= 0)
             return;
 
-        // Try to track the source of the damage
+        string sourceType = fishHit.source.name;
+        int sourceId = fishHit.source.GetInstanceID();
+        bool isFatal = gunfish.statusData.health <= 0;
+
+        // See whether source is actually a player
         Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
         sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
         if (sourceGunfish == gunfish) {
             sourceGunfish = null;
         }
-        Player sourcePlayer = fishHit.source.GetComponent<Player>();
-        if (sourcePlayer != null && sourcePlayer == gunfish.player) {
-            sourceGunfish = null;
-        } else if (sourcePlayer != null) {
-            // I *think* this has happened before - not certain I can replicate
-            Debug.Log("Player object was source of FishHit!");
-            sourceGunfish = sourcePlayer.Gunfish;
-        }
+
         // FIXME: Try to use the DeathMatchManager's last-hitter identification somehow
-        string killerType = fishHit.source.name;
-        int killerId = fishHit.source.GetInstanceID();
-        if (sourceGunfish != null)
+        Player sourcePlayer = fishHit.source.GetComponent<Player>();
+        if (sourcePlayer != null && sourcePlayer != gunfish.player)
         {
-            Player sourcePlayer = sourceGunfish?.player;
-            killerType = "Player";
-            killerId = sourcePlayer.PlayerNumber;
+            Debug.Log("Player object was source of FishHit!");
+            sourceType = "Player";
+            sourceId = sourcePlayer.PlayerNumber;
+        }
+        else if (sourcePlayer == null && sourceGunfish != null)
+        {
+            sourcePlayer = sourceGunfish?.player;
+            sourceType = "Player";
+            sourceId = sourcePlayer.PlayerNumber;
         }
 
-        StatsManager.LogStat(new PlayerDeath
+        StatsManager.LogStat(new PlayerDamage
         {
             PlayerId = gunfish.player.PlayerNumber,
-            DeathTime = DateTime.Now,
-            KillerType = killerType.replace("(Clone)", ""),
-            KillerId = killerId,
+            DamageTime = DateTime.Now,
+            SourceType = sourceType.Replace("(Clone)", ""),
+            SourceId = sourceId,
+            Amount = fishHit.damage,
+            IsFatal = isFatal,
             X = gunfish.MiddleSegment.transform.position.x,
             Y = gunfish.MiddleSegment.transform.position.y
         });
