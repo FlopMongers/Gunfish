@@ -20,29 +20,32 @@ LevelDeaths AS (
     SELECT
         lvr.LevelResultId,
         pd.PlayerId,
-        COUNT(pd.DeathId) AS Deaths
+        COUNT(pd.DamageId) AS Deaths
     FROM
         LevelResult lvr
     LEFT JOIN
-        PlayerDeath pd
-        ON pd.DeathTime BETWEEN lvr.StartTime AND lvr.EndTime
+        PlayerDamage pd
+        ON pd.DamageTime BETWEEN lvr.StartTime AND lvr.EndTime
+    WHERE
+        pd.IsFatal = 1
     GROUP BY
         lvr.LevelResultId, pd.PlayerId
 ),
 LevelKills AS (
     SELECT
         lvr.LevelResultId,
-        pd.KillerId AS PlayerId,
-        COUNT(pd.DeathId) AS Kills
+        pd.SourceId AS PlayerId,
+        COUNT(pd.DamageId) AS Kills
     FROM
         LevelResult lvr
     LEFT JOIN
-        PlayerDeath pd
-        ON pd.DeathTime BETWEEN lvr.StartTime AND lvr.EndTime
+        PlayerDamage pd
+        ON pd.DamageTime BETWEEN lvr.StartTime AND lvr.EndTime
     WHERE
-        pd.KillerType = 'Player'
+        pd.SourceType = 'Player'
+        AND pd.IsFatal = 1
     GROUP BY
-        lvr.LevelResultId, pd.KillerId
+        lvr.LevelResultId, pd.SourceId
 )
 
 SELECT
