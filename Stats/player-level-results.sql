@@ -3,69 +3,57 @@ Re-create player results per level based on death and spawn data.
 Rely heavily on the fact that levels will never be concurrent.
 */
 
-WITH PlayerDeathParsed AS (
+WITH LevelSpawns AS (
     SELECT
-        Id,
-        PlayerId,
-        TimeOfDeath AS DeathTime,
-        CauseOfDeath,
-        -- Parse CauseOfDeath string like 'Player 1' to get PlayerId of killer
-        CASE
-            WHEN CauseOfDeath LIKE 'Player %' THEN CAST(SUBSTR(CauseOfDeath, 8) AS INTEGER)-1
-            ELSE NULL
-        END AS KillerPlayerID
-    FROM
-        PlayerDeath
-),
-LevelSpawns AS (
-    SELECT
-        lvr.Id AS LevelResultId,
+        lvr.LevelResultId,
         ps.PlayerId,
-        COUNT(ps.Id) AS Spawns
+        COUNT(ps.SpawnId) AS Spawns
     FROM
         LevelResult lvr
     LEFT JOIN
         PlayerSpawn ps
-        ON ps.TimeOfSpawn BETWEEN lvr.StartTime AND lvr.EndTime
+        ON ps.SpawnTime BETWEEN lvr.StartTime AND lvr.EndTime
     GROUP BY
-        lvr.Id, ps.PlayerId
+        lvr.LevelResultId, ps.PlayerId
 ),
 LevelDeaths AS (
     SELECT
-        lvr.Id AS LevelResultId,
+        lvr.LevelResultId,
         pd.PlayerId,
-        COUNT(pd.Id) AS Deaths
+        COUNT(pd.DeathId) AS Deaths
     FROM
         LevelResult lvr
     LEFT JOIN
-        PlayerDeathParsed pd
+        PlayerDeath pd
         ON pd.DeathTime BETWEEN lvr.StartTime AND lvr.EndTime
     GROUP BY
-        lvr.Id, pd.PlayerId
+        lvr.LevelResultId, pd.PlayerId
 ),
 LevelKills AS (
     SELECT
-        lvr.Id AS LevelResultId,
-        pd.KillerPlayerId AS PlayerId,
-        COUNT(pd.Id) AS Kills
+        lvr.LevelResultId,
+        pd.KillerId AS PlayerId,
+        COUNT(pd.DeathId) AS Kills
     FROM
         LevelResult lvr
     LEFT JOIN
-        PlayerDeathParsed pd
+        PlayerDeath pd
         ON pd.DeathTime BETWEEN lvr.StartTime AND lvr.EndTime
+    WHERE
+        pd.KillerType = 'Player'
     GROUP BY
-        lvr.Id, pd.KillerPlayerId
+        lvr.LevelResultId, pd.KillerId
 )
 
 SELECT
     pmr.MatchResultId,
-    lvr.Id AS LevelResultId,
+    lvr.LevelResultId,
     pmr.PlayerId,
-    pmr.TotalScore AS Score,
-    ls.Spawns,
-    lk.Kills,
-    ld.Deaths,
-    pmr.Rating,
+    pmr.Score,
+    COALESCE(ls.Spawns, 0) AS Spawns,
+    COALESCE(lk.Kills, 0) AS Kills,
+    COALESCE(ld.Deaths, 0) AS Deaths,
+    COALESCE(pmr.Rating, 0) AS Rating,
     pmr.PlayerFish,
     pmr.PlayerTeam,
     mr.GameMode,
@@ -81,13 +69,13 @@ LEFT JOIN
     ON lvr.MatchResultId = pmr.MatchResultId
 LEFT JOIN
     MatchResult mr
-    ON mr.Id = pmr.MatchResultId
+    ON mr.MatchResultId = pmr.MatchResultId
 LEFT JOIN
     LevelSpawns ls
-    ON ls.LevelResultId = lvr.Id AND ls.PlayerID = pmr.PlayerID
+    ON ls.LevelResultId = lvr.LevelResultId AND ls.PlayerID = pmr.PlayerID
 LEFT JOIN
     LevelDeaths ld
-    ON ld.LevelResultId = lvr.Id AND ld.PlayerID = pmr.PlayerID
+    ON ld.LevelResultId = lvr.LevelResultId AND ld.PlayerID = pmr.PlayerID
 LEFT JOIN
     LevelKills lk
-    ON lk.LevelResultId = lvr.Id AND lk.PlayerID = pmr.PlayerID
+    ON lk.LevelResultId = lvr.LevelResultId AND lk.PlayerID = pmr.PlayerID

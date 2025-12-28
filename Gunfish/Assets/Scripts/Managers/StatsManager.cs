@@ -7,7 +7,7 @@ using UnityEngine;
 public class MatchResult
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public int MatchResultId { get; set; }
     public string GameMode { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
@@ -24,7 +24,7 @@ public class MatchResult
 public class LevelResult
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public int LevelResultId { get; set; }
     public int MatchResultId { get; set; }
     public string LevelName { get; set; }
     public DateTime StartTime { get; set; }
@@ -34,12 +34,12 @@ public class LevelResult
 public class PlayerMatchResult
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public int PlayerMatchResultId { get; set; }
     public int MatchResultId { get; set; }
     public int PlayerId { get; set; }
     public int PlayerTeam { get; set; }
     public string PlayerFish { get; set; }
-    public int TotalScore { get; set; }
+    public int Score { get; set; }
     public int Rating { get; set; }
 }
 
@@ -48,10 +48,11 @@ public class PlayerMatchResult
 public class PlayerDeath
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public int DeathId { get; set; }
     public int PlayerId { get; set; }
-    public DateTime TimeOfDeath { get; set; }
-    public string CauseOfDeath { get; set; }
+    public DateTime DeathTime { get; set; }
+    public int KillerId { get; set; }
+    public string KillerType { get; set; }
     public float X { get; set; }
     public float Y { get; set; }
 }
@@ -59,9 +60,9 @@ public class PlayerDeath
 public class PlayerSpawn
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public int SpawnId { get; set; }
     public int PlayerId { get; set; }
-    public DateTime TimeOfSpawn { get; set; }
+    public DateTime SpawnTime { get; set; }
     public float X { get; set; }
     public float Y { get; set; }
 }
@@ -94,13 +95,13 @@ public class StatsManager : MonoBehaviour
         dbConnection.Insert(matchResult);
         foreach (var pmr in matchResult.PlayerMatchResults.Values)
         {
-            pmr.MatchResultId = matchResult.Id;
+            pmr.MatchResultId = matchResult.MatchResultId;
             dbConnection.Insert(pmr);
         }
 
         foreach (var levelResult in matchResult.LevelResults)
         {
-            levelResult.MatchResultId = matchResult.Id;
+            levelResult.MatchResultId = matchResult.MatchResultId;
             dbConnection.Insert(levelResult);
 
         }

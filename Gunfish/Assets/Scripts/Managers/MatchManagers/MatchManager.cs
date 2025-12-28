@@ -156,7 +156,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         LevelManager.Instance.OnFinishLoadLevel -= StartLevel;
         LevelManager.Instance.OnStartPlay -= StartPlay;
         foreach (var player in parameters.activePlayers) {
-            matchResult.PlayerMatchResults[player].TotalScore = GetPlayerScore(player);
+            matchResult.PlayerMatchResults[player].Score = GetPlayerScore(player);
             matchResult.PlayerMatchResults[player].Rating = GetPlayerRating(player);
         }
         StatsManager.LogMatchResults(matchResult);
@@ -164,17 +164,17 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public virtual void SpawnPlayer(Player player) {
         StartCoroutine(CoSpawnPlayer(player));
-        StatsManager.LogPlayerSpawn(new PlayerSpawn
-        {
-            PlayerId = player.PlayerNumber,
-            TimeOfSpawn = DateTime.Now,
-            X = player.Gunfish.transform.position.x,
-            Y = player.Gunfish.transform.position.y
-        });
     }
 
     protected virtual IEnumerator CoSpawnPlayer(Player player) {
-        return null;
+        StatsManager.LogPlayerSpawn(new PlayerSpawn
+        {
+            PlayerId = player.PlayerNumber,
+            SpawnTime = DateTime.Now,
+            X = player.Gunfish.MiddleSegment.transform.position.x,
+            Y = player.Gunfish.MiddleSegment.transform.position.y
+        });
+        yield return null;
     }
 
     public virtual void StartLevel() {
@@ -321,21 +321,32 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         if (sourceGunfish == gunfish) {
             sourceGunfish = null;
         }
+        Player sourcePlayer = fishHit.source.GetComponent<Player>();
+        if (sourcePlayer != null && sourcePlayer == gunfish.player) {
+            sourceGunfish = null;
+        } else if (sourcePlayer != null) {
+            // I *think* this has happened before - not certain I can replicate
+            Debug.Log("Player object was source of FishHit!");
+            sourceGunfish = sourcePlayer.Gunfish;
+        }
         // FIXME: Try to use the DeathMatchManager's last-hitter identification somehow
-        string causeOfDeath = fishHit.source.name;
+        string killerType = fishHit.source.name;
+        int killerId = fishHit.source.GetInstanceID();
         if (sourceGunfish != null)
         {
             Player sourcePlayer = sourceGunfish?.player;
-            causeOfDeath = $"Player {sourcePlayer.PlayerNumber + 1}";
+            killerType = "Player";
+            killerId = sourcePlayer.PlayerNumber;
         }
 
         StatsManager.LogPlayerDeath(new PlayerDeath
         {
             PlayerId = gunfish.player.PlayerNumber,
-            TimeOfDeath = DateTime.Now,
-            CauseOfDeath = causeOfDeath,
-            X = gunfish.transform.position.x,
-            Y = gunfish.transform.position.y
+            DeathTime = DateTime.Now,
+            KillerType = killerType.replace("(Clone)", ""),
+            KillerId = killerId,
+            X = gunfish.MiddleSegment.transform.position.x,
+            Y = gunfish.MiddleSegment.transform.position.y
         });
     }
 
