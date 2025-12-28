@@ -167,7 +167,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     }
 
     protected virtual IEnumerator CoSpawnPlayer(Player player) {
-        StatsManager.LogPlayerSpawn(new PlayerSpawn
+        StatsManager.LogStat(new PlayerSpawn
         {
             PlayerId = player.PlayerNumber,
             SpawnTime = DateTime.Now,
@@ -339,7 +339,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             killerId = sourcePlayer.PlayerNumber;
         }
 
-        StatsManager.LogPlayerDeath(new PlayerDeath
+        StatsManager.LogStat(new PlayerDeath
         {
             PlayerId = gunfish.player.PlayerNumber,
             DeathTime = DateTime.Now,

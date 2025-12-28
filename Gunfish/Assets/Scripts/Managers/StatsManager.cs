@@ -107,22 +107,15 @@ public class StatsManager : MonoBehaviour
         }
     }
 
-    public static void LogPlayerDeath(PlayerDeath playerDeath) {
+    // Generic Log method for basic stat types
+    public static void LogStat<T>(T stat)
+    {
         if (instance == null)
         {
-            Debug.LogError("StatsManager instance is null. Cannot log player death.");
+            Debug.LogError("StatsManager instance is null. Cannot log stat.");
             return;
         }
-        Instance.dbConnection.Insert(playerDeath);
-    }
-
-    public static void LogPlayerSpawn(PlayerSpawn playerSpawn) {
-        if (instance == null)
-        {
-            Debug.LogError("StatsManager instance is null. Cannot log player spawn.");
-            return;
-        }
-        Instance.dbConnection.Insert(playerSpawn);
+        Instance.dbConnection.Insert(stat);
     }
 
     public void Awake()
