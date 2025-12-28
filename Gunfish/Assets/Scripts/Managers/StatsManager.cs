@@ -70,6 +70,17 @@ public class PlayerSpawn
     public float Y { get; set; }
 }
 
+public class PowerUpPickup
+{
+    [PrimaryKey, AutoIncrement]
+    public int PickupId { get; set; }
+    public int PlayerId { get; set; }
+    public string PowerUpType { get; set; }
+    public DateTime PickupTime { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
+}
+
 public class StatsManager : MonoBehaviour
 {
     static StatsManager instance;
@@ -144,6 +155,7 @@ public class StatsManager : MonoBehaviour
         dbConnection.CreateTable<LevelResult>();
         dbConnection.CreateTable<PlayerSpawn>();
         dbConnection.CreateTable<PlayerDamage>();
+        dbConnection.CreateTable<PowerUpPickup>();
     }
 
 }
