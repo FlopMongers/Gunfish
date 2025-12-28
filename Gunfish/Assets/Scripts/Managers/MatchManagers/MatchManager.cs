@@ -318,21 +318,23 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         string sourceType = fishHit.source.name;
         int sourceId = fishHit.source.GetInstanceID();
         bool isFatal = gunfish.statusData.health <= 0;
+        bool IsSelfInflicted = false;
 
         // See whether source is actually a player
         Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
         sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
         if (sourceGunfish == gunfish) {
-            sourceGunfish = null;
+            IsSelfInflicted = true;
         }
 
         // FIXME: Try to use the DeathMatchManager's last-hitter identification somehow
         Player sourcePlayer = fishHit.source.GetComponent<Player>();
-        if (sourcePlayer != null && sourcePlayer != gunfish.player)
+        if (sourcePlayer != null)
         {
             Debug.Log("Player object was source of FishHit!");
             sourceType = "Player";
             sourceId = sourcePlayer.PlayerNumber;
+            IsSelfInflicted = sourcePlayer == gunfish.player;
         }
         else if (sourcePlayer == null && sourceGunfish != null)
         {
@@ -349,6 +351,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             SourceId = sourceId,
             Amount = fishHit.damage,
             IsFatal = isFatal,
+            IsSelfInflicted = IsSelfInflicted,
             X = gunfish.MiddleSegment.transform.position.x,
             Y = gunfish.MiddleSegment.transform.position.y
         });

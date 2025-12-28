@@ -55,6 +55,7 @@ public class PlayerDamage
     public string SourceType { get; set; }
     public float Amount { get; set; }
     public bool IsFatal { get; set; }
+    public bool IsSelfInflicted { get; set; }
 
     public float X { get; set; }
     public float Y { get; set; }
