@@ -92,6 +92,7 @@ public class StatsManager : MonoBehaviour
         }
     }
 
+    public bool replaceDatabase = false;
     SQLiteConnection dbConnection;
 
     public static void LogMatchResults(MatchResult matchResult)
@@ -148,8 +149,13 @@ public class StatsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dbConnection = new SQLiteConnection($"{Application.persistentDataPath}/stats.db");
         Debug.Log($"Stats DB Path: {Application.persistentDataPath}/stats.db");
+        if (replaceDatabase && System.IO.File.Exists($"{Application.persistentDataPath}/stats.db"))
+        {
+            Debug.Log("Replacing existing stats database.");
+            System.IO.File.Delete($"{Application.persistentDataPath}/stats.db");
+        }
+        dbConnection = new SQLiteConnection($"{Application.persistentDataPath}/stats.db");
         dbConnection.CreateTable<MatchResult>();
         dbConnection.CreateTable<PlayerMatchResult>();
         dbConnection.CreateTable<LevelResult>();
