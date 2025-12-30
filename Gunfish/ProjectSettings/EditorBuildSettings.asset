@@ -39,6 +39,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Deathmatch/WIP/castle.unity
     guid: 7af331c77f25aa840ba284423b35cfdc
   - enabled: 1
+    path: Assets/Scenes/Levels/Deathmatch/WIP/pinball.unity
+    guid: 9504becc143824d449de2f623b6fc634
+  - enabled: 1
     path: Assets/Scenes/Levels/Race/RaceModeTestMap.unity
     guid: 2cddfa1e6bdb1044a9d9cf4cb8a29f37
   m_configObjects:
