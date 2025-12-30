@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ee154602dacbc84080897d96ee04275, type: 3}
   m_Name: PlaytestGameModeList
   m_EditorClassIdentifier: 
-  gameModes: []
+  gameModes:
+  - {fileID: 11400000, guid: 721fe31efec18ba4188c27a3d1052723, type: 2}
