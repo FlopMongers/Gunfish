@@ -5,7 +5,7 @@ using System.Collections;
 
 [RequireComponent(typeof(ObjectMaterial))]
 [RequireComponent(typeof(FishDetector))]
-public class Plunger : MonoBehaviour
+public class PinballPlunger : MonoBehaviour
 {
     [SerializeField] private Transform buttonTop;
     [SerializeField] private FishDetector fishDetector;
@@ -19,7 +19,6 @@ public class Plunger : MonoBehaviour
         Launching,
         Launched,
     }
-    [SerializeField] private PlungerState currentState = PlungerState.Locked;
     private bool animating = false;
 
     private float lockPosition = -0.5f;
@@ -30,17 +29,15 @@ public class Plunger : MonoBehaviour
     [SerializeField] [Range(0.0f, 10.0f)] float lockDuration = 5f;
 
     private void Start() {
-        currentState = PlungerState.Launched;
         fishCollisionDetector.OnComponentCollideEnter += delegate (GameObject src, Collision2D collision) {
-            LaunchSequence();
+            print("Collision Detected");
+            print("Collision Source: " + src.name);
+            if (src.GetComponent<GunfishSegment>() != null) {
+                print("Has Gunfish segment");
+                LaunchSequence();
+            }
         };
         Lock();
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            LaunchSequence();
-        }
     }
 
     private void LaunchSequence() {
@@ -50,16 +47,11 @@ public class Plunger : MonoBehaviour
     }
 
     private IEnumerator LaunchSequenceCR() {
-        print("Plunger Launch Sequence Started");
         print($"Waiting {releaseDelay} seconds to release...");
         yield return new WaitForSeconds(releaseDelay);
-        print("Releasing plunger!");
         Release();
-        print($"Holding for {releaseHold} seconds...");
         yield return new WaitForSeconds(releaseHold);
-        print("Locking plunger!");
         Lock();
-        print($"Plunger locked for {lockDuration} seconds.");
         yield return new WaitForSeconds(lockDuration);
         animating = false;
     }

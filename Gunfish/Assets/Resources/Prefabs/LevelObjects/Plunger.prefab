@@ -75,8 +75,8 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 0.43272984, z: 0}
-  - {x: 0, y: -0.34618387, z: 0}
+  - {x: 13.11, y: -17.65727, z: 0}
+  - {x: 13.11, y: -18.436184, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -302,7 +302,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243106783325251347, guid: f0616bc19253f34408de7cebcb671a24,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 9526c0e5e7a8c0543aef281ddff7742d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: afcc468889771694ebd1825539e7cb94, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -456,9 +456,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65eaee8f541b62e45a9709aa0244abd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectors: []
-  grabChildren: 1
-  generateSubCollisionDetectors: 1
+  detectors:
+  - {fileID: 1831485121}
+  grabChildren: 0
+  generateSubCollisionDetectors: 0
   oomphable: 0
   DetectCollision: 1
   DetectTrigger: 0
@@ -514,10 +515,9 @@ MonoBehaviour:
   fishCollisionDetector: {fileID: 5124010499471459949}
   audioSource: {fileID: 6986600699752275615}
   springJoint: {fileID: 3063022752180505009}
-  currentState: 2
   releaseDelay: 1
   releaseHold: 2
-  lockDuration: 5
+  lockDuration: 2
 --- !u!1 &5124010499563193857
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +561,7 @@ GameObject:
   - component: {fileID: 5124010499759906787}
   - component: {fileID: 5124010499759906786}
   - component: {fileID: 1277838942961812231}
+  - component: {fileID: 1831485121}
   m_Layer: 0
   m_Name: button_top
   m_TagString: Untagged
@@ -673,6 +674,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
+--- !u!114 &1831485121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5124010499759906784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47fd3b7580f8354d8d42431c3eca066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentDetector: {fileID: 5124010499471459949}
 --- !u!1 &5124010500026956298
 GameObject:
   m_ObjectHideFlags: 0

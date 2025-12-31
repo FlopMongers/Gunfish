@@ -8,7 +8,9 @@ public class LaserGun : Gun
 
     // NOTE(Wyatt): I'm just going to use 'ammo' as the charge amount.
     // THEREFORE, max_ammo is the time it takes to charge. go freakin figure!!!
-    float chargeAmount, hitReduction=.25f, range, fullBlastMultiplier=1.5f;
+    float chargeAmount;
+    float hitReduction = 0.25f;
+    float range;
     bool fullBlast;
     // I think this is the range of the width of the laser
     public Vector2 radiusRange = new Vector2();
@@ -16,7 +18,6 @@ public class LaserGun : Gun
     public Color laserColor;
 
     public RevUp revUp;
-    bool fired = false;
 
     protected override void Start() {
         base.Start();

@@ -28,7 +28,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
     }
 
     public void OnPlayerLeft(PlayerInput input) {
-        Debug.LogError($"Player {input.name} has been disconnected.");
+        Debug.Log($"Player {input.name} has been disconnected.");
         PlayerInputs.Remove(input);
     }
 
