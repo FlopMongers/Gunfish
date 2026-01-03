@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 1210132469417985839}
   - component: {fileID: 7581761568228328546}
   - component: {fileID: 1003976857386184086}
+  - component: {fileID: 8091598062318630842}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -427,6 +428,19 @@ PolygonCollider2D:
       - {x: -10.703554, y: -5.0200195}
       - {x: -10.109882, y: -5.0200195}
       - {x: -10.092422, y: -5.002558}
+--- !u!114 &8091598062318630842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3590130934050970751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47fd3b7580f8354d8d42431c3eca066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentDetector: {fileID: 8091598062318630841}
 --- !u!1 &5184864266225493401
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,12 +651,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65eaee8f541b62e45a9709aa0244abd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectors: []
+  detectors:
+  - {fileID: 8091598062318630842}
   grabChildren: 0
   generateSubCollisionDetectors: 0
   oomphable: 0
   DetectCollision: 1
-  DetectTrigger: 1
+  DetectTrigger: 0
 --- !u!114 &3051503546574466966
 MonoBehaviour:
   m_ObjectHideFlags: 0

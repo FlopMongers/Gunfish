@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(ObjectMaterial))]
 [RequireComponent(typeof(FishDetector))]
@@ -21,19 +22,15 @@ public class PinballFlipper : MonoBehaviour
     private void Start() {
         transform.eulerAngles = new Vector3(0f, 0f, triggerPositions.x);
         fishCollisionDetector.OnComponentCollideEnter += delegate (GameObject src, Collision2D collision) {
-            print("Collision Detected");
-            print("Collision Source: " + src.name);
-            if (src.GetComponent<GunfishSegment>() != null) {
-                print("Has Gunfish segment");
+            if (!collision.collider.GetComponent<ObjectMaterial>()) return;
+            var allowedMaterials = new List<MaterialType> {
+                MaterialType.Fish,
+                MaterialType.Rock,
+            };
+            if (allowedMaterials.Contains(collision.collider.GetComponent<ObjectMaterial>().materialType)) {
                 LaunchSequence();
             }
         };
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            LaunchSequence();
-        }
     }
 
     private void LaunchSequence() {

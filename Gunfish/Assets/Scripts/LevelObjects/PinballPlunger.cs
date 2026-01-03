@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(ObjectMaterial))]
 [RequireComponent(typeof(FishDetector))]
@@ -13,12 +14,6 @@ public class PinballPlunger : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private SpringJoint2D springJoint;
 
-    private enum PlungerState {
-        Locking,
-        Locked,
-        Launching,
-        Launched,
-    }
     private bool animating = false;
 
     private float lockPosition = -0.5f;
@@ -30,10 +25,12 @@ public class PinballPlunger : MonoBehaviour
 
     private void Start() {
         fishCollisionDetector.OnComponentCollideEnter += delegate (GameObject src, Collision2D collision) {
-            print("Collision Detected");
-            print("Collision Source: " + src.name);
-            if (src.GetComponent<GunfishSegment>() != null) {
-                print("Has Gunfish segment");
+            if (!collision.collider.GetComponent<ObjectMaterial>()) return;
+            var allowedMaterials = new List<MaterialType> {
+                MaterialType.Fish,
+                MaterialType.Rock,
+            };
+            if (allowedMaterials.Contains(collision.collider.GetComponent<ObjectMaterial>().materialType)) {
                 LaunchSequence();
             }
         };
