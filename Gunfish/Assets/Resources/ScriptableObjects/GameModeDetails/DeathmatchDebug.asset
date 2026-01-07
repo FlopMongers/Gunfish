@@ -18,5 +18,5 @@ MonoBehaviour:
     type: 3}
   levels: {fileID: 11400000, guid: 947967e36f46d8b4cbb69747fef327ec, type: 2}
   roundsPerMatch: 1
-  gameModeNote: Needs at least 2 players!
-  requiredPlayerCount: 0200000003000000
+  description: Debug deathmatch! This shouldn't be in production!
+  requiredPlayerCount: 020000000300000004000000

@@ -14,6 +14,7 @@ public class GameModeSelectMenuPage : MenuPage {
 
 
     [SerializeField] private TMP_Text gameModeName;
+    [SerializeField] private TMP_Text gameModeDescription;
     [SerializeField] private Image gameModeImage;
 
     public override void OnPageStart(MenuPageContext context) {
@@ -98,6 +99,7 @@ public class GameModeSelectMenuPage : MenuPage {
         displayedGameMode = gameMode;
         gameModeImage.sprite = gameMode.image;
         gameModeName.text = gameMode.name;
+        gameModeDescription.text = gameMode.description;
     }
 
     private void LoadNextMenu() {

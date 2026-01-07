@@ -10,6 +10,6 @@ public class GameMode : ScriptableObject {
     public GameObject matchManagerPrefab;
     public SceneList levels;
     public int roundsPerMatch = 3;
-    public string gameModeNote = "";
+    public string description = "";
     public List<int> requiredPlayerCount = new List<int> { 2 };
 }

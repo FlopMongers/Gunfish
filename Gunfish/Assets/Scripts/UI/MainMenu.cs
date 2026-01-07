@@ -38,7 +38,6 @@ public class MainMenu : Singleton<MainMenu> {
 
     public void InitializeMenu() {
         context = new MenuPageContext();
-
         context.menu = this;
         SetState(MenuState.Splash);
     }

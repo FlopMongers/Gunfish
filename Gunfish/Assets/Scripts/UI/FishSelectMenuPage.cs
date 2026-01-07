@@ -31,9 +31,23 @@ public class FishSelectMenuPage : MenuPage {
     }
     private List<PlayerAction> playerActions;
 
+    private List<int> allowedPlayerCounts;
+
     public override void OnPageStart(MenuPageContext context) {
         base.OnPageStart(context);
-        gameModeNote.text = GameManager.Instance.currentGameMode.gameModeNote;
+        allowedPlayerCounts = GameManager.Instance.currentGameMode.requiredPlayerCount;
+        gameModeNote.text = "Requires ";
+        if (allowedPlayerCounts.Count == 1) {
+            gameModeNote.text += allowedPlayerCounts[0] + " players.";
+        } else {
+            for (int i = 0; i < allowedPlayerCounts.Count; i++) {
+                if (i == allowedPlayerCounts.Count - 1) {
+                    gameModeNote.text += "or " + allowedPlayerCounts[i] + " players.";
+                } else {
+                    gameModeNote.text += allowedPlayerCounts[i] + ", ";
+                }
+            }
+        }
         MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
 
@@ -207,6 +221,15 @@ public class FishSelectMenuPage : MenuPage {
                 hasNoSelecting = false;
             }
         }
+
+        if (allowedPlayerCounts.Contains(readyPlayerCount) == false) {
+            // tween gamemode note for emphasis
+            gameModeNote.transform.DOKill();
+            gameModeNote.transform.localScale = Vector3.one;
+            gameModeNote.transform.DOScale(new Vector3(1.1f, 1.1f, 1), 0.2f).SetLoops(4, LoopType.Yoyo);
+            return false;
+        }
+
         return hasNoSelecting && ((GameManager.Instance.debug == true && readyPlayerCount >= 1) || GameManager.Instance.currentGameMode.requiredPlayerCount.Contains(readyPlayerCount));
     }
 
