@@ -103,6 +103,30 @@ public class Bullet : MonoBehaviour
                 HitType.Ballistic));
             Gettem();
         }
+        else if (hitGunfish && hitGunfish != gunfish) {
+            hitGunfish.Hit(
+                new FishHitObject(
+                    -1,
+                    collision.contacts[0].point,
+                    -collision.contacts[0].normal,
+                    (gunfish == null || gunfish.gun == null) ? gameObject : gunfish.gun.gameObject,
+                    gunfish.data.gun.damage,
+                    gunfish.data.gun.knockback,
+                    HitType.Ballistic));
+        }
+        else if (hitSegment != null && hitSegment.gunfish != gunfish) {
+            float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
+            float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true) : 1f;
+            hitSegment.gunfish.Hit(
+                new FishHitObject(
+                    hitSegment.index,
+                    collision.contacts[0].point,
+                    -collision.contacts[0].normal,
+                    (gunfish == null || gunfish.gun == null) ? gameObject : gunfish.gun.gameObject,
+                    gunfish.data.gun.damage * damageRatio,
+                    gunfish.data.gun.knockback * damageRatio,
+                    HitType.Ballistic));
+        }
         else if (!(bullet != null || hitGunfish == gunfish || hitSegment?.gunfish == gunfish)) {
             Gettem();
         }
