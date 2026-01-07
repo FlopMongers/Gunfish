@@ -93,6 +93,7 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
         }
         player.SpawnGunfish(currentSpawnPoint.position);
         //FinishSpawningPlayer(player);
+        yield return base.CoSpawnPlayer(player);
     }
 
     public override void OnPlayerDeath(Player player) {
