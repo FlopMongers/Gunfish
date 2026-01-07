@@ -34,20 +34,11 @@ public class SplashMenuPage : MenuPage {
             isLoadingNextMenu = true;
             ArduinoManager.Instance.playAttractors = false;
             FX_Spawner.Instance.SpawnFX(FXType.TitleScreenStartFX, Camera.main.transform.position, Quaternion.identity);
-            Fade();
             DOTween.Sequence().AppendInterval(1).AppendCallback(LoadNextMenu);
         }
     }
 
     private void LoadNextMenu() {
         menuContext.menu.SetState(MenuState.GameModeSelect);
-    }
-
-    private void Unfade() {
-        //menuContext.document.rootVisualElement.Q("MenuContainer").RemoveFromClassList("faded");
-    }
-
-    private void Fade() {
-        //menuContext.document.rootVisualElement.Q("MenuContainer").AddToClassList("faded");
     }
 }

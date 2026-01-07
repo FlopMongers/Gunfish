@@ -18,5 +18,6 @@ MonoBehaviour:
     type: 3}
   levels: {fileID: 11400000, guid: bad596a41449e2e4c964558ee883972a, type: 2}
   roundsPerMatch: 1
-  gameModeNote: Needs 2 or 4 players!
+  description: 2v2 - Blast the beachball into the enemy goal! Estimated play time
+    ~3 minutes
   requiredPlayerCount: 0200000004000000
