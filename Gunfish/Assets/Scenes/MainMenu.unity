@@ -280,6 +280,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 388296117483885233, guid: 3e03269b691b07c4590bb48b349aea49,
+        type: 3}
+      propertyPath: m_Name
+      value: TopRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 388296117483885238, guid: 3e03269b691b07c4590bb48b349aea49,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 232.5
+      objectReference: {fileID: 0}
     - target: {fileID: 388296117486258219, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
       propertyPath: m_Name
@@ -603,7 +613,7 @@ PrefabInstance:
     - target: {fileID: 2732208216659099350, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 350.148
       objectReference: {fileID: 0}
     - target: {fileID: 2732208216659099350, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
@@ -628,7 +638,7 @@ PrefabInstance:
     - target: {fileID: 2732208217533374863, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 350.148
       objectReference: {fileID: 0}
     - target: {fileID: 2732208217533374863, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
@@ -803,7 +813,7 @@ PrefabInstance:
     - target: {fileID: 3652576511245109924, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 132.64803
       objectReference: {fileID: 0}
     - target: {fileID: 3652576511245109924, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
@@ -828,7 +838,7 @@ PrefabInstance:
     - target: {fileID: 3652576512249943549, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 132.64803
       objectReference: {fileID: 0}
     - target: {fileID: 3652576512249943549, guid: 3e03269b691b07c4590bb48b349aea49,
         type: 3}

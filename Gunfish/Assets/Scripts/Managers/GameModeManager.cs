@@ -57,8 +57,10 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
 
     private void LogGame() {
         var outputFile = Path.Combine(Application.persistentDataPath, "gunfish.csv");
-        // var header = "player1,score1,player2,score2,player3,score3,player4,score4,map,rating";
+        // var header = "player1,score1,rating1,player2,score2,rating2,player3,score3,rating3,player4,score4,rating4,map,averageRating";
         var line = "";
+        var averageRating = 0.0;
+        var playerCount = 0;
         for (int i = 0; i < 4; i++)
         {
             var fish = "";
@@ -76,14 +78,25 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
                     if (prospectiveScore >= 0) {
                         score = prospectiveScore.ToString();
                     }
+                    playerCount++;
                 }
             }
             line += score + ",";
+
+            var rating = 0;
+            if (i < PlayerManager.Instance.PlayerFish.Count) {
+                if (PlayerManager.Instance.Players[i]) {
+                    rating = matchManagerInstance.GetPlayerRating(PlayerManager.Instance.Players[i]);
+                }
+            }
+            averageRating += rating;
+            line += rating.ToString() + ",";
         }
+        averageRating /= playerCount;
         // assume 1 level
         var map = Path.GetFileNameWithoutExtension(levels[0]);
         line += map + ",";
-        line += "1";
+        line += averageRating.ToString() + ",";
         StreamWriter writer = new StreamWriter(outputFile, true);
         writer.WriteLine(line);
         writer.Close();
