@@ -126,7 +126,7 @@ public class FishSelectMenuPage : MenuPage {
     private void OnCancel(InputAction.CallbackContext context, int playerIndex) {
         var fishSelectPanel = fishSelectPanels[playerIndex];
         if (NoPlayersActive()) {
-            MainMenu.Instance.SetState(MenuState.Splash, MenuDirection.Right);
+            MainMenu.Instance.SetState(MenuState.GameModeSelect, MenuDirection.Right);
             return;
         }
         switch (fishSelectPanel.state) {

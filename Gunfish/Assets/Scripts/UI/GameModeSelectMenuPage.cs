@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class GameModeSelectMenuPage : MenuPage {
     private List<GameMode> gameModes;
     private GameMode displayedGameMode;
     private int displayedGameModeIndex;
+    private bool isLoadingNextMenu;
+
 
     [SerializeField] private TMP_Text gameModeName;
     [SerializeField] private Image gameModeImage;
@@ -16,7 +19,7 @@ public class GameModeSelectMenuPage : MenuPage {
     public override void OnPageStart(MenuPageContext context) {
         base.OnPageStart(context);
         menuContext = context;
-
+        isLoadingNextMenu = false;
         foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
             if (!playerInput)
                 continue;
@@ -67,9 +70,14 @@ public class GameModeSelectMenuPage : MenuPage {
     }
 
     private void OnSubmit(InputAction.CallbackContext context) {
-        FX_Spawner.Instance.SpawnFX(FXType.TitleScreenStartFX, Camera.main.transform.position, Quaternion.identity);
-        GameManager.Instance.SetSelectedGameMode(displayedGameMode.gameModeType);
-        menuContext.menu.SetState(MenuState.FishSelect);
+
+        if (isLoadingNextMenu == false) {
+            isLoadingNextMenu = true;
+            GameManager.Instance.SetSelectedGameMode(displayedGameMode.gameModeType);
+            ArduinoManager.Instance.playAttractors = false;
+            FX_Spawner.Instance.SpawnFX(FXType.TitleScreenStartFX, Camera.main.transform.position, Quaternion.identity);
+            DOTween.Sequence().AppendInterval(1).AppendCallback(LoadNextMenu);
+        }
     }
 
     private void IncrementGameMode() {
@@ -90,5 +98,9 @@ public class GameModeSelectMenuPage : MenuPage {
         displayedGameMode = gameMode;
         gameModeImage.sprite = gameMode.image;
         gameModeName.text = gameMode.name;
+    }
+
+    private void LoadNextMenu() {
+        menuContext.menu.SetState(MenuState.FishSelect);
     }
 }

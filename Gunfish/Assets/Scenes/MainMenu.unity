@@ -592,7 +592,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _gameModeList
       value: 
-      objectReference: {fileID: 11400000, guid: 7c2fb38946b14604eaa780fb2451339c,
+      objectReference: {fileID: 11400000, guid: 4666cf486b5ed7d48a6e33d03729e697,
         type: 2}
     - target: {fileID: 5999316683040595489, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
