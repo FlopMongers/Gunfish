@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Destroyer))]
@@ -54,9 +55,11 @@ public class Bullet : MonoBehaviour
         rb.velocity = dir * maxSpeed * percent; //Mathf.Clamp(maxSpeed * percent, speedRange.x, maxSpeed);
     }
 
+    HashSet<Gunfish> hitFish = new HashSet<Gunfish>();
     void OnFishHit(GunfishSegment segment, Collision2D collision) {
         // if fast enough and not destroyed and not sourceGunfish, WHACK THE FISH
-        if (!destroyed && segment.gunfish != gunfish && collision.relativeVelocity.magnitude > speedRange.x) {
+        if (!destroyed && hitFish.Contains(segment.gunfish) == false && segment.gunfish != gunfish && collision.relativeVelocity.magnitude > speedRange.x) {
+            hitFish.Add(segment.gunfish);
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
             float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true) : 1f;
             segment.gunfish.Hit(
