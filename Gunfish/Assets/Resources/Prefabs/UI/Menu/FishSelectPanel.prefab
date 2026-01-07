@@ -94,7 +94,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
+  m_fontSize: 10
   m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1428,6 +1428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishImage: {fileID: 2894082415555970014}
+  outline: {fileID: 2894082417227301498}
   description: {fileID: 7809230389454740414}
   leftArrow: {fileID: 2894082415436367130}
   rightArrow: {fileID: 2894082417122385144}
@@ -1435,4 +1436,3 @@ MonoBehaviour:
   cancelHint: {fileID: 2344477266609296946}
   readyHint: {fileID: 2894082416628817005}
   disabledHint: {fileID: 2894082416975595846}
-  arrowAnimationDuration: 0.25

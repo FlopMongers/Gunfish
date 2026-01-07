@@ -16,6 +16,8 @@ public class GameModeSelectMenuPage : MenuPage {
     [SerializeField] private TMP_Text gameModeName;
     [SerializeField] private TMP_Text gameModeDescription;
     [SerializeField] private Image gameModeImage;
+    [SerializeField] private RectTransform leftArrow;
+    [SerializeField] private RectTransform rightArrow;
 
     public override void OnPageStart(MenuPageContext context) {
         base.OnPageStart(context);
@@ -84,6 +86,7 @@ public class GameModeSelectMenuPage : MenuPage {
     private void IncrementGameMode() {
         // Increments before modulus
         displayedGameModeIndex = (++displayedGameModeIndex) % gameModes.Count;
+        rightArrow.DOPunchScale(Vector3.one * 0.2f, 0.2f, 5, 1);
         DisplayGameMode(gameModes[displayedGameModeIndex]);
     }
 
@@ -92,6 +95,7 @@ public class GameModeSelectMenuPage : MenuPage {
         if (--displayedGameModeIndex < 0) {
             displayedGameModeIndex += gameModes.Count;
         }
+        leftArrow.DOPunchScale(Vector3.one * 0.2f, 0.2f, 5, 1);
         DisplayGameMode(gameModes[displayedGameModeIndex]);
     }
 

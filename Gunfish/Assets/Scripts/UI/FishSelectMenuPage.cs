@@ -163,6 +163,7 @@ public class FishSelectMenuPage : MenuPage {
         var currentIndex = gunfishIndices[deviceIndex];
         var fishCount = GameManager.Instance.GunfishDataList.gunfishes.Count;
         gunfishIndices[deviceIndex] = (currentIndex + 1) % fishCount;
+        fishSelectPanels[deviceIndex].Right();
         SetFish(deviceIndex, GameManager.Instance.GunfishDataList.gunfishes[gunfishIndices[deviceIndex]]);
     }
 
@@ -174,6 +175,7 @@ public class FishSelectMenuPage : MenuPage {
         } else {
             gunfishIndices[deviceIndex] = currentIndex - 1;
         }
+        fishSelectPanels[deviceIndex].Left();
         SetFish(deviceIndex, GameManager.Instance.GunfishDataList.gunfishes[gunfishIndices[deviceIndex]]);
     }
 
