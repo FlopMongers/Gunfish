@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 [RequireComponent(typeof(Destroyer))]
 [RequireComponent(typeof(Fader))]
@@ -109,7 +108,7 @@ public class Bullet : MonoBehaviour
                 HitType.Ballistic));
             Gettem();
         }
-        else if (hitGunfish && hitFish.Contains(hitGunfish) && hitGunfish != gunfish) {
+        else if (hitGunfish && hitFish.Contains(hitGunfish) == false && hitGunfish != gunfish) {
             hitFish.Add(hitGunfish);
             hitGunfish.Hit(
                 new FishHitObject(
@@ -121,7 +120,7 @@ public class Bullet : MonoBehaviour
                     gunfish.data.gun.knockback,
                     HitType.Ballistic));
         }
-        else if (hitSegment != null && hitFish.Contains(hitSegment.gun) && hitSegment.gunfish != gunfish) {
+        else if (hitSegment != null && hitFish.Contains(hitSegment.gunfish) == false && hitSegment.gunfish != gunfish) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
             float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true) : 1f;
             hitFish.Add(hitSegment.gunfish);
