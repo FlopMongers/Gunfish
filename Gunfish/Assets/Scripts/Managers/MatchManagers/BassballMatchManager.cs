@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,8 +68,10 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
     }
 
     public void GOAL(Goal goal, BassballBall ball) {
+        FindObjectOfType<CinemachineTargetGroup>().RemoveMember(ball.transform);
         foreach (var team in teams) {
             if (team.goal != goal) {
+                MarqueeManager.Instance.PlayRandomQuip(QuipType.Goal);
                 UpdateTeamScore(team, 1);
                 return;
             }

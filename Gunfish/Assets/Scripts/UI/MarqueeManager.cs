@@ -25,6 +25,7 @@ public enum QuipType {
     GUNFISH,
     Team3Wins,
     Team4Wins,
+    Goal,
 }
 
 

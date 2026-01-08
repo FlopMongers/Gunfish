@@ -1328,6 +1328,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[18].QuipType
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[18].quips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[18].quips.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f93066041b572d042ace8b90429605a6, type: 3}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[18].quips.Array.data[0].text
+      value: GOOOOOOOOOOOOOAL
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[18].quips.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 80ba79aa34471c8469e1da86ee7f3eac, type: 3}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[18].quips.Array.data[1].text
+      value: GOOOOOOOOOOOOOAL
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915784695254075347, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: quipList.Array.data[18].quips.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 505f30965f2242c44bbe6ceb5cdcd51c, type: 3}
     - target: {fileID: 3644286909186876605, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
       propertyPath: m_AnchorMax.y
