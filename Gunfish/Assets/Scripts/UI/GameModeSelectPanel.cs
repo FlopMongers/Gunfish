@@ -50,6 +50,6 @@ public class GameModeSelectPanel : MonoBehaviour {
         var gameMode = gameModes[gameModeIndex];
         gameModeName?.SetText(gameMode.name);
         gameModeImage.sprite = gameMode.image;
-        GameManager.Instance.SetSelectedGameMode(gameMode.gameModeType);
+        GameManager.Instance.SetSelectedGameMode(gameMode);
     }
 }

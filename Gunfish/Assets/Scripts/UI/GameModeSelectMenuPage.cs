@@ -76,7 +76,7 @@ public class GameModeSelectMenuPage : MenuPage {
 
         if (isLoadingNextMenu == false) {
             isLoadingNextMenu = true;
-            GameManager.Instance.SetSelectedGameMode(displayedGameMode.gameModeType);
+            GameManager.Instance.SetSelectedGameMode(displayedGameMode);
             ArduinoManager.Instance.playAttractors = false;
             FX_Spawner.Instance.SpawnFX(FXType.TitleScreenStartFX, Camera.main.transform.position, Quaternion.identity);
             DOTween.Sequence().AppendInterval(1).AppendCallback(LoadNextMenu);

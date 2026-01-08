@@ -56,7 +56,6 @@ public class ScoredTeamReference : TeamReference {
 }
 
 public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviour, IMatchManager where PlayerReferenceType : PlayerReference where TeamReferenceType : TeamReference {
-    [HideInInspector]
     public GameParameters parameters;
     protected int currentLevel;
 

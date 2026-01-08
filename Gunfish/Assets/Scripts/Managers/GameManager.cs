@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
 public class GameParameters {
     public List<Player> activePlayers;
     public List<string> scenes;
@@ -30,7 +31,7 @@ public class GameManager : PersistentSingleton<GameManager> {
     private GunfishDataList _gunfishDataList;
     public GunfishDataList  GunfishDataList { get => _gunfishDataList; }
 
-    private GameModeType selectedGameMode;
+    private GameMode selectedGameMode;
     public GameModeType defaultGameMode;
 
     public MatchManager<PlayerReference, TeamReference> MatchManager { get; private set; }
@@ -82,8 +83,9 @@ public class GameManager : PersistentSingleton<GameManager> {
     [HideInInspector]
     public GameMode currentGameMode;
 
-    public void SetSelectedGameMode(GameModeType gameMode) {
-        currentGameMode = GameModeList.gameModes.Where(element => element.gameModeType == gameMode).FirstOrDefault();
+    public void SetSelectedGameMode(GameMode gameMode) {
+        // currentGameMode = GameModeList.gameModes.Where(element => element.gameModeType == gameMode).FirstOrDefault();
+        currentGameMode = gameMode;
         selectedGameMode = gameMode;
     }
 }
