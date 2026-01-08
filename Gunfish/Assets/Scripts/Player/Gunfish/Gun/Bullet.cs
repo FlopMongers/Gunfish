@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.HableCurve;
 
 [RequireComponent(typeof(Destroyer))]
 [RequireComponent(typeof(Fader))]
@@ -94,6 +95,8 @@ public class Bullet : MonoBehaviour
         var hitGunfish = collision.rigidbody.GetComponent<Gunfish>();
         var hitSegment = collision.rigidbody.GetComponent<GunfishSegment>();
 
+        
+
         if (shootable != null && !destroyed && collision.relativeVelocity.magnitude > speedRange.x) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
             float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true) : 1f;
@@ -106,7 +109,8 @@ public class Bullet : MonoBehaviour
                 HitType.Ballistic));
             Gettem();
         }
-        else if (hitGunfish && hitGunfish != gunfish) {
+        else if (hitGunfish && hitFish.Contains(hitGunfish) && hitGunfish != gunfish) {
+            hitFish.Add(hitGunfish);
             hitGunfish.Hit(
                 new FishHitObject(
                     -1,
@@ -117,9 +121,10 @@ public class Bullet : MonoBehaviour
                     gunfish.data.gun.knockback,
                     HitType.Ballistic));
         }
-        else if (hitSegment != null && hitSegment.gunfish != gunfish) {
+        else if (hitSegment != null && hitFish.Contains(hitSegment.gunfish) && hitSegment.gunfish != gunfish) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
             float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true) : 1f;
+            hitFish.Add(hitSegment.gunfish);
             hitSegment.gunfish.Hit(
                 new FishHitObject(
                     hitSegment.index,
