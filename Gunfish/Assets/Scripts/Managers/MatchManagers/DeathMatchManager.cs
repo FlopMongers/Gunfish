@@ -107,6 +107,14 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
         } else if (!playerRef.team.players.Any(x => ((DeathMatchPlayerReference)x).stocks > 0)) {
             eliminatedTeams.Add(playerRef.team);
             if ((teams.Count - eliminatedTeams.Count) <= 1 && !endingLevel) {
+                // add point to last standing players
+                foreach (var team in teams) {
+                    if (!eliminatedTeams.Contains(team)) {
+                        foreach (var lastLeftAlivePlayer in team.players) {
+                            UpdateScore(lastLeftAlivePlayer.player, 1);
+                        }
+                    }
+                }
                 EndLevel();
             }
         }
@@ -288,24 +296,14 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
 
     public override void OnTimerFinish() {
         base.OnTimerFinish();
-        bool endGame = false;
         foreach ((Player player, DeathMatchPlayerReference playerRef) in playerReferences) {
-            if (playerRef.score > 0) {
-                endGame = true;
-            }
             if (playerRef.stocks > 1) {
                 UpdateStock(player, -(playerRef.stocks - 1));
             }
         }
-        if (endGame == false) {
-            useStocks = true;
-            MarqueeManager.Instance.PlayRandomQuip(QuipType.Pelicans);
-            // only if no kills
-            pelicanSpawner.active = true;
-        }
-        else {
-            EndLevel();
-        }
+        useStocks = true;
+        MarqueeManager.Instance.PlayRandomQuip(QuipType.Pelicans);
+        pelicanSpawner.active = true;
     }
 
     public override int GetPlayerScore(Player player) {
