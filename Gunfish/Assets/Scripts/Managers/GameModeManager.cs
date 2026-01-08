@@ -14,6 +14,7 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     public List<Player> activePlayers = new List<Player>();
     private List<string> levels;
 
+
     public void InitializeGameMode(GameModeType gameModeType, List<Player> players) {
         var gameMode = GameManager.Instance.GameModeList.gameModes.Where(element => element.gameModeType == gameModeType).FirstOrDefault();
         levels = SelectLevels(gameMode.levels.sceneNames, gameMode.roundsPerMatch);
@@ -42,8 +43,6 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     public void TeardownGameMode() {
         Debug.Log("Tearing down Gamemode");
         
-        LogGame();
-
         for (int i = 0; i < PlayerManager.Instance.Players.Count; i++) {
             PlayerManager.Instance.SetPlayerFish(i, null);
         }
@@ -55,42 +54,7 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
         matchManagerInstance = null;
     }
 
-    private void LogGame() {
-        var outputFile = Path.Combine(Application.persistentDataPath, "gunfish.csv");
-        // var header = "player1,score1,player2,score2,player3,score3,player4,score4,map,rating";
-        var line = "";
-        for (int i = 0; i < 4; i++)
-        {
-            var fish = "";
-            if (i < PlayerManager.Instance.PlayerFish.Count) {
-                if (PlayerManager.Instance.PlayerFish[i]) {
-                    fish = PlayerManager.Instance.PlayerFish[i].name;
-                }
-            }
-            line += fish + ",";
-
-            var score = "";
-            if (i < PlayerManager.Instance.Players.Count) {
-                if (PlayerManager.Instance.Players[i]) {
-                    var prospectiveScore = matchManagerInstance.GetPlayerScore(PlayerManager.Instance.Players[i]);
-                    if (prospectiveScore >= 0) {
-                        score = prospectiveScore.ToString();
-                    }
-                }
-            }
-            line += score + ",";
-        }
-        // assume 1 level
-        var map = Path.GetFileNameWithoutExtension(levels[0]);
-        line += map + ",";
-        line += "1";
-        StreamWriter writer = new StreamWriter(outputFile, true);
-        writer.WriteLine(line);
-        writer.Close();
-        print("Wrote to " + outputFile);
-    }
-
-    public void NextLevel() {
+        public void NextLevel() {
         matchManagerInstance?.NextLevel();
     }
 }

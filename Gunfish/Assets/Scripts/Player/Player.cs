@@ -13,7 +13,7 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
     private Gunfish gunfish;
     private Gun gun;
     public Gunfish Gunfish { get { return gunfish; } }
-    private PlayerInput input;
+    public PlayerInput input;
 
     public PlayerGameEvent OnDeath;
 

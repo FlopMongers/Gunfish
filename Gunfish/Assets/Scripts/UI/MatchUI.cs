@@ -56,4 +56,10 @@ public class MatchUI : MonoBehaviour {
     public void OnScoreChange(Player player, int newScoreValue) {
         playerWidgets.Find((pwidget) => pwidget.player == player)?.OnScoreChange(newScoreValue);
     }
+
+    public void HideWidgets() {
+        playerWidgets.ForEach(widget => {
+            widget.gameObject.SetActive(false);
+        });
+    }
 }

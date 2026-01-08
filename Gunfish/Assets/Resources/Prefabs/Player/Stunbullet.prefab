@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DetectCollision: 1
   DetectTrigger: 1
-  DetectGun: 0
+  DetectGun: 1
   colliders: []
 --- !u!114 &6807944909550697472
 MonoBehaviour:
