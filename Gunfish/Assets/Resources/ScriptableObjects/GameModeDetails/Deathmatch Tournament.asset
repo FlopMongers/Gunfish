@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Deathmatch Tournament
   m_EditorClassIdentifier: 
   gameModeType: 0
-  image: {fileID: 21300000, guid: bb99d052c4d62a1438eae066140ed1f9, type: 3}
+  image: {fileID: 21300000, guid: 472b7005ce46e314fa622658cb085074, type: 3}
   matchManagerPrefab: {fileID: 7011402022136294806, guid: f209f77a6155e2f4ead9cf9ee6141f98,
     type: 3}
   levels: {fileID: 11400000, guid: 9f9c25555b62d6544b86090df4b9ac63, type: 2}
