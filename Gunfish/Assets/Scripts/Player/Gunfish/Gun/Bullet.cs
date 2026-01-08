@@ -93,7 +93,7 @@ public class Bullet : MonoBehaviour
         var shootable = collision.rigidbody.GetComponent<Shootable>();
         var bullet = collision.rigidbody.GetComponent<Bullet>();
         var hitGunfish = collision.rigidbody.GetComponent<Gunfish>();
-        var hitSegment = collision.rigidbody.GetComponent<GunfishSegment>();
+        var hitSegment = (detector.DetectGun == false) ? collision.collider.GetComponent<GunfishSegment>() : collision.collider.GetComponentInParent<GunfishSegment>();
 
         
 
@@ -121,7 +121,7 @@ public class Bullet : MonoBehaviour
                     gunfish.data.gun.knockback,
                     HitType.Ballistic));
         }
-        else if (hitSegment != null && hitFish.Contains(hitSegment.gunfish) && hitSegment.gunfish != gunfish) {
+        else if (hitSegment != null && hitFish.Contains(hitSegment.gun) && hitSegment.gunfish != gunfish) {
             float relVel = Mathf.Clamp(collision.relativeVelocity.magnitude, 0, speedRange.y);
             float damageRatio = (velocityFalloff) ? ExtensionMethods.GetNormalizedValueInRange(relVel, speedRange.x, speedRange.y, clamp:true) : 1f;
             hitFish.Add(hitSegment.gunfish);
