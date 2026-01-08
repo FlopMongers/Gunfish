@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   gunBarrels:
-  - position: {x: -0.6, y: 0.022}
+  - position: {x: -0.65, y: 0.022}
     rotation: 165
-  - position: {x: -0.6, y: 0.022}
+  - position: {x: -0.65, y: 0.022}
     rotation: 175
-  - position: {x: -0.6, y: 0.022}
+  - position: {x: -0.65, y: 0.022}
     rotation: 185
-  - position: {x: -0.6, y: 0.022}
+  - position: {x: -0.65, y: 0.022}
     rotation: 195
   kickback: 75
   range: 10
