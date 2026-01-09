@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerReference {
@@ -78,6 +79,8 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     protected bool endingLevel;
     protected static float endLevelDelay = 0.5f;
 
+    public bool teamMode = false;
+
     protected List<TeamReferenceType> teams = new List<TeamReferenceType>();
     protected Dictionary<Player, PlayerReferenceType> playerReferences = new Dictionary<Player, PlayerReferenceType>();
 
@@ -96,14 +99,19 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         ui = ui ?? gameObject.GetComponentInChildren<MatchUI>();
         ui.InitializeMatch(parameters.activePlayers);
         Dictionary<int, TeamReferenceType> teamNumbers = new Dictionary<int, TeamReferenceType>();
-        foreach (var player in parameters.activePlayers) {
-            // TODO USE ACTUAL TEAM NUMBER
+        int playerTeamNumber = 0;
+
+        foreach (var player in parameters.activePlayers.OrderBy(activePlayer => activePlayer.PlayerNumber)) {
+            if (teamMode == false) {
+                playerTeamNumber = player.TeamNumber;
+            }
             if (teamNumbers.ContainsKey(player.PlayerNumber) == false) {
                 TeamReferenceType TeamRef = GenerateTeamRef(player);
-                teamNumbers[player.PlayerNumber] = TeamRef;
+                teamNumbers[playerTeamNumber] = TeamRef;
                 teams.Add(TeamRef);
             }
-            AddPlayerReference(player, teamNumbers[player.PlayerNumber]);
+            AddPlayerReference(player, teamNumbers[playerTeamNumber]);
+            playerTeamNumber = (playerTeamNumber + 1) % 2;
         }
         spawnPoints = new List<Transform>();
         LevelManager.Instance.OnFinishLoadLevel += StartLevel;
