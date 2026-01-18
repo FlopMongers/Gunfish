@@ -4,6 +4,7 @@ WITH LifeStarts AS (
         pmr.MatchResultId,
         lvr.LevelResultId,
         pmr.PlayerId,
+        pmr.PlayerFish,
         ps.SpawnId,
         ps.SpawnTime AS LifeStartTime,
         ps.X AS SpawnX,
@@ -47,6 +48,7 @@ WITH LifeStarts AS (
         ls.MatchResultId,
         ls.LevelResultId,
         ls.PlayerId,
+        ls.PlayerFish,
         ls.SpawnId,
         ls.LevelLifeNumber,
         ls.LifeStartTime,
@@ -117,6 +119,7 @@ SELECT
     pl.MatchResultId,
     pl.LevelResultId,
     pl.PlayerId,
+    pl.PlayerFish,
     pl.SpawnId,
     pl.LevelLifeNumber,
     pl.LifeStartTime,
@@ -125,6 +128,7 @@ SELECT
     pl.DeathId,
     pl.LevelDeathNumber,
     pl.LifeEndTime,
+    COALESCE(pl.LifeEndTime, mr.EndTime) - pl.LifeStartTime AS LifeDuration,
     pl.KillerId,
     pl.KillerType,
     pl.DeathX,
@@ -136,6 +140,9 @@ SELECT
     COALESCE(ldt.AverageDamageTakenPerHit, 0) AS AverageDamageTakenPerHit
 FROM
     PlayerLives pl
+LEFT JOIN
+    MatchResult mr
+    ON mr.MatchResultId = pl.MatchResultId
 LEFT JOIN
     LifeKills lk
     ON lk.LifeId = pl.LifeId
