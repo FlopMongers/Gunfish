@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class FishSelectPanel : MonoBehaviour {
     }
     
     public Image fishImage;
+    public Image outline;
     public TMP_Text description;
     public RectTransform leftArrow;
     public RectTransform rightArrow;
@@ -20,15 +22,10 @@ public class FishSelectPanel : MonoBehaviour {
 
     public State state { get; private set; }
 
-    private bool arrowsActive;
-    private float arrowsT;
-    private AnimationCurve tween;
-    private Vector2 leftPosition;
-    private Vector2 rightPosition;
-    
+    [Range(0.2f, 2f)] public float arrowAnimationDuration = 0.5f;
+
     private bool initialized;
 
-    [SerializeField] private float arrowAnimationDuration = 1f;
 
     private void Start() {
         initialized = false;
@@ -36,49 +33,36 @@ public class FishSelectPanel : MonoBehaviour {
     }
 
     public void Initialize() {
-        InitializeArrows();
+        if (initialized)
+            return;
         SetState(State.Inactive);
         initialized = true;
-    }
-
-    private void Update() {
-        if (!initialized)
-            return;
-        AnimateArrows();
-    }
-
-    private void InitializeArrows() {
-        arrowsActive = false;
-        arrowsT = 0f;
-        tween = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-        leftPosition = leftArrow.anchoredPosition;
-        rightPosition = rightArrow.anchoredPosition;
-    }
-
-    private void AnimateArrows() {
-        // Animate
-        var t = tween.Evaluate(arrowsT);
-
-        leftArrow.anchoredPosition = Vector2.Lerp(leftPosition, rightPosition, t);
-        rightArrow.anchoredPosition = Vector2.Lerp(rightPosition, leftPosition, t);
-
-        // Transition
-        if (arrowsActive) {
-            arrowsT += Time.deltaTime / arrowAnimationDuration;
-        } else {
-            arrowsT -= Time.deltaTime / arrowAnimationDuration;
-        }
-        arrowsT = Mathf.Clamp01(arrowsT);
-    }
-
-    public void SetColor(Color color) {
-
+        // var left = leftArrow.anchoredPosition;
+        // var right = rightArrow.anchoredPosition;
+        // leftArrow.anchoredPosition = right;
+        // rightArrow.anchoredPosition = left;
+        // DOTween.Sequence()
+        //     .Append(leftArrow.DOAnchorPosX(left.x, arrowAnimationDuration))
+        //     .Join(rightArrow.DOAnchorPosX(right.x, arrowAnimationDuration))
+        //     .Play();
     }
 
     public void SetFishImage(Sprite sprite) {
         fishImage.color = Color.white;
         fishImage.sprite = sprite;
         fishImage.preserveAspect = true;
+    }
+
+    public void SetColor(Color color) {
+        outline.color = color;
+    }
+
+    public void Right() {
+        rightArrow.DOPunchScale(Vector3.one * 0.2f, 0.2f, 5, 1);
+    }
+
+    public void Left() {
+        leftArrow.DOPunchScale(Vector3.one * 0.2f, 0.2f, 5, 1);
     }
 
     public void SetFishDescription(string text) {
@@ -101,7 +85,6 @@ public class FishSelectPanel : MonoBehaviour {
     }
 
     private void SetStateInactive() {
-        arrowsActive = false;
         fishImage.color = Color.black;
         description.SetText("");
         confirmHint.gameObject.SetActive(false);
@@ -111,7 +94,6 @@ public class FishSelectPanel : MonoBehaviour {
     }
 
     private void SetStateSelecting() {
-        arrowsActive = false;
         confirmHint.gameObject.SetActive(true);
         cancelHint.gameObject.SetActive(true);
         readyHint.gameObject.SetActive(false);
@@ -119,7 +101,6 @@ public class FishSelectPanel : MonoBehaviour {
     }
 
     private void SetStateConfirmed() {
-        arrowsActive = true;
         confirmHint.gameObject.SetActive(false);
         cancelHint.gameObject.SetActive(true);
         readyHint.gameObject.SetActive(true);

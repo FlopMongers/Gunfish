@@ -30,7 +30,7 @@ public class WaterSurfaceGenerator : MonoBehaviour {
     private GameObject waterNodePrefab;
 
     [SerializeField]
-    private GameObject renderers;
+    private WaterMaterialInterface waterMaterialInterface;
 
     [SerializeField]
     private GameObject nodesContainer;
@@ -42,6 +42,8 @@ public class WaterSurfaceGenerator : MonoBehaviour {
     private void OnDrawGizmos() {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(transform.position, dimensions);
+        waterMaterialInterface.Init();
+        waterMaterialInterface.UpdateWater();
     }
 
     public void ClearCurrentNodes() {
@@ -73,7 +75,7 @@ public class WaterSurfaceGenerator : MonoBehaviour {
         length = dimensions.x;
         height = dimensions.y;
 
-        renderers.transform.SetGlobalScale(new Vector3(length, height * 2, 1f));
+        waterMaterialInterface.transform.SetGlobalScale(new Vector3(length, height * 2, 1f));
 
         int nodeCount = Mathf.RoundToInt(nodesPerUnit * length);
 

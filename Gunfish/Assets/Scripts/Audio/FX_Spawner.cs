@@ -137,7 +137,7 @@ public class FX_Spawner : PersistentSingleton<FX_Spawner> {
 
     public UnityEngine.GameObject SpawnFX(FXType effectName, Vector3 position, Vector3 rotation, float vol = -1, Transform parent = null) {
         if (!FX_Dict.ContainsKey(effectName))
-            return SpawnFX(fx_default.fx, position, rotation, vol, parent, FXType.Default);
+            return SpawnFX(fx_default.fx, position, rotation, vol, parent, FXType.Default); 
 
         if (!FX_Tracker.ContainsKey(FX_Dict[effectName].trackKey))
             return SpawnFX(FX_Dict[effectName].fx, position, rotation, vol, parent, effectName);

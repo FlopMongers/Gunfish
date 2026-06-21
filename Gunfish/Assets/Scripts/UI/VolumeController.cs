@@ -14,9 +14,11 @@ public class VolumeController : MonoBehaviour {
     void Start() {
         if (GameManager.Instance.useSavedVolumes) {
             slider.value = PlayerPrefs.GetFloat(volumeName, defaultValue);
+            mixer.SetFloat(volumeName, Mathf.Log10(slider.value) * 20);
         }
         else {
             slider.value = defaultValue;
+            mixer.SetFloat(volumeName, Mathf.Log10(slider.value) * 20);
         }
         SetLevel();
     }

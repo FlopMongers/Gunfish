@@ -99,6 +99,7 @@ public class Gun : MonoBehaviour {
 
         HashSet<Gunfish> hitGunfishes = new HashSet<Gunfish>();
 
+        var spawnedBullets = new List<Bullet>();
         foreach (GunBarrel barrel in barrels) {
             hitGunfishes.Clear();
             RaycastHit2D[] hits = Physics2D.RaycastAll(barrel.transform.position, barrel.transform.right, gunfish.data.gun.range, layerMask);
@@ -112,6 +113,13 @@ public class Gun : MonoBehaviour {
                     node.zone.Sploosh(hit.point, node.zone.splashThresholdRange.y, false, true);
                     if (!piercing) {
                         Bullet bullet = Instantiate(gunfish.data.gun.bulletPrefab, hit.point, Quaternion.identity).GetComponent<Bullet>();
+                        foreach (var otherBullet in spawnedBullets) { 
+                            Physics2D.IgnoreCollision(bullet.col, otherBullet.col);
+                        }
+                        foreach (var segment in gunfish.body.segments) {
+                            Physics2D.IgnoreCollision(segment.collider, bullet.col);
+                        }
+                        spawnedBullets.Append(bullet);
                         bullet.gunfish = gunfish;
                         bullet.SetSpeed(barrel.transform.right, 1f - (Vector3.Distance(hit.point, barrel.transform.position) / gunfish.data.gun.range));
                         endPoint = hit.point;

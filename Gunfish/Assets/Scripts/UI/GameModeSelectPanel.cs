@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -22,8 +23,17 @@ public class GameModeSelectPanel : MonoBehaviour {
         gameModeIndex = 0;
     }
 
+    public void Right() {
+        rightArrow.DOPunchScale(Vector3.one * 0.2f, 0.2f, 5, 1);
+    }
+
+    public void Left() {
+        leftArrow.DOPunchScale(Vector3.one * 0.2f, 0.2f, 5, 1);
+    }
+
     public void NextGameMode() {
         gameModeIndex = (gameModeIndex + 1) % gameModeCount;
+        Right();
         UpdateGameMode();
     }
 
@@ -32,12 +42,14 @@ public class GameModeSelectPanel : MonoBehaviour {
         if (gameModeIndex < 0) {
             gameModeIndex = gameModeCount - 1;
         }
+        Left();
+        UpdateGameMode();
     }
 
     public void UpdateGameMode() {
         var gameMode = gameModes[gameModeIndex];
         gameModeName?.SetText(gameMode.name);
         gameModeImage.sprite = gameMode.image;
-        GameManager.Instance.SetSelectedGameMode(gameMode.gameModeType);
+        GameManager.Instance.SetSelectedGameMode(gameMode);
     }
 }

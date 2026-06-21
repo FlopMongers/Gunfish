@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Deathmatch/valley.unity
     guid: a92c5663c2aeb94449a17417b2bebb45
   - enabled: 1
-    path: Assets/Scenes/Levels/Bassball/BassballTestMap.unity
+    path: Assets/Scenes/Levels/Bassball/sand_lot.unity
     guid: 5f47a2a804a4577478f4b9096c0869a9
   - enabled: 1
     path: Assets/Scenes/Levels/Deathmatch/WIP/castle.unity

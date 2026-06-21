@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ee154602dacbc84080897d96ee04275, type: 3}
-  m_Name: GameModeList
+  m_Name: PlaytestGameModeList
   m_EditorClassIdentifier: 
   gameModes:
-  - {fileID: 11400000, guid: e92aa6cab27649d4ca920ea07c9f4c89, type: 2}
+  - {fileID: 11400000, guid: 721fe31efec18ba4188c27a3d1052723, type: 2}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(FishDetector))]
@@ -33,6 +34,14 @@ public class PowerUp : MonoBehaviour
 
     public virtual void PickUp(Gunfish gunfish) {
         // todo: play some effect
+        StatsManager.LogStat(new PowerUpPickup
+        {
+            PlayerId = gunfish.player.PlayerNumber,
+            PowerUpType = this.GetType().Name,
+            PickupTime = DateTime.Now,
+            X = gunfish.MiddleSegment.transform.position.x,
+            Y = gunfish.MiddleSegment.transform.position.y
+        });
         FX_Spawner.Instance.SpawnFX(PickupFX, transform.position, Quaternion.identity);
         OnPowerUpGone?.Invoke();
         Destroy(gameObject);
