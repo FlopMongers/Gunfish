@@ -50,7 +50,7 @@ public class MovingPlatform : MonoBehaviour
     private void Update() {
         if (movePoints.Count == 0) { return; }
         if (Vector2.Distance(transform.position, nextPoint.position) < threshold) {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
         if ((Time.time - lastMoveTimestamp) > movePoints[index].duration) { 
             GetNextPoint();
@@ -65,10 +65,10 @@ public class MovingPlatform : MonoBehaviour
         // calculate by movePoint distance/duration
         Vector2 dir = (nextPoint.position - transform.position);
         if (dir == Vector2.zero) {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             return;
         }
-        rb.velocity = dir.magnitude / movePoints[index].duration * dir.normalized;
+        rb.linearVelocity = dir.magnitude / movePoints[index].duration * dir.normalized;
     }
 
     // get all objects with rigidbodies in zone

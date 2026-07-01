@@ -49,7 +49,7 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
     }
 
     protected override void InitializeSpawnPoints() {
-        checkpoints = FindObjectsOfType<Checkpoint>().OrderBy(x => x.spawnPointOrder).ToList();
+        checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).OrderBy(x => x.spawnPointOrder).ToList();
         // hook into the checkpoint events
         foreach (var checkpoint in checkpoints) {
             checkpoint.fishEnterEvent += OnCheckpointEnter;

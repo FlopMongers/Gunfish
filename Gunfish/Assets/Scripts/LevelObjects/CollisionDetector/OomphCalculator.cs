@@ -25,7 +25,7 @@ public class OomphCalculator : MonoBehaviour {
 
 
     private void FixedUpdate() {
-        lastVelocity = rb.velocity;
+        lastVelocity = rb.linearVelocity;
     }
 
 

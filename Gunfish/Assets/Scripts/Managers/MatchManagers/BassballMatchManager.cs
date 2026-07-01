@@ -38,7 +38,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
 
     protected override void InitializeSpawnPoints() {
         var sortedTeams = teams.OrderBy(x => x.teamNumber).ToList();
-        var goals = FindObjectsOfType<Goal>().OrderBy(x => x.transform.position.x).ToList();
+        var goals = FindObjectsByType<Goal>(FindObjectsSortMode.None).OrderBy(x => x.transform.position.x).ToList();
         if (sortedTeams.Count() != goals.Count()) {
             Debug.Log($"Goals and Teams must be 1:1 but is {goals.Count()}:{sortedTeams.Count()}!");
         }
@@ -71,7 +71,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
     }
 
     public void GOAL(Goal goal, BassballBall ball) {
-        FindObjectOfType<CinemachineTargetGroup>().RemoveMember(ball.transform);
+        FindFirstObjectByType<CinemachineTargetGroup>().RemoveMember(ball.transform);
         foreach (var team in teams) {
             if (team.goal != goal) {
                 MarqueeManager.Instance.PlayRandomQuip(QuipType.Goal);
@@ -102,7 +102,7 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
         if (teams[0].score == teams[1].score) {
             // get closer distance of ball
             float minDistance1 = float.MaxValue, minDistance2 = float.MaxValue;
-            foreach (var ball in FindObjectsOfType<BassballBall>()) {
+            foreach (var ball in FindObjectsByType<BassballBall>(FindObjectsSortMode.None)) {
                 minDistance1 = Mathf.Min(minDistance1, Vector3.Distance(ball.transform.position, teams[1].goal.transform.position));
                 minDistance2 = Mathf.Min(minDistance2, Vector3.Distance(ball.transform.position, teams[0].goal.transform.position));
             }

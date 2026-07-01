@@ -57,6 +57,7 @@ public class ScoredTeamReference : TeamReference {
 }
 
 public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviour, IMatchManager where PlayerReferenceType : PlayerReference where TeamReferenceType : TeamReference {
+    [System.NonSerialized]
     public GameParameters parameters;
     protected int currentLevel;
 
@@ -323,7 +324,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             return;
 
         string sourceType = fishHit.source.name;
-        int sourceId = fishHit.source.GetInstanceID();
+        int sourceId = fishHit.source.GetEntityId().GetHashCode();
         bool isFatal = gunfish.statusData.health <= 0;
         bool IsSelfInflicted = false;
 

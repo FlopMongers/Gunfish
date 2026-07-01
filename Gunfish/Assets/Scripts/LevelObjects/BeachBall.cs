@@ -19,7 +19,7 @@ public class BeachBall : MonoBehaviour
     {
         if (!bounds.Contains(rb.position)) {
             rb.position = spawnPoint;
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0.0f;
         }
     }

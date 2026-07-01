@@ -10,7 +10,7 @@ public struct FishSegment {
     public FishSegment(GameObject obj, Rigidbody2D body, CircleCollider2D collider, GunfishData data) {
         this.obj = obj;
         this.body = body;
-        this.body.angularDrag = data.angularDrag;
+        this.body.angularDamping = data.angularDrag;
         this.collider = collider;
     }
 }

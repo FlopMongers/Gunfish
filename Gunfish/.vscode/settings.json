@@ -60,5 +60,5 @@
         "Scriptable"
     ],
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "Gunfish.sln"
+    "dotnet.defaultSolution": "Gunfish.slnx"
 }

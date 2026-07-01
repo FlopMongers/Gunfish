@@ -1,5 +1,4 @@
 using Cinemachine;
-using SolidUtilities.UnityEngineInternals;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +48,7 @@ public class CollisionTracker {
 
 public class CollisionDamageDealer : MonoBehaviour {
 
+    [System.NonSerialized]
     public CollisionTracker collisionTracker = new CollisionTracker();
     int checkCollisions;
     float oomphThreshold;

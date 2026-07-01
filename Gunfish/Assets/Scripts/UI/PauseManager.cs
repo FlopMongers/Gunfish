@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 
 public class PauseManager : Singleton<PauseManager> {
     public AudioMixer audioMixer;
@@ -14,9 +15,14 @@ public class PauseManager : Singleton<PauseManager> {
     }
 
     public void Update() {
-        if (GameModeManager.Instance?.matchManagerInstance != null && Input.GetButtonDown("Pause"))
+        // Migrated from the legacy Input Manager "Pause" (escape/p) and "Quit" (q) buttons.
+        var keyboard = Keyboard.current;
+        if (keyboard == null)
+            return;
+        if (GameModeManager.Instance?.matchManagerInstance != null
+            && (keyboard.escapeKey.wasPressedThisFrame || keyboard.pKey.wasPressedThisFrame))
             Pause();
-        if (paused == true && Input.GetButtonDown("Quit"))
+        if (paused == true && keyboard.qKey.wasPressedThisFrame)
             MainMenu();
     }
 

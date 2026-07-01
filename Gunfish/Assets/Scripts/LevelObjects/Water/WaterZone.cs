@@ -13,7 +13,8 @@ public class WaterZone : MonoBehaviour {
 
     public FXType splashType = FXType.Splash;
 
-    public  Dictionary<Shootable, int> submergedShootables = new Dictionary<Shootable, int>();
+    [System.NonSerialized]
+    public Dictionary<Shootable, int> submergedShootables = new Dictionary<Shootable, int>();
 
     public Vector2 forceRange = new Vector2(0f, 10f);
     float forceScale = 1f;
@@ -52,11 +53,11 @@ public class WaterZone : MonoBehaviour {
     }
 
     void FishEnterSploosh(GunfishSegment segment, Collider2D collider) {
-        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, false, false);
+        Sploosh(segment.transform.position, segment.rb.linearVelocity.magnitude, false, false);
     }
 
     void FishExitSploosh(GunfishSegment segment, Collider2D collider) {
-        Sploosh(segment.transform.position, segment.rb.velocity.magnitude, true, false);
+        Sploosh(segment.transform.position, segment.rb.linearVelocity.magnitude, true, false);
     }
 
     public virtual void OnTriggerEnter2D(Collider2D other) {
@@ -68,7 +69,7 @@ public class WaterZone : MonoBehaviour {
         if (shootable != null) {
             if (!submergedShootables.ContainsKey(shootable)) {
                 submergedShootables[shootable] = 0;
-                float vel = shootable.GetComponent<Rigidbody2D>().velocity.y;
+                float vel = shootable.GetComponent<Rigidbody2D>().linearVelocity.y;
                 if (vel < -splashThresholdRange.x) {
                     Sploosh(other.transform.position, -vel, false, true);
                 }
@@ -80,7 +81,7 @@ public class WaterZone : MonoBehaviour {
         if (fishSegment != null) {
             if (fishSegment.isGun && !fishSegment.gunfish.underwater) {
                 //if (fishSegment.GetComponent<Rigidbody2D>().velocity.y < -5)
-                float vel = fishSegment.GetComponent<Rigidbody2D>().velocity.y;
+                float vel = fishSegment.GetComponent<Rigidbody2D>().linearVelocity.y;
                 if (vel < -splashThresholdRange.x) {
                     Sploosh(other.transform.position, -vel, false, true);
                 }
@@ -93,7 +94,7 @@ public class WaterZone : MonoBehaviour {
             waterInteractor.SetUnderwater(1);
         } // TODO: change gunfish segment to just use a water interactor!
         if (other.GetComponentInParent<Rigidbody2D>() != null) {
-            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, false, false);
+            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().linearVelocity.magnitude, false, false);
         }
     }
 
@@ -119,7 +120,7 @@ public class WaterZone : MonoBehaviour {
             waterInteractor.SetUnderwater(-1);
         }
         else if (other.GetComponentInParent<Rigidbody2D>() != null) {
-            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().velocity.magnitude, true, false);
+            Sploosh(other.transform.position, other.GetComponentInParent<Rigidbody2D>().linearVelocity.magnitude, true, false);
         }
     }
 }

@@ -52,14 +52,14 @@ public class FishHook : MonoBehaviour {
                 Zoom();
         }
         foreach (var fish in detector.fishes.Keys) {
-            fish.MiddleSegment.GetComponent<GunfishSegment>().rb.velocity = Vector2.zero;
+            fish.MiddleSegment.GetComponent<GunfishSegment>().rb.linearVelocity = Vector2.zero;
         }
     }
 
     private void LateUpdate() {
 
         foreach (var fish in detector.fishes.Keys) {
-            fish.MiddleSegment.GetComponent<GunfishSegment>().rb.velocity = Vector2.zero;
+            fish.MiddleSegment.GetComponent<GunfishSegment>().rb.linearVelocity = Vector2.zero;
         }
     }
 
@@ -89,7 +89,7 @@ public class FishHook : MonoBehaviour {
             fish.AddEffect(new NoMove_Effect(fish));
             doomedFishes.Add(fish);
             foreach (var segment in fish.segments) {
-                segment.GetComponent<GunfishSegment>().rb.isKinematic = true;
+                segment.GetComponent<GunfishSegment>().rb.bodyType = RigidbodyType2D.Kinematic;
             }
             fish.segments[0].transform.parent = detector.transform;
         }
@@ -147,7 +147,7 @@ public class FishHook : MonoBehaviour {
         if (fishJointMap.ContainsKey(segment.gunfish))
             return;
 
-        segment.gunfish.MiddleSegment.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        segment.gunfish.MiddleSegment.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         // add component and add to map
         var joint = gameObject.AddComponent<FixedJoint2D>();
         fishJointMap[segment.gunfish] = joint;

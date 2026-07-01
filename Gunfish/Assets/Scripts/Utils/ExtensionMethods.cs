@@ -227,6 +227,19 @@ public static class TransformDeepChildExtension {
     }
 }
 
+public static class Collision2DExtension {
+    // MemberwiseClone is protected on System.Object, so reach it via reflection.
+    static readonly MethodInfo memberwiseClone = typeof(object).GetMethod(
+        "MemberwiseClone", BindingFlags.Instance | BindingFlags.NonPublic);
+
+    // Unity reuses/invalidates the Collision2D instance once the physics callback
+    // returns, so snapshot its fields when we need to hold onto it past that point.
+    // (Vendored from SolidUtilities.UnityEngineInternals to drop that dependency.)
+    public static Collision2D ShallowCopy(this Collision2D collision) {
+        return (Collision2D)memberwiseClone.Invoke(collision, null);
+    }
+}
+
 public static class Rigidbody2DExtension {
     public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius) {
         var dir = (body.transform.position - explosionPosition);

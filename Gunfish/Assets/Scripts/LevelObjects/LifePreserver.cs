@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using DG.Tweening;
 using System.Collections.Generic;
 
@@ -38,7 +39,7 @@ public class LifePreserver : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.L)) {
+        if (Keyboard.current != null && Keyboard.current.lKey.wasPressedThisFrame) {
             Boing();
         }
     }

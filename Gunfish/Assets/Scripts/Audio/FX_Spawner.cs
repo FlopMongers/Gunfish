@@ -59,7 +59,9 @@ public class FX_Spawner : PersistentSingleton<FX_Spawner> {
 
     public List<FX_Tuple> Serialized_FX_Dict = new List<FX_Tuple>();
     public List<FX_Track_Tuple> Seriaized_FX_Track_Dict = new List<FX_Track_Tuple>();
+    [System.NonSerialized]
     public Dictionary<FXType, FX_Tuple> FX_Dict = new Dictionary<FXType, FX_Tuple>();
+    [System.NonSerialized]
     public Dictionary<FXType, FX_Track_Tuple> FX_Tracker = new Dictionary<FXType, FX_Track_Tuple>();
 
     public FX_Tuple fx_default;

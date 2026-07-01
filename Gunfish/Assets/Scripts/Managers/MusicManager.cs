@@ -22,7 +22,7 @@ public class MusicManager : PersistentSingleton<MusicManager> {
     private AudioMixerGroup audioMixerGroup;
     [SerializeField]
     private List<TrackEnumToObj> trackSetMap;
-    [SerializeField]
+    // Built at runtime from trackSetMap in InitializeMusicTrackDictionary(); not serializable.
     private Dictionary<TrackSetLabel, TrackSet> musicTrackDictionary;
     [SerializeField]
     private TrackSetLabel defaultTrackSet;

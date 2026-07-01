@@ -4,11 +4,13 @@ using UnityEngine.InputSystem;
 
 public enum ButtonStatus { Pressed, Holding, Released, Up };
 public class Gunfish : MonoBehaviour, IHittable {
+    [System.NonSerialized]
     public Dictionary<EffectType, Effect> effectMap = new Dictionary<EffectType, Effect>();
 
     [HideInInspector]
     public List<EffectType> EffectRemoveList = new List<EffectType>();
 
+    [System.NonSerialized]
     public GunfishStatusData statusData;
     public GunfishData data;
     public bool debug = false;
@@ -19,9 +21,9 @@ public class Gunfish : MonoBehaviour, IHittable {
     public GameObject MiddleSegment { get { return (segments.Count > 0) ? segments[MiddleSegmentIndex] : null; } }
     public GameObject RootSegment { get { return (segments.Count > 0) ? segments[0]: null; } }
     private GunfishGenerator generator;
-    [HideInInspector]
+    [System.NonSerialized]
     public GunfishRenderer gunfishRenderer;
-    [HideInInspector]
+    [System.NonSerialized]
     public GunfishRigidbody body;
     GroundDetector groundDetector;
     [HideInInspector]
@@ -188,7 +190,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         var direction = movement.x > 0f ? new Vector2(1f, 1f).normalized : new Vector2(-1f, 1f).normalized;
         // flop force
         body.ApplyForceToSegment(index, direction * data.flopForce, ForceMode2D.Impulse);
-        body.segments[MiddleSegmentIndex].body.angularDrag = 0.05f;
+        body.segments[MiddleSegmentIndex].body.angularDamping = 0.05f;
         // body.SetAngularDrag(0.05f);
         RotateMovement(input, index, data.groundTorque, ForceMode2D.Impulse);
         // play flop
@@ -198,7 +200,7 @@ public class Gunfish : MonoBehaviour, IHittable {
 
     private void RotateMovement(Vector2 input, int segmentIndex, float torque, ForceMode2D forceMode = ForceMode2D.Force) {
         var direction = Mathf.Sign(input.x);
-        body.segments[MiddleSegmentIndex].body.angularDrag = 0.05f;
+        body.segments[MiddleSegmentIndex].body.angularDamping = 0.05f;
         // body.SetAngularDrag(0.05f);
         // rotation speed
         if (Mathf.Sign(-direction) != Mathf.Sign(body.segments[segmentIndex].body.angularVelocity) || Mathf.Abs(body.segments[segmentIndex].body.angularVelocity) < data.maxAerialAngularVelocity)
@@ -255,7 +257,7 @@ public class Gunfish : MonoBehaviour, IHittable {
             return;
         }
 
-        if (body.segments[0].body.velocity.magnitude < data.maxUnderwaterVelocity) {
+        if (body.segments[0].body.linearVelocity.magnitude < data.maxUnderwaterVelocity) {
             body.ApplyForceToSegment(0, movement * data.underwaterForce, ForceMode2D.Force);
         }
     }
@@ -414,7 +416,7 @@ public class Gunfish : MonoBehaviour, IHittable {
     public void SwapFish(GunfishData fishData) {
         float health = statusData.health;
         Rigidbody2D rb = RootSegment.GetComponent<Rigidbody2D>();
-        Vector3 velocity = rb.velocity;
+        Vector3 velocity = rb.linearVelocity;
         float angularVelocity = rb.angularVelocity;
         Vector3 pos = RootSegment.transform.position;
         Vector3 rot = RootSegment.transform.rotation.eulerAngles;
@@ -424,7 +426,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         // update health, add momentum?
         UpdateHealth(health-statusData.health);
         rb = RootSegment.GetComponent<Rigidbody2D>();
-        rb.velocity = velocity;
+        rb.linearVelocity = velocity;
         rb.angularVelocity = angularVelocity;
     } 
 

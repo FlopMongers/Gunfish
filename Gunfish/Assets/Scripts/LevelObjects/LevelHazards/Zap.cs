@@ -15,6 +15,7 @@ public class Zap : MonoBehaviour
     public HashSet<Gunfish> zappedFishes = new HashSet<Gunfish>();
 
     // NOTE(Wyatt): this is passed by reference
+    [System.NonSerialized]
     public Dictionary<Gunfish, float> fishZapMap = new Dictionary<Gunfish, float>();
 
     [HideInInspector]

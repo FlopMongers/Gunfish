@@ -38,21 +38,21 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         // check rb speed
-        if (!starting && !destroyed && rb.velocity.magnitude <= speedRange.x) {
+        if (!starting && !destroyed && rb.linearVelocity.magnitude <= speedRange.x) {
             Gettem();
         }
         else if (!destroyed) {
-            lastSpeed = rb.velocity;
+            lastSpeed = rb.linearVelocity;
         }
         else {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
         // if less than range, then destroy the bullet
     }
 
     public void SetSpeed(Vector2 dir,float percent) {
         starting = false;
-        rb.velocity = dir * maxSpeed * percent; //Mathf.Clamp(maxSpeed * percent, speedRange.x, maxSpeed);
+        rb.linearVelocity = dir * maxSpeed * percent; //Mathf.Clamp(maxSpeed * percent, speedRange.x, maxSpeed);
     }
 
     HashSet<Gunfish> hitFish = new HashSet<Gunfish>();
@@ -145,7 +145,7 @@ public class Bullet : MonoBehaviour
         col.enabled = false;
         destroyed = true;
         destroyer.GETTEM();
-        rb.velocity = Vector2.zero;
-        rb.isKinematic = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
     }
 }

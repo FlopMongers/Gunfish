@@ -43,7 +43,7 @@ public class PelicanSpawner : Spawner
         pelicanSpeedRange = originalSpeedRange;
         Vector3 maxPosition = Vector3.zero;
         Vector3 minPosition = Vector3.zero;
-        foreach (var killbox in FindObjectsOfType<KillBox>()) {
+        foreach (var killbox in FindObjectsByType<KillBox>(FindObjectsSortMode.None)) {
             var coll = killbox.gameObject.GetComponent<Collider2D>();
             spawnZones.Add(coll);
             maxPosition = Vector3.Max(coll.bounds.max, maxPosition);

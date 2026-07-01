@@ -8,6 +8,7 @@ public class Stunbullet : Bullet
     public GameObject zapFX;
 
     // NOTE(Wyatt): this is passed by reference
+    [System.NonSerialized]
     public Dictionary<Gunfish, float> fishZapMap = new Dictionary<Gunfish, float>();
 
     protected override void Start() {

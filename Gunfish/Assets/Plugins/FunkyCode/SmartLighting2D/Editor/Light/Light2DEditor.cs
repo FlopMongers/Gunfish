@@ -184,7 +184,7 @@ namespace FunkyCode {
 
                 Handles.DrawLine(point, nextPoint);
 
-                Vector3 result = Handles.FreeMoveHandle(point, Quaternion.identity, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
+                var fmh_187_64_639184578102089290 = Quaternion.identity; Vector3 result = Handles.FreeMoveHandle(point, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
 
                 if (point != result) {
                     result.x -= light2D.transform2D.position.x;
@@ -232,7 +232,7 @@ namespace FunkyCode {
             point.x += Mathf.Cos(rotation) * light2D.size;
             point.y += Mathf.Sin(rotation) * light2D.size;
 
-            Vector3 result = Handles.FreeMoveHandle(point, Quaternion.identity, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
+            var fmh_235_60_639184578102126594 = Quaternion.identity; Vector3 result = Handles.FreeMoveHandle(point, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
 
             float moveDistance = Vector2.Distance(point, result);
 
@@ -273,7 +273,7 @@ namespace FunkyCode {
 
             Handles.color = new Color(1f, 0.5f, 0.5f);
 
-            Vector3 innerHandle = Handles.FreeMoveHandle(innerPoint, Quaternion.identity, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
+            var fmh_276_70_639184578102139533 = Quaternion.identity; Vector3 innerHandle = Handles.FreeMoveHandle(innerPoint, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
 
             if (Vector2.Distance(innerHandle, innerPoint) > 0.001f) {
                 float nextInnerAngle = Vector2.Distance(innerHandle, point) / light2D.size;
@@ -308,7 +308,7 @@ namespace FunkyCode {
 
                 outerPointLeft.y += Mathf.Sin(rotation + outerValue) * light2D.size;
 
-                Vector3 outerHandleLeft = Handles.FreeMoveHandle(outerPointLeft, Quaternion.identity, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
+                var fmh_311_82_639184578102150908 = Quaternion.identity; Vector3 outerHandleLeft = Handles.FreeMoveHandle(outerPointLeft, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
 
                 float transformRotation = light2D.transform.rotation.eulerAngles.z;
 
@@ -333,7 +333,7 @@ namespace FunkyCode {
 
                 outerPointRight.y += Mathf.Sin(rotation - outerValue) * light2D.size;
 
-                Vector3 outerHandleRight = Handles.FreeMoveHandle(outerPointRight, Quaternion.identity, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
+                var fmh_336_84_639184578102161531 = Quaternion.identity; Vector3 outerHandleRight = Handles.FreeMoveHandle(outerPointRight, 0.05f * cameraSize, Vector2.zero, Handles.CylinderHandleCap);
 
                 if (Vector2.Distance(outerPointRight, outerHandleRight) > 0.01f) {
                     originAngle = -90f - (int)(Mathf.Atan2(light2D.transform.position.y - outerPointRight.y, light2D.transform.position.x - outerPointRight.x) * Mathf.Rad2Deg);

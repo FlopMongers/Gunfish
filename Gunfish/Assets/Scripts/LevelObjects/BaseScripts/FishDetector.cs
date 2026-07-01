@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FishDetector : MonoBehaviour {
+    [System.NonSerialized]
     public Dictionary<Gunfish, int> fishes = new Dictionary<Gunfish, int>();
 
     public FishCollisionEvent OnFishCollideEnter, OnFishCollideExit;

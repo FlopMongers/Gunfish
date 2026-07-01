@@ -30,8 +30,8 @@ public class GunfishSegment : ObjectMaterial {
             gunfish.anySegmentUnderwater += (isUnderwater > 0) ? 1 : -1;
             if (isGun) {
                 if (isUnderwater <= 0) {
-                    if (Vector3.Angle(Vector2.up, rb.velocity) < gunfish.data.waterZoomAngleThreshold && rb.velocity.magnitude > gunfish.data.waterZoomSpeedThreshold) {
-                        gunfish.body.ApplyForceToSegment(index, ((rb.velocity.normalized + Vector2.up) / 2) * gunfish.data.waterZoomForce, ForceMode2D.Impulse);
+                    if (Vector3.Angle(Vector2.up, rb.linearVelocity) < gunfish.data.waterZoomAngleThreshold && rb.linearVelocity.magnitude > gunfish.data.waterZoomSpeedThreshold) {
+                        gunfish.body.ApplyForceToSegment(index, ((rb.linearVelocity.normalized + Vector2.up) / 2) * gunfish.data.waterZoomForce, ForceMode2D.Impulse);
                     }
                     // if upwards velocity is high enough, then LAUNCH the fish
                 }
@@ -39,7 +39,7 @@ public class GunfishSegment : ObjectMaterial {
                 gunfish.underwater = isUnderwater == 1;
             }
             rb.gravityScale = (isUnderwater == 1) ? 0f : 1f;
-            rb.drag += (isUnderwater == 1) ? 1f : -1f;
+            rb.linearDamping += (isUnderwater == 1) ? 1f : -1f;
         }
     }
 

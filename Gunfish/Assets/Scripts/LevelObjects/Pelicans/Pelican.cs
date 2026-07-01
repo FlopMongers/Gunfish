@@ -45,7 +45,7 @@ public class Pelican : MonoBehaviour
             return;
         }
         currentDir = (endPosition - transform.position).normalized;
-        rb.velocity = currentDir * speed;
+        rb.linearVelocity = currentDir * speed;
         transform.up = currentDir;
     }
 

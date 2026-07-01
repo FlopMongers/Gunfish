@@ -6,6 +6,7 @@ using UnityEngine;
 public class Stungun : Gun
 {
     // keep track of which gunfish you have hit, if the fish falls within timezone, tell the stun bullet to ignore the gunfish
+    [System.NonSerialized]
     public Dictionary<Gunfish, float> fishZapMap = new Dictionary<Gunfish, float>();
 
     protected override void _Fire() {
