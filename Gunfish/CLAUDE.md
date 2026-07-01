@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Gunfish is a 4-player local multiplayer 2D arcade game built in Unity 2021.3.45f2. Players control gun-equipped fish that battle across physics-based levels in three game modes: **DeathMatch**, **Race**, and **Bassball**.
+Gunfish is a 4-player local multiplayer 2D arcade game built in Unity 6000.5.0f1. Players control gun-equipped fish that battle across physics-based levels in three game modes: **DeathMatch**, **Race**, and **Bassball**.
 
 ---
 
@@ -10,7 +10,7 @@ Gunfish is a 4-player local multiplayer 2D arcade game built in Unity 2021.3.45f
 
 | Layer | Technology |
 |---|---|
-| Engine | Unity 2021.3.45f2 (see `ProjectSettings/ProjectVersion.txt`) |
+| Engine | Unity 6000.5.0f1 (see `ProjectSettings/ProjectVersion.txt`) |
 | Language | C# |
 | IDE | VS Code with C# DevKit (solution: `Gunfish.sln`) |
 | Input | Unity New Input System 1.7.0 — `PlayerInput` + action assets |

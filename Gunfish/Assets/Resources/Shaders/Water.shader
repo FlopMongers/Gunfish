@@ -7,18 +7,18 @@ Shader "Unlit/Water"
     }
     SubShader
     {
-        Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+        Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "RenderPipeline"="UniversalPipeline"}
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct appdata
             {
@@ -33,13 +33,22 @@ Shader "Unlit/Water"
                 float2 worldPos: TEXCOORD1;
             };
 
-            fixed4 _Color;
+            CBUFFER_START(UnityPerMaterial)
+            half4 _Color;
+            int _NodeCount;
+            int _Degree;
+            CBUFFER_END
+
+            // Set per-material via Material.SetFloatArray (WaterMaterialInterface.cs) and kept
+            // outside UnityPerMaterial: 1000-element arrays would overflow the SRP Batcher's
+            // constant buffer, so this material opts out of batching (fine given the low instance count).
             float _NodesX[1000];
             float _NodesY[1000];
             float _Coefficients[1000];
-            int _NodeCount;
-            int _Degree;
-            
+
+            // _Time (not _Time.y) kept to match the original Built-in RP shader's behavior:
+            // HLSL implicitly truncates the float4 to its .x component (t/20), so the wave
+            // timing here is driven by t/20, not t. Preserved as-is to avoid changing the look of the water.
             float ripple(float x){
                 return  0.021*sin(5*(x-(_Time*30)))+
                         0.021*sin(11.5*(x+(_Time*25)))*sin(x+_Time*25)+
@@ -67,14 +76,14 @@ Shader "Unlit/Water"
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                o.vertex = TransformObjectToHClip(v.vertex.xyz);
+                o.worldPos = TransformObjectToWorld(v.vertex.xyz);
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
-                fixed4 color = _Color;
+                half4 color = _Color;
                 float deep = 0.2;
                 float shallow = 1;
                 float dist = distanceBelowSurface(i.worldPos.x, i.worldPos.y);
@@ -86,10 +95,10 @@ Shader "Unlit/Water"
                 color *= brightness;
 
                 color.a = alpha;
-                
+
                 return color;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

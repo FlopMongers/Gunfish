@@ -7,7 +7,7 @@ Shader "Custom/Gunfish"
         _OutlineColor ("Outline Color", Color) = (1,1,1,1)
         _OutlineWidth ("Outline Width", Range (0.0, 0.1)) = .01
         _OutlineAlpha ("Outline Alpha", Range (0.0, 1.0)) = 1.0
-        _OutlineFrequency ("Outline Frequency", Range(0.0, 4.0)) = 1.0 
+        _OutlineFrequency ("Outline Frequency", Range(0.0, 4.0)) = 1.0
     }
 
     SubShader
@@ -16,22 +16,22 @@ Shader "Custom/Gunfish"
 		{
         	"Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline"="UniversalPipeline"
             "IgnoreProjector"="True"
             "PreviewType"="Plane"
             "CanUseSpriteAtlas"="True"
         }
 
-        Cull Off 
-		Lighting Off 
+        Cull Off
 		ZWrite Off
         Blend One OneMinusSrcAlpha
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct appdata_t
             {
@@ -43,22 +43,25 @@ Shader "Custom/Gunfish"
             struct v2f
             {
                 float4 vertex	: SV_POSITION;
-                fixed4 color	: COLOR;
+                half4 color	: COLOR;
                 float2 texcoord	: TEXCOORD0;
             };
 
-            sampler2D _MainTex;
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
+
+            CBUFFER_START(UnityPerMaterial)
             float _Alpha;
-            fixed4 _OutlineColor;
+            half4 _OutlineColor;
             float _OutlineWidth;
             float _OutlineAlpha;
             float _OutlineFrequency;
-            
+            CBUFFER_END
 
             v2f vert(appdata_t IN)
             {
                 v2f OUT;
-                OUT.vertex = UnityObjectToClipPos(IN.vertex);
+                OUT.vertex = TransformObjectToHClip(IN.vertex.xyz);
                 OUT.color = IN.color;
                 OUT.texcoord.x = IN.texcoord.x;
                 OUT.texcoord.y = 1 - IN.texcoord.y;
@@ -89,15 +92,15 @@ Shader "Custom/Gunfish"
                 return 1.0 - outlineMultiplier;
             }
 
-            float4 sampleColors(v2f IN)
+            half4 sampleColors(v2f IN)
             {
                 // Sample color around our pixel, size depends on _OutlineWidth
-                fixed4 outlineColor = fixed4(0,0,0,0);
+                half4 outlineColor = half4(0,0,0,0);
                 for (int j = -1; j <= 1; j++)
                 {
                     for (int i = -1; i <= 1; i++)
                     {
-                        outlineColor += tex2D(_MainTex, IN.texcoord + fixed2(i,j) * _OutlineWidth);
+                        outlineColor += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.texcoord + half2(i,j) * _OutlineWidth);
                     }
                 }
                 // Average sampled colors
@@ -105,13 +108,13 @@ Shader "Custom/Gunfish"
                 return outlineColor;
             }
 
-            fixed4 frag(v2f IN) : SV_Target
+            half4 frag(v2f IN) : SV_Target
             {
-                fixed4 c = tex2D(_MainTex, IN.texcoord);
+                half4 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.texcoord);
                 // Apply alpha test manually if we're applying outline
-                if (c.a < 0.5) discard; 
+                if (c.a < 0.5) discard;
 
-                fixed4 outlineColor = sampleColors(IN);
+                half4 outlineColor = sampleColors(IN);
 
                 // If alpha of pixels around is less than ours then it is an outline
                 if (outlineColor.a < c.a) {
@@ -122,9 +125,9 @@ Shader "Custom/Gunfish"
 
                 c.a = _Alpha;
                 c.rgb *= c.a;
-                return c; 
+                return c;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

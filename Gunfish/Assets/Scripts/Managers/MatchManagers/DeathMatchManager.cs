@@ -55,7 +55,7 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
     public override void StartLevel() {
         base.StartLevel();
         eliminatedTeams = new HashSet<TeamReference>();
-        ui.InitializeLevel(parameters.activePlayers, ""); //defaultStocks.ToString());
+        ui.InitializeLevel(parameters.activePlayers, defaultStocks.ToString());
         pelicanSpawner.FetchSpawnZones();
         pelicanSpawner.active = false;
     }

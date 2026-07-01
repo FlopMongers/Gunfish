@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class SkyboxCamera : Singleton<SkyboxCamera>
 {
@@ -33,5 +34,15 @@ public class SkyboxCamera : Singleton<SkyboxCamera>
     {
         mainCamera = camera;
         refMainCameraPosition = camera.transform.position;
+
+        // URP renders this camera as a Base camera and the gameplay camera as an Overlay on top of it -
+        // the old Built-in RP depth-ordering + "Don't Clear" trick between two independent cameras has
+        // no URP equivalent, so the stack has to be wired at runtime since the gameplay camera lives in
+        // a separately-loaded, prefab-instantiated scene.
+        var baseCameraData = _camera.GetUniversalAdditionalCameraData();
+        if (!baseCameraData.cameraStack.Contains(camera))
+        {
+            baseCameraData.cameraStack.Add(camera);
+        }
     }
 }
