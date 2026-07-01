@@ -65,6 +65,8 @@ Test on one throwaway scene (e.g. duplicate `Assets/Scenes/Templates/dm_sm_squar
 
 ## Phase 3 — Lighting migration (SmartLighting2D → native URP `Light2D`/`ShadowCaster2D`)
 
+**Status: deferred (tech debt).** After URP was actually activated (Graphics Settings assignment), FunkyCode SmartLighting2D kept rendering correctly anyway — its internal composite shaders are drawn via `Graphics.DrawMesh` (`LightingRender2D.cs:139`) with no explicit `RenderPipeline` shader tag, which URP tolerates leniently rather than cleanly rejecting. Nothing is visibly broken, so this migration isn't urgent. It's still worth doing eventually: this is unsupported/undefined behavior (could break on a Unity/URP version bump), `Graphics.DrawMesh` bypasses the SRP Batcher, and it won't integrate with other URP 2D Renderer features (sorting, light blend styles, Renderer Features). Revisit before this becomes load-bearing on more scenes/prefabs.
+
 Highest file count (45: 25 prefabs + 20 scenes), most mechanically repetitive. Must go through a **custom Editor script** (sanctioned exception to the no-hand-edit-YAML rule), following the existing `Assets/Scripts/Editor/` convention.
 
 ### New file: `Assets/Scripts/Editor/URP2DLightingMigrator.cs`
