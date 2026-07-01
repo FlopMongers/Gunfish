@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class BassballBall : MonoBehaviour
     private void Start() {
         destroyer = destroyer ?? GetComponent<Destroyer>();
         shootable = shootable ?? GetComponent<Shootable>();
+        FindObjectOfType<CinemachineTargetGroup>().AddMember(transform, 1, 1);
     }
 
     private void OnTriggerStay2D(Collider2D collision) {

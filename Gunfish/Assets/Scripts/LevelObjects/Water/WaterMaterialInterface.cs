@@ -52,11 +52,15 @@ public class WaterMaterialInterface : MonoBehaviour {
         positionsX = new double[waterSurfaceNodes.Count];
         positionsY = new double[waterSurfaceNodes.Count];
 
-        GetComponent<SpriteRenderer>().material.SetInt("_NodeCount", waterSurfaceNodes.Count);
-        GetComponent<SpriteRenderer>().material.SetInt("_Degree", degree);
+        GetComponent<SpriteRenderer>().sharedMaterial.SetInt("_NodeCount", waterSurfaceNodes.Count);
+        GetComponent<SpriteRenderer>().sharedMaterial.SetInt("_Degree", degree);
     }
 
     private void Update() {
+        UpdateWater();
+    }
+
+    public void UpdateWater() {
         for (int i = 0; i < waterSurfaceNodes.Count; i++) {
             positionsX[i] = waterSurfaceNodes[i].position.x;
             positionsY[i] = waterSurfaceNodes[i].position.y;
@@ -84,8 +88,8 @@ public class WaterMaterialInterface : MonoBehaviour {
         }
         coefficients = Fit.Polynomial(positionsX, positionsY, degree);
 
-        GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesX", positionsX.Select(x => (float)x).ToArray());
-        GetComponent<SpriteRenderer>().material.SetFloatArray("_NodesY", positionsY.Select(y => (float)y).ToArray());
-        GetComponent<SpriteRenderer>().material.SetFloatArray("_Coefficients", coefficients.Select(c => (float)c).ToArray());
+        GetComponent<SpriteRenderer>().sharedMaterial.SetFloatArray("_NodesX", positionsX.Select(x => (float)x).ToArray());
+        GetComponent<SpriteRenderer>().sharedMaterial.SetFloatArray("_NodesY", positionsY.Select(y => (float)y).ToArray());
+        GetComponent<SpriteRenderer>().sharedMaterial.SetFloatArray("_Coefficients", coefficients.Select(c => (float)c).ToArray());
     }
 }

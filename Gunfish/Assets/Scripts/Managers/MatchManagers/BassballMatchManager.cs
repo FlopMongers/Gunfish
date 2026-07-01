@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,9 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
     protected override void InitializeSpawnPoints() {
         var sortedTeams = teams.OrderBy(x => x.teamNumber).ToList();
         var goals = FindObjectsOfType<Goal>().OrderBy(x => x.transform.position.x).ToList();
+        if (sortedTeams.Count() != goals.Count()) {
+            Debug.Log($"Goals and Teams must be 1:1 but is {goals.Count()}:{sortedTeams.Count()}!");
+        }
         for (int i = 0; i < sortedTeams.Count(); i++) {
             goalToTeam[goals[i]] = sortedTeams[i];
             sortedTeams[i].goal = goals[i];
@@ -67,8 +71,10 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
     }
 
     public void GOAL(Goal goal, BassballBall ball) {
+        FindObjectOfType<CinemachineTargetGroup>().RemoveMember(ball.transform);
         foreach (var team in teams) {
             if (team.goal != goal) {
+                MarqueeManager.Instance.PlayRandomQuip(QuipType.Goal);
                 UpdateTeamScore(team, 1);
                 return;
             }

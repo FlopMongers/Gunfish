@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerReference {
@@ -8,6 +10,7 @@ public class PlayerReference {
 
     // team number associated with each player
     public TeamReference team;
+    public int rating;
 
     public PlayerReference(Player player, TeamReference team) {
         this.player = player;
@@ -54,7 +57,6 @@ public class ScoredTeamReference : TeamReference {
 }
 
 public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviour, IMatchManager where PlayerReferenceType : PlayerReference where TeamReferenceType : TeamReference {
-    [HideInInspector]
     public GameParameters parameters;
     protected int currentLevel;
 
@@ -77,6 +79,8 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     protected bool endingLevel;
     protected static float endLevelDelay = 0.5f;
 
+    public bool teamMode = false;
+
     protected List<TeamReferenceType> teams = new List<TeamReferenceType>();
     protected Dictionary<Player, PlayerReferenceType> playerReferences = new Dictionary<Player, PlayerReferenceType>();
 
@@ -88,19 +92,26 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
     public StatsUI statsUI;
 
+    private MatchResult matchResult;
+
     public virtual void Initialize(GameParameters parameters) {
         this.parameters = parameters;
         ui = ui ?? gameObject.GetComponentInChildren<MatchUI>();
         ui.InitializeMatch(parameters.activePlayers);
         Dictionary<int, TeamReferenceType> teamNumbers = new Dictionary<int, TeamReferenceType>();
-        foreach (var player in parameters.activePlayers) {
-            // TODO USE ACTUAL TEAM NUMBER
+        int playerTeamNumber = 0;
+
+        foreach (var player in parameters.activePlayers.OrderBy(activePlayer => activePlayer.PlayerNumber)) {
+            if (teamMode == false) {
+                playerTeamNumber = player.TeamNumber;
+            }
             if (teamNumbers.ContainsKey(player.PlayerNumber) == false) {
                 TeamReferenceType TeamRef = GenerateTeamRef(player);
-                teamNumbers[player.PlayerNumber] = TeamRef;
+                teamNumbers[playerTeamNumber] = TeamRef;
                 teams.Add(TeamRef);
             }
-            AddPlayerReference(player, teamNumbers[player.PlayerNumber]);
+            AddPlayerReference(player, teamNumbers[playerTeamNumber]);
+            playerTeamNumber = (playerTeamNumber + 1) % 2;
         }
         spawnPoints = new List<Transform>();
         LevelManager.Instance.OnFinishLoadLevel += StartLevel;
@@ -109,6 +120,23 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         if (timer != null) {
             timer.levelDuration = levelDuration;
             timer.OnTimerFinish += OnTimerFinish;
+        }
+        matchResult = new MatchResult
+        {
+            GameMode = this.GetType().ToString().Replace("Manager", ""),
+            StartTime = DateTime.Now,
+            LevelCount = parameters.scenes.Count,
+            PlayerCount = parameters.activePlayers.Count,
+            PlayerMatchResults = new Dictionary<Player, PlayerMatchResult>(),
+            LevelResults = new List<LevelResult>()
+        };
+        foreach (var player in parameters.activePlayers) {
+            matchResult.PlayerMatchResults[player] = new PlayerMatchResult
+            {
+                PlayerId = player.PlayerNumber,
+                PlayerTeam = player.TeamNumber,
+                PlayerFish = player.gunfishData.name,
+            };
         }
         NextLevel();
     }
@@ -134,6 +162,11 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     public void TearDown() {
         LevelManager.Instance.OnFinishLoadLevel -= StartLevel;
         LevelManager.Instance.OnStartPlay -= StartPlay;
+        foreach (var player in parameters.activePlayers) {
+            matchResult.PlayerMatchResults[player].Score = GetPlayerScore(player);
+            matchResult.PlayerMatchResults[player].Rating = GetPlayerRating(player);
+        }
+        StatsManager.LogMatchResults(matchResult);
     }
 
     public virtual void SpawnPlayer(Player player) {
@@ -141,7 +174,14 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     }
 
     protected virtual IEnumerator CoSpawnPlayer(Player player) {
-        return null;
+        StatsManager.LogStat(new PlayerSpawn
+        {
+            PlayerId = player.PlayerNumber,
+            SpawnTime = DateTime.Now,
+            X = player.Gunfish.MiddleSegment.transform.position.x,
+            Y = player.Gunfish.MiddleSegment.transform.position.y
+        });
+        yield return null;
     }
 
     public virtual void StartLevel() {
@@ -156,6 +196,12 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             player.Gunfish.PreDeath += OnPlayerPreDeath;
             SpawnPlayer(player);
         }
+
+        matchResult.LevelResults.Add(new LevelResult
+        {
+            StartTime = DateTime.Now,
+            LevelName = GetCurrentLevelName()
+        });
     }
 
     public virtual void SetUpPlayer(Player player) { }
@@ -182,6 +228,9 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             activePlayer.Gunfish.OnDeath -= OnPlayerDeath;
             activePlayer.Gunfish.PreDeath -= OnPlayerPreDeath;
         }
+
+        matchResult.LevelResults[^1].EndTime = DateTime.Now;
+
         if (skipLastStats && nextLevelIndex >= parameters.scenes.Count) {
             PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.EndLevel);
             StartCoroutine(CoEndLastLevel());
@@ -189,6 +238,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         else {
             StartCoroutine(CoEndLevel());
         }
+
     }
 
     protected virtual IEnumerator CoEndLastLevel() {
@@ -247,6 +297,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         LevelManager.Instance.LoadStats(() => {
             ShowEndGameStats();
         });
+        matchResult.EndTime = DateTime.Now;
     }
 
     public void ENDITALL() {
@@ -262,12 +313,68 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         return playerReferences[gun.gunfish.player].team != playerReferences[segment.gunfish.player].team;
     }
 
-    public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {
+    public virtual void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead)
+    {
+        // If the fish is already dead, don't track a death
+        if (alreadyDead)
+            return;
+        // If the hit didn't do damage, don't track a hit
+        if (fishHit.damage <= 0)
+            return;
+
+        string sourceType = fishHit.source.name;
+        int sourceId = fishHit.source.GetInstanceID();
+        bool isFatal = gunfish.statusData.health <= 0;
+        bool IsSelfInflicted = false;
+
+        // See whether source is actually a player
+        Gunfish sourceGunfish = fishHit.source.GetComponent<Gunfish>();
+        sourceGunfish = sourceGunfish ?? fishHit.source.GetComponent<Gun>()?.gunfish;
+        if (sourceGunfish == gunfish) {
+            IsSelfInflicted = true;
+        }
+
+        // FIXME: Try to use the DeathMatchManager's last-hitter identification somehow
+        Player sourcePlayer = fishHit.source.GetComponent<Player>();
+        if (sourcePlayer != null)
+        {
+            Debug.Log("Player object was source of FishHit!");
+            sourceType = "Player";
+            sourceId = sourcePlayer.PlayerNumber;
+            IsSelfInflicted = sourcePlayer == gunfish.player;
+        }
+        else if (sourcePlayer == null && sourceGunfish != null)
+        {
+            sourcePlayer = sourceGunfish?.player;
+            sourceType = "Player";
+            sourceId = sourcePlayer.PlayerNumber;
+        }
+
+        StatsManager.LogStat(new PlayerDamage
+        {
+            PlayerId = gunfish.player.PlayerNumber,
+            DamageTime = DateTime.Now,
+            SourceType = sourceType.Replace("(Clone)", ""),
+            SourceId = sourceId,
+            Amount = fishHit.damage,
+            IsFatal = isFatal,
+            IsSelfInflicted = IsSelfInflicted,
+            X = gunfish.MiddleSegment.transform.position.x,
+            Y = gunfish.MiddleSegment.transform.position.y
+        });
     }
 
     public virtual void OnTimerFinish() { }
 
     public virtual int GetPlayerScore(Player player) { return 0; }
+
+    public virtual string GetCurrentLevelName() {
+        return Path.GetFileNameWithoutExtension(parameters.scenes[currentLevel]);
+    }
+
+    public virtual void SetPlayerRating(Player player, int rating) {}
+
+    public virtual int GetPlayerRating(Player player) { return 0; }
 }
 
 public interface IMatchManager {
@@ -279,4 +386,7 @@ public interface IMatchManager {
     public void ENDITALL();
     public MatchUI GetUI();
     public int GetPlayerScore(Player player);
+    public string GetCurrentLevelName();
+    public void SetPlayerRating(Player player, int rating);
+    public int GetPlayerRating(Player player);
 }
