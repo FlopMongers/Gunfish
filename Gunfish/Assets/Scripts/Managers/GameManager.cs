@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class GameParameters {
@@ -18,18 +19,53 @@ public class GameParameters {
 }
 
 public class GameManager : PersistentSingleton<GameManager> {
-    public bool debug = false;
-    public int debugPlayerCount = 1;
+    [SerializeField]
+    [FormerlySerializedAs("debug")]
+    private bool _debug = false;
+    public bool debug {
+        get {
+#if UNITY_EDITOR
+            if (DevConfigOverride.TryGetDebug(out var debugOverride)) return debugOverride;
+#endif
+            return _debug;
+        }
+    }
+
+    [SerializeField]
+    [FormerlySerializedAs("debugPlayerCount")]
+    private int _debugPlayerCount = 1;
+    public int debugPlayerCount {
+        get {
+#if UNITY_EDITOR
+            if (DevConfigOverride.TryGetDebugPlayerCount(out var debugPlayerCountOverride)) return debugPlayerCountOverride;
+#endif
+            return _debugPlayerCount;
+        }
+    }
 
     public bool useSavedVolumes = false;
-    
+
     [SerializeField]
     private GameModeList _gameModeList;
-    public GameModeList GameModeList { get => _gameModeList; }
+    public GameModeList GameModeList {
+        get {
+#if UNITY_EDITOR
+            if (DevConfigOverride.TryGetGameModeList(out var gameModeListOverride)) return gameModeListOverride;
+#endif
+            return _gameModeList;
+        }
+    }
 
     [SerializeField]
     private GunfishDataList _gunfishDataList;
-    public GunfishDataList  GunfishDataList { get => _gunfishDataList; }
+    public GunfishDataList GunfishDataList {
+        get {
+#if UNITY_EDITOR
+            if (DevConfigOverride.TryGetGunfishDataList(out var gunfishDataListOverride)) return gunfishDataListOverride;
+#endif
+            return _gunfishDataList;
+        }
+    }
 
     private GameMode selectedGameMode;
     public GameModeType defaultGameMode;
@@ -46,8 +82,24 @@ public class GameManager : PersistentSingleton<GameManager> {
     }
 
     public override void Initialize() {
+#if UNITY_EDITOR
+        RegisterDevConfigOverrideDebugEntries();
+#endif
         PlayerManager.Instance.Initialize();
     }
+
+#if UNITY_EDITOR
+    private void RegisterDevConfigOverrideDebugEntries() {
+        DebugRegistrar.Track("DevConfigOverride.Debug", () =>
+            DevConfigOverride.TryGetDebug(out var d) ? $"OVERRIDDEN -> {d}" : "inactive");
+        DebugRegistrar.Track("DevConfigOverride.DebugPlayerCount", () =>
+            DevConfigOverride.TryGetDebugPlayerCount(out var c) ? $"OVERRIDDEN -> {c}" : "inactive");
+        DebugRegistrar.Track("DevConfigOverride.GameModeList", () =>
+            DevConfigOverride.TryGetGameModeList(out var l) ? $"OVERRIDDEN -> {l.name}" : "inactive");
+        DebugRegistrar.Track("DevConfigOverride.GunfishDataList", () =>
+            DevConfigOverride.TryGetGunfishDataList(out var l) ? $"OVERRIDDEN -> {l.name}" : "inactive");
+    }
+#endif
 
     public void InitializePostRitualManagers() {
         StartCoroutine(InitializePostRitualManagersCR());

@@ -38,6 +38,9 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         showDebugMessage = true;
         if (GameManager.Instance.debug == true) {
             playerThreshold = GameManager.Instance.debugPlayerCount;
+            DebugRegistrar.Track("PlayerManager.RequiredPlayerCount", () =>
+                $"OVERRIDDEN -> {GameManager.Instance.debugPlayerCount} " +
+                $"(prod would require {GetComponent<PlayerInputManager>().maxPlayerCount})");
         } else {
             playerThreshold = GetComponent<PlayerInputManager>().maxPlayerCount;
         }

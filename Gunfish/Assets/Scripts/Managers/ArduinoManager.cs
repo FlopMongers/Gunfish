@@ -54,6 +54,8 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     public override void Initialize() {
         if (GameManager.Instance.debug) {
             secondsBetweenAttractors = 5f;
+            DebugRegistrar.Track("ArduinoManager.SecondsBetweenAttractors", () =>
+                $"OVERRIDDEN -> {secondsBetweenAttractors}s (prod default 60s)");
         }
         secondsSinceLastAttractor = 0f;
         source = GetComponent<AudioSource>();

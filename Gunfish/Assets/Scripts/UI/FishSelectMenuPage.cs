@@ -51,6 +51,12 @@ public class FishSelectMenuPage : MenuPage {
         MarqueeManager.Instance.PlayRandomQuip(QuipType.FishSelection);
         menuContext = context;
 
+        if (GameManager.Instance.debug) {
+            DebugRegistrar.Track("FishSelectMenuPage.ReadyPlayerGate", () =>
+                $"OVERRIDDEN -> allow start with >=1 ready player " +
+                $"(prod requires one of [{string.Join(", ", GameManager.Instance.currentGameMode.requiredPlayerCount)}])");
+        }
+
         playerActions = new List<PlayerAction>();
         gunfishIndices = new List<int>();
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
@@ -82,6 +88,7 @@ public class FishSelectMenuPage : MenuPage {
 
     public override void OnPageStop(MenuPageContext context) {
         ArduinoManager.Instance.playAttractors = false;
+        DebugRegistrar.Untrack("FishSelectMenuPage.ReadyPlayerGate");
 
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
             var playerInput = PlayerManager.Instance.PlayerInputs[i];
@@ -224,7 +231,8 @@ public class FishSelectMenuPage : MenuPage {
             }
         }
 
-        if (allowedPlayerCounts.Contains(readyPlayerCount) == false) {
+        bool debugCountAllowed = GameManager.Instance.debug == true && readyPlayerCount >= 1;
+        if (allowedPlayerCounts.Contains(readyPlayerCount) == false && !debugCountAllowed) {
             // tween gamemode note for emphasis
             gameModeNote.transform.DOKill();
             gameModeNote.transform.localScale = Vector3.one;
@@ -232,7 +240,7 @@ public class FishSelectMenuPage : MenuPage {
             return false;
         }
 
-        return hasNoSelecting && ((GameManager.Instance.debug == true && readyPlayerCount >= 1) || GameManager.Instance.currentGameMode.requiredPlayerCount.Contains(readyPlayerCount));
+        return hasNoSelecting && (debugCountAllowed || GameManager.Instance.currentGameMode.requiredPlayerCount.Contains(readyPlayerCount));
     }
 
     private bool NoPlayersActive() {
