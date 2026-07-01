@@ -118,10 +118,10 @@ public class GameManager : PersistentSingleton<GameManager> {
         MainMenu.Instance.Initialize();
     }
 
-    public void InitializeGame() {
+    public void InitializeGame(List<string> forcedLevels = null) {
         // Spawn match manager
         // Get all active players
-        GameModeManager.Instance.InitializeGameMode(selectedGameMode, PlayerManager.Instance.Players);
+        GameModeManager.Instance.InitializeGameMode(selectedGameMode, PlayerManager.Instance.Players, forcedLevels);
         MusicManager.Instance.PlayTrackSet(TrackSetLabel.Gameplay);
     }
 

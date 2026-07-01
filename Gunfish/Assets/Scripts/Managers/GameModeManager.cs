@@ -15,8 +15,8 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     private List<string> levels;
 
 
-    public void InitializeGameMode(GameMode gameMode, List<Player> players) {
-        levels = SelectLevels(gameMode.levels.sceneNames, gameMode.roundsPerMatch);
+    public void InitializeGameMode(GameMode gameMode, List<Player> players, List<string> forcedLevels = null) {
+        levels = forcedLevels ?? SelectLevels(gameMode.levels.sceneNames, gameMode.roundsPerMatch);
         activePlayers = players.Where(player => player.Active).ToList();
         var gameParameters = new GameParameters(activePlayers, levels, gameMode.levels.skyboxSceneName);
         var matchManagerPrefab = gameMode.matchManagerPrefab;
