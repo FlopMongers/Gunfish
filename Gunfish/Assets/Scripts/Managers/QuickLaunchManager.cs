@@ -88,14 +88,25 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
             ? new Dictionary<int, GunfishData>(lastFishByController)
             : new Dictionary<int, GunfishData>();
         pickedLevelPath = hasLastSubmission ? lastLevelPath : null;
+        if (PlayerManager.InstanceExists) {
+            PlayerManager.Instance.SetInputMode(PlayerManager.InputMode.Null);
+        }
         EnsureOverlayCreated();
         overlayCanvas.gameObject.SetActive(true);
         RefreshOverlayText();
     }
 
-    private void CloseWizard() {
+    // restoreInputMode is false only when called from Submit(): InitializeGame() already
+    // drives PlayerManager's input mode correctly through the normal scene-load pipeline
+    // (Null during the transition, then Player/UI once the new scene finishes loading),
+    // and restoring here would race and stomp that.
+    private void CloseWizard(bool restoreInputMode = true) {
         wizardOpen = false;
         if (overlayCanvas != null) overlayCanvas.gameObject.SetActive(false);
+        if (restoreInputMode && PlayerManager.InstanceExists) {
+            bool matchRunning = GameModeManager.InstanceExists && GameModeManager.Instance.matchManagerInstance != null;
+            PlayerManager.Instance.SetInputMode(matchRunning ? PlayerManager.InputMode.Player : PlayerManager.InputMode.UI);
+        }
     }
 
     private bool IsValidControllerIndex(int index) {
@@ -228,6 +239,18 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
         if (!PlayerManager.InstanceExists || !GameManager.InstanceExists) return;
 
         if (GameModeManager.InstanceExists && GameModeManager.Instance.matchManagerInstance != null) {
+            // Despawn any currently-spawned fish before tearing down the match. TeardownGameMode
+            // only clears fish/active state (PlayerManager.SetPlayerFish) — it never destroys the
+            // spawned Gunfish segments. Left alone, those segments get destroyed out from under the
+            // Gunfish component when the new level's scene loads, and Gunfish.HandleEffects()'s
+            // segments[0]==null recovery path then throws inside Despawn() every frame forever
+            // (see Gunfish.cs:127-131, Despawn() at Gunfish.cs:438-445).
+            foreach (var player in PlayerManager.Instance.Players) {
+                var gunfish = player.Gunfish;
+                if (gunfish != null && gunfish.segments != null && gunfish.segments.Count > 0) {
+                    player.DespawnGunfish();
+                }
+            }
             GameManager.Instance.ResetGame();
         }
 
@@ -245,7 +268,7 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
         lastLevelPath = pickedLevelPath;
         hasLastSubmission = true;
 
-        CloseWizard();
+        CloseWizard(restoreInputMode: false);
     }
 
     private void EnsureOverlayCreated() {
