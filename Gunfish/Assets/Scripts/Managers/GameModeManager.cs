@@ -21,7 +21,11 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
         var gameParameters = new GameParameters(activePlayers, levels, gameMode.levels.skyboxSceneName);
         var matchManagerPrefab = gameMode.matchManagerPrefab;
         if (gameModeInstance != null) {
-            Destroy(gameModeInstance.gameObject);
+            // Must be immediate, not deferred: nested Singleton<T> components (e.g. LevelTimerUI)
+            // need their OnDestroy() to run and clear Instance before the Instantiate() below runs
+            // its own Awake() pass, or the new instance sees a stale InstanceExists == true and
+            // self-destructs instead of registering itself.
+            DestroyImmediate(gameModeInstance.gameObject);
         }
         gameModeInstance = Instantiate(matchManagerPrefab, transform);
 
