@@ -184,11 +184,13 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
     private void AdvanceFromFish() {
         if (!GameManager.InstanceExists || GameManager.Instance.GunfishDataList == null
             || GameManager.Instance.GunfishDataList.gunfishes.Count == 0) return;
-        if (pickedGameMode == null || pickedGameMode.levels == null || pickedGameMode.levels.sceneNames.Count == 0) return;
 
         currentStep = Step.Level;
-        int existingIndex = pickedLevelPath != null ? pickedGameMode.levels.sceneNames.IndexOf(pickedLevelPath) : -1;
-        cursorIndex = existingIndex >= 0 ? existingIndex : 0;
+        cursorIndex = 0;
+        if (pickedGameMode != null && pickedGameMode.levels != null && pickedLevelPath != null) {
+            int existingIndex = pickedGameMode.levels.sceneNames.IndexOf(pickedLevelPath);
+            cursorIndex = existingIndex >= 0 ? existingIndex : 0;
+        }
     }
 
     private void PickLevelAtCursorAndSubmit() {
@@ -201,11 +203,24 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
 
     private void StepBack() {
         switch (currentStep) {
-            case Step.GameMode: currentStep = Step.Controllers; break;
-            case Step.Fish: currentStep = Step.GameMode; break;
-            case Step.Level: currentStep = Step.Fish; break;
+            case Step.GameMode:
+                currentStep = Step.Controllers;
+                cursorIndex = 0;
+                break;
+            case Step.Fish:
+                currentStep = Step.GameMode;
+                if (GameManager.InstanceExists && GameManager.Instance.GameModeList != null && pickedGameMode != null) {
+                    int existingIndex = GameManager.Instance.GameModeList.gameModes.IndexOf(pickedGameMode);
+                    cursorIndex = existingIndex >= 0 ? existingIndex : 0;
+                } else {
+                    cursorIndex = 0;
+                }
+                break;
+            case Step.Level:
+                currentStep = Step.Fish;
+                cursorIndex = 0;
+                break;
         }
-        cursorIndex = 0;
     }
 
     private void Submit() {
