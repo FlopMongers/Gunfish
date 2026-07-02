@@ -32,7 +32,7 @@ public class DevConfigWindow : EditorWindow {
             var debugLabel = new GUIContent("Debug", "Enables debug mode, which allows for simulating multiple players and other debug features.");
             DevConfigOverride.DebugOverride = EditorGUILayout.Toggle(debugLabel, DevConfigOverride.DebugOverride);
 
-            var playerCountLabel = new GUIContent("Debug Player Count", "Number of players to simulate in debug mode. Must be between 2 and 4.");
+            var playerCountLabel = new GUIContent("Debug Player Count", "Number of players to simulate in debug mode. Must be between 1 and 4.");
             DevConfigOverride.DebugPlayerCountOverride = EditorGUILayout.IntSlider(
                 playerCountLabel, DevConfigOverride.DebugPlayerCountOverride, 1, 4);
         }
