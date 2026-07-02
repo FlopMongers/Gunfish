@@ -164,6 +164,13 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         LevelManager.Instance.OnFinishLoadLevel -= StartLevel;
         LevelManager.Instance.OnStartPlay -= StartPlay;
         foreach (var player in parameters.activePlayers) {
+            // StartLevel() subscribes these; EndLevel() unsubscribes them on a natural round end,
+            // but TearDown() is also reachable mid-round (e.g. an aborted match), where EndLevel()
+            // never runs. Without this, a later death on the same (persistent) Player still invokes
+            // OnPlayerDeath on this now-destroyed match manager. Safe to unsubscribe twice.
+            player.OnDeath -= OnPlayerDeath;
+            player.Gunfish.OnDeath -= OnPlayerDeath;
+            player.Gunfish.PreDeath -= OnPlayerPreDeath;
             matchResult.PlayerMatchResults[player].Score = GetPlayerScore(player);
             matchResult.PlayerMatchResults[player].Rating = GetPlayerRating(player);
         }
