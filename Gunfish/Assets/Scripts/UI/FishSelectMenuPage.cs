@@ -30,6 +30,7 @@ public class FishSelectMenuPage : MenuPage {
         }
     }
     private List<PlayerAction> playerActions;
+    private List<PlayerInput> wiredPlayerInputs;
 
     private List<int> allowedPlayerCounts;
 
@@ -57,30 +58,16 @@ public class FishSelectMenuPage : MenuPage {
                 $"(prod requires one of [{string.Join(", ", GameManager.Instance.currentGameMode.requiredPlayerCount)}])");
         }
 
-        playerActions = new List<PlayerAction>();
-        gunfishIndices = new List<int>();
-        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
-            int playerIndex = i;
-            var playerInput = PlayerManager.Instance.PlayerInputs[playerIndex];
-            var fishSelectPanel = fishSelectPanels[playerIndex];
-            gunfishIndices.Add(0);
+        playerActions = new List<PlayerAction>(new PlayerAction[fishSelectPanels.Count]);
+        gunfishIndices = new List<int>(new int[fishSelectPanels.Count]);
+        wiredPlayerInputs = new List<PlayerInput>(new PlayerInput[fishSelectPanels.Count]);
 
-            PlayerAction playerAction = new PlayerAction(
-                (InputAction.CallbackContext context) => OnNavigate(context, playerIndex),
-                (InputAction.CallbackContext context) => OnSubmit(context, playerIndex),
-                (InputAction.CallbackContext context) => OnCancel(context, playerIndex)
-            );
-            playerActions.Add(playerAction);
-            playerInput.currentActionMap.FindAction("Navigate").performed += playerAction.navigatePerformed;
-            playerInput.currentActionMap.FindAction("Submit").performed += playerAction.submitPerformed;
-            playerInput.currentActionMap.FindAction("Cancel").performed += playerAction.cancelPerformed;
-
-            var color = PlayerManager.Instance.playerColors[playerIndex];
-
-            fishSelectPanel.Initialize();
-            fishSelectPanel.SetColor(color);
-            fishSelectPanel.SetState(FishSelectPanel.State.Inactive);
+        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count && i < fishSelectPanels.Count; i++) {
+            WireSlot(i);
         }
+
+        PlayerManager.Instance.OnSlotJoined += WireSlot;
+        PlayerManager.Instance.OnSlotLeft += UnwireSlot;
 
         Fade();
         DOTween.Sequence().AppendInterval(0.01f).AppendCallback(Unfade);
@@ -90,13 +77,51 @@ public class FishSelectMenuPage : MenuPage {
         ArduinoManager.Instance.playAttractors = false;
         DebugRegistrar.Untrack("FishSelectMenuPage.ReadyPlayerGate");
 
-        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
-            var playerInput = PlayerManager.Instance.PlayerInputs[i];
-            playerInput.currentActionMap.FindAction("Navigate").performed -= playerActions[i].navigatePerformed;
-            playerInput.currentActionMap.FindAction("Submit").performed -= playerActions[i].submitPerformed;
-            playerInput.currentActionMap.FindAction("Cancel").performed -= playerActions[i].cancelPerformed;
+        PlayerManager.Instance.OnSlotJoined -= WireSlot;
+        PlayerManager.Instance.OnSlotLeft -= UnwireSlot;
+
+        for (int i = 0; i < fishSelectPanels.Count; i++) {
+            UnwireSlot(i);
         }
         base.OnPageStop(context);
+    }
+
+    private void WireSlot(int playerIndex) {
+        var playerInput = PlayerManager.Instance.PlayerInputs[playerIndex];
+        if (playerInput == null) return;
+
+        wiredPlayerInputs[playerIndex] = playerInput;
+        gunfishIndices[playerIndex] = 0;
+
+        PlayerAction playerAction = new PlayerAction(
+            (InputAction.CallbackContext context) => OnNavigate(context, playerIndex),
+            (InputAction.CallbackContext context) => OnSubmit(context, playerIndex),
+            (InputAction.CallbackContext context) => OnCancel(context, playerIndex)
+        );
+        playerActions[playerIndex] = playerAction;
+        playerInput.currentActionMap.FindAction("Navigate").performed += playerAction.navigatePerformed;
+        playerInput.currentActionMap.FindAction("Submit").performed += playerAction.submitPerformed;
+        playerInput.currentActionMap.FindAction("Cancel").performed += playerAction.cancelPerformed;
+
+        var color = PlayerManager.Instance.playerColors[playerIndex];
+        var fishSelectPanel = fishSelectPanels[playerIndex];
+        fishSelectPanel.Initialize();
+        fishSelectPanel.SetColor(color);
+        fishSelectPanel.SetState(FishSelectPanel.State.Inactive);
+    }
+
+    private void UnwireSlot(int playerIndex) {
+        var playerInput = wiredPlayerInputs[playerIndex];
+        if (playerInput != null) {
+            var playerAction = playerActions[playerIndex];
+            playerInput.currentActionMap.FindAction("Navigate").performed -= playerAction.navigatePerformed;
+            playerInput.currentActionMap.FindAction("Submit").performed -= playerAction.submitPerformed;
+            playerInput.currentActionMap.FindAction("Cancel").performed -= playerAction.cancelPerformed;
+        }
+        wiredPlayerInputs[playerIndex] = null;
+        playerActions[playerIndex] = default;
+
+        fishSelectPanels[playerIndex].SetState(FishSelectPanel.State.Inactive);
     }
 
     private void OnNavigate(InputAction.CallbackContext context, int deviceIndex) {
