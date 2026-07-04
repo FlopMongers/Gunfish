@@ -17,7 +17,7 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
 
     public void InitializeGameMode(GameMode gameMode, List<Player> players, List<string> forcedLevels = null) {
         levels = forcedLevels ?? SelectLevels(gameMode.levels.sceneNames, gameMode.roundsPerMatch);
-        activePlayers = players.Where(player => player.Active).ToList();
+        activePlayers = players.Where(player => player != null && player.Active).ToList();
         var gameParameters = new GameParameters(activePlayers, levels, gameMode.levels.skyboxSceneName);
         var matchManagerPrefab = gameMode.matchManagerPrefab;
         if (gameModeInstance != null) {
@@ -45,8 +45,9 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
 
     public void TeardownGameMode() {
         Debug.Log("Tearing down Gamemode");
-        
+
         for (int i = 0; i < PlayerManager.Instance.Players.Count; i++) {
+            if (PlayerManager.Instance.Players[i] == null) continue;
             PlayerManager.Instance.SetPlayerFish(i, null);
         }
 
