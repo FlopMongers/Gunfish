@@ -122,6 +122,10 @@ public class FishSelectMenuPage : MenuPage {
         playerActions[playerIndex] = default;
 
         fishSelectPanels[playerIndex].SetState(FishSelectPanel.State.Inactive);
+        CancelGameStartCountdown();
+        if (AllPlayersReady()) {
+            BeginGameStartCountdown();
+        }
     }
 
     private void OnNavigate(InputAction.CallbackContext context, int deviceIndex) {
