@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -6,6 +7,7 @@ using UnityEngine.UIElements;
 public class SplashMenuPage : MenuPage {
     private MenuPageContext menuContext;
     private bool isLoadingNextMenu;
+    private List<PlayerInput> wiredPlayerInputs;
 
     public override void OnPageStart(MenuPageContext context) {
         base.OnPageStart(context);
@@ -13,20 +15,40 @@ public class SplashMenuPage : MenuPage {
         isLoadingNextMenu = false;
         ArduinoManager.Instance.playAttractors = true;
 
-        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
-            if (playerInput) {
-                playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
-            }
+        wiredPlayerInputs = new List<PlayerInput>(new PlayerInput[PlayerManager.Instance.PlayerInputs.Count]);
+
+        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
+            WireSlot(i);
         }
+
+        PlayerManager.Instance.OnSlotJoined += WireSlot;
+        PlayerManager.Instance.OnSlotLeft += UnwireSlot;
     }
 
     public override void OnPageStop(MenuPageContext context) {
-        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
-            if (playerInput) {
-                playerInput.currentActionMap.FindAction("Any").performed -= OnAnyKey;
-            }
+        PlayerManager.Instance.OnSlotJoined -= WireSlot;
+        PlayerManager.Instance.OnSlotLeft -= UnwireSlot;
+
+        for (int i = 0; i < wiredPlayerInputs.Count; i++) {
+            UnwireSlot(i);
         }
         base.OnPageStop(context);
+    }
+
+    private void WireSlot(int playerIndex) {
+        var playerInput = PlayerManager.Instance.PlayerInputs[playerIndex];
+        if (playerInput == null) return;
+
+        wiredPlayerInputs[playerIndex] = playerInput;
+        playerInput.currentActionMap.FindAction("Any").performed += OnAnyKey;
+    }
+
+    private void UnwireSlot(int playerIndex) {
+        var playerInput = wiredPlayerInputs[playerIndex];
+        if (playerInput != null) {
+            playerInput.currentActionMap.FindAction("Any").performed -= OnAnyKey;
+        }
+        wiredPlayerInputs[playerIndex] = null;
     }
 
     private void OnAnyKey(InputAction.CallbackContext context) {

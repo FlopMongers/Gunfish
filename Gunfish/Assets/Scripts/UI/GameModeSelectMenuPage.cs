@@ -11,6 +11,7 @@ public class GameModeSelectMenuPage : MenuPage {
     private GameMode displayedGameMode;
     private int displayedGameModeIndex;
     private bool isLoadingNextMenu;
+    private List<PlayerInput> wiredPlayerInputs;
 
 
     [SerializeField] private TMP_Text gameModeName;
@@ -23,13 +24,15 @@ public class GameModeSelectMenuPage : MenuPage {
         base.OnPageStart(context);
         menuContext = context;
         isLoadingNextMenu = false;
-        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
-            if (!playerInput)
-                continue;
-            playerInput.currentActionMap.FindAction("Navigate").performed += OnNavigate;
-            playerInput.currentActionMap.FindAction("Submit").performed += OnSubmit;
-            playerInput.currentActionMap.FindAction("Cancel").performed += OnCancel;
+
+        wiredPlayerInputs = new List<PlayerInput>(new PlayerInput[PlayerManager.Instance.PlayerInputs.Count]);
+
+        for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
+            WireSlot(i);
         }
+
+        PlayerManager.Instance.OnSlotJoined += WireSlot;
+        PlayerManager.Instance.OnSlotLeft += UnwireSlot;
 
         displayedGameModeIndex = 0;
         gameModes = GameManager.Instance.GameModeList.gameModes;
@@ -39,14 +42,33 @@ public class GameModeSelectMenuPage : MenuPage {
     }
 
     public override void OnPageStop(MenuPageContext context) {
-        foreach (var playerInput in PlayerManager.Instance.PlayerInputs) {
-            if (!playerInput)
-                continue;
+        PlayerManager.Instance.OnSlotJoined -= WireSlot;
+        PlayerManager.Instance.OnSlotLeft -= UnwireSlot;
+
+        for (int i = 0; i < wiredPlayerInputs.Count; i++) {
+            UnwireSlot(i);
+        }
+        base.OnPageStop(context);
+    }
+
+    private void WireSlot(int playerIndex) {
+        var playerInput = PlayerManager.Instance.PlayerInputs[playerIndex];
+        if (playerInput == null) return;
+
+        wiredPlayerInputs[playerIndex] = playerInput;
+        playerInput.currentActionMap.FindAction("Navigate").performed += OnNavigate;
+        playerInput.currentActionMap.FindAction("Submit").performed += OnSubmit;
+        playerInput.currentActionMap.FindAction("Cancel").performed += OnCancel;
+    }
+
+    private void UnwireSlot(int playerIndex) {
+        var playerInput = wiredPlayerInputs[playerIndex];
+        if (playerInput != null) {
             playerInput.currentActionMap.FindAction("Navigate").performed -= OnNavigate;
             playerInput.currentActionMap.FindAction("Submit").performed -= OnSubmit;
             playerInput.currentActionMap.FindAction("Cancel").performed -= OnCancel;
         }
-        base.OnPageStop(context);
+        wiredPlayerInputs[playerIndex] = null;
     }
 
     private void OnNavigate(InputAction.CallbackContext context) {
