@@ -110,7 +110,8 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
     }
 
     private bool IsValidControllerIndex(int index) {
-        return PlayerManager.InstanceExists && index >= 0 && index < PlayerManager.Instance.PlayerInputs.Count;
+        return PlayerManager.InstanceExists && index >= 0 && index < PlayerManager.Instance.PlayerInputs.Count
+            && PlayerManager.Instance.PlayerInputs[index] != null;
     }
 
     private int ControllerCount() {
@@ -246,6 +247,7 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
             // segments[0]==null recovery path then throws inside Despawn() every frame forever
             // (see Gunfish.cs:127-131, Despawn() at Gunfish.cs:438-445).
             foreach (var player in PlayerManager.Instance.Players) {
+                if (player == null) continue;
                 var gunfish = player.Gunfish;
                 if (gunfish != null && gunfish.segments != null && gunfish.segments.Count > 0) {
                     player.DespawnGunfish();
@@ -255,6 +257,7 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
         }
 
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
+            if (PlayerManager.Instance.PlayerInputs[i] == null) continue;
             var fish = activeControllers.Contains(i) && fishByController.TryGetValue(i, out var chosen) ? chosen : null;
             PlayerManager.Instance.SetPlayerFish(i, fish);
         }
@@ -334,10 +337,15 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
             return;
         }
         for (int i = 0; i < PlayerManager.Instance.PlayerInputs.Count; i++) {
+            var playerInput = PlayerManager.Instance.PlayerInputs[i];
+            if (playerInput == null) {
+                sb.AppendLine($"    Player {i + 1} (empty)");
+                continue;
+            }
             string cursor = i == cursorIndex ? ">" : " ";
             string check = activeControllers.Contains(i) ? "[x]" : "[ ]";
-            string device = PlayerManager.Instance.PlayerInputs[i].devices.Count > 0
-                ? PlayerManager.Instance.PlayerInputs[i].devices[0].displayName
+            string device = playerInput.devices.Count > 0
+                ? playerInput.devices[0].displayName
                 : "Unknown Device";
             sb.AppendLine($"{cursor} {check} Player {i + 1} ({device})");
         }
