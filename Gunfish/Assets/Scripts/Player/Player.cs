@@ -60,11 +60,11 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
     }
 
     public void OnDeviceLost(PlayerInput input) {
-
+        PlayerManager.Instance.OnDeviceLost(this);
     }
 
     public void OnDeviceRegained(PlayerInput input) {
-
+        PlayerManager.Instance.OnDeviceRegained(this);
     }
 
     public void OnControlsChanged(PlayerInput input) {
