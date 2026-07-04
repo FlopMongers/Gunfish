@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class PlayerManager : PersistentSingleton<PlayerManager> {
     public List<Color> playerColors;
 
@@ -8,61 +10,35 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
     public List<GunfishData> PlayerFish;
     public List<PlayerInput> PlayerInputs;
 
-    private bool showDebugMessage;
+    public event Action<int> OnSlotJoined;
+    public event Action<int> OnSlotLeft;
 
-    public int playerThreshold = 4;
-
-    public void OnPlayerJoined(PlayerInput input) {
-        PlayerInputs.Add(input);
-
-        var requiredPlayerCount = 
-            GameManager.Instance.debug 
-            ? GameManager.Instance.debugPlayerCount
-            : GetComponent<PlayerInputManager>().maxPlayerCount;
-        
-        if (PlayerInputs.Count == requiredPlayerCount) {
-            showDebugMessage = false;
-            InitializePlayers();
-            GameManager.Instance.InitializePostRitualManagers();
-        }
-    }
-
-    public void OnPlayerLeft(PlayerInput input) {
-        Debug.Log($"Player {input.name} has been disconnected.");
-        PlayerInputs.Remove(input);
-    }
+    private IPlayerJoinStrategy strategy;
 
     public override void Initialize() {
         base.Initialize();
 
-        showDebugMessage = true;
-        if (GameManager.Instance.debug == true) {
-            playerThreshold = GameManager.Instance.debugPlayerCount;
-            DebugRegistrar.Track("PlayerManager.RequiredPlayerCount", () =>
-                $"OVERRIDDEN -> {GameManager.Instance.debugPlayerCount} " +
-                $"(prod would require {GetComponent<PlayerInputManager>().maxPlayerCount})");
-        } else {
-            playerThreshold = GetComponent<PlayerInputManager>().maxPlayerCount;
-        }
-
-        PlayerInputs = new List<PlayerInput>();
-        Players = new List<Player>();
-        PlayerFish = new List<GunfishData>();
+#if GUNFISH_ARCADE
+        strategy = new ArcadeJoinStrategy();
+#else
+        strategy = new OnlineJoinStrategy();
+#endif
+        strategy.Initialize(this);
 
         SetInputMode(InputMode.UI);
     }
 
-    private void InitializePlayers() {
-        SetInputMode(InputMode.UI);
-        for (int playerIndex = 0; playerIndex < PlayerInputs.Count; playerIndex++)
-        {
-            var playerInput = PlayerInputs[playerIndex];
-            var player = playerInput.GetComponent<Player>();
-            player.Initialize(playerIndex);
-            Players.Add(player);
-            PlayerFish.Add(null);
-        }        
-    }
+    public void OnPlayerJoined(PlayerInput input) => strategy.OnPlayerJoined(input);
+
+    public void OnPlayerLeft(PlayerInput input) => strategy.OnPlayerLeft(input);
+
+    public void OnDeviceLost(Player player) => strategy.OnDeviceLost(player);
+
+    public void OnDeviceRegained(Player player) => strategy.OnDeviceRegained(player);
+
+    internal void NotifySlotJoined(int slot) => OnSlotJoined?.Invoke(slot);
+
+    internal void NotifySlotLeft(int slot) => OnSlotLeft?.Invoke(slot);
 
     public void SetPlayerFish(int playerIndex, GunfishData data) {
         if (playerIndex < 0 || playerIndex >= PlayerFish.Count) {
@@ -79,18 +55,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
         }
     }
 
-    public void OnGUI() {
-        if (!showDebugMessage) return;
-        GUIStyle style = new GUIStyle(GUI.skin.textArea) {
-            fontSize = 30,
-            wordWrap = true
-        };
-
-        GUILayout.TextField(
-            "Welcome to Gunfish! If you're seeing this message it means this game is still initializing. Please press the GUN button for each controller in the following order: RED, GREEN, BLUE, YELLOW.",
-            style
-        );
-    }
+    public void OnGUI() => strategy.OnGUI();
 
     // Must be either Player or UI
     public enum InputMode {
