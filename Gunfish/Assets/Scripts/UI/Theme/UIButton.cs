@@ -2,17 +2,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
 [RequireComponent(typeof(UIPanel))]
-public class UIButton : MonoBehaviour {
+public class UIButton : Button {
     [SerializeField] private TMP_Text label;
 
-    private void Awake() {
-        var button = GetComponent<Button>();
-        var image = GetComponent<Image>();
+    protected override void Awake() {
+        base.Awake();
 
-        button.transition = Selectable.Transition.ColorTint;
-        button.targetGraphic = image;
+        transition = Selectable.Transition.ColorTint;
+        targetGraphic = GetComponent<UIPanel>();
 
         if (label != null && UITheme.ButtonLabel.Font != null) {
             label.font = UITheme.ButtonLabel.Font;
