@@ -18,8 +18,8 @@ public class UIPanel : MonoBehaviour {
 
     public Color FillColor { get => fillColor; set { fillColor = value; Apply(); } }
     public Color BorderColor { get => borderColor; set { borderColor = value; Apply(); } }
-    public float CornerRadius { get => cornerRadius; set { cornerRadius = value; Apply(); } }
-    public float BorderWidth { get => borderWidth; set { borderWidth = value; Apply(); } }
+    public float CornerRadius { get => cornerRadius; set { cornerRadius = Mathf.Max(0f, value); Apply(); } }
+    public float BorderWidth { get => borderWidth; set { borderWidth = Mathf.Max(0f, value); Apply(); } }
 
     private void OnEnable() {
         image = GetComponent<Image>();
@@ -56,6 +56,9 @@ public class UIPanel : MonoBehaviour {
     }
 
     private void OnValidate() {
+        cornerRadius = Mathf.Max(0f, cornerRadius);
+        borderWidth = Mathf.Max(0f, borderWidth);
+        edgeSoftness = Mathf.Max(0f, edgeSoftness);
         Apply();
     }
 
