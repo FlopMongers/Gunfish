@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class UIPanel : MonoBehaviour {
     [SerializeField] private Color fillColor = Color.white;
     [SerializeField] private Color borderColor = Color.black;
-    [SerializeField] [Range(0f, 24f)] private float cornerRadius = 16f;
-    [SerializeField] [Range(0f, 100f)] private float borderWidth = 0f;
-    [SerializeField] [Range(0f, 100f)] private float edgeSoftness = 1.5f;
+    [SerializeField] private float cornerRadius = 16f;
+    [SerializeField] private float borderWidth = 0f;
+    [SerializeField] private float edgeSoftness = 1.5f;
 
     private static Shader roundedRectShader;
 
@@ -16,6 +16,10 @@ public class UIPanel : MonoBehaviour {
     private RectTransform rectTransform;
     private Material materialInstance;
 
+    public Color FillColor { get => fillColor; set { fillColor = value; Apply(); } }
+    public Color BorderColor { get => borderColor; set { borderColor = value; Apply(); } }
+    public float CornerRadius { get => cornerRadius; set { cornerRadius = value; Apply(); } }
+    public float BorderWidth { get => borderWidth; set { borderWidth = value; Apply(); } }
 
     private void OnEnable() {
         image = GetComponent<Image>();
