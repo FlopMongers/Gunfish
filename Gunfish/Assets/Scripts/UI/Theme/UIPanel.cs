@@ -51,6 +51,10 @@ public class UIPanel : MonoBehaviour {
         }
     }
 
+    private void OnValidate() {
+        Apply();
+    }
+
     private void Apply() {
         if (materialInstance == null || rectTransform == null) return;
 
