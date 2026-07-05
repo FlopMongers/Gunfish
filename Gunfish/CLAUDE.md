@@ -65,21 +65,51 @@ Match managers own win conditions, score tracking, and end-of-match transitions.
 
 ### Player & Fish Architecture
 
+`Player` and `Gunfish` are **sibling components on the same persistent GameObject** (e.g. `Player0`, alongside `PlayerInput`), not parent/child. This object persists for the whole session via `DontDestroyOnLoad`. `Player` owns identity and input plumbing (device, player number, team, action-map switching, which `GunfishData` was picked); `Gunfish` owns the creature's runtime state (health, effects, movement/firing dispatch) and orchestrates spawning/despawning the physical body.
+
+The physical body (segments, gun, visuals) is a **separate, disposable GameObject hierarchy** — not parented under Player/Gunfish — that `Gunfish.Spawn()`/`Despawn()` builds and tears down on every spawn and respawn, tracked only by reference (`Gunfish.segments`, `Gunfish.gun`):
+
 ```
-Player (input handler)
-  └── Gunfish (character root)
-        ├── GunfishRigidbody    — physics movement
-        ├── GunfishRenderer     — sprite assembly
-        ├── GunfishSegment[]    — body segments
-        └── Gun (base class)
-              ├── AutomaticGun / Minigun / GrenadeLauncher
-              ├── SniperLaser / LaserGun
-              ├── Stungun / Sword
-              └── … (~16 weapon subclasses total in Player/Gunfish/Gun/)
+Player0 (persistent, DontDestroyOnLoad)
+  ├── PlayerInput
+  ├── Player             — identity, input routing, device binding
+  └── Gunfish             — creature state, spawn/despawn orchestration
+
+<FishName>Body (disposable — instantiated fresh from a baked prefab every spawn/respawn; see below)
+  ├── GunfishSegment[]    — physics chain (Rigidbody2D / CircleCollider2D / FixedJoint2D / DistanceJoint2D)
+  ├── GunfishRenderer     — MonoBehaviour on the root segment; owns and self-drives the body's LineRenderer
+  ├── Gun (base class)
+  │     ├── AutomaticGun / Minigun / GrenadeLauncher
+  │     ├── SniperLaser / LaserGun
+  │     └── Stungun / Sword / … (~16 weapon subclasses total in Player/Gunfish/Gun/)
+  └── Destroyer / CollisionDamageReceiver / CompositeCollisionDetector / GroundDetector  — root segment only
 ```
 
-- `Gunfish` is a segmented 2D physics creature; movement is physics-driven via `GunfishRigidbody`
+- `GunfishRigidbody` is a plain C# wrapper (not a component) that applies forces/torques to the segment chain.
+- `GunfishRenderer` is a `MonoBehaviour` living on the root segment — it drives its own `LineRenderer` via its own `Update()`, independent of whether a `Player`/`Gunfish` is currently wired to it.
 - `Player` implements `IDeviceController`, `IGunfishController`, and `IUIController`
+
+### Fish Body Generation (Editor-Time Baked Prefabs)
+
+Fish bodies are **baked into prefabs at editor time**, not generated procedurally at runtime. `Gunfish.Spawn(GunfishData data, Vector3 position)` just does `Instantiate(data.fishPrefab, position, Quaternion.identity)` and rewires a handful of per-instance references (per-player physics layer, `GunfishSegment.gunfish`, `Gun.gunfish`, etc.) — no `GameObject`/`Rigidbody2D`/`Joint2D` construction happens at spawn or respawn time anymore. `GunfishGenerator`/`GunfishRenderer` still contain the actual body-building logic, but they're only ever invoked by the baking tool below, never at runtime.
+
+**`GunfishData` field split:**
+- Read every spawn, same as always: `maxHealth`, `flopForce`, `groundTorque`, water params, `angularDrag`, `flopCooldown`, `spriteMat`, `gun` (for `maxAmmo` etc.)
+- **Bake-time-only** — read only by the baker, no longer by `Spawn()`: `segmentCount`, `width` (AnimationCurve), `mass`, `fixedJointDamping`, `fixedJointFrequency`, `gunOffset`, `gunSegmentIndex`. Editing these has **no effect in Play mode until you re-bake**.
+- `fishPrefab` (`GameObject`) — the baked prefab; `Spawn()` throws if this is unset.
+- `bakedSnapshotJson` (`[HideInInspector] string`) — a fingerprint of the bake-relevant fields as of the last bake, used to detect when an asset has drifted from its baked prefab.
+
+**Baking tool** (`Assets/Scripts/Editor/GunfishPrefabBaker.cs`, Editor-only static class):
+- `BakeFish(GunfishData data)` — builds one complete fish (body + gun + gunSprite + barrels + the 4 root-only components) on a scratch object, saves it to `Assets/Resources/Prefabs/Player/Fish/<FishName>.prefab`, and writes `fishPrefab`/`bakedSnapshotJson` back onto the asset.
+- **Tools → Gunfish → Bake All Roster Fish Prefabs** — bakes every fish in `GunfishList.asset` (the live roster only; `GunfishData` assets not in that list are skipped).
+
+**Workflow — tuning an existing fish:** edit any field on the `GunfishData` asset → its Inspector (`GunfishDataEditor.cs`) shows a warning if it's never been baked, or has drifted since its last bake → click **Garbulate** to re-bake before testing in Play mode.
+
+**Workflow — creating a new fish:** create a `GunfishData` asset as before → click **Garbulate** on it directly (works even before it's added to the roster) → add it to `GunfishList.asset` to make it selectable in the fish-select UI.
+
+**Known limitation (not yet fixed):** the body's `LineRenderer` uses world-space positions baked near the origin (baking runs `GunfishGenerator.Generate` at `Vector3.zero`). Dragging a baked fish prefab to a different position in a scene for level-design reference will **not** visually reposition its rendered line — only the physical colliders/segments move to the new spot. The fix is switching `GunfishRenderer` to local space (`LineRenderer.useWorldSpace = false` + `transform.InverseTransformPoint(...)` in `Render()`), not yet applied.
+
+`Gunfish.SwapFish()` / `FishPowerup` exist in code but are **dead/orphaned** — no scene or spawner references `FishPowerup.prefab`. Don't treat mid-match fish-swapping as a live, tested feature.
 
 ### Game Modes (ScriptableObjects)
 
@@ -105,7 +135,7 @@ Gunfish/
 ├── Assets/
 │   ├── Scripts/
 │   │   ├── Audio/              # AudioPalette, FX_* sound components
-│   │   ├── Editor/             # Custom Unity Editor windows
+│   │   ├── Editor/             # Custom Unity Editor windows; GunfishPrefabBaker.cs + GunfishDataEditor.cs handle fish body baking
 │   │   ├── Effects/            # Visual effect ScriptableObjects
 │   │   ├── EnvironmentObjects/ # Static environment pieces
 │   │   ├── GameLogic/          # KillBox, SpawnArea, Checkpoint, Goal, BassballBall
@@ -119,6 +149,7 @@ Gunfish/
 │   │   └── Utils/              # PersistentSingleton, Singleton, BSpline, extensions
 │   ├── Plugins/                # DOTween, SmartLighting2D — do not edit
 │   ├── Resources/              # Runtime-loaded assets (ScriptableObjects, prefabs)
+│   │   └── Prefabs/Player/Fish/ # Baked fish body prefabs, one per roster fish (see Fish Body Generation)
 │   └── Scenes/                 # Unity scene files
 ├── Packages/
 │   ├── manifest.json           # Package dependencies — edit via Package Manager UI

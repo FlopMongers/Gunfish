@@ -7,6 +7,10 @@
 1. Uh
 1. Gunfish
 
+## Fish Prefabs
+
+Fish bodies used to be conjured out of thin air at runtime (physics segments, gun, the works — all assembled fresh every spawn and respawn). Not anymore: every fish is now baked into a real prefab ahead of time, so you can actually see one sitting in a level while you build it, and spawning got a lot cheaper too. If you're tuning a fish and Play mode isn't reflecting your changes, you probably just need to hit the **Garbulate** button on its `GunfishData` asset. See `CLAUDE.md`'s "Fish Body Generation" section for the full story.
+
 ## Color Palette
 
 1. Deep Sea Blue: #02478e - This color could be used for the game's background, representing the ocean where the fish are battling.
