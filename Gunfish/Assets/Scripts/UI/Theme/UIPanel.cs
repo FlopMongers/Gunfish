@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteAlways]
 public class UIPanel : Image {
     [SerializeField] private Color borderColor = Color.black;
     [SerializeField] private float cornerRadius = 16f;
@@ -22,6 +21,10 @@ public class UIPanel : Image {
 
         if (roundedRectShader == null) {
             roundedRectShader = Shader.Find("Gunfish/UI/RoundedRect");
+        }
+        if (roundedRectShader == null) {
+            Debug.LogError("UIPanel: shader 'Gunfish/UI/RoundedRect' not found.");
+            return;
         }
         materialInstance = new Material(roundedRectShader);
         material = materialInstance;
