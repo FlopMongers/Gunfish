@@ -20,7 +20,6 @@ public class Gunfish : MonoBehaviour, IHittable {
     public int MiddleSegmentIndex { get { return segments.Count / 2; } }
     public GameObject MiddleSegment { get { return (segments.Count > 0) ? segments[MiddleSegmentIndex] : null; } }
     public GameObject RootSegment { get { return (segments.Count > 0) ? segments[0]: null; } }
-    private GunfishGenerator generator;
     [System.NonSerialized]
     public GunfishRenderer gunfishRenderer;
     [System.NonSerialized]
@@ -91,7 +90,6 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         HandleEffects();
 
-        gunfishRenderer?.Render();
         DecrementTimers(Time.deltaTime);
     }
 
@@ -332,24 +330,46 @@ public class Gunfish : MonoBehaviour, IHittable {
         if (data.segmentCount < 3) {
             throw new UnityException($"Invalid number of segments for Gunfish: {data.segmentCount}. Must be greater than or equal to 3.");
         }
+        if (data.fishPrefab == null) {
+            throw new UnityException($"Gunfish data '{data.name}' has no baked fishPrefab. Bake it via Tools > Gunfish > Bake All Roster Fish Prefabs before spawning.");
+        }
+
         SetFiring(false);
         this.underwater = false;
         startRespawning = false;
         this.data = data;
-        gun = Instantiate(data.gun.gunPrefab, transform).GetComponent<Gun>();
-        gun.gunfish = this;
-        gun.ammo = data.gun.maxAmmo;
 
         this.statusData = new GunfishStatusData();
         statusData.health = data.maxHealth;
         statusData.flopForce = data.flopForce;
 
-        generator = new GunfishGenerator(this);
+        var rootObject = Instantiate(data.fishPrefab, position, Quaternion.identity);
+        rootObject.SetLayerRecursively(player.layer);
 
-        segments = generator.Generate(player.layer, position);
+        var allSegments = rootObject.GetComponentsInChildren<GunfishSegment>(true);
+        segments = new List<GameObject>(new GameObject[allSegments.Length]);
+        foreach (var seg in allSegments) {
+            seg.gunfish = this;
+            segments[seg.index] = seg.gameObject;
+        }
+
+        gun = rootObject.GetComponentInChildren<Gun>();
+        gun.gunfish = this;
+        gun.ammo = data.gun.maxAmmo;
+
+        var receiver = RootSegment.CheckAddComponent<CollisionDamageReceiver>();
+        receiver.oomphScale = 0.5f;
+        receiver.gunfish = this;
+
+        destroyer = RootSegment.CheckAddComponent<Destroyer>();
+
+        RootSegment.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
+
+        groundDetector = RootSegment.CheckAddComponent<GroundDetector>();
+        groundDetector.gunfish = this;
+        groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << player.layer);
 
         if (FX_Spawner.Instance != null) {
-            // TODO, init properly
             var healthUI = Instantiate(FX_Spawner.Instance.fishHealthUIPrefab).GetComponent<HealthUI>();
             healthUI.Init(this);
             if (GameModeManager.Instance.matchManagerInstance is IMatchManager) {
@@ -359,56 +379,14 @@ public class Gunfish : MonoBehaviour, IHittable {
             FX_Spawner.Instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }
 
-        // width in sprite mat units means the width in pixels - i.e. tail-to-tip of fish
-        // whereas width here refers to line renderer width - i.e. back-to-belly of fish
-        float width = (
-                          (float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width
-                      ) * data.length;
-        gunfishRenderer = new GunfishRenderer(width, data.spriteMat, segments);
+        float width = data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width * data.length;
+        gunfishRenderer = RootSegment.CheckAddComponent<GunfishRenderer>();
+        gunfishRenderer.Init(width, data.spriteMat, segments);
         body = new GunfishRigidbody(segments, data);
-
-
-        //RootSegment.AddComponent<LineFader>();
-        destroyer = RootSegment.AddComponent<Destroyer>();
-        // add composite detection handler and Init
-        // add damage receiver
-        CollisionDamageReceiver receiver = RootSegment.CheckAddComponent<CollisionDamageReceiver>();
-        receiver.oomphScale = 0.5f;
-        receiver.gunfish = this;
-        RootSegment.CheckAddComponent<CompositeCollisionDetector>().Init(true, true, true);
-        groundDetector = RootSegment.CheckAddComponent<GroundDetector>();
-        groundDetector.gunfish = this;
-        groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << player.layer);
 
         spawned = true;
         killed = false;
 
-        var gunSprite = Instantiate(
-                            data.gun.gunSpritePrefab,
-                            RootSegment.transform
-                        ).transform;
-        gunSprite.transform.localPosition = new Vector3(
-            data.gunOffset.position.x,
-            data.gunOffset.position.y
-        );
-        gunSprite.gameObject.layer = player.layer;
-        foreach (Transform child in gunSprite) {
-            child.gameObject.layer = player.layer;
-        }
-
-        float gun_length = gunSprite.gameObject.GetComponentInChildren<SpriteRenderer>().sprite.texture.width;
-        float desired_world_length = gun_length * (data.length / data.spriteMat.mainTexture.width);
-        float current_world_length = gunSprite.gameObject.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;
-        gunSprite.localScale *= desired_world_length / current_world_length;
-
-        foreach (TransformTuple tuple in data.gun.gunBarrels) {
-            // spawn
-            var barrel = Instantiate(data.gun.gunBarrelPrefab).transform; // new GameObject("barrel").transform;
-            barrel.parent = segments[0].transform;
-            barrel.localPosition = tuple.position;
-            barrel.localEulerAngles = Vector3.forward * tuple.rotation;
-            gun.barrels.Add(barrel.gameObject.GetComponent<GunBarrel>());
-        }
         AddEffect(new Invincibility_Effect(this, spawnInvincibilityDuration));
         GameCamera.Instance?.targetGroup.AddMember(MiddleSegment.transform, 1, 1);
     }

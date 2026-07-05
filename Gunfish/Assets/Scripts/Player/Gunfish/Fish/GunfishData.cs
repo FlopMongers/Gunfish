@@ -46,4 +46,8 @@ public class GunfishData : ScriptableObject {
     public TransformTuple gunOffset;
     public GunData gun;
     public int gunSegmentIndex = 0;
+
+    [Header("Baked Prefab")]
+    public GameObject fishPrefab;
+    [HideInInspector] public string bakedSnapshotJson;
 }

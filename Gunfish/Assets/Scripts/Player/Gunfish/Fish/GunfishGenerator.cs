@@ -31,6 +31,10 @@ public class GunfishGenerator {
             segments.Add(node);
         }
 
+        float width = ((float)data.spriteMat.mainTexture.height / (float)data.spriteMat.mainTexture.width) * data.length;
+        var renderer = segments[0].CheckAddComponent<GunfishRenderer>();
+        renderer.Init(width, data.spriteMat, segments);
+
         return segments;
     }
 

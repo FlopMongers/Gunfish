@@ -1,27 +1,31 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunfishRenderer {
+public class GunfishRenderer : MonoBehaviour {
     public LineRenderer LineRenderer { get; private set; }
-    public List<GameObject> Segments { get; private set; }
+    private List<GameObject> segments = new List<GameObject>();
 
-    public GunfishRenderer(float widthMultiplier, Material material, List<GameObject> segments) {
-        this.Segments = segments;
+    public void Init(float widthMultiplier, Material material, List<GameObject> segments) {
+        this.segments = segments;
 
-        LineRenderer = segments[0].AddComponent<LineRenderer>();
+        LineRenderer = gameObject.CheckAddComponent<LineRenderer>();
         LineRenderer.positionCount = segments.Count;
         LineRenderer.material = material;
         LineRenderer.sortingLayerName = "Fish";
-
         LineRenderer.widthMultiplier = widthMultiplier;
+
+        Render();
+    }
+
+    void Update() {
+        Render();
     }
 
     public void Render() {
-        for (int i = 0; i < Segments.Count; i++) {
-            var segment = Segments[i];
-            if (!segment.transform.hasChanged)
-                continue; //No need to reassign if it hasn't moved
+        for (int i = 0; i < segments.Count; i++) {
+            var segment = segments[i];
+            if (segment == null || !segment.transform.hasChanged)
+                continue;
             LineRenderer.SetPosition(i, segment.transform.position);
         }
     }

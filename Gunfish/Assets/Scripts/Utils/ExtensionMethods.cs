@@ -69,6 +69,13 @@ public static class ExtensionMethods {
         return go.GetComponent<T>();
     }
 
+    public static void SetLayerRecursively(this GameObject go, int layer) {
+        go.layer = layer;
+        foreach (Transform child in go.transform) {
+            child.gameObject.SetLayerRecursively(layer);
+        }
+    }
+
     public static T FindComponent<T>(this UnityEngine.GameObject g, bool in_parent = true, bool in_children = true, int sibling_depth = 0, bool ignore_self = false) where T : Component {
         if (ignore_self) {
             if (in_children) {

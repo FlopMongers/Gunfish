@@ -83,3 +83,6 @@ MonoBehaviour:
     rotation: 0
   gun: {fileID: 11400000, guid: 02745ea4a8079794599098e20d4cad6e, type: 2}
   gunSegmentIndex: 0
+  fishPrefab: {fileID: 2850541127540689861, guid: 7bafcdb9fa0a1574bae9ff35a0f006aa,
+    type: 3}
+  bakedSnapshotJson: 8|3|1|32|1.5|-0.005214691:0.2045403,0.4913263:0.2857189,0.9102656:0.3018848,1.004029:-0.003989544|0|0|0|0|02745ea4a8079794599098e20d4cad6e|d42ec17606b9ab7429e81a46dbb5ed19
