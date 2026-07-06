@@ -8,6 +8,9 @@ public static class MenuUIThemeApplier {
         "InnerPanel", "Outline", "TopPanel", "MiddlePanel", "BottomPanel", "DetailsPanel"
     };
 
+    private static readonly string[] PageRootNames = { "SplashPage", "GameModeSelectPage", "FishSelectPage" };
+    private const string MainMenuCanvasPath = "Assets/Resources/Prefabs/UI/Menu/MainMenuCanvas.prefab";
+
     [MenuItem("Tools/Gunfish/UI Theme/Convert Chrome In FishSelectPanel Prefab")]
     public static void ConvertFishSelectPanel() {
         ConvertChromeInPrefab("Assets/Resources/Prefabs/UI/Menu/FishSelectPanel.prefab");
@@ -50,6 +53,84 @@ public static class MenuUIThemeApplier {
             } else {
                 Debug.Log($"MenuUIThemeApplier: {prefabPath} done. Converted {converted}, skipped {skipped}.");
             }
+        } finally {
+            PrefabUtility.UnloadPrefabContents(root);
+        }
+    }
+
+    [MenuItem("Tools/Gunfish/UI Theme/Apply Page Title Spacing")]
+    public static void ApplyPageSpacing() {
+        var root = PrefabUtility.LoadPrefabContents(MainMenuCanvasPath);
+        try {
+            foreach (var pageName in PageRootNames) {
+                var pageTransform = FindDeepChild(root.transform, pageName);
+                if (pageTransform == null) {
+                    Debug.LogError($"MenuUIThemeApplier: could not find page root '{pageName}' in {MainMenuCanvasPath}");
+                    continue;
+                }
+                var pageGo = pageTransform.gameObject;
+                var layout = pageGo.GetComponent<VerticalLayoutGroup>();
+                if (layout == null) {
+                    layout = pageGo.AddComponent<VerticalLayoutGroup>();
+                }
+                layout.spacing = UISpacing.LG;
+                layout.childAlignment = TextAnchor.UpperCenter;
+                layout.childControlWidth = false;
+                layout.childControlHeight = false;
+                layout.childForceExpandWidth = false;
+                layout.childForceExpandHeight = false;
+                Debug.Log($"MenuUIThemeApplier: applied VerticalLayoutGroup (spacing {UISpacing.LG}) to '{pageName}'.");
+            }
+
+            PrefabUtility.SaveAsPrefabAsset(root, MainMenuCanvasPath, out bool success);
+            if (!success) Debug.LogError($"MenuUIThemeApplier: failed to save {MainMenuCanvasPath}");
+        } finally {
+            PrefabUtility.UnloadPrefabContents(root);
+        }
+    }
+
+    private static Transform FindDeepChild(Transform parent, string name) {
+        if (parent.name == name) return parent;
+        foreach (Transform child in parent) {
+            var result = FindDeepChild(child, name);
+            if (result != null) return result;
+        }
+        return null;
+    }
+
+    [MenuItem("Tools/Gunfish/UI Theme/Apply FishSelect Row Spacing")]
+    public static void ApplyFishSelectRowSpacing() {
+        var root = PrefabUtility.LoadPrefabContents(MainMenuCanvasPath);
+        try {
+            var panels = root.GetComponentsInChildren<FishSelectPanel>(true);
+            if (panels.Length == 0) {
+                Debug.LogError($"MenuUIThemeApplier: no FishSelectPanel instances found in {MainMenuCanvasPath}");
+                return;
+            }
+
+            var parent = panels[0].transform.parent;
+            foreach (var panel in panels) {
+                if (panel.transform.parent != parent) {
+                    Debug.LogError("MenuUIThemeApplier: FishSelectPanel instances don't share a common parent; skipping row spacing.");
+                    return;
+                }
+            }
+
+            var parentGo = parent.gameObject;
+            var layout = parentGo.GetComponent<HorizontalLayoutGroup>();
+            if (layout == null) {
+                layout = parentGo.AddComponent<HorizontalLayoutGroup>();
+            }
+            layout.spacing = UISpacing.XL;
+            layout.childAlignment = TextAnchor.MiddleCenter;
+            layout.childControlWidth = false;
+            layout.childControlHeight = false;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+            Debug.Log($"MenuUIThemeApplier: applied HorizontalLayoutGroup (spacing {UISpacing.XL}) to '{parentGo.name}' ({panels.Length} panels).");
+
+            PrefabUtility.SaveAsPrefabAsset(root, MainMenuCanvasPath, out bool success);
+            if (!success) Debug.LogError($"MenuUIThemeApplier: failed to save {MainMenuCanvasPath}");
         } finally {
             PrefabUtility.UnloadPrefabContents(root);
         }
