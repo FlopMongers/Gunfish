@@ -44,8 +44,6 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     }
 
     public void TeardownGameMode() {
-        Debug.Log("Tearing down Gamemode");
-
         for (int i = 0; i < PlayerManager.Instance.Players.Count; i++) {
             if (PlayerManager.Instance.Players[i] == null) continue;
             PlayerManager.Instance.SetPlayerFish(i, null);

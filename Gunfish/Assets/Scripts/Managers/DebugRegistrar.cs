@@ -76,7 +76,7 @@ public class DebugRegistrar : PersistentSingleton<DebugRegistrar> {
         overlayText.color = Color.green;
         overlayText.alignment = TextAlignmentOptions.TopLeft;
         overlayText.raycastTarget = false;
-        overlayText.enableWordWrapping = true;
+        overlayText.textWrappingMode = TextWrappingModes.Normal;
 
         var rt = overlayText.rectTransform;
         rt.anchorMin = new Vector2(0f, 0f);

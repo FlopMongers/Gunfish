@@ -292,7 +292,7 @@ public class QuickLaunchManager : PersistentSingleton<QuickLaunchManager> {
         overlayText.color = Color.cyan;
         overlayText.alignment = TextAlignmentOptions.TopLeft;
         overlayText.raycastTarget = false;
-        overlayText.enableWordWrapping = true;
+        overlayText.textWrappingMode = TextWrappingModes.Normal;
 
         var rt = overlayText.rectTransform;
         rt.anchorMin = new Vector2(0.45f, 0f);

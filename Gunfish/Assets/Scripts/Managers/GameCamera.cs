@@ -61,8 +61,6 @@ public class GameCamera : Singleton<GameCamera> {
         float aspect = Camera.main.aspect;
         float maxOrthoSize = Mathf.Max(bounds.size.x / aspect, bounds.size.y) / 2f;
         composer.m_MaximumOrthoSize = maxOrthoSize * maxZoomOutSafetyMargin;
-        Debug.Log($"GameCamera.ClampZoomToBounds: boundsSize={bounds.size}, aspect={aspect}, " +
-            $"computedMaxOrthoSize={maxOrthoSize}, appliedMaximumOrthoSize={composer.m_MaximumOrthoSize}");
     }
 
     // Keeps the camera anchored at the map center only while no fish are present;

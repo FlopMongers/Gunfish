@@ -94,7 +94,6 @@ public class Explosion : MonoBehaviour
                         damage * fishDamageScale,
                         0,
                         HitType.Explosive));
-                    //Debug.Log("Hit player " + gunfish.playerNum + " for dmg " + damage * fishDamageScale);
                 }
                 else {
                     hittable.Hit(new HitObject(
