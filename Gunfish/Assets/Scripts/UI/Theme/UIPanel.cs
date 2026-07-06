@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIPanel : Image {
-    [SerializeField] private Color borderColor = Color.black;
+    [SerializeField] private Color borderColor = new Color32(0x02, 0x47, 0x8e, 0xFF);
     [SerializeField] private float cornerRadius = 16f;
     [SerializeField] private float borderWidth = 0f;
     [SerializeField] private float edgeSoftness = 1.5f;
@@ -60,6 +60,11 @@ public class UIPanel : Image {
         borderWidth = Mathf.Max(0f, borderWidth);
         edgeSoftness = Mathf.Max(0f, edgeSoftness);
         Apply();
+    }
+
+    protected override void Reset() {
+        base.Reset();
+        color = UITheme.Surface700;
     }
 #endif
 
