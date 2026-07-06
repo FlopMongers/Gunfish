@@ -11,7 +11,7 @@ public class FishSelectPanel : MonoBehaviour {
     }
     
     public Image fishImage;
-    public Image outline;
+    public UIPanel outline;
     public TMP_Text description;
     public RectTransform leftArrow;
     public RectTransform rightArrow;
@@ -54,7 +54,7 @@ public class FishSelectPanel : MonoBehaviour {
     }
 
     public void SetColor(Color color) {
-        outline.color = color;
+        outline.BorderColor = color;
     }
 
     public void Right() {
