@@ -388,7 +388,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         killed = false;
 
         AddEffect(new Invincibility_Effect(this, spawnInvincibilityDuration));
-        GameCamera.Instance?.targetGroup.AddMember(MiddleSegment.transform, 1, 1);
+        GameCamera.Instance?.AddFishMember(MiddleSegment.transform);
     }
 
     public void SwapFish(GunfishData fishData) {
@@ -415,7 +415,7 @@ public class Gunfish : MonoBehaviour, IHittable {
     HealthUI widgetHealthUI;
     public void Despawn(bool animated) {
         // if animated, then fade and destroy
-        GameCamera.Instance?.targetGroup.RemoveMember(MiddleSegment.transform);
+        GameCamera.Instance?.RemoveFishMember(MiddleSegment.transform);
         widgetHealthUI.Unhook();
         RemoveUI?.Invoke();
         Destroy(gun.gameObject);

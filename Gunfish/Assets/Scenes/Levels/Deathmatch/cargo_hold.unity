@@ -5140,11 +5140,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2150593014006706299, guid: 005824796853ebb4b8c3a797e3310454,
-        type: 3}
-      propertyPath: m_MaximumOrthoSize
-      value: 10.84
-      objectReference: {fileID: 0}
     - target: {fileID: 2150593014029043302, guid: 005824796853ebb4b8c3a797e3310454,
         type: 3}
       propertyPath: m_BoundingShape2D
