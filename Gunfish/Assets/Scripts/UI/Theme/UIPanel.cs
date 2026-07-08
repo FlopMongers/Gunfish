@@ -6,6 +6,7 @@ public class UIPanel : Image {
     [SerializeField] private float cornerRadius = 16f;
     [SerializeField] private float borderWidth = 0f;
     [SerializeField] private float edgeSoftness = 1.5f;
+    [SerializeField] private bool outlineOnly = false;
 
     private static Shader roundedRectShader;
     private Material materialInstance;
@@ -13,6 +14,7 @@ public class UIPanel : Image {
     public Color BorderColor { get => borderColor; set { borderColor = value; Apply(); } }
     public float CornerRadius { get => cornerRadius; set { cornerRadius = Mathf.Max(0f, value); Apply(); } }
     public float BorderWidth { get => borderWidth; set { borderWidth = Mathf.Max(0f, value); Apply(); } }
+    public bool OutlineOnly { get => outlineOnly; set { outlineOnly = value; Apply(); } }
 
     protected override void OnEnable() {
         base.OnEnable();
@@ -79,6 +81,7 @@ public class UIPanel : Image {
         materialInstance.SetFloat("_Radius", cornerRadius);
         materialInstance.SetFloat("_BorderWidth", borderWidth);
         materialInstance.SetFloat("_Softness", edgeSoftness);
+        materialInstance.SetFloat("_OutlineOnly", outlineOnly ? 1f : 0f);
         materialInstance.SetColor("_BorderColor", borderColor);
     }
 }

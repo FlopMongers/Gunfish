@@ -8,6 +8,7 @@ Shader "Gunfish/UI/RoundedRect"
         _Radius ("Corner Radius (px)", Float) = 16
         _BorderWidth ("Border Width (px)", Float) = 0
         _Softness ("Edge Softness (px)", Float) = 1.5
+        _OutlineOnly ("Outline Only", Float) = 0
 
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
@@ -78,6 +79,7 @@ Shader "Gunfish/UI/RoundedRect"
             float _Radius;
             float _BorderWidth;
             float _Softness;
+            float _OutlineOnly;
             float4 _ClipRect;
 
             v2f vert(appdata_t v)
@@ -113,7 +115,10 @@ Shader "Gunfish/UI/RoundedRect"
                 float innerDist = dist + _BorderWidth;
                 float fillMask = 1.0 - smoothstep(0.0, _Softness, innerDist);
 
-                fixed4 col = lerp(_BorderColor, IN.color, fillMask);
+                fixed4 fillColor = IN.color;
+                fillColor.a *= (1.0 - _OutlineOnly);
+
+                fixed4 col = lerp(_BorderColor, fillColor, fillMask);
                 col.a *= outerAlpha;
 
                 #ifdef UNITY_UI_CLIP_RECT
