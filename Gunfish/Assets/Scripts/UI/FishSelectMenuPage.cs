@@ -132,6 +132,10 @@ public class FishSelectMenuPage : MenuPage {
         if (fishSelectPanels[deviceIndex].state != FishSelectPanel.State.Selecting || context.canceled) {
             return;
         }
+        if (GameManager.Instance.currentGameMode.gameModeType == GameModeType.GunfishGame) {
+            // Gun Game always starts everyone on Bass -- no fish switching.
+            return;
+        }
 
         var direction = context.ReadValue<Vector2>();
 

@@ -57,6 +57,10 @@ public class MatchUI : MonoBehaviour {
         playerWidgets.Find((pwidget) => pwidget.player == player)?.OnScoreChange(newScoreValue);
     }
 
+    public void OnFishProgressChange(Player player, GunfishData fish, int tierIndex, int totalTiers) {
+        playerWidgets.Find((pwidget) => pwidget.player == player)?.SetFishProgress(fish, tierIndex, totalTiers);
+    }
+
     public void HideWidgets() {
         playerWidgets.ForEach(widget => {
             widget.gameObject.SetActive(false);

@@ -19,6 +19,8 @@ public class UIPlayerWidget : MonoBehaviour {
     private Image playerPortrait;
     [SerializeField]
     private TMP_Text playerName;
+    [SerializeField]
+    private TMP_Text tierText;
     public UnityEvent<Color> OnPlayerColorChange;
 
     public HealthUI healthUI;
@@ -72,6 +74,13 @@ public class UIPlayerWidget : MonoBehaviour {
 
     private void OnPlayerEliminated() {
         // TODO gray out widget color
+    }
+
+    public void SetFishProgress(GunfishData fish, int tierIndex, int totalTiers) {
+        playerPortrait.overrideSprite = fish.sprite;
+        if (tierText != null) {
+            tierText.text = $"{tierIndex + 1}/{totalTiers}";
+        }
     }
 
     public void SetColor(Color newColor) {

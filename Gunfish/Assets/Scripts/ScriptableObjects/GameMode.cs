@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameModeType { DeathMatch, Race, Bassball };
+public enum GameModeType { DeathMatch, Race, Bassball, GunfishGame };
 
 [CreateAssetMenu(fileName = "New Game Mode", menuName = "Scriptable Objects/Game Mode")]
 public class GameMode : ScriptableObject {
