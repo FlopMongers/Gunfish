@@ -48,12 +48,19 @@ namespace FunkyCode {
             }
 
             // create new light manager
+            // NOTE(Ryan): GameObject starts inactive so AddComponent defers Awake/OnEnable until
+            // after `instance` is assigned below. Without this, OnEnable -> LateUpdate -> UpdateCameras
+            // calls Get() again before `instance` is set, which re-enters this branch and recurses
+            // until the native call stack overflows (each level creates yet another manager object).
             var gameObject = new GameObject("Lighting Manager 2D");
+            gameObject.SetActive(false);
 
             instance = gameObject.AddComponent<LightingManager2D>();
             instance.transform.position = Vector3.zero;
             instance.version = Lighting2D.VERSION;
             instance.version_string = Lighting2D.VERSION_STRING;
+
+            gameObject.SetActive(true);
 
             return instance;
         }
