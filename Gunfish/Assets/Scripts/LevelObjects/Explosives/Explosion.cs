@@ -96,6 +96,15 @@ public class Explosion : MonoBehaviour
                         HitType.Explosive));
                 }
                 else {
+                    if (sourceGunfish != null) {
+                        // Propagate attribution through a chained explosion (e.g. this blast detonates
+                        // another barrel): if that barrel later kills someone, credit still traces back
+                        // to whoever set off this explosion, not just whoever last shot the chained barrel.
+                        HitCounter hittableHitCounter = hittable.gameObject.GetComponent<HitCounter>();
+                        if (hittableHitCounter != null) {
+                            hittableHitCounter.TakeHit(sourceGunfish);
+                        }
+                    }
                     hittable.Hit(new HitObject(
                         hittable.gameObject.transform.position,
                         (hittable.gameObject.transform.position - transform.position).normalized,
