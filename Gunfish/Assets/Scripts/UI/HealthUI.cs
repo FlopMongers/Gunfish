@@ -44,9 +44,9 @@ public class HealthUI : MonoBehaviour {
     }
 
     private void EnableBars(bool enable) {
-        _redBar.enabled = enable;
-        _orangeBar.enabled = enable;
-        _greenBar.enabled = enable;
+        if (_redBar) _redBar.enabled = enable;
+        if (_orangeBar) _orangeBar.enabled = enable;
+        if (_greenBar) _greenBar.enabled = enable;
     }
 
     float GetTargetMaxHealth() {

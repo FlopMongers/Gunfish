@@ -94,6 +94,10 @@ public class Gunfish : MonoBehaviour, IHittable {
     }
 
     private void FixedUpdate() {
+        if (killed || !spawned) {
+            return;
+        }
+
         CheckFiring();
         Fire();
         Movement();

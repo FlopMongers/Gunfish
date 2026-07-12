@@ -102,7 +102,7 @@ public class Bullet : MonoBehaviour
             shootable.Hit(new HitObject(
                 collision.contacts[0].point,
                 -collision.contacts[0].normal,
-                (gunfish != null) ? gunfish.gun.gameObject : null,
+                (gunfish != null && gunfish.gun != null) ? gunfish.gun.gameObject : null,
                 gunfish.data.gun.damage * damageRatio,
                 gunfish.data.gun.knockback * damageRatio,
                 HitType.Ballistic));
