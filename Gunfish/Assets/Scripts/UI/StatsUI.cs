@@ -17,9 +17,9 @@ public class StatsUI : MonoBehaviour
 
     void ClearPlayerPanels() {
         foreach (var panel in playerPanels) {
-            panel.highlightCanvasGroup.alpha = 0;
+            panel.panelComponent.BorderColor = Color.black;
             panel.tiebreakerText.text = "";
-            panel.panel.SetActive(false);
+            panel.gameObject.SetActive(false);
         }
     }
 
@@ -47,18 +47,15 @@ public class StatsUI : MonoBehaviour
         ClearPlayerPanels();
 
         for (int i = 0; i < players.Count; i++) {
-            if (players[i].team == winningTeam) {
-                playerPanels[i].highlightCanvasGroup.alpha = 1;
-            }
             playerPanels[i].playerName.text = $"Player {players[i].player.VisiblePlayerNumber}" + (showTeam ? $"(Team {players[i].team.VisibleTeamNumber})" : "");
             playerPanels[i].playerImg.sprite = players[i].player.gunfishData.sprite;
             playerPanels[i].playerScore.text = (scoreLambda != null) ? scoreLambda(players[i]) : players[i].GetStatsText();
-            playerPanels[i].panelColor.color = players[i].team.teamColor;
+            playerPanels[i].panelComponent.BorderColor = players[i].team.teamColor;
             playerPanels[i].SetInput(players[i].player);
             if (tiebreakerTextMap.ContainsKey(players[i])) {
                 playerPanels[i].tiebreakerText.text = tiebreakerTextMap[players[i]];
             }
-            playerPanels[i].panel.SetActive(true);
+            playerPanels[i].gameObject.SetActive(true);
             /*
             var playerInput = PlayerManager.Instance.PlayerInputs[i];
             if (!playerInput)

@@ -69,7 +69,6 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
     protected bool done;
 
     public LevelTimer timer;
-    static float levelDuration = 90;
 
     public float spawnDelay = 0.5f;
 
@@ -119,7 +118,7 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         LevelManager.Instance.OnStartPlay += StartPlay;
         timer = timer ?? GetComponentInChildren<LevelTimer>();
         if (timer != null) {
-            timer.levelDuration = levelDuration;
+            timer.levelDuration = this.parameters.secondsPerRound;
             timer.OnTimerFinish += OnTimerFinish;
         }
         matchResult = new MatchResult
@@ -210,6 +209,8 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
             StartTime = DateTime.Now,
             LevelName = GetCurrentLevelName()
         });
+
+        ui.InitializeLevel(parameters.activePlayers, parameters.stocksPerRound);
     }
 
     public virtual void SetUpPlayer(Player player) { }

@@ -26,16 +26,10 @@ public class DeathMatchPlayerReference : PlayerReference {
 }
 
 public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredTeamReference> {
-    private const int defaultStocks = 3;
     protected HashSet<TeamReference> eliminatedTeams = new HashSet<TeamReference>();
 
-    [HideInInspector]
-
-    public PelicanSpawner pelicanSpawner;
-
+    [HideInInspector] public PelicanSpawner pelicanSpawner;
     static float lastHitThreshold = 4f;
-
-    protected bool useStocks = false;
 
 
     public override void Initialize(GameParameters parameters) {
@@ -45,7 +39,7 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
     }
 
     protected override void AddPlayerReference(Player player, TeamReference teamRef) {
-        playerReferences[player] = new DeathMatchPlayerReference(player, (ScoredTeamReference)teamRef, defaultStocks);
+        playerReferences[player] = new DeathMatchPlayerReference(player, (ScoredTeamReference)teamRef, parameters.stocksPerRound);
     }
 
     protected override ScoredTeamReference GenerateTeamRef(Player player) {
@@ -55,14 +49,13 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
     public override void StartLevel() {
         base.StartLevel();
         eliminatedTeams = new HashSet<TeamReference>();
-        ui.InitializeLevel(parameters.activePlayers, defaultStocks.ToString());
         pelicanSpawner.FetchSpawnZones();
         pelicanSpawner.active = false;
     }
 
     public override void SetUpPlayer(Player player) {
         base.SetUpPlayer(player);
-        playerReferences[player].stocks = defaultStocks;
+        playerReferences[player].stocks = parameters.stocksPerRound;
         playerReferences[player].firstKill = -1;
         playerReferences[player].lastDeath = -1;
     }
@@ -99,10 +92,8 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
     public override void OnPlayerDeath(Player player) {
         DeathMatchPlayerReference playerRef = playerReferences[player];
         base.OnPlayerDeath(player);
-        if (useStocks) {
-            UpdateStock(player, -1);
-        }
-        if (playerRef.stocks > 0) {
+        UpdateStock(player, -1);
+        if (playerRef.stocks != 0) {
             SpawnPlayer(player);
         } else if (!playerRef.team.players.Any(x => ((DeathMatchPlayerReference)x).stocks > 0)) {
             eliminatedTeams.Add(playerRef.team);
@@ -249,10 +240,12 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
         ui.OnScoreChange(player, playerRef.score);
     }
     public void UpdateStock(Player player, int stockDelta) {
+        if (parameters.stocksPerRound <= 0) {
+            return;
+        }
         DeathMatchPlayerReference playerRef = playerReferences[player];
         playerRef.stocks += stockDelta;
-        if (useStocks)
-            ui.OnStockChange(player, playerRef.stocks);
+        ui.OnStockChange(player, playerRef.stocks);
     }
 
     public override void HandleFishDamage(FishHitObject fishHit, Gunfish gunfish, bool alreadyDead) {
@@ -301,7 +294,14 @@ public class DeathMatchManager : MatchManager<DeathMatchPlayerReference, ScoredT
                 UpdateStock(player, -(playerRef.stocks - 1));
             }
         }
-        useStocks = true;
+        if (parameters.stocksPerRound <= 0) {
+            EndLevel();
+        } else {
+            TriggerPelicans();
+        }
+    }
+
+    private void TriggerPelicans() {
         MarqueeManager.Instance.PlayRandomQuip(QuipType.Pelicans);
         pelicanSpawner.active = true;
     }

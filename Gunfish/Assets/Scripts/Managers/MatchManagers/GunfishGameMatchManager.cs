@@ -19,7 +19,6 @@ public class GunfishGamePlayerReference : PlayerReference {
 
 public class GunfishGameMatchManager : MatchManager<GunfishGamePlayerReference, TeamReference> {
     public GunfishDataList fishProgression;
-    public float matchDuration = 300f;
 
     [HideInInspector]
     public PelicanSpawner pelicanSpawner;
@@ -34,7 +33,6 @@ public class GunfishGameMatchManager : MatchManager<GunfishGamePlayerReference, 
         pelicanSpawner = GetComponentInChildren<PelicanSpawner>();
         skipLastStats = true;
         base.Initialize(parameters);
-        timer.levelDuration = matchDuration;
     }
 
     protected override void AddPlayerReference(Player player, TeamReference teamRef) {
@@ -45,7 +43,6 @@ public class GunfishGameMatchManager : MatchManager<GunfishGamePlayerReference, 
 
     public override void StartLevel() {
         base.StartLevel();
-        ui.InitializeLevel(parameters.activePlayers, "");
         pelicanSpawner.FetchSpawnZones();
         pelicanSpawner.active = false;
         suddenDeathActive = false;

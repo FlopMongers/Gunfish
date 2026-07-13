@@ -18,7 +18,13 @@ public class GameModeManager : PersistentSingleton<GameModeManager> {
     public void InitializeGameMode(GameMode gameMode, List<Player> players, List<string> forcedLevels = null) {
         levels = forcedLevels ?? SelectLevels(gameMode.levels.sceneNames, gameMode.roundsPerMatch);
         activePlayers = players.Where(player => player != null && player.Active).ToList();
-        var gameParameters = new GameParameters(activePlayers, levels, gameMode.levels.skyboxSceneName);
+        var gameParameters = new GameParameters(
+            activePlayers,
+            levels,
+            gameMode.levels.skyboxSceneName,
+            gameMode.secondsPerRound,
+            gameMode.stocksPerRound
+        );
         var matchManagerPrefab = gameMode.matchManagerPrefab;
         if (gameModeInstance != null) {
             // Must be immediate, not deferred: nested Singleton<T> components (e.g. LevelTimerUI)

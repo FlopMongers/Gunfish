@@ -37,7 +37,6 @@ public class RaceMatchManager : MatchManager<RacePlayerReference, TeamReference>
 
     public override void StartLevel() {
         base.StartLevel();
-        ui.InitializeLevel(parameters.activePlayers, "X");
     }
 
     public override void SetUpPlayer(Player player) {

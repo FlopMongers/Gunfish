@@ -9,6 +9,7 @@ public class UIPanelEditor : ImageEditor {
     private SerializedProperty borderWidth;
     private SerializedProperty edgeSoftness;
     private SerializedProperty outlineOnly;
+    private SerializedProperty preserveAspect;
 
     protected override void OnEnable() {
         base.OnEnable();
@@ -17,6 +18,7 @@ public class UIPanelEditor : ImageEditor {
         borderWidth = serializedObject.FindProperty("borderWidth");
         edgeSoftness = serializedObject.FindProperty("edgeSoftness");
         outlineOnly = serializedObject.FindProperty("outlineOnly");
+        preserveAspect = serializedObject.FindProperty("preserveAspect");
     }
 
     public override void OnInspectorGUI() {
@@ -30,6 +32,7 @@ public class UIPanelEditor : ImageEditor {
         EditorGUILayout.PropertyField(borderWidth);
         EditorGUILayout.PropertyField(edgeSoftness);
         EditorGUILayout.PropertyField(outlineOnly);
+        EditorGUILayout.PropertyField(preserveAspect);
         serializedObject.ApplyModifiedProperties();
     }
 }

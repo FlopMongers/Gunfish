@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 346c0ef987cb7424ea16a2b2804aa212, type: 3}
-  m_Name: Race
+  m_Name: RaceGameMode
   m_EditorClassIdentifier: 
   gameModeType: 1
   image: {fileID: 21300000, guid: 686420d327fbb244787cc74b2a68ff3d, type: 3}
@@ -18,5 +18,7 @@ MonoBehaviour:
     type: 3}
   levels: {fileID: 11400000, guid: 042c289cccc65c447a462084afd2d97d, type: 2}
   roundsPerMatch: 1
-  gameModeNote: 
+  secondsPerRound: 120
+  stocksPerRound: -1
+  description: Race to the finish. Fastest fish wins!
   requiredPlayerCount: 01000000020000000300000004000000

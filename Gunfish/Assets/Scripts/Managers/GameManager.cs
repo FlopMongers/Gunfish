@@ -8,11 +8,15 @@ public class GameParameters {
     public List<Player> activePlayers;
     public List<string> scenes;
     public string skyboxScene;
+    public float secondsPerRound;
+    public int stocksPerRound;
 
-    public GameParameters(List<Player> activePlayers, List<string> scenes, string skyboxScene) {
+    public GameParameters(List<Player> activePlayers, List<string> scenes, string skyboxScene, float secondsPerRound, int stocksPerRound = 0) {
         this.activePlayers = activePlayers;
         this.scenes = scenes;
         this.skyboxScene = skyboxScene;
+        this.secondsPerRound = secondsPerRound;
+        this.stocksPerRound = stocksPerRound;
     }
 }
 

@@ -31,13 +31,14 @@ public class MatchUI : MonoBehaviour {
         }
     }
 
-    public void InitializeLevel(List<Player> players, string initialStockValue) {
+    public void InitializeLevel(List<Player> players, int initialStockValue) {
+        var initialStockValueStr = initialStockValue >= 0 ? initialStockValue.ToString() : "∞";
         foreach (Player player in players) {
             var playerWidget = playerWidgets[player.PlayerNumber];
             playerWidget.gameObject.SetActive(true);
             var color = PlayerManager.Instance.playerColors[player.PlayerNumber];
             playerWidget.SetColor(color);
-            playerWidget.InitializeLevel(initialStockValue, player);
+            playerWidget.InitializeLevel(initialStockValueStr, player);
         }
     }
 

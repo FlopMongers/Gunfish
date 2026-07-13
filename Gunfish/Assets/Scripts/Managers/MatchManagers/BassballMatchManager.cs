@@ -21,7 +21,6 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
 
     public override void StartLevel() {
         base.StartLevel();
-        ui.InitializeLevel(parameters.activePlayers, "X");
         ui.gameScore.gameObject.SetActive(true);
         ui.SetGameScore(0, 0);
         teams[0].score = 0;

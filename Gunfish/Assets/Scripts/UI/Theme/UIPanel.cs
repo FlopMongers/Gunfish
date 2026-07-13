@@ -8,6 +8,15 @@ public class UIPanel : Image {
     [SerializeField] private float edgeSoftness = 1.5f;
     [SerializeField] private bool outlineOnly = false;
 
+    // Shadows Image.preserveAspect: that one only affects sprite rendering, and OnEnable below
+    // always clears the sprite, so it has no visible effect and its Inspector control never draws.
+    [SerializeField] private new bool preserveAspect = false;
+    private float lockedAspectRatio = 1f;
+    private float lastWidth;
+    private float lastHeight;
+    private bool aspectWasLocked;
+    private bool applyingAspect;
+
     private static Shader roundedRectShader;
     private Material materialInstance;
 
@@ -15,6 +24,7 @@ public class UIPanel : Image {
     public float CornerRadius { get => cornerRadius; set { cornerRadius = Mathf.Max(0f, value); Apply(); } }
     public float BorderWidth { get => borderWidth; set { borderWidth = Mathf.Max(0f, value); Apply(); } }
     public bool OutlineOnly { get => outlineOnly; set { outlineOnly = value; Apply(); } }
+    public new bool PreserveAspect { get => preserveAspect; set { preserveAspect = value; SyncAspectLock(); } }
 
     protected override void OnEnable() {
         base.OnEnable();
@@ -32,6 +42,8 @@ public class UIPanel : Image {
         material = materialInstance;
 
         transform.hasChanged = false;
+        aspectWasLocked = false;
+        SyncAspectLock();
         Apply();
     }
 
@@ -52,6 +64,7 @@ public class UIPanel : Image {
 
     protected override void OnRectTransformDimensionsChange() {
         base.OnRectTransformDimensionsChange();
+        EnforceAspectRatio();
         Apply();
     }
 
@@ -61,6 +74,8 @@ public class UIPanel : Image {
         cornerRadius = Mathf.Max(0f, cornerRadius);
         borderWidth = Mathf.Max(0f, borderWidth);
         edgeSoftness = Mathf.Max(0f, edgeSoftness);
+        SyncAspectLock();
+        EnforceAspectRatio();
         Apply();
     }
 
@@ -69,6 +84,39 @@ public class UIPanel : Image {
         color = UITheme.Surface700;
     }
 #endif
+
+    private void SyncAspectLock() {
+        if (preserveAspect && !aspectWasLocked) {
+            Rect rect = rectTransform.rect;
+            lastWidth = rect.width;
+            lastHeight = rect.height;
+            if (lastHeight > 0f) {
+                lockedAspectRatio = lastWidth / lastHeight;
+            }
+        }
+        aspectWasLocked = preserveAspect;
+    }
+
+    private void EnforceAspectRatio() {
+        if (!preserveAspect || applyingAspect || lockedAspectRatio <= 0f) return;
+
+        Rect rect = rectTransform.rect;
+        bool widthChanged = !Mathf.Approximately(rect.width, lastWidth);
+        bool heightChanged = !Mathf.Approximately(rect.height, lastHeight);
+        if (!widthChanged && !heightChanged) return;
+
+        applyingAspect = true;
+        if (heightChanged && !widthChanged) {
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.height * lockedAspectRatio);
+        } else {
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.width / lockedAspectRatio);
+        }
+        applyingAspect = false;
+
+        rect = rectTransform.rect;
+        lastWidth = rect.width;
+        lastHeight = rect.height;
+    }
 
     private void Apply() {
         if (materialInstance == null) return;
