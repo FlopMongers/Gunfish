@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 346c0ef987cb7424ea16a2b2804aa212, type: 3}
-  m_Name: BassballGameMode
+  m_Name: Bassball
   m_EditorClassIdentifier: 
   gameModeType: 2
   image: {fileID: 21300000, guid: 421982031e6e0f44a878b046799aaa5f, type: 3}

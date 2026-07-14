@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 346c0ef987cb7424ea16a2b2804aa212, type: 3}
-  m_Name: RaceGameMode
+  m_Name: Race
   m_EditorClassIdentifier: 
   gameModeType: 1
   image: {fileID: 21300000, guid: 686420d327fbb244787cc74b2a68ff3d, type: 3}
