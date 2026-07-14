@@ -125,6 +125,10 @@ Shader "Gunfish/UI/RoundedRect"
                 col.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
                 #endif
 
+                // Discard fully-transparent pixels outside the rounded silhouette so a
+                // stencil Mask using this graphic clips to the SDF shape, not the quad.
+                clip(col.a - 0.001);
+
                 return col;
             }
             ENDCG

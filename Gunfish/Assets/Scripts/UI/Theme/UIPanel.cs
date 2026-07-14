@@ -17,6 +17,16 @@ public class UIPanel : Image {
     private bool aspectWasLocked;
     private bool applyingAspect;
 
+    // When enabled, cornerRadius/borderWidth/edgeSoftness scale proportionally with the
+    // smaller of width/height, relative to whatever size they were locked in at.
+    [SerializeField] private bool preserveBorder = false;
+    private float lockedMinDimension;
+    private float lockedCornerRadius;
+    private float lockedBorderWidth;
+    private float lockedEdgeSoftness;
+    private float lastMinDimension;
+    private bool borderWasLocked;
+
     private static Shader roundedRectShader;
     private Material materialInstance;
 
@@ -25,6 +35,7 @@ public class UIPanel : Image {
     public float BorderWidth { get => borderWidth; set { borderWidth = Mathf.Max(0f, value); Apply(); } }
     public bool OutlineOnly { get => outlineOnly; set { outlineOnly = value; Apply(); } }
     public new bool PreserveAspect { get => preserveAspect; set { preserveAspect = value; SyncAspectLock(); } }
+    public bool PreserveBorder { get => preserveBorder; set { preserveBorder = value; SyncBorderLock(); } }
 
     protected override void OnEnable() {
         base.OnEnable();
@@ -44,6 +55,8 @@ public class UIPanel : Image {
         transform.hasChanged = false;
         aspectWasLocked = false;
         SyncAspectLock();
+        borderWasLocked = false;
+        SyncBorderLock();
         Apply();
     }
 
@@ -65,6 +78,7 @@ public class UIPanel : Image {
     protected override void OnRectTransformDimensionsChange() {
         base.OnRectTransformDimensionsChange();
         EnforceAspectRatio();
+        EnforceBorderScale();
         Apply();
     }
 
@@ -75,7 +89,9 @@ public class UIPanel : Image {
         borderWidth = Mathf.Max(0f, borderWidth);
         edgeSoftness = Mathf.Max(0f, edgeSoftness);
         SyncAspectLock();
+        SyncBorderLock();
         EnforceAspectRatio();
+        EnforceBorderScale();
         Apply();
     }
 
@@ -116,6 +132,33 @@ public class UIPanel : Image {
         rect = rectTransform.rect;
         lastWidth = rect.width;
         lastHeight = rect.height;
+    }
+
+    private void SyncBorderLock() {
+        if (preserveBorder && !borderWasLocked) {
+            Rect rect = rectTransform.rect;
+            lockedMinDimension = Mathf.Min(rect.width, rect.height);
+            lockedCornerRadius = cornerRadius;
+            lockedBorderWidth = borderWidth;
+            lockedEdgeSoftness = edgeSoftness;
+            lastMinDimension = lockedMinDimension;
+        }
+        borderWasLocked = preserveBorder;
+    }
+
+    private void EnforceBorderScale() {
+        if (!preserveBorder || lockedMinDimension <= 0f) return;
+
+        Rect rect = rectTransform.rect;
+        float minDimension = Mathf.Min(rect.width, rect.height);
+        if (Mathf.Approximately(minDimension, lastMinDimension)) return;
+
+        float scale = minDimension / lockedMinDimension;
+        cornerRadius = Mathf.Max(0f, lockedCornerRadius * scale);
+        borderWidth = Mathf.Max(0f, lockedBorderWidth * scale);
+        edgeSoftness = Mathf.Max(0f, lockedEdgeSoftness * scale);
+
+        lastMinDimension = minDimension;
     }
 
     private void Apply() {
