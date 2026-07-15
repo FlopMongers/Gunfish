@@ -375,10 +375,10 @@ public class Gunfish : MonoBehaviour, IHittable {
 
         if (FX_Spawner.Instance != null) {
             var healthUI = Instantiate(FX_Spawner.Instance.fishHealthUIPrefab).GetComponent<HealthUI>();
-            healthUI.Init(this);
+            healthUI.Init(this, offset: new Vector3(0f, 0.5f, 0f));
             if (GameModeManager.Instance.matchManagerInstance is IMatchManager) {
                 widgetHealthUI = GameModeManager.Instance.matchManagerInstance.GetUI().playerWidgets[player.PlayerNumber].healthUI;
-                widgetHealthUI.Init(this);
+                widgetHealthUI.Init(this, followTarget: false);
             }
             FX_Spawner.Instance.SpawnFX(FXType.Spawn, MiddleSegment.transform.position, Quaternion.identity);
         }

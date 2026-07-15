@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using System.Security.Policy;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour {
@@ -25,6 +24,10 @@ public class HealthUI : MonoBehaviour {
 
     [SerializeField]
     private RectTransform _pipBar;
+    [SerializeField]
+    private float _pipWidthRatio = 0.02f;
+    [SerializeField]
+    private float _sectionSpacingRatio = 0.2f;
 
     [SerializeField]
     private RawImage _respawnBar;
@@ -34,13 +37,19 @@ public class HealthUI : MonoBehaviour {
     Gunfish _gunfish;
     Shootable _shootable;
 
-    [SerializeField]
-    ParentConstraint pc;
+    Transform _followTarget;
+    Vector3 _followOffset;
 
     public void Start() {
         _redBar = transform.FindDeepChild("Red").GetComponent<RawImage>();
         _orangeBar = transform.FindDeepChild("Orange").GetComponent<RawImage>();
         _greenBar = transform.FindDeepChild("Green").GetComponent<RawImage>();
+    }
+
+    void LateUpdate() {
+        if (_followTarget != null) {
+            transform.position = _followTarget.position + _followOffset;
+        }
     }
 
     private void EnableBars(bool enable) {
@@ -54,12 +63,15 @@ public class HealthUI : MonoBehaviour {
     }
 
     void SetUpConstraint(Transform target, Vector3? offset) {
-        var src = new ConstraintSource();
-        src.sourceTransform = target;
-        src.weight = 1f;
-        pc.AddSource(src);
-        pc.SetTranslationOffset(0, (offset != null) ? offset.Value : Vector3.zero);
-        pc.constraintActive = true;
+        _followTarget = target;
+        _followOffset = offset ?? Vector3.zero;
+    }
+
+    void SetUpSectionSpacing() {
+        var mainContents = (RectTransform)transform.FindDeepChild("MainContents");
+        var layoutGroup = mainContents.GetComponent<VerticalLayoutGroup>();
+        Canvas.ForceUpdateCanvases();
+        layoutGroup.spacing = mainContents.rect.height * _sectionSpacingRatio;
     }
 
     public void Init(Shootable shootable, Vector3? offset = null) {
@@ -71,11 +83,13 @@ public class HealthUI : MonoBehaviour {
         _shootable.OnDead += OnDeath;
         SetHealth(_shootable.health);
 
+        SetUpSectionSpacing();
         SetUpConstraint(shootable.transform, offset);
     }
 
-    public void Init(Gunfish gunfish, Vector3? offset = null) {
+    public void Init(Gunfish gunfish, Vector3? offset = null, bool followTarget = true) {
         _gunfish = gunfish;
+        SetUpSectionSpacing();
 
         _gunfish.OnHealthUpdated += UpdateHealth;
         _gunfish.RemoveUI += OnDeath;
@@ -90,15 +104,21 @@ public class HealthUI : MonoBehaviour {
         foreach (var p in pips) {
             Destroy(p);
         }
+        Canvas.ForceUpdateCanvases();
+        float pipWidth = _pipBar.rect.width * _pipWidthRatio;
         for (int i = 0; i < gunfish.data.gun.maxAmmo; i++) {
             // add pip
-            Instantiate(pip, _pipBar);
+            var pipInstance = Instantiate(pip, _pipBar);
+            var pipRect = pipInstance.GetComponent<RectTransform>();
+            pipRect.sizeDelta = new Vector2(pipWidth, pipRect.sizeDelta.y);
         }
         _whiteBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         UpdateWhiteBar(0);
         gunfish.gun.OnAmmoChanged += UpdateWhiteBar;
 
-        SetUpConstraint(_gunfish.segments[(int)((float)_gunfish.segments.Count / 3)].transform, offset);
+        if (followTarget) {
+            SetUpConstraint(_gunfish.segments[(int)((float)_gunfish.segments.Count / 3)].transform, offset);
+        }
 
         var playerColor = PlayerManager.Instance.playerColors[gunfish.player.PlayerNumber];
 
