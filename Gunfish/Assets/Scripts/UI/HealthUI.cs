@@ -69,7 +69,8 @@ public class HealthUI : MonoBehaviour {
 
     void SetUpSectionSpacing() {
         var mainContents = (RectTransform)transform.FindDeepChild("MainContents");
-        var layoutGroup = mainContents.GetComponent<VerticalLayoutGroup>();
+        var layoutGroup = mainContents ? mainContents.GetComponent<VerticalLayoutGroup>() : null;
+        if (layoutGroup == null) return;
         Canvas.ForceUpdateCanvases();
         layoutGroup.spacing = mainContents.rect.height * _sectionSpacingRatio;
     }

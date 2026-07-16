@@ -199,6 +199,23 @@ public class GunfishGameMatchManager : MatchManager<GunfishGamePlayerReference, 
         pelicanSpawner.active = true;
     }
 
+    public override void ShowLevelStats() {
+        base.ShowLevelStats();
+
+        string winnerText = "No level winner...";
+        TeamReference winningTeam = null;
+        if (matchWinner != null) {
+            winningTeam = playerReferences[matchWinner].team;
+            winnerText = $"{winningTeam.GetTitle()} wins the level!";
+            MarqueeManager.Instance.PlayPlayerWinQuip(matchWinner);
+        }
+
+        List<GunfishGamePlayerReference> players = playerReferences.Values.OrderByDescending(x => x.gunfishIndex).ToList();
+        statsUI.ShowStats(winnerText, players, winningTeam, new Dictionary<GunfishGamePlayerReference, string>(), showTeam: false);
+        nextLevelTimer = maxNextLevelTimer;
+        waitingForNextLevel = true;
+    }
+
     public override void ShowEndGameStats() {
         base.ShowEndGameStats();
 

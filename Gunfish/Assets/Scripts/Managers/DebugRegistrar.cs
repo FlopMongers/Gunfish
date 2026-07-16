@@ -47,6 +47,10 @@ public class DebugRegistrar : PersistentSingleton<DebugRegistrar> {
             SetOverlayVisible(!overlayVisible);
         }
 
+        if (keyboard != null && keyboard.nKey.wasPressedThisFrame) {
+            GameModeManager.Instance?.matchManagerInstance?.OnTimerFinish();
+        }
+
         if (overlayVisible) {
             RefreshOverlayText();
         }

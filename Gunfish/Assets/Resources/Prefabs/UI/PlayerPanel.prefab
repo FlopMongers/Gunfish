@@ -830,13 +830,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 0
-  panel: {fileID: 6215485269940004123}
+  panelComponent: {fileID: 3148074995707984628}
+  tiebreakerText: {fileID: 730581238593127212}
   playerName: {fileID: 2316315493074615230}
   playerImg: {fileID: 5194873731485741323}
   playerScore: {fileID: 7336003537241902555}
-  highlightCanvasGroup: {fileID: 0}
-  tiebreakerText: {fileID: 730581238593127212}
-  panelColor: {fileID: 0}
   thumbsUp: {fileID: 5775016044843182341}
   thumbsDown: {fileID: 6670373666803073469}
 --- !u!114 &3148074995707984628
@@ -874,6 +872,8 @@ MonoBehaviour:
   borderWidth: 4
   edgeSoftness: 1.5
   outlineOnly: 0
+  preserveAspect: 0
+  preserveBorder: 0
 --- !u!114 &8355469187492945492
 MonoBehaviour:
   m_ObjectHideFlags: 0

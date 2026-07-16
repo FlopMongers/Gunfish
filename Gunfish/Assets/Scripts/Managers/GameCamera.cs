@@ -59,7 +59,11 @@ public class GameCamera : Singleton<GameCamera> {
 
         Bounds bounds = confiner.m_BoundingShape2D.bounds;
         float aspect = Camera.main.aspect;
-        float maxOrthoSize = Mathf.Max(bounds.size.x / aspect, bounds.size.y) / 2f;
+        // Composer.ScreenY/SoftZoneHeight reserve the bottom of the frame for the
+        // Player Widgets bar, so only this fraction of the frame is usable for fitting
+        // level bounds -- deriving it here keeps this in sync if those are retuned.
+        float usableVerticalFraction = 1f - (composer.m_ScreenY - composer.m_SoftZoneHeight / 2f);
+        float maxOrthoSize = Mathf.Max(bounds.size.x / aspect, bounds.size.y / usableVerticalFraction) / 2f;
         composer.m_MaximumOrthoSize = maxOrthoSize * maxZoomOutSafetyMargin;
     }
 

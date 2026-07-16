@@ -6,12 +6,15 @@ public class PauseManager : Singleton<PauseManager> {
     public AudioMixer audioMixer;
     public bool paused = false;
     Animator anim;
+    CanvasGroup canvasGroup;
 
     int pausePriority;
 
     public void Start() {
         GetComponent<Canvas>().enabled = true;
         anim = GetComponent<Animator>();
+        canvasGroup = GetComponent<CanvasGroup>();
+        SetInteractable(paused);
     }
 
     public void Update() {
@@ -43,6 +46,12 @@ public class PauseManager : Singleton<PauseManager> {
         PauseTime((paused) ? 0 : 1, 1);
         anim.SetBool("Pause", paused);
         audioMixer.SetFloat("MasterLowpass", (paused) ? 500f : 22000f);
+        SetInteractable(paused);
+    }
+
+    void SetInteractable(bool interactable) {
+        canvasGroup.interactable = interactable;
+        canvasGroup.blocksRaycasts = interactable;
     }
 
     public void PauseTime(int pause, int priority = 0) {

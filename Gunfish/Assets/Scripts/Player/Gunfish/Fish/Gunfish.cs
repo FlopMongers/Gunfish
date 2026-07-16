@@ -286,7 +286,12 @@ public class Gunfish : MonoBehaviour, IHittable {
         // TODO tell match manager about this for possible scoring
         // TODO: replace with generalized FX_CollisionHandler?
         bool alreadyDead = statusData.health <= 0;
+        float debugRawDamage = hit.damage, debugRawKnockback = hit.knockback;
         OnHit?.Invoke(this, hit);
+        // DEBUG-DAMAGE: temporary instrumentation for reduced/zero-damage-on-hit investigation, remove once resolved
+        Debug.Log($"[DEBUG-DAMAGE] {name} hit by '{hit.source?.name}' type={hit.hitType} seg={hit.segmentIndex} " +
+            $"damage {debugRawDamage:F2}->{hit.damage:F2} knockback {debugRawKnockback:F2}->{hit.knockback:F2} " +
+            $"healthBefore={statusData.health:F2} activeEffects=[{string.Join(",", effectMap.Keys)}]");
         if (hit.damage > 0 && hit.ignoreFX == false)
             FX_Spawner.Instance?.SpawnFX(FXType.Fish_Hit, hit.position, -hit.direction);
         if (hit.ignoreMass) {
@@ -294,6 +299,7 @@ public class Gunfish : MonoBehaviour, IHittable {
         }
         body.ApplyForceToSegment(hit.segmentIndex, hit.direction * hit.knockback, ForceMode2D.Impulse);
         UpdateHealth(-hit.damage);
+        Debug.Log($"[DEBUG-DAMAGE] {name} healthAfter={statusData.health:F2}");
         GameModeManager.Instance.matchManagerInstance.HandleFishDamage(hit, this, alreadyDead);
     }
 

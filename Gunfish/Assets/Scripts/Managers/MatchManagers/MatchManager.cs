@@ -398,4 +398,5 @@ public interface IMatchManager {
     public string GetCurrentLevelName();
     public void SetPlayerRating(Player player, int rating);
     public int GetPlayerRating(Player player);
+    public void OnTimerFinish();
 }
