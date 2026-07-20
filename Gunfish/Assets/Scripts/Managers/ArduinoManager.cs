@@ -9,6 +9,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
 
     public float secondsBetweenAttractors = 60f;
     private float secondsSinceLastAttractor;
+    private float secondsSinceLastSimulatedLog;
 
     private SerialPort serialPort;
 
@@ -66,15 +67,29 @@ public class ArduinoManager : Singleton<ArduinoManager> {
         base.Initialize();
     }
     private void HandleArduino() {
-        if (serialPort.IsOpen) {
-            float loudness = SampleLoudness();
-            byte volume = (byte)Mathf.RoundToInt(loudness);
-            byte[] buffer = new byte[] { volume };
-            serialPort.Write(buffer, 0, 1);
+        if (PlatformConfig.IsCabinet) {
+            if (serialPort.IsOpen) {
+                float loudness = SampleLoudness();
+                byte volume = (byte)Mathf.RoundToInt(loudness);
+                byte[] buffer = new byte[] { volume };
+                serialPort.Write(buffer, 0, 1);
+            }
+            return;
         }
+
+        secondsSinceLastSimulatedLog += Time.deltaTime;
+        if (secondsSinceLastSimulatedLog < 1f) return;
+        secondsSinceLastSimulatedLog = 0f;
+        byte simulatedVolume = (byte)Mathf.RoundToInt(SampleLoudness());
+        Debug.Log($"[ArduinoManager] (simulated, not ARCADE_CABINET) would send volume byte: {simulatedVolume}");
     }
 
     private void ConnectArduino() {
+        if (!PlatformConfig.IsCabinet) {
+            Debug.Log("[ArduinoManager] (simulated, not ARCADE_CABINET) would open one of COM3/COM4/COM5.");
+            return;
+        }
+
         foreach (var port in new string[] { "COM3", "COM4", "COM5" }) {
             serialPort = new SerialPort(port, 9600) {
                 ReadTimeout = 100
