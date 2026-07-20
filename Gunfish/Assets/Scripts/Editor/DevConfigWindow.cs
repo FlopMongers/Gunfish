@@ -35,6 +35,11 @@ public class DevConfigWindow : EditorWindow {
             var playerCountLabel = new GUIContent("Debug Player Count", "Number of players to simulate in debug mode. Must be between 1 and 4.");
             DevConfigOverride.DebugPlayerCountOverride = EditorGUILayout.IntSlider(
                 playerCountLabel, DevConfigOverride.DebugPlayerCountOverride, 1, 4);
+
+            EditorGUILayout.Space();
+            var simulatedBuildTargetLabel = new GUIContent("Simulated Build Target", "Overrides which platform GameManager/PlayerManager/ArduinoManager behave as, without switching Build Profiles.");
+            DevConfigOverride.SimulatedBuildTargetOverride = (DevConfigOverride.SimulatedBuildTarget)EditorGUILayout.EnumPopup(
+                simulatedBuildTargetLabel, DevConfigOverride.SimulatedBuildTargetOverride);
         }
     }
 }
