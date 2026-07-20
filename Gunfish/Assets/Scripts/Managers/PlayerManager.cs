@@ -18,11 +18,7 @@ public class PlayerManager : PersistentSingleton<PlayerManager> {
     public override void Initialize() {
         base.Initialize();
 
-#if GUNFISH_ARCADE
-        strategy = new ArcadeJoinStrategy();
-#else
-        strategy = new OnlineJoinStrategy();
-#endif
+        strategy = PlatformConfig.IsCabinet ? new ArcadeJoinStrategy() : new OnlineJoinStrategy();
         strategy.Initialize(this);
 
         SetInputMode(InputMode.UI);
