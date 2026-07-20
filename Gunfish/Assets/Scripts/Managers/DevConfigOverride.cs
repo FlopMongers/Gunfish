@@ -3,11 +3,17 @@ using UnityEditor;
 using UnityEngine;
 
 public static class DevConfigOverride {
+    public enum SimulatedBuildTarget {
+        WindowsPC,
+        ArcadeCabinet,
+    }
+
     private const string EnabledKey = "Gunfish.Dev.Enabled";
     private const string GameModeListGuidKey = "Gunfish.Dev.GameModeListGuid";
     private const string GunfishDataListGuidKey = "Gunfish.Dev.GunfishDataListGuid";
     private const string DebugKey = "Gunfish.Dev.Debug";
     private const string DebugPlayerCountKey = "Gunfish.Dev.DebugPlayerCount";
+    private const string SimulatedBuildTargetKey = "Gunfish.Dev.SimulatedBuildTarget";
 
     public static bool Enabled {
         get => EditorPrefs.GetBool(EnabledKey, false);
@@ -34,6 +40,11 @@ public static class DevConfigOverride {
         set => EditorPrefs.SetInt(DebugPlayerCountKey, value);
     }
 
+    public static SimulatedBuildTarget SimulatedBuildTargetOverride {
+        get => (SimulatedBuildTarget)EditorPrefs.GetInt(SimulatedBuildTargetKey, (int)SimulatedBuildTarget.WindowsPC);
+        set => EditorPrefs.SetInt(SimulatedBuildTargetKey, (int)value);
+    }
+
     public static bool TryGetGameModeList(out GameModeList gameModeList) {
         gameModeList = Enabled ? GameModeListOverride : null;
         return gameModeList != null;
@@ -51,6 +62,11 @@ public static class DevConfigOverride {
 
     public static bool TryGetDebugPlayerCount(out int debugPlayerCount) {
         debugPlayerCount = DebugPlayerCountOverride;
+        return Enabled;
+    }
+
+    public static bool TryGetSimulatedBuildTarget(out SimulatedBuildTarget target) {
+        target = SimulatedBuildTargetOverride;
         return Enabled;
     }
 
