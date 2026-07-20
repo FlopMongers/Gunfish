@@ -68,7 +68,7 @@ public class ArduinoManager : Singleton<ArduinoManager> {
     }
     private void HandleArduino() {
         if (PlatformConfig.IsCabinet) {
-            if (serialPort.IsOpen) {
+            if (serialPort != null && serialPort.IsOpen) {
                 float loudness = SampleLoudness();
                 byte volume = (byte)Mathf.RoundToInt(loudness);
                 byte[] buffer = new byte[] { volume };
