@@ -28,8 +28,10 @@ public class GameManager : PersistentSingleton<GameManager> {
         get {
 #if UNITY_EDITOR
             if (DevConfigOverride.TryGetDebug(out var debugOverride)) return debugOverride;
-#endif
             return _debug;
+#else
+            return Debug.isDebugBuild;
+#endif
         }
     }
 
