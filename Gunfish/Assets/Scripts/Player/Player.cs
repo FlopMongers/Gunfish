@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
     public PlayerInput input;
 
     public PlayerGameEvent OnDeath;
+    public event ControlSchemeGameEvent ControlSchemeChanged;
 
     public bool FreezeControls;
     public bool Active;
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour, IDeviceController, IGunfishController, IUIC
     }
 
     public void OnControlsChanged(PlayerInput input) {
-
+        ControlSchemeChanged?.Invoke(input);
     }
 
     public void OnMove(InputValue value) {

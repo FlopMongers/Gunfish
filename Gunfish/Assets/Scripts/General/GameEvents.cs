@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public delegate void GameEvent();
 public delegate void CountGameEvent(int count);
 public delegate void PlayerGameEvent(Player player);
+public delegate void ControlSchemeGameEvent(PlayerInput input);
 public delegate void FloatGameEvent(float value);
 public delegate void FishEvent(Gunfish fish);
 public delegate void FishCollisionEvent(GunfishSegment segment, Collision2D collision);
