@@ -380,8 +380,11 @@ public class Gunfish : MonoBehaviour, IHittable {
         groundDetector.groundMask = LayerMask.GetMask("Ground", "Player1", "Player2", "Player3", "Player4", "Default") & ~(1 << player.layer);
 
         if (FX_Spawner.Instance != null) {
-            var healthUI = Instantiate(FX_Spawner.Instance.fishHealthUIPrefab).GetComponent<HealthUI>();
+            var healthUIInstance = Instantiate(FX_Spawner.Instance.fishHealthUIPrefab);
+            var healthUI = healthUIInstance.GetComponent<HealthUI>();
             healthUI.Init(this, offset: new Vector3(0f, 0.5f, 0f));
+            var controlSchemeIcon = healthUIInstance.GetComponentInChildren<ControlSchemeIcon>(true);
+            if (controlSchemeIcon != null) controlSchemeIcon.Init(player);
             if (GameModeManager.Instance.matchManagerInstance is IMatchManager) {
                 widgetHealthUI = GameModeManager.Instance.matchManagerInstance.GetUI().playerWidgets[player.PlayerNumber].healthUI;
                 widgetHealthUI.Init(this, followTarget: false);
