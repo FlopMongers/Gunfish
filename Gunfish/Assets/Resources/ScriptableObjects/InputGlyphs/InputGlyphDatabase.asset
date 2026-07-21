@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0154d6e08c8a5aa4ea6c993a51e2490b, type: 3}
+  m_Name: InputGlyphDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::InputGlyphDatabase
+  keyboardGlyphs: {fileID: 11400000, guid: 8610affee018b29419ff3b61317ec178, type: 2}
+  gamepadGlyphs: {fileID: 11400000, guid: 50948f4df84799949ab235a9e64a9164, type: 2}
+  cabinetGlyphs: {fileID: 11400000, guid: 38627bc16684cd74fbb8218caa6e87d5, type: 2}
+  fallbackGlyph: {fileID: -1174372049167162128, guid: 01d9a395145f0294eb779bc6b10f8d58,
+    type: 3}

@@ -1,0 +1,2366 @@
+fileFormatVersion: 2
+guid: da1645dffec93f84b82aa4c4404dab53
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4068047680138422684
+    second: steam-frame_sheet_double_0
+  - first:
+      213: -7048303522229914121
+    second: steam-frame_sheet_double_1
+  - first:
+      213: 3899078366810633387
+    second: steam-frame_sheet_double_2
+  - first:
+      213: -1290262737953875413
+    second: steam-frame_sheet_double_3
+  - first:
+      213: 6633261482847059039
+    second: steam-frame_sheet_double_4
+  - first:
+      213: 893978961615159946
+    second: steam-frame_sheet_double_5
+  - first:
+      213: 7265453085068869687
+    second: steam-frame_sheet_double_6
+  - first:
+      213: -8272104220511923122
+    second: steam-frame_sheet_double_7
+  - first:
+      213: -6605360435519859624
+    second: steam-frame_sheet_double_8
+  - first:
+      213: 2259055843773548322
+    second: steam-frame_sheet_double_9
+  - first:
+      213: 7091861848643223172
+    second: steam-frame_sheet_double_10
+  - first:
+      213: -6686667519434673944
+    second: steam-frame_sheet_double_11
+  - first:
+      213: 6499601270397090989
+    second: steam-frame_sheet_double_12
+  - first:
+      213: 8059043034984305275
+    second: steam-frame_sheet_double_13
+  - first:
+      213: 8371062957971276553
+    second: steam-frame_sheet_double_14
+  - first:
+      213: 2772994044563693465
+    second: steam-frame_sheet_double_15
+  - first:
+      213: 7797610366067059976
+    second: steam-frame_sheet_double_16
+  - first:
+      213: 9005288063852357755
+    second: steam-frame_sheet_double_17
+  - first:
+      213: 607338928069313068
+    second: steam-frame_sheet_double_18
+  - first:
+      213: 7201513278765098660
+    second: steam-frame_sheet_double_19
+  - first:
+      213: 5810643676274148389
+    second: steam-frame_sheet_double_20
+  - first:
+      213: 5434874229678238663
+    second: steam-frame_sheet_double_21
+  - first:
+      213: -2273222974866459357
+    second: steam-frame_sheet_double_22
+  - first:
+      213: 4020685056805537435
+    second: steam-frame_sheet_double_23
+  - first:
+      213: 8241786610258226763
+    second: steam-frame_sheet_double_24
+  - first:
+      213: -3088334372474789601
+    second: steam-frame_sheet_double_25
+  - first:
+      213: 689272419556228680
+    second: steam-frame_sheet_double_26
+  - first:
+      213: 5097464249991092832
+    second: steam-frame_sheet_double_27
+  - first:
+      213: 7571421713536925691
+    second: steam-frame_sheet_double_28
+  - first:
+      213: 5663629301613359950
+    second: steam-frame_sheet_double_29
+  - first:
+      213: 2167020149519146996
+    second: steam-frame_sheet_double_30
+  - first:
+      213: 507188559731363230
+    second: steam-frame_sheet_double_31
+  - first:
+      213: -2194675917410025886
+    second: steam-frame_sheet_double_32
+  - first:
+      213: -6434683233733282513
+    second: steam-frame_sheet_double_33
+  - first:
+      213: -810612277206930842
+    second: steam-frame_sheet_double_34
+  - first:
+      213: 3554546365555671240
+    second: steam-frame_sheet_double_35
+  - first:
+      213: -120447018092599505
+    second: steam-frame_sheet_double_36
+  - first:
+      213: 6883947749629386605
+    second: steam-frame_sheet_double_37
+  - first:
+      213: -8007168727365351152
+    second: steam-frame_sheet_double_38
+  - first:
+      213: 3323439369852349817
+    second: steam-frame_sheet_double_39
+  - first:
+      213: -3698208923741115086
+    second: steam-frame_sheet_double_40
+  - first:
+      213: -4517358243267055594
+    second: steam-frame_sheet_double_41
+  - first:
+      213: 4548748995553728191
+    second: steam-frame_sheet_double_42
+  - first:
+      213: 8618079203277259863
+    second: steam-frame_sheet_double_43
+  - first:
+      213: -1152512345018102166
+    second: steam-frame_sheet_double_44
+  - first:
+      213: 7875703174270426857
+    second: steam-frame_sheet_double_45
+  - first:
+      213: -5469823462981261274
+    second: steam-frame_sheet_double_46
+  - first:
+      213: -4246133265000951500
+    second: steam-frame_sheet_double_47
+  - first:
+      213: 9022312189717922901
+    second: steam-frame_sheet_double_48
+  - first:
+      213: -1950640624670137627
+    second: steam-frame_sheet_double_49
+  - first:
+      213: -2962913067196899546
+    second: steam-frame_sheet_double_50
+  - first:
+      213: -4058187029469618955
+    second: steam-frame_sheet_double_51
+  - first:
+      213: 57481099539214596
+    second: steam-frame_sheet_double_52
+  - first:
+      213: 3215133606188281676
+    second: steam-frame_sheet_double_53
+  - first:
+      213: 3660028921677256203
+    second: steam-frame_sheet_double_54
+  - first:
+      213: -7380232002724674117
+    second: steam-frame_sheet_double_55
+  - first:
+      213: -558890480502245880
+    second: steam-frame_sheet_double_56
+  - first:
+      213: 2406636576602655295
+    second: steam-frame_sheet_double_57
+  - first:
+      213: -5191890732499582109
+    second: steam-frame_sheet_double_58
+  - first:
+      213: -8129496077626244525
+    second: steam-frame_sheet_double_59
+  - first:
+      213: 4107234317335455380
+    second: steam-frame_sheet_double_60
+  - first:
+      213: 6881110658080533173
+    second: steam-frame_sheet_double_61
+  - first:
+      213: 7503384984981574349
+    second: steam-frame_sheet_double_62
+  - first:
+      213: -2213911168330300842
+    second: steam-frame_sheet_double_63
+  - first:
+      213: 3680569784834818998
+    second: steam-frame_sheet_double_64
+  - first:
+      213: 7400709078662090286
+    second: steam-frame_sheet_double_65
+  - first:
+      213: -8540831507456218079
+    second: steam-frame_sheet_double_66
+  - first:
+      213: 6469341767057815400
+    second: steam-frame_sheet_double_67
+  - first:
+      213: 3088672567727837439
+    second: steam-frame_sheet_double_68
+  - first:
+      213: 3256426435520188942
+    second: steam-frame_sheet_double_69
+  - first:
+      213: -2251736208350532576
+    second: steam-frame_sheet_double_70
+  - first:
+      213: -4208954775303902086
+    second: steam-frame_sheet_double_71
+  - first:
+      213: 5444237102537652863
+    second: steam-frame_sheet_double_72
+  - first:
+      213: -3446871526454811200
+    second: steam-frame_sheet_double_73
+  - first:
+      213: 5560813203305159472
+    second: steam-frame_sheet_double_74
+  - first:
+      213: -4548100447793384514
+    second: steam-frame_sheet_double_75
+  - first:
+      213: -308170128782616859
+    second: steam-frame_sheet_double_76
+  - first:
+      213: -3325477693183763916
+    second: steam-frame_sheet_double_77
+  - first:
+      213: -3068155918064355665
+    second: steam-frame_sheet_double_78
+  - first:
+      213: 4461540122267262653
+    second: steam-frame_sheet_double_79
+  - first:
+      213: -7179359948429534776
+    second: steam-frame_sheet_double_80
+  - first:
+      213: -4699380204181167993
+    second: steam-frame_sheet_double_81
+  - first:
+      213: 6289449645853106726
+    second: steam-frame_sheet_double_82
+  - first:
+      213: 6069288683415961129
+    second: steam-frame_sheet_double_83
+  - first:
+      213: -5649958459816548733
+    second: steam-frame_sheet_double_84
+  - first:
+      213: 1324366883465502686
+    second: steam-frame_sheet_double_85
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c99a008cfcb947830800000000000000
+      internalID: 4068047680138422684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_1
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f5f9504a456f2e90800000000000000
+      internalID: -7048303522229914121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_2
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 895
+        width: 897
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba4782dcd1f4c1630800000000000000
+      internalID: 3899078366810633387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_3
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2a165d30e0181ee0800000000000000
+      internalID: -1290262737953875413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_4
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 858
+        width: 78
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5c31639c241e0c50800000000000000
+      internalID: 6633261482847059039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_5
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 783
+        width: 96
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a828ebb012d086c00800000000000000
+      internalID: 893978961615159946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_6
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 783
+        width: 98
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 730cbcb361314d460800000000000000
+      internalID: 7265453085068869687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_7
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 867
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e449067f905933d80800000000000000
+      internalID: -8272104220511923122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_8
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 783
+        width: 96
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8545b6b3eab0554a0800000000000000
+      internalID: -6605360435519859624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_9
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 783
+        width: 98
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22784e72257c95f10800000000000000
+      internalID: 2259055843773548322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_10
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 871
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48e368ce6ca5b6260800000000000000
+      internalID: 7091861848643223172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_11
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 783
+        width: 98
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e034fc815f2433a0800000000000000
+      internalID: -6686667519434673944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_12
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 871
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dac32b74be8333a50800000000000000
+      internalID: 6499601270397090989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_13
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 859
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7253d111f877df60800000000000000
+      internalID: 8059043034984305275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_14
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 859
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9030f42986dfb2470800000000000000
+      internalID: 8371062957971276553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_15
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 827
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99f1e7e3467ab7620800000000000000
+      internalID: 2772994044563693465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_16
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 783
+        width: 94
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80da45e705da63c60800000000000000
+      internalID: 7797610366067059976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_17
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 821
+        width: 66
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b782cf138c539fc70800000000000000
+      internalID: 9005288063852357755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_18
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 827
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2286d98983bd6800800000000000000
+      internalID: 607338928069313068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_19
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 827
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a66d0afb2ae0f360800000000000000
+      internalID: 7201513278765098660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_20
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 827
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 524c0b033ad83a050800000000000000
+      internalID: 5810643676274148389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_21
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 783
+        width: 98
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cb65e2115d8c6b40800000000000000
+      internalID: 5434874229678238663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_22
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 783
+        width: 98
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 325f3d79fb3e370e0800000000000000
+      internalID: -2273222974866459357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_23
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b968d94b1c75cc730800000000000000
+      internalID: 4020685056805537435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_24
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4e23035145b06270800000000000000
+      internalID: 8241786610258226763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_25
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 730
+        width: 78
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f11e20d30480425d0800000000000000
+      internalID: -3088334372474789601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_26
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 655
+        width: 96
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84e7f191d99c09900800000000000000
+      internalID: 689272419556228680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_27
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 655
+        width: 98
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06ad8f35ab4ddb640800000000000000
+      internalID: 5097464249991092832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_28
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 739
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bff3c00fee7131960800000000000000
+      internalID: 7571421713536925691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_29
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 655
+        width: 96
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e437826b7d0499e40800000000000000
+      internalID: 5663629301613359950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_30
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 655
+        width: 98
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ffd339385dc21e10800000000000000
+      internalID: 2167020149519146996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_31
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 743
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9d0ee0de45e90700800000000000000
+      internalID: 507188559731363230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_32
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 655
+        width: 98
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26ebba981e1fa81e0800000000000000
+      internalID: -2194675917410025886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_33
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 743
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f257a2bf0b963b6a0800000000000000
+      internalID: -6434683233733282513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_34
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66aa28ebd6020c4f0800000000000000
+      internalID: -810612277206930842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_35
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 699
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c00a903619445130800000000000000
+      internalID: 3554546365555671240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_36
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 655
+        width: 94
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f27e5504316145ef0800000000000000
+      internalID: -120447018092599505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_37
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 693
+        width: 66
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6f520d6102b88f50800000000000000
+      internalID: 6883947749629386605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_38
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 699
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01985cc5772d0e090800000000000000
+      internalID: -8007168727365351152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_39
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 699
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97de890af7a3f1e20800000000000000
+      internalID: 3323439369852349817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_40
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 699
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23d2b3be3925dacc0800000000000000
+      internalID: -3698208923741115086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_41
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61072ea9c9e1f41c0800000000000000
+      internalID: -4517358243267055594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_42
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb615647c17602f30800000000000000
+      internalID: 4548748995553728191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_43
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 754c585ff51999770800000000000000
+      internalID: 8618079203277259863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_44
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6e81f3e0247100f0800000000000000
+      internalID: -1152512345018102166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_45
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ee1eca4f4e1c4d60800000000000000
+      internalID: 7875703174270426857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_46
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 628a7e07a884714b0800000000000000
+      internalID: -5469823462981261274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_47
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43116aeda44b215c0800000000000000
+      internalID: -4246133265000951500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_48
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55440d06221b53d70800000000000000
+      internalID: 9022312189717922901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_49
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e22712dfaeede4e0800000000000000
+      internalID: -1950640624670137627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_50
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62f9d59734e91e6d0800000000000000
+      internalID: -2962913067196899546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_51
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fc9d5cd56c6ea7c0800000000000000
+      internalID: -4058187029469618955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_52
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 401755761c63cc000800000000000000
+      internalID: 57481099539214596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_53
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4fe546faf27e9c20800000000000000
+      internalID: 3215133606188281676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_54
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b069a30a9e80bc230800000000000000
+      internalID: 3660028921677256203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_55
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb540ad7816249990800000000000000
+      internalID: -7380232002724674117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_56
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 806f051b11c6e38f0800000000000000
+      internalID: -558890480502245880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_57
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3a0ddb2737166120800000000000000
+      internalID: 2406636576602655295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_58
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36348b8f2e2b2f7b0800000000000000
+      internalID: -5191890732499582109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_59
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 299
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 352082aa36a3e2f80800000000000000
+      internalID: -8129496077626244525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_60
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 299
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 496e21eb9d3dff830800000000000000
+      internalID: 4107234317335455380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_61
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ba6b039fad9e7f50800000000000000
+      internalID: 6881110658080533173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_62
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc293d2a3e0612860800000000000000
+      internalID: 7503384984981574349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_63
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 652076fa58b9641e0800000000000000
+      internalID: -2213911168330300842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_64
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b38d1408b2041330800000000000000
+      internalID: 3680569784834818998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_65
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2e89a742b994b660800000000000000
+      internalID: 7400709078662090286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_66
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12cab97cefed87980800000000000000
+      internalID: -8540831507456218079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_67
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8673414af08b7c950800000000000000
+      internalID: 6469341767057815400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_68
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff059eaf55b2dda20800000000000000
+      internalID: 3088672567727837439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_69
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e025f5ef696213d20800000000000000
+      internalID: 3256426435520188942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_70
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02ca16549d930c0e0800000000000000
+      internalID: -2251736208350532576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_71
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 171
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7ca35e8ee9c695c0800000000000000
+      internalID: -4208954775303902086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_72
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 171
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7a32c9ccc0dd8b40800000000000000
+      internalID: 5444237102537652863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_73
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c5a047eb904a20d0800000000000000
+      internalID: -3446871526454811200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_74
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03b5e4d552afb2d40800000000000000
+      internalID: 5560813203305159472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_75
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb3fa765db6e1e0c0800000000000000
+      internalID: -4548100447793384514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_76
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e6968f86e829bbf0800000000000000
+      internalID: -308170128782616859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_77
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 15
+        width: 58
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43adb4d38a789d1d0800000000000000
+      internalID: -3325477693183763916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_78
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 15
+        width: 58
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa6f244c278bb65d0800000000000000
+      internalID: -3068155918064355665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_79
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 15
+        width: 58
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbe94ea5a139aed30800000000000000
+      internalID: 4461540122267262653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_80
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 15
+        width: 58
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c9d03f2a2acd5c90800000000000000
+      internalID: -7179359948429534776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_81
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78067494a9278ceb0800000000000000
+      internalID: -4699380204181167993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_82
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 622e7c5412d984750800000000000000
+      internalID: 6289449645853106726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_83
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92e7e4ea6e17a3450800000000000000
+      internalID: 6069288683415961129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_84
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 386ebee27b05791b0800000000000000
+      internalID: -5649958459816548733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-frame_sheet_double_85
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edf9049e9a8116210800000000000000
+      internalID: 1324366883465502686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      steam-frame_sheet_double_0: 4068047680138422684
+      steam-frame_sheet_double_1: -7048303522229914121
+      steam-frame_sheet_double_10: 7091861848643223172
+      steam-frame_sheet_double_11: -6686667519434673944
+      steam-frame_sheet_double_12: 6499601270397090989
+      steam-frame_sheet_double_13: 8059043034984305275
+      steam-frame_sheet_double_14: 8371062957971276553
+      steam-frame_sheet_double_15: 2772994044563693465
+      steam-frame_sheet_double_16: 7797610366067059976
+      steam-frame_sheet_double_17: 9005288063852357755
+      steam-frame_sheet_double_18: 607338928069313068
+      steam-frame_sheet_double_19: 7201513278765098660
+      steam-frame_sheet_double_2: 3899078366810633387
+      steam-frame_sheet_double_20: 5810643676274148389
+      steam-frame_sheet_double_21: 5434874229678238663
+      steam-frame_sheet_double_22: -2273222974866459357
+      steam-frame_sheet_double_23: 4020685056805537435
+      steam-frame_sheet_double_24: 8241786610258226763
+      steam-frame_sheet_double_25: -3088334372474789601
+      steam-frame_sheet_double_26: 689272419556228680
+      steam-frame_sheet_double_27: 5097464249991092832
+      steam-frame_sheet_double_28: 7571421713536925691
+      steam-frame_sheet_double_29: 5663629301613359950
+      steam-frame_sheet_double_3: -1290262737953875413
+      steam-frame_sheet_double_30: 2167020149519146996
+      steam-frame_sheet_double_31: 507188559731363230
+      steam-frame_sheet_double_32: -2194675917410025886
+      steam-frame_sheet_double_33: -6434683233733282513
+      steam-frame_sheet_double_34: -810612277206930842
+      steam-frame_sheet_double_35: 3554546365555671240
+      steam-frame_sheet_double_36: -120447018092599505
+      steam-frame_sheet_double_37: 6883947749629386605
+      steam-frame_sheet_double_38: -8007168727365351152
+      steam-frame_sheet_double_39: 3323439369852349817
+      steam-frame_sheet_double_4: 6633261482847059039
+      steam-frame_sheet_double_40: -3698208923741115086
+      steam-frame_sheet_double_41: -4517358243267055594
+      steam-frame_sheet_double_42: 4548748995553728191
+      steam-frame_sheet_double_43: 8618079203277259863
+      steam-frame_sheet_double_44: -1152512345018102166
+      steam-frame_sheet_double_45: 7875703174270426857
+      steam-frame_sheet_double_46: -5469823462981261274
+      steam-frame_sheet_double_47: -4246133265000951500
+      steam-frame_sheet_double_48: 9022312189717922901
+      steam-frame_sheet_double_49: -1950640624670137627
+      steam-frame_sheet_double_5: 893978961615159946
+      steam-frame_sheet_double_50: -2962913067196899546
+      steam-frame_sheet_double_51: -4058187029469618955
+      steam-frame_sheet_double_52: 57481099539214596
+      steam-frame_sheet_double_53: 3215133606188281676
+      steam-frame_sheet_double_54: 3660028921677256203
+      steam-frame_sheet_double_55: -7380232002724674117
+      steam-frame_sheet_double_56: -558890480502245880
+      steam-frame_sheet_double_57: 2406636576602655295
+      steam-frame_sheet_double_58: -5191890732499582109
+      steam-frame_sheet_double_59: -8129496077626244525
+      steam-frame_sheet_double_6: 7265453085068869687
+      steam-frame_sheet_double_60: 4107234317335455380
+      steam-frame_sheet_double_61: 6881110658080533173
+      steam-frame_sheet_double_62: 7503384984981574349
+      steam-frame_sheet_double_63: -2213911168330300842
+      steam-frame_sheet_double_64: 3680569784834818998
+      steam-frame_sheet_double_65: 7400709078662090286
+      steam-frame_sheet_double_66: -8540831507456218079
+      steam-frame_sheet_double_67: 6469341767057815400
+      steam-frame_sheet_double_68: 3088672567727837439
+      steam-frame_sheet_double_69: 3256426435520188942
+      steam-frame_sheet_double_7: -8272104220511923122
+      steam-frame_sheet_double_70: -2251736208350532576
+      steam-frame_sheet_double_71: -4208954775303902086
+      steam-frame_sheet_double_72: 5444237102537652863
+      steam-frame_sheet_double_73: -3446871526454811200
+      steam-frame_sheet_double_74: 5560813203305159472
+      steam-frame_sheet_double_75: -4548100447793384514
+      steam-frame_sheet_double_76: -308170128782616859
+      steam-frame_sheet_double_77: -3325477693183763916
+      steam-frame_sheet_double_78: -3068155918064355665
+      steam-frame_sheet_double_79: 4461540122267262653
+      steam-frame_sheet_double_8: -6605360435519859624
+      steam-frame_sheet_double_80: -7179359948429534776
+      steam-frame_sheet_double_81: -4699380204181167993
+      steam-frame_sheet_double_82: 6289449645853106726
+      steam-frame_sheet_double_83: 6069288683415961129
+      steam-frame_sheet_double_84: -5649958459816548733
+      steam-frame_sheet_double_85: 1324366883465502686
+      steam-frame_sheet_double_9: 2259055843773548322
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

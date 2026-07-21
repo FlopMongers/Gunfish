@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e196b52d2d6b09e498e3aee2f9be98a9, type: 3}
+  m_Name: KeyboardGlyphs
+  m_EditorClassIdentifier: Assembly-CSharp::InputGlyphSet
+  entries:
+  - controlName: a
+    glyph: {fileID: 1145220741083561907, guid: 10ef76e686469394e9851f8e06e9bf18, type: 3}
+  - controlName: b
+    glyph: {fileID: 4387665465535511833, guid: a97c261bfff10f64391022237120f7a9, type: 3}
+  - controlName: c
+    glyph: {fileID: 7489297749385158885, guid: aa3381c47fa832c46a845a829673dc30, type: 3}
+  - controlName: d
+    glyph: {fileID: -8387302115945079765, guid: 85c4d9bf0a9118b4a8bdf25532675d8a,
+      type: 3}
+  - controlName: e
+    glyph: {fileID: 1622727937493990531, guid: 8fa26f3ef2beef5498bc0750676b4143, type: 3}
+  - controlName: f
+    glyph: {fileID: -9125861541802950594, guid: 92a1ba1c8da91d846bb1a97f0f74f1f5,
+      type: 3}
+  - controlName: g
+    glyph: {fileID: -6228684978618632526, guid: 56cdb7549af685d4a8b78835e846ffba,
+      type: 3}
+  - controlName: h
+    glyph: {fileID: -9011578454848037910, guid: ebf8b64b7ad3fcb44b50b2b5e738e74e,
+      type: 3}
+  - controlName: i
+    glyph: {fileID: 6624163752006436703, guid: 34916c018616c71439d8894ab3f3d177, type: 3}
+  - controlName: j
+    glyph: {fileID: -2577820472799158749, guid: 68f8884f35c7642488a36f146579b99b,
+      type: 3}
+  - controlName: k
+    glyph: {fileID: 3290407570213495539, guid: e35f501e91b42cf47b36a90e25ff9152, type: 3}
+  - controlName: l
+    glyph: {fileID: 2711562684772605928, guid: d6884579dbbee2647b156f5b8b885596, type: 3}
+  - controlName: m
+    glyph: {fileID: 8162251711410599823, guid: 76a78534faedd4a44989b4240bf4ef5d, type: 3}
+  - controlName: n
+    glyph: {fileID: 1613905444216025894, guid: 31bb1642dcd4ca5459616173cfdf264f, type: 3}
+  - controlName: o
+    glyph: {fileID: 5237277465588018485, guid: a2f27fddff80dfd48b7167152464d06f, type: 3}
+  - controlName: p
+    glyph: {fileID: 7358378815127608425, guid: ec18d1a0413f6e946a7d4bd3960c8792, type: 3}
+  - controlName: q
+    glyph: {fileID: 1179216485070693450, guid: 5e93d26d5088e214694361c0144ee7fa, type: 3}
+  - controlName: r
+    glyph: {fileID: -6780523318993171746, guid: 63a6fc543824b054fa94602ee942c74a,
+      type: 3}
+  - controlName: s
+    glyph: {fileID: -3937758826142331281, guid: d54b264cb9a896148acb1435837c21fc,
+      type: 3}
+  - controlName: t
+    glyph: {fileID: 3804896374830911662, guid: 5d3c0a028e0d7894db5b413362fa3a2c, type: 3}
+  - controlName: u
+    glyph: {fileID: 1897869547920896223, guid: 865456a5bfcf10e4a8077eb27c96f461, type: 3}
+  - controlName: v
+    glyph: {fileID: -8655167945723465343, guid: 251a5242aacb198419f5da1c8cb55e91,
+      type: 3}
+  - controlName: w
+    glyph: {fileID: 6539619573780045288, guid: 6a377a57a8870d44bb1ebbde1ff1af85, type: 3}
+  - controlName: x
+    glyph: {fileID: -1679339380555045785, guid: 8030736a2b8e0d84d95b44026012201b,
+      type: 3}
+  - controlName: y
+    glyph: {fileID: -2318533488985238692, guid: aa7c609b79952174c946bd9abbae48ba,
+      type: 3}
+  - controlName: z
+    glyph: {fileID: 8988070500663906562, guid: 9a514467e9a03af43a7847baee284f4b, type: 3}
+  - controlName: 0
+    glyph: {fileID: -298569682275349766, guid: 00f4e39d99e4b65408a8d003c3a09570, type: 3}
+  - controlName: 1
+    glyph: {fileID: 2285120093584573513, guid: ff1a69b6386b10d48b155e5c3bd7cca9, type: 3}
+  - controlName: 2
+    glyph: {fileID: -4842122482347598607, guid: 86af25d9dc6e1d54985c69d7a4a5ee79,
+      type: 3}
+  - controlName: 3
+    glyph: {fileID: -7699723923551181482, guid: 1780c6ac1a8a7ec4cb7c47ca7afd12e3,
+      type: 3}
+  - controlName: 4
+    glyph: {fileID: 4871772481475680366, guid: 981c83c1d7c402a428d6e00a81cb07c9, type: 3}
+  - controlName: 5
+    glyph: {fileID: 3284144849386901357, guid: a48bda669ed32194aaa7b000071b6fa1, type: 3}
+  - controlName: 6
+    glyph: {fileID: -1550802614037358739, guid: e08d97ded518ccf46a30a5e090964928,
+      type: 3}
+  - controlName: 7
+    glyph: {fileID: 3132562753328626587, guid: 0d8b41eea6db0484691afcb4c62b6097, type: 3}
+  - controlName: 8
+    glyph: {fileID: 890350665705472834, guid: bf4ab70a79a825b4d8d5309cfa484988, type: 3}
+  - controlName: 9
+    glyph: {fileID: 4052524382370747962, guid: dd6c0f6d183ba964aac45da5cf952b01, type: 3}
+  - controlName: space
+    glyph: {fileID: -557078281788634498, guid: 78c25508cf5ff5c4fa93408cbbad27bf, type: 3}
+  - controlName: leftShift
+    glyph: {fileID: -465843913026089529, guid: 32d1d6f911603654cacd5fbb4e96d7eb, type: 3}
+  - controlName: rightShift
+    glyph: {fileID: -465843913026089529, guid: 32d1d6f911603654cacd5fbb4e96d7eb, type: 3}
+  - controlName: leftCtrl
+    glyph: {fileID: 3795127328408915156, guid: 01577aa9982d35645996f383b6484520, type: 3}
+  - controlName: rightCtrl
+    glyph: {fileID: 3795127328408915156, guid: 01577aa9982d35645996f383b6484520, type: 3}
+  - controlName: leftAlt
+    glyph: {fileID: -8537438008601397705, guid: c6556e13f2ac6d24faf266f30dd3e05a,
+      type: 3}
+  - controlName: rightAlt
+    glyph: {fileID: -8537438008601397705, guid: c6556e13f2ac6d24faf266f30dd3e05a,
+      type: 3}
+  - controlName: enter
+    glyph: {fileID: -4761915745340555039, guid: fabb8c72b1be1644786bb7ecd15a1ad6,
+      type: 3}
+  - controlName: escape
+    glyph: {fileID: 5161238624427270819, guid: 8dbff0e02e4c25d419f57eaabb5fe5db, type: 3}
+  - controlName: tab
+    glyph: {fileID: 2363609691092413705, guid: dc633377a12c5a54aa7a213abc193d13, type: 3}
+  - controlName: upArrow
+    glyph: {fileID: 2349417091975035521, guid: 299c01fff7c1e384f826106c15b358a9, type: 3}
+  - controlName: downArrow
+    glyph: {fileID: 5154032583816780984, guid: 2242f36da7411564ea805b805a3dddef, type: 3}
+  - controlName: leftArrow
+    glyph: {fileID: -3607151359317351652, guid: 153136837d216a543988655da758bdb5,
+      type: 3}
+  - controlName: rightArrow
+    glyph: {fileID: -4797783203767385232, guid: bd29d3d2fc6d0e04f85969c1591b4c8b,
+      type: 3}

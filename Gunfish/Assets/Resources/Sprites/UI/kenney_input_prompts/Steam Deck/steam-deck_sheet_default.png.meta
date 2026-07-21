@@ -1,0 +1,6110 @@
+fileFormatVersion: 2
+guid: 3656157e6fc40724e8b1696aba78b1e9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8447844428051056685
+    second: steam-deck_sheet_default_0
+  - first:
+      213: 5879630199439865879
+    second: steam-deck_sheet_default_1
+  - first:
+      213: 8379654388990219998
+    second: steam-deck_sheet_default_2
+  - first:
+      213: -525696858663024680
+    second: steam-deck_sheet_default_3
+  - first:
+      213: -8893034068114682675
+    second: steam-deck_sheet_default_4
+  - first:
+      213: 1237322898382094418
+    second: steam-deck_sheet_default_5
+  - first:
+      213: -755093750409238604
+    second: steam-deck_sheet_default_6
+  - first:
+      213: -2578100598545468475
+    second: steam-deck_sheet_default_7
+  - first:
+      213: -2574745327688423580
+    second: steam-deck_sheet_default_8
+  - first:
+      213: 7189151968922434194
+    second: steam-deck_sheet_default_9
+  - first:
+      213: -8833355680496502906
+    second: steam-deck_sheet_default_10
+  - first:
+      213: -4247314480386133724
+    second: steam-deck_sheet_default_11
+  - first:
+      213: -7932105600784780417
+    second: steam-deck_sheet_default_12
+  - first:
+      213: 3633778103675858731
+    second: steam-deck_sheet_default_13
+  - first:
+      213: -7698020000869080913
+    second: steam-deck_sheet_default_14
+  - first:
+      213: -3713402258253579142
+    second: steam-deck_sheet_default_15
+  - first:
+      213: 6513437833621511949
+    second: steam-deck_sheet_default_16
+  - first:
+      213: -3551912115433873413
+    second: steam-deck_sheet_default_17
+  - first:
+      213: -5236392312593238893
+    second: steam-deck_sheet_default_18
+  - first:
+      213: -4739942014485683998
+    second: steam-deck_sheet_default_19
+  - first:
+      213: 8423154231138270203
+    second: steam-deck_sheet_default_20
+  - first:
+      213: -5350965515051340106
+    second: steam-deck_sheet_default_21
+  - first:
+      213: -7818031975797296249
+    second: steam-deck_sheet_default_22
+  - first:
+      213: -3131512285787862813
+    second: steam-deck_sheet_default_23
+  - first:
+      213: 4786754800835715582
+    second: steam-deck_sheet_default_24
+  - first:
+      213: 3169774132303823298
+    second: steam-deck_sheet_default_25
+  - first:
+      213: -2641445783255274301
+    second: steam-deck_sheet_default_26
+  - first:
+      213: 4861405781519051371
+    second: steam-deck_sheet_default_27
+  - first:
+      213: 4939426049773343496
+    second: steam-deck_sheet_default_28
+  - first:
+      213: 5322701832660287430
+    second: steam-deck_sheet_default_29
+  - first:
+      213: 7757998753673285309
+    second: steam-deck_sheet_default_30
+  - first:
+      213: -7494020345476234830
+    second: steam-deck_sheet_default_31
+  - first:
+      213: 3367141196790539953
+    second: steam-deck_sheet_default_32
+  - first:
+      213: 6879748655549639017
+    second: steam-deck_sheet_default_33
+  - first:
+      213: 126434865811436196
+    second: steam-deck_sheet_default_34
+  - first:
+      213: -8942786884045835712
+    second: steam-deck_sheet_default_35
+  - first:
+      213: -929621406536003007
+    second: steam-deck_sheet_default_36
+  - first:
+      213: -6055136200411724898
+    second: steam-deck_sheet_default_37
+  - first:
+      213: -8785827421441833979
+    second: steam-deck_sheet_default_38
+  - first:
+      213: 1609615367165146757
+    second: steam-deck_sheet_default_39
+  - first:
+      213: 3381847724569375623
+    second: steam-deck_sheet_default_40
+  - first:
+      213: -8003700086478726074
+    second: steam-deck_sheet_default_41
+  - first:
+      213: -4650618915763651912
+    second: steam-deck_sheet_default_42
+  - first:
+      213: 8064084087006140111
+    second: steam-deck_sheet_default_43
+  - first:
+      213: -8308248360722242899
+    second: steam-deck_sheet_default_44
+  - first:
+      213: -580466909845506459
+    second: steam-deck_sheet_default_45
+  - first:
+      213: -5669631747749074843
+    second: steam-deck_sheet_default_46
+  - first:
+      213: 6787837942539856718
+    second: steam-deck_sheet_default_47
+  - first:
+      213: 8111063833100306877
+    second: steam-deck_sheet_default_48
+  - first:
+      213: -4471519697014460089
+    second: steam-deck_sheet_default_49
+  - first:
+      213: -1982264707646225205
+    second: steam-deck_sheet_default_50
+  - first:
+      213: -728238191170872849
+    second: steam-deck_sheet_default_51
+  - first:
+      213: -1955713503920846681
+    second: steam-deck_sheet_default_52
+  - first:
+      213: 4580701401110923961
+    second: steam-deck_sheet_default_53
+  - first:
+      213: -6343581369935673540
+    second: steam-deck_sheet_default_54
+  - first:
+      213: -9018092029001315690
+    second: steam-deck_sheet_default_55
+  - first:
+      213: 6031777916718003613
+    second: steam-deck_sheet_default_56
+  - first:
+      213: -7669199652756566460
+    second: steam-deck_sheet_default_57
+  - first:
+      213: 4927340297182777616
+    second: steam-deck_sheet_default_58
+  - first:
+      213: -702651783970683957
+    second: steam-deck_sheet_default_59
+  - first:
+      213: -8009542284282901401
+    second: steam-deck_sheet_default_60
+  - first:
+      213: 702209049789077360
+    second: steam-deck_sheet_default_61
+  - first:
+      213: 8897188108197129172
+    second: steam-deck_sheet_default_62
+  - first:
+      213: 3563869577533753368
+    second: steam-deck_sheet_default_63
+  - first:
+      213: -5508488368393670655
+    second: steam-deck_sheet_default_64
+  - first:
+      213: 353844145425883786
+    second: steam-deck_sheet_default_65
+  - first:
+      213: 4371570671094270646
+    second: steam-deck_sheet_default_66
+  - first:
+      213: -8082905519803118079
+    second: steam-deck_sheet_default_67
+  - first:
+      213: 4620893808704448768
+    second: steam-deck_sheet_default_68
+  - first:
+      213: -8951273113788900625
+    second: steam-deck_sheet_default_69
+  - first:
+      213: 2055022580343980286
+    second: steam-deck_sheet_default_70
+  - first:
+      213: 8630156918309068174
+    second: steam-deck_sheet_default_71
+  - first:
+      213: -8576117188599768760
+    second: steam-deck_sheet_default_72
+  - first:
+      213: -611414627885273957
+    second: steam-deck_sheet_default_73
+  - first:
+      213: -7683337096944532275
+    second: steam-deck_sheet_default_74
+  - first:
+      213: -3687646699488926278
+    second: steam-deck_sheet_default_75
+  - first:
+      213: 1214737913218797208
+    second: steam-deck_sheet_default_76
+  - first:
+      213: -5096273514352294481
+    second: steam-deck_sheet_default_77
+  - first:
+      213: -8177712476500386300
+    second: steam-deck_sheet_default_78
+  - first:
+      213: -909765102063568363
+    second: steam-deck_sheet_default_79
+  - first:
+      213: 4737740772757837273
+    second: steam-deck_sheet_default_80
+  - first:
+      213: 1003827073468895730
+    second: steam-deck_sheet_default_81
+  - first:
+      213: -6780535102972333966
+    second: steam-deck_sheet_default_82
+  - first:
+      213: -8210412791541513944
+    second: steam-deck_sheet_default_83
+  - first:
+      213: -4749393021254581508
+    second: steam-deck_sheet_default_84
+  - first:
+      213: 6876248634519473255
+    second: steam-deck_sheet_default_85
+  - first:
+      213: 4603598702435672744
+    second: steam-deck_sheet_default_86
+  - first:
+      213: 148785904520576012
+    second: steam-deck_sheet_default_87
+  - first:
+      213: 5562549397896772221
+    second: steam-deck_sheet_default_88
+  - first:
+      213: 6312394531528699065
+    second: steam-deck_sheet_default_89
+  - first:
+      213: 3152224826091004499
+    second: steam-deck_sheet_default_90
+  - first:
+      213: 7840537801984837849
+    second: steam-deck_sheet_default_91
+  - first:
+      213: -5336904925834862358
+    second: steam-deck_sheet_default_92
+  - first:
+      213: -5938432807079665537
+    second: steam-deck_sheet_default_93
+  - first:
+      213: -2739808565498424860
+    second: steam-deck_sheet_default_94
+  - first:
+      213: 14997381139661283
+    second: steam-deck_sheet_default_95
+  - first:
+      213: 3291569156672426145
+    second: steam-deck_sheet_default_96
+  - first:
+      213: -4675645333562134159
+    second: steam-deck_sheet_default_97
+  - first:
+      213: -8004500307208582813
+    second: steam-deck_sheet_default_98
+  - first:
+      213: -277227647629311272
+    second: steam-deck_sheet_default_99
+  - first:
+      213: 2612467129396310250
+    second: steam-deck_sheet_default_100
+  - first:
+      213: -2122775484310955037
+    second: steam-deck_sheet_default_101
+  - first:
+      213: -4121979616130857350
+    second: steam-deck_sheet_default_102
+  - first:
+      213: -1685006476283379345
+    second: steam-deck_sheet_default_103
+  - first:
+      213: -498957805109497268
+    second: steam-deck_sheet_default_104
+  - first:
+      213: -963462515488798059
+    second: steam-deck_sheet_default_105
+  - first:
+      213: 5022839956632803906
+    second: steam-deck_sheet_default_106
+  - first:
+      213: 8763414712040754355
+    second: steam-deck_sheet_default_107
+  - first:
+      213: 6083847026109953024
+    second: steam-deck_sheet_default_108
+  - first:
+      213: -8595527897370305326
+    second: steam-deck_sheet_default_109
+  - first:
+      213: -4467137478442969511
+    second: steam-deck_sheet_default_110
+  - first:
+      213: 1403664696366607790
+    second: steam-deck_sheet_default_111
+  - first:
+      213: -7685270295912061806
+    second: steam-deck_sheet_default_112
+  - first:
+      213: -1089931187287428009
+    second: steam-deck_sheet_default_113
+  - first:
+      213: 3227024094263318028
+    second: steam-deck_sheet_default_114
+  - first:
+      213: -1345649250366023359
+    second: steam-deck_sheet_default_115
+  - first:
+      213: 531736924870390257
+    second: steam-deck_sheet_default_116
+  - first:
+      213: -5382584926035943355
+    second: steam-deck_sheet_default_117
+  - first:
+      213: -7042204810290081215
+    second: steam-deck_sheet_default_118
+  - first:
+      213: -1205284160870635352
+    second: steam-deck_sheet_default_119
+  - first:
+      213: 9177555577881161746
+    second: steam-deck_sheet_default_120
+  - first:
+      213: 1878660284659293770
+    second: steam-deck_sheet_default_121
+  - first:
+      213: 6195518408683607025
+    second: steam-deck_sheet_default_122
+  - first:
+      213: -4271685805035148321
+    second: steam-deck_sheet_default_123
+  - first:
+      213: -6430522339742351025
+    second: steam-deck_sheet_default_124
+  - first:
+      213: -7273337661806668429
+    second: steam-deck_sheet_default_125
+  - first:
+      213: 7672190217005086537
+    second: steam-deck_sheet_default_126
+  - first:
+      213: 3068869742913394971
+    second: steam-deck_sheet_default_127
+  - first:
+      213: 5224379130823499783
+    second: steam-deck_sheet_default_128
+  - first:
+      213: -8854612579269469794
+    second: steam-deck_sheet_default_129
+  - first:
+      213: 6596621408035423326
+    second: steam-deck_sheet_default_130
+  - first:
+      213: 3709193266321972561
+    second: steam-deck_sheet_default_131
+  - first:
+      213: -7615908817684640713
+    second: steam-deck_sheet_default_132
+  - first:
+      213: 7043477552229557676
+    second: steam-deck_sheet_default_133
+  - first:
+      213: -8738730315414434705
+    second: steam-deck_sheet_default_134
+  - first:
+      213: -7093549830006375252
+    second: steam-deck_sheet_default_135
+  - first:
+      213: 7151154253633579160
+    second: steam-deck_sheet_default_136
+  - first:
+      213: 4861042506873559535
+    second: steam-deck_sheet_default_137
+  - first:
+      213: -272494596951852300
+    second: steam-deck_sheet_default_138
+  - first:
+      213: -4325014552808226828
+    second: steam-deck_sheet_default_139
+  - first:
+      213: -726355362884574834
+    second: steam-deck_sheet_default_140
+  - first:
+      213: -2063026422181516062
+    second: steam-deck_sheet_default_141
+  - first:
+      213: 3996819463923917053
+    second: steam-deck_sheet_default_142
+  - first:
+      213: -3415420192742913721
+    second: steam-deck_sheet_default_143
+  - first:
+      213: 3489619563373062047
+    second: steam-deck_sheet_default_144
+  - first:
+      213: 5180257329205453037
+    second: steam-deck_sheet_default_145
+  - first:
+      213: 5003064013061040656
+    second: steam-deck_sheet_default_146
+  - first:
+      213: 5672001151201648746
+    second: steam-deck_sheet_default_147
+  - first:
+      213: 7414057307787783129
+    second: steam-deck_sheet_default_148
+  - first:
+      213: 7361194988652954402
+    second: steam-deck_sheet_default_149
+  - first:
+      213: 6711581753018956121
+    second: steam-deck_sheet_default_150
+  - first:
+      213: 4473238673483501200
+    second: steam-deck_sheet_default_151
+  - first:
+      213: 4108391284281253143
+    second: steam-deck_sheet_default_152
+  - first:
+      213: 1988730515550336940
+    second: steam-deck_sheet_default_153
+  - first:
+      213: 1670242457175054531
+    second: steam-deck_sheet_default_154
+  - first:
+      213: 6748357074236996513
+    second: steam-deck_sheet_default_155
+  - first:
+      213: 6649454038968575746
+    second: steam-deck_sheet_default_156
+  - first:
+      213: -2741321228014731015
+    second: steam-deck_sheet_default_157
+  - first:
+      213: 1024935459971050974
+    second: steam-deck_sheet_default_158
+  - first:
+      213: 3799049874325459608
+    second: steam-deck_sheet_default_159
+  - first:
+      213: -7022094851020614590
+    second: steam-deck_sheet_default_160
+  - first:
+      213: 7719735395205150437
+    second: steam-deck_sheet_default_161
+  - first:
+      213: 6032930659502545983
+    second: steam-deck_sheet_default_162
+  - first:
+      213: 828776868026999305
+    second: steam-deck_sheet_default_163
+  - first:
+      213: 7286757363741182539
+    second: steam-deck_sheet_default_164
+  - first:
+      213: -7422615196404259230
+    second: steam-deck_sheet_default_165
+  - first:
+      213: -3697741763648729858
+    second: steam-deck_sheet_default_166
+  - first:
+      213: -7633798584450526066
+    second: steam-deck_sheet_default_167
+  - first:
+      213: 7458952526125308390
+    second: steam-deck_sheet_default_168
+  - first:
+      213: -4349156367338267169
+    second: steam-deck_sheet_default_169
+  - first:
+      213: 6840063522984670825
+    second: steam-deck_sheet_default_170
+  - first:
+      213: 8175261240365413199
+    second: steam-deck_sheet_default_171
+  - first:
+      213: -932714419108561507
+    second: steam-deck_sheet_default_172
+  - first:
+      213: -8314793265360510524
+    second: steam-deck_sheet_default_173
+  - first:
+      213: 2218179480995210263
+    second: steam-deck_sheet_default_174
+  - first:
+      213: -7657341206827215857
+    second: steam-deck_sheet_default_175
+  - first:
+      213: 4839332003391711683
+    second: steam-deck_sheet_default_176
+  - first:
+      213: -820711168038710395
+    second: steam-deck_sheet_default_177
+  - first:
+      213: 5537112945066321114
+    second: steam-deck_sheet_default_178
+  - first:
+      213: -7794832031599148123
+    second: steam-deck_sheet_default_179
+  - first:
+      213: 5332015156358170996
+    second: steam-deck_sheet_default_180
+  - first:
+      213: -2539037506623262396
+    second: steam-deck_sheet_default_181
+  - first:
+      213: 3886622973894786714
+    second: steam-deck_sheet_default_182
+  - first:
+      213: -8611801994904719663
+    second: steam-deck_sheet_default_183
+  - first:
+      213: -3579728649792766022
+    second: steam-deck_sheet_default_184
+  - first:
+      213: -2517976220677350608
+    second: steam-deck_sheet_default_185
+  - first:
+      213: -3002278364804031478
+    second: steam-deck_sheet_default_186
+  - first:
+      213: -4497151121048570288
+    second: steam-deck_sheet_default_187
+  - first:
+      213: 5150314845777956143
+    second: steam-deck_sheet_default_188
+  - first:
+      213: -2589137304865417625
+    second: steam-deck_sheet_default_189
+  - first:
+      213: 6986038191703079319
+    second: steam-deck_sheet_default_190
+  - first:
+      213: -3117052153837547960
+    second: steam-deck_sheet_default_191
+  - first:
+      213: -3779628336014209721
+    second: steam-deck_sheet_default_192
+  - first:
+      213: 6213120749922823756
+    second: steam-deck_sheet_default_193
+  - first:
+      213: 7887592060778299211
+    second: steam-deck_sheet_default_194
+  - first:
+      213: 260962242415651883
+    second: steam-deck_sheet_default_195
+  - first:
+      213: -5929286767175312515
+    second: steam-deck_sheet_default_196
+  - first:
+      213: -3749467031122217452
+    second: steam-deck_sheet_default_197
+  - first:
+      213: 7803185986100367453
+    second: steam-deck_sheet_default_198
+  - first:
+      213: -5256063789852954825
+    second: steam-deck_sheet_default_199
+  - first:
+      213: 2002624915936396968
+    second: steam-deck_sheet_default_200
+  - first:
+      213: 6655849426573915156
+    second: steam-deck_sheet_default_201
+  - first:
+      213: 6923986687810489649
+    second: steam-deck_sheet_default_202
+  - first:
+      213: 899826680406731171
+    second: steam-deck_sheet_default_203
+  - first:
+      213: 8162005151174283718
+    second: steam-deck_sheet_default_204
+  - first:
+      213: -6208172696178652735
+    second: steam-deck_sheet_default_205
+  - first:
+      213: -711223320711261135
+    second: steam-deck_sheet_default_206
+  - first:
+      213: -9042330607961836302
+    second: steam-deck_sheet_default_207
+  - first:
+      213: 2104234129872119303
+    second: steam-deck_sheet_default_208
+  - first:
+      213: -4568085503836592069
+    second: steam-deck_sheet_default_209
+  - first:
+      213: -1840491609918923895
+    second: steam-deck_sheet_default_210
+  - first:
+      213: 1387200237270332752
+    second: steam-deck_sheet_default_211
+  - first:
+      213: -284867087438753856
+    second: steam-deck_sheet_default_212
+  - first:
+      213: -221811419209462477
+    second: steam-deck_sheet_default_213
+  - first:
+      213: -5124158776957617108
+    second: steam-deck_sheet_default_214
+  - first:
+      213: 7498457994092856219
+    second: steam-deck_sheet_default_215
+  - first:
+      213: -6214977313511611718
+    second: steam-deck_sheet_default_216
+  - first:
+      213: 8252784433169486804
+    second: steam-deck_sheet_default_217
+  - first:
+      213: -6717311285484035376
+    second: steam-deck_sheet_default_218
+  - first:
+      213: -1026964403528608990
+    second: steam-deck_sheet_default_219
+  - first:
+      213: 6859687964451823440
+    second: steam-deck_sheet_default_220
+  - first:
+      213: 2782147332981956897
+    second: steam-deck_sheet_default_221
+  - first:
+      213: -1682172835441957618
+    second: steam-deck_sheet_default_222
+  - first:
+      213: 2066893381880928624
+    second: steam-deck_sheet_default_223
+  - first:
+      213: 8552825278281554391
+    second: steam-deck_sheet_default_224
+  - first:
+      213: 2902492291853240389
+    second: steam-deck_sheet_default_225
+  - first:
+      213: -9056095650987662123
+    second: steam-deck_sheet_default_226
+  - first:
+      213: -5610225738274767434
+    second: steam-deck_sheet_default_227
+  - first:
+      213: -1320945040864240230
+    second: steam-deck_sheet_default_228
+  - first:
+      213: -6935716074158066472
+    second: steam-deck_sheet_default_229
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 647
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d7f044504a33ca80800000000000000
+      internalID: -8447844428051056685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_1
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 647
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 718b548c384a89150800000000000000
+      internalID: 5879630199439865879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_2
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 647
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed61e4cf4438a4470800000000000000
+      internalID: 8379654388990219998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_3
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 690
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d70ad70e7954b8f0800000000000000
+      internalID: -525696858663024680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_4
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 647
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dccc392e1a8959480800000000000000
+      internalID: -8893034068114682675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_5
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 690
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2508586de9adb2110800000000000000
+      internalID: 1237322898382094418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_6
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 647
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b76db21c3e5585f0800000000000000
+      internalID: -755093750409238604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_7
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 690
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c3b97c3a2fb83cd0800000000000000
+      internalID: -2578100598545468475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_8
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 647
+        width: 17
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 467e80c14caa44cd0800000000000000
+      internalID: -2574745327688423580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_9
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 690
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29afbef30aff4c360800000000000000
+      internalID: 7189151968922434194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_10
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 647
+        width: 17
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 687b3594fcd996580800000000000000
+      internalID: -8833355680496502906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_11
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 639
+        width: 321
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 421363bbbf18e05c0800000000000000
+      internalID: -4247314480386133724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_12
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 663
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7336507bff7be190800000000000000
+      internalID: -7932105600784780417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_13
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 663
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2f2136cee5cd6230800000000000000
+      internalID: 3633778103675858731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_14
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 642
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa0a85658932b2590800000000000000
+      internalID: -7698020000869080913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_15
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 642
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7c79a01258577cc0800000000000000
+      internalID: -3713402258253579142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_16
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0f99933331646a50800000000000000
+      internalID: 6513437833621511949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_17
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 616
+        width: 50
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bff5826ffb215bec0800000000000000
+      internalID: -3551912115433873413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_18
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3943b4f6fe89457b0800000000000000
+      internalID: -5236392312593238893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_19
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e0a1a2e9d7583eb0800000000000000
+      internalID: -4739942014485683998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_20
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfb335b352e05e470800000000000000
+      internalID: 8423154231138270203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_21
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6beeff5f63d8db5b0800000000000000
+      internalID: -5350965515051340106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_22
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 783f4f7f655c08390800000000000000
+      internalID: -7818031975797296249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_23
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e8c7d3ea22aa84d0800000000000000
+      internalID: -3131512285787862813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_24
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 626
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef165ba4128fd6240800000000000000
+      internalID: 4786754800835715582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_25
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c1013677cc4dfb20800000000000000
+      internalID: 3169774132303823298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_26
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 626
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ccad9b1e03b75bd0800000000000000
+      internalID: -2641445783255274301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_27
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 583
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6a297c2dce277340800000000000000
+      internalID: 4861405781519051371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_28
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 626
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8031d0372dd5c8440800000000000000
+      internalID: 4939426049773343496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_29
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 583
+        width: 17
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cf790dad190ed940800000000000000
+      internalID: 5322701832660287430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_30
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 626
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbe8e9843c2f9ab60800000000000000
+      internalID: 7757998753673285309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_31
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 583
+        width: 17
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b1c6586334eff790800000000000000
+      internalID: -7494020345476234830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_32
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b6a84f141d7abe20800000000000000
+      internalID: 3367141196790539953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_33
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 969e106a3f6c97f50800000000000000
+      internalID: 6879748655549639017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_34
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a23aef27df21c100800000000000000
+      internalID: 126434865811436196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_35
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 583
+        width: 50
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 042fc6ab5b6d4e380800000000000000
+      internalID: -8942786884045835712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_36
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 598
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14292df81425913f0800000000000000
+      internalID: -929621406536003007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_37
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e93c9db05b5d7fba0800000000000000
+      internalID: -6055136200411724898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_38
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 504c21f6288721680800000000000000
+      internalID: -8785827421441833979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_39
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58673e8f5a0865610800000000000000
+      internalID: 1609615367165146757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_40
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 783bb63769cbeee20800000000000000
+      internalID: 3381847724569375623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_41
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 599
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64c1ca04d252de090800000000000000
+      internalID: -8003700086478726074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_42
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 598
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8baf1347cbea57fb0800000000000000
+      internalID: -4650618915763651912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_43
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 578
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc691e470c169ef60800000000000000
+      internalID: 8064084087006140111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_44
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 578
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da2ed69822c23bc80800000000000000
+      internalID: -8308248360722242899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_45
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5663ac2cb64c1f7f0800000000000000
+      internalID: -580466909845506459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_46
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 562
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 568a324e6fb6151b0800000000000000
+      internalID: -5669631747749074843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_47
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4ba10e25ae333e50800000000000000
+      internalID: 6787837942539856718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_48
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 562
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db9467af499409070800000000000000
+      internalID: 8111063833100306877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_49
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 519
+        width: 17
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7417a45d688f1f1c0800000000000000
+      internalID: -4471519697014460089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_50
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 562
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc404f930c49d74e0800000000000000
+      internalID: -1982264707646225205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_51
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 519
+        width: 17
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe913673937c4e5f0800000000000000
+      internalID: -728238191170872849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_52
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a80d541ee8ebd4e0800000000000000
+      internalID: -1955713503920846681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_53
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bac95b97abe19f30800000000000000
+      internalID: 4580701401110923961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_54
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c37c2319a5217f7a0800000000000000
+      internalID: -6343581369935673540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_55
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69a489b541d49d280800000000000000
+      internalID: -9018092029001315690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_56
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d95b50abe0e25b350800000000000000
+      internalID: 6031777916718003613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_57
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 562
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44e45e98c87819590800000000000000
+      internalID: -7669199652756566460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_58
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 552
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0111c05e4ed616440800000000000000
+      internalID: 4927340297182777616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_59
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 562
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc302afdcedaf36f0800000000000000
+      internalID: -702651783970683957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_60
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 552
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76cc8d39ab368d090800000000000000
+      internalID: -8009542284282901401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_61
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0771eba096fbeb900800000000000000
+      internalID: 702209049789077360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_62
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 519
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4db6be0f179297b70800000000000000
+      internalID: 8897188108197129172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_63
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 534
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81888b2af78657130800000000000000
+      internalID: 3563869577533753368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_64
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 535
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1003680a30bed83b0800000000000000
+      internalID: -5508488368393670655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_65
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 535
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8226f1206b19e400800000000000000
+      internalID: 353844145425883786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_66
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 535
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ba07112d50faac30800000000000000
+      internalID: 4371570671094270646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_67
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 535
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10e471b3140c3df80800000000000000
+      internalID: -8082905519803118079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_68
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 535
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00961acbf66b02040800000000000000
+      internalID: 4620893808704448768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_69
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 519
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fea9b156780b6c380800000000000000
+      internalID: -8951273113788900625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_70
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 534
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef04fca1628e48c10800000000000000
+      internalID: 2055022580343980286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_71
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 519
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8d11bf1ef974c770800000000000000
+      internalID: 8630156918309068174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_72
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 535
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 849936dead28bf880800000000000000
+      internalID: -8576117188599768760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_73
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 514
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9cab66a2a1d387f0800000000000000
+      internalID: -611414627885273957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_74
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 514
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc44a0f4e9d4f5590800000000000000
+      internalID: -7683337096944532275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_75
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 514
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab522d36dd8d2dcc0800000000000000
+      internalID: -3687646699488926278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_76
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 514
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89e0b9432bd9bd010800000000000000
+      internalID: 1214737913218797208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_77
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 514
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa5ccca6d366649b0800000000000000
+      internalID: -5096273514352294481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_78
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 514
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40e1aea74dde28e80800000000000000
+      internalID: -8177712476500386300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_79
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 488
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51a3476b57ddf53f0800000000000000
+      internalID: -909765102063568363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_80
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 498
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d59d169126dfb140800000000000000
+      internalID: 4737740772757837273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_81
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 488
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f19802a76f4eed00800000000000000
+      internalID: 1003827073468895730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_82
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2707448af33b6e1a0800000000000000
+      internalID: -6780535102972333966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_83
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82148d41111ce0e80800000000000000
+      internalID: -8210412791541513944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_84
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf2c665e534c61eb0800000000000000
+      internalID: -4749393021254581508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_85
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 488
+        width: 50
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76c4ccf73b75d6f50800000000000000
+      internalID: 6876248634519473255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_86
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a2a02301a443ef30800000000000000
+      internalID: 4603598702435672744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_87
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0cb88aedf7901200800000000000000
+      internalID: 148785904520576012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_88
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7a333ba435223d40800000000000000
+      internalID: 5562549397896772221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_89
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bce2e5c1612a9750800000000000000
+      internalID: 6312394531528699065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_90
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 352625337c3febb20800000000000000
+      internalID: 3152224826091004499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_91
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 455
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d80457079f2fcc60800000000000000
+      internalID: 7840537801984837849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_92
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 498
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae0a49ffe318fe5b0800000000000000
+      internalID: -5336904925834862358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_93
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f70ad7b33d2769da0800000000000000
+      internalID: -5938432807079665537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_94
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 455
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e1d4e430ae3af9d0800000000000000
+      internalID: -2739808565498424860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_95
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 470
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e10467e908453000800000000000000
+      internalID: 14997381139661283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_96
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 455
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a0971165b00ead20800000000000000
+      internalID: 3291569156672426145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_97
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 171f05d7755cc1fb0800000000000000
+      internalID: -4675645333562134159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_98
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 369c358516d4ae090800000000000000
+      internalID: -8004500307208582813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_99
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d2432d5ce6172cf0800000000000000
+      internalID: -277227647629311272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_100
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae03d034309514420800000000000000
+      internalID: 2612467129396310250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_101
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 455
+        width: 50
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ebdcb7a1f26a82e0800000000000000
+      internalID: -2122775484310955037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_102
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 470
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a768e19d069cbc6c0800000000000000
+      internalID: -4121979616130857350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_103
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6185e09987ad98e0800000000000000
+      internalID: -1685006476283379345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_104
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c423a8415885319f0800000000000000
+      internalID: -498957805109497268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_105
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59ac2e162f711a2f0800000000000000
+      internalID: -963462515488798059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_106
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24a9cb21456b4b540800000000000000
+      internalID: 5022839956632803906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_107
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 471
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bc0f920047ed9970800000000000000
+      internalID: 8763414712040754355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_108
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 450
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 004b91bf2aa2e6450800000000000000
+      internalID: 6083847026109953024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_109
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 450
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dc584c1bec86b880800000000000000
+      internalID: -8595527897370305326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_110
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 450
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 956929a912a8102c0800000000000000
+      internalID: -4467137478442969511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_111
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ead20baba91da7310800000000000000
+      internalID: 1403664696366607790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_112
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 294ec49526f685590800000000000000
+      internalID: -7685270295912061806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_113
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 754fc102c59cfd0f0800000000000000
+      internalID: -1089931187287428009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_114
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c061134f051b8cc20800000000000000
+      internalID: 3227024094263318028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_115
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 434
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14999a7e22b435de0800000000000000
+      internalID: -1345649250366023359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_116
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 424
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f1bbd87aeb116700800000000000000
+      internalID: 531736924870390257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_117
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 434
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 540614627873d45b0800000000000000
+      internalID: -5382584926035943355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_118
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 424
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 142dc174900154e90800000000000000
+      internalID: -7042204810290081215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_119
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a8a6e90178f54fe0800000000000000
+      internalID: -1205284160870635352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_120
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 210f20e5c2a3d5f70800000000000000
+      internalID: 9177555577881161746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_121
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4e50c84397521a10800000000000000
+      internalID: 1878660284659293770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_122
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 424
+        width: 50
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f3dafcda27eaf550800000000000000
+      internalID: 6195518408683607025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_123
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdb2dc6846ce7b4c0800000000000000
+      internalID: -4271685805035148321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_124
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 391
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f41817b900232c6a0800000000000000
+      internalID: -6430522339742351025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_125
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 434
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3751b80bee9ef0b90800000000000000
+      internalID: -7273337661806668429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_126
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 947b0d57a58197a60800000000000000
+      internalID: 7672190217005086537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_127
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b191c4885c0d69a20800000000000000
+      internalID: 3068869742913394971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_128
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 700e2b8b329b08840800000000000000
+      internalID: 5224379130823499783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_129
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 391
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9910fcd5c81e1580800000000000000
+      internalID: -8854612579269469794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_130
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 391
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5440bf5838eb8b50800000000000000
+      internalID: 6596621408035423326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_131
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15d5462af93b97330800000000000000
+      internalID: 3709193266321972561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_132
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73c4428f74bde4690800000000000000
+      internalID: -7615908817684640713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_133
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca5a41c04857fb160800000000000000
+      internalID: 7043477552229557676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_134
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6c09c1f31bc9b680800000000000000
+      internalID: -8738730315414434705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_135
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 391
+        width: 50
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cacffe94306ae8d90800000000000000
+      internalID: -7093549830006375252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_136
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8986addb7e00e3360800000000000000
+      internalID: 7151154253633579160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_137
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe9d544b764e57340800000000000000
+      internalID: 4861042506873559535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_138
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 407
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fab8799b97e73cf0800000000000000
+      internalID: -272494596951852300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_139
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 386
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ff787bdd267af3c0800000000000000
+      internalID: -4325014552808226828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_140
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 386
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e81a09655a77be5f0800000000000000
+      internalID: -726355362884574834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_141
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 386
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ec20af3668ae53e0800000000000000
+      internalID: -2063026422181516062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_142
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 386
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df06d8a502e877730800000000000000
+      internalID: 3996819463923917053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_143
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 386
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 749ccdc2e6df990d0800000000000000
+      internalID: -3415420192742913721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_144
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 327
+        width: 50
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f97ea1c018e9d6030800000000000000
+      internalID: 3489619563373062047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_145
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 371
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de0a7604898f3e740800000000000000
+      internalID: 5180257329205453037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_146
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 327
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01a2b0766347e6540800000000000000
+      internalID: 5003064013061040656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_147
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 327
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a602bf6defef6be40800000000000000
+      internalID: 5672001151201648746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_148
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 364
+        width: 40
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9db641f07d504e660800000000000000
+      internalID: 7414057307787783129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_149
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 327
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2238b0547d7382660800000000000000
+      internalID: 7361194988652954402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_150
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 327
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95930bd7b04542d50800000000000000
+      internalID: 6711581753018956121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_151
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 369
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09e06809fd2241e30800000000000000
+      internalID: 4473238673483501200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_152
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 327
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d15e91b10f30930800000000000000
+      internalID: 4108391284281253143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_153
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 327
+        width: 50
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca77b5dfdd3699b10800000000000000
+      internalID: 1988730515550336940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_154
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 371
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c8d1bc5aa4ed2710800000000000000
+      internalID: 1670242457175054531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_155
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 327
+        width: 50
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1abf363310bf6ad50800000000000000
+      internalID: 6748357074236996513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_156
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 371
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2072207d73b974c50800000000000000
+      internalID: 6649454038968575746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_157
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 365
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f0c1f40eded4f9d0800000000000000
+      internalID: -2741321228014731015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_158
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 365
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edda649de5d493e00800000000000000
+      internalID: 1024935459971050974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_159
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 349
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89259238bbfe8b430800000000000000
+      internalID: 3799049874325459608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_160
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 327
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24411d900f18c8e90800000000000000
+      internalID: -7022094851020614590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_161
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 346
+        width: 34
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e67637e072022b60800000000000000
+      internalID: 7719735395205150437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_162
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 349
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3c5632987649b350800000000000000
+      internalID: 6032930659502545983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_163
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 349
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9026fc0ab28608b00800000000000000
+      internalID: 828776868026999305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_164
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 349
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4a41462733cf1560800000000000000
+      internalID: 7286757363741182539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_165
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 327
+        width: 50
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26668e93ec29df890800000000000000
+      internalID: -7422615196404259230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_166
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 327
+        width: 50
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efc479a157bfeacc0800000000000000
+      internalID: -3697741763648729858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_167
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 263
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8452fe02ac4f0690800000000000000
+      internalID: -7633798584450526066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_168
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 263
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e99334adc5838760800000000000000
+      internalID: 7458952526125308390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_169
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 263
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdd9c24a351b4a3c0800000000000000
+      internalID: -4349156367338267169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_170
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 263
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 966bb90b889ccee50800000000000000
+      internalID: 6840063522984670825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_171
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 263
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f43fff1a8cc547170800000000000000
+      internalID: 8175261240365413199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_172
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 263
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9d36247d255e03f0800000000000000
+      internalID: -932714419108561507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_173
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 300
+        width: 40
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c1606d249beb9c80800000000000000
+      internalID: -8314793265360510524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_174
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 263
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 714a7cc4c7e88ce10800000000000000
+      internalID: 2218179480995210263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_175
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 263
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f045a132eb8abb590800000000000000
+      internalID: -7657341206827215857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_176
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 305
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c9a75431d2c82340800000000000000
+      internalID: 4839332003391711683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_177
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 263
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5835bdd7a8f3c94f0800000000000000
+      internalID: -820711168038710395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_178
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 263
+        width: 50
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad425ebf2e6c7dc40800000000000000
+      internalID: 5537112945066321114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_179
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 307
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a342b8e09133d390800000000000000
+      internalID: -7794832031599148123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_180
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 285
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4794ab3d88f1ff940800000000000000
+      internalID: 5332015156358170996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_181
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 263
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 441b35217d683ccd0800000000000000
+      internalID: -2539037506623262396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_182
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 282
+        width: 34
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9efed6a00f00f530800000000000000
+      internalID: 3886622973894786714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_183
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 285
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1de24b186bbbc7880800000000000000
+      internalID: -8611801994904719663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_184
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 285
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abf30dc52cf325ec0800000000000000
+      internalID: -3579728649792766022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_185
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 285
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03b55a5d7f95e0dd0800000000000000
+      internalID: -2517976220677350608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_186
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0cd305ebb3c556d0800000000000000
+      internalID: -3002278364804031478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_187
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05676a0e1e8e691c0800000000000000
+      internalID: -4497151121048570288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_188
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2d04009018997740800000000000000
+      internalID: 5150314845777956143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_189
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 766d8ccc659811cd0800000000000000
+      internalID: -2589137304865417625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_190
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79936c3c8b463f060800000000000000
+      internalID: 6986038191703079319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_191
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84e8528b4910eb4d0800000000000000
+      internalID: -3117052153837547960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_192
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74d4fd0cd001c8bc0800000000000000
+      internalID: -3779628336014209721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_193
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4e22cd4760793650800000000000000
+      internalID: 6213120749922823756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_194
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4fb1e3603b567d60800000000000000
+      internalID: 7887592060778299211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_195
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2c69fed6cf1f9300800000000000000
+      internalID: 260962242415651883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_196
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 199
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7b57179911f6bda0800000000000000
+      internalID: -5929286767175312515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_197
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 416fbe8c99737fbc0800000000000000
+      internalID: -3749467031122217452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_198
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5091d1bf4c7a4c60800000000000000
+      internalID: 7803185986100367453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_199
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73f6509b4d5be07b0800000000000000
+      internalID: -5256063789852954825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_200
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a64cbc20c0cacb10800000000000000
+      internalID: 2002624915936396968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_201
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 414fc6d0ac35e5c50800000000000000
+      internalID: 6655849426573915156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_202
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 149
+        width: 42
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13d4a7c2531f61060800000000000000
+      internalID: 6923986687810489649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_203
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 149
+        width: 42
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a9ef0d2993dc7c00800000000000000
+      internalID: 899826680406731171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_204
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c1d6aad074454170800000000000000
+      internalID: 8162005151174283718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_205
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c90efb33d328d9a0800000000000000
+      internalID: -6208172696178652735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_206
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1341805782a3126f0800000000000000
+      internalID: -711223320711261135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_207
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 135
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f4faca6830338280800000000000000
+      internalID: -9042330607961836302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_208
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 71
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 706e74bdacdb33d10800000000000000
+      internalID: 2104234129872119303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_209
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 71
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b386530ef66ea90c0800000000000000
+      internalID: -4568085503836592069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_210
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 71
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98b12b2d1a24576e0800000000000000
+      internalID: -1840491609918923895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_211
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 71
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 055f5de1443504310800000000000000
+      internalID: 1387200237270332752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_212
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 85
+        width: 42
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cf430da4e2fb0cf0800000000000000
+      internalID: -284867087438753856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_213
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 85
+        width: 42
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33d05ee70b7fbecf0800000000000000
+      internalID: -221811419209462477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_214
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 83
+        width: 50
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2cbdb6cdb453e8b0800000000000000
+      internalID: -5124158776957617108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_215
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 83
+        width: 50
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b93c71d21dfdf0860800000000000000
+      internalID: 7498457994092856219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_216
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 71
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab2670dcf07ffb9a0800000000000000
+      internalID: -6214977313511611718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_217
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 71
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d3d0f287b7c78270800000000000000
+      internalID: 8252784433169486804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_218
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 71
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d26007c9f057c2a0800000000000000
+      internalID: -6717311285484035376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_219
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 19
+        width: 50
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 223d4bae05d7fb1f0800000000000000
+      internalID: -1026964403528608990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_220
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05f5c270cd1823f50800000000000000
+      internalID: 6859687964451823440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_221
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 121a037424c2c9620800000000000000
+      internalID: 2782147332981956897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_222
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e05abacf7b8b7a8e0800000000000000
+      internalID: -1682172835441957618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_223
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0795e9774941fac10800000000000000
+      internalID: 2066893381880928624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_224
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 19
+        width: 50
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d914f9964db1b670800000000000000
+      internalID: 8552825278281554391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_225
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 19
+        width: 50
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 548c8338c59b74820800000000000000
+      internalID: 2902492291853240389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_226
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d4abe69cf8425280800000000000000
+      internalID: -9056095650987662123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_227
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bdf0605a697422b0800000000000000
+      internalID: -5610225738274767434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_228
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9d1977eb7f0bade0800000000000000
+      internalID: -1320945040864240230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-deck_sheet_default_229
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 7
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d477d04af26fbf90800000000000000
+      internalID: -6935716074158066472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      steam-deck_sheet_default_0: -8447844428051056685
+      steam-deck_sheet_default_1: 5879630199439865879
+      steam-deck_sheet_default_10: -8833355680496502906
+      steam-deck_sheet_default_100: 2612467129396310250
+      steam-deck_sheet_default_101: -2122775484310955037
+      steam-deck_sheet_default_102: -4121979616130857350
+      steam-deck_sheet_default_103: -1685006476283379345
+      steam-deck_sheet_default_104: -498957805109497268
+      steam-deck_sheet_default_105: -963462515488798059
+      steam-deck_sheet_default_106: 5022839956632803906
+      steam-deck_sheet_default_107: 8763414712040754355
+      steam-deck_sheet_default_108: 6083847026109953024
+      steam-deck_sheet_default_109: -8595527897370305326
+      steam-deck_sheet_default_11: -4247314480386133724
+      steam-deck_sheet_default_110: -4467137478442969511
+      steam-deck_sheet_default_111: 1403664696366607790
+      steam-deck_sheet_default_112: -7685270295912061806
+      steam-deck_sheet_default_113: -1089931187287428009
+      steam-deck_sheet_default_114: 3227024094263318028
+      steam-deck_sheet_default_115: -1345649250366023359
+      steam-deck_sheet_default_116: 531736924870390257
+      steam-deck_sheet_default_117: -5382584926035943355
+      steam-deck_sheet_default_118: -7042204810290081215
+      steam-deck_sheet_default_119: -1205284160870635352
+      steam-deck_sheet_default_12: -7932105600784780417
+      steam-deck_sheet_default_120: 9177555577881161746
+      steam-deck_sheet_default_121: 1878660284659293770
+      steam-deck_sheet_default_122: 6195518408683607025
+      steam-deck_sheet_default_123: -4271685805035148321
+      steam-deck_sheet_default_124: -6430522339742351025
+      steam-deck_sheet_default_125: -7273337661806668429
+      steam-deck_sheet_default_126: 7672190217005086537
+      steam-deck_sheet_default_127: 3068869742913394971
+      steam-deck_sheet_default_128: 5224379130823499783
+      steam-deck_sheet_default_129: -8854612579269469794
+      steam-deck_sheet_default_13: 3633778103675858731
+      steam-deck_sheet_default_130: 6596621408035423326
+      steam-deck_sheet_default_131: 3709193266321972561
+      steam-deck_sheet_default_132: -7615908817684640713
+      steam-deck_sheet_default_133: 7043477552229557676
+      steam-deck_sheet_default_134: -8738730315414434705
+      steam-deck_sheet_default_135: -7093549830006375252
+      steam-deck_sheet_default_136: 7151154253633579160
+      steam-deck_sheet_default_137: 4861042506873559535
+      steam-deck_sheet_default_138: -272494596951852300
+      steam-deck_sheet_default_139: -4325014552808226828
+      steam-deck_sheet_default_14: -7698020000869080913
+      steam-deck_sheet_default_140: -726355362884574834
+      steam-deck_sheet_default_141: -2063026422181516062
+      steam-deck_sheet_default_142: 3996819463923917053
+      steam-deck_sheet_default_143: -3415420192742913721
+      steam-deck_sheet_default_144: 3489619563373062047
+      steam-deck_sheet_default_145: 5180257329205453037
+      steam-deck_sheet_default_146: 5003064013061040656
+      steam-deck_sheet_default_147: 5672001151201648746
+      steam-deck_sheet_default_148: 7414057307787783129
+      steam-deck_sheet_default_149: 7361194988652954402
+      steam-deck_sheet_default_15: -3713402258253579142
+      steam-deck_sheet_default_150: 6711581753018956121
+      steam-deck_sheet_default_151: 4473238673483501200
+      steam-deck_sheet_default_152: 4108391284281253143
+      steam-deck_sheet_default_153: 1988730515550336940
+      steam-deck_sheet_default_154: 1670242457175054531
+      steam-deck_sheet_default_155: 6748357074236996513
+      steam-deck_sheet_default_156: 6649454038968575746
+      steam-deck_sheet_default_157: -2741321228014731015
+      steam-deck_sheet_default_158: 1024935459971050974
+      steam-deck_sheet_default_159: 3799049874325459608
+      steam-deck_sheet_default_16: 6513437833621511949
+      steam-deck_sheet_default_160: -7022094851020614590
+      steam-deck_sheet_default_161: 7719735395205150437
+      steam-deck_sheet_default_162: 6032930659502545983
+      steam-deck_sheet_default_163: 828776868026999305
+      steam-deck_sheet_default_164: 7286757363741182539
+      steam-deck_sheet_default_165: -7422615196404259230
+      steam-deck_sheet_default_166: -3697741763648729858
+      steam-deck_sheet_default_167: -7633798584450526066
+      steam-deck_sheet_default_168: 7458952526125308390
+      steam-deck_sheet_default_169: -4349156367338267169
+      steam-deck_sheet_default_17: -3551912115433873413
+      steam-deck_sheet_default_170: 6840063522984670825
+      steam-deck_sheet_default_171: 8175261240365413199
+      steam-deck_sheet_default_172: -932714419108561507
+      steam-deck_sheet_default_173: -8314793265360510524
+      steam-deck_sheet_default_174: 2218179480995210263
+      steam-deck_sheet_default_175: -7657341206827215857
+      steam-deck_sheet_default_176: 4839332003391711683
+      steam-deck_sheet_default_177: -820711168038710395
+      steam-deck_sheet_default_178: 5537112945066321114
+      steam-deck_sheet_default_179: -7794832031599148123
+      steam-deck_sheet_default_18: -5236392312593238893
+      steam-deck_sheet_default_180: 5332015156358170996
+      steam-deck_sheet_default_181: -2539037506623262396
+      steam-deck_sheet_default_182: 3886622973894786714
+      steam-deck_sheet_default_183: -8611801994904719663
+      steam-deck_sheet_default_184: -3579728649792766022
+      steam-deck_sheet_default_185: -2517976220677350608
+      steam-deck_sheet_default_186: -3002278364804031478
+      steam-deck_sheet_default_187: -4497151121048570288
+      steam-deck_sheet_default_188: 5150314845777956143
+      steam-deck_sheet_default_189: -2589137304865417625
+      steam-deck_sheet_default_19: -4739942014485683998
+      steam-deck_sheet_default_190: 6986038191703079319
+      steam-deck_sheet_default_191: -3117052153837547960
+      steam-deck_sheet_default_192: -3779628336014209721
+      steam-deck_sheet_default_193: 6213120749922823756
+      steam-deck_sheet_default_194: 7887592060778299211
+      steam-deck_sheet_default_195: 260962242415651883
+      steam-deck_sheet_default_196: -5929286767175312515
+      steam-deck_sheet_default_197: -3749467031122217452
+      steam-deck_sheet_default_198: 7803185986100367453
+      steam-deck_sheet_default_199: -5256063789852954825
+      steam-deck_sheet_default_2: 8379654388990219998
+      steam-deck_sheet_default_20: 8423154231138270203
+      steam-deck_sheet_default_200: 2002624915936396968
+      steam-deck_sheet_default_201: 6655849426573915156
+      steam-deck_sheet_default_202: 6923986687810489649
+      steam-deck_sheet_default_203: 899826680406731171
+      steam-deck_sheet_default_204: 8162005151174283718
+      steam-deck_sheet_default_205: -6208172696178652735
+      steam-deck_sheet_default_206: -711223320711261135
+      steam-deck_sheet_default_207: -9042330607961836302
+      steam-deck_sheet_default_208: 2104234129872119303
+      steam-deck_sheet_default_209: -4568085503836592069
+      steam-deck_sheet_default_21: -5350965515051340106
+      steam-deck_sheet_default_210: -1840491609918923895
+      steam-deck_sheet_default_211: 1387200237270332752
+      steam-deck_sheet_default_212: -284867087438753856
+      steam-deck_sheet_default_213: -221811419209462477
+      steam-deck_sheet_default_214: -5124158776957617108
+      steam-deck_sheet_default_215: 7498457994092856219
+      steam-deck_sheet_default_216: -6214977313511611718
+      steam-deck_sheet_default_217: 8252784433169486804
+      steam-deck_sheet_default_218: -6717311285484035376
+      steam-deck_sheet_default_219: -1026964403528608990
+      steam-deck_sheet_default_22: -7818031975797296249
+      steam-deck_sheet_default_220: 6859687964451823440
+      steam-deck_sheet_default_221: 2782147332981956897
+      steam-deck_sheet_default_222: -1682172835441957618
+      steam-deck_sheet_default_223: 2066893381880928624
+      steam-deck_sheet_default_224: 8552825278281554391
+      steam-deck_sheet_default_225: 2902492291853240389
+      steam-deck_sheet_default_226: -9056095650987662123
+      steam-deck_sheet_default_227: -5610225738274767434
+      steam-deck_sheet_default_228: -1320945040864240230
+      steam-deck_sheet_default_229: -6935716074158066472
+      steam-deck_sheet_default_23: -3131512285787862813
+      steam-deck_sheet_default_24: 4786754800835715582
+      steam-deck_sheet_default_25: 3169774132303823298
+      steam-deck_sheet_default_26: -2641445783255274301
+      steam-deck_sheet_default_27: 4861405781519051371
+      steam-deck_sheet_default_28: 4939426049773343496
+      steam-deck_sheet_default_29: 5322701832660287430
+      steam-deck_sheet_default_3: -525696858663024680
+      steam-deck_sheet_default_30: 7757998753673285309
+      steam-deck_sheet_default_31: -7494020345476234830
+      steam-deck_sheet_default_32: 3367141196790539953
+      steam-deck_sheet_default_33: 6879748655549639017
+      steam-deck_sheet_default_34: 126434865811436196
+      steam-deck_sheet_default_35: -8942786884045835712
+      steam-deck_sheet_default_36: -929621406536003007
+      steam-deck_sheet_default_37: -6055136200411724898
+      steam-deck_sheet_default_38: -8785827421441833979
+      steam-deck_sheet_default_39: 1609615367165146757
+      steam-deck_sheet_default_4: -8893034068114682675
+      steam-deck_sheet_default_40: 3381847724569375623
+      steam-deck_sheet_default_41: -8003700086478726074
+      steam-deck_sheet_default_42: -4650618915763651912
+      steam-deck_sheet_default_43: 8064084087006140111
+      steam-deck_sheet_default_44: -8308248360722242899
+      steam-deck_sheet_default_45: -580466909845506459
+      steam-deck_sheet_default_46: -5669631747749074843
+      steam-deck_sheet_default_47: 6787837942539856718
+      steam-deck_sheet_default_48: 8111063833100306877
+      steam-deck_sheet_default_49: -4471519697014460089
+      steam-deck_sheet_default_5: 1237322898382094418
+      steam-deck_sheet_default_50: -1982264707646225205
+      steam-deck_sheet_default_51: -728238191170872849
+      steam-deck_sheet_default_52: -1955713503920846681
+      steam-deck_sheet_default_53: 4580701401110923961
+      steam-deck_sheet_default_54: -6343581369935673540
+      steam-deck_sheet_default_55: -9018092029001315690
+      steam-deck_sheet_default_56: 6031777916718003613
+      steam-deck_sheet_default_57: -7669199652756566460
+      steam-deck_sheet_default_58: 4927340297182777616
+      steam-deck_sheet_default_59: -702651783970683957
+      steam-deck_sheet_default_6: -755093750409238604
+      steam-deck_sheet_default_60: -8009542284282901401
+      steam-deck_sheet_default_61: 702209049789077360
+      steam-deck_sheet_default_62: 8897188108197129172
+      steam-deck_sheet_default_63: 3563869577533753368
+      steam-deck_sheet_default_64: -5508488368393670655
+      steam-deck_sheet_default_65: 353844145425883786
+      steam-deck_sheet_default_66: 4371570671094270646
+      steam-deck_sheet_default_67: -8082905519803118079
+      steam-deck_sheet_default_68: 4620893808704448768
+      steam-deck_sheet_default_69: -8951273113788900625
+      steam-deck_sheet_default_7: -2578100598545468475
+      steam-deck_sheet_default_70: 2055022580343980286
+      steam-deck_sheet_default_71: 8630156918309068174
+      steam-deck_sheet_default_72: -8576117188599768760
+      steam-deck_sheet_default_73: -611414627885273957
+      steam-deck_sheet_default_74: -7683337096944532275
+      steam-deck_sheet_default_75: -3687646699488926278
+      steam-deck_sheet_default_76: 1214737913218797208
+      steam-deck_sheet_default_77: -5096273514352294481
+      steam-deck_sheet_default_78: -8177712476500386300
+      steam-deck_sheet_default_79: -909765102063568363
+      steam-deck_sheet_default_8: -2574745327688423580
+      steam-deck_sheet_default_80: 4737740772757837273
+      steam-deck_sheet_default_81: 1003827073468895730
+      steam-deck_sheet_default_82: -6780535102972333966
+      steam-deck_sheet_default_83: -8210412791541513944
+      steam-deck_sheet_default_84: -4749393021254581508
+      steam-deck_sheet_default_85: 6876248634519473255
+      steam-deck_sheet_default_86: 4603598702435672744
+      steam-deck_sheet_default_87: 148785904520576012
+      steam-deck_sheet_default_88: 5562549397896772221
+      steam-deck_sheet_default_89: 6312394531528699065
+      steam-deck_sheet_default_9: 7189151968922434194
+      steam-deck_sheet_default_90: 3152224826091004499
+      steam-deck_sheet_default_91: 7840537801984837849
+      steam-deck_sheet_default_92: -5336904925834862358
+      steam-deck_sheet_default_93: -5938432807079665537
+      steam-deck_sheet_default_94: -2739808565498424860
+      steam-deck_sheet_default_95: 14997381139661283
+      steam-deck_sheet_default_96: 3291569156672426145
+      steam-deck_sheet_default_97: -4675645333562134159
+      steam-deck_sheet_default_98: -8004500307208582813
+      steam-deck_sheet_default_99: -277227647629311272
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

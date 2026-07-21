@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e196b52d2d6b09e498e3aee2f9be98a9, type: 3}
+  m_Name: CabinetGlyphs
+  m_EditorClassIdentifier: Assembly-CSharp::InputGlyphSet
+  entries:
+  - controlName: trigger
+    glyph: {fileID: -5581898994901125639, guid: d9714115fa1b5ff4cbb813dee2bf6528,
+      type: 3}
+  - controlName: stick
+    glyph: {fileID: 7966132299301493962, guid: c519b5dda67ec934982df6ee809d6bdb, type: 3}

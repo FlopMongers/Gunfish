@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e196b52d2d6b09e498e3aee2f9be98a9, type: 3}
+  m_Name: GamepadGlyphs
+  m_EditorClassIdentifier: Assembly-CSharp::InputGlyphSet
+  entries:
+  - controlName: buttonSouth
+    glyph: {fileID: -7956427973557797689, guid: f60d80dfa6bab40459833dd3aeed70a2,
+      type: 3}
+  - controlName: buttonEast
+    glyph: {fileID: 643402748272714948, guid: 3acd02ab0ad677845bbbf5f7468f9acc, type: 3}
+  - controlName: buttonWest
+    glyph: {fileID: 7183707057315010591, guid: 6fb6ad1dc0ead414ea8619271869884f, type: 3}
+  - controlName: buttonNorth
+    glyph: {fileID: -1236389414660901761, guid: 7c6a55d6bf2ac57498df78fc4595d80a,
+      type: 3}
+  - controlName: leftShoulder
+    glyph: {fileID: 2267800731179639549, guid: 1a2e21a7ec286a649b90f83c06f59d86, type: 3}
+  - controlName: rightShoulder
+    glyph: {fileID: 4249578791139060025, guid: 2d336758b37548443962b131e8598f8e, type: 3}
+  - controlName: leftTrigger
+    glyph: {fileID: -3997850089383228863, guid: 011da66b78398954c896308dcb11962e,
+      type: 3}
+  - controlName: rightTrigger
+    glyph: {fileID: 3336128370510153928, guid: 355f2ada097ab694e9ede81f5de527bd, type: 3}
+  - controlName: start
+    glyph: {fileID: -8211830279039031973, guid: 7d17fccf602bffe48bef44d1d89f0a37,
+      type: 3}
+  - controlName: select
+    glyph: {fileID: -650627051125600553, guid: 925bf53a1c44ae545a7a646980efb279, type: 3}
+  - controlName: leftStickPress
+    glyph: {fileID: 5517859457217657291, guid: c5f0bf98ab66a684698f130b1144f365, type: 3}
+  - controlName: rightStickPress
+    glyph: {fileID: 9023095465647593558, guid: 39ec0170c3fba4a4bb59ce14e4df04f0, type: 3}

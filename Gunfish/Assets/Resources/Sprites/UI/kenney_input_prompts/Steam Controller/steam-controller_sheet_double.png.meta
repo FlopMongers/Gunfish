@@ -1,0 +1,3146 @@
+fileFormatVersion: 2
+guid: 20cc2d431595f6d43be7674ab9866438
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4618421397271644736
+    second: steam-controller_sheet_double_0
+  - first:
+      213: 3160247333729540941
+    second: steam-controller_sheet_double_1
+  - first:
+      213: 8217044123158871674
+    second: steam-controller_sheet_double_2
+  - first:
+      213: 7611481217463197749
+    second: steam-controller_sheet_double_3
+  - first:
+      213: 1134111276782102387
+    second: steam-controller_sheet_double_4
+  - first:
+      213: 7560487169530530341
+    second: steam-controller_sheet_double_5
+  - first:
+      213: 3597748078076345583
+    second: steam-controller_sheet_double_6
+  - first:
+      213: -6185991223419087946
+    second: steam-controller_sheet_double_7
+  - first:
+      213: -678665304198661666
+    second: steam-controller_sheet_double_8
+  - first:
+      213: 3919620499574947633
+    second: steam-controller_sheet_double_9
+  - first:
+      213: -3447840831909551804
+    second: steam-controller_sheet_double_10
+  - first:
+      213: 4869200547042196809
+    second: steam-controller_sheet_double_11
+  - first:
+      213: -5868832971931322865
+    second: steam-controller_sheet_double_12
+  - first:
+      213: 7642787670480567915
+    second: steam-controller_sheet_double_13
+  - first:
+      213: -6440951019939496853
+    second: steam-controller_sheet_double_14
+  - first:
+      213: 8291004483575553943
+    second: steam-controller_sheet_double_15
+  - first:
+      213: -8685014339606073583
+    second: steam-controller_sheet_double_16
+  - first:
+      213: -783432572952297936
+    second: steam-controller_sheet_double_17
+  - first:
+      213: 6122404771412829097
+    second: steam-controller_sheet_double_18
+  - first:
+      213: -1053824734719021985
+    second: steam-controller_sheet_double_19
+  - first:
+      213: -452655527101685001
+    second: steam-controller_sheet_double_20
+  - first:
+      213: -8856521021281874798
+    second: steam-controller_sheet_double_21
+  - first:
+      213: -5048604336699490129
+    second: steam-controller_sheet_double_22
+  - first:
+      213: 7603051703925930476
+    second: steam-controller_sheet_double_23
+  - first:
+      213: 1944271112109547612
+    second: steam-controller_sheet_double_24
+  - first:
+      213: 4504493025824884070
+    second: steam-controller_sheet_double_25
+  - first:
+      213: -5085503420761480921
+    second: steam-controller_sheet_double_26
+  - first:
+      213: 7618181078793074050
+    second: steam-controller_sheet_double_27
+  - first:
+      213: -45382075421668177
+    second: steam-controller_sheet_double_28
+  - first:
+      213: -8240342511120311135
+    second: steam-controller_sheet_double_29
+  - first:
+      213: -8444517136595013499
+    second: steam-controller_sheet_double_30
+  - first:
+      213: 7498938686807536517
+    second: steam-controller_sheet_double_31
+  - first:
+      213: 8081623926793102209
+    second: steam-controller_sheet_double_32
+  - first:
+      213: 7720024167033021965
+    second: steam-controller_sheet_double_33
+  - first:
+      213: 1561397162967785656
+    second: steam-controller_sheet_double_34
+  - first:
+      213: 4719486252366348493
+    second: steam-controller_sheet_double_35
+  - first:
+      213: 5762784336513303239
+    second: steam-controller_sheet_double_36
+  - first:
+      213: 4041633893953598113
+    second: steam-controller_sheet_double_37
+  - first:
+      213: 7941315071371955165
+    second: steam-controller_sheet_double_38
+  - first:
+      213: 5945507351487433246
+    second: steam-controller_sheet_double_39
+  - first:
+      213: 6325801313173096548
+    second: steam-controller_sheet_double_40
+  - first:
+      213: -2541092795880016096
+    second: steam-controller_sheet_double_41
+  - first:
+      213: -7899116745669315378
+    second: steam-controller_sheet_double_42
+  - first:
+      213: 1253807174794266865
+    second: steam-controller_sheet_double_43
+  - first:
+      213: 1574821521490536243
+    second: steam-controller_sheet_double_44
+  - first:
+      213: 2471345533374264752
+    second: steam-controller_sheet_double_45
+  - first:
+      213: -6481139875474250063
+    second: steam-controller_sheet_double_46
+  - first:
+      213: 222877674455868309
+    second: steam-controller_sheet_double_47
+  - first:
+      213: 6691510787039075484
+    second: steam-controller_sheet_double_48
+  - first:
+      213: -6401975909485439360
+    second: steam-controller_sheet_double_49
+  - first:
+      213: -6272224095945160823
+    second: steam-controller_sheet_double_50
+  - first:
+      213: 7519310650232196559
+    second: steam-controller_sheet_double_51
+  - first:
+      213: -3525355239411534235
+    second: steam-controller_sheet_double_52
+  - first:
+      213: 7264408309912006954
+    second: steam-controller_sheet_double_53
+  - first:
+      213: -693153934785648811
+    second: steam-controller_sheet_double_54
+  - first:
+      213: -3063005570749580118
+    second: steam-controller_sheet_double_55
+  - first:
+      213: 4748178037950694747
+    second: steam-controller_sheet_double_56
+  - first:
+      213: 5168168027176699623
+    second: steam-controller_sheet_double_57
+  - first:
+      213: -1454467386554641421
+    second: steam-controller_sheet_double_58
+  - first:
+      213: -705309376702743910
+    second: steam-controller_sheet_double_59
+  - first:
+      213: -3854999196541516144
+    second: steam-controller_sheet_double_60
+  - first:
+      213: -4829290638537985409
+    second: steam-controller_sheet_double_61
+  - first:
+      213: -1531083001683079044
+    second: steam-controller_sheet_double_62
+  - first:
+      213: 5478046058037370528
+    second: steam-controller_sheet_double_63
+  - first:
+      213: 5732006949893639908
+    second: steam-controller_sheet_double_64
+  - first:
+      213: -1812603917963547266
+    second: steam-controller_sheet_double_65
+  - first:
+      213: -1873025686322369247
+    second: steam-controller_sheet_double_66
+  - first:
+      213: -1986060759583805223
+    second: steam-controller_sheet_double_67
+  - first:
+      213: -3410919292134411932
+    second: steam-controller_sheet_double_68
+  - first:
+      213: -2073513923021212358
+    second: steam-controller_sheet_double_69
+  - first:
+      213: -3462476661503335340
+    second: steam-controller_sheet_double_70
+  - first:
+      213: -8636517580261799064
+    second: steam-controller_sheet_double_71
+  - first:
+      213: -2370809908362330915
+    second: steam-controller_sheet_double_72
+  - first:
+      213: 8146152701435460886
+    second: steam-controller_sheet_double_73
+  - first:
+      213: 6915984534869782506
+    second: steam-controller_sheet_double_74
+  - first:
+      213: 1089467892733723812
+    second: steam-controller_sheet_double_75
+  - first:
+      213: -6457783084665165267
+    second: steam-controller_sheet_double_76
+  - first:
+      213: 7818949337096715599
+    second: steam-controller_sheet_double_77
+  - first:
+      213: -368664045273564167
+    second: steam-controller_sheet_double_78
+  - first:
+      213: 8371093128462513662
+    second: steam-controller_sheet_double_79
+  - first:
+      213: -677548224599275389
+    second: steam-controller_sheet_double_80
+  - first:
+      213: -6514350855782307737
+    second: steam-controller_sheet_double_81
+  - first:
+      213: 1274482417823812681
+    second: steam-controller_sheet_double_82
+  - first:
+      213: 65701818911097553
+    second: steam-controller_sheet_double_83
+  - first:
+      213: -8407088702444862472
+    second: steam-controller_sheet_double_84
+  - first:
+      213: 7459453151832564971
+    second: steam-controller_sheet_double_85
+  - first:
+      213: -9005833299588084678
+    second: steam-controller_sheet_double_86
+  - first:
+      213: -6652382274304417612
+    second: steam-controller_sheet_double_87
+  - first:
+      213: -2159187092811373686
+    second: steam-controller_sheet_double_88
+  - first:
+      213: -272796340605386445
+    second: steam-controller_sheet_double_89
+  - first:
+      213: 9122512052981260041
+    second: steam-controller_sheet_double_90
+  - first:
+      213: 409620549107152589
+    second: steam-controller_sheet_double_91
+  - first:
+      213: 9062828101636118380
+    second: steam-controller_sheet_double_92
+  - first:
+      213: 5595513768001242085
+    second: steam-controller_sheet_double_93
+  - first:
+      213: -1283755331525211230
+    second: steam-controller_sheet_double_94
+  - first:
+      213: 7430992678216650727
+    second: steam-controller_sheet_double_95
+  - first:
+      213: -6160895497161542849
+    second: steam-controller_sheet_double_96
+  - first:
+      213: 6046810518544269012
+    second: steam-controller_sheet_double_97
+  - first:
+      213: 2456254330590268022
+    second: steam-controller_sheet_double_98
+  - first:
+      213: -2695205753549990014
+    second: steam-controller_sheet_double_99
+  - first:
+      213: -7529669387148498015
+    second: steam-controller_sheet_double_100
+  - first:
+      213: -2805739541722974167
+    second: steam-controller_sheet_double_101
+  - first:
+      213: -640363394474896787
+    second: steam-controller_sheet_double_102
+  - first:
+      213: -7579379666081509979
+    second: steam-controller_sheet_double_103
+  - first:
+      213: 3269896676475671416
+    second: steam-controller_sheet_double_104
+  - first:
+      213: -2969958259806876347
+    second: steam-controller_sheet_double_105
+  - first:
+      213: -5367576915592958536
+    second: steam-controller_sheet_double_106
+  - first:
+      213: -7474399549764126812
+    second: steam-controller_sheet_double_107
+  - first:
+      213: 443037878601545394
+    second: steam-controller_sheet_double_108
+  - first:
+      213: -8381535445145015645
+    second: steam-controller_sheet_double_109
+  - first:
+      213: -3967637039020243371
+    second: steam-controller_sheet_double_110
+  - first:
+      213: -2943695403332818238
+    second: steam-controller_sheet_double_111
+  - first:
+      213: -782235658936860013
+    second: steam-controller_sheet_double_112
+  - first:
+      213: -1311001308870034374
+    second: steam-controller_sheet_double_113
+  - first:
+      213: 601357762562603616
+    second: steam-controller_sheet_double_114
+  - first:
+      213: 4833260151108626533
+    second: steam-controller_sheet_double_115
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 1167
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04a80779acde71040800000000000000
+      internalID: 4618421397271644736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_1
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 1167
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4b1351d4347bdb20800000000000000
+      internalID: 3160247333729540941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_2
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 1167
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7e7890281ec80270800000000000000
+      internalID: 8217044123158871674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_3
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 1242
+        width: 78
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 530a37507d961a960800000000000000
+      internalID: 7611481217463197749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_4
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 1167
+        width: 98
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 377ac5c823c2dbf00800000000000000
+      internalID: 1134111276782102387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_5
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 1251
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52a04c4060f3ce860800000000000000
+      internalID: 7560487169530530341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_6
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 1167
+        width: 96
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fecb519b0d4cde130800000000000000
+      internalID: 3597748078076345583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_7
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 1167
+        width: 96
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b3db60d1c1f62aa0800000000000000
+      internalID: -6185991223419087946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_8
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 1243
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed93bd56085e496f0800000000000000
+      internalID: -678665304198661666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_9
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 1167
+        width: 98
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13ff08bc31a456630800000000000000
+      internalID: 3919620499574947633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_10
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 1255
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 441a1f3e70fc620d0800000000000000
+      internalID: -3447840831909551804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_11
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 1167
+        width: 98
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94d76927910e29340800000000000000
+      internalID: 4869200547042196809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_12
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1255
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f06fee5a187bd8ea0800000000000000
+      internalID: -5868832971931322865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_13
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 1211
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6ebab0a4e2a01a60800000000000000
+      internalID: 7642787670480567915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_14
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 1167
+        width: 94
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6cf0d84c252d96a0800000000000000
+      internalID: -6440951019939496853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_15
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 1205
+        width: 66
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79f11b276a09f0370800000000000000
+      internalID: 8291004483575553943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_16
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 1211
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11f2b9a2971a87780800000000000000
+      internalID: -8685014339606073583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_17
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 1211
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03e35b7c930b025f0800000000000000
+      internalID: -783432572952297936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_18
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 1211
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a3e733a3b627f450800000000000000
+      internalID: 6122404771412829097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_19
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 1167
+        width: 98
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5c6d87bcff0061f0800000000000000
+      internalID: -1053824734719021985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_20
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f2ac754238d7b9f0800000000000000
+      internalID: -452655527101685001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_21
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29cc6b41e01571580800000000000000
+      internalID: -8856521021281874798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_22
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa0c78bba11cfe9b0800000000000000
+      internalID: -5048604336699490129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_23
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce9fe65fd37738960800000000000000
+      internalID: 7603051703925930476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_24
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c50e75876407bfa10800000000000000
+      internalID: 1944271112109547612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_25
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1049
+        width: 98
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66544898a8c238e30800000000000000
+      internalID: 4504493025824884070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_26
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 1049
+        width: 98
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7216a7d3599ac69b0800000000000000
+      internalID: -5085503420761480921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_27
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 285301c045739b960800000000000000
+      internalID: 7618181078793074050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_28
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fac425b2e35ce5ff0800000000000000
+      internalID: -45382075421668177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_29
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 1039
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ac9f15352c64ad80800000000000000
+      internalID: -8240342511120311135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_30
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5803e8db76c0fca80800000000000000
+      internalID: -8444517136595013499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_31
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 583f89b2105911860800000000000000
+      internalID: 7498938686807536517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_32
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 183ecc4a422b72070800000000000000
+      internalID: 8081623926793102209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_33
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 921
+        width: 98
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d062f65d319032b60800000000000000
+      internalID: 7720024167033021965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_34
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 921
+        width: 98
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b06ff372723ba510800000000000000
+      internalID: 1561397162967785656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_35
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc0c2aaddbbfe7140800000000000000
+      internalID: 4719486252366348493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_36
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c28f0f42d589ff40800000000000000
+      internalID: 5762784336513303239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_37
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a27841fc94c61830800000000000000
+      internalID: 4041633893953598113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_38
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddbc4968bf7353e60800000000000000
+      internalID: 7941315071371955165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_39
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 911
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1ac1ee7f6fa28250800000000000000
+      internalID: 5945507351487433246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_40
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 468c16f57c2c9c750800000000000000
+      internalID: 6325801313173096548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_41
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0277440c0993cbcd0800000000000000
+      internalID: -2541092795880016096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_42
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec47a0fcb23b06290800000000000000
+      internalID: -7899116745669315378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_43
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f8c2768bfa666110800000000000000
+      internalID: 1253807174794266865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_44
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 337651d74d3ead510800000000000000
+      internalID: 1574821521490536243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_45
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b5750a3babfb4220800000000000000
+      internalID: 2471345533374264752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_46
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b6ecbe2f9d5e06a0800000000000000
+      internalID: -6481139875474250063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_47
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 593ae466012d71300800000000000000
+      internalID: 222877674455868309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_48
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9c98209b950ddc50800000000000000
+      internalID: 6691510787039075484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_49
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 783
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 086138654dc9727a0800000000000000
+      internalID: -6401975909485439360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_50
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9870b899a6594f8a0800000000000000
+      internalID: -6272224095945160823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_51
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcdc6e68235f95860800000000000000
+      internalID: 7519310650232196559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_52
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 671
+        width: 98
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56630df761c631fc0800000000000000
+      internalID: -3525355239411534235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_53
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 671
+        width: 98
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2173bf8edc50d460800000000000000
+      internalID: 7264408309912006954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_54
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 557ef663b2c6166f0800000000000000
+      internalID: -693153934785648811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_55
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aacbd6279a40e75d0800000000000000
+      internalID: -3063005570749580118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_56
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b55cc52c4cae4e140800000000000000
+      internalID: 4748178037950694747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_57
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e60667407509b740800000000000000
+      internalID: 5168168027176699623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_58
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f315073e91b0dbe0800000000000000
+      internalID: -1454467386554641421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_59
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 655
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9a71e8dbdc3636f0800000000000000
+      internalID: -705309376702743910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_60
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0960ab8c7aa408ac0800000000000000
+      internalID: -3854999196541516144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_61
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f72f2dc30c9eafcb0800000000000000
+      internalID: -4829290638537985409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_62
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c709a0b3f1080cae0800000000000000
+      internalID: -1531083001683079044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_63
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aedb88addde50c40800000000000000
+      internalID: 5478046058037370528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_64
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ee0b7293fd2c8f40800000000000000
+      internalID: 5732006949893639908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_65
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7d2d47175658d6e0800000000000000
+      internalID: -1812603917963547266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_66
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12da29fdf0da106e0800000000000000
+      internalID: -1873025686322369247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_67
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d03aa203481074e0800000000000000
+      internalID: -1986060759583805223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_68
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4613dc2c9faf9a0d0800000000000000
+      internalID: -3410919292134411932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_69
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 527
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a357e7da2166933e0800000000000000
+      internalID: -2073513923021212358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_70
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 399
+        width: 99
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 454630442dfc2ffc0800000000000000
+      internalID: -3462476661503335340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_71
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 399
+        width: 99
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86b441cd40de42880800000000000000
+      internalID: -8636517580261799064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_72
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 413
+        width: 98
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddc361e03f0391fd0800000000000000
+      internalID: -2370809908362330915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_73
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 413
+        width: 98
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61d3627c8b2fc0170800000000000000
+      internalID: 8146152701435460886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_74
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef2201ca438aff50800000000000000
+      internalID: 6915984534869782506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_75
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a44694b6419e1f00800000000000000
+      internalID: 1089467892733723812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_76
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2aa102df785166a0800000000000000
+      internalID: -6457783084665165267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_77
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 399
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4dfc6adefc728c60800000000000000
+      internalID: 7818949337096715599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_78
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 415
+        width: 98
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fbb20c010e32eaf0800000000000000
+      internalID: -368664045273564167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_79
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 415
+        width: 98
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef5b8bf29d81c2470800000000000000
+      internalID: 8371093128462513662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_80
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 299
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3884092ca7dd896f0800000000000000
+      internalID: -677548224599275389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_81
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 299
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76865d249606895a0800000000000000
+      internalID: -6514350855782307737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_82
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94c8edaa10fdfa110800000000000000
+      internalID: 1274482417823812681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_83
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 271
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d20b49c47b69e000800000000000000
+      internalID: 65701818911097553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_84
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 271
+        width: 99
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f303972e55045b80800000000000000
+      internalID: -8407088702444862472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_85
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 313
+        width: 96
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be4e5a5ae1d458760800000000000000
+      internalID: 7459453151832564971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_86
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 271
+        width: 99
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3c0ba7345ad40380800000000000000
+      internalID: -9005833299588084678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_87
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 271
+        width: 99
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b0eafd319dfda3a0800000000000000
+      internalID: -6652382274304417612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_88
+      rect:
+        serializedVersion: 2
+        x: 1038
+        y: 271
+        width: 99
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a83ae5967c60902e0800000000000000
+      internalID: -2159187092811373686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_89
+      rect:
+        serializedVersion: 2
+        x: 1165
+        y: 313
+        width: 96
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 331803e6c25d63cf0800000000000000
+      internalID: -272796340605386445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_90
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 305
+        width: 80
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90fda29016ca99e70800000000000000
+      internalID: 9122512052981260041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_91
+      rect:
+        serializedVersion: 2
+        x: 1182
+        y: 305
+        width: 80
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc67b3a18b34fa500800000000000000
+      internalID: 409620549107152589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_92
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 293
+        width: 79
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c67d27a3422a5cd70800000000000000
+      internalID: 9062828101636118380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_93
+      rect:
+        serializedVersion: 2
+        x: 1185
+        y: 293
+        width: 79
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e3858d202247ad40800000000000000
+      internalID: 5595513768001242085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_94
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 271
+        width: 73
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ab0dedd35f2f2ee0800000000000000
+      internalID: -1283755331525211230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_95
+      rect:
+        serializedVersion: 2
+        x: 1190
+        y: 271
+        width: 73
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7efc1a14870302760800000000000000
+      internalID: 7430992678216650727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_96
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 167
+        width: 98
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f33f169ef2a108aa0800000000000000
+      internalID: -6160895497161542849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_97
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 167
+        width: 98
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4de3de511269ae350800000000000000
+      internalID: 6046810518544269012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_98
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67a09d4cc4e561220800000000000000
+      internalID: 2456254330590268022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_99
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 287501f95a4b89ad0800000000000000
+      internalID: -2695205753549990014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_100
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ab61e6169d318790800000000000000
+      internalID: -7529669387148498015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_101
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 928b55390c20019d0800000000000000
+      internalID: -2805739541722974167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_102
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d621921b2e8fc17f0800000000000000
+      internalID: -640363394474896787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_103
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ad8469d952a0d690800000000000000
+      internalID: -7579379666081509979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_104
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 873109dd3b1016d20800000000000000
+      internalID: 3269896676475671416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_105
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54d497eb2b698c6d0800000000000000
+      internalID: -2969958259806876347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_106
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bdae71eb398285b0800000000000000
+      internalID: -5367576915592958536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_107
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a738f6e539954890800000000000000
+      internalID: -7474399549764126812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_108
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b676107a9cf52600800000000000000
+      internalID: 443037878601545394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_109
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3aa29cf7bedceab80800000000000000
+      internalID: -8381535445145015645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_110
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 556048b622f10f8c0800000000000000
+      internalID: -3967637039020243371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_111
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2caa56580a4e527d0800000000000000
+      internalID: -2943695403332818238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_112
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 392cc6a00d0f425f0800000000000000
+      internalID: -782235658936860013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_113
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 15
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3cbabc61436ecde0800000000000000
+      internalID: -1311001308870034374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_114
+      rect:
+        serializedVersion: 2
+        x: 1047
+        y: 43
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06ab77ce2b3785800800000000000000
+      internalID: 601357762562603616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steam-controller_sheet_double_115
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 43
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56861edef70331340800000000000000
+      internalID: 4833260151108626533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      steam-controller_sheet_double_0: 4618421397271644736
+      steam-controller_sheet_double_1: 3160247333729540941
+      steam-controller_sheet_double_10: -3447840831909551804
+      steam-controller_sheet_double_100: -7529669387148498015
+      steam-controller_sheet_double_101: -2805739541722974167
+      steam-controller_sheet_double_102: -640363394474896787
+      steam-controller_sheet_double_103: -7579379666081509979
+      steam-controller_sheet_double_104: 3269896676475671416
+      steam-controller_sheet_double_105: -2969958259806876347
+      steam-controller_sheet_double_106: -5367576915592958536
+      steam-controller_sheet_double_107: -7474399549764126812
+      steam-controller_sheet_double_108: 443037878601545394
+      steam-controller_sheet_double_109: -8381535445145015645
+      steam-controller_sheet_double_11: 4869200547042196809
+      steam-controller_sheet_double_110: -3967637039020243371
+      steam-controller_sheet_double_111: -2943695403332818238
+      steam-controller_sheet_double_112: -782235658936860013
+      steam-controller_sheet_double_113: -1311001308870034374
+      steam-controller_sheet_double_114: 601357762562603616
+      steam-controller_sheet_double_115: 4833260151108626533
+      steam-controller_sheet_double_12: -5868832971931322865
+      steam-controller_sheet_double_13: 7642787670480567915
+      steam-controller_sheet_double_14: -6440951019939496853
+      steam-controller_sheet_double_15: 8291004483575553943
+      steam-controller_sheet_double_16: -8685014339606073583
+      steam-controller_sheet_double_17: -783432572952297936
+      steam-controller_sheet_double_18: 6122404771412829097
+      steam-controller_sheet_double_19: -1053824734719021985
+      steam-controller_sheet_double_2: 8217044123158871674
+      steam-controller_sheet_double_20: -452655527101685001
+      steam-controller_sheet_double_21: -8856521021281874798
+      steam-controller_sheet_double_22: -5048604336699490129
+      steam-controller_sheet_double_23: 7603051703925930476
+      steam-controller_sheet_double_24: 1944271112109547612
+      steam-controller_sheet_double_25: 4504493025824884070
+      steam-controller_sheet_double_26: -5085503420761480921
+      steam-controller_sheet_double_27: 7618181078793074050
+      steam-controller_sheet_double_28: -45382075421668177
+      steam-controller_sheet_double_29: -8240342511120311135
+      steam-controller_sheet_double_3: 7611481217463197749
+      steam-controller_sheet_double_30: -8444517136595013499
+      steam-controller_sheet_double_31: 7498938686807536517
+      steam-controller_sheet_double_32: 8081623926793102209
+      steam-controller_sheet_double_33: 7720024167033021965
+      steam-controller_sheet_double_34: 1561397162967785656
+      steam-controller_sheet_double_35: 4719486252366348493
+      steam-controller_sheet_double_36: 5762784336513303239
+      steam-controller_sheet_double_37: 4041633893953598113
+      steam-controller_sheet_double_38: 7941315071371955165
+      steam-controller_sheet_double_39: 5945507351487433246
+      steam-controller_sheet_double_4: 1134111276782102387
+      steam-controller_sheet_double_40: 6325801313173096548
+      steam-controller_sheet_double_41: -2541092795880016096
+      steam-controller_sheet_double_42: -7899116745669315378
+      steam-controller_sheet_double_43: 1253807174794266865
+      steam-controller_sheet_double_44: 1574821521490536243
+      steam-controller_sheet_double_45: 2471345533374264752
+      steam-controller_sheet_double_46: -6481139875474250063
+      steam-controller_sheet_double_47: 222877674455868309
+      steam-controller_sheet_double_48: 6691510787039075484
+      steam-controller_sheet_double_49: -6401975909485439360
+      steam-controller_sheet_double_5: 7560487169530530341
+      steam-controller_sheet_double_50: -6272224095945160823
+      steam-controller_sheet_double_51: 7519310650232196559
+      steam-controller_sheet_double_52: -3525355239411534235
+      steam-controller_sheet_double_53: 7264408309912006954
+      steam-controller_sheet_double_54: -693153934785648811
+      steam-controller_sheet_double_55: -3063005570749580118
+      steam-controller_sheet_double_56: 4748178037950694747
+      steam-controller_sheet_double_57: 5168168027176699623
+      steam-controller_sheet_double_58: -1454467386554641421
+      steam-controller_sheet_double_59: -705309376702743910
+      steam-controller_sheet_double_6: 3597748078076345583
+      steam-controller_sheet_double_60: -3854999196541516144
+      steam-controller_sheet_double_61: -4829290638537985409
+      steam-controller_sheet_double_62: -1531083001683079044
+      steam-controller_sheet_double_63: 5478046058037370528
+      steam-controller_sheet_double_64: 5732006949893639908
+      steam-controller_sheet_double_65: -1812603917963547266
+      steam-controller_sheet_double_66: -1873025686322369247
+      steam-controller_sheet_double_67: -1986060759583805223
+      steam-controller_sheet_double_68: -3410919292134411932
+      steam-controller_sheet_double_69: -2073513923021212358
+      steam-controller_sheet_double_7: -6185991223419087946
+      steam-controller_sheet_double_70: -3462476661503335340
+      steam-controller_sheet_double_71: -8636517580261799064
+      steam-controller_sheet_double_72: -2370809908362330915
+      steam-controller_sheet_double_73: 8146152701435460886
+      steam-controller_sheet_double_74: 6915984534869782506
+      steam-controller_sheet_double_75: 1089467892733723812
+      steam-controller_sheet_double_76: -6457783084665165267
+      steam-controller_sheet_double_77: 7818949337096715599
+      steam-controller_sheet_double_78: -368664045273564167
+      steam-controller_sheet_double_79: 8371093128462513662
+      steam-controller_sheet_double_8: -678665304198661666
+      steam-controller_sheet_double_80: -677548224599275389
+      steam-controller_sheet_double_81: -6514350855782307737
+      steam-controller_sheet_double_82: 1274482417823812681
+      steam-controller_sheet_double_83: 65701818911097553
+      steam-controller_sheet_double_84: -8407088702444862472
+      steam-controller_sheet_double_85: 7459453151832564971
+      steam-controller_sheet_double_86: -9005833299588084678
+      steam-controller_sheet_double_87: -6652382274304417612
+      steam-controller_sheet_double_88: -2159187092811373686
+      steam-controller_sheet_double_89: -272796340605386445
+      steam-controller_sheet_double_9: 3919620499574947633
+      steam-controller_sheet_double_90: 9122512052981260041
+      steam-controller_sheet_double_91: 409620549107152589
+      steam-controller_sheet_double_92: 9062828101636118380
+      steam-controller_sheet_double_93: 5595513768001242085
+      steam-controller_sheet_double_94: -1283755331525211230
+      steam-controller_sheet_double_95: 7430992678216650727
+      steam-controller_sheet_double_96: -6160895497161542849
+      steam-controller_sheet_double_97: 6046810518544269012
+      steam-controller_sheet_double_98: 2456254330590268022
+      steam-controller_sheet_double_99: -2695205753549990014
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
