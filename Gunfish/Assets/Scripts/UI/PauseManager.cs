@@ -3,17 +3,36 @@ using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class PauseManager : Singleton<PauseManager> {
-    public AudioMixer audioMixer;
-    public bool paused = false;
-    Animator anim;
-    CanvasGroup canvasGroup;
+    public enum Page {
+        MainPauseMenu,
+        Settings,
+    }
+
+    [SerializeField] private GameObject MainPauseMenuPage;
+    [SerializeField] private GameObject SettingsPage;
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private bool paused = false;
+    
+
+    
+    private Animator anim;
+    private CanvasGroup canvasGroup;
+
+    
 
     int pausePriority;
 
     public void Start() {
+        MainPauseMenuPage.SetActive(true);
+        SettingsPage.SetActive(false);
+
         GetComponent<Canvas>().enabled = true;
+        
+        
         anim = GetComponent<Animator>();
         canvasGroup = GetComponent<CanvasGroup>();
+
+
         SetInteractable(paused);
     }
 
@@ -47,6 +66,27 @@ public class PauseManager : Singleton<PauseManager> {
         anim.SetBool("Pause", paused);
         audioMixer.SetFloat("MasterLowpass", (paused) ? 500f : 22000f);
         SetInteractable(paused);
+    }
+
+    public void SetPageToMainPauseMenu() {
+        SetActivePage(Page.MainPauseMenu);
+    }
+    
+    public void SetPageToSettings() {
+        SetActivePage(Page.Settings);
+    }
+
+    private void SetActivePage(Page page) {
+        switch (page) {
+            case Page.MainPauseMenu:
+                MainPauseMenuPage.SetActive(true);
+                SettingsPage.SetActive(false);
+                break;
+            case Page.Settings:
+                MainPauseMenuPage.SetActive(false);
+                SettingsPage.SetActive(true);
+                break;
+        }
     }
 
     void SetInteractable(bool interactable) {
