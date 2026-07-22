@@ -120,50 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!21 &87124459
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Gunfish/UI/RoundedRect
-  m_Shader: {fileID: 4800000, guid: 7eec1d801a00e3547a314dac6de2c36b, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BorderWidth: 4
-    - _ColorMask: 15
-    - _OutlineOnly: 0
-    - _Radius: 8
-    - _Softness: 1.5
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _BorderColor: {r: 0.0392157, g: 0.1529412, b: 0.2509804, a: 1}
-    - _Size: {r: 517.96875, g: 112.24414, b: 0, a: 0}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!21 &96419884
 Material:
   serializedVersion: 8
@@ -208,7 +164,7 @@ Material:
     - _Size: {r: 517.96875, g: 114.14844, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!21 &140857056
+--- !u!21 &106218304
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -237,7 +193,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BorderWidth: 0
+    - _BorderWidth: 4
     - _ColorMask: 15
     - _OutlineOnly: 0
     - _Radius: 8
@@ -249,10 +205,10 @@ Material:
     - _StencilWriteMask: 255
     m_Colors:
     - _BorderColor: {r: 0.0392157, g: 0.1529412, b: 0.2509804, a: 1}
-    - _Size: {r: 517.96875, g: 114.14844, b: 0, a: 0}
+    - _Size: {r: 517.96875, g: 112.24414, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!21 &654390755
+--- !u!21 &131547626
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -296,7 +252,51 @@ Material:
     - _Size: {r: 517.96875, g: 112.24414, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!21 &699994340
+--- !u!21 &218206320
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Gunfish/UI/RoundedRect
+  m_Shader: {fileID: 4800000, guid: 7eec1d801a00e3547a314dac6de2c36b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BorderWidth: 0
+    - _ColorMask: 15
+    - _OutlineOnly: 0
+    - _Radius: 8
+    - _Softness: 1.5
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _BorderColor: {r: 0.0392157, g: 0.1529412, b: 0.2509804, a: 1}
+    - _Size: {r: 517.96875, g: 114.14844, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!21 &313620161
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -336,11 +336,11 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     m_Colors:
-    - _BorderColor: {r: 0.039215688, g: 0.14901961, b: 0.24705884, a: 1}
-    - _Size: {r: 517.96875, g: 228.29688, b: 0, a: 0}
+    - _BorderColor: {r: 0.0392157, g: 0.1529412, b: 0.2509804, a: 1}
+    - _Size: {r: 517.96875, g: 114.14844, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!21 &786333451
+--- !u!21 &630912910
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -385,6 +385,50 @@ Material:
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!21 &834926316
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Gunfish/UI/RoundedRect
+  m_Shader: {fileID: 4800000, guid: 7eec1d801a00e3547a314dac6de2c36b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BorderWidth: 4
+    - _ColorMask: 15
+    - _OutlineOnly: 0
+    - _Radius: 8
+    - _Softness: 1.5
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _BorderColor: {r: 0.0392157, g: 0.1529412, b: 0.2509804, a: 1}
+    - _Size: {r: 517.96875, g: 112.24414, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!21 &1006934658
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -709,6 +753,50 @@ Material:
     - _Size: {r: 517.96875, g: 112.24414, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!21 &1389167862
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Gunfish/UI/RoundedRect
+  m_Shader: {fileID: 4800000, guid: 7eec1d801a00e3547a314dac6de2c36b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BorderWidth: 4
+    - _ColorMask: 15
+    - _OutlineOnly: 0
+    - _Radius: 8
+    - _Softness: 1.5
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _BorderColor: {r: 0.039215688, g: 0.14901961, b: 0.24705884, a: 1}
+    - _Size: {r: 517.96875, g: 228.29688, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &1587375967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -847,50 +935,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e03269b691b07c4590bb48b349aea49, type: 3}
---- !u!21 &1600299801
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Gunfish/UI/RoundedRect
-  m_Shader: {fileID: 4800000, guid: 7eec1d801a00e3547a314dac6de2c36b, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BorderWidth: 4
-    - _ColorMask: 15
-    - _OutlineOnly: 0
-    - _Radius: 8
-    - _Softness: 1.5
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _BorderColor: {r: 0.0392157, g: 0.1529412, b: 0.2509804, a: 1}
-    - _Size: {r: 517.96875, g: 114.14844, b: 0, a: 0}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!21 &1611072119
 Material:
   serializedVersion: 8
@@ -933,50 +977,6 @@ Material:
     m_Colors:
     - _BorderColor: {r: 0.039215688, g: 0.14901961, b: 0.24705884, a: 1}
     - _Size: {r: 517.96875, g: 228.29688, b: 0, a: 0}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
---- !u!21 &1693350818
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Gunfish/UI/RoundedRect
-  m_Shader: {fileID: 4800000, guid: 7eec1d801a00e3547a314dac6de2c36b, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BorderWidth: 4
-    - _ColorMask: 15
-    - _OutlineOnly: 0
-    - _Radius: 8
-    - _Softness: 1.5
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _BorderColor: {r: 0.0392157, g: 0.1529412, b: 0.2509804, a: 1}
-    - _Size: {r: 517.96875, g: 112.24414, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!21 &1770999321
@@ -1695,6 +1695,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSize
       value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479670534428438840, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479670534428438840, guid: c367644c428800f4e8afcb2a496d487a,
+        type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 5016702436014664287, guid: c367644c428800f4e8afcb2a496d487a,
         type: 3}
