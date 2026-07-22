@@ -5,15 +5,15 @@ using UnityEngine;
 public class InputGlyphSet : ScriptableObject {
     [System.Serializable]
     public struct Entry {
-        public string controlName;
+        public PlayerAction action;
         public Sprite glyph;
     }
 
     public List<Entry> entries = new List<Entry>();
 
-    public bool TryGetSprite(string controlName, out Sprite sprite) {
+    public bool TryGetSprite(PlayerAction action, out Sprite sprite) {
         foreach (var entry in entries) {
-            if (entry.controlName == controlName) {
+            if (entry.action == action) {
                 sprite = entry.glyph;
                 return true;
             }

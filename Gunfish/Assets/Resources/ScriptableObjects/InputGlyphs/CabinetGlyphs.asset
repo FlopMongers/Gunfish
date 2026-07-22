@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: CabinetGlyphs
   m_EditorClassIdentifier: Assembly-CSharp::InputGlyphSet
   entries:
-  - controlName: trigger
+  - action: 0
     glyph: {fileID: -5581898994901125639, guid: d9714115fa1b5ff4cbb813dee2bf6528,
       type: 3}
-  - controlName: stick
+  - action: 1
+    glyph: {fileID: 8229234322489984534, guid: 0471033044af4f64fb757bb806c283f8, type: 3}
+  - action: 3
     glyph: {fileID: 7966132299301493962, guid: c519b5dda67ec934982df6ee809d6bdb, type: 3}
+  - action: 4
+    glyph: {fileID: -5581898994901125639, guid: d9714115fa1b5ff4cbb813dee2bf6528,
+      type: 3}

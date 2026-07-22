@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "Gunfish",
     "maps": [
         {
@@ -27,7 +28,7 @@
                     "name": "Any",
                     "type": "Button",
                     "id": "e1d680bd-74a0-49f9-a08e-384a72a55e0d",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -467,7 +468,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "967e6c58-a75c-4dd9-8a9c-9be3a28e23fc",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -847,6 +848,17 @@
                     "name": "",
                     "id": "1a14befb-eaf5-486b-af9b-647591f37f26",
                     "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c065cd2-2ec1-401c-8554-657192beaa4a",
+                    "path": "<Keyboard>/backspace",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

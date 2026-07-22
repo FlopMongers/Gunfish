@@ -25,6 +25,9 @@ public class FishSelectPanel : MonoBehaviour {
     [Range(0.2f, 2f)] public float arrowAnimationDuration = 0.5f;
 
     private bool initialized;
+    private Vector3 leftArrowStartPos;
+    private Vector3 rightArrowStartPos;
+    private float readyT;
 
 
     private void Start() {
@@ -32,19 +35,28 @@ public class FishSelectPanel : MonoBehaviour {
         Initialize();
     }
 
+    private void Update() {
+        var delta = Time.deltaTime / arrowAnimationDuration;
+        if (state == State.Confirmed) {
+            readyT += delta;
+        } else {
+            readyT -= delta;
+        }
+        readyT = Mathf.Clamp01(readyT);
+        // cubic bezier easing function
+        var easedT = -(Mathf.Cos(Mathf.PI * readyT) - 1) / 2;
+        leftArrow.anchoredPosition = Vector3.Lerp(leftArrowStartPos, rightArrowStartPos, easedT);
+        rightArrow.anchoredPosition = Vector3.Lerp(rightArrowStartPos, leftArrowStartPos, easedT);
+    }
+
     public void Initialize() {
         if (initialized)
             return;
         SetState(State.Inactive);
+        readyT = 0f;
+        leftArrowStartPos = leftArrow.anchoredPosition;
+        rightArrowStartPos = rightArrow.anchoredPosition;
         initialized = true;
-        // var left = leftArrow.anchoredPosition;
-        // var right = rightArrow.anchoredPosition;
-        // leftArrow.anchoredPosition = right;
-        // rightArrow.anchoredPosition = left;
-        // DOTween.Sequence()
-        //     .Append(leftArrow.DOAnchorPosX(left.x, arrowAnimationDuration))
-        //     .Join(rightArrow.DOAnchorPosX(right.x, arrowAnimationDuration))
-        //     .Play();
     }
 
     public void SetFishImage(Sprite sprite) {
@@ -68,6 +80,7 @@ public class FishSelectPanel : MonoBehaviour {
     public void SetFishDescription(string text) {
         description.SetText(text);
     }
+
 
     public void SetState(State state) {
         this.state = state;

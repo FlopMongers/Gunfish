@@ -1,3 +1,5 @@
+> **Superseded by [`2026-07-22-input-glyph-semantic-actions-design.md`](./2026-07-22-input-glyph-semantic-actions-design.md).** This document describes the original per-`InputAction`-binding-walk resolution design, replaced by a fixed static semantic-action sprite table. Kept for historical context.
+
 # Input Glyph Icons — Design
 
 ## Background

@@ -1,3 +1,5 @@
+> **Superseded by [`2026-07-22-input-glyph-semantic-actions.md`](./2026-07-22-input-glyph-semantic-actions.md).** The `ControlSchemeIcon`/`InputGlyphSet`/`InputGlyphDatabase` architecture built by this plan was reworked onto a fixed static semantic-action sprite table. Kept for historical context.
+
 # Input Glyph Icons Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.

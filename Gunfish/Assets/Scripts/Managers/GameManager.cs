@@ -112,6 +112,7 @@ public class GameManager : PersistentSingleton<GameManager> {
     private IEnumerator InitializePostRitualManagersCR() {
         // Yielding for one frame is required due to a bug in Unity.
         yield return new WaitForEndOfFrame();
+        ActiveControlSchemeTracker.Instance.Initialize();
         LevelManager.Instance.Initialize();
         MusicManager.Instance.Initialize();
         ArduinoManager.Instance.Initialize();
