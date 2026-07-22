@@ -187,7 +187,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.8
+  m_fontSize: 18.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -372,7 +372,6 @@ GameObject:
   - component: {fileID: 9130152082159630730}
   - component: {fileID: 7887699415508769095}
   - component: {fileID: 333171129942058704}
-  - component: {fileID: 8742619461809358488}
   m_Layer: 5
   m_Name: JoystickUp
   m_TagString: Untagged
@@ -437,22 +436,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8742619461809358488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639653640407401329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba1a6745e0dccec458a66d215e014207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 6508abbef27d30043b280b8c43bd7e2e, type: 3}
-  - {fileID: 21300000, guid: 60035b23e81543643a2669b49e46e93e, type: 3}
-  interval: 0.5
 --- !u!1 &1760697525271680148
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,7 +740,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.8
+  m_fontSize: 18.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1024,7 +1007,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.8
+  m_fontSize: 18.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1299,7 +1282,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 41.05
+  m_fontSize: 27.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1537,7 +1520,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 59.65
+  m_fontSize: 39.3
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2288,7 +2271,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.8
+  m_fontSize: 18.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2344,7 +2327,6 @@ GameObject:
   - component: {fileID: 8103644908744380139}
   - component: {fileID: 1818379782340085269}
   - component: {fileID: 9149072689233406913}
-  - component: {fileID: 7624160065400718509}
   m_Layer: 5
   m_Name: JoystickDown
   m_TagString: Untagged
@@ -2409,22 +2391,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7624160065400718509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8479420259526106472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba1a6745e0dccec458a66d215e014207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 6508abbef27d30043b280b8c43bd7e2e, type: 3}
-  - {fileID: 21300000, guid: 5cf61f6d8e3ff3c43836f66c1e5dc98a, type: 3}
-  interval: 0.5
 --- !u!1 &8841673177265604002
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,7 +2604,7 @@ PrefabInstance:
     - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 13.55
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1029411499570267062, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -2703,7 +2669,7 @@ PrefabInstance:
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 18.2
+      value: 11.45
       objectReference: {fileID: 0}
     - target: {fileID: 2532476912735195776, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -2903,7 +2869,7 @@ PrefabInstance:
     - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 49.3
+      value: 32.45
       objectReference: {fileID: 0}
     - target: {fileID: 7919784656732434585, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -2969,7 +2935,7 @@ PrefabInstance:
     - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 13.55
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1029411499570267062, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3034,7 +3000,7 @@ PrefabInstance:
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 18.2
+      value: 11.45
       objectReference: {fileID: 0}
     - target: {fileID: 2532476912735195776, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3234,7 +3200,7 @@ PrefabInstance:
     - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 49.3
+      value: 32.45
       objectReference: {fileID: 0}
     - target: {fileID: 7919784656732434585, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3305,7 +3271,7 @@ PrefabInstance:
     - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 13.55
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1029411499570267062, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3370,7 +3336,7 @@ PrefabInstance:
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 18.2
+      value: 11.45
       objectReference: {fileID: 0}
     - target: {fileID: 2532476912735195776, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3570,7 +3536,7 @@ PrefabInstance:
     - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 49.3
+      value: 32.45
       objectReference: {fileID: 0}
     - target: {fileID: 7919784656732434585, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3641,7 +3607,7 @@ PrefabInstance:
     - target: {fileID: 730581238593127212, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 13.55
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1029411499570267062, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3706,7 +3672,7 @@ PrefabInstance:
     - target: {fileID: 2316315493074615230, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 18.2
+      value: 11.45
       objectReference: {fileID: 0}
     - target: {fileID: 2532476912735195776, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
@@ -3906,7 +3872,7 @@ PrefabInstance:
     - target: {fileID: 7336003537241902555, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
       propertyPath: m_fontSize
-      value: 49.3
+      value: 32.45
       objectReference: {fileID: 0}
     - target: {fileID: 7919784656732434585, guid: 7c2c5e6246f50324b8f054fee2979ca6,
         type: 3}
