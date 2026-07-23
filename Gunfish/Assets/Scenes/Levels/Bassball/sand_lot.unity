@@ -2320,6 +2320,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team2Goal
       objectReference: {fileID: 0}
+    - target: {fileID: 414806051843192341, guid: 54b1ee40433abd249a68c84d1397e056,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -9063655756967091122, guid: 089d04031df5b473ab68cd2fe13c4f75,
+        type: 3}
+    - target: {fileID: 414806051843192341, guid: 54b1ee40433abd249a68c84d1397e056,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 414806051843192341, guid: 54b1ee40433abd249a68c84d1397e056,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 414806051843192341, guid: 54b1ee40433abd249a68c84d1397e056,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1472512305338406449, guid: 54b1ee40433abd249a68c84d1397e056,
         type: 3}
       propertyPath: spawnPointOrder
@@ -12345,6 +12366,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team1Goal
       objectReference: {fileID: 0}
+    - target: {fileID: 414806051843192341, guid: 54b1ee40433abd249a68c84d1397e056,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -7041785115090237299, guid: 0daf46ab653a0492b8d264b40db8ce56,
+        type: 3}
     - target: {fileID: 2420314770152085923, guid: 54b1ee40433abd249a68c84d1397e056,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
