@@ -9490,7 +9490,7 @@ GameObject:
   - component: {fileID: 1812176461}
   - component: {fileID: 1812176460}
   - component: {fileID: 1812176459}
-  m_Layer: 22
+  m_Layer: 3
   m_Name: Sand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
