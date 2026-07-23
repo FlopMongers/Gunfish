@@ -103,9 +103,9 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
 
         foreach (var player in parameters.activePlayers.OrderBy(activePlayer => activePlayer.PlayerNumber)) {
             if (teamMode == false) {
-                playerTeamNumber = player.TeamNumber;
+                playerTeamNumber = player.PlayerNumber;
             }
-            if (teamNumbers.ContainsKey(player.PlayerNumber) == false) {
+            if (teamNumbers.ContainsKey(playerTeamNumber) == false) {
                 TeamReferenceType TeamRef = GenerateTeamRef(player);
                 teamNumbers[playerTeamNumber] = TeamRef;
                 teams.Add(TeamRef);
