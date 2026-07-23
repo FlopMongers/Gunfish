@@ -24,7 +24,7 @@ MonoBehaviour:
   m_Scenes: []
   m_HasScriptingDefines: 1
   m_ScriptingDefines:
-  - RUNNING_ON_NUC
+  - ARCADE_CABINET
   m_PlayerSettingsYaml:
     m_Settings: []
   requiredComponents: []
