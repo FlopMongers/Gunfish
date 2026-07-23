@@ -99,19 +99,19 @@ public class MatchManager<PlayerReferenceType, TeamReferenceType> : MonoBehaviou
         ui = ui ?? gameObject.GetComponentInChildren<MatchUI>();
         ui.InitializeMatch(parameters.activePlayers);
         Dictionary<int, TeamReferenceType> teamNumbers = new Dictionary<int, TeamReferenceType>();
-        int playerTeamNumber = 0;
+        var sortedPlayers = parameters.activePlayers.OrderBy(activePlayer => activePlayer.PlayerNumber).ToList();
 
-        foreach (var player in parameters.activePlayers.OrderBy(activePlayer => activePlayer.PlayerNumber)) {
-            if (teamMode == false) {
-                playerTeamNumber = player.PlayerNumber;
-            }
+        for (int i = 0; i < sortedPlayers.Count; i++) {
+            var player = sortedPlayers[i];
+            // Team mode splits the roster in half: P1/P2 on team 0, P3/P4 on team 1.
+            int playerTeamNumber = teamMode ? (i * 2) / sortedPlayers.Count : player.PlayerNumber;
             if (teamNumbers.ContainsKey(playerTeamNumber) == false) {
                 TeamReferenceType TeamRef = GenerateTeamRef(player);
+                TeamRef.teamNumber = playerTeamNumber;
                 teamNumbers[playerTeamNumber] = TeamRef;
                 teams.Add(TeamRef);
             }
             AddPlayerReference(player, teamNumbers[playerTeamNumber]);
-            playerTeamNumber = (playerTeamNumber + 1) % 2;
         }
         spawnPoints = new List<Transform>();
         LevelManager.Instance.OnFinishLoadLevel += StartLevel;

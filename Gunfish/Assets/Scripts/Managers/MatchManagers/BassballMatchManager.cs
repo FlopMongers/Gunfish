@@ -19,6 +19,15 @@ public class BassballMatchManager : MatchManager<PlayerReference, BassballTeamRe
     protected BassballTeamReference lastGameWinner;
     List<Goal> goals = new List<Goal>();
 
+    public override void Initialize(GameParameters parameters) {
+        base.Initialize(parameters);
+        // A debug solo-start produces a single team, but Bassball assumes one team per goal.
+        if (teams.Count == 1) {
+            var dummyTeamNumber = teams[0].teamNumber + 1;
+            teams.Add(new BassballTeamReference(dummyTeamNumber, PlayerManager.Instance.playerColors[dummyTeamNumber]));
+        }
+    }
+
     public override void StartLevel() {
         base.StartLevel();
         ui.gameScore.gameObject.SetActive(true);
