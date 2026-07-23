@@ -239,6 +239,7 @@ public class FishSelectMenuPage : MenuPage {
         }
         CancelGameStartCountdown();
         activeGameStartCountdown = DOTween.Sequence().AppendInterval(2).OnComplete(() => {
+            activeGameStartCountdown = null;
             OnPageStop(menuContext);
             GameManager.Instance.InitializeGame();
         });

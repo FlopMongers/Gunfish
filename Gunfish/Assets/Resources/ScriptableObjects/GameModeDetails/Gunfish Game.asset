@@ -18,7 +18,7 @@ MonoBehaviour:
     type: 3}
   levels: {fileID: 11400000, guid: 9f9c25555b62d6544b86090df4b9ac63, type: 2}
   roundsPerMatch: 1
-  secondsPerRound: 30
+  secondsPerRound: 300
   stocksPerRound: -1
   description: Get kills to upgrade your fish!
   requiredPlayerCount: 020000000300000004000000

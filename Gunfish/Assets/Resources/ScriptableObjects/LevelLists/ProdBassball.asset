@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ProdBassball
   m_EditorClassIdentifier: 
   sceneNames:
-  - Assets/Scenes/Levels/BassballTestMap.unity
+  - Assets/Scenes/Levels/Bassball/sand_lot.unity
   skyboxSceneName: Assets/Scenes/Skybox.unity
   scenes:
   - {fileID: 102900000, guid: 5f47a2a804a4577478f4b9096c0869a9, type: 3}
